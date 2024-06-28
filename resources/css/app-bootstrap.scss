@@ -1,0 +1,66 @@
+@import "bootstrap/scss/bootstrap";
+
+/* izolace stylů pro select2 */
+/*.select2 {
+  all: initial;
+}
+.select2 * {
+  all: unset;
+}*/
+/* @import "/node_modules/select2/dist/css/select2.css";*/
+
+@import "node_modules/select2/src/scss/core";
+/* https://github.com/apalfrey/select2-bootstrap-5-theme/issues/75#issuecomment-1573265695 */
+$s2bs5-border-color: $border-color;
+@import "node_modules/select2-bootstrap-5-theme/src/include-all";
+
+img.logo {
+    width: 50px;
+}
+.back-to-top {
+    right: 1rem;
+    bottom: 1rem;
+}
+.pre {
+    white-space: pre-wrap;
+}
+
+html, body {
+    height: 100%;
+}
+
+.buttons {
+    a.btn, div.card {
+        width: 5.7rem;
+    }
+    a.btn-outline-primary:not(:hover):not(.show) {
+        background: white;
+    }
+}
+
+.organs {
+    img.region {
+        background: transparent;
+    }
+    p.stars {
+        font-size: 100%;
+    }
+}
+
+.organ-show, .organ-builder-show {
+    max-width: 850px;
+    margin: auto;
+    
+    table th {
+        width: 10em;
+    }
+}
+.organ-builder-edit {
+    form {
+        max-width: 850px;
+        margin: auto;
+    }
+}
+
+
+
