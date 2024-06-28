@@ -39,7 +39,6 @@ new class extends Component {
                     ->leftJoin('organ_builders', 'organs.organ_builder_id', 'organ_builders.id')
                     ->select([
                         'organs.id', 'organs.place', 'organs.municipality', 'organs.importance', 'organs.organ_builder_id',
-                        'organ_builders.id',
                     ])
                     ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
                     ->orderBy('importance', 'DESC')
@@ -93,7 +92,7 @@ new class extends Component {
                         </div>
                         <div class="list-group list-group-flush">
                             @foreach ($this->resultsOrgans as $organ)
-                                <a class="list-group-item list-group-item-action"">
+                                <a class="list-group-item list-group-item-action" href="{{ route('organs.show', ['organ' => $organ->id]) }}">
                                     {{ $organ->municipality }}, {{ $organ->place }}
                                     <br />
                                     <small class="hstack text-secondary">
