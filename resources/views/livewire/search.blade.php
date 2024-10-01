@@ -3,11 +3,14 @@
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
-use Illuminate\Database\Eloquent\Builder;
+use App\Helpers;
 
 // https://forum.laravel-livewire.com/t/search-with-autocomplete/2966/2
+// TODO: jsou-li zadána 2 slova z různých nefulltextových sloupců, vyhovující záznam není nalezen (možná musí mít oba sloupce fulltext index)
+//  - obecně po zadání druhého slova hledání nefunguje dobře
 new class extends Component {
 
     public $search;
@@ -18,15 +21,13 @@ new class extends Component {
     private Collection $resultsOrganBuilders;
     private int $resultsCount = 0;
     
-    public function updated($property)
+    public function updatedSearch()
     {
-        if ($property === 'search') {
-            $search = trim($this->search);
-            if (mb_strlen($search) >= $this->minSearchLength) {
-                $this->resultsOrgans = $this->getOrgans();
-                $this->resultsOrganBuilders = $this->getOrganBuilders();
-                $this->resultsCount = $this->resultsOrgans->count() + $this->resultsOrganBuilders->count();
-            }
+        $search = trim($this->search);
+        if (mb_strlen($search) >= $this->minSearchLength) {
+            $this->resultsOrgans = $this->getOrgans();
+            $this->resultsOrganBuilders = $this->getOrganBuilders();
+            $this->resultsCount = $this->resultsOrgans->count() + $this->resultsOrganBuilders->count();
         }
     }
 
@@ -38,12 +39,12 @@ new class extends Component {
                 $builder
                     ->leftJoin('organ_builders', 'organs.organ_builder_id', 'organ_builders.id')
                     ->select([
-                        'organs.id', 'organs.place', 'organs.municipality', 'organs.importance', 'organs.organ_builder_id',
-                        'organs.year_built',
+                        'organs.id', 'organs.slug', 'organs.place', 'organs.municipality', 'organs.importance', 'organs.organ_builder_id',
+                        'organs.year_built', 'organs.user_id',
                     ])
                     ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
                     ->orderBy('importance', 'DESC')
-                    ->take(5);
+                    ->take(8);
             })
             ->get();
     }
@@ -54,20 +55,28 @@ new class extends Component {
             ->query(function (Builder $builder) {
                 $builder
                     ->orderBy('importance', 'DESC')
-                    ->take(5)
+                    ->take(8)
+                    ->inland()
                     ->select([
-                        'id',
+                        'id', 'slug',
                         'is_workshop', 'workshop_name', 'first_name', 'last_name',
-                        'active_period', 'municipality', 'importance'
+                        'active_period', 'municipality', 'importance',
+                        'user_id',
                     ]);
             })
             ->get()
             ->append(['name']);
     }
 
+    private function highlight($text)
+    {
+        if ($this->search == '' || $text == '') return $text;
+        return Helpers::highlightEscapeText($text, $this->search);
+    }
+
 }; ?>
 
-<form class="col-12 col-lg-3 mb-3 mb-lg-0 me-lg-3" role="search">
+<form role="search" class="col" style="font-size: 95%;">
     <div x-data="{isTyped: false}">
         <div class="position-relative">
             <div>
@@ -75,17 +84,18 @@ new class extends Component {
                     id="search"
                     type="search"
                     class="form-control"
-                    placeholder="{{__('Hledat')}}&hellip; (/)"
+                    placeholder="{{__('Hledat varhany a varhanáře')}}&hellip; (/)"
                     aria-label="{{ __('Hledat') }}"
+                    size="27"
                     @input.debounce.400ms="isTyped = ($event.target.value != '' && $event.target.value.length >= $wire.minSearchLength)"
                     @keydown.esc="isTyped = false"
                     @click.outside="isTyped = false"
-                    @keydown.slash.window.prevent="document.querySelector('#search').focus()"
+                    @keydown.slash.window="focusSearch"
                     wire:model.live.debounce.350ms="search"
                     autocomplete="off"
                 />
             </div>
-            <div class="card position-absolute shadow w-100" x-show="isTyped" x-cloak>
+            <div class="search-results card position-absolute shadow w-100" x-show="isTyped" x-cloak style="display: none;">
                 @if ($this->resultsCount > 0)
                     @if ($this->resultsOrgans->isNotEmpty())
                         <div class="card-header fw-bold">
@@ -93,11 +103,14 @@ new class extends Component {
                         </div>
                         <div class="list-group list-group-flush">
                             @foreach ($this->resultsOrgans as $organ)
-                                <a class="list-group-item list-group-item-action" href="{{ route('organs.show', ['organ' => $organ->id]) }}">
-                                    {{ $organ->municipality }}, {{ $organ->place }}
+                                <a class="list-group-item list-group-item-action" href="{{ route('organs.show', ['organ' => $organ->slug]) }}" wire:navigate>
+                                    {!! $this->highlight($organ->municipality) !!}, {!! $this->highlight($organ->place) !!}
+                                    @if (!$organ->isPublic())
+                                        <i class="bi-lock text-warning"></i>
+                                    @endif
                                     <br />
                                     <small class="hstack text-secondary">
-                                        {{ $organ->organBuilder->name }} ({{ $organ->year_built }})
+                                        {!! $this->highlight($organ->organBuilder?->name ?? __('neznámý varhanář')) !!} ({{ $organ->year_built }})
                                         <x-organomania.stars class="ms-auto" :count="round($organ->importance / 2)" />
                                     </small>
                                 </a>
@@ -111,13 +124,16 @@ new class extends Component {
                         </div>
                         <div class="list-group list-group-flush">
                             @foreach ($this->resultsOrganBuilders as $organBuilder)
-                                <a class="list-group-item list-group-item-action" href="{{ route('organ-builders.show', ['organBuilder' => $organBuilder->id]) }}">
-                                    {{ $organBuilder->name }}
+                                <a class="list-group-item list-group-item-action" href="{{ route('organ-builders.show', ['organBuilder' => $organBuilder->slug]) }}" wire:navigate>
+                                    {!! $this->highlight($organBuilder->name) !!}
+                                    @if (!$organBuilder->isPublic()) 
+                                        <i class="bi-lock text-warning"></i>
+                                    @endif
                                     @if ($organBuilder->active_period)
                                         <span class="text-secondary">({{ $organBuilder->active_period }})</span>
                                         <br />
                                         <small class="hstack text-secondary">
-                                            {{ $organBuilder->municipality }}
+                                            {!! $this->highlight($organBuilder->municipality) !!}
                                             <x-organomania.stars class="ms-auto" :count="round($organBuilder->importance / 2)" />
                                         </small>
                                     @endif
@@ -134,3 +150,14 @@ new class extends Component {
         </div>
     </div>
 </form>
+
+@script
+<script>
+    window.focusSearch = function (e) {
+        if (!['input', 'textarea'].includes(e.target.tagName.toLowerCase())) {
+            document.querySelector('#search').focus()
+            e.preventDefault()
+        }
+    }
+</script>
+@endscript

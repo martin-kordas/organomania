@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('register_register_category', function (Blueprint $table) {
+            $table->foreignId('register_id')
+                ->constrained(indexName: 'fk_register_category_register_id');
+            $table->foreignId('register_category_id')
+                ->constrained(indexName: 'fk_register_category_register_category_id');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('register_register_category');
+    }
+};

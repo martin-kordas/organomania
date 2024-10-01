@@ -13,7 +13,8 @@ class CategoryBadge extends Component
     
     public function __construct(public Category $category)
     {
-        $this->showTooltip = $this->category->getDescription() !== null;
+        $description = $this->category->getDescription();
+        $this->showTooltip = $description !== null && $description !== '';
     }
 
     public function render(): View|Closure|string

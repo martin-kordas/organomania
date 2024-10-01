@@ -1,42 +1,78 @@
-<header class="p-2 mb-4 border-bottom position-sticky top-0 z-3 bg-light">
-    <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="{{ route('organs.index') }}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+<header class="mb-4 border-bottom position-sticky top-0 bg-light d-print-none">
+    <nav class="navbar navbar-expand-xl bg-body-tertiary">
+        <div class="container d-flex flex-wrap align-items-center">
+            {{-- logo --}}
+            <a href="{{ url('/') }}" wire:navigate class="d-flex align-items-center mb-md-0 me-4 link-body-emphasis text-decoration-none">
                 <img class="logo me-2" src="{{ Vite::asset('resources/images/logo.png') }}" />
-                <span class="fs-4">{{ config('app.name', 'Organomania') }}</span>
+                <span class="fs-4">{{ str(config('app.name', 'Organomania'))->lower() }}</span>
             </a>
 
-            <ul class="nav nav-pills col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li class="nav-item"><a href="{{ route('organs.index') }}" wire:navigate @class(['nav-link', 'px-3', 'active' => request()->routeIs('organs.*')])'><i class="bi-file-music"></i> {{ __('Varhany') }}</a></li>
-                <li class="nav-item"><a href="{{ route('organ-builders.index') }}" wire:navigate @class(['nav-link', 'px-3', 'active' => request()->routeIs('organ-builders.*')])'><i class="bi-file-person"></i> {{ __('Varhanáři') }}</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-3 disabled" aria-disabled="true"><i class="bi-calendar-event"></i> {{ __('Festivaly') }}</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-3 disabled" aria-disabled="true"><i class="bi-vinyl"></i> {{ __('Rejstříky') }}</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-3 disabled" aria-disabled="true"><i class="bi-card-list"></i> {{ __('Dispozice') }}</a></li>
-            </ul>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="{{ __('Zobrazit navigaci') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-            <livewire:search />
-
-            <div class="dropdown text-end">
-                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ Vite::asset('resources/images/user.png') }}" alt="mdo" width="32" height="32" class="rounded-circle">
-                </a>
-                <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item disabled" href="#">{{ __('Nastavení') }}</a></li>
-                    <li><a class="dropdown-item" href="{{ route('profile') }}">{{ __('Profil') }}</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{ route('logout') }}">{{ __('Odhlásit se') }}</a></li>
+            <div class="collapse navbar-collapse gap-3" id="navbarCollapse">
+                {{-- vlastní navigace --}}
+                <ul class="nav nav-pills justify-content-center">
+                    <x-organomania.nav-item-route label="{{ __('Varhany') }}" icon="file-music" route="organs.index" routeActive="organs.*" />
+                    <x-organomania.nav-item-route label="{{ __('Varhanáři') }}" icon="file-person" route="organ-builders.index" routeActive="organ-builders.*" />
+                    <x-organomania.nav-item-route label="{{ __('Festivaly') }}" icon="calendar-event" route="festivals.index" routeActive="festivals.*" />
+                    <x-organomania.nav-item-route label="{{ __('Dispozice') }}" icon="card-list" route="dispositions.index" routeActive="dispositions.*" />
                 </ul>
-            </div>
 
-            <div class="dropdown text-end ms-3" data-bs-toggle="tooltip" data-bs-title="{{ __('Změnit jazyk') }}">
-                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi-globe fs-5 align-middle"></i>
-                </a>
-                <ul class="dropdown-menu text-small">
-                    <li><a @class(['dropdown-item', 'active' => App::isLocale('cs')]) href="{{ request()->fullUrlWithQuery(['lang' => 'cs']) }}">&#127464;&#127487; Česky (cs)</a></li>
-                    <li><a @class(['dropdown-item', 'active' => App::isLocale('en')]) href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}">&#127468;&#127463; English (en)</a></li>
-                </ul>
+                <div class="row gx-3 gy-2 my-1 ms-auto align-items-center">
+                    {{-- hledání --}}
+                    <livewire:search />
+                    
+                    {{-- nastavení jazyka --}}
+                    <div class="dropdown text-end col-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Změnit jazyk') }}">
+                        <a href="#" class="d-block btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-translate  align-middle"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end text-small">
+                            <li><a @class(['dropdown-item', 'active' => App::isLocale('cs')]) href="{{ request()->fullUrlWithQuery(['lang' => 'cs']) }}">&#127464;&#127487; Česky (cs)</a></li>
+                            <li><a @class(['dropdown-item', 'active' => App::isLocale('en')]) href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}">&#127468;&#127463; English (en)</a></li>
+                        </ul>
+                    </div>
+
+                    {{-- možnosti přihlášení --}}
+                    @if (Auth::check())
+                        <div class="dropdown text-end col-auto">
+                            <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ Vite::asset('resources/images/user.png') }}" alt="mdo" width="32" height="32" class="rounded-circle">
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <div class="dropdown-header text-center">
+                                        <strong>{{ Auth::user()->name }}</strong>
+                                        @if (Auth::user()->admin)
+                                            <br />
+                                            <small class="text-secondary">({{ __('administrátor') }})</small>
+                                        @endif
+                                        <br />
+                                        {{ Auth::user()->email }}
+                                    </div>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ route('profile') }}">{{ __('Profil') }}</a></li>
+                                <li><a class="dropdown-item disabled" href="#">{{ __('Nastavení') }}</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ route('logout') }}">{{ __('Odhlásit se') }}</a></li>
+                            </ul>
+                        </div>
+                    @else
+                        <div class="col-auto">
+                            <a class="btn btn-sm btn-outline-secondary" href="{{ route('login') }}">
+                                <i class="bi-box-arrow-in-right"></i>
+                                <span class="d-none d-xxl-inline-block">{{ __('Přihlášení') }}</span>
+                            </a>
+                            <a class="btn btn-sm btn-hover text-secondary d-none d-xl-inline-block" href="{{ route('register') }}">
+                                {{ __('Registrace') }}
+                            </a>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
-    </div>
+    </nav>
 </header>

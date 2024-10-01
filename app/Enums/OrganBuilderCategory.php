@@ -32,7 +32,7 @@ enum OrganBuilderCategory: int implements Category
         ],
         self::Romantic->value => [
             'name' => 'Romantické',
-            'description' => 'Romantičtí varhany (cca od 2. pol. 19. stol.)',
+            'description' => 'Romantické varhany (cca od 2. pol. 19. stol.)',
         ],
         self::NeobaroqueUniversal->value => [
             'name' => 'Neobarokní a univerzální',
@@ -43,6 +43,11 @@ enum OrganBuilderCategory: int implements Category
             'description' => 'Varhany vyráběné sériovou výrobou v továrnách',
         ],
     ];
+    
+    public function getValue(): int
+    {
+        return $this->value;
+    }
     
     public function getColor(): string
     {

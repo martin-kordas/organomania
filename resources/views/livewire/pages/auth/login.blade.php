@@ -20,7 +20,7 @@ new #[Layout('layouts.guest')] class extends Component
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('organs.index', absolute: false), navigate: true);
+        $this->redirectIntended(default: route('welcome', absolute: false));
     }
 }; ?>
 
@@ -29,6 +29,8 @@ new #[Layout('layouts.guest')] class extends Component
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form wire:submit="login">
+        <div class="text-sm mb-2">{{ __('Pokud si nechce vytvořit účet, použijte předvyplněné údaje a přihlašte se jako testovací uživatel.') }}</div>
+        
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
@@ -56,7 +58,7 @@ new #[Layout('layouts.guest')] class extends Component
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex items-center justify-end mt-4 mb-3">
             @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
                     {{ __('Forgot your password?') }}
@@ -66,6 +68,15 @@ new #[Layout('layouts.guest')] class extends Component
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>
+          
+        </div>
+        
+        <hr>
+        <div class="text-sm mt-2 text-right">
+            {{ __('Nemáte účet?') }}
+            <a class="underline text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}" wire:navigate>
+                {{ __('Zaregistrujte se') }}
+            </a>
         </div>
     </form>
 </div>

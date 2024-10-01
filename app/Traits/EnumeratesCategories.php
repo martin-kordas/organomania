@@ -17,7 +17,13 @@ trait EnumeratesCategories
     
     public function getDescription(): ?string
     {
-        return $this->getData()['description'] ?? null;
+        $description = $this->getData()['description'] ?? null;
+        if (isset($description)) return $description;
+        
+        if (method_exists($this, 'isPeriodCategory') && $this->isPeriodCategory()) {
+            return __('Období');
+        }
+        return null;
     }
     
 }

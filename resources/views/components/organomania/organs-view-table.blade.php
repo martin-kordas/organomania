@@ -1,31 +1,47 @@
 @props(['organs'])
 
-<div class="organs container">
+<div class="table-responsive">
     <table class="table table-hover table-sm align-middle">
         <thead>
             <tr>
-                <th>{{ __('Obec') }}</th>
+                <th>&nbsp;</th>
+                <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('municipality')" />
                 <th>{{ __('Místo') }}</th>
                 <th>{{ __('Kraj') }}</th>
-                <th>{{ __('Varhanář') }}</th>
-                <th>{{ __('Rok stavby') }}</th>
-                <th>{{ __('Počet rejstříků') }}</th>
-                <th>{{ __('Počet manuálů') }}</th>
+                <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('organ_builder')" />
+                <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('year_built')" />
+                <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('manuals_count')" />
+                <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('stops_count')" />
                 <th>{{ __('Kategorie') }}</th>
-                <th>{{ __('Význam') }}</th>
+                <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('importance')" />
                 <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
             @foreach ($organs as $organ)
                 <tr>
+                    <td>
+                        @if ($organ->user_id)
+                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}">
+                                <i class="bi-lock text-warning"></i>
+                            </span>
+                        @endif
+                    </td>
                     <td class="fw-semibold">{{ $organ->municipality }}</td>
-                    <td class="fw-semibold">{{ $organ->place }}</td>
-                    <td>{{ $organ->region->name }}</td>
-                    <td>{{ $organ->organBuilder->name }}</td>
+                    <td class="fw-semibold">
+                        <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($organ) }}" wire:navigate>
+                            {{ $organ->place }}
+                        </a>
+                    </td>
+                    <td data-bs-toggle="tooltip" data-bs-title="{{ $organ->region->name }}">
+                        <img width="70" class="region me-1" src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
+                    </td>
+                    <td>
+                        <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" placeholder="{{ __('neznámý') }}" />
+                    </td>
                     <td class="text-end">{{ $organ->year_built }}</td>
-                    <td class="text-end">{{ $organ->stops_count }}</td>
                     <td class="text-end">{{ $organ->manuals_count }}</td>
+                    <td class="text-end">{{ $organ->stops_count }}</td>
                     <td>
                         @foreach ($organ->organCategories as $category)
                             @if (!$category->getEnum()->isPeriodCategory() && !$category->getEnum()->isTechnicalCategory())
@@ -34,10 +50,10 @@
                         @endforeach
                     </td>
                     <td class="text-nowrap">
-                        <x-organomania.stars :count="round($organ->importance / 2)" :showCount="true" />
+                        <x-organomania.stars class="responsive" :count="round($organ->importance / 2)" :showCount="true" />
                     </td>
-                    <td class="text-center">
-                        <a class="btn btn-sm btn-primary text-nowrap" href="{{ route('organs.show', ['organ' => $organ->id]) }}"><i class="bi-eye"></i> Zobrazit</a>
+                    <td class="text-nowrap">
+                        <x-organomania.entity-page-view-table-buttons :record="$organ" />
                     </td>
                 </tr>
             @endforeach

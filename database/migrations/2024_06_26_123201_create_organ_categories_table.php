@@ -23,7 +23,6 @@ return new class extends Migration
             $table->foreignId('organ_category_id')
                 ->constrained(indexName: 'fk_organ_category_id');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

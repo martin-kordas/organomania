@@ -14,7 +14,7 @@ class Stars extends Component
         public int $countAll = 5,
         public bool $showCount = false,
     ) {
-        if ($this->count > $this->countAll) throw new \RuntimeException;
+        $this->count = min($this->count, $this->countAll);
     }
 
     public function shouldRender(): bool

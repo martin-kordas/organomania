@@ -2,139 +2,126 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 use Livewire\Attributes\Reactive;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Locked;
 use App\Models\Organ;
 use App\Models\OrganLike;
+use App\Models\OrganCustomCategory as OrganCustomCategoryModel;
+use App\Models\Scopes\OwnedEntityScope;
+use App\Http\Resources\OrganCollection;
+use App\Repositories\OrganRepository;
+use App\Traits\EntityPageView;
 
+// TODO: sloučit s komponentou organs-builders?
 new class extends Component {
     
-    use WithPagination;
+    use WithPagination, EntityPageView;
 
-    #[Reactive]
-    public $viewType = 'thumbnails';
-
-    #[Reactive]
-    public $sortColumn = 'importance';
-    #[Reactive]
-    public $sortDirection = 'desc';
-
-    #[Reactive]
-    public $filterCategories;
     #[Reactive]
     public $filterOrganBuilderId;
     #[Reactive]
-    public $filterRegionId;
+    public $filterConcertHall;
     #[Reactive]
-    public $filterFavorite;
-    #[Reactive]
-    public $filterPrivate;
+    public $filterHasDisposition;
+
+    // TODO: jako public mít radši jen id?
+    #[Locked]
+    public ?Organ $thumbnailOrgan = null;
+    #[Locked]
+    public ?Organ $editCustomCategoriesOrgan = null;
+
+    private OrganRepository $repository;
     
-    public function mount()
+    public function boot(OrganRepository $repository)
     {
-        // TODO: sloupce korespondují s SORT_OPTIONS v organs, ale nevím, jak je zde načíst
-        if (!in_array($this->sortColumn, ['importance', 'year_built', 'manuals_count', 'stops_count', 'municipality'])) {
-            throw new \RuntimeException;
-        }
+        $this->repository = $repository;
+        $this->categoriesRelation = 'organCategories';
+        $this->customCategoriesRelation = 'organCustomCategories';
+        $this->exportFilename = 'organs.json';
+        $this->gateUseCustomCategories = 'useOrganCustomCategories';
+        $this->gateLikeEntity = 'likeOrgan';
+        $this->showRoute = 'organs.show';
+        $this->editRoute = 'organs.edit';
+        $this->customCategoriesRoute = 'organs.organ-custom-categories';
+        $this->customCategoriesCountProp = 'organ_custom_categories_count';
+        $this->noResultsMessage = __('Nebyly nalezeny žádné varhany.');
+        $this->likedMessage = __('Varhany byly přidány do oblíbených.');
+        $this->unlikedMessage = __('Varhany byly odebrány z oblíbených.');
+        $this->mapId = 'organomania-organs-view';
+        $this->thumbnailComponent = 'organomania.organ-thumbnail';
+        $this->bootCommon($repository);
     }
 
     #[Computed]
     public function organs()
     {
-        return Organ::with(['region', 'organBuilder', 'organCategories'])
-            ->withCount([
-                'organLikes',
-                'organLikes as my_organ_likes_count' => function (Builder $query) {
-                    $query->where('user_id', Auth::id());
-                }
-            ])
-            ->when(
-                $this->filterCategories,
-                fn(Builder $query) => $query->whereHas('organCategories', function (Builder $query) {
-                    $query->whereIn('id', $this->filterCategories);
-                })
-            )
-            ->when(
-                $this->filterOrganBuilderId,
-                fn(Builder $query) => $query->where('organ_builder_id', $this->filterOrganBuilderId)
-            )
-            ->when(
-                $this->filterRegionId,
-                fn(Builder $query) => $query->where('region_id', $this->filterRegionId)
-            )
-            ->when(
-                $this->filterFavorite,
-                fn(Builder $query) => $query->whereHas('organLikes', function (Builder $query) {
-                    return $query->where('user_id', Auth::id());
-                })
-            )
-            ->when(
-                $this->filterPrivate,
-                fn(Builder $query) => $query->whereNotNull('user_id')
-            )
-            ->orderBy($this->sortColumn, $this->sortDirection)
-            ->paginate(6);
+        $filters = $this->getFiltersArray();
+        if ($this->filterOrganBuilderId) $filters['organBuilderId'] = $this->filterOrganBuilderId;
+        if ($this->filterConcertHall) $filters['concertHall'] = $this->filterConcertHall;
+        if ($this->filterHasDisposition) $filters['hasDisposition'] = $this->filterHasDisposition;
+
+        if ($this->viewType === 'map') $sorts = ['importance' => 'asc'];
+        else $sorts = [$this->sortColumn => $this->sortDirection];
+
+        $with = OrganRepository::ORGANS_WITH;
+        if ($this->isCustomCategoryOrgans) {
+            $with = array_diff($with, ['organBuilder']);
+            $with['organBuilder'] = function (BelongsTo $query) {
+                $query->withoutGlobalScope(OwnedEntityScope::class);
+            };
+        }
+
+        $withCount = [
+            ...OrganRepository::ORGANS_WITH_COUNT,
+            'likes as my_likes_count' => function (Builder $query) {
+                $query->where('user_id', Auth::id());
+            }
+        ];
+
+        $query = $this->repository->getOrgansQuery(
+            $filters, $sorts,
+            with: $with, withCount: $withCount
+        );
+
+        if ($this->filterCategories) {
+            $this->filterCategories($query, $this->filterCategories);
+        }
+
+        if ($this->shouldPaginate) return $query->paginate($this->perPage);
+        return $query->get();
     }
 
+    private function getResourceCollection(Collection $data): ResourceCollection
+    {
+        return new OrganCollection($data);
+    }
     
     #[Computed]
-    public function viewComponent()
+    public function viewComponent(): string
     {
         return match ($this->viewType) {
-            'thumbnails' => 'organomania.organs-view-thumbnails',
+            'thumbnails' => $this->thumbnailsViewComponent,
             'table' => 'organomania.organs-view-table',
+            'map' => $this->mapViewComponent,
             default => throw new \LogicException
         };
     }
 
-    public function placeholder()
+    private function getMapMarkerTitle(Model $entity): string
     {
-        $loading = __('Načítání...');
-        return <<<HTML
-        <div class="text-secondary d-flex justify-content-center mt-5" role="status">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">$loading&hellip;</span>
-            </div>
-        </div>
-        HTML;
-    }
-
-    // protože komponenta je lazy
-    public function rendered()
-    {
-        $this->dispatch("bootstrap-rendered");
-    }
-
-    public function likeToggle($organId)
-    {
-        $organ = $this->organs->firstWhere('id', $organId);
-        if (!$organ) throw new \RuntimeException;
-
-        if ($organ->my_organ_likes_count <= 0) {
-            $organLike = new OrganLike(['user_id' => Auth::id()]);
-            $organ->organLikes()->save($organLike);
-            $diff = 1;
-        }
-        else {
-            $organLike = $organ->organLikes()->where('user_id', Auth::id())->first();
-            if ($organLike) $organLike->delete();
-            $diff = -1;
-        }
-        unset($this->organs);
-        $this->dispatch('organ-like-updated', $diff);
+        return "{$entity->municipality}, {$entity->place}";
     }
     
 }; ?>
 
-<div class="container align-center">
-    @if ($this->organs->isEmpty())
-        <div class="alert alert-light text-center" role="alert">
-            {{ __('Nebyly nalezeny žádné varhany.') }}
-        </div>
-    @else
-        <x-dynamic-component :component="$this->viewComponent" :organs="$this->organs" />
-        {{ $this->organs->links() }}
-    @endif
-</div>
+<x-organomania.entity-page-view />

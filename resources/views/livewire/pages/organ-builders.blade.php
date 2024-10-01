@@ -1,81 +1,72 @@
 <?php
 
-use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
-use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
+use App\Traits\EntityPage;
+use App\Repositories\OrganBuilderRepository;
+use App\Interfaces\Category;
+use App\Models\Category as CategoryModel;
+use App\Enums\OrganBuilderCategory;
 use App\Models\OrganBuilder;
-use Livewire\WithPagination;
+use App\Models\CustomCategory;
+use App\Models\OrganBuilderCategory as OrganBuilderCategoryModel;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
-    
-    use WithPagination;
 
-    #[Computed]
-    public function organBuilders()
+    use EntityPage;
+
+    private OrganBuilderRepository $repository;
+    private OrganBuilder $model;
+    private OrganBuilderCategoryModel $categoryModel;
+
+    const SORT_OPTIONS = [
+        ['column' => 'name', 'label' => 'Varhanář/dílna', 'type' => 'alpha'],
+        ['column' => 'municipality', 'label' => 'Lokalita', 'type' => 'alpha'],
+        ['column' => 'active_from_year', 'label' => 'Období', 'type' => 'numeric'],
+        ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric'],
+    ];
+
+    public function boot(OrganBuilderRepository $repository, OrganBuilder $model, OrganBuilderCategoryModel $categoryModel)
     {
-        return OrganBuilder::with('region')->orderBy('active_from_year')->paginate(6);
+        $this->repository = $repository;
+        $this->model = $model;
+        $this->categoryModel = $categoryModel;
+
+        $this->createRoute = 'organ-builders.create';
+        $this->exportRoute = 'organ-builders.export';
+        $this->customCategoriesRoute = 'organ-builders.organ-builder-custom-categories';
+        $this->customCategoryRoute = 'organ-builders.custom-category-organ-builders.index';
+        $this->categorySelectPlaceholder = __('Zvolte kategorii varhanářů...');
+        $this->gateUseCustomCategories = 'useOrganBuilderCustomCategories';
+        $this->gateLike = 'likeOrganBuilders';
+        $this->entityPageViewComponent = 'organ-builders-view';
+        $this->entityClass = OrganBuilder::class;
+        $this->title = __('Varhanáři');
     }
 
-    public function updatedPage()
+    public function mount()
     {
-        $this->dispatch("bootstrap-rendered");
+        $this->perPage = 12;
+        $this->mountCommon();
+    }
+
+    private function getCategoryEnum()
+    {
+        return OrganBuilderCategory::class;
+    }
+
+    private function getOrganCategoryOrganCount(Category $category)
+    {
+        $categoryModel = $this->getOrganCategoryModel($category);
+        return $categoryModel->organ_builders_count;
+    }
+
+    private function getOrganCustomCategoryOrganCount(CustomCategory $category)
+    {
+        return $category->organ_builders_count;
     }
 
 }; ?>
 
-<div class="organs container">
-    <div class="buttons float-end z-2 position-relative">
-        <div class="position-fixed ms-4">
-            <div class="position-absolute text-center">
-                <a type="button" class="btn btn-sm btn-primary mb-3" href="{{ route('organ-builders.create') }}"><i class="bi-plus-lg"></i> Přidat</a>
-            </div>
-        </div>
-    </div>
-    
-    <table class="table table-hover align-middle">
-        <thead>
-            <tr>
-                <th>&nbsp;</th>
-                <th>{{ __('Varhanář') }}/{{ __('dílna') }}</th>
-                <th>{{ __('Lokalita') }}</th>
-                <th>{{ __('Kraj') }}</th>
-                <th>{{ __('Období') }} <i class="bi-sort-up"></i></th>
-                <th>{{ __('Kategorie') }}</th>
-                <th>{{ __('Význam') }}</th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody class="table-group-divider">
-            @foreach ($this->organBuilders as $organBuilder)
-                <tr>
-                    <td>
-                        @if ($organBuilder->user_id)
-                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}">
-                                <i class="bi-file-lock text-warning"></i>
-                            </span>
-                        @endif
-                    </td>
-                    <td class="fw-semibold">{{ $organBuilder->name }}</td>
-                    <td>{{ $organBuilder->municipality }}</td>
-                    <td>{{ $organBuilder->region->name }}</td>
-                    <td>{{ $organBuilder->active_period }}</td>
-                    <td>
-                        @foreach ($organBuilder->getGeneralCategories() as $category)
-                            <x-organomania.category-badge :category="$category->getEnum()" />
-                        @endforeach
-                    </td>
-                    <td>
-                        <x-organomania.stars :count="round($organBuilder->importance / 2)" :showCount="true" />
-                    </td>
-                    <td class="text-end">
-                        <a class="btn btn-sm btn-primary" href="{{ route('organ-builders.show', ['organBuilder' => $organBuilder->id]) }}"><i class="bi-eye"></i> Zobrazit</a>
-                        &nbsp;
-                        <a class="btn btn-sm btn-outline-primary" href="{{ route('organ-builders.edit', ['organBuilder' => $organBuilder->id]) }}"><i class="bi-pencil"></i> Upravit</a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    {{ $this->organBuilders->links() }}
-</div>
+<x-organomania.entity-page />

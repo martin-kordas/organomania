@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('organs', function (Blueprint $table) {
             $table->id();
+            $table->string('slug', length: 500);
             $table->string('place', length: 500);
             $table->string('municipality', length: 50);
             $table->double('latitude');
@@ -23,13 +24,21 @@ return new class extends Migration
             $table->integer('year_built')->nullable();
             $table->integer('stops_count')->nullable();
             $table->integer('manuals_count')->nullable();
+            $table->integer('concert_hall')->default(0);
             $table->string('image_url', length: 500)->nullable();
+            $table->string('image_credits', length: 500)->nullable();
+            $table->string('outside_image_url', length: 500)->nullable();
+            $table->string('outside_image_credits', length: 500)->nullable();
+            $table->string('web', length: 500)->nullable();
             $table->text('perex')->nullable();
             $table->text('description')->nullable();
+            $table->text('literature')->nullable();
+            $table->text('disposition')->nullable();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
             $table->softDeletes();
             
+            $table->fullText('perex');
             $table->fullText('description');
         });
     }

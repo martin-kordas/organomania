@@ -41,46 +41,60 @@ enum OrganCategory: int implements Category
         ],
         self::Baroque->value => [
             'name' => 'Barokní',
-            'description' => 'Barokní a pozdně barokní varhany (cca do 1. pol. 19. stol.)',
+            'description' => 'Barokní a pozdně barokní varhany (cca do 1. pol. 19. stol.), pro které je typické rovnoměrné rozložení rejstříků ve všech polohách a manuálech a tradiční lesklý zvuk varhan',
         ],
         self::Romantic->value => [
             'name' => 'Romantické',
-            'description' => 'Romantičtí varhany (cca od 2. pol. 19. stol.)',
+            'description' => 'Romantické varhany (cca od 2. pol. 19. stol.) následují zvukový ideál symfonického orchestru a jsou charakteristické větším podílem rejstříků v nižších polohách a smyků',
         ],
         self::NeobaroqueUniversal->value => [
             'name' => 'Neobarokní a univerzální',
-            'description' => 'Novodobé neobarokní a stylově nevyhraněné nástroje',
+            'description' => 'Novodobé nástroje, které se vracjí ke zvukovým ideálům barokních varhan, nebo jsou stylově nevyhraněné a umožňují tak hru skladeb všech období',
         ],
         
         self::Oldest->value => [
             'name' => 'Mimořádně starobylé',
-            'description' => 'Varhany patřící v době svého vzniku k největším',
+            'description' => 'Varhany patřící mezi nejstarší na našem území',
         ],
         self::Biggest->value => [
             'name' => 'Mimořádně velké',
-            'description' => 'Varhany patřící mezi nejstarší na našem území',
+            'description' => 'Varhany patřící v době svého vzniku k největším',
         ],
         
         self::ActionMechanical->value => [
             'name' => 'Mechanická traktura',
-            'description' => 'Klávesy s píšťalou jsou propojeny soustavou mechanických táhel',
+            'description' => 'Klávesy jsou s píšťalami propojeny soustavou mechanických táhel',
         ],
         self::ActionPneumatical->value => [
             'name' => 'Pneumatická traktura',
-            'description' => 'Klávesy s píšťalou jsou propojeny hadičkami, kterými proudí vzduch',
+            'description' => 'Klávesy jsou s píšťalami propojeny hadičkami, kterými proudí vzduch',
         ],
         self::ActionElectrical->value => [
             'name' => 'Elektrická traktura',
-            'description' => 'Klávesy s píšťalou jsou propojeny elektrickým obvodem',
+            'description' => 'Klávesy jsou s píšťalami propojeny elektrickým obvodem',
         ],
         self::ActionBarker->value => [
             'name' => 'Barkerova páka',
-            'description' => 'Klávesy s píšťalou jsou propojeny soutavou mechanických táhel, které se však pohybují za pomocí tlaku vzduchu',
+            'description' => 'Klávesy jsou s píšťalami propojeny soutavou mechanických táhel, která se však pohybují za pomocí tlaku vzduchu',
         ],
-        self::WindchestSchleif->value       => ['name' => 'Zásuvková vzdušnice'],
-        self::WindchestKegel->value         => ['name' => 'Kuželková vzdušnice'],
-        self::WindchestMembran->value       => ['name' => 'Membránová vzdušnice'],
+        self::WindchestSchleif->value       => [
+            'name' => 'Zásuvková vzdušnice',
+            'description' => 'Klasická konstrukce varhan, kde se zapínání rejstříků provádí posunování dřevěných desek (zásuvek), které odkrývají přívod vzduchu k píšťalám'
+        ],
+        self::WindchestKegel->value         => [
+            'name' => 'Kuželková vzdušnice',
+            'description' => 'Konstrukce varhan, typická pro romantické varhanářství, kde se píšťala po stisku klávesy rozezní nadzvihnutím kuželky, která uvolní přívod vzduchu'
+        ],
+        self::WindchestMembran->value       => [
+            'name' => 'Membránová vzdušnice',
+            'description' => 'Konstrukce varhan založená na výpustném systému, kde po stisku klávesy klesne tlak vzduchu tlačícího na membránu a díky tomu se uvolní přívod vzduchu pro rozeznění píšťaly'
+        ],
     ];
+    
+    public function getValue(): int
+    {
+        return $this->value;
+    }
     
     public function getColor(): string
     {
