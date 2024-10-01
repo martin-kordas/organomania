@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="150" height="150" src="./resources/images/logo.png">
+</p>
+
 Organomania strives to present the world of organ and organ music to music enthusiasts, students and general public. It particularly focuses on significant organs in Czech Republic.
 
 ## Features
