@@ -17,3 +17,12 @@ Organomania strives to present the world of organ and organ music to music enthu
 - Bootstrap 5.3
 - MariaDB 10
 - select2
+
+
+## Running the app
+
+Most easily with [Laravel Sail](https://laravel.com/docs/11.x/sail):
+
+`sail up`
+
+`sail npm run dev`
