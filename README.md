@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="150" height="150" src="./resources/images/logo.png">
+</p>
+
 Organomania strives to present the world of organ and organ music to music enthusiasts, students and general public. It particularly focuses on significant organs in Czech Republic.
 
 ## Features
@@ -9,7 +13,16 @@ Organomania strives to present the world of organ and organ music to music enthu
 - filterable list of organ stops
 
 ## Tech stack
-- Laravel Livewire 3
+- Laravel 11 + Laravel Livewire 3
 - Bootstrap 5.3
 - MariaDB 10
 - select2
+
+
+## Running the app
+
+Most easily with [Laravel Sail](https://laravel.com/docs/11.x/sail):
+
+`sail up`
+
+`sail npm run dev`
