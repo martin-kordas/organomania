@@ -26,14 +26,14 @@ class OrganSeeder extends Seeder
                 'importance' => 10,
                 'organ_builder_id' => 9,
                 'year_built' => 1745,
-                'stops_count' => 94,
+                'stops_count' => 95,
                 'manuals_count' => 5,
                 'outside_image_url' => 'https://upload.wikimedia.org/wikipedia/commons/5/52/Kostel_svat%C3%A9ho_Mo%C5%99ice_v_Olomouci.jpg',
                 'outside_image_credits' => 'Jan Jeništa, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons',
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Kostel_svateho_Morice_varhany_%28retouched%29.jpg/640px-Kostel_svateho_Morice_varhany_%28retouched%29.jpg',
                 'image_credits' => 'Michal Maňas , Public domain, via Wikimedia Commons',
                 'perex' => 'Vzácné barokní varhany, označované jako "královna moravských varhan", jsou po rozšíření v 60. letech 20. století považovány za největší nástroj na území ČR co do počtu píšťal.',
-                'description' => 'Nástroj patří mezi největší a nejvýznamnější u nás postavené barokní varhany. Po opravě a rozšíření v 60. letech 20. století jsou varhany považovány za největší co do počtu píšťal v ČR. Varhany hostí renomovaný varhanní festival s dlouholetou tradicí.',
+                'description' => 'Nástroj patří mezi největší a nejvýznamnější u nás postavené barokní varhany. Po opravě a rozšíření v 60. letech 20. století jsou varhany považovány za největší co do počtu rejstříků v ČR. Varhany hostí renomovaný varhanní festival s dlouholetou tradicí.',
                 'web' => <<<END
                     https://varhany.moric-olomouc.cz/
                     http://www.anatomie-varhan.cz/texty/varhany/nastroje/olomouc/olomouc.htm
@@ -171,7 +171,7 @@ class OrganSeeder extends Seeder
                     113. Trompete 8'
                     114. Kopftrompete 4'
                     115. Zink 2'
-                    116. Akustik 21 1/3'
+                    116. Untersatz 64'
                     117. IV - P 8'
                     118. V Sp - P 8'
                     119. V Bw - P 8'

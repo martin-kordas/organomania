@@ -330,7 +330,7 @@ class DispositionSeeder extends Seeder
                 Trompete 8'
                 Kopftrompete 4'
                 Zink 2'
-                Akustik 21 1/3'
+                Untersatz 64'
                 IV/P 8'
                 V Sp / P 8'
                 V Bw / P 8'

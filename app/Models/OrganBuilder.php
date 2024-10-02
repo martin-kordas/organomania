@@ -60,7 +60,7 @@ class OrganBuilder extends Model
     
     public function organBuilderCustomCategories()
     {
-        return $this->belongsToMany(OrganBuilderCustomCategory::class)->orderBy('name');
+        return $this->belongsToMany(OrganBuilderCustomCategory::class)->withTimestamps()->orderBy('name');
     }
     
     public function likes()
@@ -70,7 +70,7 @@ class OrganBuilder extends Model
     
     public function organBuilderCategories()
     {
-        return $this->belongsToMany(OrganBuilderCategory::class)->orderBy('id');
+        return $this->belongsToMany(OrganBuilderCategory::class)->withTimestamps()->orderBy('id');
     }
     
     public function getGeneralCategories()

@@ -68,7 +68,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $periodCategoriesCount = 0;
         foreach ($this->form->categories as $categoryId) {
-            $category = OrganBuilderCategory::tryFrom($categoryId);
+            $category = OrganBuilderCategory::tryFrom((int)$categoryId);
             if ($category !== null && $category->isPeriodCategory()) {
                 $periodCategoriesCount++;
                 if ($periodCategoriesCount >= 2) {
@@ -172,7 +172,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
             @endif
         </h3>
-        
+            
         <div class="mb-4">
             <div class="mb-3">
                 <div class="form-check form-check-inline">
@@ -371,7 +371,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </button>
         </div>
     </form>
-  
+    
     <x-organomania.modals.confirm-modal
         title="{{ __('Smazat') }}"
         buttonLabel="{{ __('Smazat') }}"

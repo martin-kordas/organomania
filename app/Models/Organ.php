@@ -48,12 +48,12 @@ class Organ extends Model
     
     public function organCategories()
     {
-        return $this->belongsToMany(OrganCategory::class)->orderBy('id');
+        return $this->belongsToMany(OrganCategory::class)->withTimestamps()->orderBy('id');
     }
     
     public function organCustomCategories()
     {
-        return $this->belongsToMany(OrganCustomCategory::class)->orderBy('name');
+        return $this->belongsToMany(OrganCustomCategory::class)->withTimestamps()->orderBy('name');
     }
     
     public function likes()

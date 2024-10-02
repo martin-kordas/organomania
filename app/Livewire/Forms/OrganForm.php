@@ -170,8 +170,9 @@ class OrganForm extends Form
             $this->organ->save();
 
             // categories
-            $categoryIds = $this->getCategoryIds();
-            $customCategoryIds = $this->getCategoryIds(custom: true);
+            //  - array_filter(): protože někdy je v hodnotách 0
+            $categoryIds = array_filter($this->getCategoryIds());
+            $customCategoryIds = array_filter($this->getCategoryIds(custom: true));
             $this->organ->organCategories()->sync($categoryIds);
             $this->organ->organCustomCategories()->sync($customCategoryIds);
 
@@ -218,7 +219,7 @@ class OrganForm extends Form
             $add = $custom ? $isCustom : !$isCustom;
             if ($add) {
                 if ($isCustom) $id = str_replace('custom-', '', $id);
-                $ids[] = $id;
+                $ids[] = (int)$id;
             }
         }
         return $ids;
