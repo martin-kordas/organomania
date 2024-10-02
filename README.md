@@ -18,11 +18,16 @@ Organomania strives to present the world of organ and organ music to music enthu
 - MariaDB 10
 - select2
 
-
 ## Running the app
 
 Most easily with [Laravel Sail](https://laravel.com/docs/11.x/sail):
 
-`sail up`
+    # Run Docker containers
+    sail up
+    
+    # Set up database
+    sail artisan migrate:fresh --seed
+    
+    # Start Vite dev server
+    sail npm run dev
 
-`sail npm run dev`
