@@ -24,6 +24,10 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         
+        <link rel="canonical" href="{{ url()->current() }}" />
+        <link rel="alternate" hreflang="cs-cz" href="{{ url()->current() }}" />
+        <link rel="alternate" hreflang="en-us" href="{{ url()->current() }}&amp;lang=en" />
+        
         <link rel="icon" type="image/png" sizes="16x16" href="{{ Vite::asset('resources/images/favicon-16x16.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ Vite::asset('resources/images/favicon-32x32.png') }}">
 
@@ -53,6 +57,10 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
     </head>
     <body>
         <div class="d-flex flex-column" style="min-height: 100%;">
+            @isset($title)
+              <h1 class="d-none">{{ $title }}</h1>
+            @endisset
+            
             <x-organomania.header />
             
             <main class="container">
@@ -72,7 +80,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                             <div class="">
                                 <span class="mb-3 mb-md-0 text-body-secondary">
                                     © {{ date("Y") }}
-                                    <a href="martin-kordas" class="link-secondary text-decoration-none">Martin Kordas</a>
+                                    <a href="/martin-kordas" class="link-secondary text-decoration-none">Martin Kordas</a>
                                 </span>
                             </div>
 

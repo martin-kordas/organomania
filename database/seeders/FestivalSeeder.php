@@ -829,6 +829,40 @@ class FestivalSeeder extends Seeder
                 'perex' => null,
             ],
         );
+        
+        $this->insertFestival(
+            data: [
+                'id' => 49,
+                'name' => 'Mezinárodní hudební festival J. C. F. Fischera',
+                'locality' => 'Karlovarský kraj',
+                'place' => 'Karlovy Vary, Jáchymov, Ostrov aj.',
+                'latitude' => 50.2301047,
+                'longitude' => 12.8665889,
+                'region_id' => Region::Karlovarsky,
+                'organ_id' => null,
+                'frequency' => 'srpen-září',
+                'url' => 'https://imff.cz',
+                'importance' => 7,
+                'perex' => null,
+            ],
+        );
+        
+        $this->insertFestival(
+            data: [
+                'id' => 50,
+                'name' => 'Varhaníci pro sv. Jakuba',
+                'locality' => 'Brno',
+                'place' => 'katedrála sv. Petra a Pavla, kostel sv. Tomáše, kostel sv. Augustina aj.',
+                'latitude' => 49.2002211,
+                'longitude' => 16.6078411,
+                'region_id' => Region::Jihomoravsky,
+                'organ_id' => null,
+                'frequency' => 'přes celý rok',
+                'url' => 'https://www.facebook.com/profile.php?id=61553468853819',
+                'importance' => 5,
+                'perex' => null,
+            ],
+        );
     }
     
     private function insertFestival(array $data)
