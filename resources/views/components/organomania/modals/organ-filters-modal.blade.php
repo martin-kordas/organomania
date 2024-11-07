@@ -8,17 +8,18 @@
 @php
     use App\Models\Organ;
     use App\Models\Festival;
+    use App\Models\Competition;
 @endphp
 
 <div class="modal fade" id="filtersModal" tabindex="-1" data-focus="false" aria-labelledby="filtersModalLabel" aria-hidden="true" @keydown.enter="onEsc">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="filtersModalLabel">Filtry</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+                <h1 class="modal-title fs-5" id="filtersModalLabel">{{ __('Filtry') }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             </div>
             <div class="modal-body">
-                @if ($entityClass === Festival::class)
+                @if (in_array($entityClass, [Festival::class, Competition::class]))
                     <div class="mb-3">
                         <label class="form-label" for="filterNameLocality">{{ __('Název, lokalita') }}</label>
                         <input id="filterNameLocality" class="form-control" type="search" wire:model="filterNameLocality" />
@@ -26,10 +27,10 @@
                 @endif
                 @if ($this->isCategorizable)
                     <div class="mb-3">
-                        <label class="form-label" for="filterCategories">Kategorie</label>
+                        <label class="form-label" for="filterCategories">{{ __('Kategorie') }}</label>
                         <x-organomania.selects.organ-category-select
                             model="filterCategories"
-                            placeholder="{{ __('Zvolte kategorii varhan...') }}"
+                            placeholder="{{ __('Zvolte kategorii varhan') }}..."
                             :categoriesGroups="$organCategoriesGroups"
                             :customCategoriesGroups="$organCustomCategoriesGroups"
                             :allowClear="true"
@@ -44,13 +45,15 @@
                     </div>
                 @endif
                 <div class="mb-3">
-                    <label class="form-label" for="filterRegion">Kraj</label>
+                    <label class="form-label" for="filterRegion">{{ __('Kraj') }}</label>
                     <x-organomania.selects.region-select :regions="$regions" id="filterRegion" model="filterRegionId" :allowClear="true" />
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" for="filterImportance">{{ __('Význam') }} >= <span class="text-secondary">({{ __('od 1 do 5') }})</span></label>
-                    <input class="form-control" type="number" min="1" max="5" id="filterImportance" wire:model.number="filterImportance" />
-                </div>
+                @if ($entityClass !== Competition::class)
+                    <div class="mb-3">
+                        <label class="form-label" for="filterImportance">{{ __('Význam') }} >= <span class="text-secondary">({{ __('od 1 do 5') }})</span></label>
+                        <input class="form-control" type="number" min="1" max="5" id="filterImportance" wire:model.number="filterImportance" />
+                    </div>
+                @endif
                 
                 @if ($entityClass === Organ::class)
                     <div class="form-check form-switch">
@@ -66,7 +69,7 @@
                 @if ($this->isLikeable)
                     @can($this->gateLike)
                         <div class="form-check form-switch">
-                            <label class="form-check-label" for="filterFavorite">Jen oblíbené</label>
+                            <label class="form-check-label" for="filterFavorite">{{ __('Jen oblíbené') }}</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="filterFavorite" wire:model="filterFavorite">
                             <i class="bi-heart text-danger"></i>
                         </div>
@@ -77,15 +80,15 @@
                     @can('create', $entityClass)
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="filterPrivate" wire:model="filterPrivate">
-                            <label class="form-check-label" for="filterPrivate">Jen soukromé</label>
+                            <label class="form-check-label" for="filterPrivate">{{ __('Jen soukromé') }}</label>
                             <i class="bi-lock text-warning"></i>
                         </div>
                     @endcan
                 @endif
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-                <button id="filterButton" type="button" class="btn btn-primary" data-bs-dismiss="modal" wire:click="$refresh"><i class="bi-funnel"></i> Filtrovat</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Zavřít') }}</button>
+                <button id="filterButton" type="button" class="btn btn-primary" data-bs-dismiss="modal" wire:click="$refresh"><i class="bi-funnel"></i> {{ __('Filtrovat') }}</button>
             </div>
         </div>
 

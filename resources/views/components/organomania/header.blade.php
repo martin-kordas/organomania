@@ -1,10 +1,13 @@
+@use(App\Models\Festival)
+@use(App\Models\Competition)
+
 <header class="mb-4 border-bottom position-sticky top-0 bg-light d-print-none">
     <nav class="navbar navbar-expand-xl bg-body-tertiary">
         <div class="container d-flex flex-wrap align-items-center">
             {{-- logo --}}
             <a href="{{ url('/') }}" wire:navigate class="d-flex align-items-center mb-md-0 me-4 link-body-emphasis text-decoration-none">
                 <img class="logo me-2" src="{{ Vite::asset('resources/images/logo.png') }}" />
-                <span class="fs-4">{{ str(config('app.name', 'Organomania'))->lower() }}</span>
+                <span class="fs-4" style="font-size: 125% !important;">{{ str(config('app.name', 'Organomania'))->lower() }}</span>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="{{ __('Zobrazit navigaci') }}">
@@ -15,9 +18,10 @@
                 {{-- vlastní navigace --}}
                 <ul class="nav nav-pills justify-content-center">
                     <x-organomania.nav-item-route label="{{ __('Varhany') }}" icon="file-music" route="organs.index" routeActive="organs.*" />
-                    <x-organomania.nav-item-route label="{{ __('Varhanáři') }}" icon="file-person" route="organ-builders.index" routeActive="organ-builders.*" />
-                    <x-organomania.nav-item-route label="{{ __('Festivaly') }}" icon="calendar-event" route="festivals.index" routeActive="festivals.*" />
+                    <x-organomania.nav-item-route label="{{ __('menu.organ-builders') }}" icon="file-person" route="organ-builders.index" routeActive="organ-builders.*" />
                     <x-organomania.nav-item-route label="{{ __('Dispozice') }}" icon="card-list" route="dispositions.index" routeActive="dispositions.*" />
+                    <x-organomania.nav-item-route label="{{ __('Festivaly') }}" icon="calendar-date" route="festivals.index" routeActive="festivals.*" :highlightedCount="Festival::getHighlightedCount()" />
+                    <x-organomania.nav-item-route label="{{ __('Soutěže') }}" icon="trophy" route="competitions.index" routeActive="competitions.*" :highlightedCount="Competition::getHighlightedCount()" />
                 </ul>
 
                 <div class="row gx-3 gy-2 my-1 ms-auto align-items-center">

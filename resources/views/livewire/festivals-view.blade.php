@@ -39,7 +39,8 @@ new class extends Component {
     public function boot(FestivalRepository $repository)
     {
         $this->isCategorizable = false;
-        $this->showThumbnailFooter = false;
+        $this->isLikeable = false;
+        $this->showThumbnailFooter = true;
 
         $this->repository = $repository;
         $this->categoriesRelation = null;
@@ -47,7 +48,7 @@ new class extends Component {
         $this->exportFilename = null;
         $this->gateUseCustomCategories = null;
         $this->gateLikeEntity = null;
-        $this->showRoute = null;
+        $this->showRoute = 'festivals.show';
         $this->editRoute = null;
         $this->customCategoriesCountProp = null;
         $this->noResultsMessage = __('Nebyly nalezeny žádné festivaly.');

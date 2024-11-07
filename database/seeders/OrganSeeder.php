@@ -26,14 +26,17 @@ class OrganSeeder extends Seeder
                 'importance' => 10,
                 'organ_builder_id' => 9,
                 'year_built' => 1745,
+                'renovation_organ_builder_id' => 25,
+                'year_renovated' => 2022,
                 'stops_count' => 95,
                 'manuals_count' => 5,
                 'outside_image_url' => 'https://upload.wikimedia.org/wikipedia/commons/5/52/Kostel_svat%C3%A9ho_Mo%C5%99ice_v_Olomouci.jpg',
                 'outside_image_credits' => 'Jan Jeništa, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons',
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Kostel_svateho_Morice_varhany_%28retouched%29.jpg/640px-Kostel_svateho_Morice_varhany_%28retouched%29.jpg',
                 'image_credits' => 'Michal Maňas , Public domain, via Wikimedia Commons',
+                'varhany_net_id' => 3607,
                 'perex' => 'Vzácné barokní varhany, označované jako "královna moravských varhan", jsou po rozšíření v 60. letech 20. století považovány za největší nástroj na území ČR co do počtu píšťal.',
-                'description' => 'Nástroj patří mezi největší a nejvýznamnější u nás postavené barokní varhany. Po opravě a rozšíření v 60. letech 20. století jsou varhany považovány za největší co do počtu rejstříků v ČR. Varhany hostí renomovaný varhanní festival s dlouholetou tradicí.',
+                'description' => 'Nástroj patří mezi největší a nejvýznamnější u nás postavené barokní varhany. Po opravě a rozšíření v 60. letech 20. století jsou varhany považovány za největší co do počtu rejstříků v ČR. I proto hostí renomovaný varhanní festival s dlouholetou tradicí. Varhany patří k nejvýznamnějším dílům proslulého vratislavského varhanáře Michaela Englera. Ve své původní podobě měly 3 manuály a 44 rejstříků. V manuálech Engler disponoval i jazykové rejstříky (Trompet 8‘, Vox humana 8‘) a hluboký Principal 16‘, což pro naše tehdejší varhanářství nebylo typické a můžeme tím doložit Englerovo zakotvení ve slezských varhanářských tradicích. Ke generální opravě a zásadnímu rozšíření varhan došlo v 60. letech minulého století z iniciativy Antonína Schindlera. Od této doby varhany hostí významný varhanní festival. Původní mechanická traktura a skvostný hrací stůl, umístěný ve skříni varhan, zůstaly zachovány. Varhany je však možné ovládat i z novodobého elektrického hracího stolu. Vhodnost dobově podmíněných zásahů, ke kterým došlo v rámci rozšíření varhan na pětimanuálový univerzální nástroj, je předmětem sporů. V současné době probíhá restaurování varhan, při kterém bude zachována současná rejstříková dispozice.',
                 'web' => <<<END
                     https://varhany.moric-olomouc.cz/
                     http://www.anatomie-varhan.cz/texty/varhany/nastroje/olomouc/olomouc.htm
@@ -200,6 +203,7 @@ class OrganSeeder extends Seeder
             categories: [
                 OrganCategory::BuiltTo1799,
                 OrganCategory::Baroque,
+                OrganCategory::NeobaroqueUniversal,
                 OrganCategory::Biggest,
                 OrganCategory::ActionMechanical,
                 OrganCategory::ActionElectrical,
@@ -225,7 +229,8 @@ class OrganSeeder extends Seeder
                 'manuals_count' => 2,
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Kostel_O%C4%8Di%C5%A1%C5%A5ov%C3%A1n%C3%AD_Panny_Marie%2C_Dub_nad_Moravou%2C_okres_Olomouc.jpg/640px-Kostel_O%C4%8Di%C5%A1%C5%A5ov%C3%A1n%C3%AD_Panny_Marie%2C_Dub_nad_Moravou%2C_okres_Olomouc.jpg',
                 'image_credits' => 'xkomczax, CC BY-SA 4.0, via Wikimedia Commons',
-                'perex' => 'Velké a zachovalé barokní varhany.',
+                'varhany_net_id' => 93,
+                'perex' => 'Velké a dobře zachovalé barokní Výmolovy varhany.',
                 'description' => 'Varhany svojí monumentalitou, vyjádřenou též velkou a bohatě zdobenou skříní, odpovídají významu známého poutního místa. Dispozice byla upravena jen částečně na konci 19. století Františkem Čápkem. Ačkoli jsou varhany v současné době hratelné, bylo by žádoucí jejich restaurování.',
                 'literature' => 'Krátký, Jiří a Svoboda, Štěpán. Nejvýznamnější varhany v České republice. 1. vydání. V Brně: CPress, 2019. 267 stran. ISBN 978-80-264-2859-6. (str. 64)',
             ],
@@ -249,12 +254,15 @@ class OrganSeeder extends Seeder
                 'importance' => 6,
                 'organ_builder_id' => 1,
                 'year_built' => 1931,
+                'renovation_organ_builder_id' => null,
+                'year_renovated' => 2004,
                 'stops_count' => 45,
                 'manuals_count' => 2,
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Kostel_svat%C3%A9ho_Mikul%C3%A1%C5%A1e_a_fara.JPG/620px-Kostel_svat%C3%A9ho_Mikul%C3%A1%C5%A1e_a_fara.JPG',
                 'image_credits' => 'Magdon, CC BY-SA 4.0, via Wikimedia Commons',
+                'varhany_net_id' => 5272,
                 'perex' => 'Zdařilý nástroj z meziválečné produkce firmy Rieger pravidelně hostí varhanní koncerty.',
-                'description' => 'Konzervativní neogotická varhanní skříň zapadá dobře do interiéru kostela. Varhany již částečně vycházejí ze zásad tzv. varhanního hnutí, usilujícího o návrat k baroknímu zvukovému ideálu, spočívajícímu mj. v lesklém zvuku rejstříků vyšších poloh.',
+                'description' => 'Pouze dvoumanuálový, ale přesto značně rozsáhlý nástroj, reprezentující meziválečnou tvorbu firmy Rieger. Varhany již částečně vycházejí ze zásad tzv. varhanního hnutí, usilujícího o návrat k baroknímu zvukovému ideálu, spočívajícímu mj. v lesklém zvuku rejstříků vyšších poloh. Konzervativní neogotická varhanní skříň zapadá dobře do interiéru kostela.',
                 'literature' => 'Krátký, Jiří a Svoboda, Štěpán. Nejvýznamnější varhany v České republice. 1. vydání. V Brně: CPress, 2019. 267 stran. ISBN 978-80-264-2859-6. (str. 126)',
                 'disposition' => <<<END
                     **Spojky**
@@ -350,14 +358,17 @@ class OrganSeeder extends Seeder
                 'importance' => 5,
                 'organ_builder_id' => 5,
                 'year_built' => 1905,
+                'renovation_organ_builder_id' => null,
+                'year_renovated' => 1990,
                 'stops_count' => 46,
                 'manuals_count' => 3,
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Krom%C4%9B%C5%99%C3%AD%C5%BE_St._Mauritius_915.jpg/512px-Krom%C4%9B%C5%99%C3%AD%C5%BE_St._Mauritius_915.jpg',
                 'image_credits' => 'GFreihalter, CC BY-SA 3.0, via Wikimedia Commons',
                 'outside_image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Kostel_sv._Mo%C5%99ice_v_Krom%C4%9B%C5%99%C3%AD%C5%BEi.JPG/497px-Kostel_sv._Mo%C5%99ice_v_Krom%C4%9B%C5%99%C3%AD%C5%BEi.JPG',
                 'outside_image_credits' => 'MadamLochnessia, CC BY-SA 4.0, via Wikimedia Commons',
-                'perex' => 'Jediný velký nástroj varhanáře Emanuela Štěpána Petra na Moravě.',
-                'description' => 'Velké a dobře zachované Petrovy varhany, jediný velký Petrův nástroj na Moravě.',
+                'varhany_net_id' => 202,
+                'perex' => 'Velké a dobře zachované Petrovy varhany, jediný velký Petrův nástroj na Moravě.',
+                'description' => 'Varhany stojí ve skříni varhan Jakoba Deutschmanna z roku 1845, jedná se o jednu z prvních novogotických skříní u nás. Píšťalový fond Deutschmannových varhan použil i Petr při stavbě nového nástroje. Při opravě varhanářem Stavinohou došlo k drobným úpravám dispozice v neobarokním duchu.',
                 'literature' => <<<END
                     Krátký, Jiří a Svoboda, Štěpán. Nejvýznamnější varhany v České republice. 1. vydání. V Brně: CPress, 2019. 267 stran. ISBN 978-80-264-2859-6. (str. 110)
                     ŠON, Jiří. Emanuel Štěpán Petr v kontextu českého varhanářství [online]. Brno, 2011 [cit. 2022-05-04]. Dostupné z: https://is.jamu.cz/th/y47ke/. Bakalářská práce. Janáčkova akademie múzických umění, Hudební fakulta. Vedoucí práce Petr LYKO. (str. 20)
@@ -448,6 +459,8 @@ class OrganSeeder extends Seeder
                 'outside_image_credits' => 'Millenium187, CC BY-SA 3.0, via Wikimedia Commons',
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/M%C4%9Bsto_Brno_-_varhany_v_kostele_Sv._Jakuba.jpg/516px-M%C4%9Bsto_Brno_-_varhany_v_kostele_Sv._Jakuba.jpg',
                 'image_credits' => 'Kirk, CC BY-SA 3.0, via Wikimedia Commons',
+                'varhany_net_id' => 710,
+                'perex' => 'Reprezentativní nástroj významných varhanářů Jakuba Ryšáka (z jeho varhan se dochovala jen skříň) a Františka Svítila.',
                 'description' => 'Z barokních dvoumanuálových varhan Jakuba Ryšáka z r. 1691 se zachovala pouze významná varhanní skříň. Nástroj Františka Svítila je zajímavým a ojedinělým dokladem varhanářství v 1. pol. 19. stol.',
                 'literature' => 'Krátký, Jiří a Svoboda, Štěpán. Nejvýznamnější varhany v České republice. 1. vydání. V Brně: CPress, 2019. 267 stran. ISBN 978-80-264-2859-6. (str. 34)',
             ],
@@ -474,9 +487,11 @@ class OrganSeeder extends Seeder
                 'manuals_count' => 2,
                 'outside_image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Kostel_NPM_Poln%C3%A1_1.JPG/640px-Kostel_NPM_Poln%C3%A1_1.JPG',
                 'outside_image_credits' => 'Jana Lánová, CC BY-SA 3.0, via Wikimedia Commons',
+                'varhany_net_id' => 1881,
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Poln%C3%A1%2C_Church_of_the_Assumption%2C_organ_%2802%29%2C_cropped.jpg/507px-Poln%C3%A1%2C_Church_of_the_Assumption%2C_organ_%2802%29%2C_cropped.jpg',
                 'image_credits' => 'Czeva, CC BY-SA 3.0, via Wikimedia Commons',
-                'description' => 'Velké a jedinečně zachovalé Sieberovy varhany.',
+                'perex' => 'Velké a jedinečně zachovalé Sieberovy varhany.',
+                'description' => 'Největší dochované Sieberovy varhany u nás. Po dlouhou dobu čekaly v sešlém stavu na své restaurování, které bylo dokončeno v r. 2017 spoluprací tří renomovaných restaurátorských firem (Dlabal-Mettler, Dalibor Michek, Marek Vorlíček).',
                 'literature' => <<<END
                     Sehnal, Jiří. Barokní varhanářství na Moravě. Vydání první. Brno: Muzejní a vlastivědná společnost v Brně, 2003-2018. 3 svazky. Prameny k dějinám a kultuře Moravy; č. 9, 10. Monografie. ISBN 80-7275-042-9. (2. díl, str. 210)
                     SOBOTKA, Petr. Jan David Sieber - osobnost českého barokního varhanáře [online]. Olomouc, 2012 [cit. 2022-05-01]. Dostupné z: https://theses.cz/id/nq8oe6/. Diplomová práce. Univerzita Palackého v Olomouci, Pedagogická fakulta. Vedoucí práce Doc. MgA. Petr Planý. (str. 48)
@@ -551,6 +566,7 @@ class OrganSeeder extends Seeder
                 'outside_image_credits' => 'Vladimír Jadrný, CC BY 3.0, via Wikimedia Commons',
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Konkatedr%C3%A1la_Opava%2C_Varhany.jpg/640px-Konkatedr%C3%A1la_Opava%2C_Varhany.jpg',
                 'image_credits' => 'Vojtěch Dočkal, CC BY-SA 4.0, via Wikimedia Commons',
+                'varhany_net_id' => 264,
                 'web' => <<<END
                     https://www.ebencompetition.cz/soutezni-varhany/varhany-v-konkatedrale-Nanebevzeti-Panny-Marie-v-Opave
                     http://www.anatomie-varhan.cz/texty/varhany/nastroje/opava/pm/P-Maria.htm
@@ -708,13 +724,14 @@ class OrganSeeder extends Seeder
                 'outside_image_credits' => 'VitVit, CC BY-SA 4.0, via Wikimedia Commons',
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Praha_Rudolfinum_Interior_2003.jpg/640px-Praha_Rudolfinum_Interior_2003.jpg',
                 'image_credits' => 'Photo: Andreas Praefcke, CC BY 3.0, via Wikimedia Commons',
+                'varhany_net_id' => 2410,
                 'web' => <<<END
                     https://www.rudolfinum.cz/blog/nejlepsi-povalecne-pistaly-rudolfinum-melo-s-varhanami-stesti/
                     https://www.klasikaplus.cz/serial/item/3297-varhany-a-varhanici-5-prvni-koncertni-varhany-v-praze
                     https://magazin.ceskafilharmonie.cz/varhany-ve-dvorakove-sini-rudolfina/
                     END,
                 'description' => 'Ve Dvořákově síni Rudolfina se vystřídalo několik nástrojů. Současné varhany stojí ve skříni z původních varhan Wilhelma Sauera z r. 1885. Jedná se o první čtyřmanuálové varhany s mechanickou trakturou u nás (pro jednoduchost konstrukce a snadnost hry se u takto velkých varhan používala spíše traktura elektrická). Na umělecké a technické koncepci varhan se podíleli mj. Jiří Reinberger, významný český koncertní varhaník, a německý varhanář Rudolf von Beckerath.',
-                'perex' => 'Reprezentativní koncertní nástroj poválečné produkce krnovské firmy Rieger-Kloss.',
+                'perex' => 'Jeden z nejkvalitnějších poválečných nástrojů firmy Rieger-Kloss, postavený z kvalitních materiálů a za účasti zahraničních odborníků',
                 'literature' => 'Krátký, Jiří a Svoboda, Štěpán. Nejvýznamnější varhany v České republice. 1. vydání. V Brně: CPress, 2019. 267 stran. ISBN 978-80-264-2859-6. (str. 208)',
             ],
             categories: [
@@ -743,6 +760,7 @@ class OrganSeeder extends Seeder
                 'outside_image_credits' => 'VitVit, CC BY-SA 4.0, via Wikimedia Commons',
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Svatojakubske-Varhany.jpg/640px-Svatojakubske-Varhany.jpg',
                 'image_credits' => 'Anton Fedorenko, CC BY-SA 3.0, via Wikimedia Commons',
+                'varhany_net_id' => 539,
                 'description' => 'V roce 1705 postavil do kostela velké dvoumanuálové varhany Abrahám Stark. Cenné varhany se zachovaly až do r. 1941, kdy byly Janem Tučkem s využitím části původního píšťalového fondu zcela přestavěny na romantický nástroj. Zdejší varhaník a iniciátor přestavby Bedřich Antonín Wiedermann toužil mít u sv. Jakuba především koncertní nástroj, schopný interpretace soudobé varhanní literatury. Tento požadavek byl nadřazen nad tehdy k nám již pronikající myšlenky varhanního hnutí, zdůrazňujícího úctu a obdiv k historickým barokním nástrojům. O vyřešení různých nedostatků Tučkových varhan se pokusila v 80. letech další přestavbou firma Rieger-Kloss. V roce 2011 provedla modernizaci hracího stolu firma Ponča.',
                 'perex' => 'Největší varhany v Praze jsou poznamenány řadou přestaveb. Každoročně hostí prestižní varhanní festival Audite organum.',
                 'web' => <<<END
@@ -910,14 +928,17 @@ class OrganSeeder extends Seeder
                 'importance' => 1,
                 'organ_builder_id' => 1,
                 'year_built' => 1937,
+                'renovation_organ_builder_id' => null,
+                'year_renovated' => 2009,
                 'stops_count' => 17,
                 'manuals_count' => 2,
                 'outside_image_url' => null,
                 'outside_image_credits' => null,
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Kostel_Velk%C3%BD_%C3%9Ajezd_front.JPG/360px-Kostel_Velk%C3%BD_%C3%9Ajezd_front.JPG',
                 'image_credits' => 'Dr. Killer, CC BY-SA 3.0, via Wikimedia Commons',
+                'varhany_net_id' => 3363,
                 'description' => null,
-                'perex' => 'Menší nástroj meziválečné produkce firmy Rieger, hojně využívaný v liturgickém a koncertním provozu',
+                'perex' => 'Menší nástroj meziválečné produkce firmy Rieger, hojně využívaný v liturgickém a koncertním provozu.',
                 'web' => <<<END
                     http://www.farnost.velkyujezd.cz/varhany
                     END,
@@ -986,6 +1007,7 @@ class OrganSeeder extends Seeder
                 'outside_image_credits' => 'Jana Sekyrová, CC BY-SA 4.0, via Wikimedia Commons',
                 'image_url' => 'https://i.ibb.co/gZVddX8/att-d-GBOhwjiyiu-FOh-Vau-VEAVJCy-E5q-ko-ZKWsh-WZu-Q3w-Ak.jpg',
                 'image_credits' => null,
+                'varhany_net_id' => 5712,
                 'concert_hall' => true,
                 'description' => null,
                 'perex' => null,
@@ -1042,6 +1064,70 @@ class OrganSeeder extends Seeder
                 OrganCategory::NeobaroqueUniversal,
                 OrganCategory::ActionPneumatical,
                 OrganCategory::WindchestKegel,
+            ],
+            rebuilds: [
+            ]
+        );
+        
+        // Vlkoš pro uživatele test@example.com
+        $this->insertOrgan(
+            data: [
+                'id' => 12,
+                'user_id' => 2,
+                'place' => 'kostel sv. Prokopa',
+                'municipality' => 'Vlkoš',
+                'latitude' => 49.3956308,
+                'longitude' => 17.4191319,
+                'region_id' => Region::Olomoucky,
+                'importance' => 1,
+                'organ_builder_id' => 2,
+                'year_built' => 1978,
+                'renovation_organ_builder_id' => null,
+                'year_renovated' => null,
+                'stops_count' => 14,
+                'manuals_count' => 2,
+                'outside_image_url' => null,
+                'outside_image_credits' => null,
+                'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Vlko%C5%A1_%28PR%29%2C_kostel.jpg/618px-Vlko%C5%A1_%28PR%29%2C_kostel.jpg',
+                'image_credits' => 'Palickap, CC BY-SA 3.0, via Wikimedia Commons',
+                'description' => null,
+                'perex' => 'Středně velké varhany s mechanickou trakturou, která varhaníkovi pomáhá v precizní hře na nástroj a u liturgických varhan venkovských kostelů je poměrně vzácná. Dojem z varhan umocňuje příznivá akustika kostela.',
+                'web' => null,
+                'literature' => null,
+                'disposition' => <<<END
+                    **Pedál**
+                    1\. Subbas 16'
+                    2. Oktávbas 8'
+                    3. Chorálbas 4'
+                
+                    **I. Manuál**
+                    4. Principál 8'
+                    5. Flétna trubicová 8'
+                    6. Oktáva 4'
+                    7. Seskvialtera 1-2x 2 2/3'
+                    8. Flétna zobcová 2'
+                    9. Mixtura 4-5x 1 1/3'
+                
+                    **II. Manuál**
+                    10. Kryt 8'
+                    11. Salicionál 8'
+                    12. Flétna dutá 4'
+                    13. Principál 2'
+                    14. Mixtura 3x 1'
+                
+                    rozsah manuálových klaviatur: C – g3
+                    rozsah pedálových klaviatur: C – f1
+                    celkem píšťal: 1068
+                
+                    spojky II/I, I/P, II/P
+                    tremolo I. Man., tremolo II. Man.
+                    END
+            ],
+            categories: [
+                OrganCategory::BuiltFrom1945To1989,
+                OrganCategory::NeobaroqueUniversal,
+                OrganCategory::ActionMechanical,
+                OrganCategory::WindchestSchleif,
             ],
             rebuilds: [
             ]

@@ -8,7 +8,7 @@
     id="{{ $id }}"
     class="form-select select2"
     wire:model="{{ $model }}"
-    data-placeholder="{{ __('Zvolte kraj') }}"
+    data-placeholder="{{ __('Zvolte kraj') }}..."
     @if ($allowClear) data-allow-clear="true" @endif
 >
     <option></option>

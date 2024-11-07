@@ -120,6 +120,11 @@ enum OrganCategory: int implements Category
         ]);
     }
     
+    public function getItemsUrl(): string
+    {
+        return route('organs.index', ['filterCategories' => [$this->value]]);
+    }
+    
     public static function getCategoryGroups()
     {
         $groups = ['generalCategories' => [], 'periodCategories' => [], 'technicalCategories' => []];

@@ -5,15 +5,18 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Database\Seeders\DatabaseSeeder;
 use App\Helpers;
 use App\Enums\Region;
 use App\Enums\OrganBuilderCategory;
 use App\Enums\OrganCategory;
+use App\Models\Competition;
 use App\Models\Festival;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\OrganRebuild;
+use App\Models\Scopes\OwnedEntityScope;
 use App\Services\RuntimeStatsService;
 
 class ImportData extends Command
@@ -36,6 +39,7 @@ class ImportData extends Command
     
     private $organs = [];
     private $organBuilders = [];
+    private $organOriginalIdOrganBaseId = [];
     
     // na varhanáře již importované v OrganBuilderCategory odkazují importované varhany, proto potřebujeme mapování ID
     const ORGAN_BUILDERS_ORIGINAL_ID_2_BASE_ID = [
@@ -70,6 +74,21 @@ class ImportData extends Command
         63 => 43,
         35 => 44,
         129 => 47,
+    ];
+    
+    const ORGAN_BUILDER_ORIGINAL_ID_RENOVATED_ORGAN_BASE_ID = [
+        67 => 3,
+        73 => 4,
+        66 => 10,
+    ];
+    
+    const COMPETITION_BASE_ID_ORGAN_ORIGINAL_ID = [
+        1 => [92, 93, 134],
+        2 => [27],
+        5 => [133],
+        6 => [98],
+        7 => [97],
+        8 => [9, 100, 103, 70],
     ];
     
     /**
@@ -137,6 +156,7 @@ class ImportData extends Command
                 'region_id' => $regionId,
                 'importance' => $importance,
                 'web' => $this->getNullableValue($web),
+                'varhany_net_id' => $this->getVarhanyNetId($varhanyNetId),
                 'workshop_members' => $this->getNullableValue($workshopMembers),
                 'perex' => null,
                 'description' => $this->getNullableValue($description),
@@ -162,6 +182,18 @@ class ImportData extends Command
                 );
                 $organBuilder->organBuilderCategories()->attach($categoryIds);
             }
+         
+            // HACK: u varhan, který vložil již dříve OrganSeeder, je renovation_organ_builder_id nutné doplnit nyní
+            $organBaseId = static::ORGAN_BUILDER_ORIGINAL_ID_RENOVATED_ORGAN_BASE_ID[$originalId] ?? null;
+            if ($organBaseId !== null) {
+                foreach (Arr::wrap($organBaseId) as $organBaseId1) {
+                    Organ::query()
+                        ->withoutGlobalScope(OwnedEntityScope::class)
+                        ->find($organBaseId1)
+                        ->fill(['renovation_organ_builder_id' => $organBuilder->id])
+                        ->save();
+                }
+            }
         }
     }
     
@@ -174,11 +206,11 @@ class ImportData extends Command
             $municipality, $place, $region,,
             $organBuilder,, $organBuilderIds, $organBuilderBaseId,
             $latitude, $longitude,, $yearBuilt,
-            $manuals_count, $stops_count, $type,,,,,,,,
+            $manuals_count, $stops_count, $type,,,,,, $renovationOrganBuilderId, $renovationOrganBuilderBaseId, $yearRenovated,,
             $importance,,
             $builtTo1799, $builtFrom1800To1944, $builtFrom1945To1989, $builtFrom1990,
             $renaissance, $baroque, $romantic, $neobaroqueUniversal, $oldest, $biggest, $organBox,, $concertHall,, $importanceReason,
-            $literature,, $web, ,, $description,,,,, $imageUrl, $imageCredits, $outsideImageUrl, $outsideImageCredits
+            $literature,, $web, $varhanyNetId,, $description,,,,, $imageUrl, $imageCredits, $outsideImageUrl, $outsideImageCredits
         ]) {
             if ($i <= 1) continue;      // záhlaví
             if ($baseData) continue;    // importuje OrganSeeder
@@ -188,6 +220,7 @@ class ImportData extends Command
             $regionId = $region !== '' ? $this->getRegionId($region) : null;
             $literature = $this->getLiterature($literature);
             
+            // varhanář
             if ($organBuilderBaseId !== '') {
                 $organBuilderIds = [$organBuilderBaseId];
                 $organBuilderId1 = $organBuilderBaseId;
@@ -205,6 +238,15 @@ class ImportData extends Command
                     $yearBuilt1 = $matches[0];
                 }    
             }
+            
+            // restaurování
+            if ($renovationOrganBuilderBaseId !== '') {
+                $renovationOrganBuilderId = $renovationOrganBuilderBaseId;
+            }
+            else {
+                $renovationOrganBuilderId = $this->findOrganBuilder($renovationOrganBuilderId)?->id;
+            }
+            if ($yearRenovated) $yearRenovated = (int)$yearRenovated;
             
             // ve údaji může být více webů oddělených středníkem
             $web = str_replace('; ', "\n", $web);
@@ -224,6 +266,8 @@ class ImportData extends Command
                 'importance' => $importance,
                 'organ_builder_id' => $organBuilderId1,
                 'year_built' => $yearBuilt1,
+                'renovation_organ_builder_id' => $this->getNullableValue($renovationOrganBuilderId),
+                'year_renovated' => $this->getNullableValue($yearRenovated),
                 'stops_count' => $this->getNullableValue($stops_count),
                 'manuals_count' => $this->getNullableValue($manuals_count),
                 'concert_hall' => $concertHall ? 1 : 0,
@@ -232,6 +276,7 @@ class ImportData extends Command
                 'outside_image_url' => $this->getNullableValue($outsideImageUrl),
                 'outside_image_credits' => $this->getNullableValue($outsideImageCredits),
                 'web' => $this->getNullableValue($web),
+                'varhany_net_id' => $this->getVarhanyNetId($varhanyNetId),
                 'perex' => null,
                 'description' => $this->getNullableValue($description),
                 'literature' => $this->getNullableValue($literature),
@@ -239,6 +284,7 @@ class ImportData extends Command
             ]);
             $organ->save();
             $this->organs[$organ->id] = $organ;
+            $this->organOriginalIdOrganBaseId[$originalId] = $organ->id;
             
             $categories = [];
             if ($builtTo1799) $categories[] = OrganCategory::BuiltTo1799;
@@ -288,6 +334,15 @@ class ImportData extends Command
                 }
             }
         }
+        
+        foreach (static::COMPETITION_BASE_ID_ORGAN_ORIGINAL_ID as $competitionBaseId => $organOriginalId) {
+            $baseIds = Collection::wrap($organOriginalId)->map(
+                fn($originalId) => $this->organOriginalIdOrganBaseId[$originalId]
+            );
+            Competition::find($competitionBaseId)
+                ->organs()
+                ->attach($baseIds);
+        }
     }
     
     private function getDisposition($originalId)
@@ -306,7 +361,8 @@ class ImportData extends Command
             'ep', 'p/e' => [OrganCategory::ActionElectrical, OrganCategory::ActionPneumatical],
             'epk' => [OrganCategory::ActionElectrical, OrganCategory::ActionPneumatical, OrganCategory::WindchestKegel],
             'm' => [OrganCategory::ActionMechanical],
-            'm-Bkk', 'm-Bkk-mBk' => [OrganCategory::ActionBarker],
+            'm-Bkk', 'm-Bkk-mBk' => [OrganCategory::ActionBarker, OrganCategory::WindchestKegel],
+            'm-Bkz' => [OrganCategory::ActionBarker, OrganCategory::WindchestSchleif],
             'mez', 'mz; rejstříková traktura elektrická' => [OrganCategory::ActionMechanical, OrganCategory::ActionElectrical, OrganCategory::WindchestSchleif],
             'mk' => [OrganCategory::ActionMechanical, OrganCategory::WindchestKegel],
             'mk-p' => [OrganCategory::ActionMechanical, OrganCategory::WindchestKegel, OrganCategory::ActionPneumatical],
@@ -332,6 +388,11 @@ class ImportData extends Command
     private function getPlaceOfBirthDeath($place)
     {
         return ($place !== '' && $place !== '?') ? $place : null;
+    }
+    
+    private function getVarhanyNetId($varhanyNetId)
+    {
+        return ($varhanyNetId !== '' && $varhanyNetId !== '?') ? $varhanyNetId : null;
     }
     
     private function getRegionId($region)

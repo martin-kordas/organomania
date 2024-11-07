@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\QrController;
+use App\Http\Controllers\SitemapController;
 
 Route::middleware(["auth"])->group(function () {
     Volt::route('dispositions/create', 'pages.disposition-edit')
@@ -38,6 +40,9 @@ Route::middleware(["auth"])->group(function () {
 Route::view('/', 'welcome')
     ->name('welcome');
 
+Route::get('sitemap.xml', SitemapController::class);
+Route::get('qr', QrController::class);
+
 // zatím nelze smazat, protože na routu se odkazuje
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -67,6 +72,13 @@ Route::get('export/organ-builders', [ExportController::class, 'exportOrganBuilde
 
 Volt::route('festivals', 'pages.festivals')
     ->name('festivals.index');
+Volt::route('festivals/{festival}', 'pages.festival-show')
+    ->name('festivals.show');
+
+Volt::route('competitions', 'pages.competitions')
+    ->name('competitions.index');
+Volt::route('competitions/{competition}', 'pages.competition-show')
+    ->name('competitions.show');
 
 Volt::route('dispositions', 'pages.dispositions')
     ->name('dispositions.index');
@@ -74,6 +86,8 @@ Volt::route('dispositions/diff', 'pages.disposition-diff')
     ->name('dispositions.diff');
 Volt::route('dispositions/registers', 'pages.registers')
     ->name('dispositions.registers.index');
+Volt::route('dispositions/registers/{registerName}', 'pages.register-show')
+    ->name('dispositions.registers.show');
 Volt::route('dispositions/{disposition}', 'pages.disposition-show')
     ->name('dispositions.show');
 

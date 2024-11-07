@@ -46,6 +46,11 @@ class Organ extends Model
         return $this->belongsTo(OrganBuilder::class);
     }
     
+    public function renovationOrganBuilder()
+    {
+        return $this->belongsTo(OrganBuilder::class, 'renovation_organ_builder_id');
+    }
+    
     public function organCategories()
     {
         return $this->belongsToMany(OrganCategory::class)->withTimestamps()->orderBy('id');
@@ -74,6 +79,12 @@ class Organ extends Model
     public function dispositions()
     {
         return $this->hasMany(Disposition::class)->orderBy('name');
+    }
+    
+    public function getThumbnailImage()
+    {
+        if (isset($this->image_url))
+            return ['image_url' => $this->image_url, 'image_credits' => $this->image_credits];
     }
     
     #[SearchUsingFullText(['description', 'perex'])]

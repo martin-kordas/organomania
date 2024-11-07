@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Helpers;
 use App\Enums\DispositionLanguage;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class RegisterName extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
     
     public function register()
     {
@@ -20,5 +21,14 @@ class RegisterName extends Model
     protected function language(): Attribute
     {
         return Helpers::makeEnumAttribute('language', DispositionLanguage::from(...));
+    }
+    
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => ['name']
+            ]
+        ];
     }
 }

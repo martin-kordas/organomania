@@ -37,11 +37,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->exportRoute = 'organ-builders.export';
         $this->customCategoriesRoute = 'organ-builders.organ-builder-custom-categories';
         $this->customCategoryRoute = 'organ-builders.custom-category-organ-builders.index';
-        $this->categorySelectPlaceholder = __('Zvolte kategorii varhanářů...');
+        $this->categorySelectPlaceholder = __('Zvolte kategorii varhanářů');
         $this->gateUseCustomCategories = 'useOrganBuilderCustomCategories';
         $this->gateLike = 'likeOrganBuilders';
         $this->entityPageViewComponent = 'organ-builders-view';
         $this->entityClass = OrganBuilder::class;
+        $this->entityNamePluralAkuzativ = __('varhanáře');
         $this->title = __('Varhanáři');
     }
 
@@ -69,4 +70,4 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
 }; ?>
 
-<x-organomania.entity-page />
+<x-organomania.entity-page :metaDescription="__('Prohlédněte si historické i soudobé varhanářské dílny na území ČR. Zjistěte jejich stylové zařazení (barokní, romantické varhanářství) a nejslavnější postavené varhany.')" />

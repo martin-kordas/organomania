@@ -10,6 +10,9 @@ use App\Repositories\OrganRepository;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\Disposition;
+use App\Models\Competition;
+use App\Models\Festival;
+use App\Models\RegisterName;
 use App\Models\User;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Listeners\EntityEventSubscriber;
@@ -77,6 +80,9 @@ class AppServiceProvider extends ServiceProvider
             'organ' => Organ::class,
             'organBuilder' => OrganBuilder::class,
             'disposition' => Disposition::class,
+            'festival' => Festival::class,
+            'competition' => Competition::class,
+            'registerName' => RegisterName::class,
         ];
         foreach ($modelBindings as $modelBinding => $modelClass) {
             Route::bind($modelBinding, function (string $value) use ($modelClass) {

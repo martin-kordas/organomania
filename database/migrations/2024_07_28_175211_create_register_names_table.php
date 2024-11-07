@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('register_names', function (Blueprint $table) {
             $table->id();
             $table->foreignId('register_id')->constrained();
+            $table->string('slug', length: 500);
             $table->string('name', length: 100);
             $table->string('language', length: 10);
             $table->timestamps();

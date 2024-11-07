@@ -110,7 +110,10 @@ new class extends Component {
                                     @endif
                                     <br />
                                     <small class="hstack text-secondary">
-                                        {!! $this->highlight($organ->organBuilder?->name ?? __('neznámý varhanář')) !!} ({{ $organ->year_built }})
+                                        {!! $this->highlight($organ->organBuilder?->name ?? __('neznámý varhanář')) !!}
+                                        @isset($organ->year_built)
+                                            ({{ $organ->year_built }})
+                                        @endisset
                                         <x-organomania.stars class="ms-auto" :count="round($organ->importance / 2)" />
                                     </small>
                                 </a>

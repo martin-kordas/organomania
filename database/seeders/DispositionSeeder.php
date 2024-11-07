@@ -358,7 +358,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 5,
                 'name' => 'Olomouc, bazilika Navštívení Panny Marie (Svatý Kopeček) – současný stav (1998)',
-                'organ_id' => 50,
+                'organ_id' => 51,
                 'keyboard_numbering' => false,
                 'numbering' => true,
                 'language' => DispositionLanguage::Czech,
@@ -420,7 +420,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 6,
                 'name' => 'Olomouc, katedrála sv. Václava – velké varhany – uspořádání podle strojů',
-                'organ_id' => 54,
+                'organ_id' => 55,
                 'keyboard_numbering' => false,
                 'numbering' => false,
                 'language' => DispositionLanguage::German,
@@ -495,7 +495,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 7,
                 'name' => 'Olomouc, katedrála sv. Václava – velké varhany – uspořádání podle hracího stolu',
-                'organ_id' => 54,
+                'organ_id' => 55,
                 'keyboard_numbering' => false,
                 'numbering' => true,
                 'language' => DispositionLanguage::German,
@@ -584,7 +584,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 8,
                 'name' => 'Olomouc, katedrála sv. Václava – chorální varhany',
-                'organ_id' => 121,
+                'organ_id' => 122,
                 'keyboard_numbering' => true,
                 'numbering' => true,
                 'language' => DispositionLanguage::Czech,
@@ -638,7 +638,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 9,
                 'name' => 'Olomouc, kostel Panny Marie Sněžné – původní stav (1730)',
-                'organ_id' => 49,
+                'organ_id' => 50,
                 'keyboard_numbering' => true,
                 'numbering' => true,
                 'language' => DispositionLanguage::German,
@@ -688,7 +688,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 10,
                 'name' => 'Olomouc, kostel Panny Marie Sněžné – současný stav (1977)',
-                'organ_id' => 49,
+                'organ_id' => 50,
                 'keyboard_numbering' => true,
                 'numbering' => true,
                 'language' => DispositionLanguage::German,
@@ -742,7 +742,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 11,
                 'name' => 'Praha, kostel Matky Boží před Týnem (Staré Město)',
-                'organ_id' => 73,
+                'organ_id' => 74,
                 'keyboard_numbering' => true,
                 'numbering' => true,
                 'language' => DispositionLanguage::German,
@@ -794,7 +794,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 12,
                 'name' => 'Příbram, kostel Nanebevzetí Panny Marie (Svatá Hora)',
-                'organ_id' => 97,
+                'organ_id' => 98,
                 'keyboard_numbering' => true,
                 'numbering' => false,
                 'language' => DispositionLanguage::German,
@@ -861,7 +861,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 13,
                 'name' => 'Praha, kostel sv. Petra a Pavla (Vyšehrad)',
-                'organ_id' => 82,
+                'organ_id' => 83,
                 'keyboard_numbering' => true,
                 'numbering' => false,
                 'language' => DispositionLanguage::Czech,
@@ -939,7 +939,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 14,
                 'name' => 'Uničov, klášterní kostel Povýšení sv. Kříže',
-                'organ_id' => 109,
+                'organ_id' => 110,
                 'keyboard_numbering' => true,
                 'numbering' => true,
                 'language' => DispositionLanguage::Czech,
@@ -1045,7 +1045,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 15,
                 'name' => 'Olomouc, kostel Panny Marie Pomocnice křesťanů (Hodolany)',
-                'organ_id' => 122,
+                'organ_id' => 123,
                 'keyboard_numbering' => false,
                 'numbering' => true,
                 'language' => DispositionLanguage::Czech,
@@ -1124,7 +1124,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 16,
                 'name' => 'Olomouc, kostel svatého Cyrila a Metoděje (Hejčín) – původní stav (1931)',
-                'organ_id' => 123,
+                'organ_id' => 124,
                 'keyboard_numbering' => false,
                 'numbering' => true,
                 'language' => DispositionLanguage::Czech,
@@ -1184,7 +1184,7 @@ class DispositionSeeder extends Seeder
             data: [
                 'id' => 17,
                 'name' => 'Olomouc, kostel svatého Cyrila a Metoděje (Hejčín) – současný stav (2020)',
-                'organ_id' => 123,
+                'organ_id' => 124,
                 'keyboard_numbering' => false,
                 'numbering' => true,
                 'language' => DispositionLanguage::Czech,
@@ -1300,6 +1300,47 @@ class DispositionSeeder extends Seeder
                 I/P 8'
                 II/P 8'
                 III/P 8'
+                END);
+        
+        $this->insertDisposition(
+            data: [
+                'id' => 19,
+                'name' => 'Vlkoš, kostel sv. Prokopa',
+                'user_id' => 2,
+                'organ_id' => 12,
+                'keyboard_numbering' => false,
+                'numbering' => true,
+                'language' => DispositionLanguage::Czech,
+                'appendix' => <<<END
+                    Rieger-Kloss, opus 3475
+                    rozsah manuálových klaviatur: C – g3
+                    rozsah pedálových klaviatur: C – f1
+                    celkem píšťal: 1068
+                    spojky II/I, I/P, II/P
+                    tremolo I. Man., tremolo II. Man.
+                    END,
+                'description' => null,
+            ],
+            dispositionText: <<<END
+                Pedál
+                Subbas 16'
+                Oktávbas 8'
+                Chorálbas 4'
+
+                I. Manuál
+                Principál 8'
+                Flétna trubicová 8'
+                Oktáva 4'
+                Seskvialtera 1-2x 2 2/3'
+                Flétna zobcová 2'
+                Mixtura 4-5x 1 1/3'
+
+                II. Manuál
+                Kryt 8'
+                Salicionál 8'
+                Flétna dutá 4'
+                Principál 2'
+                Mixtura 3x 1'
                 END);
     }
     

@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('importance')->comment("1 (lowest) to 10 (greatest)");
             $table->foreignId('organ_builder_id')->nullable()->constrained();
             $table->integer('year_built')->nullable();
+            $table->foreignId('renovation_organ_builder_id')->nullable()->constrained('organ_builders');
+            $table->integer('year_renovated')->nullable();
             $table->integer('stops_count')->nullable();
             $table->integer('manuals_count')->nullable();
             $table->integer('concert_hall')->default(0);
@@ -30,6 +32,7 @@ return new class extends Migration
             $table->string('outside_image_url', length: 500)->nullable();
             $table->string('outside_image_credits', length: 500)->nullable();
             $table->string('web', length: 500)->nullable();
+            $table->integer('varhany_net_id')->nullable();
             $table->text('perex')->nullable();
             $table->text('description')->nullable();
             $table->text('literature')->nullable();

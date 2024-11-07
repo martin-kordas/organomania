@@ -33,17 +33,19 @@
             </a>
         </li>
 
-        @can($this->gateLikeEntity, $record)
-            <li>
-                <a @class(['dropdown-item', 'text-bg-danger' => $this->isOrganLiked($record)]) href="#" wire:click="likeToggle({{ $record->id }})">
-                    <i class="bi-heart"></i>
-                    @if ($this->isOrganLiked($record))
-                        {{ __('Odebrat z oblíbených') }}
-                    @else
-                        {{ __('Přidat do oblíbených') }}
-                    @endif
-                </a>
-            </li>
-        @endcan
+        @if ($this->isLikeable)
+            @can($this->gateLikeEntity, $record)
+                <li>
+                    <a @class(['dropdown-item', 'text-bg-danger' => $this->isOrganLiked($record)]) href="#" wire:click="likeToggle({{ $record->id }})">
+                        <i class="bi-heart"></i>
+                        @if ($this->isOrganLiked($record))
+                            {{ __('Odebrat z oblíbených') }}
+                        @else
+                            {{ __('Přidat do oblíbených') }}
+                        @endif
+                    </a>
+                </li>
+            @endcan
+        @endif
     </ul>
 </div>

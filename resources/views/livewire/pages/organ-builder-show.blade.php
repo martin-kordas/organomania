@@ -30,7 +30,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->title($this->organBuilder->name);
+        $title = $this->organBuilder->name;
+        // alternativy: varhanářská výroba, výroba varhan
+        $type = __($this->organBuilder->is_workshop ? 'varhanářství' : 'varhanář');
+        $title .= " - $type";
+        $view->title($title);
     }
 
     #[Computed]
@@ -50,7 +54,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function previousUrl()
     {
         $previousUrl = url()->previous();
-        if ($previousUrl === route('organ-builders.edit', [$this->organBuilder->id])) {
+        if ($previousUrl === route('welcome') || $previousUrl === route('organ-builders.edit', [$this->organBuilder->id])) {
             return route('organ-builders.index');
         }
         return $previousUrl;
@@ -127,16 +131,41 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <tr>
             <th>{{ __('Web') }}</th>
             <td>
-                <a href="{{ $organBuilder->web }}" target="_blank">{{ $organBuilder->web }}</a>
+                <a class="icon-link icon-link-hover" target="_blank" href="{{ $organBuilder->web }}">
+                    <i class="bi bi-link-45deg"></i>
+                    {{ str($organBuilder->web)->limit(65) }}
+                </a>
             </td>
         </tr>
         @endif
+        @isset($organBuilder->varhany_net_id)
+            <tr>
+                <th>{{ __('Rejstřík varhanářů') }}</th>
+                <td>
+                    <a class="icon-link icon-link-hover" target="_blank" href="{{ url()->query('http://www.varhany.net/zivotopis.php', ['idv' => $organBuilder->varhany_net_id]) }}">
+                        <i class="bi bi-link-45deg"></i>
+                        varhany.net
+                    </a>
+                </td>
+            </tr>
+        @endisset
         @if ($organBuilder->organs->isNotEmpty())
             <tr>
                 <th>{{ __('Významné varhany') }}</th>
                 <td>
                     @foreach ($organBuilder->organs as $organ)
                         <x-organomania.organ-link :organ="$organ" />
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
+                </td>
+            </tr>
+        @endif
+        @if ($organBuilder->renovatedOrgans->isNotEmpty())
+            <tr>
+                <th>{{ __('Rekonstrukce/restaurování') }}</th>
+                <td>
+                    @foreach ($organBuilder->renovatedOrgans as $organ)
+                        <x-organomania.organ-link :organ="$organ" :year="$organ->year_renovated" />
                         @if (!$loop->last) <br /> @endif
                     @endforeach
                 </td>
@@ -164,14 +193,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </table>
         
     <div class="accordion">
-        <x-organomania.accordion-item
-            id="accordion-map"
-            title="{{ __('Mapa') }}"
-            :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
-            onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
-        >
-            <x-organomania.map-detail :latitude="$organBuilder->latitude" :longitude="$organBuilder->longitude" />
-        </x-organomania.accordion-item>
+        @isset($organBuilder->region_id)
+            <x-organomania.accordion-item
+                id="accordion-map"
+                title="{{ __('Mapa') }}"
+                :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
+                onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
+            >
+                <x-organomania.map-detail :latitude="$organBuilder->latitude" :longitude="$organBuilder->longitude" />
+            </x-organomania.accordion-item>
+        @endisset
         
         @isset($organBuilder->literature)
             <x-organomania.accordion-item
@@ -188,9 +219,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
     
     <div class="text-end mt-3">
-        <a class="btn btn-sm btn-secondary" href="{{ $this->previousUrl }}" wire:navigate><i class="bi-arrow-return-left"></i> Zpět</a>&nbsp;
+        <a class="btn btn-sm btn-secondary" href="{{ $this->previousUrl }}" wire:navigate><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>&nbsp;
         @can('update', $organBuilder)
-            <a class="btn btn-sm btn-outline-primary" href="{{ route('organ-builders.edit', ['organBuilder' => $organBuilder->id]) }}" wire:navigate><i class="bi-pencil"></i> Upravit</a>
+            <a class="btn btn-sm btn-outline-primary" href="{{ route('organ-builders.edit', ['organBuilder' => $organBuilder->id]) }}" wire:navigate><i class="bi-pencil"></i> {{ __('Upravit') }}</a>
         @endcan
     </div>
 </div>

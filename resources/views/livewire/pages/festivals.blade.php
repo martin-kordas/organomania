@@ -30,6 +30,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ['column' => 'name', 'label' => 'Název', 'type' => 'alpha'],
         ['column' => 'locality', 'label' => 'Lokalita', 'type' => 'alpha'],
         ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric'],
+        ['column' => 'starting_month', 'label' => 'Období', 'type' => 'numeric'],
     ];
 
     public function boot(FestivalRepository $repository, Festival $model)
@@ -51,13 +52,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->gateLike = null;
         $this->entityPageViewComponent = 'festivals-view';
         $this->entityClass = Festival::class;
+        $this->entityNamePluralAkuzativ = __('festivaly');
         $this->filters[] = 'filterNameLocality';
-        $this->title = __('Festivaly');
+        $this->title = __('Festivaly varhanní hudby');
     }
 
     public function mount()
     {
-        $this->perPage = 12;
+        $this->sortColumn = 'starting_month';
+        $this->sortDirection = 'asc';
         $this->mountCommon();
     }
 
@@ -78,4 +81,4 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
 }; ?>
 
-<x-organomania.entity-page />
+<x-organomania.entity-page :metaDescription="__('Objevte prestižní hudební festivaly a koncerty varhanní hudby v celé ČR. Navštivte sólové varhanní recitály i vokálně-instrumentální koncerty špičkových umělců.')" />

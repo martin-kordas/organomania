@@ -1,8 +1,16 @@
+@props(['metaDescription'])
+
 @php
     use App\Models\Festival;
+    use App\Models\Competition;
+    use App\Helpers;
 @endphp
 
 <div class="entity-page">
+    @push('meta')
+        <meta name="description" content="{{ $metaDescription }}">
+    @endpush
+    
     {{-- fixní tlačítka na pravé straně (řazení, filtrace...) --}}
     <div class="buttons side-buttons float-end z-2 position-relative">
         <div class="position-fixed ms-2">
@@ -45,13 +53,13 @@
                             @foreach (static::SORT_OPTIONS as $sortOption)
                                 <li>
                                     <a href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'asc')]) wire:click="sort('{{ $sortOption['column'] }}', 'asc')">
-                                        {{ $sortOption['label'] }} ({{ __('vzestupně') }})
+                                        {{ __($sortOption['label']) }} ({{ __('vzestupně') }})
                                         <i class="float-end bi-sort-{{ $sortOption['type'] }}-up"></i>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'desc')]) wire:click="sort('{{ $sortOption['column'] }}', 'desc')">
-                                        {{ $sortOption['label'] }} ({{ __('sestupně') }})
+                                        {{ __($sortOption['label']) }} ({{ __('sestupně') }})
                                         <i class="float-end bi-sort-{{ $sortOption['type'] }}-down-alt"></i>
                                     </a>
                                 </li>
@@ -96,9 +104,9 @@
         @if ($this->showQuickFilter)
             <form class="filters container-sm mb-2 ps-0">
                 <div class="row gx-4 gy-2 justify-content-center align-items-center">
-                    @if ($this->entityClass === Festival::class)
+                    @if (in_array($this->entityClass, [Festival::class, Competition::class]))
                         <div class="col col-md-6">
-                            <input id="filterNameLocality" size="30" class="form-control" type="search" wire:model.live="filterNameLocality" placeholder="{{ __('Hledat festivaly') }}&hellip;" />
+                            <input id="filterNameLocality" size="30" class="form-control" type="search" wire:model.live="filterNameLocality" placeholder="{{ __('Hledat') }} {{ $this->entityNamePluralAkuzativ }}&hellip;" />
                         </div>
                     @else
                         <div class="col-md-8 col-lg-7 col-xl-6 hstack">
@@ -109,7 +117,7 @@
                                 <x-organomania.selects.organ-category-select
                                     id="quickFilterCategories"
                                     model="filterCategories"
-                                    placeholder="{{ $this->categorySelectPlaceholder }}"
+                                    placeholder="{{ $this->categorySelectPlaceholder }}..."
                                     :categoriesGroups="$this->organCategoriesGroups"
                                     :customCategoriesGroups="$this->organCustomCategoriesGroups"
                                     :allowClear="true"
@@ -164,6 +172,36 @@
             </ul>
             </div>
         </div>
+      
+        @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && $this->viewType !== 'map')
+        @php($showSortHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && $this->viewType !== 'map')
+        @php($showCompetitionsWarning = $this->entityClass === Competition::class)
+        
+        @if ($showFilterRegionHint)
+            <div class="text-center">
+                <x-organomania.info-alert @class(['d-inline-block', 'mb-1', 'mb-3' => !$showSortHint])>
+                    {{ __('Objevte :entityName přímo', ['entityName' => $this->entityNamePluralAkuzativ]) }}
+                    <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#filtersModal" @click="useRegionFilter()">{{ __('ve vašem kraji') }}</a>.
+                </x-organomania.info-alert>
+            </div>
+        @endif
+        
+        @if ($showSortHint)
+            <div class="text-center">
+                <x-organomania.info-alert class="d-inline-block mb-3">
+                    {{ __('Namísto období konání seřaďte festivaly') }}
+                    <a class="link-primary text-decoration-none" href="#" wire:click="sort('importance', 'desc')">{!! __('podle významu') !!}</a>.
+                </x-organomania.info-alert>
+            </div>
+        @endif
+        
+        @if ($showCompetitionsWarning) 
+            <div class="text-center">
+                <x-organomania.warning-alert class="d-inline-block mb-3 asds">
+                    {!! __('Uváděné parametry soutěží vychází z posledního známého ročníku a <strong>nemusí být aktuální</strong>! Pro aktuální informace navštivte vždy oficiální web soutěže.') !!}
+                </x-organomania.warning-alert>
+            </div>
+        @endif
 
         <livewire:dynamic-component
             :is="$this->entityPageViewComponent"
@@ -178,7 +216,7 @@
             :sortOptions="static::SORT_OPTIONS"
             :isCustomCategoryOrgans="$this->isCustomCategoryOrgans"
             :activeFiltersCount="$this->activeFiltersCount"
-            lazy
+            :lazy="!Helpers::isCrawler()"
         />
         
         <x-organomania.modals.organ-filters-modal
@@ -191,3 +229,14 @@
         />
     </div>
 </div>
+
+@script
+<script>
+    window.useRegionFilter = function () {
+        setTimeout(
+            () => $('#filterRegion').select2('open'),
+            500
+        );
+    }
+</script>
+@endscript

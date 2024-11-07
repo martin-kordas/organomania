@@ -38,6 +38,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function rendering(View $view): void
     {
         $title = "{$this->organ->municipality}, {$this->organ->place}";
+        $title .= ' - ' . __('varhany');
         $view->title($title);
     }
 
@@ -72,7 +73,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function previousUrl()
     {
         $previousUrl = url()->previous();
-        if ($previousUrl === route('organs.edit', [$this->organ->id])) {
+        if ($previousUrl === route('welcome') || $previousUrl === route('organs.edit', [$this->organ->id])) {
             return route('organs.index');
         }
         return $previousUrl;
@@ -133,6 +134,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <td>{{ $organ->year_built }}</td>
             </tr>
         @endif
+        @if ($organ->renovationOrganBuilder)
+            <tr>
+                <th>{{ __('Rekonstrukce/restaurování') }}</th>
+                <td>
+                    <x-organomania.organ-builder-link :organBuilder="$organ->renovationOrganBuilder" :yearBuilt="$organ->year_renovated" />
+                </td>
+            </tr>
+        @endif
         <tr>
             <th>{{ __('Kraj') }}</th>
             <td>{{ $organ->region->name }}</td>
@@ -173,20 +182,39 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <th>{{ __('Web') }}</th>
                 <td>
                     @foreach (explode("\n", $organ->web) as $url)
-                        <a href="{{ $url }}" target="_blank">{{ $url }}</a>
+                        <a class="icon-link icon-link-hover" target="_blank" href="{{ $url }}">
+                            <i class="bi bi-link-45deg"></i>
+                            {{ str($url)->limit(65) }}
+                        </a>
                         @if (!$loop->last) <br /> @endif
                     @endforeach
                 </td>
             </tr>
         @endif
+        @isset($organ->varhany_net_id)
+            <tr>
+                <th>{{ __('Rejstřík varhan') }}</th>
+                <td>
+                    <a class="icon-link icon-link-hover" target="_blank" href="{{ url()->query('http://www.varhany.net/cardheader.php', ['lok' => $organ->varhany_net_id]) }}">
+                        <i class="bi bi-link-45deg"></i>
+                        varhany.net
+                    </a>
+                </td>
+            </tr>
+        @endisset
         @if ($organ->festivals->isNotEmpty())
             <tr>
                 <th>{{ __('Významné festivaly') }}</th>
                 <td>
                     @foreach ($organ->festivals as $festival)
-                        <a wire:navigate href="{{ route('festivals.index', ['viewType' => 'thumbnails', 'id' => $festival->id]) }}">
+                        <a class="link-primary text-decoration-none" wire:navigate href="{{ route('festivals.show', [$festival->id]) }}">
                             {{ $festival->name }}
                         </a>
+                        @if (isset($festival->locality) || isset($festival->frequency))
+                            <span class="text-body-secondary">
+                                ({{ collect([$festival->locality ?? null, $festival->frequency ?? null])->filter()->join(', ') }})
+                            </span>
+                        @endif
                         @if (!$loop->last) <br /> @endif
                     @endforeach
                 </td>

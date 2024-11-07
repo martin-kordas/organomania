@@ -32,7 +32,7 @@ class OrganBuilderResource extends JsonResource
             'description' => $this->description,
             
             'categories' => $this->organBuilderCategories->map(
-                fn(OrganBuilderCategory $category) => $category->getName()
+                fn(OrganBuilderCategory $category) => __($category->getName())
             ),
             'custom_categories' => $this->when(
                 $request->user()?->isAdmin(),

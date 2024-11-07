@@ -56,11 +56,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->exportRoute = 'organs.export';
         $this->customCategoriesRoute = 'organs.organ-custom-categories';
         $this->customCategoryRoute = 'organs.custom-category-organs.index';
-        $this->categorySelectPlaceholder = __('Zvolte kategorii varhan...');
+        $this->categorySelectPlaceholder = __('Zvolte kategorii varhan');
         $this->gateUseCustomCategories = 'useOrganCustomCategories';
         $this->gateLike = 'likeOrgans';
         $this->entityPageViewComponent = 'organs-view';
         $this->entityClass = Organ::class;
+        $this->entityNamePluralAkuzativ = __('varhany');
         $this->filters[] = 'filterOrganBuilderId';
         $this->filters[] = 'filterConcertHall';
         $this->filters[] = 'filterHasDisposition';
@@ -96,4 +97,4 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
 }; ?>
 
-<x-organomania.entity-page />
+<x-organomania.entity-page :metaDescription="__('Prohlédněte si nejvýznamnější varhany v České republice. Zjistěte jejich stylové zařazení, seznam rejstříků (dispozici) a varhanáře, který je postavil.')" />

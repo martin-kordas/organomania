@@ -42,7 +42,7 @@ class OrganResource extends JsonResource
                     ]
                 ),
             'categories' => $this->organCategories->map(
-                fn(OrganCategoryModel $category) => $category->getName()
+                fn(OrganCategoryModel $category) => __($category->getName())
             ),
             'custom_categories' => $this->when(
                 $request->user()?->isAdmin(),

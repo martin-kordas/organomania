@@ -58,6 +58,11 @@ class OrganBuilder extends Model
         return $this->hasMany(Organ::class)->orderBy('year_built');
     }
     
+    public function renovatedOrgans()
+    {
+        return $this->hasMany(Organ::class, 'renovation_organ_builder_id')->orderBy('year_renovated');
+    }
+    
     public function organBuilderCustomCategories()
     {
         return $this->belongsToMany(OrganBuilderCustomCategory::class)->withTimestamps()->orderBy('name');
@@ -118,6 +123,11 @@ class OrganBuilder extends Model
                 }
             }
         );
+    }
+    
+    public function getThumbnailImage()
+    {
+        return null;
     }
     
     #[SearchUsingFullText(['description', 'perex'])]

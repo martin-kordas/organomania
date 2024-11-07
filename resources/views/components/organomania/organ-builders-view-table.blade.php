@@ -29,7 +29,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <thead>
                 <tr>
                     <th>&nbsp;</th>
-                    <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('name')" />
+                    <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('name')" :sticky="true" />
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('municipality')" />
                     <th>{{ __('Kraj') }}</th>
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('active_from_year')" />
@@ -48,7 +48,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 </span>
                             @endif
                         </td>
-                        <td class="fw-semibold">
+                        <td class="table-light fw-semibold position-sticky start-0">
                             <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($organBuilder) }}" wire:navigate>
                                 {{ $organBuilder->name }}
                             </a>

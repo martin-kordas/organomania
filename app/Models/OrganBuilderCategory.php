@@ -22,4 +22,9 @@ class OrganBuilderCategory extends Category
         return $relation;
     }
     
+    public function getItemsUrl(): string
+    {
+        return route('organ-builders.index', ['filterCategories' => [$this->id]]);
+    }
+    
 }

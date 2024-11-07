@@ -13,4 +13,9 @@ class OrganCustomCategory extends CustomCategory
         return $this->belongsToMany(Organ::class);
     }
     
+    public function getItemsUrl(): string
+    {
+        return route('organs.index', ['filterCategories' => ["custom-{$this->id}"]]);
+    }
+    
 }

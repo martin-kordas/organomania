@@ -52,6 +52,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->dispatch('select2-rendered');
     }
 
+    public function setFilterCategory($categoryId)
+    {
+        $this->filterCategories = [$categoryId];
+        $this->resetPage();
+    }
+
     #[Computed]
     public function registerNames()
     {
@@ -115,6 +121,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
 <div class="dispositions container">
   
+    @push('meta')
+        <meta name="description" content="{{ __('Prozkoumejte názvy, typy a zvukovou charakteristiku varhanních rejstříků. Prohlédněte si dispozice varhan, ve kterých jsou rejstříky obsaženy.') }}">
+    @endpush
+    
     <h3>{{ __('Encyklopedie rejstříků') }}</h3>
     
     <div class="row mt-3 mb-2 gx-2 gy-2 align-items-center">
@@ -161,21 +171,32 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @foreach ($this->registerNames as $registerName)
                     <tr>
                         <td class="fw-bold">
-                            <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="#" data-bs-toggle="modal" data-bs-target="#registerModal" wire:click="setRegisterName({{ $registerName->id }})">
+                            <a
+                                class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover"
+                                href="{{ route('dispositions.registers.show', $registerName->slug) }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#registerModal"
+                                wire:click="setRegisterName({{ $registerName->id }})"
+                            >
                                 {{ $registerName->name }}
                             </a>
                         </td>
                         <td>{{ $registerName->language->value }}</td>
                         <td>
+                            @php $registerCategory = $registerName->register->registerCategory @endphp
                             <span
                                 class="badge text-bg-primary"
+                                wire:click="setFilterCategory({{ $registerCategory->value }})"
+                                style="cursor: pointer;"
                                 data-bs-toggle="tooltip"
-                                data-bs-title="{{ $registerName->register->registerCategory->getDescription() }}"
-                            >{{ $registerName->register->registerCategory->getName() }}</span>
+                                data-bs-title="{{ $registerCategory->getDescription() }}"
+                            >{{ $registerCategory->getName() }}</span>
                             @foreach ($registerName->register->registerCategories as $category)
                                 @php $categoryDescription = $category->getEnum()->getDescription(); @endphp
                                 <span
                                     class="badge text-bg-secondary"
+                                    wire:click="setFilterCategory({{ $category->id }})"
+                                    style="cursor: pointer;"
                                     @isset($categoryDescription)
                                         data-bs-toggle="tooltip"
                                         data-bs-title="{{ $categoryDescription }}"
@@ -190,11 +211,18 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             <small>{{ str($registerName->register->description)->limit(80) }}</small>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-primary" wire:click="setRegisterName({{ $registerName->id }})" data-bs-toggle="modal" data-bs-target="#registerModal">
-                                <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit podrobnosti') }}">
+                            <a
+                                type="button"
+                                class="btn btn-sm btn-primary"
+                                wire:click="setRegisterName({{ $registerName->id }})"
+                                href="{{ route('dispositions.registers.show', $registerName->slug) }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#registerModal"
+                            >
+                                <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit') }}">
                                     <i class="bi-eye"></i>
                                 </span>
-                            </button>
+                            </a>
                         </td>
                     </tr>
                 @endforeach

@@ -17,7 +17,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->title(__('Dispozice'));
+        $view->title(__('Dispozice varhan'));
     }
 
     public function updated()
@@ -56,6 +56,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 }; ?>
 
 <div class="dispositions container px-0">
+    @push('meta')
+        <meta name="description" content="{{ __('Prozkoumejte a srovnejte dispozice známých varhan nebo vytvořte dispozici vlastní. Zjistěte informace o jednotlivých rejstřících a uložte si registrace varhanních skladeb.') }}">
+    @endpush
+    
     <p class="lead">
         {{ __('Prohlédněte si a srovnejte dispozice známých varhan, nebo vytvořte dispozici vlastní.') }}
         <br class="d-none d-sm-inline" />

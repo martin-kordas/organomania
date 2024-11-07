@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
+use App\Helpers;
 
 // https://stackoverflow.com/a/49158689/14967413
 class SetLocale
@@ -15,6 +16,7 @@ class SetLocale
     
     const SESSION_KEY = 'locale';
     const LOCALES = ['en', 'cs'];
+    const PREFERRED_CRAWLER_LANGUAGE = 'cs';
     
     /**
      * Handle an incoming request.
@@ -24,7 +26,8 @@ class SetLocale
     public function handle(Request $request, Closure $next): Response
     {
         if (!$request->session()->has(self::SESSION_KEY)) {
-            $preferredLocale = $request->getPreferredLanguage(self::LOCALES);
+            if (Helpers::isCrawler()) $preferredLocale = 'cs';
+            else $preferredLocale = $request->getPreferredLanguage(self::LOCALES);
             $this->saveLocale($preferredLocale);
         }
 

@@ -1,4 +1,4 @@
-@props(['sortOption'])
+@props(['sortOption', 'sticky' => false])
 
 @php
     $direction = $this->getColumnCurrentSortDirection($sortOption['column']);
@@ -14,7 +14,7 @@
     $label = __($sortOption['shortLabel'] ?? $sortOption['label']);
 @endphp
 
-<th>
+<th {{ $attributes->class(['position-sticky' => $sticky, 'start-0' => $sticky]) }}>
     <a
         href="#"
         class="link-primary"

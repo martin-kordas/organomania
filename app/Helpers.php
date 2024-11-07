@@ -6,6 +6,7 @@ use Transliterator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Carbon\Carbon;
 
 class Helpers
@@ -106,6 +107,13 @@ class Helpers
         return $date->translatedFormat('j. F Y');
     }
     
+    static function formatCurrency(float $amount, string $currency = 'Kč', bool $html = true)
+    {
+        $separator = $html ? '&nbsp;' : ' ';
+        $number = number_format($amount, 2, ',', $separator);
+        return $number . $separator . $currency;
+    }
+    
     static function array2Csv(array $data)
     {
         $rowsStr = array_map(
@@ -113,6 +121,22 @@ class Helpers
             $data
         );
         return implode("\n", $rowsStr);
+    }
+    
+    static function isCrawler()
+    {
+        return (new CrawlerDetect)->isCrawler();
+    }
+    
+    static function getCanonicalUrl($lang)
+    {
+        $url = url()->current();
+        $params = ['lang' => $lang];
+        if (request()->routeIs('organs.index', 'organ-builders.index', 'festivals.index', 'competitions.index')) {
+            $params['perPage'] = 300;
+        }
+        $query = http_build_query($params);
+        return "$url?$query";
     }
     
 }

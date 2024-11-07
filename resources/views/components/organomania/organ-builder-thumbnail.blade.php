@@ -22,7 +22,7 @@
                     {{ $organ->municipality }}
                 </span>
                 @if (!$organ->shouldHideImportance())
-                    <x-organomania.stars class="float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Význam" :count="round($organ->importance / 2)" />
+                    <x-organomania.stars class="float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Význam') }}" :count="round($organ->importance / 2)" />
                 @endif
             </div>
         @endisset

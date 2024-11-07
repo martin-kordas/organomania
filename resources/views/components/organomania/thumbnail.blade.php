@@ -4,6 +4,8 @@
     if (isset($organ->perex)) $description = $organ->perex;
     elseif (isset($organ->description)) $description = str($organ->description)->limit(215);
     else $description = null;
+
+    $image = $organ?->getThumbnailImage();
 @endphp
 
 <div class="organ-thumbnail card shadow-sm m-auto placeholder-glow overflow-hidden">
@@ -14,11 +16,11 @@
             @if ($modal)
                 <button type="button" class="btn-close position-absolute end-0 m-2 z-1" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             @endif
-            @isset($organ->image_url)
-                <img class="organ-image" src="{{ $organ->image_url }}" @isset($organ->image_credits) title="{{ __('Licence obrázku') }}: {{ $organ->image_credits }}" @endisset />
+            @isset($image)
+                <img class="organ-image" src="{{ $image['image_url'] }}" @isset($image['image_credits']) title="{{ __('Licence obrázku') }}: {{ $image['image_credits'] }}" @endisset />
             @endisset
             @isset($organ->region_id)
-                <img width="125" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => isset($organ->image_url), 'bg-light' => !isset($organ->image_url)]) src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
+                <img width="125" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => isset($image), 'bg-light' => !isset($image)]) src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
             @endisset
         </div>
     @endisset
@@ -81,7 +83,7 @@
         <div class="card-footer text-body-secondary">
             <div class="d-flex justify-content-between align-items-center gap-2">
                 <div class="btn-group">
-                    <a type="button" class="btn btn-sm btn-primary" href="{{ isset($organ) ? $this->getViewUrl($organ) : '#' }}" wire:navigate wire:loading.class="disabled" wire:target="setThumbnailOrgan">
+                    <a type="button" @class(['btn', 'btn-sm', 'btn-primary']) href="{{ isset($organ) ? $this->getViewUrl($organ) : '#' }}" wire:navigate wire:loading.class="disabled" wire:target="setThumbnailOrgan">
                         <i class="bi-eye"></i> <span class="d-none d-sm-inline">{{ __('Zobrazit') }}</span>
                     </a>
 
@@ -107,26 +109,28 @@
                     @endif
                 </div>
                 @if (!$modal)
-                    <span data-bs-toggle="tooltip" data-bs-title="Sdílet">
+                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Sdílet') }}">
                         <button type="button" class="btn btn-sm btn-outline-primary z-1" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $this->getShareUrl($organ) }}">
                             <i class="bi-share"></i>
                         </button>
                     </span>
 
-                    <div class="ms-auto">
-                        <a
-                            @class(['btn', 'btn-sm', 'rounded-pill', 'z-1', 'btn-danger' => $this->isOrganLiked($organ), 'btn-outline-danger' => !$this->isOrganLiked($organ)])
-                            @can($this->gateLikeEntity, $organ)
-                                wire:click="likeToggle({{ $organ->id }})"
-                            @else
-                                href="{{ route('login') }}"
-                            @endcan
-                            data-bs-toggle="tooltip"
-                            data-bs-title="{{ __('Přidat do oblíbených') }}"
-                        >
-                            <i class="bi-heart"></i> {{ $organ->likes_count }}
-                        </a>
-                    </div>
+                    @if ($this->isLikeable)
+                        <div class="ms-auto">
+                            <a
+                                @class(['btn', 'btn-sm', 'rounded-pill', 'z-1', 'btn-danger' => $this->isOrganLiked($organ), 'btn-outline-danger' => !$this->isOrganLiked($organ)])
+                                @can($this->gateLikeEntity, $organ)
+                                    wire:click="likeToggle({{ $organ->id }})"
+                                @else
+                                    href="{{ route('login') }}"
+                                @endcan
+                                data-bs-toggle="tooltip"
+                                data-bs-title="{{ __('Přidat do oblíbených') }}"
+                            >
+                                <i class="bi-heart"></i> {{ $organ->likes_count }}
+                            </a>
+                        </div>
+                    @endif
                 @endif
             </div>
         </div>

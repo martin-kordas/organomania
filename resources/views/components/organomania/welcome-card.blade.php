@@ -1,4 +1,4 @@
-@props(['title', 'url', 'imageUrl'])
+@props(['title', 'url', 'imageUrl', 'imageCredit', 'buttonLabel' => 'Zobrazit'])
 
 <div
     class="welcome-card col-lg-4 d-flex"
@@ -8,7 +8,7 @@
 >
     <div class="position-relative p-3 border border-tertiary rounded h-100 w-100 d-flex align-items-center justify-items-center">
         <div class="w-100">
-            <img class="bd-placeholder-img rounded-circle" width="140" height="140" src="{{ $imageUrl }}" />
+            <img class="bd-placeholder-img rounded-circle" width="140" height="140" src="{{ $imageUrl }}" title="{{ __('Licence obrázku') }}: {{ $imageCredit }}" />
             <h2 class="fw-normal">{{ $title }}</h2>
             <p>
                 {{ $slot }}
@@ -19,7 +19,7 @@
                 </ul>
             @endisset
             <p class="mb-0">
-                <a class="btn btn-secondary" href="{{ $url }}">{{ __('Zobrazit') }} »</a>
+                <a class="btn btn-secondary" href="{{ $url }}">{{ __($buttonLabel) }} »</a>
             </p>
             @isset($footer)
                 {{ $footer }}

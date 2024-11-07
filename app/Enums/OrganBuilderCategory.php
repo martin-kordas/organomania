@@ -61,6 +61,11 @@ enum OrganBuilderCategory: int implements Category
         ]);
     }
     
+    public function getItemsUrl(): string
+    {
+        return route('organ-builders.index', ['filterCategories' => [$this->value]]);
+    }
+    
     public static function getCategoryGroups()
     {
         $groups = ['generalCategories' => [], 'periodCategories' => []];

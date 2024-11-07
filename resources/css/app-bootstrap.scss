@@ -30,6 +30,15 @@ html, body {
 
 header {
     z-index: 4;
+    
+    .info-count-badge {
+        z-index: 1;
+        & > span {
+            position: relative;
+            top: 3px;
+            right: 5px;
+        }
+    }
 }
 
 footer {
@@ -398,4 +407,8 @@ div.side-buttons {
             width: 50%;
         }
     }
+}
+
+.register-show {
+    max-width: 850px;
 }

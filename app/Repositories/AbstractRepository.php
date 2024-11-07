@@ -25,9 +25,12 @@ class AbstractRepository
     
     protected function orderBy(Builder $query, string $column, string $direction)
     {
+        if ($column === 'importance') $expr = DB::raw('ROUND(importance / 2)');
+        else $expr = $column;
+        
         $query
             ->orderBy(DB::raw("`$column` IS NULL"))
-            ->orderBy($column, $direction);
+            ->orderBy($expr, $direction);
     }
     
     // filtry společné pro různé entity

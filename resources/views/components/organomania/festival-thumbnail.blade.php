@@ -5,7 +5,9 @@
     <x-slot:header>
         @isset($organ)
             <h5 class="card-title">
-                <strong>{{ $organ->name }}</strong>
+                <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($organ) }}">
+                    <strong>{{ $organ->name }}</strong>
+                </a>
             </h5>
             <div class="mb-1">
             @isset($organ->locality)
@@ -16,10 +18,10 @@
             @endisset
             </div>
             <div class="stars">
-                <span class="text-body-secondary">
+                <span @class(['text-body-secondary', 'mark' => $organ->shouldHighlightFrequency()])>
                     {{ $organ->frequency }}
                 </span>
-                <x-organomania.stars class="float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Význam" :count="round($organ->importance / 2)" />
+                <x-organomania.stars class="float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Význam') }}" :count="round($organ->importance / 2)" />
             </div>
         @endisset
     </x-slot:header>
@@ -27,19 +29,25 @@
     @isset($organ)
         @isset($organ->url)
             <p class="mb-0">
-                <a href="{{ $organ->url }}" target="_blank">
-                    {{ $organ->url }}
+                <a class="icon-link" href="{{ $organ->url }}" target="_blank">
+                    <i class="bi bi-link-45deg"></i>
+                    {{ str($organ->url)->limit(40) }}
                 </a>
             </p>
         @endisset
 
         @isset($organ->organ)
-            <p class="mb-0 @isset($organ->organ) mt-2 @endisset">
+            <p @class(['mb-0', 'mt-2' => isset($organ->organ)])>
                 Varhany:
                 <x-organomania.organ-organ-builder-link :organ="$organ->organ" />
             </p>
         @endisset
 
+        @isset($organ->perex)
+            <p @class(['card-text', 'mt-2' => isset($organ->url) || isset($organ->organ)])>
+                {{ str($organ->perex)->limit(215) }}
+            </p>
+        @endisset
     @endisset
     
 </x-organomania.thumbnail>

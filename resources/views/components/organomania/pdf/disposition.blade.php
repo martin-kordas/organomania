@@ -60,7 +60,7 @@
         <div>
             <h2>{{ $disposition->name }}</h2>
 
-            <ol class="disposition keyboards" type="I">
+            <ol class="disposition keyboards" type="I" @style(['list-style-type: none' => !$disposition->keyboard_numbering])>
                 @foreach ($disposition->keyboards->chunk(2) as $chunk)
                     <div class="chunk">
                         @foreach ($chunk as $keyboard)

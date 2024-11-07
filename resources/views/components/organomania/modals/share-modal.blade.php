@@ -22,6 +22,9 @@
                         {{ __('Na odkaz může přistoupit i nepřihlášený uživatel.') }}
                         @isset($hintAppend) {{ $hintAppend }} @endisset
                     </div>
+                    <div class="text-center mt-3">
+                        <img width="200" height="200" class="qr" src="" alt="{{ __('QR kód') }}" />
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Zavřít') }}</button>
@@ -67,6 +70,7 @@
                     var url = shareBtn.dataset.shareUrl
                     var modal = $('#shareModal')
                     modal.find('input.link').val(url)
+                    modal.find('img.qr').attr('src', `/qr?string=${encodeURIComponent(url)}`)
                     modal.find('a.open-link').attr('href', url)
                 })
                 this.addEventListener('shown.bs.modal', () => $(this).find('input.link').select())

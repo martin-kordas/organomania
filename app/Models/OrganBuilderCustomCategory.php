@@ -15,4 +15,9 @@ class OrganBuilderCustomCategory extends CustomCategory
         return $relation;
     }
     
+    public function getItemsUrl(): string
+    {
+        return route('organ-builders.index', ['filterCategories' => ["custom-{$this->id}"]]);
+    }
+    
 }

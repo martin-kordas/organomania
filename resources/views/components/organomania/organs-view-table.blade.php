@@ -5,7 +5,7 @@
         <thead>
             <tr>
                 <th>&nbsp;</th>
-                <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('municipality')" />
+                <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('municipality')" :sticky="true" />
                 <th>{{ __('Místo') }}</th>
                 <th>{{ __('Kraj') }}</th>
                 <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('organ_builder')" />
@@ -27,7 +27,9 @@
                             </span>
                         @endif
                     </td>
-                    <td class="fw-semibold">{{ $organ->municipality }}</td>
+                    <td class="table-light fw-semibold position-sticky start-0">
+                        {{ $organ->municipality }}
+                    </td>
                     <td class="fw-semibold">
                         <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($organ) }}" wire:navigate>
                             {{ $organ->place }}
@@ -37,7 +39,7 @@
                         <img width="70" class="region me-1" src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
                     </td>
                     <td>
-                        <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" placeholder="{{ __('neznámý') }}" />
+                        <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" placeholder="{{ __('neznámý') }}" />
                     </td>
                     <td class="text-end">{{ $organ->year_built }}</td>
                     <td class="text-end">{{ $organ->manuals_count }}</td>

@@ -1,10 +1,10 @@
-@props(['organ'])
+@props(['organ', 'year' => null])
 
 <span>
     {{ $organ->municipality }}, {{ $organ->place }}
     <span class="text-secondary">
-        @if ($organ->year_built)
-            ({{ $organ->year_built }})
+        @if ($year)
+            ({{ $year }})
         @endif
     </span>
 </span>

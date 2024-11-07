@@ -20,4 +20,9 @@ class OrganCategory extends Category
         return $this->belongsToMany(Organ::class);
     }
     
+    public function getItemsUrl(): string
+    {
+        return route('organs.index', ['filterCategories' => [$this->id]]);
+    }
+    
 }

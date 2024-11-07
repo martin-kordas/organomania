@@ -1,5 +1,6 @@
 @php
 use Illuminate\Support\Facades\App;
+use App\Helpers;
 
 $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
     'key' => env('GOOGLE_API_KEY'),
@@ -14,10 +15,10 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        @stack('meta')
 
         <title>
-            @isset($title) {{ $title }} | @endisset
-            {{ config('app.name', 'Organomania') }}
+            @isset($title) {{ $title }} | @endisset{{ config('app.name', 'Organomania') }}
         </title>
 
         <!-- Fonts -->
@@ -25,8 +26,8 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         
         <link rel="canonical" href="{{ url()->current() }}" />
-        <link rel="alternate" hreflang="cs-cz" href="{{ url()->current() }}" />
-        <link rel="alternate" hreflang="en-us" href="{{ url()->current() }}&amp;lang=en" />
+        <link rel="alternate" hreflang="cs-cz" href="{{ Helpers::getCanonicalUrl('cs') }}" />
+        <link rel="alternate" hreflang="en-us" href="{{ Helpers::getCanonicalUrl('en') }}" />
         
         <link rel="icon" type="image/png" sizes="16x16" href="{{ Vite::asset('resources/images/favicon-16x16.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ Vite::asset('resources/images/favicon-32x32.png') }}">
@@ -51,7 +52,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
         @stack('styles')
         @stack('scripts')
         
-        @if (request()->routeIs(['organs.index', 'organs.show', 'organ-builders.index', 'organ-builders.show', 'festivals.index']))
+        @if (request()->routeIs(['organs.index', 'organs.show', 'organ-builders.index', 'organ-builders.show', 'festivals.index', 'festivals.show', 'competitions.index', 'competitions.show']))
             <script src="{{ $googleMapsScript }}" defer></script>
         @endif    
     </head>

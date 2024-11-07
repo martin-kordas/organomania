@@ -931,7 +931,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {{-- tlačítka zpět/zavřít --}}
     <div class="buttons mt-3 hstack d-print-none">
         @if ($disposition->keyboards->isNotEmpty())
-            <button type="submit" @class(['btn', 'btn-sm', 'btn-outline-secondary', 'disabled' => $isEdit]) onclick="alert('Pro správné vytištění zrušte nastavení tisku okrajů stránky.'); window.print()">
+            <button type="submit" @class(['btn', 'btn-sm', 'btn-outline-secondary', 'disabled' => $isEdit]) onclick="alert('{{ __('Pro správné vytištění zrušte nastavení tisku okrajů stránky.') }}'); window.print()">
                 <i class="bi-printer"></i> {{ __('Tisk') }}
             </button>
             &nbsp;

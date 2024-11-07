@@ -58,6 +58,7 @@ trait EntityPageView
     private $shouldPaginate = true;
     
     private bool $isCategorizable = true;
+    private bool $isLikeable = true;
     private bool $showThumbnailFooter = true;
     
     private ?string $categoriesRelation;

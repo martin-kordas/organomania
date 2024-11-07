@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Festival;
 use App\Repositories\AbstractRepository;
@@ -51,6 +52,27 @@ class FestivalRepository extends AbstractRepository
 
         foreach ($sorts as $field => $direction) {
             switch ($field) {
+                // řazení festivalů:
+                //  - začínající v aktuálním nebo příštím měsíci
+                //  - běžící po celý rok
+                //  - začínající v dalších měsících
+                case 'starting_month':
+                    $directionSql = $direction === 'desc' ? 'DESC' : 'ASC';
+                    $currentMonth = (int)date('n');
+                    $expr = ("
+                        IF(
+                            starting_month IS NULL,
+                            1.5,
+                            IF(
+                                starting_month >= ?,
+                                starting_month - ?,
+                                starting_month - ? + 12
+                            )
+                        ) $directionSql
+                    ");
+                    $query->orderByRaw($expr, [$currentMonth, $currentMonth, $currentMonth]);
+                    break;
+                
                 default:
                     $this->orderBy($query, $field, $direction);
             }

@@ -9,5 +9,6 @@ interface Category
     public function getName(): string;
     public function getDescription(): ?string;
     public function getColor(): string;
+    public function getItemsUrl(): string;
     
 }

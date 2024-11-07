@@ -62,6 +62,7 @@ trait EntityPage
     private ?string $gateLike;
     private string $entityPageViewComponent;
     private string $entityClass;
+    private string $entityNamePluralAkuzativ;
     private array $filters = [];
     private array $commonFilters = ['filterCategories', 'filterRegionId', 'filterImportance', 'filterFavorite', 'filterPrivate'];
     private string $title;
@@ -216,6 +217,9 @@ trait EntityPage
                 public function getColor(): string {
                     return 'primary';
                 }
+                public function getItemsUrl(): string {
+                    return '/';
+                }
             };
         }
         return $groups;
@@ -298,7 +302,8 @@ trait EntityPage
             ...array_map(
                 fn($val) => $val * 10,
                 range(2, 10),
-            )
+            ),
+            100, 200, 300
         ];
     }
     

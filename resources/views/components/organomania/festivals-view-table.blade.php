@@ -29,24 +29,27 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <table class="table table-sm table-hover align-middle">
             <thead>
                 <tr>
-                    <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('name')" />
+                    <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('name')" :sticky="true" />
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('locality')" />
                     <th>{{ __('Místo konání') }}</th>
                     <th>{{ __('Kraj') }}</th>
                     <th>{{ __('Varhany') }}</th>
-                    <th>{{ __('Období konání') }}</th>
+                    <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('starting_month')" />
                     <th>{{ __('Web') }}</th>
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('importance')" />
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
                 @foreach ($this->organs as $festival)
                     <tr>
-                        <td class="table-light">
-                          <strong>{{ $festival->name }}</strong>
+                        <td class="table-light position-sticky start-0">
+                            <a class="fw-semibold link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($festival) }}" wire:navigate>
+                                {{ $festival->name }}
+                            </a>
                         </td>
-                        <td>
-                            <strong>{{ $festival->locality }}</strong>
+                        <td class="fw-semibold">
+                            {{ $festival->locality }}
                         </td>
                         <td>
                             {{ $festival->place }}
@@ -54,7 +57,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <td>
                             @isset($festival->region_id)
                                 <span data-bs-toggle="tooltip" data-bs-title="{{ $festival->region->name }}">
-                                <img width="70" class="region me-1" src="{{ Vite::asset("resources/images/regions/{$festival->region_id}.png") }}" />
+                                    <img width="70" class="region me-1" src="{{ Vite::asset("resources/images/regions/{$festival->region_id}.png") }}" />
                                 </span>
                             @endisset
                         </td>
@@ -64,17 +67,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             @endisset
                         </td>
                         <td>
-                            {{ $festival->frequency }}
+                            <span @class(['mark' => $festival->shouldHighlightFrequency()])>
+                                {{ $festival->frequency }}
+                            </span>
                         </td>
                         <td>
                             @isset($festival->url)
                                 <a href="{{ $festival->url }}" target="_blank">
-                                    {{ Helpers::formatUrl($festival->url) }}
+                                    {{ str(Helpers::formatUrl($festival->url))->limit(20) }}
                                 </a>
                             @endisset
                         </td>
                         <td>
                             <x-organomania.stars class="responsive" :count="round($festival->importance / 2)" :showCount="true" />
+                        </td>
+                        <td class="text-nowrap">
+                            <x-organomania.entity-page-view-table-buttons :record="$festival" />
                         </td>
                     </tr>
                 @endforeach

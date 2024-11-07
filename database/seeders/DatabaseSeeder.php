@@ -46,6 +46,7 @@ class DatabaseSeeder extends Seeder
             RegisterCategorySeeder::class,
             PitchSeeder::class,
             RegisterSeeder::class,
+            CompetitionSeeder::class,
         ]);
         
         $this->command->call('app:import-data');

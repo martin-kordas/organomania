@@ -28,6 +28,7 @@ return new class extends Migration
             $table->foreignId('region_id')->nullable()->constrained();
             $table->string('workshop_members', length: 500)->nullable();
             $table->string('web', length: 500)->nullable();
+            $table->integer('varhany_net_id')->nullable();
             $table->integer('importance')->comment("1 (lowest) to 10 (greatest)");
             $table->text('perex')->nullable();
             $table->text('description')->nullable();

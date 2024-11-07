@@ -59,7 +59,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $title = __('Porovnání dispozic');
+        $title = __('Porovnání dispozic varhan');
         $view->title($title);
     }
 
@@ -157,6 +157,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 }; ?>
 
 <div class="container disposition-diff">
+    
+    @push('meta')
+        <meta name="description" content="{{ __('Porovnejte rejstříky obsažené v dispozicích vybraných varhan. Zjistěte, jaké změny rejstříkové dispozice nastaly po provedených přestavbách.') }}">
+    @endpush
     
     <h3>{{ __('Porovnání dispozic') }}</h3>
     
