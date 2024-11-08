@@ -131,10 +131,11 @@ class Helpers
     static function getCanonicalUrl($lang)
     {
         $url = url()->current();
-        $params = ['lang' => $lang];
+        $params = [];
         if (request()->routeIs('organs.index', 'organ-builders.index', 'festivals.index', 'competitions.index')) {
             $params['perPage'] = 300;
         }
+        $params['lang'] = $lang;
         $query = http_build_query($params);
         return "$url?$query";
     }

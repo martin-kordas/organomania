@@ -14,6 +14,9 @@ class DispositionSeeder extends Seeder
      */
     public function run(): void
     {
+        // TODO: organ_id: pokud nejsou varhany vloženy v OrganSeeder, nýbrž až v ImportData, jejich ID se může měnit (přidáním nového záznamu v OrganSeederu)
+        // a dispositions.organ_id by se proto mělo zapisovat až v ImportData, kdy už je organ_id definitivně jasné
+        
         $ujezdAppendix = <<<END
             Rozsah manuálů C-g3, rozsah pedálu C-f1
             Celkem 1226 píšťal

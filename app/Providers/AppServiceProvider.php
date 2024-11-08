@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\URL;
 use App\Repositories\OrganRepository;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
@@ -46,6 +47,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+        
         Gate::define('viewLogViewer', function (?User $user) {
             return config('app.env') === 'local' || $user?->isAdmin();
         });

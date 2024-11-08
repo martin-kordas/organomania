@@ -55,8 +55,8 @@
                 {{ $register->pitch->getLabel($this->preferredLanguage) }}
             </div>
         @endisset
-        <button
-            type="button"
+        <a
+            @isset ($register->registerName) href="{{ route('dispositions.registers.show', $register->registerName->slug) }}" @endisset
             @class(['register-info-btn', 'show-description' => !$keyboardsInSeparateColumns, 'position-relative', 'btn', 'btn-outline-secondary', 'btn-sm', 'd-print-none', 'invisible' => !$register->register_name_id])
             wire:click="setRegisterName({{ $register->register_name_id }}, {{ $register->pitch?->value }})"
             data-bs-toggle="modal"
@@ -66,6 +66,6 @@
             <span data-bs-toggle="tooltip" data-bs-title="{{ __('Podrobnosti o rejstříku') }}">
                 <i class="bi-eye"></i>
             </span>
-        </button>
+        </a>
     </div>
 </li>
