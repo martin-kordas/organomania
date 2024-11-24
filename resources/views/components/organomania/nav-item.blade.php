@@ -1,7 +1,7 @@
 @props(['label', 'icon', 'url', 'active' => false, 'highlightedCount' => null])
 
 <li class="nav-item">
-    <a href="{{ $url }}" wire:navigate @class(['nav-link', 'py-1', 'px-2', 'position-relative', 'active' => $active])>
+    <a href="{{ $url }}" wire:navigate @class(['nav-link', 'py-1', 'px-sm-2', 'position-relative', 'active' => $active])>
         <i class="bi-{{ $icon }} d-xl-none d-xxl-inline"></i>
         {{ $label }}
         @if ($highlightedCount)
