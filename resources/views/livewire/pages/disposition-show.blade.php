@@ -83,7 +83,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         // při překreslení komponenty se signed URL zřejmě již nepoužije
         //  - proto informaci o autorizovaném registrationId cachujeme
-        if (request()->hasValidSignature()) {
+        if (request()->hasValidSignature(false)) {
             if ($registrationIdSigned = request('registrationId')) {
                 $this->registrationIdSigned = (int)$registrationIdSigned;
             }
@@ -105,7 +105,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function mount()
     {
-        if (!request()->hasValidSignature()) {
+        if (!request()->hasValidSignature(false)) {
             $this->authorize('view', $this->disposition);
         }
 
@@ -385,10 +385,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function getRegistrationShareUrl()
     {
-        return URLFacade::signedRoute('dispositions.show', [
+        $relativeUrl = URLFacade::signedRoute('dispositions.show', [
             'disposition' => $this->disposition->id,
             'registrationId' => $this->registrationId
-        ]);
+        ], absolute: false);
+        return url($relativeUrl);
     }
 
     #[Computed]
@@ -471,6 +472,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function shouldHideUnregistered()
     {
         return $this->showOnlyRegistered && ($this->registrationId ?? null) && !$this->isEdit;
+    }
+
+    #[Computed]
+    public function registerCategoriesGroups()
+    {
+        return RegisterCategory::getCategoryGroups();
     }
 
     private function hasKeyboardVisibleRegisters(Keyboard $keyboard)
@@ -655,8 +662,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <x-organomania.info-alert class="mb-2 d-print-none">
                 {!! __('<strong>Rejstřík</strong> je sada píšťal určité zvukové barvy.') !!}
                 {!! __('Polohu (výšku tónů) rejstříku určuje stopová výška: <em>8\'</em> značí základní polohu tónu, nižší číslo (např. <em>4\'</em>) značí vyšší polohu tónu, vyšší číslo (např. <em>16\'</em>) značí nižší polohu tónu.') !!}
-                {!! __('Rejstříky dělíme do kategorií podle způsobu konstrukce.') !!}
                 {!! __('Pro každý <strong>manuál</strong> (klaviaturu) mají varhany samostatnou sadu rejstříků.') !!}
+                {!! __('Rejstříky dělíme do kategorií podle způsobu konstrukce, viz') !!}
+                <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#registerCategoriesModal">{{ __('Přehled kategorií rejstříků') }}</a>.
             </x-organomania.info-alert>
             
             {{-- registrace --}}
@@ -685,7 +693,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             @if ($isEdit)
                                 <input class="registration-name form-control form-control-sm" id="registrationId" wire:model="registrationName" placeholder="{{ __('např. Bach, J. S.: Toccata a fuga d-moll') }}" required />
                             @else
-                                <x-organomania.selects.registration-select :registrations="$disposition->registrations" :allowClear="!request()->hasValidSignature()" />
+                                <x-organomania.selects.registration-select :registrations="$disposition->registrations" :allowClear="!request()->hasValidSignature(false)" />
                             @endif
                         </div>
                     @endif
@@ -957,6 +965,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endcan
     </div>
 
+    <x-organomania.modals.register-categories-modal :registerCategoriesGroups="$this->registerCategoriesGroups" />
+        
     <x-organomania.modals.share-modal />
         
     <x-organomania.modals.register-modal

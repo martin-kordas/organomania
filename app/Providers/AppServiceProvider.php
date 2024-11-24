@@ -93,7 +93,7 @@ class AppServiceProvider extends ServiceProvider
             Route::bind($modelBinding, function (string $value) use ($modelClass) {
                 $query = $modelClass::query();
                 // pro správný route model binding potlačíme OwnedEntityScope
-                if (request()->hasValidSignature()) {
+                if (request()->hasValidSignature(false)) {
                     $query->withoutGlobalScope(OwnedEntityScope::class);
                 }
                 // podpora slugu

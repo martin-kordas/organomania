@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use App\Enums\Pitch;
 use App\Enums\RegisterCategory;
 use App\Enums\DispositionLanguage;
@@ -73,6 +74,7 @@ class Register extends Model
                 ->when(!empty($excludeOrganIds), function (Builder $query) use ($excludeOrganIds) {
                     $query->whereNotIn('organ_id', $excludeOrganIds);
                 })
+                ->orderBy(DB::raw('user_id IS NOT NULL'))
                 ->orderBy('name')
                 ->get()
                 ->unique('organ_id')

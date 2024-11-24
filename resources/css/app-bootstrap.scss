@@ -16,6 +16,9 @@ $s2bs5-border-color: $border-color;
 img.logo {
     width: 50px;
 }
+.app-subtitle {
+    font-size: 70%;
+}
 .back-to-top {
     right: 1rem;
     bottom: 1rem;
@@ -221,10 +224,15 @@ div.side-buttons {
     max-width: 1100px;
     margin: auto;
     
+    .organ-of-day-image {
+        max-height: 400px;
+        max-width: 100%;
+    }
+    
     .welcome-text {
         max-width: 700px;
     }
-    .welcome-card > div {
+    .welcome-card > div, .organ-of-day > div {
         transition: background 0.25s;
         &:hover {
             background: var(--bs-tertiary-bg);

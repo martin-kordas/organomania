@@ -117,6 +117,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->registerName = RegisterName::find($id);
     }
 
+    private function getShareUrl(RegisterName $registerName)
+    {
+        return route('dispositions.registers.show', $registerName->slug);
+    }
+
 }; ?>
 
 <div class="dispositions container">
@@ -146,91 +151,103 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 model="filterCategories"
             />
         </div>
+        <div class="col-9 col-sm-auto">
+            <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#registerCategoriesModal">{{ __('Přehled kategorií rejstříků') }}</button>
+        </div>
     </div>
     
-    <div class="table-responsive">
-        <table class="table table-hover table-sm align-middle w-auto mt-2" style="min-width: 40vw;">
-            <thead>
-                <tr>
-                    <th>{{ __('Název') }} <i class="bi-sort-alpha-up"></i></th>
-                    <th>{{ __('Jazyk') }}</th>
-                    <th>{{ __('Kategorie') }}</th>
-                    <th>{{ __('Běžné polohy') }}</th>
-                    <th class="d-none d-md-table-cell">{{ __('Popis') }}</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider">
-                @if ($this->registerNames->isEmpty())
+    <div style="max-width: fit-content;">
+        <div class="table-responsive">
+            <table class="table table-hover table-sm align-middle w-auto mt-2" style="min-width: 40vw;">
+                <thead>
                     <tr>
-                        <td colspan="6" class="text-body-secondary text-center">
-                            <small>{{ __('Nebyly nalezeny žádné rejstříky.') }}</small>
-                        </td>
+                        <th>{{ __('Název') }} <i class="bi-sort-alpha-up"></i></th>
+                        <th>{{ __('Jazyk') }}</th>
+                        <th>{{ __('Kategorie') }}</th>
+                        <th>{{ __('Běžné polohy') }}</th>
+                        <th class="d-none d-md-table-cell">{{ __('Popis') }}</th>
+                        <th>&nbsp;</th>
                     </tr>
-                @endif
-                @foreach ($this->registerNames as $registerName)
-                    <tr>
-                        <td class="fw-bold">
-                            <a
-                                class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover"
-                                href="{{ route('dispositions.registers.show', $registerName->slug) }}"
-                                data-bs-toggle="modal"
-                                data-bs-target="#registerModal"
-                                wire:click="setRegisterName({{ $registerName->id }})"
-                            >
-                                {{ $registerName->name }}
-                            </a>
-                        </td>
-                        <td>{{ $registerName->language->value }}</td>
-                        <td>
-                            @php $registerCategory = $registerName->register->registerCategory @endphp
-                            <span
-                                class="badge text-bg-primary"
-                                wire:click="setFilterCategory({{ $registerCategory->value }})"
-                                style="cursor: pointer;"
-                                data-bs-toggle="tooltip"
-                                data-bs-title="{{ $registerCategory->getDescription() }}"
-                            >{{ $registerCategory->getName() }}</span>
-                            @foreach ($registerName->register->registerCategories as $category)
-                                @php $categoryDescription = $category->getEnum()->getDescription(); @endphp
+                </thead>
+                <tbody class="table-group-divider">
+                    @if ($this->registerNames->isEmpty())
+                        <tr>
+                            <td colspan="6" class="text-body-secondary text-center">
+                                <small>{{ __('Nebyly nalezeny žádné rejstříky.') }}</small>
+                            </td>
+                        </tr>
+                    @endif
+                    @foreach ($this->registerNames as $registerName)
+                        <tr>
+                            <td class="fw-bold">
+                                <a
+                                    class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover"
+                                    href="{{ route('dispositions.registers.show', $registerName->slug) }}"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#registerModal"
+                                    wire:click="setRegisterName({{ $registerName->id }})"
+                                >
+                                    {{ $registerName->name }}
+                                </a>
+                            </td>
+                            <td>{{ $registerName->language->value }}</td>
+                            <td>
+                                @php $registerCategory = $registerName->register->registerCategory @endphp
                                 <span
-                                    class="badge text-bg-secondary"
-                                    wire:click="setFilterCategory({{ $category->id }})"
+                                    class="badge text-bg-primary"
+                                    wire:click="setFilterCategory({{ $registerCategory->value }})"
                                     style="cursor: pointer;"
-                                    @isset($categoryDescription)
-                                        data-bs-toggle="tooltip"
-                                        data-bs-title="{{ $categoryDescription }}"
-                                    @endisset
-                                >{{ $category->getEnum()->getName() }}</span>
-                            @endforeach
-                        </td>
-                        <td class="fst-italic">
-                            {{ $registerName->register->getPitchesLabels($this->getDefaultLanguage())->implode(', ') }}
-                        </td>
-                        <td title="{{ $registerName->register->description }}" class="d-none d-md-table-cell">
-                            <small>{{ str($registerName->register->description)->limit(80) }}</small>
-                        </td>
-                        <td>
-                            <a
-                                type="button"
-                                class="btn btn-sm btn-primary"
-                                wire:click="setRegisterName({{ $registerName->id }})"
-                                href="{{ route('dispositions.registers.show', $registerName->slug) }}"
-                                data-bs-toggle="modal"
-                                data-bs-target="#registerModal"
-                            >
-                                <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit') }}">
-                                    <i class="bi-eye"></i>
-                                </span>
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                                    data-bs-toggle="tooltip"
+                                    data-bs-title="{{ $registerCategory->getDescription() }}"
+                                >{{ $registerCategory->getName() }}</span>
+                                @foreach ($registerName->register->registerCategories as $category)
+                                    @php $categoryDescription = $category->getEnum()->getDescription(); @endphp
+                                    <span
+                                        class="badge text-bg-secondary"
+                                        wire:click="setFilterCategory({{ $category->id }})"
+                                        style="cursor: pointer;"
+                                        @isset($categoryDescription)
+                                            data-bs-toggle="tooltip"
+                                            data-bs-title="{{ $categoryDescription }}"
+                                        @endisset
+                                    >{{ $category->getEnum()->getName() }}</span>
+                                @endforeach
+                            </td>
+                            <td class="fst-italic">
+                                {{ $registerName->register->getPitchesLabels($this->getDefaultLanguage())->implode(', ') }}
+                            </td>
+                            <td title="{{ $registerName->register->description }}" class="d-none d-md-table-cell">
+                                <small>{{ str($registerName->register->description)->limit(80) }}</small>
+                            </td>
+                            <td>
+                                <div class="btn-group col-auto">
+                                    <a
+                                        type="button"
+                                        class="btn btn-sm btn-primary"
+                                        wire:click="setRegisterName({{ $registerName->id }})"
+                                        href="{{ route('dispositions.registers.show', $registerName->slug) }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#registerModal"
+                                    >
+                                        <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit') }}">
+                                            <i class="bi-eye"></i>
+                                        </span>
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-primary z-1" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $this->getShareUrl($registerName) }}">
+                                        <span data-bs-toggle="tooltip" data-bs-title="{{ __('Sdílet') }}">
+                                            <i class="bi-share"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        {{ $this->registerNames->links() }}
     </div>
-    
-    {{ $this->registerNames->links() }}
     
     <h6>{{ __('Použitá literatura') }}</h6>
     <small>
@@ -241,6 +258,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </ul>
     </small>
     
+    <x-organomania.modals.register-categories-modal :registerCategoriesGroups="$this->registerCategoriesGroups" />
     <x-organomania.modals.register-modal :registerName="$this->registerName" />
+    <x-organomania.modals.share-modal />
         
 </div>

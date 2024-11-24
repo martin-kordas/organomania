@@ -91,6 +91,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $view->title($this->title);
     }
+
+    public function rendered()
+    {
+        $this->dispatch('bootstrap-rendered');
+    }
     
     private function getCategory($id)
     {
@@ -178,7 +183,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function getShareUrl($category)
     {
-        return URL::signedRoute($this->recordsRoute, ['id' => $category->id]);
+        $relativeUrl = URL::signedRoute($this->recordsRoute, ['id' => $category->id], absolute: false);
+        return url($relativeUrl);
     }
     
 }; ?>

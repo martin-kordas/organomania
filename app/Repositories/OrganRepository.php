@@ -118,5 +118,14 @@ class OrganRepository extends AbstractRepository
         return $this->getCustomCategoriesHelp(new OrganCustomCategoryModel, $mainEntityRelation, $withCount, $allowIds);
     }
     
+    public function getOrganOfDay()
+    {
+        return Organ::query()
+            ->where('importance', '>=', 7)
+            ->whereNotNull(['description', 'image_url'])
+            ->inRandomOrder()
+            ->take(1)
+            ->first();
+    }
     
 }

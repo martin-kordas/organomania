@@ -78,7 +78,7 @@ trait EntityPage
         if ($this->isCustomCategoryOrgans) {
             // TODO: 401 vzniká po jakékoli interakci se stranou (seřazení záznamů atd.) a přenačtení stránky
             //  - ::hasValidSignatureWhileIgnoring() problém nevyřešilo
-            if (!request()->hasValidSignature()) abort(401);
+            if (!request()->hasValidSignature(false)) abort(401);
             if (empty($this->getCustomCategoryIds())) throw new RuntimeException;
         }
 

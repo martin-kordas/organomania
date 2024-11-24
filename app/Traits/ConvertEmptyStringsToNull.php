@@ -23,7 +23,7 @@ trait ConvertEmptyStringsToNull
             return;
         }
 
-        $value = trim($value);
+        if (trim($value) === '') $value = '';
         $value = $value === '' ? null : $value;
 
         data_set($this, $name, $value);

@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\WelcomeController;
 
 Route::middleware(["auth"])->group(function () {
     Volt::route('dispositions/create', 'pages.disposition-edit')
@@ -37,7 +39,7 @@ Route::middleware(["auth"])->group(function () {
     Volt::route('test', 'pages.test');
 });
 
-Route::view('/', 'welcome')
+Route::get('/', WelcomeController::class)
     ->name('welcome');
 
 Route::get('sitemap.xml', SitemapController::class);
@@ -93,16 +95,18 @@ Volt::route('dispositions/{disposition}', 'pages.disposition-show')
 
 Route::get('organ-custom-categories/{id}/organs', function ($id) {
     $params = ['filterCategories' => ["custom-$id"], 'viewType' => 'table'];
-    if (request()->hasValidSignature()) {
-        return redirect()->signedRoute('organs.custom-category-organs.index', $params);
+    if (request()->hasValidSignature(false)) {
+        $relativeUrl = URL::signedRoute('organs.custom-category-organs.index', $params, absolute: false);
+        return redirect($relativeUrl);
     }
     else return redirect()->route('organs.index', $params);
 })->name('organs.organ-custom-categories.organs');
 
 Route::get('organ-builders-custom-categories/{id}/organ-builders', function ($id) {
     $params = ['filterCategories' => ["custom-$id"], 'viewType' => 'table'];
-    if (request()->hasValidSignature()) {
-        return redirect()->signedRoute('organ-builders.custom-category-organ-builders.index', $params);
+    if (request()->hasValidSignature(false)) {
+        $relativeUrl = URL::signedRoute('organ-builders.custom-category-organ-builders.index', $params, absolute: false);
+        return redirect($relativeUrl);
     }
     else return redirect()->route('organ-builders.index', $params);
 })->name('organ-builders.organ-builder-custom-categories.organ-builders');

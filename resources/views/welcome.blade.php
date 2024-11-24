@@ -1,4 +1,7 @@
+@props(['organOfDay'])
+
 @php
+    use App\Helpers;
     use Carbon\Carbon;
 @endphp
 
@@ -20,6 +23,39 @@
                 {!! $description !!}
             </p>
         </div>
+        
+        @isset($organOfDay)
+            <div class="row justify-content-center mb-5">
+                <div
+                    class="organ-of-day col col-lg-9 text-center"
+                    href="{{ route('organs.show', $organOfDay->slug) }}"
+                    wire:navigate
+                    style="cursor: pointer;"
+                >
+                    <div class="border border-tertiary rounded p-2">
+                        <h2 class="fs-5">{{ __('Varhany dne') }}</h2>
+                        <figure class="mb-0">
+                            <div class="position-relative mb-1">
+                                <img class="organ-of-day-image rounded" src="{{ $organOfDay->image_url }}" @isset($organOfDay->image_credits) title="{{ __('Licence obrázku') }}: {{ $organOfDay->image_credits }}" @endisset />
+                                <img width="125" class="region end-0 m-2 bottom-0 position-absolute" src="{{ Vite::asset("resources/images/regions/{$organOfDay->region_id}.png") }}" />
+                            </div>
+                            <figcaption>
+                                <strong>{{ $organOfDay->municipality }}</strong> &nbsp;|&nbsp; {{ $organOfDay->place }}
+                                <br />
+                                <x-organomania.organ-builder-link :organBuilder="$organOfDay->organBuilder" :yearBuilt="$organOfDay->year_built" />
+                                &nbsp;|&nbsp;
+                                <span class="text-body-secondary">
+                                    {{ $organOfDay->manuals_count }} {{ __(Helpers::declineCount($organOfDay->manuals_count, 'manuálů', 'manuál', 'manuály')) }}
+                                    @if ($organOfDay->stops_count)
+                                        / {{ $organOfDay->stops_count }} {{ __(Helpers::declineCount($organOfDay->stops_count, 'rejstříků', 'rejstřík', 'rejstříky')) }}
+                                    @endif
+                                </span>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        @endisset
         
         <div class="row text-center g-4 align-items-stretch">
             <x-organomania.welcome-card

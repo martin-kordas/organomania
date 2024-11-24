@@ -50,7 +50,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function getShareUrl(Disposition $disposition)
     {
         $fn = isset($disposition->user_id) ? URL::signedRoute(...) : route(...);
-        return $fn('dispositions.show', $disposition->slug);
+        $relativeUrl = $fn('dispositions.show', $disposition->slug, absolute: false);
+        return url($relativeUrl);
     }
 
 }; ?>
@@ -109,71 +110,73 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             {{ __('Nebyly nalezeny žádné dispozice.') }}
         </div>
     @else
-        <div class="table-responsive">
-            <table class="table table-hover table-sm align-middle w-auto" style="min-width: 40vw; margin-bottom: 10em; /* kvůli dropdownu na posledním řádku tabulky */">
-                <thead>
-                    <tr>
-                        <th>&nbsp;</th>
-                        <th>{{ __('Název dispozice') }} <i class="bi-sort-alpha-up"></i></th>
-                        <th>{{ __('Varhany') }}</th>
-                        <th class="text-end">{{ __('Man.') }}</th>
-                        <th class="text-end">{{ __('Rejstříků') }}</th>
-                        @if (Auth::check())
-                            <th class="text-end">{!! __('Uloženo<br />registrací') !!}</th>
-                        @endif
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    @foreach ($this->dispositions as $disposition)
+        <div style="max-width: fit-content;">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm align-middle w-auto" style="min-width: 40vw; margin-bottom: 10em; /* kvůli dropdownu na posledním řádku tabulky */">
+                    <thead>
                         <tr>
-                            <td>
-                                @if ($disposition->user_id)
-                                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}">
-                                        <i class="bi-lock text-warning"></i>
-                                    </span>
-                                @endif
-                            </td>
-                            <td class="fw-semibold" style="min-width: 15em;">
-                                <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ route('dispositions.show', $disposition->slug) }}" wire:navigate>
-                                    {{ $disposition->name }}
-                                </a>
-                            </td>
-                            <td>
-                                @isset($disposition->organ)
-                                    <x-organomania.organ-organ-builder-link :organ="$disposition->organ" />
-                                @else
-                                    &ndash;
-                                @endisset
-                            </td>
-                            <td class="text-end">{{ $disposition->keyboard_numbering ? $disposition->manuals_count : '' }}</td>
-                            <td class="text-end">{{ $disposition->real_disposition_registers_count }}</td>
+                            <th>&nbsp;</th>
+                            <th>{{ __('Název dispozice') }} <i class="bi-sort-alpha-up"></i></th>
+                            <th>{{ __('Varhany') }}</th>
+                            <th class="text-end">{{ __('Man.') }}</th>
+                            <th class="text-end">{{ __('Rejstříků') }}</th>
                             @if (Auth::check())
-                                <td class="text-end">{{ $disposition->registrations_count }}</td>
+                                <th class="text-end">{!! __('Uloženo<br />registrací') !!}</th>
                             @endif
-                            <td class="ps-4">
-                                <div class="btn-group col-auto">
-                                    <a class="btn btn-sm btn-primary" href="{{ route('dispositions.show', $disposition->slug) }}" wire:navigate data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit') }}">
-                                        <i class="bi-eye"></i>
-                                    </a>
-                                    @can('update', $disposition)
-                                        <a class="btn btn-sm btn-outline-primary" href="{{ route('dispositions.edit', $disposition->id) }}" wire:navigate data-bs-toggle="tooltip" data-bs-title="{{ __('Upravit') }}">
-                                            <i class="bi-pencil"></i>
-                                        </a>
-                                    @endcan
-                                    <button type="button" class="btn btn-sm btn-outline-primary z-1" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $this->getShareUrl($disposition) }}">
-                                        <span data-bs-toggle="tooltip" data-bs-title="{{ __('Sdílet') }}">
-                                            <i class="bi-share"></i>
-                                        </span>
-                                    </button>
-                                </div>
-                            </td>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        @foreach ($this->dispositions as $disposition)
+                            <tr>
+                                <td>
+                                    @if ($disposition->user_id)
+                                        <span data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}">
+                                            <i class="bi-lock text-warning"></i>
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="fw-semibold" style="min-width: 15em;">
+                                    <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ route('dispositions.show', $disposition->slug) }}" wire:navigate>
+                                        {{ $disposition->name }}
+                                    </a>
+                                </td>
+                                <td>
+                                    @isset($disposition->organ)
+                                        <x-organomania.organ-organ-builder-link :organ="$disposition->organ" />
+                                    @else
+                                        &ndash;
+                                    @endisset
+                                </td>
+                                <td class="text-end">{{ $disposition->keyboard_numbering ? $disposition->manuals_count : '' }}</td>
+                                <td class="text-end">{{ $disposition->real_disposition_registers_count }}</td>
+                                @if (Auth::check())
+                                    <td class="text-end">{{ $disposition->registrations_count }}</td>
+                                @endif
+                                <td class="ps-4">
+                                    <div class="btn-group col-auto">
+                                        <a class="btn btn-sm btn-primary" href="{{ route('dispositions.show', $disposition->slug) }}" wire:navigate data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit') }}">
+                                            <i class="bi-eye"></i>
+                                        </a>
+                                        @can('update', $disposition)
+                                            <a class="btn btn-sm btn-outline-primary" href="{{ route('dispositions.edit', $disposition->id) }}" wire:navigate data-bs-toggle="tooltip" data-bs-title="{{ __('Upravit') }}">
+                                                <i class="bi-pencil"></i>
+                                            </a>
+                                        @endcan
+                                        <button type="button" class="btn btn-sm btn-outline-primary z-1" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $this->getShareUrl($disposition) }}">
+                                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Sdílet') }}">
+                                                <i class="bi-share"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            {{ $this->dispositions->links() }}
         </div>
-    
-        {{ $this->dispositions->links() }}
     @endif
     
     <x-organomania.modals.share-modal />

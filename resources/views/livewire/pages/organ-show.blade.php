@@ -25,7 +25,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function mount()
     {
-        if (!request()->hasValidSignature()) {
+        if (!request()->hasValidSignature(false)) {
             $this->authorize('view', $this->organ);
         }
     }

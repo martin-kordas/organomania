@@ -234,7 +234,8 @@ trait EntityPageView
     private function getShareUrl(Model $entity)
     {
         $fn = isset($entity->user_id) ? URL::signedRoute(...) : route(...);
-        return $fn($this->showRoute, $entity->slug);
+        $relativeUrl = $fn($this->showRoute, $entity->id, absolute: false);
+        return url($relativeUrl);
     }
 
     private function getViewUrl(Model $entity)

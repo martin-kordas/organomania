@@ -52,6 +52,9 @@
         <ul class="mb-0">
             @foreach ($dispositions as $disposition)
                 <li>
+                    @if (!$disposition->isPublic())
+                        <i class="bi bi-lock text-warning"></i>
+                    @endif
                     <a href="{{ route('dispositions.show', [$disposition->slug, 'highlightRegisterId' => $registerName->register_id]) }}" class="link-primary text-decoration-none" target="_blank">
                         {{ $disposition->name }}
                     </a>

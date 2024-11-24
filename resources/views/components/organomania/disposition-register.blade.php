@@ -64,7 +64,7 @@
             data-description="{{ str($register->register?->description) }}"
         >
             <span data-bs-toggle="tooltip" data-bs-title="{{ __('Podrobnosti o rejstříku') }}">
-                <i class="bi-eye"></i>
+                <i class="bi-question-circle"></i>
             </span>
         </a>
     </div>
