@@ -112,7 +112,11 @@
                         <div class="col-md-8 col-lg-7 col-xl-6 hstack">
                             <div class="input-group">
                                 <div class="input-group-text category-input-group-text">
-                                    <i class="bi-tags"></i><span class="d-none d-lg-inline">&nbsp;{{ __('Kategorie') }}</span>
+                                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}">
+                                        <a href="#" class="link-primary text-decoration-none" data-bs-toggle="modal" data-bs-target="#categoriesModal">
+                                            <i class="bi-tags"></i><span class="d-none d-lg-inline">&nbsp;{{ __('Kategorie') }}</span>
+                                        </a>
+                                    </span>
                                 </div>
                                 <x-organomania.selects.organ-category-select
                                     id="quickFilterCategories"
@@ -227,6 +231,10 @@
             :isCustomCategoryOrgans="$this->isCustomCategoryOrgans"
             :entityClass="$this->entityClass"
         />
+          
+        @if ($this->isCategorizable)
+            <x-organomania.modals.categories-modal :categoriesGroups="$this->organCategoriesGroups" :categoryClass="$this->categoryClass" :title="$this->categoryModalTitle" />
+        @endif
     </div>
 </div>
 

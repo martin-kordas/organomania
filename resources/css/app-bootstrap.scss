@@ -1,3 +1,5 @@
+$primary: #8a5c1a;
+$info: goldenrod;
 @import "bootstrap/scss/bootstrap";
 @import '../node_modules/bootstrap/scss/mixins';
 @import '../node_modules/bootstrap/scss/functions';
@@ -11,6 +13,9 @@ $s2bs5-border-color: $border-color;
 
 :root {
     --label-margin-right: 0.4em;
+    --header-footer-background: #fff0e5; /* dříve: #fbe2d0 */
+    --header-footer-background-light: #fffaf5; /* dříve: #fff4eb*/
+    --header-footer-border-color: #e6b369;
 }
 
 img.logo {
@@ -48,6 +53,16 @@ footer {
   ul.nav li:first-of-type a {
     padding-left: 0 !important;
   }
+}
+
+header > nav, footer > div, header > nav * footer > div * {
+    background: var(--header-footer-background);
+    input {
+        --bs-border-color: var(--header-footer-border-color);
+    }
+}
+header.border-bottom, footer > div.border-top {
+    --bs-border-color: var(--header-footer-border-color);
 }
 
 div.side-buttons {
@@ -228,17 +243,28 @@ div.side-buttons {
         max-height: 400px;
         max-width: 100%;
     }
+    .organ-of-day > div {
+        background: var(--header-footer-background-light);
+        &:hover {
+            background: var(--header-footer-background);
+        }
+    }
     
     .welcome-text {
         max-width: 700px;
     }
-    .welcome-card > div, .organ-of-day > div {
-        transition: background 0.25s;
+    .welcome-card > div {
         &:hover {
-            background: var(--bs-tertiary-bg);
+            background: var(--header-footer-background-light);
         }
     }
+    
+    .organ-of-day > div, .welcome-card > div {
+        border-color: var(--header-footer-border-color) !important;
+        transition: background 0.25s;
+    }
 }
+    
 
 .organ-custom-categories {
     max-width: 850px;
@@ -259,7 +285,7 @@ div.side-buttons {
             }
         }
         td.button-icon {
-            width: 3em;
+            width: 2.5em;
         }
         td.button-organs {
             width: 5em;
@@ -271,6 +297,12 @@ div.side-buttons {
         td.separator {
             width: 1%;
             padding: 0;
+        }
+    }
+    
+    @media screen and (max-width: 767px) {
+        td.inputs {
+            max-width: 60vw;
         }
     }
 }
@@ -419,4 +451,16 @@ div.side-buttons {
 
 .register-show {
     max-width: 850px;
+}
+
+.registration-sets {
+    max-width: 850px;
+}
+
+.registration-set-show {
+    max-width: 850px;
+    
+    table th {
+        width: 7.5em;
+    }
 }

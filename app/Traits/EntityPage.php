@@ -59,6 +59,8 @@ trait EntityPage
     private ?string $customCategoryRoute;
     private ?string $categorySelectPlaceholder;
     private ?string $gateUseCustomCategories;
+    private ?string $categoryClass = null;
+    private ?string $categoryModalTitle = null;
     private ?string $gateLike;
     private string $entityPageViewComponent;
     private string $entityClass;

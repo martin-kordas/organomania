@@ -64,6 +64,7 @@ class Helpers
         return implode($parts);
     }
     
+    // lze řešit i Laravel funkcí trans_choice(), ale toto je asi pohodlnější
     static function declineCount($count, $text0, $text1, $text2)
     {
         return match (true) {

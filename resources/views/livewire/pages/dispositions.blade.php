@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use App\Models\Disposition;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
@@ -50,7 +51,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function getShareUrl(Disposition $disposition)
     {
         $fn = isset($disposition->user_id) ? URL::signedRoute(...) : route(...);
-        $relativeUrl = $fn('dispositions.show', $disposition->slug, absolute: false);
+        $absolute = false;      // varianta s named argumenty z neznámého důvodu nefunguje, je-li $disposition->organ_id === null
+        $relativeUrl = $fn('dispositions.show', $disposition->slug, null, $absolute);
         return url($relativeUrl);
     }
 
@@ -112,7 +114,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     @else
         <div style="max-width: fit-content;">
             <div class="table-responsive">
-                <table class="table table-hover table-sm align-middle w-auto" style="min-width: 40vw; margin-bottom: 10em; /* kvůli dropdownu na posledním řádku tabulky */">
+                <table class="table table-hover table-sm align-middle w-auto" style="min-width: 40vw;">
                     <thead>
                         <tr>
                             <th>&nbsp;</th>
@@ -150,7 +152,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 <td class="text-end">{{ $disposition->keyboard_numbering ? $disposition->manuals_count : '' }}</td>
                                 <td class="text-end">{{ $disposition->real_disposition_registers_count }}</td>
                                 @if (Auth::check())
-                                    <td class="text-end">{{ $disposition->registrations_count }}</td>
+                                    <td class="text-end">
+                                        @if ($disposition->registrations_count > 0)
+                                            <span class="badge text-bg-secondary rounded-pill">
+                                                {{ $disposition->registrations_count }}
+                                            </span>
+                                        @else
+                                            <span class="badge text-bg-light rounded-pill">
+                                                0
+                                            </span>
+                                        @endif
+                                    </td>
                                 @endif
                                 <td class="ps-4">
                                     <div class="btn-group col-auto">

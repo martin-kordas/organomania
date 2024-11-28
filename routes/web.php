@@ -36,6 +36,9 @@ Route::middleware(["auth"])->group(function () {
             ->name('organ-builders.organ-builder-custom-categories');
     });
     
+    Volt::route('dispositions/{disposition}/registration-sets', 'pages.registration-sets')
+        ->name('dispositions.registration-sets.index');
+    
     Volt::route('test', 'pages.test');
 });
 
@@ -92,6 +95,9 @@ Volt::route('dispositions/registers/{registerName}', 'pages.register-show')
     ->name('dispositions.registers.show');
 Volt::route('dispositions/{disposition}', 'pages.disposition-show')
     ->name('dispositions.show');
+Volt::route('dispositions/{disposition}/registration-sets/{registrationSet:slug}', 'pages.registration-set-show')
+    ->name('dispositions.registration-sets.show')
+    ->scopeBindings();
 
 Route::get('organ-custom-categories/{id}/organs', function ($id) {
     $params = ['filterCategories' => ["custom-$id"], 'viewType' => 'table'];

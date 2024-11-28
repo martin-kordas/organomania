@@ -66,7 +66,9 @@ class DispositionRegister extends Model
     {
         return
             $this->coupler
-            && collect(static::TREMULANT_NAMES)->flatten()->contains($this->name);
+            && collect(static::TREMULANT_NAMES)->flatten()->contains(function ($tremulantName) {
+                return str($this->name)->startsWith($tremulantName);
+            });
     }
     
 }

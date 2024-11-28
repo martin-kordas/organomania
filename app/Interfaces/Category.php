@@ -10,5 +10,6 @@ interface Category
     public function getDescription(): ?string;
     public function getColor(): string;
     public function getItemsUrl(): string;
+    public function isPeriodCategory(): bool;
     
 }

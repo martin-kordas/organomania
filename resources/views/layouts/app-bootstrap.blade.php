@@ -75,7 +75,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
             </main>
             
             <footer class="container-fluid mt-auto p-0 d-print-none">
-                <div class="bg-light border-top mt-4">
+                <div class="border-top mt-4">
                     <div class="container">
                         <div class="d-flex flex-wrap justify-content-between align-items-center py-2">
                             <div class="">

@@ -80,7 +80,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id]) }}"
                                     wire:navigate
                                 >
-                                    <i class="bi-file-music"></i>
+                                    <i class="bi-music-note-list"></i>
                                     <span class="d-none d-xxl-inline">{{ __('Varhany') }}</span>
                                     <span class="badge text-bg-secondary rounded-pill">{{ $organBuilder->organs_count }}</span>
                                 </a>

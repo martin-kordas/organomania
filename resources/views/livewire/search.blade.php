@@ -99,7 +99,7 @@ new class extends Component {
                 @if ($this->resultsCount > 0)
                     @if ($this->resultsOrgans->isNotEmpty())
                         <div class="card-header fw-bold">
-                            <i class="bi-file-music"></i> {{ __('Varhany') }}
+                            <i class="bi-music-note-list"></i> {{ __('Varhany') }}
                         </div>
                         <div class="list-group list-group-flush">
                             @foreach ($this->resultsOrgans as $organ)
@@ -123,7 +123,7 @@ new class extends Component {
                 
                     @if ($this->resultsOrganBuilders->isNotEmpty())
                         <div class="card-header fw-bold">
-                            <i class="bi-file-person"></i> {{ __('Varhanáři') }}
+                            <i class="bi-person-circle"></i> {{ __('Varhanáři') }}
                         </div>
                         <div class="list-group list-group-flush">
                             @foreach ($this->resultsOrganBuilders as $organBuilder)

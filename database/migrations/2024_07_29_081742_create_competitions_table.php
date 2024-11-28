@@ -34,10 +34,6 @@ return new class extends Migration
             $table->text('perex')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            
-            // vítězové ročníků
-            
-            // perex: mezinárodnost, počet kol, tradice od, zda je jen varhanní
         });
         
         Schema::create('competition_organ', function (Blueprint $table) {

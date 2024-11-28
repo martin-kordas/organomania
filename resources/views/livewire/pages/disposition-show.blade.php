@@ -664,7 +664,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 {!! __('Polohu (výšku tónů) rejstříku určuje stopová výška: <em>8\'</em> značí základní polohu tónu, nižší číslo (např. <em>4\'</em>) značí vyšší polohu tónu, vyšší číslo (např. <em>16\'</em>) značí nižší polohu tónu.') !!}
                 {!! __('Pro každý <strong>manuál</strong> (klaviaturu) mají varhany samostatnou sadu rejstříků.') !!}
                 {!! __('Rejstříky dělíme do kategorií podle způsobu konstrukce, viz') !!}
-                <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#registerCategoriesModal">{{ __('Přehled kategorií rejstříků') }}</a>.
+                <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#categoriesModal">{{ __('Přehled kategorií rejstříků') }}</a>.
             </x-organomania.info-alert>
             
             {{-- registrace --}}
@@ -675,7 +675,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </button>
                 </div>
             @elseif ($this->showRegistrations)
-                <div class="row mt-2 gx-2 align-items-center d-print-none" @keydown.esc="$wire.cancel()" style="max-width: 35em;">
+                <div id="registrationsList" class="row mt-3 gx-2 align-items-center d-print-none" @keydown.esc="$wire.cancel()" style="max-width: 35em;">
                     <div class="col-auto">
                         <label class="label form-label" for="registrationId">{{ __('Registrace') }}</label>&nbsp;&nbsp;
                     </div>
@@ -683,8 +683,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <div class="col-auto">
                             <div class="form-check form-switch" style="font-size: 85%;">
                                 <input class="form-check-input" type="checkbox" role="switch" id="showOnlyRegistered" wire:model.change="showOnlyRegistered">
-                                <label class="form-check-label" for="showOnlyRegistered">{{ __('Zobrazit jen rejstříky v registraci') }}</label>
+                                <label class="form-check-label" for="showOnlyRegistered">
+                                    <span class="d-sm-none">{{ __('Jen naregistrované') }}</span>
+                                    <span class="d-none d-sm-inline">{{ __('Zobrazit jen rejstříky v registraci') }}</span>
+                                </label>
                             </div>
+                        </div>
+                    @endif
+                    @if ($disposition->registrationSets->isNotEmpty())
+                        <div class="col-auto ms-auto position-relative" style="font-size: 85%; top: -4px;">
+                            <a class="btn btn-sm btn-outline-secondary" href="{{ route('dispositions.registration-sets.index', $disposition->slug) }}" wire:navigate>
+                                {{ __('Sady') }}<span class="d-none d-sm-inline"> {{ __('registrací') }}</span>
+                                <span class="badge text-bg-secondary rounded-pill">{{ $disposition->registrationSets->count() }}</span>
+                            </a>
                         </div>
                     @endif
                     <div class="w-100"></div>
@@ -965,7 +976,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endcan
     </div>
 
-    <x-organomania.modals.register-categories-modal :registerCategoriesGroups="$this->registerCategoriesGroups" />
+    <x-organomania.modals.categories-modal :categoriesGroups="$this->registerCategoriesGroups" :categoryClass="RegisterCategory::class" :title="__('Přehled kategorií rejstříků')" />
         
     <x-organomania.modals.share-modal />
         

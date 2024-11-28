@@ -43,6 +43,11 @@ class Disposition extends Model
         return $this->hasMany(Registration::class)->orderBy('name');
     }
     
+    public function registrationSets()
+    {
+        return $this->hasMany(RegistrationSet::class)->latest();
+    }
+    
     public function manuals()
     {
         return $this->hasMany(Keyboard::class)->where('pedal', 0);

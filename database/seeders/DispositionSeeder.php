@@ -1344,6 +1344,12 @@ class DispositionSeeder extends Seeder
                 Flétna dutá 4'
                 Principál 2'
                 Mixtura 3x 1'
+            
+                Pomocná zařízení
+                II/I
+                I/P
+                II/P
+                Tremolo II. manuálu
                 END);
     }
     

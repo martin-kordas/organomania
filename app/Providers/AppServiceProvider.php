@@ -13,6 +13,7 @@ use App\Models\OrganBuilder;
 use App\Models\Disposition;
 use App\Models\Competition;
 use App\Models\Festival;
+use App\Models\RegistrationSet;
 use App\Models\RegisterName;
 use App\Models\User;
 use App\Models\Scopes\OwnedEntityScope;
@@ -88,6 +89,7 @@ class AppServiceProvider extends ServiceProvider
             'festival' => Festival::class,
             'competition' => Competition::class,
             'registerName' => RegisterName::class,
+            'registrationSet' => RegistrationSet::class,
         ];
         foreach ($modelBindings as $modelBinding => $modelClass) {
             Route::bind($modelBinding, function (string $value) use ($modelClass) {

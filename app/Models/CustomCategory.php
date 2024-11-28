@@ -40,4 +40,9 @@ abstract class CustomCategory extends Model implements Category
         return 'info';
     }
     
+    public function isPeriodCategory(): bool
+    {
+        return false;
+    }
+    
 }

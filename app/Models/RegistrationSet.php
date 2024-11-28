@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use App\Observers\RegistrationObserver;
+use App\Observers\RegistrationSetObserver;
 use App\Models\Scopes\OwnedEntityScope;
+use App\Traits\OwnedEntity;
 
-#[ObservedBy([RegistrationObserver::class])]
-class Registration extends Model
+#[ObservedBy([RegistrationSetObserver::class])]
+class RegistrationSet extends Model
 {
     use HasFactory, SoftDeletes;
+    use OwnedEntity;
     
     protected static function booted(): void
     {
@@ -22,14 +24,18 @@ class Registration extends Model
     
     protected $guarded = [];
     
-    public function dispositionRegisters()
+    public function registrations()
     {
-        return $this->belongsToMany(DispositionRegister::class, 'registration_disposition_register');
+        return $this->belongsToMany(Registration::class, 'registration_set_registration')->orderByPivot('order');
     }
     
-    public function realDispositionRegisters()
+    public function sluggable(): array
     {
-        return $this->dispositionRegisters()->where('coupler', 0);
+        return [
+            'slug' => [
+                'source' => ['private_prefix', 'name']
+            ]
+        ];
     }
     
 }

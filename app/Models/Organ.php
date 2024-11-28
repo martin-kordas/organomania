@@ -21,6 +21,7 @@ use App\Models\Like;
 use App\Models\OrganRebuild;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Traits\OwnedEntity;
+use App\Helpers;
 
 #[ObservedBy([OrganObserver::class])]
 class Organ extends Model
@@ -85,6 +86,20 @@ class Organ extends Model
     {
         if (isset($this->image_url))
             return ['image_url' => $this->image_url, 'image_credits' => $this->image_credits];
+    }
+    
+    public function getDeclinedManualsCount()
+    {
+        $manuals = __(Helpers::declineCount($this->manuals_count, 'manuálů', 'manuál', 'manuály'));
+        return "{$this->manuals_count} $manuals";
+    }
+    
+    public function getDeclinedStopsCount()
+    {
+        if ($this->stops_count < 0) throw new \LogicException;
+        
+        $stops = __(Helpers::declineCount($this->stops_count, 'rejstříků', 'rejstřík', 'rejstříky'));
+        return "{$this->stops_count} $stops";
     }
     
     #[SearchUsingFullText(['description', 'perex'])]

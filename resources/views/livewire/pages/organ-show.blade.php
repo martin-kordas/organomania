@@ -1,12 +1,15 @@
 <?php
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use App\Services\MarkdownConvertorService;
+use App\Models\Disposition;
 use App\Models\Organ;
+use App\Models\Scopes\OwnedEntityScope;
 use App\Traits\HasAccordion;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
@@ -33,6 +36,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function boot(MarkdownConvertorService $markdownConvertor)
     {
         $this->markdownConvertor = $markdownConvertor;
+
+        $this->organ->load(['dispositions' => function (HasMany $query) {
+            if (request()->hasValidSignature(false))
+                $query->withoutGlobalScope(OwnedEntityScope::class);
+        }]);
     }
 
     public function rendering(View $view): void
@@ -77,6 +85,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             return route('organs.index');
         }
         return $previousUrl;
+    }
+
+    private function getDispositionUrl(Disposition $disposition)
+    {
+        $fn = !Gate::allows('view', $disposition) ? URL::signedRoute(...) : route(...);
+        $relativeUrl = $fn('dispositions.show', $disposition->slug, absolute: false);
+        return url($relativeUrl);
     }
 
 }; ?>
@@ -179,7 +194,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </tr>
         @if (isset($organ->web))
             <tr>
-                <th>{{ __('Web') }}</th>
+                <th>{{ __('Webové odkazy') }}</th>
                 <td>
                     @foreach (explode("\n", $organ->web) as $url)
                         <a class="icon-link icon-link-hover" target="_blank" href="{{ $url }}">
@@ -251,7 +266,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <h5>{{ __('Interaktivní zobrazení') }}</h5>
                     @foreach ($organ->dispositions as $disposition)
                         <div>
-                            <a wire:navigate class="link-primary text-decoration-none" href="{{ route('dispositions.show', $disposition->slug) }}">
+                            <a wire:navigate class="link-primary text-decoration-none" href="{{ $this->getDispositionUrl($disposition) }}">
                                 {{ $disposition->name }}
                             </a>
                             @if (!$disposition->isPublic())

@@ -68,6 +68,7 @@ trait EntityPageView
     private ?string $exportFilename;
     private ?string $showRoute;
     private ?string $editRoute;
+    private ?string $shareModalHint = null;
     private ?string $customCategoriesRoute;
     private ?string $customCategoriesCountProp;
     private string $noResultsMessage;
@@ -241,7 +242,8 @@ trait EntityPageView
     private function getViewUrl(Model $entity)
     {
         $fn = !Gate::allows('view', $entity) ? URL::signedRoute(...) : route(...);
-        return $fn($this->showRoute, $entity->slug);
+        $relativeUrl = $fn($this->showRoute, $entity->slug, absolute: false);
+        return url($relativeUrl);
     }
 
     public function rendered()

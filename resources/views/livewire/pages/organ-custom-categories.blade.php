@@ -58,7 +58,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $this->backRoute = 'organs.index';
                 $this->recordsCountProp = 'organs_count';
                 $this->recordEntityName = __('Varhany');
-                $this->recordEntityIcon = 'file-music';
+                $this->recordEntityIcon = 'music-note-list';
                 $this->showRecordsText = __('Zobrazit varhany v této kategorii');
                 $this->shareModalHint = __('Sdílením kategorie sdílíte všechny varhany v ní obsažené.');
                 $this->createCategoryMessage = __('Vytvořte si vlastní pojmenovanou skupinu varhan.');
@@ -72,7 +72,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $this->backRoute = 'organ-builders.index';
                 $this->recordsCountProp = 'organ_builders_count';
                 $this->recordEntityName = __('Varhanáři');
-                $this->recordEntityIcon = 'file-person';
+                $this->recordEntityIcon = 'person-circle';
                 $this->showRecordsText = __('Zobrazit varhanáře v této kategorii');
                 $this->shareModalHint = __('Sdílením kategorie sdílíte všechny varhanáře v ní obsažené.');
                 $this->createCategoryMessage = __('Vytvořte si vlastní pojmenovanou skupinu varhanářů.');
@@ -198,14 +198,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </p>
     
     <form wire:submit="save">
-        <table class="table table-hover align-middle" style="table-layout: fixed;">
+        <table class="table table-sm table-hover align-middle" style="table-layout: fixed;">
             @foreach ($this->categories as $category)
                 <tr @class(['table-secondary' => session('organ-custom-categories.saved-id') === $category->id])>
                     @if ($this->isEdit && $this->id === $category->id)
                         <x-organomania.organ-custom-categories-edit-row />
                     @else
                         <td>
-                            <div class="row g-3">
+                            <div class="row">
                                 <div class="col-md-5">
                                     {{ $category->name }}
                                 </div>

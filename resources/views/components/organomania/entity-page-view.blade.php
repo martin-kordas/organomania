@@ -14,7 +14,7 @@
             {{ $this->organs->links() }}
         @endif
           
-        <x-organomania.modals.share-modal />
+        <x-organomania.modals.share-modal :hintAppend="$this->shareModalHint" />
 
         @if ($this->isCategorizable)
             <x-organomania.modals.organ-custom-categories-modal :customCategories="$this->organCustomCategories" />

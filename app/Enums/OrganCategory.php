@@ -105,7 +105,7 @@ enum OrganCategory: int implements Category
         };
     }
     
-    public function isPeriodCategory()
+    public function isPeriodCategory(): bool
     {
         return in_array($this, [
             static::BuiltTo1799, static::BuiltFrom1800To1944, static::BuiltFrom1945To1989, static::BuiltFrom1990

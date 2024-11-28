@@ -29,9 +29,9 @@
             </div>
             <div class="stars">
                 <span class="text-body-secondary">
-                    {{ $organ->manuals_count }} {{ __(Helpers::declineCount($organ->manuals_count, 'manuálů', 'manuál', 'manuály')) }}
+                    {{ $organ->getDeclinedManualsCount() }}
                     @if ($organ->stops_count)
-                        / {{ $organ->stops_count }} {{ __(Helpers::declineCount($organ->stops_count, 'rejstříků', 'rejstřík', 'rejstříky')) }}
+                        / {{ $organ->getDeclinedStopsCount() }}
                     @endif
                 </span>
                 <x-organomania.stars class="float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Význam') }}" :count="round($organ->importance / 2)" />

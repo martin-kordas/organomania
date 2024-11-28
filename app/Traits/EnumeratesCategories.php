@@ -20,7 +20,7 @@ trait EnumeratesCategories
         $description = $this->getData()['description'] ?? null;
         if (isset($description)) return $description;
         
-        if (method_exists($this, 'isPeriodCategory') && $this->isPeriodCategory()) {
+        if ($this->isPeriodCategory()) {
             return __('Období');
         }
         return null;

@@ -152,7 +152,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             />
         </div>
         <div class="col-9 col-sm-auto">
-            <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#registerCategoriesModal">{{ __('Přehled kategorií rejstříků') }}</button>
+            <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#categoriesModal">{{ __('Přehled kategorií rejstříků') }}</button>
         </div>
     </div>
     
@@ -258,7 +258,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </ul>
     </small>
     
-    <x-organomania.modals.register-categories-modal :registerCategoriesGroups="$this->registerCategoriesGroups" />
+    <x-organomania.modals.categories-modal :categoriesGroups="$this->registerCategoriesGroups" :categoryClass="RegisterCategory::class" :title="__('Přehled kategorií rejstříků')" />
     <x-organomania.modals.register-modal :registerName="$this->registerName" />
     <x-organomania.modals.share-modal />
         

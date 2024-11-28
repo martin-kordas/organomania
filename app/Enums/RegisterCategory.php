@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum RegisterCategory: int
+use App\Interfaces\Category;
+
+enum RegisterCategory: int implements Category
 {
     
     case Principal = 1;
@@ -91,16 +93,36 @@ enum RegisterCategory: int
         return $this->value < 10;
     }
     
-    public function getName()
+    public function getValue(): int
+    {
+        return $this->value;
+    }
+    
+    public function getColor(): string
+    {
+        return $this->isMain() ? 'primary' : 'secondary';
+    }
+    
+    public function getItemsUrl(): string
+    {
+        return route('dispositions.registers.index', ['filterCategories' => [$this->value]]);
+    }
+    
+    public function getName(): string
     {
         $name = static::DATA[$this->value]['name'] ?? throw new \LogicException;
         return __($name);
     }
     
-    public function getDescription()
+    public function getDescription(): ?string
     {
         $description = static::DATA[$this->value]['description'] ?? null;
         return isset($description) ? __($description) : null;
+    }
+    
+    public function isPeriodCategory(): bool
+    {
+        return false;
     }
     
     public static function getMainCategories()

@@ -1,7 +1,6 @@
 @props(['organOfDay'])
 
 @php
-    use App\Helpers;
     use Carbon\Carbon;
 @endphp
 
@@ -18,7 +17,7 @@
 
     <div class="welcome">
         <div class="welcome-text p-3 pb-md-4 mx-auto text-center">
-            <h1 class="display-5 fw-normal text-body-emphasis">{{ __('Vítejte ve světě varhan!') }}</h1>
+            <h1 class="display-5 fw-normal text-body-emphasis">{!! __('Vítejte ve světě varhan!') !!}</h1>
             <p class="fs-5 text-body-secondary">
                 {!! $description !!}
             </p>
@@ -36,7 +35,7 @@
                         <h2 class="fs-5">{{ __('Varhany dne') }}</h2>
                         <figure class="mb-0">
                             <div class="position-relative mb-1">
-                                <img class="organ-of-day-image rounded" src="{{ $organOfDay->image_url }}" @isset($organOfDay->image_credits) title="{{ __('Licence obrázku') }}: {{ $organOfDay->image_credits }}" @endisset />
+                                <img class="organ-of-day-image rounded border" src="{{ $organOfDay->image_url }}" @isset($organOfDay->image_credits) title="{{ __('Licence obrázku') }}: {{ $organOfDay->image_credits }}" @endisset />
                                 <img width="125" class="region end-0 m-2 bottom-0 position-absolute" src="{{ Vite::asset("resources/images/regions/{$organOfDay->region_id}.png") }}" />
                             </div>
                             <figcaption>
@@ -45,9 +44,9 @@
                                 <x-organomania.organ-builder-link :organBuilder="$organOfDay->organBuilder" :yearBuilt="$organOfDay->year_built" />
                                 &nbsp;|&nbsp;
                                 <span class="text-body-secondary">
-                                    {{ $organOfDay->manuals_count }} {{ __(Helpers::declineCount($organOfDay->manuals_count, 'manuálů', 'manuál', 'manuály')) }}
+                                    {{ $organOfDay->getDeclinedManualsCount() }}
                                     @if ($organOfDay->stops_count)
-                                        / {{ $organOfDay->stops_count }} {{ __(Helpers::declineCount($organOfDay->stops_count, 'rejstříků', 'rejstřík', 'rejstříky')) }}
+                                        / {{ $organOfDay->getDeclinedStopsCount() }}
                                     @endif
                                 </span>
                             </figcaption>

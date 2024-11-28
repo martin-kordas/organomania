@@ -52,6 +52,7 @@ new class extends Component {
         $this->gateLikeEntity = 'likeOrgan';
         $this->showRoute = 'organs.show';
         $this->editRoute = 'organs.edit';
+        $this->shareModalHint = 'Sdílením varhan sdílíte i jejich dispozice.';
         $this->customCategoriesRoute = 'organs.organ-custom-categories';
         $this->customCategoriesCountProp = 'organ_custom_categories_count';
         $this->noResultsMessage = __('Nebyly nalezeny žádné varhany.');
