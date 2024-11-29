@@ -21,7 +21,7 @@
                 <span @class(['text-body-secondary', 'mark' => $organ->shouldHighlightFrequency()])>
                     {{ $organ->frequency }}
                 </span>
-                <x-organomania.stars class="float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Význam') }}" :count="round($organ->importance / 2)" />
+                <x-organomania.stars class="float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Význam') }}" countAll="3" :count="$organ->importance" />
             </div>
         @endisset
     </x-slot:header>

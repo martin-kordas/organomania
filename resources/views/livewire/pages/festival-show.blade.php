@@ -122,7 +122,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <tr>
             <th>{{ __('Význam') }}</th>
             <td>
-                <x-organomania.stars :count="round($festival->importance / 2)" :showCount="true" />
+                <x-organomania.stars :count="$festival->importance" countAll="3" :showCount="true" />
             </td>
         </tr>
         @isset($festival->url)

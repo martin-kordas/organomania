@@ -51,15 +51,16 @@ class FestivalRepository extends AbstractRepository
         }
 
         foreach ($sorts as $field => $direction) {
+            $directionSql = $direction === 'desc' ? 'DESC' : 'ASC';
+            
             switch ($field) {
                 // řazení festivalů:
                 //  - začínající v aktuálním nebo příštím měsíci
                 //  - běžící po celý rok
                 //  - začínající v dalších měsících
                 case 'starting_month':
-                    $directionSql = $direction === 'desc' ? 'DESC' : 'ASC';
                     $currentMonth = (int)date('n');
-                    $expr = ("
+                    $expr = "
                         IF(
                             starting_month IS NULL,
                             1.5,
@@ -69,8 +70,19 @@ class FestivalRepository extends AbstractRepository
                                 starting_month - ? + 12
                             )
                         ) $directionSql
-                    ");
+                    ";
                     $query->orderByRaw($expr, [$currentMonth, $currentMonth, $currentMonth]);
+                    break;
+                
+                case 'importance':
+                    $expr = "
+                        CASE
+                            WHEN importance >= 7 THEN 3
+                            WHEN importance >= 4 THEN 2
+                            ELSE 1
+                        END $directionSql
+                    ";
+                    $query->orderByRaw($expr);
                     break;
                 
                 default:

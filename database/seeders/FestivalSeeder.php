@@ -718,7 +718,7 @@ class FestivalSeeder extends Seeder
                 'frequency' => 'přes celý rok',
                 'starting_month' => null,
                 'url' => 'https://www.facebook.com/people/Hudba-v-kostele-sv-Mo%C5%99ice-v-Olomouci/100089914238363/',
-                'importance' => 5,
+                'importance' => 3,
                 'perex' => null,
             ],
         );

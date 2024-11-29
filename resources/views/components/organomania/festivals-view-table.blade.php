@@ -79,7 +79,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             @endisset
                         </td>
                         <td>
-                            <x-organomania.stars class="responsive" :count="round($festival->importance / 2)" :showCount="true" />
+                            <x-organomania.stars class="responsive" countAll="3" :count="$festival->importance" :showCount="true"  />
                         </td>
                         <td class="text-nowrap">
                             <x-organomania.entity-page-view-table-buttons :record="$festival" />

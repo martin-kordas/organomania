@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -37,6 +38,17 @@ class Festival extends Model
             elseif (isset($this->organ->image_url))
                 return ['image_url' => $this->organ->image_url, 'image_credits' => $this->organ->image_credits];
         }
+    }
+    
+    protected function importance(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($importance) => match (true) {
+                $importance >= 7 => 3,
+                $importance >= 4 => 2,
+                default => 1,
+            }
+        );
     }
     
     public function shouldHighlightFrequency()
