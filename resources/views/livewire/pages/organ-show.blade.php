@@ -263,7 +263,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_DISPOSITION }}')"
             >
                 @if ($organ->dispositions->isNotEmpty())
-                    <h5>{{ __('Interaktivní zobrazení') }}</h5>
+                    <h5>{{ __('Podrobné interaktivní zobrazení') }}</h5>
                     @foreach ($organ->dispositions as $disposition)
                         <div>
                             <a wire:navigate class="link-primary text-decoration-none" href="{{ $this->getDispositionUrl($disposition) }}">
@@ -277,7 +277,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endif
                 @isset($organ->disposition)
                     @if ($organ->dispositions->isNotEmpty())
-                        <h5 class="mt-4">{{ __('Textové zobrazení') }}</h5>
+                        <h5 class="mt-4">{{ __('Jednoduché zobrazení') }}</h5>
                     @endif
                     <div class="markdown accordion-disposition">{!! $this->markdownConvertor->convert($organ->disposition) !!}</div>
                 @endisset

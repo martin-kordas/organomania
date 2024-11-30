@@ -16,11 +16,17 @@
     @endpush
 
     <div class="welcome">
-        <div class="welcome-text p-3 pb-md-4 mx-auto text-center">
+        <div class="welcome-text p-3 pb-4 pb-md-5 mx-auto text-center">
             <h1 class="display-5 fw-normal text-body-emphasis">{!! __('Vítejte ve světě varhan!') !!}</h1>
-            <p class="fs-5 text-body-secondary">
-                {!! $description !!}
+            <p class="text-body-secondary mb-0">
+                <span class="fs-5 d-none d-md-inline">{!! $description !!}</span>
+                <span class="fs-6 d-md-none">{!! $description !!}</span>
             </p>
+        </div>
+        
+        <div class="mb-4 mb-md-5 m-auto" style="max-width: 600px">
+            <livewire:search id="welcomeSearch" placeholder="{{__('Hledejte varhany, varhanáře, varhanní rejstříky...') }}" />
+            <div class="form-text text-center">{{ __('např. Kladruby, Rieger-Kloss, Flétna trubicová') }}</div>
         </div>
         
         @isset($organOfDay)
@@ -78,7 +84,7 @@
                     </p>
                     <p class="mt-1 position-relative z-5">
                         <a class="btn btn-sm btn-outline-secondary" href="{{ route('dispositions.registers.index') }}" wire:navigate @click.stop>
-                            <i class="bi-globe"></i> {{ __('Encyklopedie rejstříků') }} »
+                            <i class="bi-record-circle"></i> {{ __('Encyklopedie rejstříků') }} »
                         </a>
                     </p>
                 </x-slot:footer>

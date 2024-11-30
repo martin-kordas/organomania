@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Laravel\Scout\Searchable;
 use App\Helpers;
 use App\Enums\DispositionLanguage;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class RegisterName extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Searchable, Sluggable;
     
     public function register()
     {
@@ -21,6 +22,11 @@ class RegisterName extends Model
     protected function language(): Attribute
     {
         return Helpers::makeEnumAttribute('language', DispositionLanguage::from(...));
+    }
+    
+    public function toSearchableArray(): array
+    {
+        return $this->only(['name']);
     }
     
     public function sluggable(): array

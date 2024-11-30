@@ -5,7 +5,7 @@
     <x-slot:header>
         @isset($organ)
             <h5 class="card-title">
-                <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($organ) }}">
+                <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($organ) }}" wire:navigate>
                     <strong>{{ $organ->name }}</strong>
                 </a>
             </h5>

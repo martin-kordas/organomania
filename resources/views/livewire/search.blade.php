@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
+use App\Models\RegisterName;
 use App\Helpers;
 
 // https://forum.laravel-livewire.com/t/search-with-autocomplete/2966/2
@@ -17,24 +18,40 @@ new class extends Component {
 
     public $minSearchLength = 3;
 
+    public $placeholder;
+    public $id = 'search';
+
     private Collection $resultsOrgans;
     private Collection $resultsOrganBuilders;
+    private Collection $resultsRegisterNames;
     private int $resultsCount = 0;
     
+    public function boot()
+    {
+        $this->placeholder ??= __('Hledat varhany, varhanáře, rejstříky') . ' (/)';
+    }
+
     public function updatedSearch()
     {
         $search = trim($this->search);
         if (mb_strlen($search) >= $this->minSearchLength) {
             $this->resultsOrgans = $this->getOrgans();
             $this->resultsOrganBuilders = $this->getOrganBuilders();
-            $this->resultsCount = $this->resultsOrgans->count() + $this->resultsOrganBuilders->count();
+            $this->resultsRegisterNames = $this->getRegisterNames();
+            $this->resultsCount = $this->resultsOrgans->count() + $this->resultsOrganBuilders->count() + $this->resultsRegisterNames->count();
         }
+    }
+
+    #[Computed]
+    public function sanitizedSearch()
+    {
+        return trim($this->search ?? '');
     }
 
     private function getOrgans()
     {
         // https://laravel-news.com/laravel-scout-practical-guide#content-write-a-search-query
-        return Organ::search($this->search)
+        return Organ::search($this->sanitizedSearch)
             ->query(function (Builder $builder) {
                 $builder
                     ->leftJoin('organ_builders', 'organs.organ_builder_id', 'organ_builders.id')
@@ -51,7 +68,7 @@ new class extends Component {
     
     private function getOrganBuilders()
     {
-        return OrganBuilder::search($this->search)
+        return OrganBuilder::search($this->sanitizedSearch)
             ->query(function (Builder $builder) {
                 $builder
                     ->orderBy('importance', 'DESC')
@@ -68,6 +85,21 @@ new class extends Component {
             ->append(['name']);
     }
 
+    private function getRegisterNames()
+    {
+        return RegisterName::search($this->sanitizedSearch)
+            ->query(function (Builder $builder) {
+                $builder
+                    ->select([
+                        'register_id', 'name', 'slug', 'language'
+                    ])
+                    ->with('register:id,register_category_id')
+                    ->orderBy('name')
+                    ->take(12);
+            })
+            ->get();
+    }
+
     private function highlight($text)
     {
         if ($this->search == '' || $text == '') return $text;
@@ -76,17 +108,22 @@ new class extends Component {
 
 }; ?>
 
-<form role="search" class="col" style="font-size: 95%;">
+<form role="search" id="{{ $id }}-form" class="col" style="font-size: 95%;">
     <div x-data="{isTyped: false}">
         <div class="position-relative">
-            <div>
+            <div class="input-group search-input-group">
+                @if ($id === 'welcomeSearch')
+                    <span class="input-group-text">
+                        <i class="bi bi-search"></i>
+                    </span>
+                @endif
                 <input
-                    id="search"
+                    id="{{ $id }}"
                     type="search"
-                    class="form-control"
-                    placeholder="{{__('Hledat varhany a varhanáře')}}&hellip; (/)"
+                    class="search form-control px-1 px-xxl-2"
+                    placeholder="{{ $placeholder }}"
                     aria-label="{{ __('Hledat') }}"
-                    size="27"
+                    size="30"
                     @input.debounce.400ms="isTyped = ($event.target.value != '' && $event.target.value.length >= $wire.minSearchLength)"
                     @keydown.esc="isTyped = false"
                     @click.outside="isTyped = false"
@@ -95,7 +132,7 @@ new class extends Component {
                     autocomplete="off"
                 />
             </div>
-            <div class="search-results card position-absolute shadow w-100" x-show="isTyped" x-cloak style="display: none;">
+            <div class="search-results card position-absolute shadow w-100 z-1" x-show="isTyped" x-cloak style="display: none;">
                 @if ($this->resultsCount > 0)
                     @if ($this->resultsOrgans->isNotEmpty())
                         <div class="card-header fw-bold">
@@ -140,6 +177,30 @@ new class extends Component {
                                             <x-organomania.stars class="ms-auto" :count="round($organBuilder->importance / 2)" />
                                         </small>
                                     @endif
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+                
+                    @if ($this->resultsRegisterNames->isNotEmpty())
+                        <div class="card-header fw-bold">
+                            <i class="bi-record-circle"></i> {{ __('Rejstříky') }}
+                        </div>
+                        <div class="list-group list-group-flush">
+                            @foreach ($this->resultsRegisterNames as $registerName)
+                                <a
+                                    class="list-group-item list-group-item-action d-flex column-gap-1 align-items-center"
+                                    href="{{ route('dispositions.registers.show', ['registerName' => $registerName->slug]) }}"
+                                    wire:navigate
+                                >
+                                    <span class="me-auto">
+                                        {!! $this->highlight($registerName->name) !!}
+                                        <span class="text-body-secondary">({{ $registerName->language }})</span>
+                                    </span>
+                                    
+                                    <span class="badge text-bg-primary">
+                                        {{ $registerName->register->registerCategory->getName() }}
+                                    </span>
                                 </a>
                             @endforeach
                         </div>

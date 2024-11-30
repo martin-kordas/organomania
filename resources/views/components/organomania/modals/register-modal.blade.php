@@ -1,4 +1,4 @@
-@props(['registerName', 'pitch' => null, 'language' => null, 'excludeDispositionIds' => [], 'excludeOrganIds' => []])
+@props(['registerName', 'pitch' => null, 'language' => null, 'categoriesAsLink' => false, 'excludeDispositionIds' => [], 'excludeOrganIds' => []])
 
 @php
     use App\Models\RegisterName;
@@ -48,7 +48,7 @@
                     <div wire:loading.remove wire:target="setRegisterName">
                         <x-organomania.register
                             :$registerName :$registerNames :$register :$pitch :$showPitches :$language
-                            :$excludeDispositionIds :$excludeOrganIds 
+                            :$categoriesAsLink :$excludeDispositionIds :$excludeOrganIds
                         />
                     </div>
                 @endisset

@@ -20,7 +20,7 @@
 
             <div class="collapse navbar-collapse gap-3" id="navbarCollapse">
                 {{-- vlastní navigace --}}
-                <ul class="nav nav-pills justify-content-center">
+                <ul class="nav nav-pills justify-content-center row-gap-1">
                     <x-organomania.nav-item-route label="{{ __('Varhany') }}" icon="music-note-list" route="organs.index" routeActive="organs.*" />
                     <x-organomania.nav-item-route label="{{ __('menu.organ-builders') }}" icon="person-circle" route="organ-builders.index" routeActive="organ-builders.*" />
                     <x-organomania.nav-item-route label="{{ __('Dispozice') }}" icon="card-list" route="dispositions.index" routeActive="dispositions.*" />
@@ -28,7 +28,7 @@
                     <x-organomania.nav-item-route label="{{ __('Soutěže') }}" icon="trophy" route="competitions.index" routeActive="competitions.*" :highlightedCount="Competition::getHighlightedCount()" />
                 </ul>
 
-                <div class="row gx-3 gy-2 my-1 ms-auto align-items-center">
+                <div class="row gx-2 gy-2 my-1 ms-auto align-items-center">
                     {{-- hledání --}}
                     <livewire:search />
                     

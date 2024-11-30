@@ -57,9 +57,9 @@ footer {
 
 header > nav, footer > div, header > nav * footer > div * {
     background: var(--header-footer-background);
-    input {
-        --bs-border-color: var(--header-footer-border-color);
-    }
+}
+.search-input-group {
+    --bs-border-color: var(--header-footer-border-color);
 }
 header.border-bottom, footer > div.border-top {
     --bs-border-color: var(--header-footer-border-color);
@@ -95,6 +95,9 @@ div.side-buttons {
 .search-results {
     max-height: 70vh;
     overflow-y: auto;
+}
+#welcomeSearch-form .search-results {
+    max-height: 60vh;
 }
 
 .stars {
@@ -257,6 +260,10 @@ div.side-buttons {
         &:hover {
             background: var(--header-footer-background-light);
         }
+    }
+    
+    #welcomeSearch::placeholder {
+        text-align: center;
     }
     
     .organ-of-day > div, .welcome-card > div {

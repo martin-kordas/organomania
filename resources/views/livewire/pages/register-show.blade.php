@@ -66,7 +66,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
   
     <hr>
     
-    <x-organomania.register :$registerName :register="$this->register" :registerNames="$this->registerNames" />
+    <x-organomania.register :$registerName :register="$this->register" :registerNames="$this->registerNames" dispositionsLimit="12" :categoriesAsLink="true" />
     
     <div class="text-end mt-3">
         <a class="btn btn-sm btn-secondary" href="{{ $this->previousUrl }}" wire:navigate><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>

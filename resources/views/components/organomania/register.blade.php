@@ -1,25 +1,44 @@
 @props([
     'registerName', 'registerNames', 'register', 'showPitches' => true, 'language' => null, 'pitch' => null,
-    'excludeDispositionIds' => [], 'excludeOrganIds' => []
+    'dispositionsLimit' => 5, 'categoriesAsLink' => false, 'excludeDispositionIds' => [], 'excludeOrganIds' => []
 ])
 
-@php $language ??= $registerName?->language @endphp
+@php
+    $language ??= $registerName?->language;
+    $categoryTag = $categoriesAsLink ? 'a' : 'span';
+@endphp
 
 <div>
-    <span
-        class="badge text-bg-primary"
-        @if ($description = $register->registerCategory->getDescription()) data-bs-toggle="tooltip" data-bs-title="{{ $description }}" @endif
+    {{-- 1 základní kategorie --}}
+    <{{ $categoryTag }}
+        class="badge text-bg-primary text-decoration-none"
+        @if ($description = $register->registerCategory->getDescription())
+            data-bs-toggle="tooltip"
+            data-bs-title="{{ $description }}"
+        @endif
+        @if ($categoriesAsLink)
+            href="{{ route('dispositions.registers.index', ['filterCategories' => [$register->registerCategory->value]]) }}"
+            wire:navigate
+        @endif
     >
         {{ $register->registerCategory->getName() }}
-    </span>
+    </{{ $categoryTag }}>
+    
+    {{-- N ostatních kategorií --}}
     @foreach ($register->registerCategories as $category)
-        @php $description = $category->getEnum()->getDescription() @endphp
-        <span
-            class="badge text-bg-secondary"
-            @if ($description) data-bs-toggle="tooltip" data-bs-title="{{ $description }}" @endif
+        <{{ $categoryTag }}
+            class="badge text-bg-secondary text-decoration-none"
+            @if ($description = $category->getEnum()->getDescription())
+                data-bs-toggle="tooltip"
+                data-bs-title="{{ $description }}"
+            @endif
+            @if ($categoriesAsLink)
+                href="{{ route('dispositions.registers.index', ['filterCategories' => [$category->id]]) }}"
+                wire:navigate
+            @endif
         >
             {{ $category->getEnum()->getName() }}
-        </span>
+        </{{ $categoryTag }}>
     @endforeach
 </div>
 
@@ -45,7 +64,7 @@
     </div>
 @endif
 
-@php $dispositions = $register->getDispositions($excludeDispositionIds, $excludeOrganIds) @endphp
+@php $dispositions = $register->getDispositions($excludeDispositionIds, $excludeOrganIds, $dispositionsLimit) @endphp
 @if ($dispositions->isNotEmpty())
     <div class="mt-2">
         {{ __('Příklady v dispozicích') }}:

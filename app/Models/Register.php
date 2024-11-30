@@ -54,7 +54,7 @@ class Register extends Model
         return $this->hasMany(PaletteRegister::class);
     }
     
-    public function getDispositions($excludeDispositionIds = [], $excludeOrganIds = [])
+    public function getDispositions($excludeDispositionIds = [], $excludeOrganIds = [], $limit = 5)
     {
         $registerNameIds = $this->registerNames->pluck('id');
         if ($registerNameIds->isNotEmpty()) {
@@ -78,7 +78,7 @@ class Register extends Model
                 ->orderBy('name')
                 ->get()
                 ->unique('organ_id')
-                ->take(5);
+                ->take($limit);
         }
         return collect();
     }

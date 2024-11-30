@@ -249,17 +249,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         {{ $this->registerNames->links() }}
     </div>
     
-    <h6>{{ __('Použitá literatura') }}</h6>
-    <small>
-        <ul>
-            <li>BĚLSKÝ, Vratislav. Nauka o varhanách. 4. vyd., (V Editio Bärenreiter Praha vyd. 1.). Praha: Editio Bärenreiter, 2000. ISBN 80-86385-04-3.</li>
-            <li>SYROVÝ, Václav. Kapitoly o varhanách. Vyd. 2., dopl., přeprac. Akustická knihovna Zvukového studia Hudební fakulty AMU. V Praze: Akademie múzických umění, 2004. ISBN 80-7331-009-0.</li>
-            <li>Encyclopedia of Organ Stops. Online. 2024. Dostupné z: http://www.organstops.org/.</li>
-        </ul>
-    </small>
+    <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#registersReferencesModal">
+        <small>{{ __('Použitá literatura') }}</small>
+    </a>
     
     <x-organomania.modals.categories-modal :categoriesGroups="$this->registerCategoriesGroups" :categoryClass="RegisterCategory::class" :title="__('Přehled kategorií rejstříků')" />
-    <x-organomania.modals.register-modal :registerName="$this->registerName" />
+    <x-organomania.modals.register-modal :registerName="$this->registerName" :categoriesAsLink="true" />
+    <x-organomania.modals.registers-references-modal />
     <x-organomania.modals.share-modal />
         
 </div>

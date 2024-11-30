@@ -17,10 +17,14 @@
                 <button type="button" class="btn-close position-absolute end-0 m-2 z-1" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             @endif
             @isset($image)
-                <img class="organ-image" src="{{ $image['image_url'] }}" @isset($image['image_credits']) title="{{ __('Licence obrázku') }}: {{ $image['image_credits'] }}" @endisset />
+                <a href="{{ $this->getViewUrl($organ) }}" wire:navigate>
+                    <img class="organ-image" src="{{ $image['image_url'] }}" @isset($image['image_credits']) title="{{ __('Licence obrázku') }}: {{ $image['image_credits'] }}" @endisset />
+                </a>
             @endisset
             @isset($organ->region_id)
-                <img width="125" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => isset($image), 'bg-light' => !isset($image)]) src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
+                <a href="{{ $this->getViewUrl($organ) }}" wire:navigate>
+                    <img width="125" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => isset($image), 'bg-light' => !isset($image)]) src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
+                </a>
             @endisset
         </div>
     @endisset

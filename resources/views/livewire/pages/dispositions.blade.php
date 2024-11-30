@@ -99,7 +99,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
         <div class="col-auto">
             <a class="btn btn-outline-primary btn-sm" href="{{ route('dispositions.registers.index') }}" wire:navigate>
-                <i class="bi-globe"></i> {{ __('Encyklopedie rejstříků') }}
+                <i class="bi-record-circle"></i> {{ __('Encyklopedie rejstříků') }}
             </a>
             <a class="btn btn-outline-primary btn-sm" href="{{ route('dispositions.diff') }}" wire:navigate>
                 <i class="bi-arrow-left-right"></i> {{ __('Porovnání dispozic') }}
