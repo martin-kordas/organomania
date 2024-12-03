@@ -337,12 +337,17 @@
     "registrací": "registrations",
     "Sady registrací": "Registration sets",
     "Počet registrací": "Registrations count",
-    "Uspořádejte uložené registrace do sad určených pro konkrétní příležitost. Mezi registracemi se pak můžete snadno přepínat.": "Arrange your saved registrations into sets intended for specific event. You can then easily switch between displayed registrations.",
+    "Uspořádejte si uložené registrace do sad určených pro konkrétní příležitost. Mezi registracemi se pak můžete snadno přepínat nebo je nasdílet dalším lidem (např. posluchačům koncertu).": "Arrange your saved registrations into sets intended for specific event. You can then easily switch between displayed registrations or you can share them to other people (e.g. to visitors of your concert).",
     "Jednoduché zobrazení": "Simple view",
     "Podrobné interaktivní zobrazení": "Detailed interactive view",
     "Hledat varhany, varhanáře, rejstříky": "Search organs, builders, registers",
     "např. Kladruby, Rieger-Kloss, Flétna trubicová": "e.g. Praha, Rieger-Kloss, Principal",
-    "Hledejte varhany, varhanáře, varhanní rejstříky...": "Search organs, organ builders, stops..."
+    "Hledejte varhany, varhanáře, varhanní rejstříky...": "Search organs, organ builders, stops...",
+    "Rekonstrukce": "Reconstruction",
+    "restaurování" : "restoration",
+    "od": "from",
+    "do": "to",
+    "Kam dál?": "Where to go?"
     
     
     

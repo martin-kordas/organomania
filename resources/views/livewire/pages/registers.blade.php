@@ -156,9 +156,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
     </div>
     
-    <div style="max-width: fit-content;">
+    <div class="w-100">
         <div class="table-responsive">
-            <table class="table table-hover table-sm align-middle w-auto mt-2" style="min-width: 40vw;">
+            <table class="table table-hover table-sm align-middle mt-2">
                 <thead>
                     <tr>
                         <th>{{ __('Název') }} <i class="bi-sort-alpha-up"></i></th>
@@ -219,7 +219,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             <td title="{{ $registerName->register->description }}" class="d-none d-md-table-cell">
                                 <small>{{ str($registerName->register->description)->limit(80) }}</small>
                             </td>
-                            <td>
+                            <td class="text-end">
                                 <div class="btn-group col-auto">
                                     <a
                                         type="button"

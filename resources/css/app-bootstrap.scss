@@ -47,6 +47,10 @@ header {
             right: 5px;
         }
     }
+    
+    .navbar-toggler {
+        border-color: var(--header-footer-border-color);
+    }
 }
 
 footer {
@@ -97,7 +101,7 @@ div.side-buttons {
     overflow-y: auto;
 }
 #welcomeSearch-form .search-results {
-    max-height: 60vh;
+    max-height: 55vh;
 }
 
 .stars {
@@ -469,5 +473,17 @@ div.side-buttons {
     
     table th {
         width: 7.5em;
+    }
+}
+
+.registration-set-edit {
+    max-width: 850px;
+    
+    li.registration {
+        margin: 3px 0;
+    }
+    
+    .registration-select {
+        width: 100% !important;
     }
 }

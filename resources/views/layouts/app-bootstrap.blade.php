@@ -26,7 +26,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         
-        <link rel="canonical" href="{{ url()->current() }}" />
+        <link rel="canonical" href="{{ Helpers::getCanonicalUrl() }}" />
         <link rel="alternate" hreflang="cs-cz" href="{{ Helpers::getCanonicalUrl('cs') }}" />
         <link rel="alternate" hreflang="en-us" href="{{ Helpers::getCanonicalUrl('en') }}" />
         

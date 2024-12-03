@@ -25,6 +25,14 @@ class FestivalRepository extends AbstractRepository
     {
         $query = Festival::query();
 
+        $importanceExpr = '
+            CASE
+                WHEN importance >= 8 THEN 3
+                WHEN importance >= 4 THEN 2
+                ELSE 1
+            END
+        ';
+        
         if (!empty($with)) $query->with($with);
         if (!empty($withCount)) $query->withCount($withCount);
         
@@ -40,8 +48,11 @@ class FestivalRepository extends AbstractRepository
                     break;
                 
                 case 'regionId':
-                case 'importance':
                     $this->filterEntityQuery($query, $field, $value);
+                    break;
+                
+                case 'importance':
+                    $query->whereRaw("$importanceExpr = ?", [$value]);
                     break;
                 
                 default:
@@ -75,13 +86,7 @@ class FestivalRepository extends AbstractRepository
                     break;
                 
                 case 'importance':
-                    $expr = "
-                        CASE
-                            WHEN importance >= 7 THEN 3
-                            WHEN importance >= 4 THEN 2
-                            ELSE 1
-                        END $directionSql
-                    ";
+                    $expr = "$importanceExpr $directionSql";
                     $query->orderByRaw($expr);
                     break;
                 

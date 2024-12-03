@@ -76,7 +76,7 @@ enum RegisterCategory: int implements Category
         ],
         self::Vychvevne->value => [
             'name' => 'Výchvěvné',
-            'description' => 'Rejstříky, jejichž zvuk vytvářejí dojem rychle se měnící výšky tónu - toho se docílí tím, že hrají současně 2 píšťaly naladěné na nepatrně odlišný tón'
+            'description' => 'Rejstříky, jejichž zvuk vytváří dojem rychle se měnící výšky tónu - toho se docílí tím, že hrají současně 2 píšťaly naladěné na nepatrně odlišný tón'
         ],
         self::Alikvotni->value => [
             'name' => 'Alikvotní',

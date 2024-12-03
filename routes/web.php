@@ -36,8 +36,16 @@ Route::middleware(["auth"])->group(function () {
             ->name('organ-builders.organ-builder-custom-categories');
     });
     
-    Volt::route('dispositions/{disposition}/registration-sets', 'pages.registration-sets')
-        ->name('dispositions.registration-sets.index');
+    Route::middleware('can:useRegistrationSets')->group(function () {
+        Volt::route('dispositions/{disposition}/registration-sets', 'pages.registration-sets')
+            ->name('dispositions.registration-sets.index');
+        Volt::route('dispositions/{disposition}/registration-sets/create', 'pages.registration-set-edit')
+            ->name('dispositions.registration-sets.create');
+        Volt::route('dispositions/{disposition}/registration-sets/{registrationSet}/edit', 'pages.registration-set-edit')
+            ->name('dispositions.registration-sets.edit')
+            ->whereNumber('registrationSet')
+            ->scopeBindings();
+    });
     
     Volt::route('test', 'pages.test');
 });
@@ -95,7 +103,7 @@ Volt::route('dispositions/registers/{registerName}', 'pages.register-show')
     ->name('dispositions.registers.show');
 Volt::route('dispositions/{disposition}', 'pages.disposition-show')
     ->name('dispositions.show');
-Volt::route('dispositions/{disposition}/registration-sets/{registrationSet:slug}', 'pages.registration-set-show')
+Volt::route('dispositions/{disposition}/registration-sets/{registrationSet}', 'pages.registration-set-show')
     ->name('dispositions.registration-sets.show')
     ->scopeBindings();
 

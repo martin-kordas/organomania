@@ -29,7 +29,7 @@
     @isset($organ)
         @isset($organ->url)
             <p class="mb-0">
-                <a class="icon-link" href="{{ $organ->url }}" target="_blank">
+                <a class="icon-link text-break" href="{{ $organ->url }}" target="_blank">
                     <i class="bi bi-link-45deg"></i>
                     {{ str($organ->url)->limit(40) }}
                 </a>

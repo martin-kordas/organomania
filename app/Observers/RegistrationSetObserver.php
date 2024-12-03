@@ -9,7 +9,7 @@ class RegistrationSetObserver
     /**
      * Handle the Organ "created" event.
      */
-    public function created(RegistrationSet $registration): void
+    public function created(RegistrationSet $registrationSet): void
     {
         //
     }
@@ -17,7 +17,7 @@ class RegistrationSetObserver
     /**
      * Handle the Organ "updated" event.
      */
-    public function updated(RegistrationSet $registration): void
+    public function updated(RegistrationSet $registrationSet): void
     {
         //
     }
@@ -25,20 +25,20 @@ class RegistrationSetObserver
     /**
      * Handle the Organ "deleted" event.
      */
-    public function deleted(RegistrationSet $registration): void
+    public function deleted(RegistrationSet $registrationSet): void
     {
         //
     }
     
-    public function deleting(RegistrationSet $registration): void
+    public function deleting(RegistrationSet $registrationSet): void
     {
-        $registration->registrations()->detach();
+        $registrationSet->registrations()->detach();
     }
 
     /**
      * Handle the Organ "restored" event.
      */
-    public function restored(RegistrationSet $registration): void
+    public function restored(RegistrationSet $registrationSet): void
     {
         //
     }
@@ -46,7 +46,7 @@ class RegistrationSetObserver
     /**
      * Handle the Organ "force deleted" event.
      */
-    public function forceDeleted(RegistrationSet $registration): void
+    public function forceDeleted(RegistrationSet $registrationSet): void
     {
         //
     }

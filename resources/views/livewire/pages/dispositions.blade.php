@@ -112,9 +112,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             {{ __('Nebyly nalezeny žádné dispozice.') }}
         </div>
     @else
-        <div style="max-width: fit-content;">
+        <div>
             <div class="table-responsive">
-                <table class="table table-hover table-sm align-middle w-auto" style="min-width: 40vw;">
+                <table class="table table-hover table-sm align-middle w-100" style="min-width: 40vw;">
                     <thead>
                         <tr>
                             <th>&nbsp;</th>

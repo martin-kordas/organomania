@@ -150,7 +150,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @isset($competition->url)
             <tr>
                 <th>{{ __('Web') }}</th>
-                <td>
+                <td class="text-break">
                     <a class="icon-link icon-link-hover" target="_blank" href="{{ $competition->url }}">
                         <i class="bi bi-link-45deg"></i>
                         {{ str($competition->url)->limit(65) }}

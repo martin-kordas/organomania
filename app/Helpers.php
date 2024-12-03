@@ -129,14 +129,14 @@ class Helpers
         return (new CrawlerDetect)->isCrawler();
     }
     
-    static function getCanonicalUrl($lang)
+    static function getCanonicalUrl($lang = null)
     {
         $url = url()->current();
         $params = [];
         if (request()->routeIs('organs.index', 'organ-builders.index', 'festivals.index', 'competitions.index')) {
             $params['perPage'] = 300;
         }
-        $params['lang'] = $lang;
+        if (isset($lang)) $params['lang'] = $lang;
         $query = http_build_query($params);
         return "$url?$query";
     }

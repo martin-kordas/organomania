@@ -18,7 +18,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse gap-3" id="navbarCollapse">
+            <div class="collapse navbar-collapse gap-3 mt-2 mt-xl-0" id="navbarCollapse">
                 {{-- vlastní navigace --}}
                 <ul class="nav nav-pills justify-content-center row-gap-1">
                     <x-organomania.nav-item-route label="{{ __('Varhany') }}" icon="music-note-list" route="organs.index" routeActive="organs.*" />
@@ -28,7 +28,7 @@
                     <x-organomania.nav-item-route label="{{ __('Soutěže') }}" icon="trophy" route="competitions.index" routeActive="competitions.*" :highlightedCount="Competition::getHighlightedCount()" />
                 </ul>
 
-                <div class="row gx-2 gy-2 my-1 ms-auto align-items-center">
+                <div class="row gx-2 gy-2 gy-xl-0 my-1 ms-auto align-items-center">
                     {{-- hledání --}}
                     <livewire:search />
                     

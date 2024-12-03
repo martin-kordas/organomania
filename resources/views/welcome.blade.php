@@ -16,7 +16,7 @@
     @endpush
 
     <div class="welcome">
-        <div class="welcome-text p-3 pb-4 pb-md-5 mx-auto text-center">
+        <div class="welcome-text p-3 pb-4 pt-0 pt-md-3 pb-md-5 mx-auto text-center">
             <h1 class="display-5 fw-normal text-body-emphasis">{!! __('Vítejte ve světě varhan!') !!}</h1>
             <p class="text-body-secondary mb-0">
                 <span class="fs-5 d-none d-md-inline">{!! $description !!}</span>
@@ -38,7 +38,7 @@
                     style="cursor: pointer;"
                 >
                     <div class="border border-tertiary rounded p-2">
-                        <h2 class="fs-5">{{ __('Varhany dne') }}</h2>
+                        <h3 class="fs-5">{{ __('Varhany dne') }}</h3>
                         <figure class="mb-0">
                             <div class="position-relative mb-1">
                                 <img class="organ-of-day-image rounded border" src="{{ $organOfDay->image_url }}" @isset($organOfDay->image_credits) title="{{ __('Licence obrázku') }}: {{ $organOfDay->image_credits }}" @endisset />
@@ -62,6 +62,7 @@
             </div>
         @endisset
         
+        <h2 class="text-center fs-3 mb-3">{{ __('Kam dál?') }}</h2>
         <div class="row text-center g-4 align-items-stretch">
             <x-organomania.welcome-card
                 title="{{ __('Varhany') }}"

@@ -83,9 +83,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         {{ $this->getTitle() }}
     </h3>
     
-    <p class="lead mb-0">
-        {{ __('Uspořádejte uložené registrace do sad určených pro konkrétní příležitost. Mezi registracemi se pak můžete snadno přepínat.') }}
+    <p class="lead mb-3">
+        {{ __('Uspořádejte si uložené registrace do sad určených pro konkrétní příležitost. Mezi registracemi se pak můžete snadno přepínat nebo je nasdílet dalším lidem (např. posluchačům koncertu).') }}
     </p>
+    
+    <a class="btn btn-sm btn-primary mb-3" href="{{ route('dispositions.registration-sets.create', ['disposition' => $disposition->slug]) }}">
+        <i class="bi bi-plus-lg"></i>
+        {{ __('Přidat') }}
+    </a>
     
     @if ($disposition->registrationSets->isEmpty())
         <div class="alert alert-secondary text-center" role="alert">
@@ -103,8 +108,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <tbody class="table-group-divider">
                 @foreach ($disposition->registrationSets as $registrationSet)
                     <tr>
-                        <td>
-                            <a class="link-primary text-decoration-none" href="{{ $this->getViewUrl($registrationSet) }}" wire:navigate>
+                        <td class="fw-semibold">
+                            <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($registrationSet) }}" wire:navigate>
                                 {{ $registrationSet->name }}
                             </a>
                         </td>
@@ -124,6 +129,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 <a class="btn btn-sm btn-primary" href="{{ $this->getViewUrl($registrationSet) }}" wire:navigate data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit') }}">
                                     <i class="bi-eye"></i>
                                 </a>
+                                @can('update', $registrationSet)
+                                    <a
+                                        class="btn btn-sm btn-outline-primary"
+                                        href="{{ route('dispositions.registration-sets.edit', ['disposition' => $disposition->slug, 'registrationSet' => $registrationSet->id]) }}"
+                                        wire:navigate
+                                        data-bs-toggle="tooltip"
+                                        data-bs-title="{{ __('Upravit') }}"
+                                    >
+                                        <i class="bi-pencil"></i>
+                                    </a>
+                                @endcan
                                 <button type="button" class="btn btn-sm btn-outline-primary z-1" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $this->getShareUrl($registrationSet) }}">
                                     <span data-bs-toggle="tooltip" data-bs-title="{{ __('Sdílet') }}">
                                         <i class="bi-share"></i>

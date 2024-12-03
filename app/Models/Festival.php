@@ -44,7 +44,7 @@ class Festival extends Model
     {
         return Attribute::make(
             get: fn ($importance) => match (true) {
-                $importance >= 7 => 3,
+                $importance >= 8 => 3,
                 $importance >= 4 => 2,
                 default => 1,
             }

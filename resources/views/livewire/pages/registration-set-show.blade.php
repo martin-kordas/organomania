@@ -141,39 +141,57 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endisset
             </table>
             
-            <a class="btn btn-sm btn-primary" href="{{ route('organs.show', $disposition->organ->slug) }}" wire:navigate>{{ __('Zobrazit podrobnosti') }}</a>
+            <a class="btn btn-sm btn-primary" href="{{ route('organs.show', $disposition->organ->slug) }}" wire:navigate>
+                <i class="bi bi-eye"></i>
+                {{ __('Zobrazit podrobnosti') }}
+            </a>
+            &nbsp;
+            <a class="btn btn-sm btn-outline-primary" href="{{ route('dispositions.show', $disposition->slug) }}" wire:navigate>{{ __('Dispozice varhan') }}</a>
         </div>
     @endisset
-    
-    <h4>{{ __('Registrace skladeb') }}</h4>
-    <x-organomania.info-alert class="mb-2 d-print-none">
-        {!! __('Registrace představuje <strong>seznam varhanních rejstříků</strong>, které jsou pro danou skladbu zapnuty.') !!}
-        {!! __('Volba rejstříků určuje výslednou sílu a barvu zvuku.') !!}
-    </x-organomania.info-alert>
-    
-    <div class="list-group">
-        @foreach ($registrationSet->registrations as $registration)
-            @php $isActive = $registration->id === $lastVisitedRegistrationId; @endphp
-            <a
-                @class(['list-group-item', 'list-group-item-action', 'd-flex', 'align-items-center', 'column-gap-2', 'active' => $isActive, 'link-primary' => !$isActive])
-                href="{{ $this->getRegistrationUrl($registration) }}#registrationsList"
-                data-registration-id="{{ $registration->id }}"
-                @click=showRegistration(event)
-            >
-                <span class="me-auto">
-                    {{ $registration->name }}
-                </span>
-                <small @class(['text-body-secondary' => !$isActive])>
-                    {{ $registration->real_disposition_registers_count }}&nbsp;{{ __(Helpers::declineCount($registration->real_disposition_registers_count, 'rejstříků', 'rejstřík', 'rejstříky')); }}
-                </small>
-            </a>
-        @endforeach
-    </div>
+
+    @if ($registrationSet->registrations->isNotEmpty())
+        <h4>{{ __('Registrace skladeb') }}</h4>
+        <x-organomania.info-alert class="mb-2 d-print-none">
+            {!! __('Registrace představuje <strong>seznam varhanních rejstříků</strong>, které jsou pro danou skladbu zapnuty.') !!}
+            {!! __('Volba rejstříků určuje výslednou sílu a barvu zvuku.') !!}
+        </x-organomania.info-alert>
+
+        <div class="list-group">
+            @foreach ($registrationSet->registrations as $registration)
+                @php $isActive = $registration->id === $lastVisitedRegistrationId; @endphp
+                <a
+                    @class(['list-group-item', 'list-group-item-action', 'd-flex', 'align-items-center', 'column-gap-2', 'active' => $isActive, 'link-primary' => !$isActive])
+                    href="{{ $this->getRegistrationUrl($registration) }}#registrationsList"
+                    data-registration-id="{{ $registration->id }}"
+                    @click=showRegistration(event)
+                >
+                    <span class="me-auto">
+                        {{ $registration->name }}
+                    </span>
+                    <small @class(['text-body-secondary' => !$isActive])>
+                        {{ $registration->real_disposition_registers_count }}&nbsp;{{ __(Helpers::declineCount($registration->real_disposition_registers_count, 'rejstříků', 'rejstřík', 'rejstříky')); }}
+                    </small>
+                </a>
+            @endforeach
+        </div>
+    @endif
     
     <div class="text-end mt-3">
         <a class="btn btn-sm btn-secondary" href="{{ $this->previousUrl }}" wire:navigate>
             <i class="bi-arrow-return-left"></i> {{ __('Zpět') }}
         </a>
+        @can('update', $registrationSet)
+            <a
+                class="btn btn-sm btn-outline-primary"
+                wire:navigate
+                href="{{ route('dispositions.registration-sets.edit', ['disposition' => $disposition->slug, 'registrationSet' => $registrationSet->id]) }}"
+                data-bs-toggle="tooltip"
+                data-bs-title="{{ __('Upravit dispozici') }}"
+            >
+                <i class="bi-pencil"></i> {{ __('Upravit') }}
+            </a>
+        @endcan
     </div>
 </div>
 

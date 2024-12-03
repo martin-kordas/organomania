@@ -690,11 +690,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             </div>
                         </div>
                     @endif
-                    @if ($disposition->registrationSets->isNotEmpty())
+                    @if (Gate::allows('useRegistrationSets'))
                         <div class="col-auto ms-auto position-relative" style="font-size: 85%; top: -4px;">
                             <a class="btn btn-sm btn-outline-secondary" href="{{ route('dispositions.registration-sets.index', $disposition->slug) }}" wire:navigate>
                                 {{ __('Sady') }}<span class="d-none d-sm-inline"> {{ __('registrací') }}</span>
-                                <span class="badge text-bg-secondary rounded-pill">{{ $disposition->registrationSets->count() }}</span>
+                                @if ($disposition->registrationSets->isNotEmpty())
+                                    <span class="badge text-bg-secondary rounded-pill">{{ $disposition->registrationSets->count() }}</span>
+                                @endif
                             </a>
                         </div>
                     @endif

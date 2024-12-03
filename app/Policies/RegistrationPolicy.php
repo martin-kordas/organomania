@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
+use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\Registration;
 use App\Models\Disposition;
 
 class RegistrationPolicy
@@ -20,7 +20,7 @@ class RegistrationPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Registration $registration): bool
+    public function view(User $user, Model $registration): bool
     {
         return $registration->user_id === $user->id;
     }
@@ -36,7 +36,7 @@ class RegistrationPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Registration $registration): bool
+    public function update(User $user, Model $registration): bool
     {
         return $registration->user_id === $user->id;
     }
@@ -44,7 +44,7 @@ class RegistrationPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Registration $registration): bool
+    public function delete(User $user, Model $registration): bool
     {
         return $this->update($user, $registration);
     }
@@ -52,7 +52,7 @@ class RegistrationPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Registration $registration): bool
+    public function restore(User $user, Model $registration): bool
     {
         //
     }
@@ -60,7 +60,7 @@ class RegistrationPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Registration $registration): bool
+    public function forceDelete(User $user, Model $registration): bool
     {
         //
     }

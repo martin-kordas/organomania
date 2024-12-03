@@ -102,7 +102,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
         @if (isset($organBuilder->active_period))
         <tr>
-            <th>{{ __('Období působení') }}</th>
+            <th>{{ __('Období') }}</th>
             <td>{{ $organBuilder->active_period }}</td>
         </tr>
         @endif
@@ -152,22 +152,28 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if ($organBuilder->organs->isNotEmpty())
             <tr>
                 <th>{{ __('Významné varhany') }}</th>
-                <td>
-                    @foreach ($organBuilder->organs as $organ)
-                        <x-organomania.organ-link :organ="$organ" />
-                        @if (!$loop->last) <br /> @endif
-                    @endforeach
+                <td class="text-break">
+                    <ul class="m-0 ps-3">
+                        @foreach ($organBuilder->organs as $organ)
+                            <li>
+                                <x-organomania.organ-link :organ="$organ" />
+                            </li>
+                        @endforeach
+                    </ul>
                 </td>
             </tr>
         @endif
         @if ($organBuilder->renovatedOrgans->isNotEmpty())
             <tr>
-                <th>{{ __('Rekonstrukce/restaurování') }}</th>
-                <td>
-                    @foreach ($organBuilder->renovatedOrgans as $organ)
-                        <x-organomania.organ-link :organ="$organ" :year="$organ->year_renovated" />
-                        @if (!$loop->last) <br /> @endif
-                    @endforeach
+                <th>{{ __('Rekonstrukce') }}/<br />{{ __('restaurování') }}</th>
+                <td class="text-break">
+                    <ul class="m-0 ps-3">
+                        @foreach ($organBuilder->renovatedOrgans as $organ)
+                            <li>
+                                <x-organomania.organ-link :organ="$organ" :year="$organ->year_renovated" />
+                            </li>
+                        @endforeach
+                    </ul>
                 </td>
             </tr>
         @endif

@@ -697,6 +697,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             @else
                                 <div class="fw-bold hstack gap-2">
                                     <x-organomania.move-buttons
+                                        class="ms-1 bg-body-tertiary"
                                         actionUp="moveKeyboard({{ $keyboardIndex }}, 'up')"
                                         actionDown="moveKeyboard({{ $keyboardIndex }}, 'down')"
                                         moveWhat="manuál"
@@ -779,6 +780,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                             class="form-control form-control-sm"
                                                             wire:model="form.registers.{{ $keyboardIndex }}.{{ $registerIndex }}.multiplier"
                                                             size="3"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-title="{{ __('Násobnost rejstříku') }}"
                                                         />
                                                         <span class="input-group-text d-none d-md-flex">&times;</span>
                                                     </div>
@@ -801,6 +804,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                         @else
                                             <div class="hstack gap-2">
                                                 <x-organomania.move-buttons
+                                                    class="ms-1"
                                                     actionUp="moveRegister({{ $keyboardIndex }}, {{ $registerIndex }}, 'up')"
                                                     actionDown="moveRegister({{ $keyboardIndex }}, {{ $registerIndex }}, 'down')"
                                                     moveWhat="rejstřík"

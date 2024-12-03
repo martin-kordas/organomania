@@ -1,6 +1,6 @@
 @props(['actionUp', 'actionDown', 'moveWhat' => null, 'isFirst' => false, 'isLast' => false, 'disabled' => false])
 
-<div class="btn-group ms-1">
+<div {{ $attributes->merge(['class' => 'btn-group']) }}>
     <button
         type="button"
         @class(['btn', 'btn-outline-secondary', 'btn-sm', 'disabled' => $disabled || $isFirst])

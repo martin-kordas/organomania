@@ -32,11 +32,15 @@ class DispositionObserver
     
     public function deleting(Disposition $disposition): void
     {
+        // relace je nutné mazat po jednom, aby se zavolala i událost deleting
         foreach ($disposition->keyboards as $keyboard) {
-            // nutné mazat po jednom, aby se zavolalo i KeyboardObserver::deleting()
             $keyboard->delete();
         }
         $disposition->registrations()->delete();
+        
+        foreach ($disposition->registrationSets as $registrationSet) {
+            $registrationSet->delete();
+        }
     }
 
     /**

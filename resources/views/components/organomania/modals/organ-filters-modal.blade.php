@@ -50,8 +50,8 @@
                 </div>
                 @if ($entityClass !== Competition::class)
                     <div class="mb-3">
-                        <label class="form-label" for="filterImportance">{{ __('Význam') }} >= <span class="text-secondary">({{ __('od 1 do 5') }})</span></label>
-                        <input class="form-control" type="number" min="1" max="5" id="filterImportance" wire:model.number="filterImportance" />
+                        <label class="form-label" for="filterImportance">{{ __('Význam') }} >= <span class="text-secondary">({{ __('od') }} 1 {{ __('do') }} {{ $this->maxImportance }})</span></label>
+                        <input class="form-control" type="number" min="1" max="{{ $this->maxImportance }}" id="filterImportance" wire:model.number="filterImportance" />
                     </div>
                 @endif
                 

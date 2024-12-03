@@ -49,6 +49,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->customCategoryRoute = null;
         $this->categorySelectPlaceholder = null;
         $this->gateUseCustomCategories = null;
+        $this->maxImportance = 3;
         $this->gateLike = null;
         $this->entityPageViewComponent = 'festivals-view';
         $this->entityClass = Festival::class;

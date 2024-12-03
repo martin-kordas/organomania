@@ -99,7 +99,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 <div class="organ-show container">
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
-            <h3 class="lh-sm">
+            <h3 class="lh-sm fw-normal">
                 <strong>{{ $organ->municipality }}</strong>
                 <br />
                 {{ $organ->place }}
@@ -151,7 +151,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
         @if ($organ->renovationOrganBuilder)
             <tr>
-                <th>{{ __('Rekonstrukce/restaurování') }}</th>
+                <th>{{ __('Rekonstrukce') }}/<br />{{ __('restaurování') }}</th>
                 <td>
                     <x-organomania.organ-builder-link :organBuilder="$organ->renovationOrganBuilder" :yearBuilt="$organ->year_renovated" />
                 </td>
@@ -195,7 +195,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (isset($organ->web))
             <tr>
                 <th>{{ __('Webové odkazy') }}</th>
-                <td>
+                <td class="text-break">
                     @foreach (explode("\n", $organ->web) as $url)
                         <a class="icon-link icon-link-hover" target="_blank" href="{{ $url }}">
                             <i class="bi bi-link-45deg"></i>
@@ -264,16 +264,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             >
                 @if ($organ->dispositions->isNotEmpty())
                     <h5>{{ __('Podrobné interaktivní zobrazení') }}</h5>
-                    @foreach ($organ->dispositions as $disposition)
-                        <div>
-                            <a wire:navigate class="link-primary text-decoration-none" href="{{ $this->getDispositionUrl($disposition) }}">
+                    <div class="list-group">
+                        @foreach ($organ->dispositions as $disposition)
+                            <a wire:navigate class="list-group-item list-group-item-action link-primary" href="{{ $this->getDispositionUrl($disposition) }}">
                                 {{ $disposition->name }}
+                                @if (!$disposition->isPublic())
+                                    <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
+                                @endif
                             </a>
-                            @if (!$disposition->isPublic())
-                                <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
-                            @endif
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 @endif
                 @isset($organ->disposition)
                     @if ($organ->dispositions->isNotEmpty())

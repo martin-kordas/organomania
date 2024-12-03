@@ -81,6 +81,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('useOrganBuilderCustomCategories', function (User $user) {
             return true;        // pro všechny přihlášené
         });
+        Gate::define('useRegistrationSets', function (User $user) {
+            return true;        // pro všechny přihlášené
+        });
         
         $modelBindings = [
             'organ' => Organ::class,
