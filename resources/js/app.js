@@ -15,6 +15,10 @@ import.meta.glob([
 ])
 
 window.refreshSelect2 = function () {
+    // při navigaci Zpět v prohlížeči se zobrazí neaktivní element a atributy dřívějšího select2, které před jeho opětovným obnovením musím smazat
+    $('span.select2-container').remove();
+    $('[data-select2-id]').removeAttr('data-select2-id').removeClass('select2-hidden-accessible');
+    
     $('.select2:not(#page.sframe *)').each(function() {
         var cssClass = $(this).hasClass('form-select-sm') ? 'select2--small' : ''
         //if ($(this).hasClass("select2-hidden-accessible")) $(this).select2('destroy')
@@ -32,7 +36,6 @@ window.refreshSelect2 = function () {
             // https://stackoverflow.com/a/71552114/14967413
             dropdownParent: $(this).parent(),
             createTag: function (params) {
-                console.log(params);
                 return {
                     id: params.term,
                     text: `${params.term} (vlastní nekategorizovaný rejstřík)`,

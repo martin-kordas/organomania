@@ -64,7 +64,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     @endpush
     
     <p class="lead">
-        {{ __('Prohlédněte si a srovnejte dispozice známých varhan, nebo vytvořte dispozici vlastní.') }}
+        {{ __('Interaktivně prozkoumejte a srovnejte dispozice známých varhan, nebo vytvořte dispozici vlastní.') }}
         <br class="d-none d-sm-inline" />
         {{ __('Uložte si k dispozicím registrace konkrétních skladeb.') }}
         <br class="d-none d-sm-inline" />
