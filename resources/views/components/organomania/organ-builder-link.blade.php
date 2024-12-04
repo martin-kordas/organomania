@@ -1,4 +1,4 @@
-@props(['organBuilder', 'yearBuilt' => null, 'isRebuild' => false, 'placeholder' => __('neznámý varhanář')])
+@props(['organBuilder', 'yearBuilt' => null, 'isRebuild' => false, 'showActivePeriod' => false, 'placeholder' => __('neznámý varhanář')])
 
 @php
     if (isset($organBuilder->perex)) $description = $organBuilder->perex;
@@ -18,8 +18,8 @@
             data-bs-content="{{ $description }}"
         @endif
     >
-        <x-organomania.organ-builder-link-content :$organBuilder :$yearBuilt :$isRebuild :$placeholder />
+        <x-organomania.organ-builder-link-content :$organBuilder :$yearBuilt :$isRebuild :$showActivePeriod :$placeholder />
     </a>
 @else
-    <x-organomania.organ-builder-link-content :$organBuilder :$yearBuilt :$isRebuild :$placeholder />
+    <x-organomania.organ-builder-link-content :$organBuilder :$yearBuilt :$isRebuild :$showActivePeriod :$placeholder />
 @endcan

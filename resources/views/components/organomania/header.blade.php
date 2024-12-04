@@ -7,10 +7,10 @@
             {{-- logo --}}
             <a href="{{ url('/') }}" wire:navigate class="d-flex align-items-center mb-md-0 me-4 link-body-emphasis text-decoration-none">
                 <img class="logo me-2" src="{{ Vite::asset('resources/images/logo.png') }}" />
-                <span class="app-name fs-4 lh-1" style="font-size: 125% !important;">
-                    {{ str(config('app.name', 'Organomania'))->lower() }}
+                <span class="app-name fs-4 lh-1" style="font-size: 140% !important;">
+                    <span>{{ str(config('app.name', 'Organomania'))->lower() }}</span>
                     <br />
-                    <span class="app-subtitle fst-italic">{{ __('varhany v České republice') }}</span>
+                    <span class="app-subtitle fst-italic" style="font-size: 65%;">{{ __('varhany v České republice') }}</span>
                 </span>
             </a>
 

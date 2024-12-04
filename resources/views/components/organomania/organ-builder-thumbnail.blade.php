@@ -5,9 +5,7 @@
     <x-slot:header>
         @isset($organ)
             <h5 class="card-title">
-                <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($organ) }}" wire:navigate>
-                    <strong>{{ $organ->name }}</strong>
-                </a>
+                <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($organ) }}" wire:navigate><strong>{{ $organ->name }}</strong></a>
                 @if ($organ->user_id)
                     <span data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}">
                         <i class="bi-lock text-warning"></i>

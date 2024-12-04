@@ -1,0 +1,5 @@
+body { font-family: arial; line-height: 1.6em; text-align: justify; margin: 1.5em; }
+body h1 { text-align: left; line-height: 1em; }
+#portret { width: 35%; float: right; margin-left: 2em; margin-bottom: 1.5em; min-width: 13em; }
+#jazyk { float: right; }
+#toplist { display: none; }

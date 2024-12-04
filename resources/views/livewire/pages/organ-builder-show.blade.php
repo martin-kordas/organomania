@@ -59,6 +59,41 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         }
         return $previousUrl;
     }
+
+    #[Computed]
+    private function relatedOrganBuilders()
+    {
+        $relatedOrganBuilderIds = match ($this->organBuilder->id) {
+            // Rieger
+            59 => [1, 2],
+            1 => [59, 2],
+            2 => [59, 1],
+            // Burkhardt
+            28 => [8],
+            // Richter
+            60 => [4],
+            // Silberbauer
+            69 => [29],
+            // Stark
+            8 => [28],
+            // Neusser
+            50 => [72],
+            // Prediger
+            55 => [76, 5],
+            // Eisenhut
+            33 => [77],
+            // Hubička
+            40 => [67],
+            // Paštikové
+            53 => [67],
+            // Organa
+            52 => [7, 47],
+            default => []
+        };
+        return collect($relatedOrganBuilderIds)->map(
+            fn ($organBuilderId) => OrganBuilder::find($organBuilderId)
+        );
+    }
     
 }; ?>
 
@@ -183,18 +218,29 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <td class="pre-line">{{ $organBuilder->workshop_members }}</td>
         </tr>
         @endif
+        @if ($this->relatedOrganBuilders->isNotEmpty())
+            <tr>
+                <th>{{ __('Související varhanáři') }}</th>
+                <td>
+                    @foreach ($this->relatedOrganBuilders as $relatedOrganBuilder)
+                        <x-organomania.organ-builder-link :organBuilder="$relatedOrganBuilder" :showActivePeriod="true" />
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
+                </td>
+            </tr>
+        @endif
         @if (isset($organBuilder->description))
-        <tr class="d-none d-md-table-row">
-            <th>{{ __('Popis') }}</th>
-            <td>{{ $organBuilder->description }}</td>
-        </tr>
-        <tr class="d-md-none">
-            <td colspan="2">
-                <strong>{{ __('Popis') }}</strong>
-                <br />
-                {{ $organBuilder->description }}
-            </td>
-        </tr>
+            <tr class="d-none d-md-table-row">
+                <th>{{ __('Popis') }}</th>
+                <td>{{ $organBuilder->description }}</td>
+            </tr>
+            <tr class="d-md-none">
+                <td colspan="2">
+                    <strong>{{ __('Popis') }}</strong>
+                    <br />
+                    {{ $organBuilder->description }}
+                </td>
+            </tr>
         @endif
     </table>
         

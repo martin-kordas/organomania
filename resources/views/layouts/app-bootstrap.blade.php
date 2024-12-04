@@ -26,6 +26,9 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        
         <link rel="canonical" href="{{ Helpers::getCanonicalUrl() }}" />
         <link rel="alternate" hreflang="cs-cz" href="{{ Helpers::getCanonicalUrl('cs') }}" />
         <link rel="alternate" hreflang="en-us" href="{{ Helpers::getCanonicalUrl('en') }}" />
@@ -93,12 +96,12 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                                     </x-organomania.footer-nav-item>
                                 @endif
                                     
-                                {{--<x-organomania.footer-nav-item href="#">
+                                <x-organomania.footer-nav-item href="{{ route('about') }}" wire:navigate>
                                     {{ __('O webu') }}
-                                </x-organomania.footer-nav-item>--}}
-                                {{--<x-organomania.footer-nav-item href="#">
-                                    {{ __('Autorská práva') }}
-                                </x-organomania.footer-nav-item>--}}
+                                </x-organomania.footer-nav-item>
+                                <x-organomania.footer-nav-item href="{{ route('links') }}" wire:navigate>
+                                    {{ __('Odkazy') }}
+                                </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="mailto:{{ config('custom.app_admin_email') }}">
                                     {{ __('Kontakt') }}
                                 </x-organomania.footer-nav-item>

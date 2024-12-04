@@ -94,6 +94,33 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return url($relativeUrl);
     }
 
+    #[Computed]
+    private function relatedOrgans()
+    {
+        $relatedOrganIds = match ($this->organ->id) {
+            1 => [53],
+            53 => [1],
+            36 => [142],
+            142 => [36],
+            38 => [37],
+            37 => [38],
+            52 => [51],
+            51 => [52],
+            55 => [122],
+            122 => [55],
+            6 => [68],
+            68 => [6],
+            86 => [87],
+            87 => [86],
+            75 => [76],
+            76 => [75],
+            default => []
+        };
+        return collect($relatedOrganIds)->map(
+            fn ($organId) => Organ::find($organId)
+        );
+    }
+
 }; ?>
 
 <div class="organ-show container">
@@ -235,18 +262,29 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endif
+        @if ($this->relatedOrgans->isNotEmpty())
+            <tr>
+                <th>{{ __('Související varhany') }}</th>
+                <td>
+                    @foreach ($this->relatedOrgans as $relatedOrgan)
+                        <x-organomania.organ-link :organ="$relatedOrgan" :year="$relatedOrgan->year_built" />
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
+                </td>
+            </tr>
+        @endif
         @if (isset($organ->description))
-        <tr class="d-none d-md-table-row">
-            <th>{{ __('Popis') }}</th>
-            <td>{{ $organ->description }}</td>
-        </tr>
-        <tr class="d-md-none">
-            <td colspan="2">
-                <strong>{{ __('Popis') }}</strong>
-                <br />
-                {{ $organ->description }}
-            </td>
-        </tr>
+            <tr class="d-none d-md-table-row">
+                <th>{{ __('Popis') }}</th>
+                <td>{{ $organ->description }}</td>
+            </tr>
+            <tr class="d-md-none">
+                <td colspan="2">
+                    <strong>{{ __('Popis') }}</strong>
+                    <br />
+                    {{ $organ->description }}
+                </td>
+            </tr>
         @endif
     </table>
     

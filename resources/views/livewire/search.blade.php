@@ -123,7 +123,7 @@ new class extends Component {
                     class="search form-control px-1 px-xxl-2"
                     placeholder="{{ $placeholder }}"
                     aria-label="{{ __('Hledat') }}"
-                    size="30"
+                    size="{{ app()->getLocale() === 'cs' ? 30 : 29 }}"
                     @input.debounce.400ms="isTyped = ($event.target.value != '' && $event.target.value.length >= $wire.minSearchLength)"
                     @keydown.esc="isTyped = false"
                     @click.outside="isTyped = false"

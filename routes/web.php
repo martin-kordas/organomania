@@ -52,6 +52,10 @@ Route::middleware(["auth"])->group(function () {
 
 Route::get('/', WelcomeController::class)
     ->name('welcome');
+Route::view('about', 'about')
+    ->name('about');
+Route::view('links', 'links')
+    ->name('links');
 
 Route::get('sitemap.xml', SitemapController::class);
 Route::get('qr', QrController::class);
