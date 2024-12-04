@@ -123,7 +123,7 @@ function refreshBootstrap() {
 
 function removeTooltips() {
     // prevence visících tooltipů
-    $('.tooltip').remove()
+    $('.tooltip, .popover').remove()
     $('.dropdown-menu').removeClass('show')
 }
 

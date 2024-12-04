@@ -5,7 +5,7 @@
         <p>
             {{ __('Snahou webu je poskytnout stručný přehled o varhanní kultuře v České republice, a to atraktivní formou přístupnou laické veřejnosti.') }}
             {{ __('Nápad se zrodil během autorova studia na Akademii múzických umění v Praze, kdy bylo poměrně obtížné vytvořil si ucelený přehled o významných domácích varhanách a varhanářích, o jejich kategorizaci a vzájemných vztazích.') }}
-            {!! __('To podnítilo vznik diplomové práce na téma <em><a href="/other/prehled-vyznamnych-varhan-formou-interaktivni-mapy-diplomova-prace.pdf" target="_blank">Přehled významných varhan v českých zemích formou interaktivní mapy</a></em>, obhájené na Konzervatoři Pardubice v roce 2022.') !!}
+            {!! __('To podnítilo vznik absolventské práce na téma <em><a href="/other/prehled-vyznamnych-varhan-formou-interaktivni-mapy-diplomova-prace.pdf" target="_blank">Přehled významných varhan v českých zemích formou interaktivní mapy</a></em>, obhájené na Konzervatoři Pardubice v roce 2022.') !!}
             {!! __('Z této práce web <em>Organomania</em> obsahově vychází.') !!}
         </p>
         
