@@ -60,8 +60,8 @@
         bootstrapToast.show()
     }
         
-    //document.addEventListener('livewire:navigated', () => {
-    $wire.on('bootstrap-rendered', function () {
+    
+    var initModal = function () {
         setTimeout(() => {      // setTimeout nutný, protože entity-page-view je lazy
             $('.share-modal').each(function () {
                 this.addEventListener('show.bs.modal', (e) => {
@@ -82,6 +82,10 @@
                 })
             })
         })
-    })
+    }
+     
+    // initModal voláno 2x kvůli bugům při tlačítku Zpět
+    document.addEventListener('livewire:navigated', initModal)
+    $wire.on('bootstrap-rendered', initModal)
 </script>
 @endscript

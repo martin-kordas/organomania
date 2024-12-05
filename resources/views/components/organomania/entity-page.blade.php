@@ -1,6 +1,7 @@
 @props(['metaDescription'])
 
 @php
+    use App\Models\Organ;
     use App\Models\Festival;
     use App\Models\Competition;
     use App\Helpers;
@@ -178,14 +179,24 @@
         </div>
       
         @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && $this->viewType !== 'map')
+        @php($showOrganInfoHint = $this->entityClass === Organ::class)
         @php($showSortHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && $this->viewType !== 'map')
         @php($showCompetitionsWarning = $this->entityClass === Competition::class)
         
         @if ($showFilterRegionHint)
             <div class="text-center">
-                <x-organomania.info-alert @class(['d-inline-block', 'mb-1', 'mb-3' => !$showSortHint])>
+                <x-organomania.info-alert @class(['d-inline-block', 'mb-1', 'mb-3' => !$showSortHint && !$showOrganInfoHint])>
                     {{ __('Objevte :entityName přímo', ['entityName' => $this->entityNamePluralAkuzativ]) }}
                     <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#filtersModal" @click="useRegionFilter()">{{ __('ve vašem kraji') }}</a>.
+                </x-organomania.info-alert>
+            </div>
+        @endif
+        
+        @if ($showOrganInfoHint)
+            <div class="text-center">
+                <x-organomania.info-alert @class(['d-inline-block', 'mb-1', 'mb-3' => !$showSortHint])>
+                    {{ __('Více o varhanách jako nástroji') }}
+                    <a class="link-primary" href="https://www.svatovitskevarhany.com/cs/co-jsou-to-varhany" target="_blank">zde</a>.
                 </x-organomania.info-alert>
             </div>
         @endif
