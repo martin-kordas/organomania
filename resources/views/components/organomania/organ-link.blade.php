@@ -1,4 +1,4 @@
-@props(['organ', 'year' => null])
+@props(['organ', 'year' => null, 'showOrganBuilder' => false])
 
 @php
     if (isset($organ->perex)) $description = $organ->perex;
@@ -20,8 +20,8 @@
             data-bs-content="{{ $description }}"
         @endif
     >
-        <x-organomania.organ-link-content :$organ :$year />
+        <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder />
     </a>
 @else
-    <x-organomania.organ-link-content :$organ :$year />
+    <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder />
 @endcan

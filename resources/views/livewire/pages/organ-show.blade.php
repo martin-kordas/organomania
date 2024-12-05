@@ -87,6 +87,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $previousUrl;
     }
 
+    #[Computed]
+    private function descriptionHtml()
+    {
+        $description = $this->markdownConvertor->convert($this->organ->description);
+        return trim($description);
+    }
+
     private function getDispositionUrl(Disposition $disposition)
     {
         $fn = !Gate::allows('view', $disposition) ? URL::signedRoute(...) : route(...);
@@ -190,14 +197,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </tr>
         @if ($organ->manuals_count)
             <tr>
-                <th>{{ __('Počet manuálů') }}</th>
-                <td>{{ $organ->manuals_count }}</td>
-            </tr>
-        @endif
-        @if ($organ->stops_count)
-            <tr>
-                <th>{{ __('Počet rejstříků') }}</th>
-                <td>{{ $organ->stops_count }}</td>
+                <th>{{ __('Velikost') }}</th>
+                <td>
+                    {{ $organ->getDeclinedManualsCount() }}
+                    @if ($organ->stops_count)
+                        / {{ $organ->getDeclinedStopsCount() }}
+                    @endif
+                </td>
             </tr>
         @endif
         <tr>
@@ -267,7 +273,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <th>{{ __('Související varhany') }}</th>
                 <td>
                     @foreach ($this->relatedOrgans as $relatedOrgan)
-                        <x-organomania.organ-link :organ="$relatedOrgan" :year="$relatedOrgan->year_built" />
+                        <x-organomania.organ-link :organ="$relatedOrgan" :year="$relatedOrgan->year_built" :showOrganBuilder="true" />
                         @if (!$loop->last) <br /> @endif
                     @endforeach
                 </td>
@@ -276,13 +282,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (isset($organ->description))
             <tr class="d-none d-md-table-row">
                 <th>{{ __('Popis') }}</th>
-                <td>{{ $organ->description }}</td>
+                <td><div class="markdown">{!! $this->descriptionHtml !!}</div></td>
             </tr>
             <tr class="d-md-none">
                 <td colspan="2">
                     <strong>{{ __('Popis') }}</strong>
                     <br />
-                    {{ $organ->description }}
+                    <div class="markdown">{!! $this->descriptionHtml !!}</div>
                 </td>
             </tr>
         @endif
@@ -300,11 +306,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_DISPOSITION)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_DISPOSITION }}')"
             >
+                <x-organomania.info-alert>
+                    {!! __('<strong>Varhanní dispozice</strong> je souhrnem zvukových a&nbsp;technických vlastností varhan.') !!}
+                    {!! __('Kromě seznamu rejstříků (píšťalových řad) a&nbsp;pomocných zařízení může obsahovat i základní technickou charakteristiku varhan.') !!}
+                </x-organomania.info-alert>
+                
                 @if ($organ->dispositions->isNotEmpty())
                     <h5>{{ __('Podrobné interaktivní zobrazení') }}</h5>
                     <div class="list-group">
                         @foreach ($organ->dispositions as $disposition)
-                            <a wire:navigate class="list-group-item list-group-item-action link-primary" href="{{ $this->getDispositionUrl($disposition) }}">
+                            <a wire:navigate class="list-group-item list-group-item-primary list-group-item-action link-primary" href="{{ $this->getDispositionUrl($disposition) }}">
                                 {{ $disposition->name }}
                                 @if (!$disposition->isPublic())
                                     <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>

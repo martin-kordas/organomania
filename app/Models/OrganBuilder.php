@@ -125,6 +125,16 @@ class OrganBuilder extends Model
         );
     }
     
+    public function shortName(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                if ($attributes['is_workshop']) return $attributes['workshop_name'];
+                else return $attributes['last_name'];
+            }
+        );
+    }
+    
     public function getThumbnailImage()
     {
         return null;

@@ -42,7 +42,6 @@
                         <figure class="mb-0">
                             <div class="position-relative mb-1">
                                 <img class="organ-of-day-image rounded border" src="{{ $organOfDay->image_url }}" @isset($organOfDay->image_credits) title="{{ __('Licence obrázku') }}: {{ $organOfDay->image_credits }}" @endisset />
-                                <img width="125" class="region end-0 m-2 bottom-0 position-absolute" src="{{ Vite::asset("resources/images/regions/{$organOfDay->region_id}.png") }}" />
                             </div>
                             <figcaption>
                                 <strong>{{ $organOfDay->municipality }}</strong> &nbsp;|&nbsp; {{ $organOfDay->place }}

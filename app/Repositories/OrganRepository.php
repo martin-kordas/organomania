@@ -121,7 +121,7 @@ class OrganRepository extends AbstractRepository
     public function getOrganOfDay()
     {
         return Organ::query()
-            ->where('importance', '>=', 7)
+            ->where('importance', '>=', 6)
             ->whereNotNull(['description', 'image_url'])
             ->inRandomOrder()
             ->take(1)

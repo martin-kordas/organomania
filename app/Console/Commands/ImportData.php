@@ -367,7 +367,8 @@ class ImportData extends Command
             'mk' => [OrganCategory::ActionMechanical, OrganCategory::WindchestKegel],
             'mk-p' => [OrganCategory::ActionMechanical, OrganCategory::WindchestKegel, OrganCategory::ActionPneumatical],
             'mz', 'mz?' => [OrganCategory::ActionMechanical, OrganCategory::WindchestSchleif],
-            'p', 'p?', 'pp', 'pv' => [OrganCategory::ActionPneumatical],
+            'p', 'p?', 'pp' => [OrganCategory::ActionPneumatical],
+            'pv' => [OrganCategory::ActionPneumatical, OrganCategory::WindchestMembran], 
             'pk' => [OrganCategory::ActionPneumatical, OrganCategory::WindchestKegel],
             default => [],
         };

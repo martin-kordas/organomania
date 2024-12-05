@@ -8,6 +8,7 @@ use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Route;
 use App\Models\OrganBuilder;
 use App\Models\OrganBuilderCategory;
+use App\Services\MarkdownConvertorService;
 use App\Traits\HasAccordion;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
@@ -17,9 +18,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Locked]
     public OrganBuilder $organBuilder;
 
+    protected MarkdownConvertorService $markdownConvertor;
+
+    private $showActivePeriodInHeading;
+
     const
         SESSION_KEY_SHOW_MAP = 'organ-builders.show.show-map',
         SESSION_KEY_SHOW_LITERATURE = 'organs.show.show-literature';
+
+    public function boot(MarkdownConvertorService $markdownConvertor)
+    {
+        $this->markdownConvertor = $markdownConvertor;
+
+        $this->showActivePeriodInHeading = !$this->organBuilder->is_workshop && $this->organBuilder->active_period !== 'současnost';
+    }
 
     public function mount()
     {
@@ -58,6 +70,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             return route('organ-builders.index');
         }
         return $previousUrl;
+    }
+
+    #[Computed]
+    private function descriptionHtml()
+    {
+        $description = $this->markdownConvertor->convert($this->organBuilder->description);
+        return trim($description);
     }
 
     #[Computed]
@@ -104,6 +123,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         
     <h3>
         {{ $organBuilder->name }}
+        @if ($this->showActivePeriodInHeading)
+            ({{ $organBuilder->active_period }})
+        @endif
         @if (!$organBuilder->isPublic())
             <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
         @endif
@@ -135,7 +157,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <td>{{ $organBuilder->place_of_death }}</td>
         </tr>
         @endif
-        @if (isset($organBuilder->active_period))
+        @if (isset($organBuilder->active_period) && !$this->showActivePeriodInHeading)
         <tr>
             <th>{{ __('Období') }}</th>
             <td>{{ $organBuilder->active_period }}</td>
@@ -195,6 +217,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             </li>
                         @endforeach
                     </ul>
+                    @if ($organBuilder->organs->count() > 1)
+                        <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id]) }}">
+                            <i class="bi bi-music-note-list"></i>
+                            {{ __('Zobrazit všechny') }}
+                            <span class="badge text-bg-secondary rounded-pill">{{ $organBuilder->organs->count() }}</span>
+                        </a>
+                    @endif
                 </td>
             </tr>
         @endif
@@ -232,13 +261,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (isset($organBuilder->description))
             <tr class="d-none d-md-table-row">
                 <th>{{ __('Popis') }}</th>
-                <td>{{ $organBuilder->description }}</td>
+                <td>
+                    <div class="markdown">{!! $this->descriptionHtml !!}</div>
+                </td>
             </tr>
             <tr class="d-md-none">
                 <td colspan="2">
                     <strong>{{ __('Popis') }}</strong>
                     <br />
-                    {{ $organBuilder->description }}
+                    <div class="markdown">{!! $this->descriptionHtml !!}</div>
                 </td>
             </tr>
         @endif

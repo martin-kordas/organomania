@@ -18,7 +18,7 @@
         
         <p>
             {{ __('Obsah uváděný na webu má stručný, přehledový charakter.') }}
-            {{ __('Nepochází z vlastního výzkumu, ale z literatury a veřejně dostupných zdrojů.') }}
+            {{ __('Nevychází z vlastního výzkumu, ale z literatury a veřejně dostupných zdrojů.') }}
             {!! __('Obrazové materiály jsou převzaty z Wikimedia Commons (autor a licence obrázku se zobrazí po najetí myši).') !!}
             {{ __('Pro usnadnění orientace bývají uváděné položky seřazeny podle "významu".') }}
             {{ __('Je evidentní, že význam určitých varhan nebo varhanáře záleží na mnoha faktorech a nelze jej objektivně stanovit.') }}
