@@ -23,13 +23,6 @@
     <small>
         {{ __('Klikněte na bod na mapě pro zobrazení podrobností.') }}
     </small>
-    @if ($this->activeFiltersCount <= 0 && $this->repository instanceof OrganRepository)
-        <br />
-        <small>
-            {{ __('Pro přehlednost můžete') }}
-            <a class="link-primary text-decoration-none" href="#" @click="$wire.$parent.set('filterImportance', 4)">{{ __('zobrazit jen nejvýznamnější varhany') }}</a>.
-        </small>
-    @endif
 </p>
 
 <div class="container entity-page-map">
@@ -38,24 +31,29 @@
         zoom="7.8"
         map-id="{{ $this->mapId }}"
         style="height: 70vh"
-        wire:replace
+        rendering-type="vector"
+        wire:ignore
     >
         @foreach ($organs as $organ)
             <gmp-advanced-marker
                 position="{{ $organ->latitude }},{{ $organ->longitude }}"
                 title="{{ $this->getMapMarkerTitle($organ) }}"
-                wire:click="setThumbnailOrgan({{ $organ->id }})"
-                data-bs-toggle="modal"
-                data-bs-target="#organThumbnail"
+                data-organ-id="{{ $organ->id }}"
             ></gmp-advanced-marker>
         @endforeach
     </gmp-map>
   
     <div wire:ignore.self class="modal organ-thumbnail-modal fade" id="organThumbnail" tabindex="-1" data-focus="false" aria-labelledby="organThumbnailLabel" aria-hidden="true">
-        <div class="modal-dialog shadow-lg">
+        <div class="modal-dialog shadow-lg" wire:key="{{ $thumbnailOrgan->id ?? 0 }}">
             <div class="modal-content">
                 <x-dynamic-component :component="$this->thumbnailComponent" :organ="$thumbnailOrgan" :modal="true" />
             </div>
         </div>
     </div>
 </div>
+
+@script
+<script>
+    initGoogleMap($wire)
+</script>
+@endscript

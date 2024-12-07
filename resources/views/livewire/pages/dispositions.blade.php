@@ -138,7 +138,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     @endif
                                 </td>
                                 <td class="fw-semibold" style="min-width: 15em;">
-                                    <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ route('dispositions.show', $disposition->slug) }}" wire:navigate>
+                                    <a class="link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ route('dispositions.show', $disposition->slug) }}" wire:navigate>
                                         {{ $disposition->name }}
                                     </a>
                                 </td>

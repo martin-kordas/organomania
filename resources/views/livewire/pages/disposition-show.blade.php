@@ -37,6 +37,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     use HasAccordion, HasHighlightDispositionFilters;
 
     #[Locked]
+    public $dispositionSlug;
+    #[Locked]
     public Disposition $disposition;
 
     public ?RegisterName $registerName = null;
@@ -72,6 +74,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Session]
     public bool $showDescription = true;
 
+    #[Locked]
+    public bool $signed;
+
     private $highlightRegisterId;
 
     const
@@ -81,9 +86,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function boot()
     {
+        $this->signed ??= request()->hasValidSignature(false);
+        // nepoužíváme klasický route model binding, protože potřebujeme ručně odebrat OwnedEntityScope
+        //  - musí to fungovat i Livewire AJAX requestech
+        $this->disposision ??= $this->getDisposition();
+
+        $query = Disposition::query();
+        if ($this->signed) $query->withoutGlobalScope(OwnedEntityScope::class);
+        if (is_numeric($this->dispositionSlug)) $query->where('id', $this->dispositionSlug);
+        else $query->where('slug', $this->dispositionSlug);
+        $this->disposition = $query->firstOrFail();
+
         // při překreslení komponenty se signed URL zřejmě již nepoužije
         //  - proto informaci o autorizovaném registrationId cachujeme
-        if (request()->hasValidSignature(false)) {
+        if ($this->signed) {
             if ($registrationIdSigned = request('registrationId')) {
                 $this->registrationIdSigned = (int)$registrationIdSigned;
             }
@@ -105,11 +121,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function mount()
     {
-        if (!request()->hasValidSignature(false)) {
+        if (!$this->signed) {
             $this->authorize('view', $this->disposition);
         }
 
         $this->setRegistration();
+    }
+
+    private function getDisposition()
+    {
+        $query = Disposition::query();
+        if ($this->signed) $query->withoutGlobalScope(OwnedEntityScope::class);
+        if (is_numeric($this->dispositionSlug)) $query->where('id', $this->dispositionSlug);
+        else $query->where('slug', $this->dispositionSlug);
+        return $query->firstOrFail();
     }
 
     public function updatedRegistrationId()
@@ -386,7 +411,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function getRegistrationShareUrl()
     {
         $relativeUrl = URLFacade::signedRoute('dispositions.show', [
-            'disposition' => $this->disposition->id,
+            'dispositionSlug' => $this->disposition->id,
             'registrationId' => $this->registrationId
         ], absolute: false);
         return url($relativeUrl);
@@ -706,7 +731,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             @if ($isEdit)
                                 <input class="registration-name form-control form-control-sm" id="registrationId" wire:model="registrationName" placeholder="{{ __('např. Bach, J. S.: Toccata a fuga d-moll') }}" required />
                             @else
-                                <x-organomania.selects.registration-select :registrations="$disposition->registrations" :allowClear="!request()->hasValidSignature(false)" />
+                                <x-organomania.selects.registration-select :registrations="$disposition->registrations" :allowClear="!$this->signed" />
                             @endif
                         </div>
                     @endif

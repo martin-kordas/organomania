@@ -38,6 +38,7 @@ enum OrganCategory: int implements Category
         
         self::Renaissance->value => [
             'name' => 'Renesanční',
+            'description' => 'Pro renesanční varhany je kromě renesančního tvarosloví skříně typická barevná různorodost rejstříků'
         ],
         self::Baroque->value => [
             'name' => 'Barokní',

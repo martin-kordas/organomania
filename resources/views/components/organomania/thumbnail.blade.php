@@ -2,7 +2,11 @@
 
 @php
     if (isset($organ->perex)) $description = $organ->perex;
-    elseif (isset($organ->description)) $description = str($organ->description)->limit(215);
+    elseif (isset($organ->description)) {
+        $description = str($organ->description)
+            ->replace('*', '')      // odstranění markdownu
+            ->limit(215);
+    }
     else $description = null;
 
     $image = $organ?->getThumbnailImage();
@@ -17,12 +21,18 @@
                 <button type="button" class="btn-close position-absolute end-0 m-2 z-1" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             @endif
             @isset($image)
-                <a href="{{ $this->getViewUrl($organ) }}" wire:navigate>
+                <a
+                    href="{{ $this->getViewUrl($organ) }}"
+                    @if ($modal) target="_blank" @else wire:navigate @endif
+                >
                     <img class="organ-image" src="{{ $image['image_url'] }}" @isset($image['image_credits']) title="{{ __('Licence obrázku') }}: {{ $image['image_credits'] }}" @endisset />
                 </a>
             @endisset
             @isset($organ->region_id)
-                <a href="{{ $this->getViewUrl($organ) }}" wire:navigate>
+                <a
+                    href="{{ $this->getViewUrl($organ) }}"
+                    @if ($modal) target="_blank" @else wire:navigate @endif
+                >
                     <img width="125" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => isset($image), 'bg-light' => !isset($image)]) src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
                 </a>
             @endisset
@@ -87,7 +97,14 @@
         <div class="card-footer text-body-secondary">
             <div class="d-flex justify-content-between align-items-center gap-2">
                 <div class="btn-group">
-                    <a type="button" @class(['btn', 'btn-sm', 'btn-primary']) href="{{ isset($organ) ? $this->getViewUrl($organ) : '#' }}" wire:navigate wire:loading.class="disabled" wire:target="setThumbnailOrgan">
+                    <a
+                        type="button"
+                        @class(['btn', 'btn-sm', 'btn-primary'])
+                        href="{{ isset($organ) ? $this->getViewUrl($organ) : '#' }}"
+                        wire:loading.class="disabled"
+                        wire:target="setThumbnailOrgan"
+                        @if ($modal) target="_blank" @else wire:navigate @endif
+                    >
                         <i class="bi-eye"></i> <span class="d-none d-sm-inline">{{ __('Zobrazit') }}</span>
                     </a>
 

@@ -55,12 +55,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function getRouteUrl(RegistrationSet $registrationSet, $signed = false)
     {
-        $fn = $signed ? URL::signedRoute(...) : route(...);
         $parameters = [
             'disposition' => $this->disposition->slug,
             'registrationSet' => $registrationSet->slug,
         ];
-        $relativeUrl = $fn('dispositions.registration-sets.show', $parameters, absolute: false);
+        $route = 'dispositions.registration-sets.show';
+
+        if ($signed) $relativeUrl = URL::signedRoute($route, $parameters, absolute: false);
+        else $relativeUrl = route($route, $parameters, absolute: false);
         return url($relativeUrl);
     }
 
@@ -100,6 +102,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <table class="table table-sm table-hover align-middle">
             <thead>
                 <tr>
+                    <th>&nbsp;</th>
                     <th>{{ __('Název') }}</th>
                     <th class="text-end">{!! __('Počet registrací') !!}</th>
                     <th>&nbsp;</th>
@@ -108,8 +111,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <tbody class="table-group-divider">
                 @foreach ($disposition->registrationSets as $registrationSet)
                     <tr>
+                        <td>
+                            <i class="bi bi-lock text-warning"></i>
+                        </td>
                         <td class="fw-semibold">
-                            <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($registrationSet) }}" wire:navigate>
+                            <a class="link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ $this->getViewUrl($registrationSet) }}" wire:navigate>
                                 {{ $registrationSet->name }}
                             </a>
                         </td>

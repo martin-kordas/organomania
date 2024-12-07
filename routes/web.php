@@ -105,7 +105,7 @@ Volt::route('dispositions/registers', 'pages.registers')
     ->name('dispositions.registers.index');
 Volt::route('dispositions/registers/{registerName}', 'pages.register-show')
     ->name('dispositions.registers.show');
-Volt::route('dispositions/{disposition}', 'pages.disposition-show')
+Volt::route('dispositions/{dispositionSlug}', 'pages.disposition-show')
     ->name('dispositions.show');
 Volt::route('dispositions/{disposition}/registration-sets/{registrationSet}', 'pages.registration-set-show')
     ->name('dispositions.registration-sets.show')

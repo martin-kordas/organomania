@@ -181,43 +181,57 @@
         @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && $this->viewType !== 'map')
         @php($showOrganInfoHint = $this->entityClass === Organ::class)
         @php($showSortHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && $this->viewType !== 'map')
+        @php($showOrganImportanceHint = $this->entityClass === Organ::class && $this->viewType === 'map' && $this->activeFiltersCount <= 0)
         @php($showCompetitionsWarning = $this->entityClass === Competition::class)
         
-        @if ($showFilterRegionHint)
-            <div class="text-center">
-                <x-organomania.info-alert @class(['d-inline-block', 'mb-1', 'mb-3' => !$showSortHint && !$showOrganInfoHint])>
-                    {{ __('Objevte :entityName přímo', ['entityName' => $this->entityNamePluralAkuzativ]) }}
-                    <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#filtersModal" @click="useRegionFilter()">{{ __('ve vašem kraji') }}</a>.
-                </x-organomania.info-alert>
-            </div>
-        @endif
-        
-        @if ($showOrganInfoHint)
-            <div class="text-center">
-                <x-organomania.info-alert @class(['d-inline-block', 'mb-1', 'mb-3' => !$showSortHint])>
-                    {{ __('Více o varhanách jako nástroji') }}
-                    <a class="link-primary" href="https://www.svatovitskevarhany.com/cs/co-jsou-to-varhany" target="_blank">zde</a>.
-                </x-organomania.info-alert>
-            </div>
-        @endif
-        
-        @if ($showSortHint)
-            <div class="text-center">
-                <x-organomania.info-alert class="d-inline-block mb-3">
-                    {{ __('Namísto období konání seřaďte festivaly') }}
-                    <a class="link-primary text-decoration-none" href="#" wire:click="sort('importance', 'desc')">{!! __('podle významu') !!}</a>.
-                </x-organomania.info-alert>
-            </div>
-        @endif
-        
-        @if ($showCompetitionsWarning) 
-            <div class="text-center">
-                <x-organomania.warning-alert class="d-inline-block mb-3 asds">
-                    {!! __('Uváděné parametry soutěží vychází z posledního známého ročníku a <strong>nemusí být aktuální</strong>! Pro aktuální informace navštivte vždy oficiální web soutěže.') !!}
-                </x-organomania.warning-alert>
-            </div>
-        @endif
+        @if ($showFilterRegionHint || $showOrganInfoHint || $showSortHint || $showOrganImportanceHint || $showCompetitionsWarning)
+            <div class="mb-2">
+                @if ($showFilterRegionHint)
+                    <div class="text-center">
+                        <x-organomania.info-alert class="d-inline-block mb-1">
+                            {{ __('Objevte :entityName přímo', ['entityName' => $this->entityNamePluralAkuzativ]) }}
+                            <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#filtersModal" @click="useRegionFilter()">{{ __('ve vašem kraji') }}</a>.
+                        </x-organomania.info-alert>
+                    </div>
+                @endif
 
+                @if ($showOrganInfoHint)
+                    <div class="text-center">
+                        <x-organomania.info-alert class="d-inline-block mb-1">
+                            {{ __('Více o varhanách jako nástroji') }}
+                            <a class="link-primary text-decoration-none" href="https://www.svatovitskevarhany.com/cs/co-jsou-to-varhany" target="_blank">zde</a>.
+                        </x-organomania.info-alert>
+                    </div>
+                @endif
+
+                @if ($showOrganImportanceHint)
+                    <div class="text-center">
+                        <x-organomania.info-alert class="d-inline-block mb-1">
+                            {{ __('Zobrazte si jen') }}
+                            <a class="link-primary text-decoration-none" href="#" @click="$wire.set('filterImportance', 4)">{{ __('nejvýznamnější varhany') }}</a>.
+                        </x-organomania.info-alert>
+                    </div>
+                @endif
+
+                @if ($showSortHint)
+                    <div class="text-center">
+                        <x-organomania.info-alert class="d-inline-block">
+                            {{ __('Namísto období konání seřaďte festivaly') }}
+                            <a class="link-primary text-decoration-none" href="#" wire:click="sort('importance', 'desc')">{!! __('podle významu') !!}</a>.
+                        </x-organomania.info-alert>
+                    </div>
+                @endif
+
+                @if ($showCompetitionsWarning) 
+                    <div class="text-center">
+                        <x-organomania.warning-alert class="d-inline-block">
+                            {!! __('Uváděné parametry soutěží vychází z posledního známého ročníku a <strong>nemusí být aktuální</strong>! Pro aktuální informace navštivte vždy oficiální web soutěže.') !!}
+                        </x-organomania.warning-alert>
+                    </div>
+                @endif
+            </div>
+        @endif
+        
         <livewire:dynamic-component
             :is="$this->entityPageViewComponent"
             :filterCategories="$this->filterCategories" :filterRegionId="$this->filterRegionId" :filterImportance="$this->filterImportance" :filterPrivate="$this->filterPrivate" :filterFavorite="$this->filterFavorite"

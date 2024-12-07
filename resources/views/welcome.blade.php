@@ -30,7 +30,7 @@
         </div>
         
         @isset($organOfDay)
-            <div class="row justify-content-center mb-5">
+            <div class="row justify-content-center mb-4 mb-md-5">
                 <div
                     class="organ-of-day col col-lg-9 text-center"
                     href="{{ route('organs.show', $organOfDay->slug) }}"

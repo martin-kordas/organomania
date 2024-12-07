@@ -103,6 +103,10 @@ trait EntityPage
     {
         if (in_array($property, [...$this->getFilters(), 'perPage'])) {
             $this->dispatch('filtering-changed');
+            
+            // Google mapa má z tech. důvodů nastaveno wire:replace, při aktualizaci zobrazených varhan tedy musíme přenačíst celou stranu
+            if ($this->viewType === 'map')
+                $this->js('location.reload()');
         }
     }
     

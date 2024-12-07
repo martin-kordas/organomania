@@ -44,7 +44,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @foreach ($this->organs as $festival)
                     <tr>
                         <td class="table-light position-sticky start-0">
-                            <a class="fw-semibold link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($festival) }}" wire:navigate>
+                            <a class="fw-semibold link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ $this->getViewUrl($festival) }}" wire:navigate>
                                 {{ $festival->name }}
                             </a>
                         </td>

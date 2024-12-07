@@ -2,7 +2,12 @@
 
 @php
     if (isset($organBuilder->perex)) $description = $organBuilder->perex;
-    elseif (isset($organBuilder->description)) $description = str($organBuilder->description)->limit(200);
+    elseif (isset($organBuilder->description)) {
+        $description = str($organBuilder->description)
+            ->replace('*', '')      // odstranění markdownu
+            ->replaceMatches('/\s+/', ' ')
+            ->limit(200);
+    }
     else $description = null;
 @endphp
 

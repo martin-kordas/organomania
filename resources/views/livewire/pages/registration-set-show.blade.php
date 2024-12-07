@@ -80,7 +80,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $fn = !Gate::allows('view', $registration) ? URL::signedRoute(...) : route(...);
         $relativeUrl = $fn(
             'dispositions.show',
-            [$this->disposition, 'registrationId' => $registration->id],
+            [$this->disposition->slug, 'registrationId' => $registration->id],
             absolute: false
         );
         return url($relativeUrl);

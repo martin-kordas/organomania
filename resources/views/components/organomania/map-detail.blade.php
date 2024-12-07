@@ -5,6 +5,7 @@
     zoom="7.3"
     map-id="ORGAN_MAP_ID"
     style="height: 500px"
+    rendering-type="raster"
     wire:replace
 >
     <gmp-advanced-marker

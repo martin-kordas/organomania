@@ -127,6 +127,22 @@ function removeTooltips() {
     $('.dropdown-menu').removeClass('show')
 }
 
+window.initGoogleMap = function ($wire) {
+    setTimeout(function () {
+        const markers = document.querySelectorAll('gmp-advanced-marker');
+
+        // zobrazení modalu řešeno v JS, protože kliknutí na mobilu funguje jen s událostí pointerdown (ne click)
+        // a s pointerdown naopak není kompatibilní data-bs-toggle, proto modal aktivujeme v JS
+        markers.forEach(marker => {
+            marker.addEventListener('pointerdown', function () {
+                new bootstrap.Modal($('#organThumbnail')[0]).show()
+                let organId = marker.dataset.organId
+                $wire.setThumbnailOrgan(organId)
+            })
+        });
+    })
+}
+
 window.scrollToTop = function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }

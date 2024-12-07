@@ -14,7 +14,7 @@
 
             <div class="modal-body">
                 @foreach ($categoriesGroups as $group => $categories)
-                    <div class="mb-4">
+                    <div @class(['mb-4' => !$loop->last])>
                         <h3 class="fs-5">{{ __($categoryClass::getGroupName($group)) }}</h3>
                         @foreach ($categories as $category)
                             <div class="mb-2">

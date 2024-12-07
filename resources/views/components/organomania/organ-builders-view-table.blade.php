@@ -49,7 +49,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             @endif
                         </td>
                         <td class="table-light fw-semibold position-sticky start-0">
-                            <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($organBuilder) }}" wire:navigate>
+                            <a class="link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ $this->getViewUrl($organBuilder) }}" wire:navigate>
                                 {{ $organBuilder->name }}
                             </a>
                         </td>

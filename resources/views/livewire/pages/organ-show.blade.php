@@ -6,6 +6,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use App\Enums\Region;
 use App\Services\MarkdownConvertorService;
 use App\Models\Disposition;
 use App\Models\Organ;
@@ -140,6 +141,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @if (!$organ->isPublic())
                     <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
                 @endif
+                @if ($organ->region->id !== Region::Praha->value)
+                    <br />
+                    <small class="text-secondary position-relative" style="font-size: var(--bs-body-font-size); top: -6px;">
+                        ({{ $organ->region->name }})
+                    </small>
+                @endif
             </h3>
 
             @if (isset($organ->perex))
@@ -191,10 +198,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endif
-        <tr>
-            <th>{{ __('Kraj') }}</th>
-            <td>{{ $organ->region->name }}</td>
-        </tr>
         @if ($organ->manuals_count)
             <tr>
                 <th>{{ __('Velikost') }}</th>

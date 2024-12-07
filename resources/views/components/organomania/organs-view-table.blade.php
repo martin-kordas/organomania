@@ -31,7 +31,7 @@
                         {{ $organ->municipality }}
                     </td>
                     <td class="fw-semibold">
-                        <a class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover" href="{{ $this->getViewUrl($organ) }}" wire:navigate>
+                        <a class="link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ $this->getViewUrl($organ) }}" wire:navigate>
                             {{ $organ->place }}
                         </a>
                     </td>

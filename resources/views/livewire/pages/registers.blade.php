@@ -181,7 +181,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <tr>
                             <td class="fw-bold">
                                 <a
-                                    class="link-dark link-underline-opacity-10 link-underline-opacity-50-hover"
+                                    class="link-dark link-underline-opacity-25 link-underline-opacity-75-hover"
                                     href="{{ route('dispositions.registers.show', $registerName->slug) }}"
                                     data-bs-toggle="modal"
                                     data-bs-target="#registerModal"
