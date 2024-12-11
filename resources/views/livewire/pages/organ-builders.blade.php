@@ -40,7 +40,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->categorySelectPlaceholder = __('Zvolte kategorii varhanářů');
         $this->gateUseCustomCategories = 'useOrganBuilderCustomCategories';
         $this->categoryClass = OrganBuilderCategory::class;
-        $this->categoryModalTitle = __('Přehled kategorií varhanářů');
         $this->gateLike = 'likeOrganBuilders';
         $this->entityPageViewComponent = 'organ-builders-view';
         $this->entityClass = OrganBuilder::class;

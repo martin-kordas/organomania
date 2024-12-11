@@ -46,7 +46,7 @@ class Register extends Model
     
     public function registerNames()
     {
-        return $this->hasMany(RegisterName::class)->orderBy('language');
+        return $this->hasMany(RegisterName::class)->orderBy('language')->orderBy('name');
     }
     
     public function paletteRegisters()

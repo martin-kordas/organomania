@@ -111,7 +111,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endisset
         @isset($festival->frequency)
             <tr>
-                <th>{{ __('Období konání') }}</th>
+                <th>
+                    <span class="d-md-none">{{ __('Období') }}</span>
+                    <span class="d-none d-md-inline">{{ __('Období konání') }}</span>
+                </th>
                 <td>
                     <span @class(['mark' => $festival->shouldHighlightFrequency()])>
                         {{ $festival->frequency }}

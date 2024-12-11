@@ -17,7 +17,7 @@
 <th {{ $attributes->class(['position-sticky' => $sticky, 'start-0' => $sticky]) }}>
     <a
         href="#"
-        class="link-primary"
+        class="link-primary link-underline-opacity-50 link-underline-opacity-75-hover"
         wire:click="$parent.sort('{{ $sortOption['column'] }}', '{{ $newDirection }}')"
         {{-- Bootstrap title nefunguje správně, protože se mění text stejného tooltipu --}}
         title="{{ __("Seřadit podle sloupce :column $newDirectionText", ['column' => __($sortOption['label'])]) }}"

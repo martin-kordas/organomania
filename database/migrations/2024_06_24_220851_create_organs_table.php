@@ -36,6 +36,7 @@ return new class extends Migration
             $table->text('perex')->nullable();
             $table->text('description')->nullable();
             $table->text('literature')->nullable();
+            $table->text('discography')->nullable();
             $table->text('disposition')->nullable();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();

@@ -44,6 +44,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private string $showRecordsText;
     private string $shareModalHint;
     private string $createCategoryMessage;
+    private string $addItemsMessage;
 
     public function boot()
     {
@@ -61,7 +62,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $this->recordEntityIcon = 'music-note-list';
                 $this->showRecordsText = __('Zobrazit varhany v této kategorii');
                 $this->shareModalHint = __('Sdílením kategorie sdílíte všechny varhany v ní obsažené.');
-                $this->createCategoryMessage = __('Vytvořte si vlastní pojmenovanou skupinu varhan.');
+                $this->createCategoryMessage = __('Vytvořte si vlastní pojmenovanou kategorii (skupinu) varhan. Přidejte do ní varhany ve vašem okolí, varhany, které jste navštívili, nebo varhany, na kterých probíhá váš varhanní festival. Tlačítkem Sdílet zašlete skupinu varhan svým známým.');
+                $this->addItemsMessage = __('Pro přidání varhan do kategorie jděte na seznam varhan a použijte tlačítko Kategorie.');
                 break;
 
             case 'organ-builders.organ-builder-custom-categories':
@@ -75,7 +77,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $this->recordEntityIcon = 'person-circle';
                 $this->showRecordsText = __('Zobrazit varhanáře v této kategorii');
                 $this->shareModalHint = __('Sdílením kategorie sdílíte všechny varhanáře v ní obsažené.');
-                $this->createCategoryMessage = __('Vytvořte si vlastní pojmenovanou skupinu varhanářů.');
+                $this->createCategoryMessage = __('Vytvořte si vlastní pojmenovanou kategorii (skupinu) varhanářů. Může obsahovat např. varhanáře působící ve vašem okolí. Tlačítkem Sdílet zašlete skupinu varhanářů svým známým.');
+                $this->addItemsMessage = __('Pro přidání varhanářů do kategorie jděte na seznam varhanářů a použijte tlačítko Kategorie.');
                 break;
 
             default:
@@ -194,7 +197,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     
     <p class="lead">
         {{ $this->createCategoryMessage }}
-        {{ __('Tlačítkem Sdílet ji můžete poslat svým známým.') }}
     </p>
     
     <form wire:submit="save">
@@ -270,6 +272,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </tr>
         </table>
     </form>
+    
+    <small class="text-secondary">
+        {{ $this->addItemsMessage }}
+    </small>
     
     <div class="text-end mt-3">
         <a class="btn btn-sm btn-secondary" href="{{ route($this->backRoute) }}" wire:navigate>

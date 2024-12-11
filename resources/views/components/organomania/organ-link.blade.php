@@ -1,4 +1,4 @@
-@props(['organ', 'year' => null, 'showOrganBuilder' => false])
+@props(['organ', 'year' => null, 'showOrganBuilder' => false, 'isRebuild' => false])
 
 @php
     if (isset($organ->perex)) $description = $organ->perex;
@@ -10,7 +10,7 @@
 
 @can('view', $organ)
     <a
-        class="organ-link link-primary text-decoration-none"
+        class="organ-link icon-link icon-link-hover align-items-start link-primary text-decoration-none"
         href="{{ route('organs.show', $organ->slug) }}"
         wire:navigate
         @if ($description)
@@ -20,8 +20,9 @@
             data-bs-content="{{ $description }}"
         @endif
     >
-        <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder />
+        <i class="bi bi-music-note-list"></i>
+        <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder :$isRebuild />
     </a>
 @else
-    <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder />
+    <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder :$isRebuild />
 @endcan

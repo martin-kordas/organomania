@@ -14,6 +14,41 @@ import.meta.glob([
     '../css/**',
 ])
 
+// https://select2.org/searching#matching-grouped-options
+function select2MatchStart(params, data) {
+    // If there are no search terms, return all of the data
+    if ($.trim(params.term) === '') {
+        return data;
+    }
+
+    // Skip if there is no 'children' property
+    if (typeof data.children === 'undefined') {
+        return null;
+    }
+
+    // `data.children` contains the actual options that we are matching against
+    var filteredChildren = [];
+    $.each(data.children, function (idx, child) {
+        if (child.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
+            filteredChildren.push(child);
+        }
+    });
+
+    // If we matched any of the timezone group's children, then set the matched children on the group
+    // and return the group object
+    if (filteredChildren.length) {
+        var modifiedData = $.extend({}, data, true);
+        modifiedData.children = filteredChildren;
+
+        // You can return modified objects from here
+        // This includes matching the `children` how you want in nested data sets
+        return modifiedData;
+    }
+
+    // Return `null` if the term should not be displayed
+    return null;
+}
+
 window.refreshSelect2 = function () {
     // při navigaci Zpět v prohlížeči se zobrazí neaktivní element a atributy dřívějšího select2, které před jeho opětovným obnovením musím smazat
     $('span.select2-container').remove();
@@ -23,13 +58,14 @@ window.refreshSelect2 = function () {
         var cssClass = $(this).hasClass('form-select-sm') ? 'select2--small' : ''
         //if ($(this).hasClass("select2-hidden-accessible")) $(this).select2('destroy')
         $(this).select2({
-              theme: "bootstrap-5",
-              // https://stackoverflow.com/a/71552114/14967413
-              dropdownParent: $(this).parent(),
-              selectionCssClass: cssClass,
-              dropdownCssClass: cssClass,
+            theme: "bootstrap-5",
+            // https://stackoverflow.com/a/71552114/14967413
+            dropdownParent: $(this).parent(),
+            selectionCssClass: cssClass,
+            dropdownCssClass: cssClass,
         })
     })
+    
     $('.select2-register-names').each(function() {
         $(this).select2({
             theme: "bootstrap-5",
@@ -81,8 +117,18 @@ window.refreshSelect2 = function () {
             }
         }).on('select2:close', function () {
             $('.pitch-select').select2('open')
-        })
+        })    
     })
+    
+    $('.select2-pitch').each(function() {
+        $(this).select2({
+            theme: "bootstrap-5",
+            // https://stackoverflow.com/a/71552114/14967413
+            dropdownParent: $(this).parent(),
+            // při matchingu se musí shodovat začátek, jinak by se např. pro "2'" našlo i "32'"
+            matcher: select2MatchStart
+        })
+    });
     
     $('.pitch-select').on('select2:close', function () {
         $('.multiplier input').focus()

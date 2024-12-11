@@ -34,7 +34,7 @@ class Keyboard extends Model
                 'Hlavní stroj', 'Pozitiv', 'Žaluziový stroj',
             ],
             DispositionLanguage::German => [
-                'Hauptwerk', 'Positiv', 'Schwellwerk',
+                'Hauptwerk', 'Positiv', 'Oberwerk', 'Schwellwerk',
             ],
             DispositionLanguage::French => [
                 'Grand Orgue', 'Positif', 'Récit',

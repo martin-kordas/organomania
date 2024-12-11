@@ -18,4 +18,9 @@ class OrganRebuild extends Model
         return $this->belongsTo(OrganBuilder::class);
     }
     
+    public function organ()
+    {
+        return $this->belongsTo(Organ::class);
+    }
+    
 }

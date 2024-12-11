@@ -36,7 +36,7 @@ enum OrganBuilderCategory: int implements Category
         ],
         self::NeobaroqueUniversal->value => [
             'name' => 'Neobarokní a univerzální',
-            'description' => 'Novodobé neobarokní a stylově nevyhraněné nástroje',
+            'description' => 'Novodobé nástroje čerpající z tradic barokního varhanářství a stylově nevyhraněné nástroje',
         ],
         self::FactoryProduction->value => [
             'name' => 'Tovární výroba',
@@ -79,8 +79,8 @@ enum OrganBuilderCategory: int implements Category
     public static function getGroupName($group)
     {
         return match ($group) {
-            'periodCategories' => 'Podle období',
-            'generalCategories' => 'Podle typu',
+            'periodCategories' => 'Kategorie podle období',
+            'generalCategories' => 'Kategorie podle typu',
             default => throw new \RuntimeException
         };
     }

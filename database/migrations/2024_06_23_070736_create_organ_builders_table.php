@@ -27,6 +27,8 @@ return new class extends Migration
             $table->double('longitude');
             $table->foreignId('region_id')->nullable()->constrained();
             $table->string('workshop_members', length: 500)->nullable();
+            $table->string('image_url', length: 500)->nullable();
+            $table->string('image_credits', length: 500)->nullable();
             $table->string('web', length: 500)->nullable();
             $table->integer('varhany_net_id')->nullable();
             $table->integer('importance')->comment("1 (lowest) to 10 (greatest)");

@@ -20,13 +20,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <div wire:loading.remove wire:target="setRegisterName">
+                <div class="w-100" wire:loading.remove wire:target="setRegisterName">
                     @isset($register)
                         <h1 class="modal-title fs-5" id="registerModalLabel">
                             {{ $registerName->name }}
                             <span class="text-body-secondary">({{ $registerName->language }})</span>
                         </h1>
-                        <div>
+                        <div @style(['columns: 2' => $registerNames->count() > 3])>
                             @foreach ($registerNames as $registerName1)
                                 {{ $registerName1->name }}
                                 <span class="text-body-secondary">({{ $registerName1->language }})</span>

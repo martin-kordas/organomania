@@ -21,19 +21,19 @@
                 @endif
             </h5>
             <div class="fst-italic mb-1">
-                <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" />
+                <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" :showIcon="false" />
                 @foreach ($organ->organRebuilds as $rebuild)
                     @if ($rebuild->organBuilder)
                         <br />
-                        <x-organomania.organ-builder-link :organBuilder="$rebuild->organBuilder" :yearBuilt="$rebuild->year_built" :isRebuild="true" />
+                        <x-organomania.organ-builder-link :organBuilder="$rebuild->organBuilder" :yearBuilt="$rebuild->year_built" :showIcon="false" :isRebuild="true" />
                     @endif
                 @endforeach
             </div>
             <div class="stars">
                 <span class="text-body-secondary">
-                    {{ $organ->getDeclinedManualsCount() }}
+                    {{ $organ->manuals_count }} <small>{{ $organ->getDeclinedManuals() }}</small>
                     @if ($organ->stops_count)
-                        / {{ $organ->getDeclinedStopsCount() }}
+                        / {{ $organ->stops_count }} <small>{{ $organ->getDeclinedStops() }}</small>
                     @endif
                 </span>
                 <x-organomania.stars class="float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Význam') }}" :count="round($organ->importance / 2)" />

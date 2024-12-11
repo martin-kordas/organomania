@@ -61,7 +61,6 @@ trait EntityPage
     private ?string $gateUseCustomCategories;
     private int $maxImportance = 5;
     private ?string $categoryClass = null;
-    private ?string $categoryModalTitle = null;
     private ?string $gateLike;
     private string $entityPageViewComponent;
     private string $entityClass;

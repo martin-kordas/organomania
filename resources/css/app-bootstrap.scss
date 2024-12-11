@@ -67,6 +67,9 @@ header > nav, footer > div, header > nav * footer > div * {
 }
 header.border-bottom, footer > div.border-top {
     --bs-border-color: var(--header-footer-border-color);
+    .search-results {
+        --bs-border-color: #dee2e6;
+    }
 }
 
 div.side-buttons {
@@ -77,6 +80,21 @@ div.side-buttons {
     }
     .side-buttons-inner {
         width: 4.8rem;
+        .btn:not(.btn-primary):not(:hover):not(.show) {
+            background: white;
+        }
+    }
+}
+@media screen and (max-width: 767px) {
+    .entity-page {
+        .side-buttons-inner {
+            opacity: 75%;
+            transition: opacity 0.35s;
+
+            &:hover {
+                opacity: 100%;
+            }
+        }
     }
 }
 
@@ -163,6 +181,10 @@ div.side-buttons {
         /* odstavce není potřeba oddělovat, protože už jsou odděleny díky white-space */
         margin-bottom: 0;
     }
+}
+
+.items-list {
+    line-height: 1.7;
 }
 
 .organ-thumbnail-modal .modal-dialog {
@@ -343,16 +365,30 @@ div.side-buttons {
     }
 }
 
+@media screen and (max-width: 767px) {
+    .entity-page-view-container {
+        &.view-type-table, &.view-type-map, &.view-type-thumbnails {
+            width: calc(100% + 5.7rem);
+        }
+    }
+}
+
 .organ-show, .organ-builder-show {
     max-width: 850px;
     margin: auto;
     
     table th {
         width: 10em;
+        @media screen and (max-width: 767px) {
+            & {
+                width: auto;
+            }
+        }
     }
     
+    
     .accordion-disposition {
-        columns: 15em;
+        column-width: 15em;
         orphans: 4;
     }
     
@@ -380,6 +416,15 @@ div.side-buttons {
     
     .organ-thumbnail {
       width: 23em;
+    }
+}
+
+.categories-modal {
+    .category-info:hover {
+        background: var(--bs-secondary-bg);
+        &.bg-warning-subtle {
+            background: var(--bs-warning-border-subtle) !important;
+        }
     }
 }
 

@@ -143,9 +143,9 @@ enum OrganCategory: int implements Category
     public static function getGroupName($group)
     {
         return match ($group) {
-            'periodCategories' => 'Podle období',
-            'technicalCategories' => 'Podle stavby',
-            'generalCategories' => 'Podle typu',
+            'periodCategories' => 'Kategorie podle období',
+            'technicalCategories' => 'Kategorie podle stavby',
+            'generalCategories' => 'Kategorie podle typu',
             default => throw new \RuntimeException
         };
     }

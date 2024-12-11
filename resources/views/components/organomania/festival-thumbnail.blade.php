@@ -43,7 +43,7 @@
         @isset($organ->organ)
             <p @class(['mb-0', 'mt-2' => isset($organ->organ)])>
                 Varhany:
-                <x-organomania.organ-organ-builder-link :organ="$organ->organ" />
+                <x-organomania.organ-organ-builder-link :organ="$organ->organ" :showIcon="false" />
             </p>
         @endisset
 

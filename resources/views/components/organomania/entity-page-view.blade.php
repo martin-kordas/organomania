@@ -8,7 +8,9 @@
             {{ $this->organs->links() }}
         @endif
     
-        <x-dynamic-component :component="$this->viewComponent" :organs="$this->organs" :thumbnailOrgan="$this->thumbnailOrgan" />
+        <div @class(['entity-page-view-container', "view-type-{$this->viewType}"])">
+            <x-dynamic-component :component="$this->viewComponent" :organs="$this->organs" :thumbnailOrgan="$this->thumbnailOrgan" />
+        </div>
             
         @if ($this->shouldPaginate)
             {{ $this->organs->links() }}

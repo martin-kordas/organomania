@@ -49,9 +49,9 @@
                                 <x-organomania.organ-builder-link :organBuilder="$organOfDay->organBuilder" :yearBuilt="$organOfDay->year_built" />
                                 &nbsp;|&nbsp;
                                 <span class="text-body-secondary">
-                                    {{ $organOfDay->getDeclinedManualsCount() }}
+                                    {{ $organOfDay->manuals_count }} <small>{{ $organOfDay->getDeclinedManuals() }}</small>
                                     @if ($organOfDay->stops_count)
-                                        / {{ $organOfDay->getDeclinedStopsCount() }}
+                                        / {{ $organOfDay->stops_count }} <small>{{ $organOfDay->getDeclinedStops() }}</small>
                                     @endif
                                 </span>
                             </figcaption>

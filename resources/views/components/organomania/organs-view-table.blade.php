@@ -28,7 +28,9 @@
                         @endif
                     </td>
                     <td class="table-light fw-semibold position-sticky start-0">
-                        {{ $organ->municipality }}
+                        <a class="link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ $this->getViewUrl($organ) }}" wire:navigate>
+                            {{ $organ->municipality }}
+                        </a>
                     </td>
                     <td class="fw-semibold">
                         <a class="link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ $this->getViewUrl($organ) }}" wire:navigate>
@@ -39,7 +41,7 @@
                         <img width="70" class="region me-1" src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
                     </td>
                     <td>
-                        <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" placeholder="{{ __('neznámý') }}" />
+                        <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" placeholder="{{ __('neznámý') }}" :showIcon="false" />
                     </td>
                     <td class="text-end">{{ $organ->year_built }}</td>
                     <td class="text-end">{{ $organ->manuals_count }}</td>

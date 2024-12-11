@@ -47,13 +47,6 @@
             </p>
         @endisset
 
-        @isset($organ->organ)
-            <p @class(['mb-0', 'mt-2' => isset($organ->organ)])>
-                Varhany:
-                <x-organomania.organ-organ-builder-link :organ="$organ->organ" />
-            </p>
-        @endisset
-
         @isset($organ->perex)
             <p @class(['card-text', 'mt-2' => isset($organ->url) || isset($organ->organ)])>
                 {{ str($organ->perex)->limit(215) }}

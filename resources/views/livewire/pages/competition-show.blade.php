@@ -122,16 +122,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <tr>
                 <th>{{ __('Varhany') }}</th>
                 <td>
-                    @foreach ($competition->organs as $organ)
-                        <x-organomania.organ-link :organ="$organ" :year="$organ->year_built" />
-                        @if (!$loop->last) <br /> @endif
-                    @endforeach
+                    <div class="items-list">
+                        @foreach ($competition->organs as $organ)
+                            <x-organomania.organ-link :organ="$organ" :year="$organ->year_built" :showOrganBuilder="true" />
+                            @if (!$loop->last) <br /> @endif
+                        @endforeach
+                    </div>
                 </td>
             </tr>
         @endif
         @isset($competition->frequency)
             <tr>
-                <th>{{ __('Období konání') }}</th>
+                <th>
+                    <span class="d-md-none">{{ __('Období') }}</span>
+                    <span class="d-none d-md-inline">{{ __('Období konání') }}</span>
+                </th>
                 <td>
                     {{ $competition->frequency }}
                 </td>
@@ -241,7 +246,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             id="competitionYearContent{{ $competitionYear->id }}"
                             role="tabpanel" aria-labelledby="competitionYearTab{{ $competitionYear->id }}" tabindex="0"
                         >
-                            <div class="markdown">{!! $this->markdownConvertor->convert($competitionYear->description) !!}</div>
+                            <div class="markdown">{!! trim($this->markdownConvertor->convert($competitionYear->description)) !!}</div>
                         </div>
                     @endforeach
                 </div>

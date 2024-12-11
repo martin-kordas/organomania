@@ -18,7 +18,7 @@
     @isset($organ)
         <div wire:loading.remove wire:target="setThumbnailOrgan" @class(['image-container', 'position-relative', 'bg-light' => !isset($organ->image_url)])>
             @if ($modal)
-                <button type="button" class="btn-close position-absolute end-0 m-2 z-1" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
+                <button type="button" class="btn-close position-absolute end-0 m-2 z-1 p-2 bg-light" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             @endif
             @isset($image)
                 <a
@@ -57,7 +57,10 @@
         @isset($organ)
             <div wire:loading.remove wire:target="setThumbnailOrgan" class="list-group-item">
                 @if ($slot->isEmpty())
-                    @php $categoryExists = false; @endphp
+                    @php
+                        $categoryExists = false;
+                        $nonCustomcategoryIds = $organ->{$this->categoriesRelation}->pluck('id');
+                    @endphp
                     @foreach ($organ->{$this->customCategoriesRelation} as $category)
                         <x-organomania.category-badge :category="$category" wire:key="customCategory-{{ $category->id }}" />
                         @php $categoryExists = true; @endphp
@@ -68,6 +71,13 @@
                             @php $categoryExists = true; @endphp
                         @endif
                     @endforeach
+                    @if (!$modal && $nonCustomcategoryIds->isNotEmpty())
+                        <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}">
+                            <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#categoriesModal" @click="highlightCategoriesInModal(@json($nonCustomcategoryIds))">
+                                <i class="bi bi-question-circle"></i>
+                            </a>
+                        </span>
+                    @endif
                     @isset($description)
                         <p @class(['card-text', 'mt-2' => $categoryExists])>{{ $description }}</p>
                     @elseif (!$categoryExists)

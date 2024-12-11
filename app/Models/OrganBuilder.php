@@ -58,6 +58,11 @@ class OrganBuilder extends Model
         return $this->hasMany(Organ::class)->orderBy('year_built');
     }
     
+    public function organRebuilds()
+    {
+        return $this->hasMany(OrganRebuild::class)->orderBy('year_built');
+    }
+    
     public function renovatedOrgans()
     {
         return $this->hasMany(Organ::class, 'renovation_organ_builder_id')->orderBy('year_renovated');
@@ -137,7 +142,8 @@ class OrganBuilder extends Model
     
     public function getThumbnailImage()
     {
-        return null;
+        if (isset($this->image_url))
+            return ['image_url' => $this->image_url, 'image_credits' => $this->image_credits];
     }
     
     #[SearchUsingFullText(['description', 'perex'])]

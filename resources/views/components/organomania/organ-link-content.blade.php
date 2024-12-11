@@ -1,9 +1,10 @@
-@props(['organ', 'year' => null, 'showOrganBuilder' => false])
+@props(['organ', 'year' => null, 'showOrganBuilder' => false, 'isRebuild' => false])
 
 @php
     $details = [];
     if ($showOrganBuilder && isset($organ->organBuilder)) $details[] = $organ->organBuilder->shortName;
     if (isset($year)) $details[] = $year;
+    if ($isRebuild) $details[] = __('přestavba');
 @endphp
 
 <span>

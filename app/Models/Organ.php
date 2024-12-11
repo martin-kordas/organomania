@@ -88,17 +88,27 @@ class Organ extends Model
             return ['image_url' => $this->image_url, 'image_credits' => $this->image_credits];
     }
     
+    public function getDeclinedManuals()
+    {
+        return __(Helpers::declineCount($this->manuals_count, 'manuálů', 'manuál', 'manuály'));
+    }
+    
+    public function getDeclinedStops()
+    {
+        if ($this->stops_count < 0) throw new \LogicException;
+        
+        return __(Helpers::declineCount($this->stops_count, 'rejstříků', 'rejstřík', 'rejstříky'));
+    }
+    
     public function getDeclinedManualsCount()
     {
-        $manuals = __(Helpers::declineCount($this->manuals_count, 'manuálů', 'manuál', 'manuály'));
+        $manuals = $this->getDeclinedManuals();
         return "{$this->manuals_count} $manuals";
     }
     
     public function getDeclinedStopsCount()
     {
-        if ($this->stops_count < 0) throw new \LogicException;
-        
-        $stops = __(Helpers::declineCount($this->stops_count, 'rejstříků', 'rejstřík', 'rejstříky'));
+        $stops = $this->getDeclinedStops();
         return "{$this->stops_count} $stops";
     }
     

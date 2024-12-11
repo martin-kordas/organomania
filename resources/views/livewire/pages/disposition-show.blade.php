@@ -616,7 +616,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <form wire:submit="save">
             <div class="col-12">
                 @isset($disposition->organ)
-                    {{ __('Varhany') }} &ndash;
+                    {{ __('Varhany') }}:&nbsp;
                     <x-organomania.organ-organ-builder-link :organ="$disposition->organ" />
                 @endisset
             </div>

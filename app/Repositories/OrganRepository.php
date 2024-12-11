@@ -39,11 +39,19 @@ class OrganRepository extends AbstractRepository
         foreach ($filters as $field => $value) {
             switch ($field) {
                 case 'organBuilderId':
-                    $this->filter($query, 'organ_builder_id', $value);
+                    $query->where(function (Builder $query) use ($value) {
+                        $query
+                            ->where('organ_builder_id', $value)
+                            ->orWhereHas('organRebuilds', function (Builder $query) use ($value) {
+                                $query->where('organ_builder_id', $value);
+                            });
+                    });
                     break;
+                
                 case 'concertHall':
                     $query->where('concert_hall', $value ? 1 : 0);
                     break;
+                
                 case 'hasDisposition':
                     $query->where(function (Builder $query) {
                         $query

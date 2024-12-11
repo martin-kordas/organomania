@@ -53,6 +53,12 @@ class OrganBuilderRepository extends AbstractRepository
                     $query->orderByName($direction);
                     break;
                 
+                case 'importance':
+                    // současné varhanáře na konec
+                    $query->orderByRaw('active_from_year >= 1989');
+                    $this->orderBy($query, $field, $direction);
+                    break;
+                
                 default:
                     $this->orderBy($query, $field, $direction);
             }

@@ -6,7 +6,7 @@
 
 <select
     id="{{ $id }}"
-    class="pitch-select form-select form-select-sm @if ($select2) select2 @endif @error($model) is-invalid @enderror"
+    class="pitch-select form-select form-select-sm @if ($select2) select2-pitch @endif @error($model) is-invalid @enderror"
     aria-label="{{ __('Výběr stopové výšky') }}"
     wire:model="{{ $model }}"
     data-placeholder="{{ __('Poloha') }}"
@@ -17,9 +17,7 @@
     @foreach ($pitchGroups as $group => $pitches)
         <optgroup label="{{ $group }}">
             @foreach ($pitches as $pitch)
-                <option value="{{ $pitch->value }}">
-                    {{ $pitch->getLabel($language) }}
-                </option>
+                <option value="{{ $pitch->value }}">{{ $pitch->getLabel($language) }}</option>
             @endforeach
         </optgroup>
     @endforeach

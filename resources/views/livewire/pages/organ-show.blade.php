@@ -6,6 +6,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use App\Enums\OrganCategory;
 use App\Enums\Region;
 use App\Services\MarkdownConvertorService;
 use App\Models\Disposition;
@@ -77,6 +78,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if ($this->organ->outside_image_url) $images[] = [$this->organ->outside_image_url, $this->organ->outside_image_credits] ;
         return $images;
     }
+    
+    #[Computed]
+    public function discs()
+    {
+        if (($this->organ->discography ?? '') !== '') {
+            return str($this->organ->discography)
+                ->explode("\n")
+                ->map(function ($discStr) {
+                    [$name, $url] = explode('#', $discStr);
+                    return [trim($name), trim($url)];
+                });
+        }
+        return [];
+    }
 
     #[Computed]
     private function previousUrl()
@@ -93,6 +108,23 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $description = $this->markdownConvertor->convert($this->organ->description);
         return trim($description);
+    }
+
+    #[Computed]
+    private function dispositionColumnsCount()
+    {
+        $linesCount = str($this->organ->disposition ?? '')->substrCount("\n");
+        return match (true) {
+            $linesCount > 50 => 3,
+            $linesCount > 25 => 2,
+            default => 1
+        };
+    }
+
+    #[Computed]
+    public function organCategoriesGroups()
+    {
+        return OrganCategory::getCategoryGroups();
     }
 
     private function getDispositionUrl(Disposition $disposition)
@@ -170,18 +202,23 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <tr>
             <th>{{ __('Varhanář') }}</th>
             <td>
-                @if ($organ->organBuilder)
-                    @php $showYearBuilt = $organ->organRebuilds->isNotEmpty(); @endphp
-                    <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$showYearBuilt ? $organ->year_built : null" />
-                    @foreach ($organ->organRebuilds as $rebuild)
-                        @if ($rebuild->organBuilder)
-                            <br />
-                            <x-organomania.organ-builder-link :organBuilder="$rebuild->organBuilder" :yearBuilt="$rebuild->year_built" :isRebuild="true" />
+                <div class="items-list">
+                    @if ($organ->organBuilder)
+                        @php $showYearBuilt = $organ->organRebuilds->isNotEmpty(); @endphp
+                        <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$showYearBuilt ? $organ->year_built : null" />
+                        @if (!$showYearBuilt && !$organ->organBuilder->is_workshop && isset($organ->organBuilder->active_period))
+                            <span class="text-body-secondary">({{ $organ->organBuilder->active_period }})</span>
                         @endif
-                    @endforeach
-                @else
-                    {{ __('neznámý') }}
-                @endif
+                        @foreach ($organ->organRebuilds as $rebuild)
+                            @if ($rebuild->organBuilder)
+                                <br />
+                                <x-organomania.organ-builder-link :organBuilder="$rebuild->organBuilder" :yearBuilt="$rebuild->year_built" :isRebuild="true" />
+                            @endif
+                        @endforeach
+                    @else
+                        {{ __('neznámý') }}
+                    @endif
+                </div>
             </td>
         </tr>
         @if ($organ->year_built)
@@ -192,7 +229,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
         @if ($organ->renovationOrganBuilder)
             <tr>
-                <th>{{ __('Rekonstrukce') }}/<br />{{ __('restaurování') }}</th>
+                <th>{{ __('Oprava') }} /<br />{{ __('restaurování') }}</th>
                 <td>
                     <x-organomania.organ-builder-link :organBuilder="$organ->renovationOrganBuilder" :yearBuilt="$organ->year_renovated" />
                 </td>
@@ -202,15 +239,26 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <tr>
                 <th>{{ __('Velikost') }}</th>
                 <td>
-                    {{ $organ->getDeclinedManualsCount() }}
+                    {{ $organ->manuals_count }} <small>{{ $organ->getDeclinedManuals() }}</small>
                     @if ($organ->stops_count)
-                        / {{ $organ->getDeclinedStopsCount() }}
+                        <br />
+                        {{ $organ->stops_count }} <small>{{ $organ->getDeclinedStops() }}</small>
                     @endif
                 </td>
             </tr>
         @endif
         <tr>
-            <th>{{ __('Kategorie') }}</th>
+            <th>
+                {{ __('Kategorie') }}
+                @php $nonCustomCategoryIds = $organ->organCategories->pluck('id') @endphp
+                @if ($nonCustomCategoryIds->isNotEmpty())
+                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}">
+                        <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#categoriesModal" @click="highlightCategoriesInModal(@json($nonCustomCategoryIds))">
+                            <i class="bi bi-question-circle"></i>
+                        </a>
+                    </span>
+                @endif
+            </th>
             <td>
                 @foreach ($this->categoryGroups as $group)
                     @foreach ($group as $category)
@@ -228,9 +276,37 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <x-organomania.stars :count="round($organ->importance / 2)" :showCount="true" />
             </td>
         </tr>
+        @if ($organ->festivals->isNotEmpty())
+            <tr>
+                <th>
+                    {{ __('Festivaly') }}
+                </th>
+                <td>
+                    <div class="items-list">
+                        @foreach ($organ->festivals as $festival)
+                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" wire:navigate href="{{ route('festivals.show', [$festival->id]) }}">
+                                <i class="bi bi-calendar-date"></i>
+                                <span>
+                                    {{ $festival->name }}
+                                    @if (isset($festival->locality) || isset($festival->frequency))
+                                        <span class="text-body-secondary">
+                                            ({{ collect([$festival->locality ?? null, $festival->frequency ?? null])->filter()->join(', ') }})
+                                        </span>
+                                    @endif
+                                </span>
+                            </a>
+                            @if (!$loop->last) <br /> @endif
+                        @endforeach
+                    </div>
+                </td>
+            </tr>
+        @endif
         @if (isset($organ->web))
             <tr>
-                <th>{{ __('Webové odkazy') }}</th>
+                <th>
+                    <span class="d-none d-md-inline">{{ __('Webové odkazy') }}</span>
+                    <span class="d-md-none">{{ __('Web') }}</span>
+                </th>
                 <td class="text-break">
                     @foreach (explode("\n", $organ->web) as $url)
                         <a class="icon-link icon-link-hover" target="_blank" href="{{ $url }}">
@@ -244,7 +320,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
         @isset($organ->varhany_net_id)
             <tr>
-                <th>{{ __('Rejstřík varhan') }}</th>
+                <th>
+                    {{ __('Katalog') }}
+                    <span class="d-none d-md-inline">{{ __('varhan') }}</span>
+                </th>
                 <td>
                     <a class="icon-link icon-link-hover" target="_blank" href="{{ url()->query('http://www.varhany.net/cardheader.php', ['lok' => $organ->varhany_net_id]) }}">
                         <i class="bi bi-link-45deg"></i>
@@ -253,21 +332,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endisset
-        @if ($organ->festivals->isNotEmpty())
+        @if (!empty($this->discs))
             <tr>
-                <th>{{ __('Významné festivaly') }}</th>
+                <th>{{ __('Diskografie') }}</th>
                 <td>
-                    @foreach ($organ->festivals as $festival)
-                        <a class="link-primary text-decoration-none" wire:navigate href="{{ route('festivals.show', [$festival->id]) }}">
-                            {{ $festival->name }}
-                        </a>
-                        @if (isset($festival->locality) || isset($festival->frequency))
-                            <span class="text-body-secondary">
-                                ({{ collect([$festival->locality ?? null, $festival->frequency ?? null])->filter()->join(', ') }})
-                            </span>
-                        @endif
-                        @if (!$loop->last) <br /> @endif
-                    @endforeach
+                    <div class="items-list">
+                        @foreach ($this->discs as [$discName, $discUrl])
+                            <a class="icon-link icon-link-hover align-items-start link-primary" href="{{ $discUrl }}" target="_blank">
+                                <i class="bi bi-disc"></i>
+                                <span>{{ $discName }}</span>
+                            </a>
+                            @if (!$loop->last) <br /> @endif
+                        @endforeach
+                    </div>
                 </td>
             </tr>
         @endif
@@ -275,10 +352,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <tr>
                 <th>{{ __('Související varhany') }}</th>
                 <td>
-                    @foreach ($this->relatedOrgans as $relatedOrgan)
-                        <x-organomania.organ-link :organ="$relatedOrgan" :year="$relatedOrgan->year_built" :showOrganBuilder="true" />
-                        @if (!$loop->last) <br /> @endif
-                    @endforeach
+                    <div class="items-list">
+                        @foreach ($this->relatedOrgans as $relatedOrgan)
+                            <x-organomania.organ-link :organ="$relatedOrgan" :year="$relatedOrgan->year_built" :showOrganBuilder="true" />
+                            @if (!$loop->last) <br /> @endif
+                        @endforeach
+                    </div>
                 </td>
             </tr>
         @endif
@@ -305,7 +384,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (isset($organ->disposition) || $organ->dispositions->isNotEmpty())
             <x-organomania.accordion-item
                 id="accordion-disposition"
-                title="{{ __('Dispozice') }}"
+                title="{{ __('Disposition_1') }}"
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_DISPOSITION)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_DISPOSITION }}')"
             >
@@ -318,11 +397,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <h5>{{ __('Podrobné interaktivní zobrazení') }}</h5>
                     <div class="list-group">
                         @foreach ($organ->dispositions as $disposition)
-                            <a wire:navigate class="list-group-item list-group-item-primary list-group-item-action link-primary" href="{{ $this->getDispositionUrl($disposition) }}">
-                                {{ $disposition->name }}
-                                @if (!$disposition->isPublic())
-                                    <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
-                                @endif
+                            <a wire:navigate class="icon-link icon-link-hover align-items-start list-group-item list-group-item-primary list-group-item-action link-primary" href="{{ $this->getDispositionUrl($disposition) }}">
+                                <i class="bi bi-card-list"></i>
+                                <span>
+                                    {{ $disposition->name }}
+                                    @if (!$disposition->isPublic())
+                                        <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
+                                    @endif
+                                </span>
                             </a>
                         @endforeach
                     </div>
@@ -331,7 +413,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @if ($organ->dispositions->isNotEmpty())
                         <h5 class="mt-4">{{ __('Jednoduché zobrazení') }}</h5>
                     @endif
-                    <div class="markdown accordion-disposition">{!! $this->markdownConvertor->convert($organ->disposition) !!}</div>
+                    <div class="markdown accordion-disposition" style="column-count: {{ $this->dispositionColumnsCount }}">{!! $this->markdownConvertor->convert($organ->disposition) !!}</div>
                 @endisset
             </x-organomania.accordion-item>
         @endif
@@ -352,9 +434,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_LITERATURE)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_LITERATURE }}')"
             >
-                @foreach (explode("\n", $organ->literature) as $literature1)
-                    <p @class(['mb-0' => $loop->last])>{{ $literature1 }}</p>
-                @endforeach
+                <ul class="list-group list-group-flush small">
+                    @foreach (explode("\n", $organ->literature) as $literature1)
+                        <li @class(['list-group-item', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>{{ $literature1 }}</li>
+                    @endforeach
+                </ul>
             </x-organomania.accordion-item>
         @endisset
     </div>
@@ -364,9 +448,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <i class="bi-plus-lg"></i> {{ __('Přidat dispozici') }}
         </a>
         
-        <a class="btn btn-sm btn-secondary ms-auto" wire:navigate href="{{ $this->previousUrl }}"><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>&nbsp;
+        <a class="btn btn-sm btn-secondary ms-auto" wire:navigate href="{{ $this->previousUrl }}"><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>
         @can('update', $organ)
-            <a class="btn btn-sm btn-outline-primary" wire:navigate href="{{ route('organs.edit', ['organ' => $organ->id]) }}"><i class="bi-pencil"></i> {{ __('Upravit') }}</a>
+            &nbsp;<a class="btn btn-sm btn-outline-primary" wire:navigate href="{{ route('organs.edit', ['organ' => $organ->id]) }}"><i class="bi-pencil"></i> {{ __('Upravit') }}</a>
         @endcan
     </div>
+            
+    <x-organomania.modals.categories-modal :categoriesGroups="$this->organCategoriesGroups" :categoryClass="OrganCategory::class" />
 </div>

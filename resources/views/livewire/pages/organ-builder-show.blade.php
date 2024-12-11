@@ -6,8 +6,10 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Route;
+use App\Models\Organ;
 use App\Models\OrganBuilder;
-use App\Models\OrganBuilderCategory;
+use App\Models\OrganRebuild;
+use App\Enums\OrganBuilderCategory;
 use App\Services\MarkdownConvertorService;
 use App\Traits\HasAccordion;
 
@@ -80,6 +82,27 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
+    private function organBuilderCategoriesGroups()
+    {
+        return OrganBuilderCategory::getCategoryGroups();
+    }
+
+    #[Computed]
+    private function organs()
+    {
+        $organs = $this->organBuilder->organs->map(
+            fn (Organ $organ) => ['isRebuild' => false, 'organ' => $organ, 'year' => $organ->year_built]
+        );
+        $rebuiltOrgans = $this->organBuilder->organRebuilds->map(
+            fn (OrganRebuild $rebuild) => ['isRebuild' => true, 'organ' => $rebuild->organ, 'year' => $rebuild->year_built]
+        );
+
+        return $organs
+            ->merge($rebuiltOrgans)
+            ->sortBy('year');
+    }
+
+    #[Computed]
     private function relatedOrganBuilders()
     {
         $relatedOrganBuilderIds = match ($this->organBuilder->id) {
@@ -107,6 +130,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             53 => [67],
             // Organa
             52 => [7, 47],
+            // Jozefy
+            42 => [38],
+            38 => [42],
+            // Schwarz
+            68 => [4],
             default => []
         };
         return collect($relatedOrganBuilderIds)->map(
@@ -117,23 +145,38 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 }; ?>
 
 <div class="organ-builder-show container">
-    @if ($organBuilder->region)
-        <img class="float-end ms-2 mb-2" src="{{ Vite::asset("resources/images/regions/{$organBuilder->region_id}.png") }}" width="110" />
-    @endif
-        
-    <h3>
-        {{ $organBuilder->name }}
-        @if ($this->showActivePeriodInHeading)
-            ({{ $organBuilder->active_period }})
+    <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
+        <div>
+            <h3>
+                {{ $organBuilder->name }}
+                @if ($this->showActivePeriodInHeading)
+                    ({{ $organBuilder->active_period }})
+                @endif
+                @if (!$organBuilder->isPublic())
+                    <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
+                @endif
+            </h3>
+
+            @if (isset($organBuilder->perex))
+                <p class="lead">{{ $organBuilder->perex }}</p>
+            @endif
+        </div>
+            
+         @if ($organBuilder->image_url || $organBuilder->region)
+            <div class="text-center">
+                <div class="position-relative d-inline-block">
+                    @if ($organBuilder->image_url)
+                        <a href="{{ $organBuilder->image_url }}" target="_blank">
+                            <img class="organ-img rounded border" src="{{ $organBuilder->image_url }}" @isset($organBuilder->image_credits) title="{{ __('Licence obrázku') }}: {{ $organBuilder->image_credits }}" @endisset height="200" />
+                        </a>
+                    @endif
+                    @if ($organBuilder->region)
+                        <img width="100" class="region position-absolute start-0 m-2 bottom-0" src="{{ Vite::asset("resources/images/regions/{$organBuilder->region_id}.png") }}" />
+                    @endif
+                </div>
+            </div>
         @endif
-        @if (!$organBuilder->isPublic())
-            <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
-        @endif
-    </h3>
-    
-    @if (isset($organBuilder->perex))
-        <p class="lead">{{ $organBuilder->perex }}</p>
-    @endif
+    </div>
     
     <table class="table">
         <tr>
@@ -164,7 +207,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </tr>
         @endif
         <tr>
-            <th>{{ __('Kategorie') }}</th>
+            <th>
+                {{ __('Kategorie') }}
+                @php $nonCustomCategoryIds = $organBuilder->organBuilderCategories->pluck('id') @endphp
+                @if ($nonCustomCategoryIds->isNotEmpty())
+                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}">
+                        <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#categoriesModal" @click="highlightCategoriesInModal(@json($nonCustomCategoryIds))">
+                            <i class="bi bi-question-circle"></i>
+                        </a>
+                    </span>
+                @endif
+            </th>
             <td>
                 @foreach ($this->categoryGroups as $group)
                     @foreach ($group as $category)
@@ -186,18 +239,27 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
         @if (isset($organBuilder->web))
         <tr>
-            <th>{{ __('Web') }}</th>
-            <td>
-                <a class="icon-link icon-link-hover" target="_blank" href="{{ $organBuilder->web }}">
-                    <i class="bi bi-link-45deg"></i>
-                    {{ str($organBuilder->web)->limit(65) }}
-                </a>
+            <th>
+                <span class="d-none d-md-inline">{{ __('Webové odkazy') }}</span>
+                <span class="d-md-none">{{ __('Web') }}</span>
+            </th>
+            <td class="text-break">
+                @foreach (explode("\n", $organBuilder->web) as $url)
+                    <a class="icon-link icon-link-hover" target="_blank" href="{{ $url }}">
+                        <i class="bi bi-link-45deg"></i>
+                        {{ str($url)->limit(65) }}
+                    </a>
+                    @if (!$loop->last) <br /> @endif
+                @endforeach
             </td>
         </tr>
         @endif
         @isset($organBuilder->varhany_net_id)
             <tr>
-                <th>{{ __('Rejstřík varhanářů') }}</th>
+                <th>
+                    {{ __('Katalog') }}
+                    <span class="d-none d-md-inline">{{ __('varhanářů') }}</span>
+                </th>
                 <td>
                     <a class="icon-link icon-link-hover" target="_blank" href="{{ url()->query('http://www.varhany.net/zivotopis.php', ['idv' => $organBuilder->varhany_net_id]) }}">
                         <i class="bi bi-link-45deg"></i>
@@ -208,20 +270,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endisset
         @if ($organBuilder->organs->isNotEmpty())
             <tr>
-                <th>{{ __('Významné varhany') }}</th>
+                <th>
+                    <span class="d-none d-md-inline">{{ __('Významné varhany') }}</span>
+                    <span class="d-md-none">{{ __('Varhany') }}</span>
+                </th>
                 <td class="text-break">
-                    <ul class="m-0 ps-3">
-                        @foreach ($organBuilder->organs as $organ)
-                            <li>
-                                <x-organomania.organ-link :organ="$organ" />
-                            </li>
+                    <div class="items-list">
+                        @foreach ($this->organs as ['isRebuild' => $isRebuild, 'organ' => $organ, 'year' => $year])
+                                <x-organomania.organ-link :organ="$organ" :isRebuild="$isRebuild" :year="$year" />
+                                @if (!$loop->last) <br /> @endif
                         @endforeach
-                    </ul>
-                    @if ($organBuilder->organs->count() > 1)
+                    </div>
+                    @if ($this->organs->count() > 1)
                         <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id]) }}">
                             <i class="bi bi-music-note-list"></i>
-                            {{ __('Zobrazit všechny') }}
-                            <span class="badge text-bg-secondary rounded-pill">{{ $organBuilder->organs->count() }}</span>
+                            {{ __('Zobrazit vše') }}
+                            <span class="badge text-bg-secondary rounded-pill">{{ $this->organs->count() }}</span>
                         </a>
                     @endif
                 </td>
@@ -229,15 +293,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
         @if ($organBuilder->renovatedOrgans->isNotEmpty())
             <tr>
-                <th>{{ __('Rekonstrukce') }}/<br />{{ __('restaurování') }}</th>
+                <th>{{ __('Oprava') }} /<br />{{ __('restaurování') }}</th>
                 <td class="text-break">
-                    <ul class="m-0 ps-3">
+                    <div class="items-list">
                         @foreach ($organBuilder->renovatedOrgans as $organ)
-                            <li>
-                                <x-organomania.organ-link :organ="$organ" :year="$organ->year_renovated" />
-                            </li>
+                            <x-organomania.organ-link :organ="$organ" :year="$organ->year_renovated" />
+                            @if (!$loop->last) <br /> @endif
                         @endforeach
-                    </ul>
+                    </div>
                 </td>
             </tr>
         @endif
@@ -251,10 +314,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <tr>
                 <th>{{ __('Související varhanáři') }}</th>
                 <td>
-                    @foreach ($this->relatedOrganBuilders as $relatedOrganBuilder)
-                        <x-organomania.organ-builder-link :organBuilder="$relatedOrganBuilder" :showActivePeriod="true" />
-                        @if (!$loop->last) <br /> @endif
-                    @endforeach
+                    <div class="items-list">
+                        @foreach ($this->relatedOrganBuilders as $relatedOrganBuilder)
+                            <x-organomania.organ-builder-link :organBuilder="$relatedOrganBuilder" :showActivePeriod="true" />
+                            @if (!$loop->last) <br /> @endif
+                        @endforeach
+                    <div>
                 </td>
             </tr>
         @endif
@@ -294,9 +359,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_LITERATURE)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_LITERATURE }}')"
             >
-                @foreach (explode("\n", $organBuilder->literature) as $literature1)
-                    <p @class(['mb-0' => $loop->last])>{{ $literature1 }}</p>
-                @endforeach
+                <ul class="list-group list-group-flush small">
+                    @foreach (explode("\n", $organBuilder->literature) as $literature1)
+                        <li @class(['list-group-item', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>{{ $literature1 }}</li>
+                    @endforeach
+                </ul>
             </x-organomania.accordion-item>
         @endisset
     </div>
@@ -307,4 +374,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <a class="btn btn-sm btn-outline-primary" href="{{ route('organ-builders.edit', ['organBuilder' => $organBuilder->id]) }}" wire:navigate><i class="bi-pencil"></i> {{ __('Upravit') }}</a>
         @endcan
     </div>
+        
+    <x-organomania.modals.categories-modal :categoriesGroups="$this->organBuilderCategoriesGroups" :categoryClass="OrganBuilderCategory::class" />
 </div>

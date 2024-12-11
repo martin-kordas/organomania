@@ -9,11 +9,22 @@
             </div>
 
             <div class="modal-body">
-                <ul>
-                    <li>BĚLSKÝ, Vratislav. <a href="https://www.baerenreiter.cz/cs/dilo/belsky-vratislav/4518-nauka-o-varhanach" target="_blank">Nauka o varhanách</a>. 4. vyd., (V Editio Bärenreiter Praha vyd. 1.). Praha: Editio Bärenreiter, 2000. ISBN 80-86385-04-3.</li>
-                    <li>SYROVÝ, Václav. <a href="https://namu.cz/kapitoly-o-varhanach" target="_blank">Kapitoly o varhanách</a>. Vyd. 2., dopl., přeprac. Akustická knihovna Zvukového studia Hudební fakulty AMU. V Praze: Akademie múzických umění, 2004. ISBN 80-7331-009-0.</li>
-                    <li>Encyclopedia of Organ Stops. Online. 2024. Dostupné z: <a href="http://www.organstops.org/" target="_blank">http://www.organstops.org/</a>.</li>
-                </ul>
+                <x-organomania.link-list>
+                    <x-organomania.link-list-item icon="book" url="https://www.baerenreiter.cz/cs/dilo/belsky-vratislav/4518-nauka-o-varhanach">
+                        Vratislav Bělský: Nauka o varhanách
+                        <x-slot:description>BĚLSKÝ, Vratislav. <em>Nauka o varhanách</em>. 4. vyd., (V Editio Bärenreiter Praha vyd. 1.). Praha: Editio Bärenreiter, 2000. ISBN 80-86385-04-3.</x-slot>
+                    </x-organomania.link-list-item>
+                    
+                    <x-organomania.link-list-item icon="book" url="https://namu.cz/kapitoly-o-varhanach">
+                        Václav Syrový: Kapitoly o varhanách
+                        <x-slot:description>SYROVÝ, Václav. <em>Kapitoly o varhanách</em>. Vyd. 2., dopl., přeprac. Akustická knihovna Zvukového studia Hudební fakulty AMU. V Praze: Akademie múzických umění, 2004. ISBN 80-7331-009-0.</x-slot>
+                    </x-organomania.link-list-item>
+                    
+                    <x-organomania.link-list-item url="http://www.organstops.org">
+                        Encyclopedia of Organ Stops
+                        <x-slot:description><em>Encyclopedia of Organ Stops</em>. Online. 2024. Dostupné z: http://www.organstops.org.</x-slot>
+                    </x-organomania.link-list-item>
+                </x-organomania.link-list>
             </div>
 
             <div class="modal-footer">

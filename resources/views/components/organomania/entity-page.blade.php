@@ -2,12 +2,13 @@
 
 @php
     use App\Models\Organ;
+    use App\Models\OrganBuilder;
     use App\Models\Festival;
     use App\Models\Competition;
     use App\Helpers;
 @endphp
 
-<div class="entity-page">
+<div @class(['entity-page', "view-type-{$this->viewType}"])>
     @push('meta')
         <meta name="description" content="{{ $metaDescription }}">
     @endpush
@@ -36,16 +37,21 @@
                 <div class="btn-group-vertical mb-3 dropdown-center">
                     <a class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#filtersModal">
                         <i class="bi-funnel"></i>
-                        <br />
-                        {{ __('Filtry') }}
+                        <span class="d-none d-md-inline">
+                            <br />
+                            {{ __('Filtry') }}
+                        </span>
                         @if ($this->activeFiltersCount > 0)
                             <span class="badge rounded-pill text-bg-primary">{{ $this->activeFiltersCount }}</span>
                         @endif
                     </a>
                     @if ($this->viewType !== 'map')
-                        <a class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a @class(['btn', 'btn-sm', 'btn-outline-primary', 'dropdown-toggle', 'd-none' => $this->viewType === 'table', 'd-md-inline' => $this->viewType === 'table']) data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi-sort-up"></i>
-                            <br />{{ __('Seřazení') }}<br />
+                            <span class="d-none d-md-inline">
+                                <br />{{ __('Seřazení') }}
+                            </span>
+                            <br />
                             <span class="badge text-bg-primary text-wrap">{{ $this->getSortLabel() }}</span>
                             <br />
                         </a>
@@ -73,9 +79,10 @@
                 </div>
 
                 @if ($this->isExportable)
-                    <div class="btn-group mb-3">
+                    <div @class(['btn-group', 'mb-3', 'd-none' => $this->viewType !== 'table', 'd-md-inline-flex' => $this->viewType !== 'table'])>
                         <button type="button" class="btn btn-sm btn-outline-primary" wire:click="export">
-                            <i class="bi-table"></i> {{ __('Export') }}
+                            <span class="d-none d-md-inline"><i class="bi-table"></i></span>
+                            {{ __('Export') }}
                         </button>
                         <a class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="visually-hidden">{{ __('Zobrazit více') }}</span>
@@ -87,8 +94,11 @@
                 @endif
               
                 @if ($this->viewType !== 'map')
-                    <div class="per-page-div">
-                        <label for="perPage" class="form-label">{!!__('Záznamů na&nbsp;stránce') !!}</label>
+                    <div @class(['per-page-div', 'd-none' => $this->viewType === 'thumbnails', 'd-lg-block' => $this->viewType === 'thumbnails'])>
+                        <label for="perPage" class="form-label">
+                            <span class="d-none d-md-inline">{!!__('Záznamů na&nbsp;stránce') !!}</span>
+                            <span class="d-md-none">{{ __('Záznamů') }}</span>
+                        </label>
                         <select id="perPage" class="form-select select2 form-select-sm" wire:model.change="perPage">
                             @foreach ($this->perPageValues as $value)
                                 <option value="{{ $value }}">{{ $value }}</option>
@@ -164,7 +174,7 @@
         {{-- subnavigace --}}
         <div class="container d-flex mb-3 px-0">
             <div class="w-100">
-            <ul class="nav nav-underline align-center justify-content-center">
+            <ul class="nav nav-underline align-center justify-content-center row-gap-1">
                 <x-organomania.view-type-nav-item viewType="thumbnails">
                     <i class="bi-card-text"></i> {{ __('Miniatury') }}
                 </x-organomania.view-type-nav-item>
@@ -180,16 +190,17 @@
       
         @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && $this->viewType !== 'map')
         @php($showOrganInfoHint = $this->entityClass === Organ::class)
-        @php($showSortHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && $this->viewType !== 'map')
+        @php($showSortImportaceHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && $this->viewType !== 'map')
+        @php($showSortActiveFromYearHint = $this->entityClass === OrganBuilder::class && $this->sortColumn !== 'active_from_year' && $this->viewType !== 'map')
         @php($showOrganImportanceHint = $this->entityClass === Organ::class && $this->viewType === 'map' && $this->activeFiltersCount <= 0)
         @php($showCompetitionsWarning = $this->entityClass === Competition::class)
         
-        @if ($showFilterRegionHint || $showOrganInfoHint || $showSortHint || $showOrganImportanceHint || $showCompetitionsWarning)
+        @if ($showFilterRegionHint || $showOrganInfoHint || $showOrganImportanceHint || $showSortImportaceHint || $showSortActiveFromYearHint || $showCompetitionsWarning)
             <div class="mb-2">
                 @if ($showFilterRegionHint)
                     <div class="text-center">
                         <x-organomania.info-alert class="d-inline-block mb-1">
-                            {{ __('Objevte :entityName přímo', ['entityName' => $this->entityNamePluralAkuzativ]) }}
+                            {{ __('Objevte :entityName', ['entityName' => $this->entityNamePluralAkuzativ]) }}
                             <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#filtersModal" @click="useRegionFilter()">{{ __('ve vašem kraji') }}</a>.
                         </x-organomania.info-alert>
                     </div>
@@ -199,7 +210,7 @@
                     <div class="text-center">
                         <x-organomania.info-alert class="d-inline-block mb-1">
                             {{ __('Více o varhanách jako nástroji') }}
-                            <a class="link-primary text-decoration-none" href="https://www.svatovitskevarhany.com/cs/co-jsou-to-varhany" target="_blank">zde</a>.
+                            <a class="link-primary text-decoration-none" href="https://www.svatovitskevarhany.com/cs/co-jsou-to-varhany" target="_blank">{{ __('zde') }}</a>.
                         </x-organomania.info-alert>
                     </div>
                 @endif
@@ -213,18 +224,27 @@
                     </div>
                 @endif
 
-                @if ($showSortHint)
+                @if ($showSortImportaceHint)
                     <div class="text-center">
-                        <x-organomania.info-alert class="d-inline-block">
-                            {{ __('Namísto období konání seřaďte festivaly') }}
+                        <x-organomania.info-alert class="d-inline-block mb-1">
+                            {{ __('Seřaďte festivaly') }}
                             <a class="link-primary text-decoration-none" href="#" wire:click="sort('importance', 'desc')">{!! __('podle významu') !!}</a>.
+                        </x-organomania.info-alert>
+                    </div>
+                @endif
+              
+                @if ($showSortActiveFromYearHint)
+                    <div class="text-center">
+                        <x-organomania.info-alert class="d-inline-block mb-1">
+                            {{ __('Seřaďte varhanáře') }}
+                            <a class="link-primary text-decoration-none" href="#" wire:click="sort('active_from_year', 'asc')">{!! __('dle období') !!}</a>.
                         </x-organomania.info-alert>
                     </div>
                 @endif
 
                 @if ($showCompetitionsWarning) 
                     <div class="text-center">
-                        <x-organomania.warning-alert class="d-inline-block">
+                        <x-organomania.warning-alert class="d-inline-block mb-1">
                             {!! __('Uváděné parametry soutěží vychází z posledního známého ročníku a <strong>nemusí být aktuální</strong>! Pro aktuální informace navštivte vždy oficiální web soutěže.') !!}
                         </x-organomania.warning-alert>
                     </div>
@@ -258,7 +278,7 @@
         />
           
         @if ($this->isCategorizable)
-            <x-organomania.modals.categories-modal :categoriesGroups="$this->organCategoriesGroups" :categoryClass="$this->categoryClass" :title="$this->categoryModalTitle" />
+            <x-organomania.modals.categories-modal :categoriesGroups="$this->organCategoriesGroups" :categoryClass="$this->categoryClass" />
         @endif
     </div>
 </div>
