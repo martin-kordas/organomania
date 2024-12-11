@@ -6,6 +6,7 @@
     use App\Models\Festival;
     use App\Models\Competition;
     use App\Helpers;
+    use Illuminate\Support\Facades\Auth;
 @endphp
 
 <div @class(['entity-page', "view-type-{$this->viewType}"])>
@@ -18,7 +19,7 @@
         <div class="position-fixed ms-2">
             <div class="position-absolute side-buttons-inner text-center pb-2">
                 @if ($this->isEditable)
-                    <div class="btn-group mb-3">
+                    <div @class(['btn-group', 'mb-2', 'mb-md-3', 'd-md-block', 'd-none' => !Auth::id() && $this->viewType === 'table'])>
                         {{-- wire:navigate: nefunguje v nepřihlášeném stavu --}}
                         <a class="btn btn-sm btn-primary" href="{{ route($this->createRoute) }}">
                             <i class="bi-plus-lg"></i> {{ __('Přidat') }}
@@ -34,7 +35,7 @@
                     </div>
                 @endif
 
-                <div class="btn-group-vertical mb-3 dropdown-center">
+                <div class="btn-group-vertical mb-1 mb-md-3 dropdown-center">
                     <a class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#filtersModal">
                         <i class="bi-funnel"></i>
                         <span class="d-none d-md-inline">
@@ -79,7 +80,8 @@
                 </div>
 
                 @if ($this->isExportable)
-                    <div @class(['btn-group', 'mb-3', 'd-none' => $this->viewType !== 'table', 'd-md-inline-flex' => $this->viewType !== 'table'])>
+                    {{-- export není v mobilním zobrazení přístupný vůbec (tlačítko zabírá moc místa) --}}
+                    <div @class(['btn-group', 'mb-3', 'd-none', 'd-md-inline-flex'])>
                         <button type="button" class="btn btn-sm btn-outline-primary" wire:click="export">
                             <span class="d-none d-md-inline"><i class="bi-table"></i></span>
                             {{ __('Export') }}
@@ -95,7 +97,7 @@
               
                 @if ($this->viewType !== 'map')
                     <div @class(['per-page-div', 'd-none' => $this->viewType === 'thumbnails', 'd-lg-block' => $this->viewType === 'thumbnails'])>
-                        <label for="perPage" class="form-label">
+                        <label for="perPage" class="form-label mb-1">
                             <span class="d-none d-md-inline">{!!__('Záznamů na&nbsp;stránce') !!}</span>
                             <span class="d-md-none">{{ __('Záznamů') }}</span>
                         </label>

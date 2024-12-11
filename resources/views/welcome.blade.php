@@ -46,7 +46,7 @@
                             <figcaption>
                                 <strong>{{ $organOfDay->municipality }}</strong> &nbsp;|&nbsp; {{ $organOfDay->place }}
                                 <br />
-                                <x-organomania.organ-builder-link :organBuilder="$organOfDay->organBuilder" :yearBuilt="$organOfDay->year_built" />
+                                <x-organomania.organ-builder-link :organBuilder="$organOfDay->organBuilder" :yearBuilt="$organOfDay->year_built" :showIcon="false" />
                                 &nbsp;|&nbsp;
                                 <span class="text-body-secondary">
                                     {{ $organOfDay->manuals_count }} <small>{{ $organOfDay->getDeclinedManuals() }}</small>

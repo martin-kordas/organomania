@@ -42,7 +42,7 @@ enum OrganCategory: int implements Category
         ],
         self::Baroque->value => [
             'name' => 'Barokní',
-            'description' => 'Barokní a pozdně barokní varhany (cca do 1. pol. 19. stol.), pro které je typické rovnoměrné rozložení rejstříků ve všech polohách a manuálech a tradiční lesklý zvuk varhan',
+            'description' => 'Barokní a pozdně barokní varhany (cca do 1. pol. 19. stol.) - typické je pro ně rovnoměrné rozložení rejstříků ve všech polohách a manuálech a tradiční lesklý zvuk varhan',
         ],
         self::Romantic->value => [
             'name' => 'Romantické',
