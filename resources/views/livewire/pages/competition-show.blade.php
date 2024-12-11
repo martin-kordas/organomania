@@ -156,10 +156,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <tr>
                 <th>{{ __('Web') }}</th>
                 <td class="text-break">
-                    <a class="icon-link icon-link-hover" target="_blank" href="{{ $competition->url }}">
-                        <i class="bi bi-link-45deg"></i>
-                        {{ str($competition->url)->limit(65) }}
-                    </a>
+                    @foreach (explode("\n", $competition->url) as $url)
+                        <a class="icon-link icon-link-hover" target="_blank" href="{{ $url }}">
+                            <i class="bi bi-link-45deg"></i>
+                            {{ str($url)->limit(65) }}
+                        </a>
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
                 </td>
             </tr>
         @endisset

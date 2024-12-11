@@ -125,7 +125,7 @@
                         <div class="col-md-8 col-lg-7 col-xl-6 hstack">
                             <div class="input-group">
                                 <div class="input-group-text category-input-group-text">
-                                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}">
+                                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}" onclick="setTimeout(removeTooltips);">
                                         <a href="#" class="link-primary text-decoration-none" data-bs-toggle="modal" data-bs-target="#categoriesModal">
                                             <i class="bi-tags"></i><span class="d-none d-lg-inline">&nbsp;{{ __('Kategorie') }}</span>
                                         </a>

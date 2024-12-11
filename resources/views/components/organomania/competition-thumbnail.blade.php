@@ -40,10 +40,13 @@
     @isset($organ)
         @isset($organ->url)
             <p class="mb-0">
-                <a class="icon-link text-break" href="{{ $organ->url }}" target="_blank">
-                    <i class="bi bi-link-45deg"></i>
-                    {{ str($organ->url)->limit(40) }}
-                </a>
+                @foreach (explode("\n", $organ->url) as $url)
+                    <a class="icon-link text-break" href="{{ $url }}" target="_blank">
+                        <i class="bi bi-link-45deg"></i>
+                        {{ str($url)->limit(40) }}
+                    </a>
+                    @break
+                @endforeach
             </p>
         @endisset
 

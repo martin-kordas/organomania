@@ -115,8 +115,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $linesCount = str($this->organ->disposition ?? '')->substrCount("\n");
         return match (true) {
-            $linesCount > 50 => 3,
-            $linesCount > 25 => 2,
+            $linesCount > 44 => 3,
+            $linesCount > 22 => 2,
             default => 1
         };
     }
@@ -252,7 +252,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 {{ __('Kategorie') }}
                 @php $nonCustomCategoryIds = $organ->organCategories->pluck('id') @endphp
                 @if ($nonCustomCategoryIds->isNotEmpty())
-                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}">
+                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}" onclick="setTimeout(removeTooltips);">
                         <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#categoriesModal" @click="highlightCategoriesInModal(@json($nonCustomCategoryIds))">
                             <i class="bi bi-question-circle"></i>
                         </a>
@@ -413,7 +413,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @if ($organ->dispositions->isNotEmpty())
                         <h5 class="mt-4">{{ __('Jednoduché zobrazení') }}</h5>
                     @endif
-                    <div class="markdown accordion-disposition" style="column-count: {{ $this->dispositionColumnsCount }}">{!! $this->markdownConvertor->convert($organ->disposition) !!}</div>
+                    <div class="markdown accordion-disposition" style="column-count: {{ $this->dispositionColumnsCount }}">{!! trim($this->markdownConvertor->convert($organ->disposition)) !!}</div>
                 @endisset
             </x-organomania.accordion-item>
         @endif

@@ -29,6 +29,7 @@
             {{ __('Nevychází z vlastní dokumentační činnosti, nýbrž z literatury a veřejně dostupných zdrojů.') }}
             {!! __('Obrazové materiály jsou převzaty z <em>Wikimedia Commons</em> (autor a licence obrázku se zobrazí po najetí myši).') !!}
             {{ __('Uváděné parametry varhan se snaží reflektovat jejich současný (ne historický) stav.') }}
+            {{ __('V případech, kdy je nedostatek dostupných zdrojů, mohou být nicméně informace neaktuální.') }}
             {{ __('Údaj o počtu rejstříků může v některých případech započítávat i transmise a extenze.') }}
         </p>
         

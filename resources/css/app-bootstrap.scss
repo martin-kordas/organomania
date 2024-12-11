@@ -165,7 +165,7 @@ div.side-buttons {
 }
 
 .image-container {
-    max-height: 24em;
+    max-height: 22em;
     overflow: hidden;
 }
 
@@ -393,9 +393,10 @@ div.side-buttons {
     }
     
     .organ-img {
-        @media screen and (max-width: 540px) {
+        @media screen and (max-width: 767px) {
             max-width: 100%;
             height: auto;
+            max-height: 25em;
         }
     }
 }

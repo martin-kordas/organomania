@@ -211,7 +211,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 {{ __('Kategorie') }}
                 @php $nonCustomCategoryIds = $organBuilder->organBuilderCategories->pluck('id') @endphp
                 @if ($nonCustomCategoryIds->isNotEmpty())
-                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}">
+                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}" onclick="setTimeout(removeTooltips);">
                         <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#categoriesModal" @click="highlightCategoriesInModal(@json($nonCustomCategoryIds))">
                             <i class="bi bi-question-circle"></i>
                         </a>

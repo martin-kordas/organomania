@@ -53,16 +53,15 @@
                 <x-slot:description>{{ __('cyklus půlhodinových televizních pořadů o zajímavých varhanách v ČR') }}</x-slot>
             </x-organomania.link-list-item>
             
-            <x-organomania.link-list-item icon="camera-video" url="https://www.youtube.com/playlist?list=PL2gzX8ZrFd50m8nb1WWf8rOunEiSPZBcJ">
-                <x-slot:source>{{ __('Youtube') }}</x-slot>
-                {{ __('Putování za varhanami Litoměřické diecéze') }}
-                <x-slot:description>{{ __('cyklus výpravných pořadů o zajímavých varhanách, uváděný organologem Litoměřické diecéze Radkem Rejškem') }}</x-slot>
-            </x-organomania.link-list-item>
-            
             <x-organomania.link-list-item icon="camera-video" url="https://www.youtube.com/playlist?list=PLHvFzMdel2Kgo7vhyFEORAMmQ2JV-G4mD">
                 <x-slot:source>{{ __('Youtube') }}</x-slot>
                 {{ __('Konference pro varhany') }}
                 <x-slot:description>{{ __('záznam přednášek, které zazněly na konferencích pořádaných HAMU v Praze a spolkem PROVARHANY') }}</x-slot>
+            </x-organomania.link-list-item>
+            
+            <x-organomania.link-list-item icon="camera-video" url="https://www.dltm.cz/dokumentarni-cyklus-putovani-za-varhanami-litomericke-dieceze2">
+                {{ __('Putování za varhanami Litoměřické diecéze') }}
+                <x-slot:description>{{ __('cyklus výpravných pořadů o zajímavých varhanách, uváděný organologem Litoměřické diecéze Radkem Rejškem') }}</x-slot>
             </x-organomania.link-list-item>
         </x-organomania.link-list>
         

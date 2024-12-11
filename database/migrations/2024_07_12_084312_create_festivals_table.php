@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('organ_id')->nullable()->constrained();
             $table->string('frequency')->nullable();
             $table->integer('starting_month')->nullable();
-            $table->string('url', length: 500)->nullable();
+            $table->text('url')->nullable();
             $table->integer('importance')->comment("1 (lowest) to 10 (greatest)");
             $table->string('image_url', length: 500)->nullable();
             $table->string('image_credits', length: 500)->nullable();

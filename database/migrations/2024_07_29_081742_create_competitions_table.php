@@ -30,7 +30,7 @@ return new class extends Migration
             $table->integer('international');
             $table->string('image_url', length: 500)->nullable();
             $table->string('image_credits', length: 500)->nullable();
-            $table->string('url', length: 500)->nullable();
+            $table->text('url')->nullable();
             $table->text('perex')->nullable();
             $table->timestamps();
             $table->softDeletes();

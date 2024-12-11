@@ -136,7 +136,7 @@ window.refreshSelect2 = function () {
 }
 
 window.refreshSelect2Sync = function (wire) {
-    $(wire.$el).find('.select2:not(#page.sframe *), .select2-register-names').on('change', function () {
+    $(wire.$el).find('.select2:not(#page.sframe *), .select2-register-names, .select2-pitch').on('change', function () {
         var data = $(this).select2('val');
         // https://livewire.laravel.com/docs/properties#manipulating-properties
         var name = $(this).attr('wire:model.live') || $(this).attr('wire:model.change');
@@ -167,7 +167,7 @@ function refreshBootstrap() {
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => bootstrap.Popover.getOrCreateInstance(popoverTriggerEl))
 }
 
-function removeTooltips() {
+window.removeTooltips = function () {
     // prevence visících tooltipů
     $('.tooltip, .popover').remove()
     $('.dropdown-menu').removeClass('show')
