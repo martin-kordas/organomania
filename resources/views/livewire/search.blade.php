@@ -73,7 +73,6 @@ new class extends Component {
                 $builder
                     ->orderBy('importance', 'DESC')
                     ->take(8)
-                    ->inland()
                     ->select([
                         'id', 'slug',
                         'is_workshop', 'workshop_name', 'first_name', 'last_name',

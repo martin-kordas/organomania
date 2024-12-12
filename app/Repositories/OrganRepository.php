@@ -52,6 +52,12 @@ class OrganRepository extends AbstractRepository
                     $query->where('concert_hall', $value ? 1 : 0);
                     break;
                 
+                case 'foreignOrganBuilder':
+                    $query->whereHas('organBuilder', function (Builder $query) {
+                        $query->whereNull('region_id');
+                    });
+                    break;
+                
                 case 'hasDisposition':
                     $query->where(function (Builder $query) {
                         $query
@@ -86,6 +92,11 @@ class OrganRepository extends AbstractRepository
                     $query
                         ->join('organ_builders', 'organ_builders.id', '=', 'organs.organ_builder_id')
                         ->orderBy($orderExpression, $direction);
+                    break;
+                
+                case 'manuals_count':
+                    $this->orderBy($query, $field, $direction);
+                    $this->orderBy($query, 'stops_count', $direction);
                     break;
                 
                 default:

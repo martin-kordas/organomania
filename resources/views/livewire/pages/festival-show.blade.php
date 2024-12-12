@@ -133,10 +133,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <th>{{ __('Web') }}</th>
                 <td class="text-break">
                     @foreach (explode("\n", $festival->url) as $url)
-                        <a class="icon-link icon-link-hover" target="_blank" href="{{ $url }}">
-                            <i class="bi bi-link-45deg"></i>
-                            {{ str($url)->limit(65) }}
-                        </a>
+                        <x-organomania.web-link :url="$url" />
                         @if (!$loop->last) <br /> @endif
                     @endforeach
                 </td>

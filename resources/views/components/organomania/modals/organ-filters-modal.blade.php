@@ -61,6 +61,10 @@
                         <input class="form-check-input" type="checkbox" role="switch" id="filterConcertHall" wire:model="filterConcertHall">
                     </div>
                     <div class="form-check form-switch">
+                        <label class="form-check-label" for="filterForeignOrganBuilder">{{ __('Jen nástroje postavené zahraničním varhanářem') }}</label>
+                        <input class="form-check-input" type="checkbox" role="switch" id="filterForeignOrganBuilder" wire:model="filterForeignOrganBuilder">
+                    </div>
+                    <div class="form-check form-switch">
                         <label class="form-check-label" for="filterHasDisposition">{{ __('Jen nástroje s uvedenou dispozicí') }}</label>
                         <input class="form-check-input" type="checkbox" role="switch" id="filterHasDisposition" wire:model="filterHasDisposition">
                     </div>

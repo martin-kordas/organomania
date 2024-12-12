@@ -86,8 +86,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             return str($this->organ->discography)
                 ->explode("\n")
                 ->map(function ($discStr) {
-                    [$name, $url] = explode('#', $discStr);
-                    return [trim($name), trim($url)];
+                    [$name, $info, $url] = explode('#', $discStr, 3);
+                    return array_map(trim(...), [$name, $info, $url]);
                 });
         }
         return [];
@@ -167,9 +167,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
             <h3 class="lh-sm fw-normal">
-                <strong>{{ $organ->municipality }}</strong>
+                <strong >{{ $organ->municipality }}</strong>
                 <br />
-                {{ $organ->place }}
+                <span class="fs-4">{{ $organ->place }}</span>
                 @if (!$organ->isPublic())
                     <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
                 @endif
@@ -301,6 +301,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endif
+        @if ($this->relatedOrgans->isNotEmpty())
+            <tr>
+                <th>{{ __('Související varhany') }}</th>
+                <td>
+                    <div class="items-list">
+                        @foreach ($this->relatedOrgans as $relatedOrgan)
+                            <x-organomania.organ-link :organ="$relatedOrgan" :year="$relatedOrgan->year_built" :showOrganBuilder="true" />
+                            @if (!$loop->last) <br /> @endif
+                        @endforeach
+                    </div>
+                </td>
+            </tr>
+        @endif
         @if (isset($organ->web))
             <tr>
                 <th>
@@ -309,10 +322,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </th>
                 <td class="text-break">
                     @foreach (explode("\n", $organ->web) as $url)
-                        <a class="icon-link icon-link-hover" target="_blank" href="{{ $url }}">
-                            <i class="bi bi-link-45deg"></i>
-                            {{ str($url)->limit(65) }}
-                        </a>
+                        <x-organomania.web-link :url="$url" />
                         @if (!$loop->last) <br /> @endif
                     @endforeach
                 </td>
@@ -337,24 +347,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <th>{{ __('Diskografie') }}</th>
                 <td>
                     <div class="items-list">
-                        @foreach ($this->discs as [$discName, $discUrl])
-                            <a class="icon-link icon-link-hover align-items-start link-primary" href="{{ $discUrl }}" target="_blank">
-                                <i class="bi bi-disc"></i>
-                                <span>{{ $discName }}</span>
+                        @foreach ($this->discs as [$discName, $info, $discUrl])
+                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" href="{{ $discUrl }}" target="_blank">
+                                <i class="bi bi-volume-up"></i>
+                                <span>
+                                    <span class="text-decoration-underline">{{ $discName }}</span>
+                                    @if ($info !== '')
+                                        <span class="text-secondary">({{ $info }})</span>
+                                    @endif
+                                </span>
                             </a>
-                            @if (!$loop->last) <br /> @endif
-                        @endforeach
-                    </div>
-                </td>
-            </tr>
-        @endif
-        @if ($this->relatedOrgans->isNotEmpty())
-            <tr>
-                <th>{{ __('Související varhany') }}</th>
-                <td>
-                    <div class="items-list">
-                        @foreach ($this->relatedOrgans as $relatedOrgan)
-                            <x-organomania.organ-link :organ="$relatedOrgan" :year="$relatedOrgan->year_built" :showOrganBuilder="true" />
                             @if (!$loop->last) <br /> @endif
                         @endforeach
                     </div>

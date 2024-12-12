@@ -88,6 +88,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
+    private function municipalityCountry()
+    {
+        $matches = [];
+        if (preg_match('/\((.+)\)/', $this->organBuilder->municipality, $matches)) {
+            $country = $matches[1];
+            $municipality = trim(preg_replace('/\(.+\)/', '', $this->organBuilder->municipality));
+        }
+        else {
+            $country = null;
+            $municipality = $this->organBuilder->municipality;
+        }
+        return [$municipality, $country];
+    }
+
+    #[Computed]
     private function organs()
     {
         $organs = $this->organBuilder->organs->map(
@@ -150,7 +165,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <h3>
                 {{ $organBuilder->name }}
                 @if ($this->showActivePeriodInHeading)
-                    ({{ $organBuilder->active_period }})
+                    <span class="text-secondary">({{ $organBuilder->active_period }})</span>
                 @endif
                 @if (!$organBuilder->isPublic())
                     <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
@@ -182,7 +197,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <tr>
             <th>{{ __('Místo působení') }}</th>
             <td>
-                {{ $organBuilder->municipality }}
+                {{ $this->municipalityCountry[0] }}
+                @isset ($this->municipalityCountry[1])
+                    <span class="text-secondary">({{ $this->municipalityCountry[1] }})</span>
+                @endisset
                 @if ($organBuilder->region)
                     <span class="text-secondary">({{ $organBuilder->region->name }})</span>
                 @endif
@@ -245,10 +263,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </th>
             <td class="text-break">
                 @foreach (explode("\n", $organBuilder->web) as $url)
-                    <a class="icon-link icon-link-hover" target="_blank" href="{{ $url }}">
-                        <i class="bi bi-link-45deg"></i>
-                        {{ str($url)->limit(65) }}
-                    </a>
+                    <x-organomania.web-link :url="$url" />
                     @if (!$loop->last) <br /> @endif
                 @endforeach
             </td>

@@ -259,6 +259,7 @@
             :filterCategories="$this->filterCategories" :filterRegionId="$this->filterRegionId" :filterImportance="$this->filterImportance" :filterPrivate="$this->filterPrivate" :filterFavorite="$this->filterFavorite"
             :filterOrganBuilderId="$this->filterOrganBuilderId ?? null"
             :filterConcertHall="$this->filterConcertHall ?? null"
+            :filterForeignOrganBuilder="$this->filterForeignOrganBuilder ?? null"
             :filterHasDisposition="$this->filterHasDisposition ?? null"
             :filterNameLocality="$this->filterNameLocality ?? null"
             :id="$this->id ?? null"

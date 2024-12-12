@@ -32,6 +32,8 @@ new class extends Component {
     #[Reactive]
     public $filterConcertHall;
     #[Reactive]
+    public $filterForeignOrganBuilder;
+    #[Reactive]
     public $filterHasDisposition;
 
     // TODO: jako public mít radši jen id?
@@ -69,6 +71,7 @@ new class extends Component {
         $filters = $this->getFiltersArray();
         if ($this->filterOrganBuilderId) $filters['organBuilderId'] = $this->filterOrganBuilderId;
         if ($this->filterConcertHall) $filters['concertHall'] = $this->filterConcertHall;
+        if ($this->filterForeignOrganBuilder) $filters['foreignOrganBuilder'] = $this->filterForeignOrganBuilder;
         if ($this->filterHasDisposition) $filters['hasDisposition'] = $this->filterHasDisposition;
 
         if ($this->viewType === 'map') $sorts = ['importance' => 'asc'];

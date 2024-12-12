@@ -7,6 +7,7 @@
             {!! __('Hlavní motivací je zvýšit povědomí o <strong>velkém množství historických i moderních nástrojů</strong>, které se u nás nacházejí.') !!}
         </p>
         
+        <img class="rounded float-end ms-3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Pfeifen_SW_ev_Kirche_OberDorstfeld_Dortmund.jpg/360px-Pfeifen_SW_ev_Kirche_OberDorstfeld_Dortmund.jpg" title="{{ __('Licence obrázku') }}: Eliasorgel, CC BY-SA 4.0, via Wikimedia Commons"  style="max-height: 310px; width: auto; max-width: 50%" />
         <h4>{{ __('Koncepce') }}</h4>
         
         <p>
@@ -22,17 +23,27 @@
             {{ __('Zajímavým experimentem je možnost ukládat si k dispozicím registrace skladeb.') }}
         </p>
         
+        <div class="text-center mb-3">
+        </div>
+        
         <h4>{{ __('Poznámky k obsahu') }}</h4>
         
         <p>
             {!! __('Obsah uváděný na webu má <strong>stručný, přehledový charakter</strong>.') !!}
             {{ __('Nevychází z vlastní dokumentační činnosti, nýbrž z literatury a veřejně dostupných zdrojů.') }}
             {!! __('Obrazové materiály jsou převzaty z <em>Wikimedia Commons</em> (autor a licence obrázku se zobrazí po najetí myši).') !!}
-            {{ __('Uváděné parametry varhan se snaží reflektovat jejich současný (ne historický) stav.') }}
-            {{ __('V případech, kdy je nedostatek dostupných zdrojů, mohou být nicméně informace neaktuální.') }}
-            {{ __('Údaj o počtu rejstříků může v některých případech započítávat i transmise a extenze.') }}
         </p>
+            
+        <p class="mb-0">
+            {!! __('O uváděných <strong>parametrech varhan</strong> platí:') !!}
+        </p>
+        <ul>
+            <li>{{ __('Záměrem je uvádět současný (ne historický) stav. V případech, kdy je nedostatek dostupných zdrojů, mohou být nicméně informace neaktuální.') }}</li>
+            <li>{{ __('Údaj o počtu rejstříků může v některých případech započítávat i transmise a extenze.') }}</li>
+            <li>{{ __('Kategorizace varhan podle traktur zohledňuje tónovou, ne rejstříkovou trakturu.') }}</li>
+        </ul>
         
+        <img class="rounded float-start me-3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/2022_Byst%C5%99ice_lustr_a_varhany.jpg/360px-2022_Byst%C5%99ice_lustr_a_varhany.jpg" title="{{ __('Licence obrázku') }}: Qasinka, CC0, via Wikimedia Commons" style="max-height: 310px; width: auto; max-width: 50%" />
         <p>
             {!! __('Pro usnadnění orientace bývají záznamy seřazeny podle <strong>"významu"</strong>.') !!}
             {{ __('Je evidentní, že význam určitých varhan nebo varhanáře záleží na mnoha faktorech a nelze jej objektivně stanovit.') }}
@@ -44,7 +55,7 @@
             {!! __('Diskutabilní je i <strong>výběr varhan a varhanářů</strong>, které web pokrývá.') !!}
             {{ __('Záměrem je poskytnout přehled pouze těch "významných".') }}
             {{ __('Skupinu "významných" však opět není možné objektivně definovat, ani rozsahově pokrýt.') }}
-            {{ __('V praxi se tedy při výběru varhan uplatnila řada hledisek: starobylost, velikost a konstrukční jedinečnost varhan, historický význam místa, kde stojí, hodnotná varhanní skříň nebo i nedávno proběhlé restaurování varhan a jejich aktivní hudební využívání.') }}
+            {{ __('V praxi se tedy při výběru varhan uplatnila řada hledisek: starobylost, velikost a konstrukční zajímavost varhan, historický význam místa, kde stojí, hodnotná varhanní skříň nebo i nedávno proběhlé restaurování varhan a jejich aktivní hudební využívání.') }}
         </p>
         
         <p>

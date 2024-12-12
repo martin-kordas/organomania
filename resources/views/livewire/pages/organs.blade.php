@@ -31,6 +31,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Url(keep: true)]
     public $filterConcertHall;
     #[Url(keep: true)]
+    public $filterForeignOrganBuilder;
+    #[Url(keep: true)]
     public $filterHasDisposition;
 
     private OrganRepository $repository;
@@ -65,6 +67,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->entityNamePluralAkuzativ = __('varhany');
         $this->filters[] = 'filterOrganBuilderId';
         $this->filters[] = 'filterConcertHall';
+        $this->filters[] = 'filterForeignOrganBuilder';
         $this->filters[] = 'filterHasDisposition';
         $this->title = __('Varhany');
     }
