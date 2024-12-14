@@ -125,9 +125,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <tr>
                     <th>{{ __('Velikost') }}</th>
                     <td>
-                        {{ $disposition->organ->getDeclinedManualsCount() }}
+                        {{ $disposition->organ->manuals_count }} <small>{{ $disposition->organ->getDeclinedManuals() }}</small>
                         @if ($disposition->organ->stops_count)
-                            / {{ $disposition->organ->getDeclinedStopsCount() }}
+                            / {{ $disposition->organ->stops_count }} <small>{{ $disposition->organ->getDeclinedStops() }}</small>
                         @endif
                     </td>
                 </tr>
@@ -141,12 +141,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endisset
             </table>
             
-            <a class="btn btn-sm btn-primary" href="{{ route('organs.show', $disposition->organ->slug) }}" wire:navigate>
+            {{-- TODO: z těchto odkazů odstraněno wire:navigate, protože při vrácení tlačítkem Zpět pak na serveru nefunguje přepínání registrací --}}
+            <a class="btn btn-sm btn-primary" href="{{ route('organs.show', $disposition->organ->slug) }}">
                 <i class="bi bi-eye"></i>
                 {{ __('Zobrazit podrobnosti') }}
             </a>
             &nbsp;
-            <a class="btn btn-sm btn-outline-primary" href="{{ route('dispositions.show', $disposition->slug) }}" wire:navigate>{{ __('Dispozice varhan') }}</a>
+            <a class="btn btn-sm btn-outline-primary" href="{{ route('dispositions.show', $disposition->slug) }}">{{ __('Dispozice varhan') }}</a>
         </div>
     @endisset
 
@@ -164,7 +165,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @class(['list-group-item', 'list-group-item-action', 'd-flex', 'align-items-center', 'column-gap-2', 'active' => $isActive, 'link-primary' => !$isActive])
                     href="{{ $this->getRegistrationUrl($registration) }}#registrationsList"
                     data-registration-id="{{ $registration->id }}"
-                    @click=showRegistration(event)
+                    onclick="showRegistration(event)"
+                    wire:key="{{ $registration->id }}"
                 >
                     <span class="me-auto">
                         {{ $registration->name }}

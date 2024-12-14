@@ -97,7 +97,7 @@
               
                 @if ($this->viewType !== 'map')
                     <div @class(['per-page-div', 'd-none' => $this->viewType === 'thumbnails', 'd-lg-block' => $this->viewType === 'thumbnails'])>
-                        <label for="perPage" class="form-label mb-1">
+                        <label for="perPage" class="form-label mb-1 bg-white rounded">
                             <span class="d-none d-md-inline">{!!__('Záznamů na&nbsp;stránce') !!}</span>
                             <span class="d-md-none">{{ __('Záznamů') }}</span>
                         </label>

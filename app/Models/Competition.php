@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -45,6 +46,19 @@ class Competition extends Model
             if ($organ->image_url)
                 return ['image_url' => $organ->image_url, 'image_credits' => $organ->image_credits];
         }
+    }
+    
+    protected function firstUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value, $competition) {
+                if (isset($competition['url'])) {
+                    $row = str($competition['url'])->explode("\n")->first();
+                    $url = str($row)->explode('°')->first();
+                    return trim($url);
+                }
+            }
+        );
     }
     
     public function shouldHighlightNextYear()

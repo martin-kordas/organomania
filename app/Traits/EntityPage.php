@@ -18,7 +18,7 @@ use App\Interfaces\Category;
 trait EntityPage
 {
     
-    #[Session]
+    #[Session(key: 'viewType')]
     #[Url(keep: true)]
     public $viewType = 'thumbnails';
     

@@ -34,10 +34,7 @@
         @isset($organ->url)
             <p class="mb-0">
                 @foreach (explode("\n", $organ->url) as $url)
-                    <a class="icon-link text-break" href="{{ $url }}" target="_blank">
-                        <i class="bi bi-link-45deg"></i>
-                        {{ str($url)->limit(40) }}
-                    </a>
+                    <x-organomania.web-link :url="$url" limit="40" />
                     @break
                 @endforeach
             </p>

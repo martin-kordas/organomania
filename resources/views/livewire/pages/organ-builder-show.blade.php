@@ -165,7 +165,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <h3>
                 {{ $organBuilder->name }}
                 @if ($this->showActivePeriodInHeading)
-                    <span class="text-secondary">({{ $organBuilder->active_period }})</span>
+                    <span class="text-body-tertiary">({{ $organBuilder->active_period }})</span>
                 @endif
                 @if (!$organBuilder->isPublic())
                     <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
@@ -261,7 +261,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <span class="d-none d-md-inline">{{ __('Webové odkazy') }}</span>
                 <span class="d-md-none">{{ __('Web') }}</span>
             </th>
-            <td class="text-break">
+            <td class="text-break items-list">
                 @foreach (explode("\n", $organBuilder->web) as $url)
                     <x-organomania.web-link :url="$url" />
                     @if (!$loop->last) <br /> @endif

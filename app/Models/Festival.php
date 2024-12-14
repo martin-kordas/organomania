@@ -51,6 +51,19 @@ class Festival extends Model
         );
     }
     
+    protected function firstUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value, $festival) {
+                if (isset($festival['url'])) {
+                    $row = str($festival['url'])->explode("\n")->first();
+                    $url = str($row)->explode('°')->first();
+                    return trim($url);
+                }
+            }
+        );
+    }
+    
     public function shouldHighlightFrequency()
     {
         return isset($this->starting_month) && $this->starting_month === (int)date('n');

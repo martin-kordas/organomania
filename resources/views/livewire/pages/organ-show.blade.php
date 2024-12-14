@@ -87,7 +87,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 ->explode("\n")
                 ->map(function ($discStr) {
                     [$name, $info, $url] = explode('#', $discStr, 3);
-                    return array_map(trim(...), [$name, $info, $url]);
+
+                    $host = parse_url($url, PHP_URL_HOST);
+                    if (in_array($host, ['youtube.com', 'youtu.be', 'www.youtube.com'])) $icon = 'youtube';
+                    else $icon = 'volume-up';
+
+                    return array_map(trim(...), [$name, $info, $url, $icon]);
                 });
         }
         return [];
@@ -320,7 +325,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <span class="d-none d-md-inline">{{ __('Webové odkazy') }}</span>
                     <span class="d-md-none">{{ __('Web') }}</span>
                 </th>
-                <td class="text-break">
+                <td class="text-break items-list">
                     @foreach (explode("\n", $organ->web) as $url)
                         <x-organomania.web-link :url="$url" />
                         @if (!$loop->last) <br /> @endif
@@ -344,12 +349,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endisset
         @if (!empty($this->discs))
             <tr>
-                <th>{{ __('Diskografie') }}</th>
+                <th>{{ __('Nahrávky') }}</th>
                 <td>
                     <div class="items-list">
-                        @foreach ($this->discs as [$discName, $info, $discUrl])
+                        @foreach ($this->discs as [$discName, $info, $discUrl, $icon])
                             <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" href="{{ $discUrl }}" target="_blank">
-                                <i class="bi bi-volume-up"></i>
+                                <i class="bi bi-{{ $icon }}"></i>
                                 <span>
                                     <span class="text-decoration-underline">{{ $discName }}</span>
                                     @if ($info !== '')

@@ -95,10 +95,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 @endif
                             @endisset
                         </td>
-                        <td>
+                        <td class="text-nowrap">
                             @isset($competition->url)
-                                <a href="{{ $competition->url }}" target="_blank">
-                                    {{ str(Helpers::formatUrl($competition->url))->limit(20) }}
+                                <a class="icon-link icon-link-hover align-items-start" href="{{ $competition->firstUrl }}" target="_blank">
+                                    {{ __('přejít') }} <i class="bi bi-box-arrow-up-right"></i>
                                 </a>
                             @endisset
                         </td>

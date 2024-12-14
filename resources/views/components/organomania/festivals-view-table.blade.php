@@ -71,10 +71,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 {{ $festival->frequency }}
                             </span>
                         </td>
-                        <td>
+                        <td class="text-nowrap">
                             @isset($festival->url)
-                                <a href="{{ $festival->url }}" target="_blank">
-                                    {{ str(Helpers::formatUrl($festival->url))->limit(20) }}
+                                <a class="icon-link icon-link-hover align-items-start" href="{{ $festival->firstUrl }}" target="_blank">
+                                    {{ __('přejít') }} <i class="bi bi-box-arrow-up-right"></i>
                                 </a>
                             @endisset
                         </td>
