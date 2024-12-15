@@ -2,6 +2,7 @@
 
 @php
     $urlData = array_map(trim(...), explode('°', $url));
+    $urlData[0] = str($urlData[0])->replaceMatches('/^https?\:\/\//', '');
 @endphp
 
 <a class="icon-link icon-link-hover align-items-start text-decoration-none" target="_blank" href="{{ $urlData[0] }}">

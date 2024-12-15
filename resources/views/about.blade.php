@@ -56,6 +56,7 @@
             {{ __('Záměrem je poskytnout přehled pouze těch "významných".') }}
             {{ __('Skupinu "významných" však opět není možné objektivně definovat, ani rozsahově pokrýt.') }}
             {{ __('V praxi se tedy při výběru varhan uplatnila řada hledisek: starobylost, velikost a konstrukční zajímavost varhan, historický význam místa, kde stojí, hodnotná varhanní skříň nebo i nedávno proběhlé restaurování varhan a jejich aktivní hudební využívání.') }}
+            {{ __('Zatímco nejvýznamější varhany jsou pokryty snad kompletně, v případě těch méně významných jde jen o vybranou výseč.') }}
         </p>
         
         <p>

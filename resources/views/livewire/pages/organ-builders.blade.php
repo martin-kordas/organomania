@@ -69,6 +69,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $category->organ_builders_count;
     }
 
+    private function getPrivateOrgansCount()
+    {
+        return $this->model->query()->inland()->whereNotNull('user_id')->count();
+    }
+
 }; ?>
 
 <x-organomania.entity-page :metaDescription="__('Prohlédněte si historické i soudobé varhanářské dílny na území ČR. Zjistěte jejich stylové zařazení (barokní, romantické varhanářství) a nejslavnější postavené varhany.')" />

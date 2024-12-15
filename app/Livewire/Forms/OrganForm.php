@@ -162,6 +162,7 @@ class OrganForm extends Form
     {
         $this->validate();
         $data = Helpers::arrayKeysSnake($this->except(['categories', 'rebuilds', 'organ', 'webArray']));
+        $data['concert_hall'] ??= 0;
         $update = $this->organ->exists;
         
         DB::transaction(function () use ($data) {
