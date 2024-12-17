@@ -14,6 +14,21 @@ class DispositionParser
 {
     
     private $text;
+    
+    const DISPOSITION_TEXT_EXAMPLE = <<<EOL
+        I. manuál
+        Principál 8'
+        Mixtura 3-4x 1 1/3'
+
+        II. manuál
+        Flétna 8'
+        Nasard 2 2/3'
+        Tremolo
+
+        Pedál
+        Subbas 16'
+        I/P
+        EOL;
 
     public function __construct(
         string $text,
@@ -24,7 +39,8 @@ class DispositionParser
             ->trim()
             ->replace("\r\n", "\n")
             ->replaceMatches("/[\n]{2,}/", "\n\n")
-            ->replaceMatches("/[ ]{2,}/", ' ');
+            ->replaceMatches("/[ ]{2,}/", ' ')
+            ->replace(['"', '´', '`'], "'");
     }
     
     public function parse(): Disposition
@@ -99,7 +115,7 @@ class DispositionParser
         foreach (Pitch::cases() as $pitch) {
             if ($pitch->getLabel($this->language) === $label) return $pitch;
         }
-        echo("Poloha nebyla nalezena: $label\n");
+        if (app()->runningInConsole()) echo("Poloha nebyla nalezena: $label\n");
     }
     
     private function parseKeyboards()

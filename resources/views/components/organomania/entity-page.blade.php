@@ -19,9 +19,9 @@
         <div class="position-fixed ms-2">
             <div class="position-absolute side-buttons-inner text-center pb-2">
                 @if ($this->isEditable)
-                    <div @class(['btn-group', 'mb-2', 'mb-md-3', 'd-md-block', 'd-none' => !Auth::id() && $this->viewType === 'table'])>
+                    <div @class(['btn-group', 'mb-2', 'mb-md-3', 'd-md-inline-flex', 'd-none' => !Auth::id() && $this->viewType === 'table'])>
                         {{-- wire:navigate: nefunguje v nepřihlášeném stavu --}}
-                        <a class="btn btn-sm btn-primary" href="{{ route($this->createRoute) }}">
+                        <a class="btn btn-sm btn-primary w-100" href="{{ route($this->createRoute) }}">
                             <i class="bi-plus-lg"></i> {{ __('Přidat') }}
                         </a>
                         @can('createPublic', $this->model)

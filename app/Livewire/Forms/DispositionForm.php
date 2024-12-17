@@ -39,16 +39,25 @@ class DispositionForm extends Form
         $this->public = $public;
     }
     
-    public function setDisposition(Disposition $disposition)
+    public function setDisposition(Disposition $disposition, $overwrite = true)
     {
+        if (!$overwrite) {
+            $disposition->id = $this->disposition->id;
+            $disposition->exists = $this->disposition->exists;
+        }
         $this->disposition = $disposition;
         
         $data = Helpers::arrayKeysCamel($this->disposition->toArray());
         if (isset($data['language'])) {
             $data['language'] = $data['language']->value;
         }
-        $data['keyboards'] = $this->getKeyboards($this->disposition);
-        $data['registers'] = $this->getDispositionRegisters($this->disposition);
+        $data['keyboards'] = $data['registers'] = [];
+        if (!$overwrite) {
+            $data['keyboards'] = $this->keyboards;
+            $data['registers'] = $this->registers;
+        }
+        $data['keyboards'] = [...$data['keyboards'], ...$this->getKeyboards($this->disposition)];
+        $data['registers'] = [...$data['registers'], ...$this->getDispositionRegisters($this->disposition)];
         
         $this->fill($data);
     }

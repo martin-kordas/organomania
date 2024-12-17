@@ -193,7 +193,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @if ($this->form->isWorkshop)
                 <div>
                     <div class="form-floating mb-3">
-                        <input class="form-control form-control-lg @error('form.workshopName') is-invalid @enderror" id="workshopName" wire:model.blur="form.workshopName" aria-describedby="workshopNameFeedback" placeholder="Sieber, Jan">
+                        <input class="form-control form-control-lg @error('form.workshopName') is-invalid @enderror" id="workshopName" wire:model.blur="form.workshopName" aria-describedby="workshopNameFeedback" placeholder="Sieber, Jan" autofocus>
                         <label for="workshopName">{{ __('Název dílny') }}</label>
                         @error('form.workshopName')
                             <div id="workshopNameFeedback" class="invalid-feedback">{{ $message }}</div>
@@ -207,7 +207,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @else
                 <div class="col-md-6">
                     <div class="form-floating">
-                        <input class="form-control form-control-lg @error('form.firstName') is-invalid @enderror" id="firstName" wire:model.blur="form.firstName" aria-describedby="firstNameFeedback" placeholder="Sieber, Jan">
+                        <input class="form-control form-control-lg @error('form.firstName') is-invalid @enderror" id="firstName" wire:model.blur="form.firstName" aria-describedby="firstNameFeedback" placeholder="Sieber, Jan" autofocus>
                         <label for="firstName">{{ __('Jméno varhanáře') }}</label>
                         @error('form.firstName')
                             <div id="firstNameFeedback" class="invalid-feedback">{{ $message }}</div>

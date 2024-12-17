@@ -19,6 +19,7 @@ use App\Models\RegisterName;
 use App\Models\Organ;
 use App\Models\PaletteRegister;
 use App\Livewire\Forms\DispositionForm;
+use App\Services\DispositionParser;
 use App\Traits\ConvertEmptyStringsToNull;
 use App\Traits\HasAccordion;
 use App\Traits\HasHighlightDispositionFilters;
@@ -50,6 +51,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $registerIndex;
     public $registerBackup;
 
+    public $dispositionText;
+
+    public $previousUrl;
+
     private $select2Rendered = false;
 
     public $paletteKeyboardIndex;
@@ -65,6 +70,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->disposition ??= new Disposition();
         $ability = $this->disposition->exists ? 'update' : 'create';
         $this->authorize($ability, $this->disposition);
+
+        $this->dispositionText = DispositionParser::DISPOSITION_TEXT_EXAMPLE;
+        $this->previousUrl = request()->headers->get('referer');
 
         if ($organId = request('organId')) {
             if ($organ = Organ::find($organId)) {
@@ -269,6 +277,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             && count($this->form->keyboards) === 1;
     }
 
+    public function importDispositionFromText()
+    {
+        if ($this->dispositionText == '') throw new \RuntimeException;
+
+        $parser = new DispositionParser($this->dispositionText, DispositionLanguage::Czech, $this->form->keyboardNumbering);
+        $disposition = $parser->parse();
+        $this->form->setDisposition($disposition, overwrite: false);
+
+        $this->js('showToast("importedToast")');
+    }
+
     public function addKeyboard(bool $pedal = false)
     {
         $this->form->keyboards[] = [
@@ -419,7 +438,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         $this->form->save();
         session()->flash('status-success', __('Dispozice byla úspěšně uložena.'));
-        $this->redirectRoute('dispositions.index', navigate: true);
+        if (isset($this->previousUrl)) $this->redirect($this->previousUrl, navigate: true);
+        else $this->redirectRoute('dispositions.index', navigate: true);
     }
 
     public function delete()
@@ -427,7 +447,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->authorize('delete', $this->disposition);
         $this->form->delete();
         session()->flash('status-success', __('Dispozice byla úspěšně smazána.'));
-        $this->redirectRoute('dispositions.index', navigate: true);
+        if (isset($this->previousUrl)) $this->redirect($this->previousUrl, navigate: true);
+        else $this->redirectRoute('dispositions.index', navigate: true);
     }
 
     private function move(&$data, $index, $direction = 'up')
@@ -922,6 +943,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <i class="bi-plus-lg"></i> {{ __('Pedál') }}
             </button>
         @endif
+        <button type="button" @class(['btn', 'btn-primary', 'btn-sm', 'ms-1', 'disabled' => $this->isEdit]) data-bs-toggle="modal" data-bs-target="#importDispositionFromTextModal">
+            {{ __('Importovat textově') }}
+        </button>
     </div>
         
     <div class="accordion mt-3">
@@ -1050,6 +1074,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     >
         {{ __('Opravdu chcete rejstřík smazat?') }}
     </x-organomania.modals.confirm-modal>
+        
+    <x-organomania.modals.import-disposition-from-text-modal />
+    <x-organomania.modals.disposition-text-example-modal />
+        
+    <x-organomania.toast toastId="importedToast">
+        {{ __('Dispozice byla úspěšně importována.') }}
+    </x-organomania.toast>
     
 </div>
 
@@ -1074,7 +1105,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     window.focusPalette = function () {
         $('#registerPalette').focus()
     }
-        
+    
     window.disableOnbeforeunload = function () {
         PREVENT_UNLOAD = false
     }

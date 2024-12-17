@@ -15,7 +15,7 @@
 >
     <option></option>
     @foreach ($organBuilders as $organBuilder)
-        <option value="{{ $organBuilder->id }}">
+        <option wire:key="{{ $organBuilder->id }}" value="{{ $organBuilder->id }}">
             {{ $organBuilder->name }}
             @if ($organBuilder->active_period)
                 ({{ $organBuilder->active_period }})

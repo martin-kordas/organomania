@@ -25,10 +25,10 @@
 >
     @if ($customCategoryExists && (Gate::allows('useOrganCustomCategories') || $alwaysShowCustomCategories))
         @foreach ($customCategoriesGroups as $group => $categories)
-            <optgroup label="{{ $this->getCustomCategoryGroupName($group) }}">
+            <optgroup wire:key="{{ $group }}" label="{{ $this->getCustomCategoryGroupName($group) }}">
                 @foreach ($categories as $category)
                     @php $organsCount = $counts ? $this->getOrganCustomCategoryOrganCount($category) : null; @endphp
-                    <option value="custom-{{ $category->getValue() }}" title="{{ $category->getDescription() }}">
+                    <option wire:key="{{ $category->getValue() }}" value="custom-{{ $category->getValue() }}" title="{{ $category->getDescription() }}">
                         {{ __($category->getName()) }}
                         @if ($counts && $organsCount > 0)
                             ({{ $organsCount }})
@@ -40,10 +40,10 @@
     @endif
 
     @foreach ($categoriesGroups as $group => $categories)
-        <optgroup label="{{ __(OrganCategory::getGroupName($group)) }}">
+        <optgroup wire:key="{{ $group }}" label="{{ __(OrganCategory::getGroupName($group)) }}">
             @foreach ($categories as $category)
                 @php $organsCount = $counts ? $this->getOrganCategoryOrganCount($category) : null; @endphp
-                <option title="{{ __($category->getDescription()) }}" value="{{ $category->value }}">
+                <option wire:key="{{ $category->getValue() }}" title="{{ __($category->getDescription()) }}" value="{{ $category->value }}">
                     {{ __($category->getName()) }}
                     @if ($counts && $organsCount > 0)
                         ({{ $organsCount }})

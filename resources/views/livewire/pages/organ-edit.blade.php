@@ -185,7 +185,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div class="row g-3">
                 <div class="col-md-4">
                     <div class="form-floating">
-                        <input class="form-control form-control-lg @error('form.municipality') is-invalid @enderror" id="municipality" wire:model.blur="form.municipality" aria-describedby="municipalityFeedback">
+                        <input class="form-control form-control-lg @error('form.municipality') is-invalid @enderror" id="municipality" wire:model.blur="form.municipality" aria-describedby="municipalityFeedback" autofocus>
                         <label for="municipality">{{ __('Obec') }}</label>
                         @error('form.municipality')
                             <div id="municipalityFeedback" class="invalid-feedback">{{ $message }}</div>
