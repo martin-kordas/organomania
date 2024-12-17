@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Enums\OrganCategory;
 use App\Models\Organ;
 use App\Models\OrganCustomCategory as OrganCustomCategoryModel;
 use App\Models\OrganCategory as OrganCategoryModel;
@@ -73,12 +74,19 @@ class OrganRepository extends AbstractRepository
                     $this->filterEntityQuery($query, $field, $value);
                     break;
                 
+                case 'nearLongitude':
+                case 'nearLatitude':
+                case 'nearDistance':
+                    if ($field === 'nearLongitude' && isset($filters['nearLatitude'], $filters['nearDistance'])) {
+                        $this->filterNear($query, $filters['nearLatitude'], $filters['nearLongitude'], $filters['nearDistance']);
+                    }
+                    break;
+                
                 default:
                     throw new \LogicException;
             }
-            
         }
-
+        
         foreach ($sorts as $field => $direction) {
             switch ($field) {
                 case 'organ_builder':
@@ -140,11 +148,70 @@ class OrganRepository extends AbstractRepository
     public function getOrganOfDay()
     {
         return Organ::query()
-            ->where('importance', '>=', 6)
+            ->where('importance', '>=', 5)
             ->whereNotNull(['description', 'image_url'])
+            ->public()
             ->inRandomOrder()
             ->take(1)
             ->first();
+    }
+    
+    public function getSimilarOrgans(Organ $organ)
+    {
+        $categories = $organ->organCategories->map(
+            fn (OrganCategoryModel $category) => $category->getEnum()
+        );
+        
+        // přestavované varhany jsou specifické, podobné varhany k nim nedohledáváme
+        if ($organ->organRebuilds->isNotEmpty()) return collect();
+
+        // nemají-li varhany aspoň 2 technické kategorie, jde o chybějící informace a podobné varhany nejde určit
+        $technicalCategories = $categories->filter(
+            fn (OrganCategory $category) => $category->isTechnicalCategory()
+        );
+        if ($technicalCategories->count() < 2) return collect();
+        
+        // čím starší varhany, tím větší rozptyl roku postavení
+        $yearRange = match (true) {
+            $organ->year >= 1800 => 30,
+            $organ->year >= 1900 => 25,
+            $organ->year >= 1945 => 20,
+            default => 35
+        };
+
+        // relativní rozptyl v počtu rejstříku zavádíme kvůli velkým varhanám, kde absolutní rozdíl 5 rejstříků není signifikantní
+        $stopsAbsoluteRange = 5;
+        $stopsRelativeRange = $organ->stops_count * 0.2;
+        $stopsRange = max($stopsAbsoluteRange, $stopsRelativeRange);
+        
+        // kategorie největší/nejstarší a kategorie období se nemusí shodovat
+        $categoryIds = $categories
+            ->filter(
+                fn (OrganCategory $category) => !$category->isExtraordinaryCategory() && !$category->isPeriodCategory()
+            )
+            ->map(
+                fn (OrganCategory $category) => $category->value
+            );
+        
+        return Organ::query()
+            ->where('id', '!=', $organ->id)
+            ->where('manuals_count', $organ->manuals_count)
+            ->whereBetween('stops_count', [
+                $organ->stops_count - $stopsRange, $organ->stops_count + $stopsRange
+            ])
+            ->whereBetween('year_built', [
+                $organ->year_built - $yearRange, $organ->year_built + $yearRange
+            ])
+            // je-li počet kategorií stejný jako počet požadovaných kategorií, jsou všechny kategorie přítomny
+            ->whereHas('organCategories', function (Builder $query) use ($categoryIds) {
+                $query->whereIn('id', $categoryIds);
+            }, '=', $categoryIds->count())
+            ->whereDoesntHave('organRebuilds')
+            ->public()
+            ->inRandomOrder()
+            ->take(10)
+            ->get()
+            ->sortBy('year_built');
     }
     
 }

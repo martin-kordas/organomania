@@ -2,7 +2,11 @@
 
 @php
     if (isset($organ->perex)) $description = $organ->perex;
-    elseif (isset($organ->description)) $description = str($organ->description)->limit(200);
+    elseif (isset($organ->description)) {
+        $description = str($organ->description)
+            ->replace('*', '')      // odstranění markdownu
+            ->limit(200);
+    }
     else $description = null;
 
     $year ??= $organ->year_built;

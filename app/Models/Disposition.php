@@ -140,6 +140,12 @@ class Disposition extends Model
         );
     }
     
+    public function getDeclinedRealDispositionRegisters()
+    {
+        $count = $this->real_disposition_registers_count;
+        return __(Helpers::declineCount($count, 'rejstříků', 'rejstřík', 'rejstříky'));
+    }
+    
     public function isEmpty()
     {
         return $this->keyboards->isEmpty();

@@ -52,11 +52,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
 <div class="register-show container">
     
-    <h1 class="modal-title fs-5" id="registerModalLabel">
+    <h1 class="fs-3">
+        <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" wire:navigate>
+            {{ __('Encyklopedie rejstříků') }}
+        </a>
+    </h1>
+    
+    <h2 class="modal-title fs-5" id="registerModalLabel">
         {{ $registerName->name }}
         <span class="text-body-secondary">({{ $registerName->language }})</span>
-    </h1>
-    <div>
+    </h2>
+    <div @style(['columns: 2' => $this->registerNames->count() > 3])>
         @foreach ($this->registerNames as $registerName1)
             {{ $registerName1->name }}
             <span class="text-body-secondary">({{ $registerName1->language }})</span>

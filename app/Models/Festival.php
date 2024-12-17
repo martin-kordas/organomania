@@ -83,4 +83,11 @@ class Festival extends Model
         ];
     }
     
+    public function getMapInfo()
+    {
+        return view('components.organomania.map-info.festival', [
+            'festival' => $this,
+        ])->render();
+    }
+    
 }

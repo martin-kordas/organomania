@@ -37,6 +37,12 @@ trait EntityPage
     public $filterFavorite;
     #[Url(keep: true)]
     public $filterPrivate;
+    #[Url(keep: true)]
+    public $filterNearLatitude;
+    #[Url(keep: true)]
+    public $filterNearLongitude;
+    #[Url(keep: true)]
+    public $filterNearDistance;
 
     #[Url(keep: true)]
     public $perPage = 9;
@@ -66,7 +72,13 @@ trait EntityPage
     private string $entityClass;
     private string $entityNamePluralAkuzativ;
     private array $filters = [];
-    private array $commonFilters = ['filterCategories', 'filterRegionId', 'filterImportance', 'filterFavorite', 'filterPrivate'];
+    private array $commonFilters = [
+        'filterCategories', 'filterRegionId', 'filterImportance', 'filterFavorite', 'filterPrivate',
+        'filterNearLatitude', 'filterNearLongitude', 'filterNearDistance'
+    ];
+    private array $invisibleFilters = [
+        'filterNearLatitude', 'filterNearLongitude', 'filterNearDistance'
+    ];
     private string $title;
     
     abstract private function getCategoryEnum();
@@ -106,6 +118,10 @@ trait EntityPage
             // Google mapa má z tech. důvodů nastaveno wire:replace, při aktualizaci zobrazených varhan tedy musíme přenačíst celou stranu
             if ($this->viewType === 'map')
                 $this->js('location.reload()');
+        }
+        
+        if ($property === 'viewType' && $this->viewType === 'map') {
+            $this->js('location.reload()');
         }
     }
     
@@ -266,6 +282,16 @@ trait EntityPage
         $count = 0;
         foreach ($this->getFilters() as $filter) {
             if ($this->{$filter}) $count++;
+        }
+        return $count;
+    }
+
+    #[Computed]
+    public function activeVisibleFiltersCount()
+    {
+        $count = 0;
+        foreach ($this->getFilters() as $filter) {
+            if ($this->{$filter} && !in_array($filter, $this->invisibleFilters)) $count++;
         }
         return $count;
     }

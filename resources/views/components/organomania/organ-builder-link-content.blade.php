@@ -2,6 +2,9 @@
 
 <span>
     {{ $organBuilder->name ?? $placeholder }}
+    @if ($organBuilder && !$organBuilder->isPublic())
+        <i class="bi bi-lock text-warning"></i>
+    @endif
     <span class="text-secondary">
         @if ($showActivePeriod)
             ({{ $organBuilder->active_period }})

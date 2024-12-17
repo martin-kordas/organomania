@@ -9,6 +9,9 @@
 
 <span>
     {{ $organ->municipality }}, {{ $organ->place }}
+    @if (!$organ->isPublic())
+        <i class="bi bi-lock text-warning"></i>
+    @endif
     @if (!empty($details))
         <span class="text-secondary">
             ({{ implode(', ', $details) }})

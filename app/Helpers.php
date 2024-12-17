@@ -7,6 +7,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
+use Location\Coordinate;
+use Location\Distance\Vincenty;
 use Carbon\Carbon;
 
 class Helpers
@@ -139,6 +141,14 @@ class Helpers
         if (isset($lang)) $params['lang'] = $lang;
         $query = http_build_query($params);
         return "$url?$query";
+    }
+    
+    static function getDistance(float $latitude1, float $longitude1, float $latitude2, float $longitude2): float
+    {
+        $coordinate1 = new Coordinate($latitude1, $longitude1);
+        $coordinate2 = new Coordinate($latitude2, $longitude2);
+        $calculator = new Vincenty();
+        return $calculator->getDistance($coordinate1, $coordinate2);
     }
     
 }

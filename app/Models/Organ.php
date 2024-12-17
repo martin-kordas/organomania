@@ -129,4 +129,20 @@ class Organ extends Model
         ];
     }
     
+    public function getMapInfo(?float $nearLatitude = null, ?float $nearLongitude = null)
+    {
+        if (
+            isset($nearLatitude, $nearLongitude)
+            && !($nearLatitude === $this->latitude && $nearLongitude === $this->longitude)
+        ) {
+            $distance = Helpers::getDistance($nearLatitude, $nearLongitude, $this->latitude, $this->longitude);
+        }
+        else $distance = null;
+        
+        return view('components.organomania.map-info.organ', [
+            'organ' => $this,
+            'distance' => $distance
+        ])->render();
+    }
+    
 }

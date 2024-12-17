@@ -67,6 +67,7 @@ class Register extends Model
                 ->unique();
 
             return Disposition::query()
+                ->withCount(['realDispositionRegisters'])
                 ->whereIn('id', $dispositionsIds)
                 ->when(!empty($excludeDispositionIds), function (Builder $query) use ($excludeDispositionIds) {
                     $query->whereNotIn('id', $excludeDispositionIds);

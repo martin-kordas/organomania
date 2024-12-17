@@ -18,6 +18,7 @@
         "league/commonmark": "^2.4",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
+        "mjaschen/phpgeo": "^5.0",
         "opcodesio/log-viewer": "^3.10",
         "pharaonic/livewire-select2": "^1.2"
     },

@@ -376,7 +376,11 @@
     "dle období": "by time period",
     "Seřaďte festivaly": "Sort events",
     "Nahrávky": "Recordings",
-    "přejít": "go to"
+    "přejít": "go to",
+    "Podobné varhany": "Similar organs",
+    "Za podobné považujeme varhany přibližně stejné velikosti, postavené v tomtéž období a patřící do stejných kategorií podle typu a stavby.": "Similar organs have roughly same size, were built during the same time period and belong to the same type and construction type categories.",
+    "Zobrazit zajímavé varhany v okruhu": "Show interesting organs within a radius of",
+    "Vzdálenost": "Distance"
     
     
     

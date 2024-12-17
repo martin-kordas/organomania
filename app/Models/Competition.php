@@ -80,4 +80,11 @@ class Competition extends Model
         ];
     }
     
+    public function getMapInfo()
+    {
+        return view('components.organomania.map-info.competition', [
+            'competition' => $this,
+        ])->render();
+    }
+    
 }

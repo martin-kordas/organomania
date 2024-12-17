@@ -1,6 +1,7 @@
 @props([
     'registerName', 'registerNames', 'register', 'showPitches' => true, 'language' => null, 'pitch' => null,
-    'dispositionsLimit' => 5, 'categoriesAsLink' => false, 'excludeDispositionIds' => [], 'excludeOrganIds' => []
+    'dispositionsLimit' => 5, 'categoriesAsLink' => false, 'excludeDispositionIds' => [], 'excludeOrganIds' => [],
+    'newTab' => false
 ])
 
 @php
@@ -68,17 +69,11 @@
 @if ($dispositions->isNotEmpty())
     <div class="mt-2">
         {{ __('Příklady v dispozicích') }}:
-        <ul class="mb-0">
+        <div class="items-list">
             @foreach ($dispositions as $disposition)
-                <li>
-                    @if (!$disposition->isPublic())
-                        <i class="bi bi-lock text-warning"></i>
-                    @endif
-                    <a href="{{ route('dispositions.show', [$disposition->slug, 'highlightRegisterId' => $registerName->register_id]) }}" class="link-primary text-decoration-none" target="_blank">
-                        {{ $disposition->name }}
-                    </a>
-                </li>
+                <x-organomania.disposition-link :disposition="$disposition" :highlightRegisterId="$registerName->register_id" :newTab="$newTab" />
+                @if (!$loop->last) <br /> @endif
             @endforeach
-        </ul>
+        </div>
     </div>
 @endif

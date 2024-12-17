@@ -50,7 +50,7 @@ enum OrganCategory: int implements Category
         ],
         self::NeobaroqueUniversal->value => [
             'name' => 'Neobarokní a univerzální',
-            'description' => 'Novodobé nástroje, které se vracjí ke zvukovým ideálům barokních varhan, nebo jsou stylově nevyhraněné a umožňují tak hru skladeb všech období',
+            'description' => 'Novodobé nástroje, které se vracejí ke zvukovým ideálům barokních varhan, nebo jsou stylově nevyhraněné a umožňují tak hru skladeb všech období',
         ],
         
         self::Oldest->value => [
@@ -118,6 +118,13 @@ enum OrganCategory: int implements Category
         return in_array($this, [
             static::ActionMechanical, static::ActionPneumatical, static::ActionElectrical, static::ActionBarker,
             static::WindchestSchleif, static::WindchestKegel, static::WindchestMembran,
+        ]);
+    }
+    
+    public function isExtraordinaryCategory()
+    {
+        return in_array($this, [
+            static::Oldest, static::Biggest
         ]);
     }
     

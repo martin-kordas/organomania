@@ -49,6 +49,7 @@
                         <x-organomania.register
                             :$registerName :$registerNames :$register :$pitch :$showPitches :$language
                             :$categoriesAsLink :$excludeDispositionIds :$excludeOrganIds
+                            :newTab="true"
                         />
                     </div>
                 @endisset

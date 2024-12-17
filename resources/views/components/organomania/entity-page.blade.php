@@ -42,8 +42,8 @@
                             <br />
                             {{ __('Filtry') }}
                         </span>
-                        @if ($this->activeFiltersCount > 0)
-                            <span class="badge rounded-pill text-bg-primary">{{ $this->activeFiltersCount }}</span>
+                        @if ($this->activeVisibleFiltersCount > 0)
+                            <span class="badge rounded-pill text-bg-primary">{{ $this->activeVisibleFiltersCount }}</span>
                         @endif
                     </a>
                     @if ($this->viewType !== 'map')
@@ -257,6 +257,7 @@
         <livewire:dynamic-component
             :is="$this->entityPageViewComponent"
             :filterCategories="$this->filterCategories" :filterRegionId="$this->filterRegionId" :filterImportance="$this->filterImportance" :filterPrivate="$this->filterPrivate" :filterFavorite="$this->filterFavorite"
+            :filterNearLatitude="$this->filterNearLatitude" :filterNearLongitude="$this->filterNearLongitude" :filterNearDistance="$this->filterNearDistance"
             :filterOrganBuilderId="$this->filterOrganBuilderId ?? null"
             :filterConcertHall="$this->filterConcertHall ?? null"
             :filterForeignOrganBuilder="$this->filterForeignOrganBuilder ?? null"

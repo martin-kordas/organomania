@@ -41,6 +41,12 @@ trait EntityPageView
     public $filterFavorite;
     #[Reactive]
     public $filterPrivate;
+    #[Reactive]
+    public $filterNearLatitude;
+    #[Reactive]
+    public $filterNearLongitude;
+    #[Reactive]
+    public $filterNearDistance;
     
     #[Reactive]
     public $activeFiltersCount;
@@ -193,6 +199,9 @@ trait EntityPageView
         if ($this->filterImportance) $filters['importance'] = $this->filterImportance;
         if ($this->filterFavorite) $filters['isFavorite'] = true;
         if ($this->filterPrivate) $filters['isPrivate'] = true;
+        if ($this->filterNearLatitude) $filters['nearLatitude'] = (float)$this->filterNearLatitude;
+        if ($this->filterNearLongitude) $filters['nearLongitude'] = (float)$this->filterNearLongitude;
+        if ($this->filterNearDistance) $filters['nearDistance'] = (float)$this->filterNearDistance;
         return $filters;
     }
 

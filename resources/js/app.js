@@ -175,6 +175,7 @@ window.removeTooltips = function () {
 
 window.initGoogleMap = function ($wire) {
     setTimeout(function () {
+        const map = document.querySelector('gmp-map')
         const markers = document.querySelectorAll('gmp-advanced-marker');
 
         // zobrazení modalu řešeno v JS, protože kliknutí na mobilu funguje jen s událostí pointerdown (ne click)
@@ -185,6 +186,24 @@ window.initGoogleMap = function ($wire) {
                 let organId = marker.dataset.organId
                 $wire.setThumbnailOrgan(organId)
             })
+            const infoWindow = new google.maps.InfoWindow({
+                headerDisabled: true,
+                content: marker.dataset.mapInfo
+            });
+            marker.addEventListener('mouseover', function () {
+                infoWindow.open({
+                    anchor: marker,
+                    map
+                })
+            })
+            marker.addEventListener('mouseout', function () {
+                infoWindow.close()
+            })
+            
+            if ($(marker).is('[data-near-coordinate]')) {
+                let pin = new google.maps.marker.PinElement({ background: 'yellow' })
+                marker.appendChild(pin.element)
+            }
         });
     })
 }

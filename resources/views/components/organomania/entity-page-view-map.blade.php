@@ -35,10 +35,17 @@
         wire:ignore
     >
         @foreach ($organs as $organ)
+            @php
+                $latitude = $this->filterNearLatitude ? (float)$this->filterNearLatitude : null;
+                $longitude = $this->filterNearLongitude ? (float)$this->filterNearLongitude : null;
+            @endphp
             <gmp-advanced-marker
                 position="{{ $organ->latitude }},{{ $organ->longitude }}"
-                title="{{ $this->getMapMarkerTitle($organ) }}"
+                data-map-info="{{ $organ->getMapInfo($latitude, $longitude) }}"
                 data-organ-id="{{ $organ->id }}"
+                @if ($organ->latitude === $this->filterNearLatitude && $organ->longitude === $this->filterNearLongitude)
+                    data-near-coordinate
+                @endif
             ></gmp-advanced-marker>
         @endforeach
     </gmp-map>

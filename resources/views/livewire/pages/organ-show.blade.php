@@ -8,6 +8,8 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use App\Enums\OrganCategory;
 use App\Enums\Region;
+use App\Repositories\AbstractRepository;
+use App\Repositories\OrganRepository;
 use App\Services\MarkdownConvertorService;
 use App\Models\Disposition;
 use App\Models\Organ;
@@ -23,9 +25,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     protected MarkdownConvertorService $markdownConvertor;
 
+    protected OrganRepository $repository;
+
     const
         SESSION_KEY_SHOW_MAP = 'organs.show.show-map',
         SESSION_KEY_SHOW_DISPOSITION = 'organs.show.show-disposition',
+        SESSION_KEY_SHOW_SIMILAR_ORGANS = 'organs.show.show-similar-organs',
         SESSION_KEY_SHOW_LITERATURE = 'organs.show.show-literature';
 
     public function mount()
@@ -35,11 +40,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         }
     }
 
-    public function boot(MarkdownConvertorService $markdownConvertor)
+    public function boot(OrganRepository $repository, MarkdownConvertorService $markdownConvertor)
     {
+        $this->repository = $repository;
         $this->markdownConvertor = $markdownConvertor;
 
         $this->organ->load(['dispositions' => function (HasMany $query) {
+            $query->withCount('realDispositionRegisters');
             if (request()->hasValidSignature(false))
                 $query->withoutGlobalScope(OwnedEntityScope::class);
         }]);
@@ -130,6 +137,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function organCategoriesGroups()
     {
         return OrganCategory::getCategoryGroups();
+    }
+
+    #[Computed]
+    public function similarOrgans()
+    {
+        return $this->repository->getSimilarOrgans($this->organ);
     }
 
     private function getDispositionUrl(Disposition $disposition)
@@ -406,10 +419,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         @foreach ($organ->dispositions as $disposition)
                             <a wire:navigate class="icon-link icon-link-hover align-items-start list-group-item list-group-item-primary list-group-item-action link-primary" href="{{ $this->getDispositionUrl($disposition) }}">
                                 <i class="bi bi-card-list"></i>
-                                <span>
-                                    {{ $disposition->name }}
-                                    @if (!$disposition->isPublic())
-                                        <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
+                                <span class="d-flex w-100 column-gap-2">
+                                    <span class="me-auto">
+                                        {{ $disposition->name }}
+                                        @if (!$disposition->isPublic())
+                                            <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
+                                        @endif
+                                    </span>
+                                    @if ($disposition->real_disposition_registers_count > 0)
+                                        <span class="text-secondary">
+                                            {{ $disposition->real_disposition_registers_count }}&nbsp;<small>{{ $disposition->getDeclinedRealDispositionRegisters() }}</small>
+                                        </span>
                                     @endif
                                 </span>
                             </a>
@@ -432,7 +452,39 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
         >
             <x-organomania.map-detail :latitude="$organ->latitude" :longitude="$organ->longitude" />
+            <div class="mt-2">
+                {{ __('Zobrazit zajímavé varhany v okruhu') }}:
+                @foreach ([25, 50] as $distance)
+                    <a
+                        class="link-primary text-decoration-none"
+                        href="{{ route('organs.index', ['filterNearLatitude' => $this->organ->latitude, 'filterNearLongitude' => $this->organ->longitude, 'filterNearDistance' => $distance, 'viewType' => 'map']) }}"
+                        wire:navigate
+                    >
+                        {{ $distance }}&nbsp;km
+                        @if (!$loop->last) | @endif
+                    </a>
+                @endForeach
+            </div>
         </x-organomania.accordion-item>
+        
+        @if ($this->similarOrgans->isNotEmpty())
+            <x-organomania.accordion-item
+                id="accordion-similarOrgans"
+                title="{{ __('Podobné varhany') }}"
+                :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_SIMILAR_ORGANS)"
+                onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_SIMILAR_ORGANS }}')"
+            >
+                <small class="text-secondary">
+                    {{ __('Za podobné považujeme varhany přibližně stejné velikosti, postavené v tomtéž období a patřící do stejných kategorií podle typu a stavby.') }}
+                </small>
+                <div class="items-list mt-3">
+                    @foreach ($this->similarOrgans as $similarOrgan)
+                        <x-organomania.organ-link :organ="$similarOrgan" :year="$similarOrgan->year_built" :showOrganBuilder="true" />
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
+                </div>
+            </x-organomania.accordion-item>
+        @endif
 
         @isset($organ->literature)
             <x-organomania.accordion-item

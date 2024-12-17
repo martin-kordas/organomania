@@ -164,4 +164,11 @@ class OrganBuilder extends Model
         ];
     }
     
+    public function getMapInfo()
+    {
+        return view('components.organomania.map-info.organ-builder', [
+            'organBuilder' => $this,
+        ])->render();
+    }
+    
 }
