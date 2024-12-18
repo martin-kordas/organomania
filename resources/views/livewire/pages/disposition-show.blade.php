@@ -1054,5 +1054,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         var url = $('#diff').val()
         if (url !== '') Livewire.navigate(url)
     }
+        
+    document.addEventListener('livewire:navigated', function () {
+        if (location.hash) {
+            // korekce offsetu kvůli fixnímu záhlaví
+            scrollTo(location.hash, -70)
+        }
+    })
 </script>
 @endscript

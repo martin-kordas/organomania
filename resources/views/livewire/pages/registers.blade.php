@@ -88,14 +88,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         );
                 });
             })
-            ->orderBy('name')
+            ->orderBy('id')
             ->get()
             ->unique(
                 // pro každý jazyk zobrazujeme jen 1 variantu názvu rejstříku, aby se nekupily podobné názvy (Prinzipal, Principal...)
-                // TODO: řadí se dle name, proto se upřednostní abecedně první rejstřík, raději bychom zvolili první uvedení (řazení dle id)
-                //  - např. místo "Copl minor" upřednostni "Copula minor"
                 fn(RegisterName $registerName) => "{$registerName->register_id}"
-            );
+            )
+            ->sortBy('name');
         
         // https://stackoverflow.com/a/63625165/14967413
         $page = Paginator::resolveCurrentPage() ?: 1;
@@ -190,7 +189,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     {{ $registerName->name }}
                                 </a>
                             </td>
-                            <td>{{ $registerName->language->value }}</td>
+                            <td>
+                                @if (!$registerName->hide_language)
+                                    {{ $registerName->language->value }}
+                                @endif
+                            </td>
                             <td>
                                 @php $registerCategory = $registerName->register->registerCategory @endphp
                                 <span

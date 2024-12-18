@@ -72,13 +72,21 @@
     </div>
 @endif
 
-@php $dispositions = $register->getDispositions($excludeDispositionIds, $excludeOrganIds, $dispositionsLimit) @endphp
+@php 
+    $dispositionRegisterIdDispositionId = null;
+    $dispositions = $register->getDispositions($excludeDispositionIds, $excludeOrganIds, $dispositionsLimit, $dispositionRegisterIdDispositionId);
+@endphp
 @if ($dispositions->isNotEmpty())
     <div class="mt-2">
         {{ __('Příklady v dispozicích') }}:
         <div class="items-list">
             @foreach ($dispositions as $disposition)
-                <x-organomania.disposition-link :disposition="$disposition" :highlightRegisterId="$registerName->register_id" :newTab="$newTab" />
+                <x-organomania.disposition-link
+                    :disposition="$disposition"
+                    :highlightRegisterId="$registerName->register_id"
+                    :firstDispositionRegisterId="$dispositionRegisterIdDispositionId[$disposition->id]"
+                    :newTab="$newTab"
+                />
                 @if (!$loop->last) <br /> @endif
             @endforeach
         </div>

@@ -29,6 +29,18 @@ class RegisterName extends Model
         return $this->only(['name']);
     }
     
+    // umožňuje zohlednit, že stejné názvy rejstříků v různých jazycích (které jsou ale skryté) vypadají opticky stejně
+    public function getVisualIdentifier()
+    {
+        $language = $this->hide_language ? '' : $this->language->value;
+        return "{$this->name}_$language";
+    }
+    
+    public function isVisuallySameAs(self $registerName)
+    {
+        return $registerName->getVisualIdentifier() === $this->getVisualIdentifier();
+    }
+    
     public function sluggable(): array
     {
         return [

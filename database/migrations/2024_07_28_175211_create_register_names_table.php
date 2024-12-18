@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug', length: 500);
             $table->string('name', length: 100);
             $table->string('language', length: 10);
+            $table->integer('hide_language')->default(0);
             $table->timestamps();
         });
     }

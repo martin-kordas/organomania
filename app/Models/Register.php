@@ -54,21 +54,25 @@ class Register extends Model
         return $this->hasMany(PaletteRegister::class);
     }
     
-    public function getDispositions($excludeDispositionIds = [], $excludeOrganIds = [], $limit = 5)
+    public function getDispositions($excludeDispositionIds = [], $excludeOrganIds = [], $limit = 5, &$dispositionRegisterIdDispositionId = null)
     {
         $registerNameIds = $this->registerNames->pluck('id');
         if ($registerNameIds->isNotEmpty()) {
-            $dispositionsIds = DispositionRegister::query()
+            $dispositionIds = DispositionRegister::query()
                 ->with(['keyboard:id,disposition_id'])
-                ->select(['keyboard_id'])
+                ->select(['id', 'keyboard_id'])
                 ->whereIn('register_name_id', $registerNameIds)
                 ->get()
-                ->pluck('keyboard.disposition_id')
+                ->keyBy('id')
+                ->map(
+                    fn (DispositionRegister $dispositionRegister) => $dispositionRegister->keyboard->disposition_id
+                )
                 ->unique();
+            $dispositionRegisterIdDispositionId = $dispositionIds->flip();
 
             return Disposition::query()
                 ->withCount(['realDispositionRegisters'])
-                ->whereIn('id', $dispositionsIds)
+                ->whereIn('id', $dispositionIds)
                 ->when(!empty($excludeDispositionIds), function (Builder $query) use ($excludeDispositionIds) {
                     $query->whereNotIn('id', $excludeDispositionIds);
                 })

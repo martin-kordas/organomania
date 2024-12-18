@@ -62,7 +62,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $this->recordEntityIcon = 'music-note-list';
                 $this->showRecordsText = __('Zobrazit varhany v této kategorii');
                 $this->shareModalHint = __('Sdílením kategorie sdílíte všechny varhany v ní obsažené.');
-                $this->createCategoryMessage = __('Vytvořte si vlastní pojmenovanou kategorii (skupinu) varhan. Přidejte do ní varhany ve vašem okolí, varhany, které jste navštívili, nebo varhany, na kterých probíhá váš varhanní festival. Tlačítkem Sdílet zašlete skupinu varhan svým známým.');
+                $this->createCategoryMessage = __('Vytvořte si vlastní pojmenovanou kategorii (skupinu) varhan. Přidejte do ní varhany ve vašem okolí, varhany, které chcete navštívit, nebo varhany, na kterých probíhá váš varhanní festival. Tlačítkem Sdílet zašlete skupinu varhan svým známým.');
                 $this->addItemsMessage = __('Pro přidání varhan do kategorie jděte na seznam varhan a použijte tlačítko Kategorie.');
                 break;
 

@@ -6,7 +6,11 @@
     $register = $registerName?->register;
     if ($register) {
         $registerNames = $register->registerNames->filter(
-            fn(RegisterName $registerName1) => $registerName1->id !== $registerName->id
+            fn(RegisterName $registerName1) =>
+                $registerName1->id !== $registerName->id
+                && !$registerName1->isVisuallySameAs($registerName)
+        )->unique(
+            fn (RegisterName $registerName1) => $registerName1->getVisualIdentifier()
         );
     }
     $showPitches = $register && $register->registerPitches->isNotEmpty() && !(
@@ -24,12 +28,16 @@
                     @isset($register)
                         <h1 class="modal-title fs-5" id="registerModalLabel">
                             {{ $registerName->name }}
-                            <span class="text-body-secondary">({{ $registerName->language }})</span>
+                            @if (!$registerName->hide_language)
+                                <span class="text-body-secondary">({{ $registerName->language }})</span>
+                            @endif
                         </h1>
                         <div @style(['columns: 2' => $registerNames->count() > 3])>
                             @foreach ($registerNames as $registerName1)
                                 {{ $registerName1->name }}
-                                <span class="text-body-secondary">({{ $registerName1->language }})</span>
+                                @if (!$registerName1->hide_language)
+                                    <span class="text-body-secondary">({{ $registerName1->language }})</span>
+                                @endif
                                 @if (!$loop->last) <br /> @endif
                             @endforeach
                         </div>

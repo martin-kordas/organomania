@@ -1,8 +1,13 @@
-@props(['disposition', 'highlightRegisterId' => null, 'newTab' => false])
+@props(['disposition', 'highlightRegisterId' => null, 'firstDispositionRegisterId' => null, 'newTab' => false])
+
+@php
+    $url = route('dispositions.show', [$disposition->slug, 'highlightRegisterId' => $highlightRegisterId]);
+    if (isset($firstDispositionRegisterId)) $url .= "#dispositionRegister$firstDispositionRegisterId";
+@endphp
 
 <a
     class="disposition-link icon-link icon-link-hover align-items-start link-primary text-decoration-none"
-    href="{{ route('dispositions.show', [$disposition->slug, 'highlightRegisterId' => $highlightRegisterId]) }}"
+    href="{{ $url }}"
     @if ($newTab) target="_blank" @else wire:navigate @endif
 >
     <i class="bi bi-card-list"></i>
@@ -13,9 +18,9 @@
         @endif
 
         @if ($disposition->real_disposition_registers_count > 0)
-            <span class="text-secondary">
-                ({{ $disposition->real_disposition_registers_count }} <small>{{ $disposition->getDeclinedRealDispositionRegisters() }}</small>)
-            </span>
+            <small class="text-secondary">
+                ({{ $disposition->real_disposition_registers_count }} {{ $disposition->getDeclinedRealDispositionRegisters() }})
+            </small>
         @endif
     </span>
 </a>

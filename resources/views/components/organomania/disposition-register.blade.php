@@ -10,6 +10,7 @@
 @endphp
 
 <li
+    id="dispositionRegister{{ $register->id }}"
     @class(['rounded', 'disposition-item', 'disposition-item-padding', 'register', 'checked' => $checked, 'highlighted' => $highlighted, 'd-none' => $invisible])
     @if ($isEdit)
         style="cursor: pointer"
