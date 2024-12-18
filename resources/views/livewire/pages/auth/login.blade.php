@@ -28,6 +28,10 @@ new #[Layout('layouts.guest')] class extends Component
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <h1 class="text-xl mb-2">
+        {{ __('Přihlášení') }}
+    </h1>
+        
     <form wire:submit="login">
         <div class="text-sm mb-2">{{ __('Pokud si nechce vytvořit účet, použijte předvyplněné údaje a přihlašte se jako testovací uživatel.') }}</div>
         

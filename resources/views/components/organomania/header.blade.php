@@ -24,6 +24,7 @@
                     <x-organomania.nav-item-route label="{{ __('Varhany') }}" icon="music-note-list" route="organs.index" routeActive="organs.*" />
                     <x-organomania.nav-item-route label="{{ __('menu.organ-builders') }}" icon="person-circle" route="organ-builders.index" routeActive="organ-builders.*" />
                     <x-organomania.nav-item-route label="{{ __('Dispozice') }}" icon="card-list" route="dispositions.index" routeActive="dispositions.*" />
+                    <div class="w-100 d-sm-none"></div>
                     <x-organomania.nav-item-route label="{{ __('Festivaly') }}" icon="calendar-date" route="festivals.index" routeActive="festivals.*" :highlightedCount="Festival::getHighlightedCount()" />
                     <x-organomania.nav-item-route label="{{ __('Soutěže') }}" icon="trophy" route="competitions.index" routeActive="competitions.*" :highlightedCount="Competition::getHighlightedCount()" />
                 </ul>

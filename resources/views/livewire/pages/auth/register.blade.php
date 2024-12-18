@@ -37,6 +37,10 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
+    <h1 class="text-xl mb-2">
+        {{ __('Registrace') }}
+    </h1>
+    
     <form wire:submit="register">
         <!-- Name -->
         <div>

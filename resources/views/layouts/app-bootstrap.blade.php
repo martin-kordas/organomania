@@ -82,7 +82,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                 <div class="border-top mt-4">
                     <div class="container">
                         <div class="d-flex flex-wrap justify-content-between align-items-center py-2">
-                            <div class="">
+                            <div>
                                 <span class="mb-3 mb-md-0 text-body-secondary">
                                     © {{ date("Y") }}
                                     <a href="/martin-kordas" class="link-secondary text-decoration-none">Martin Kordas</a>
@@ -95,7 +95,6 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                                         {{ __('Log') }}
                                     </x-organomania.footer-nav-item>
                                 @endif
-                                    
                                 <x-organomania.footer-nav-item href="{{ route('about') }}" wire:navigate>
                                     {{ __('O webu') }}
                                 </x-organomania.footer-nav-item>
@@ -108,11 +107,12 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                                 <x-organomania.footer-nav-item href="mailto:{{ config('custom.app_admin_email') }}">
                                     {{ __('Kontakt') }}
                                 </x-organomania.footer-nav-item>
+                                <div class="w-100 d-sm-none"></div>
                                 <li class="nav-item d-flex align-items-center">
                                     <a href="https://www.facebook.com/organomania.varhany" target="_blank" class="nav-link text-body-secondary fs-4 px-1 py-0 position-relative" style="top: -2px">
                                         <i class="bi bi-facebook"></i>
                                     </a>
-                                </li>                                
+                                </li>
                                 <x-organomania.footer-nav-item href="https://github.com/martin-kordas/organomania" target="_blank">
                                     <img class="me-2 align-text-bottom" width="25" height="25" src="{{ Vite::asset('resources/images/github.png') }}" alt="GitHub" />
                                 </x-organomania.footer-nav-item>
