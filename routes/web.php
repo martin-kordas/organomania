@@ -54,6 +54,8 @@ Route::get('/', WelcomeController::class)
     ->name('welcome');
 Route::view('about', 'about')
     ->name('about');
+Route::view('donate', 'donate')
+    ->name('donate');
 Route::view('links', 'links')
     ->name('links');
 

@@ -127,7 +127,8 @@
                 {{ __('studenty hudebních škol i pro širokou veřejnost.') }}
             </p>
             <p class="text-body-tertiary">
-                {{ __('Záměrem je poskytnout rámcový přehled, ne kompletní rejstřík varhan.') }}
+                {{ __('Záměrem je poskytnout rámcový přehled, ne kompletní rejstřík varhan, viz sekci') }}
+                <a href="{{ route('about') }}" class="link-primary text-decoration-none" wire:navigate>{{ __('O webu') }}</a>.
                 <br class="d-none d-md-inline" />
                 {{ __('Připomínky a podněty k obsahu zasílejte na') }}
                 <a href="mailto:{{ config('custom.app_admin_email') }}">{{ config('custom.app_admin_email') }}</a>.

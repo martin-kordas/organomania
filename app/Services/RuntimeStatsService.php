@@ -30,7 +30,7 @@ class RuntimeStatsService
     {
         return Cache::rememberForever('runtimeStats.organBuilderCount', function () {
             Log::debug('runtimeStats: Computed organBuilderCount.');
-            return $this->getModelCount(new OrganBuilder);
+            return $this->getModelCountQuery(new OrganBuilder)->inland()->count();
         });
     }
     
@@ -63,9 +63,14 @@ class RuntimeStatsService
         Cache::set('runtimeStats.lastUpdate', new \DateTime);
     }
     
+    private function getModelCountQuery(Model $model)
+    {
+        return $model->newQuery()->public();
+    }
+    
     private function getModelCount(Model $model)
     {
-        return $model->newQuery()->public()->count();
+        return $this->getModelCountQuery($model)->count();
     }
     
     private function incrementModelCount($key, $amount)

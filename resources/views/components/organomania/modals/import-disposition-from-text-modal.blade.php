@@ -6,6 +6,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             </div>
             <div class="modal-body">
+                <div class="form-text mb-2 mt-0">
+                    {{ __('Textový import použijte, pokud již dispozici máte sepsanou v textové podobě.') }}
+                </div>
                 <label class="form-label" for="dispositionText">{{ __('Dispozice') }}</label>
                 <textarea id="dispositionText" class="disposition-text form-control w-100" wire:model="dispositionText" rows="17" required></textarea>
                 <div class="form-text mt-2">
@@ -13,10 +16,12 @@
                     <ul class="mb-0">
                         <li>{{ __('stopová výška a počet píšťalových řad výhradně ve tvaru např.: Mixtura 3-4x 1 1/3\'') }}</li>
                         <li>{{ __('manuály odděleny prázdným řádkem') }}</li>
+                        <li>
+                            <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#dispositionTextExampleModal">
+                                {{ __('zobrazit příklad') }}
+                            </a>
+                        </li>
                     </ul>
-                    <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#dispositionTextExampleModal">
-                        {{ __('Zobrazit příklad') }}
-                    </a>
                 </div>
             </div>
             <div class="modal-footer">
