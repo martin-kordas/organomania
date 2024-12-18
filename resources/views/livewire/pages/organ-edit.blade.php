@@ -274,8 +274,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="col-md-6">
                     <label for="name" class="form-label">{{ __('Význam') }} <span class="text-secondary">({{ __('od 1 do 10') }})</span></label>
                     <div class="hstack gap-3">
-                        <input class="form-control w-auto flex-grow-1" type="number" id="name" placeholder="4" min="1" max="10" wire:model.blur.number="form.importance">
+                        <input class="form-control w-auto flex-grow-1 @error('form.importance') is-invalid @enderror" type="number" id="name" placeholder="4" min="1" max="10" wire:model.blur.number="form.importance" aria-describedby="importanceFeedback">
                         <x-organomania.stars :count="$this->getStarsCount()" />
+                        @error('form.importance')
+                            <div id="importanceFeedback" class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 

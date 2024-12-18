@@ -40,7 +40,7 @@ class DispositionParser
             ->replace("\r\n", "\n")
             ->replaceMatches("/[\n]{2,}/", "\n\n")
             ->replaceMatches("/[ ]{2,}/", ' ')
-            ->replace(['"', '´', '`'], "'");
+            ->replace(['"', '´', '`', '′'], "'");
     }
     
     public function parse(): Disposition

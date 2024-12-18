@@ -48,7 +48,7 @@
                       <span class="placeholder col-6"></span>
                     </h1>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
+                <button type="button" class="btn-close align-self-start" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             </div>
 
             <div class="modal-body">

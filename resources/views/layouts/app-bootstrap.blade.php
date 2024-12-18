@@ -18,8 +18,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
         @stack('meta')
 
         <title>
-            @isset($title) {{ $title }} | @endisset{{ config('app.name', 'Organomania') }}
-            @if (!isset($title)) - {{ __('varhany v České republice') }}  @endif
+            @isset($title) {{ $title }} | @endisset{{ config('app.name', 'Organomania') }}@if (!isset($title)) - {{ __('varhany_v_cr_full') }}  @endif
         </title>
 
         <!-- Fonts -->

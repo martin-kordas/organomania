@@ -10,7 +10,7 @@
                 <span class="app-name fs-4 lh-1" style="font-size: 140% !important;">
                     <span>{{ str(config('app.name', 'Organomania'))->lower() }}</span>
                     <br />
-                    <span class="app-subtitle fst-italic" style="font-size: 65%;">{{ __('varhany v České republice') }}</span>
+                    <span class="app-subtitle fst-italic" style="font-size: 65%; color: #6a6a6a">{{ __('varhany v České republice') }}</span>
                 </span>
             </a>
 

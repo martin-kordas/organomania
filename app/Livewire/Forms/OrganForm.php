@@ -37,6 +37,7 @@ class OrganForm extends Form
     public $longitude;
     #[Validate('required', message: 'Kraj musí být vyplněn.')]
     public $regionId;
+    #[Validate('required', message: 'Význam musí být vyplněn.')]
     public $importance;
     #[Validate('required', message: 'Varhanář musí být vyplněn.')]
     public $organBuilderId;
@@ -165,7 +166,7 @@ class OrganForm extends Form
         $data['concert_hall'] ??= 0;
         $update = $this->organ->exists;
         
-        DB::transaction(function () use ($data) {
+        DB::transaction(function () use ($data, $update) {
             $this->organ->fill($data);
             if (!$this->isOrganPublic()) $this->organ->user_id = Auth::id();
             $this->organ->save();
@@ -189,14 +190,16 @@ class OrganForm extends Form
                 );
             $this->organ->organRebuilds()->saveMany($newRebuildModels);
             
-            foreach ($this->organ->organRebuilds as $rebuildModel) {
-                $rebuild = collect($this->rebuilds)->firstWhere('id', $rebuildModel->id);
-                if ($rebuild) {
-                    $rebuildModel->fill(
-                        $this->getRebuildData($rebuild)
-                    );
+            if ($update) {
+                foreach ($this->organ->organRebuilds as $rebuildModel) {
+                    $rebuild = collect($this->rebuilds)->firstWhere('id', $rebuildModel->id);
+                    if ($rebuild) {
+                        $rebuildModel->fill(
+                            $this->getRebuildData($rebuild)
+                        );
+                    }
+                    else $rebuildModel->delete();
                 }
-                else $rebuildModel->delete();
             }
             $this->organ->push();   // uloží změny v existujících rebuildech
         });
