@@ -109,7 +109,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                                     {{ __('Kontakt') }}
                                 </x-organomania.footer-nav-item>
                                 <li class="nav-item d-flex align-items-center">
-                                    <a href="https://www.facebook.com/organomania.varhany" target="_blank" class="nav-link text-body-secondary fs-4 px-1 py-0">
+                                    <a href="https://www.facebook.com/organomania.varhany" target="_blank" class="nav-link text-body-secondary fs-4 px-1 py-0 position-relative" style="top: -2px">
                                         <i class="bi bi-facebook"></i>
                                     </a>
                                 </li>                                

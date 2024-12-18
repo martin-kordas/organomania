@@ -6,6 +6,7 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Route;
+use App\Enums\RegisterCategory;
 use App\Models\RegisterName;
 use App\Traits\HasAccordion;
 
@@ -47,6 +48,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             fn(RegisterName $registerName1) => $registerName1->id !== $this->registerName->id
         );
     }
+
+    #[Computed]
+    private function registerCategoriesGroups()
+    {
+        return RegisterCategory::getCategoryGroups();
+    }
     
 }; ?>
 
@@ -73,6 +80,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <hr>
     
     <x-organomania.register :$registerName :register="$this->register" :registerNames="$this->registerNames" dispositionsLimit="12" :categoriesAsLink="true" />
+      
+    <x-organomania.modals.categories-modal :categoriesGroups="$this->registerCategoriesGroups" :categoryClass="RegisterCategory::class" />
     
     <div class="text-end mt-3">
         <a class="btn btn-sm btn-secondary" href="{{ $this->previousUrl }}" wire:navigate><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>

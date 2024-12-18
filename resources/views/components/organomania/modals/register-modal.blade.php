@@ -16,7 +16,7 @@
 @endphp
 
 {{-- TODO: placeholdery pro případ, že se obsah déle načítá --}}
-<div wire:ignore.self class="share-modal modal fade" id="registerModal" tabindex="-1" data-focus="false" aria-labelledby="registerModalLabel" aria-hidden="true">
+<div wire:ignore.self class="register-modal modal fade" id="registerModal" tabindex="-1" data-focus="false" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">

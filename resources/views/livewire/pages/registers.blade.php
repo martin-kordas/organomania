@@ -253,7 +253,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <small>{{ __('Použitá literatura') }}</small>
     </a>
     
-    <x-organomania.modals.categories-modal :categoriesGroups="$this->registerCategoriesGroups" :categoryClass="RegisterCategory::class" :title="__('Přehled kategorií rejstříků')" />
+    <x-organomania.modals.categories-modal :categoriesGroups="$this->registerCategoriesGroups" :categoryClass="RegisterCategory::class" />
     <x-organomania.modals.register-modal :registerName="$this->registerName" :categoriesAsLink="true" />
     <x-organomania.modals.registers-references-modal />
     <x-organomania.modals.share-modal />

@@ -7,6 +7,7 @@
 @php
     $language ??= $registerName?->language;
     $categoryTag = $categoriesAsLink ? 'a' : 'span';
+    $categoryIds = $register->registerCategories->pluck('id')->push($register->registerCategory->value);
 @endphp
 
 <div>
@@ -41,6 +42,12 @@
             {{ $category->getEnum()->getName() }}
         </{{ $categoryTag }}>
     @endforeach
+        
+    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}" onclick="setTimeout(removeTooltips);">
+        <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#categoriesModal" @click="highlightCategoriesInModal(@json($categoryIds))">
+            <i class="bi bi-question-circle"></i>
+        </a>
+    </span>
 </div>
 
 @isset($register->description)
