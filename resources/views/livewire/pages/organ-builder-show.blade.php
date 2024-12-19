@@ -33,7 +33,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $this->markdownConvertor = $markdownConvertor;
 
-        $this->showActivePeriodInHeading = !$this->organBuilder->is_workshop && $this->organBuilder->active_period !== 'současnost';
+        $this->showActivePeriodInHeading
+            = isset($this->organBuilder->active_period)
+            && !$this->organBuilder->is_workshop
+            && $this->organBuilder->active_period !== 'současnost';
     }
 
     public function mount()

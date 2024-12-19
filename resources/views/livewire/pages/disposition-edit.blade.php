@@ -447,7 +447,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->authorize('delete', $this->disposition);
         $this->form->delete();
         session()->flash('status-success', __('Dispozice byla úspěšně smazána.'));
-        if (isset($this->previousUrl)) $this->redirect($this->previousUrl, navigate: true);
+
+        if (
+            isset($this->previousUrl)
+            // nemůžeme přesměrovat na detail záznamu, který jsme smazali
+            && !in_array($this->previousUrl, [
+                route('dispositions.show', $this->disposition->slug),
+                route('dispositions.show', $this->disposition->id)
+            ])
+        ) {
+            $this->redirect($this->previousUrl, navigate: true);
+        }
         else $this->redirectRoute('dispositions.index', navigate: true);
     }
 

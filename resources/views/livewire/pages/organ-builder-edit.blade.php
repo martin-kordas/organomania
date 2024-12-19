@@ -104,7 +104,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         EntityDeleted::dispatch($this->organBuilder);
         session()->flash('status-success', __('Varhanář byl úspěšně smazán.'));
 
-        if (isset($this->previousUrl)) $this->redirect($this->previousUrl, navigate: true);
+        if (
+            isset($this->previousUrl)
+            // nemůžeme přesměrovat na detail záznamu, který jsme smazali
+            && !in_array($this->previousUrl, [
+                route('organ-builders.show', $this->organBuilder->slug),
+                route('organ-builders.show', $this->organBuilder->id)
+            ])
+        ) {
+            $this->redirect($this->previousUrl, navigate: true);
+        }
         else $this->redirectRoute('organ-builders.index', navigate: true);
     }
 

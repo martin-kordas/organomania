@@ -13,6 +13,7 @@
 </div>
 
 @isset($distance)
+<hr>
 <div>
     {{ __('Vzdálenost') }}: {{ round($distance / 1000, 1) }}&nbsp;km
 </div>

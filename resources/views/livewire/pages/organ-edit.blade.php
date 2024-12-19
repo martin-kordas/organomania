@@ -81,7 +81,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->form->delete();
         session()->flash('status-success', __('Varhany byly úspěšně smazány.'));
 
-        if (isset($this->previousUrl)) $this->redirect($this->previousUrl, navigate: true);
+        if (
+            isset($this->previousUrl)
+            // nemůžeme přesměrovat na detail záznamu, který jsme smazali
+            && !in_array($this->previousUrl, [
+                route('organs.show', $this->organ->slug),
+                route('organs.show', $this->organ->id)
+            ])
+        ) {
+            $this->redirect($this->previousUrl, navigate: true);
+        }
         else $this->redirectRoute('organs.index', navigate: true);
     }
 

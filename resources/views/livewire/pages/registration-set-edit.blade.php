@@ -71,7 +71,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         EntityDeleted::dispatch($this->registrationSet);
 
         session()->flash('status-success', __('Sada registrací byla úspěšně smazána.'));
-        $this->redirectBack();
+        $this->redirectBack(delete: true);
     }
 
     public function save()
@@ -101,10 +101,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $registrations;
     }
 
-    private function redirectBack()
+    private function redirectBack($delete = false)
     {
-        if (isset($this->previousUrl)) $this->redirect($this->previousUrl, navigate: true);
-        else $this->redirectRoute('dispositions.registrationSets.index', ['disposition' => $this->disposition->slug], navigate: true);
+        if (
+            isset($this->previousUrl)
+            // nemůžeme přesměrovat na detail záznamu, který jsme smazali
+            && (!$delete || !in_array($this->previousUrl, [
+                // místo slugů mohla být jako parametry zadána id, ale to pro jednoduchost nezohledňujeme
+                route('dispositions.registration-sets.show', ['disposition' => $this->disposition->slug, 'registrationSet' => $this->registrationSet->slug]),
+            ]))
+        ) {
+            $this->redirect($this->previousUrl, navigate: true);
+        }
+        else $this->redirectRoute('dispositions.registration-sets.index', ['disposition' => $this->disposition->slug], navigate: true);
     }
 
     private function isRegistrationSetPublic()

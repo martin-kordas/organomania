@@ -74,7 +74,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <td>
                             @if ($organBuilder->organs_count > 0)
                                 <a
-                                    class="btn btn-sm btn-outline-secondary text-nowrap"
+                                    class="btn btn-sm btn-outline-secondary text-nowrap w-100"
                                     data-bs-toggle="tooltip"
                                     data-bs-title="{{ __('Zobrazit varhany tohoto varhanáře') }}"
                                     href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id]) }}"
