@@ -18,7 +18,7 @@
     @elseif ($register->register_name_id)
         data-bs-toggle="modal"
         data-bs-target="#registerModal"
-        style="cursor: pointer"
+        style="cursor: pointer; scroll-margin-top: 70px;"
         wire:click="setRegisterName({{ $register->register_name_id }}, {{ $register->pitch?->value }})"
     @endif
     wire:key="keyboard{{ $keyboard->id }}_register{{ $register->id }}" 

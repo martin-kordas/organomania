@@ -596,6 +596,43 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             );
     }
 
+    public function suggestRegistration(string $piece)
+    {
+        if (!$this->isEdit) throw new \RuntimeException;
+
+        $apiKey = getenv('OPENAI_API_KEY');
+        $client = OpenAI::client($apiKey);
+
+        $dispositionJson = json_encode($this->disposition->toSimpleArray());
+
+        $result = $client->chat()->create([
+            'model' => 'gpt-4o',
+            'messages' => [
+                ['role' => 'system', 'content' => 'Chat se bude týkat píšťalových varhan. Pošlu JSON strukturu obsahující dispozici píšťalových varhan. V 1. úrovni JSONu jsou klaviatury a jejich název, ve 2. názvy rejstříků. Dále pošlu název skladby, kterou chci na těchto varhanách hrát. Jako odpověď mi pošli seznam varhanních rejstříků, které mám zapnout. Odpověď pošli jako JSON ve tvaru např. [[0, 14], [1, 5]]. Tento zápis znamená, že na klaviatuře s indexem 0 mám zapnout rejstřík s indexem 14 a na klaviatuře s indexem 1 mám zapnout rejstřík s indexem 5. V odpovědi vrať jen samotný obsah JSONu, nevypisuj žádné formátování.'],
+                ['role' => 'user', 'content' => "Jaké rejstříky mám zapnout pro skladbu \"$piece\" na varhanách, které mají tuto dispozici:\n$dispositionJson"],
+            ],
+        ]);
+
+        $dispositionRegistersBackup = $this->dispositionRegisters;
+        try {
+            $suggestedRegisters = json_decode($result->choices[0]->message->content, true);
+            if (!is_array($suggestedRegisters)) throw new \Exception;
+            else {
+                $this->dispositionRegisters = [];
+                foreach ($suggestedRegisters as [$keyboardIndex, $registerIndex]) {
+                    $dispositionRegister = $this->disposition->keyboards[$keyboardIndex]->dispositionRegisters[$registerIndex];
+                    $this->dispositionRegisters[$dispositionRegister->id] = true;
+                }
+                $this->js('showToast("suggestRegistrationSuccess")');
+            }
+        }
+        catch (\Exception $ex) {
+            $this->dispositionRegisters = $dispositionRegistersBackup;
+            $this->js('showToast("suggestRegistrationFail")');
+            throw $ex;
+        }
+    }
+
 }; ?>
 
 <div class="disposition-show container print-backgrounds">
@@ -605,7 +642,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
     @endif
     
-   
     <h3>
         {{ $disposition->name }}
         @if (!$disposition->isPublic())
@@ -802,6 +838,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         &nbsp;
                         <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="removeAllDispositionRegisters">
                             <i class="bi-x-circle"></i> {{ __('Vypnout vše') }}
+                        </button>
+                        &nbsp;
+                        <button type="button" class="btn btn-sm btn-outline-secondary" @click="suggestRegistration($wire)">
+                            <i class="bi-magic"></i> {{ __('Naregistrovat pomocí AI') }}
                         </button>
                     </div>
                 @endif
@@ -1023,6 +1063,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     >
         {{ __('Opravdu chcete registraci smazat?') }}
     </x-organomania.modals.confirm-modal>
+        
+    <x-organomania.toast toastId="suggestRegistrationFail">
+        {{ __('Při zjišťování registrace došlo k chybě.') }}
+    </x-organomania.toast>
+    <x-organomania.toast toastId="suggestRegistrationSuccess">
+        {{ __('Registrace byla úspěšně nastavena') }}
+    </x-organomania.toast>
 </div>
 
 @push('styles')
@@ -1055,10 +1102,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (url !== '') Livewire.navigate(url)
     }
         
+    window.suggestRegistration = function ($wire) {
+        let piece = window.prompt('Skladba (např.: Lefébure-Wély: Sortie): ');
+        if (piece !== null && piece !== '') $wire.suggestRegistration(piece)
+    }
+        
     document.addEventListener('livewire:navigated', function () {
         if (location.hash) {
-            // korekce offsetu kvůli fixnímu záhlaví
-            scrollTo(location.hash, -70)
+            $(location.hash).get(0).scrollIntoView({behavior: 'smooth'});
         }
     })
 </script>

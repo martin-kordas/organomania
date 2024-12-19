@@ -212,12 +212,6 @@ window.scrollToTop = function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-window.scrollTo = function (elem, offset = 0) {
-    $('html, body').animate({
-        scrollTop: $(elem).offset().top + offset
-    }, 750)
-}
-
 window.copyToClipboard = function (text) {
     return navigator.clipboard.writeText(text);
 }

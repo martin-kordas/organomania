@@ -201,6 +201,27 @@ class Disposition extends Model
         return $array;
     }
     
+    public function toSimpleArray()
+    {
+        $array = [];
+        foreach ($this->toStructuredArray()['keyboards'] as $keyboard) {
+            $keyboardName = '';
+            if (isset($keyboard['number'])) $keyboardName .= "{$keyboard['number']} ";
+            $keyboardName .= $keyboard['name'];
+            
+            $registers = array_map(function ($register) {
+                $registerName = $register['name'];
+                if (isset($register['multiplier'])) $registerName .= " {$register['multiplier']}x";
+                if (isset($register['pitch'])) $registerName .= " {$register['pitch']}";
+                return $registerName;
+            }, $keyboard['registers']);
+            
+            $keyboard = ['name' => $keyboardName, 'registers' => $registers];
+            $array[] = $keyboard;
+        }
+        return $array;
+    }
+    
     public function toPlaintext($numbering = true)
     {
         $rows = [];
