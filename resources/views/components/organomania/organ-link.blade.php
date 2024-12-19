@@ -1,4 +1,4 @@
-@props(['organ', 'year' => null, 'showOrganBuilder' => false, 'isRebuild' => false])
+@props(['organ', 'year' => null, 'showOrganBuilder' => false, 'isRebuild' => false, 'isRenovation' => false])
 
 @php
     if (isset($organ->perex)) $description = $organ->perex;
@@ -20,13 +20,13 @@
         @if ($description)
             data-bs-trigger="hover focus"
             data-bs-toggle="popover"
-            data-bs-title="{{ $organ->municipality }}, {{ $organ->place }}@if ($year) ({{ $year }})@endif"
+            data-bs-title="{{ $organ->municipality }}, {{ $organ->place }}@isset($organ->year_built) ({{ $organ->year_built }})@endisset"
             data-bs-content="{{ $description }}"
         @endif
     >
         <i class="bi bi-music-note-list"></i>
-        <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder :$isRebuild />
+        <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder :$isRebuild :$isRenovation />
     </a>
 @else
-    <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder :$isRebuild />
+    <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder :$isRebuild :$isRenovation />
 @endcan

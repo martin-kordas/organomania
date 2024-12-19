@@ -8,6 +8,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use App\Enums\OrganCategory;
 use App\Enums\Region;
+use App\Helpers;
 use App\Repositories\AbstractRepository;
 use App\Repositories\OrganRepository;
 use App\Services\MarkdownConvertorService;
@@ -184,7 +185,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 <div class="organ-show container">
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
-            <h3 class="lh-sm fw-normal">
+            <h3 class="lh-sm fw-normal" @if (Auth::user()?->admin) title="ID: {{ $organ->id }}" @endif>
                 <strong >{{ $organ->municipality }}</strong>
                 <br />
                 <span class="fs-4">{{ $organ->place }}</span>
@@ -211,7 +212,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <img class="organ-img rounded border" src="{{ $organ->image_url }}" @isset($organ->image_credits) title="{{ __('Licence obrázku') }}: {{ $organ->image_credits }}" @endisset height="200" />
                     </a>
                 @endif
-                <img width="100" class="region position-absolute start-0 m-2 bottom-0" src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
+                <img width="100" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => isset($organ->image_url)]) src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
             </div>
         </div>
     </div>
@@ -311,6 +312,26 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                             ({{ collect([$festival->locality ?? null, $festival->frequency ?? null])->filter()->join(', ') }})
                                         </span>
                                     @endif
+                                </span>
+                            </a>
+                            @if (!$loop->last) <br /> @endif
+                        @endforeach
+                    </div>
+                </td>
+            </tr>
+        @endif
+        @if ($organ->competitions->isNotEmpty())
+            <tr>
+                <th>
+                    {{ __('Soutěže') }}
+                </th>
+                <td>
+                    <div class="items-list">
+                        @foreach ($organ->competitions as $competition)
+                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" wire:navigate href="{{ route('competitions.show', [$competition->id]) }}">
+                                <i class="bi bi-trophy"></i>
+                                <span>
+                                    {{ $competition->name }}
                                 </span>
                             </a>
                             @if (!$loop->last) <br /> @endif
@@ -447,6 +468,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         <x-organomania.accordion-item
             id="accordion-map"
+            class="d-print-none"
             title="{{ __('Mapa') }}"
             :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
             onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
@@ -477,7 +499,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <small class="text-secondary">
                     {{ __('Za podobné považujeme varhany přibližně stejné velikosti, postavené v tomtéž období a patřící do stejných kategorií podle typu a stavby.') }}
                 </small>
-                <div class="items-list mt-3">
+                <div class="items-list mt-2">
                     @foreach ($this->similarOrgans as $similarOrgan)
                         <x-organomania.organ-link :organ="$similarOrgan" :year="$similarOrgan->year_built" :showOrganBuilder="true" />
                         @if (!$loop->last) <br /> @endif
@@ -495,7 +517,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             >
                 <ul class="list-group list-group-flush small">
                     @foreach (explode("\n", $organ->literature) as $literature1)
-                        <li @class(['list-group-item', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>{{ $literature1 }}</li>
+                        <li @class(['list-group-item', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>{!! Helpers::formatUrlsInLiterature($literature1) !!}}</li>
                     @endforeach
                 </ul>
             </x-organomania.accordion-item>

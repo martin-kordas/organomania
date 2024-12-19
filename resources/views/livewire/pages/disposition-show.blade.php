@@ -79,6 +79,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private $highlightRegisterId;
 
+    private $suggestRegistrationInfo;
+
     const
         SESSION_KEY_SHOW_VIEW_SETTINGS = 'dispositions.edit.showViewSettings',
         SESSION_KEY_SHOW_STATS = 'dispositions.edit.showStats',
@@ -598,6 +600,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function suggestRegistration(string $piece)
     {
+        Gate::authorize('useRegistrationSets');
         if (!$this->isEdit) throw new \RuntimeException;
 
         $apiKey = getenv('OPENAI_API_KEY');
@@ -605,17 +608,30 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         $dispositionJson = json_encode($this->disposition->toSimpleArray());
 
+        $organBuilder = $this->disposition->organ?->organBuilder;
+        if ($organBuilder) {
+            if ($organBuilder->is_workshop) $organBuilderInfo = " Postavila je varhanářská firma {$organBuilder->name}";
+            else $organBuilderInfo = " Postavil je varhanář {$organBuilder->first_name} {$organBuilder->last_name}";
+            $yearBuilt = $this->disposition->organ->year_built;
+            if ($yearBuilt) $organBuilderInfo .= " v roce $yearBuilt";
+            $organBuilderInfo .= ".";
+        }
+        else $organBuilderInfo = '';
+
         $result = $client->chat()->create([
             'model' => 'gpt-4o',
             'messages' => [
-                ['role' => 'system', 'content' => 'Chat se bude týkat píšťalových varhan. Pošlu JSON strukturu obsahující dispozici píšťalových varhan. V 1. úrovni JSONu jsou klaviatury a jejich název, ve 2. názvy rejstříků. Dále pošlu název skladby, kterou chci na těchto varhanách hrát. Jako odpověď mi pošli seznam varhanních rejstříků, které mám zapnout. Odpověď pošli jako JSON ve tvaru např. [[0, 14], [1, 5]]. Tento zápis znamená, že na klaviatuře s indexem 0 mám zapnout rejstřík s indexem 14 a na klaviatuře s indexem 1 mám zapnout rejstřík s indexem 5. V odpovědi vrať jen samotný obsah JSONu, nevypisuj žádné formátování.'],
-                ['role' => 'user', 'content' => "Jaké rejstříky mám zapnout pro skladbu \"$piece\" na varhanách, které mají tuto dispozici:\n$dispositionJson"],
+                ['role' => 'system', 'content' => "Chat se bude týkat píšťalových varhan. Pošlu JSON strukturu obsahující dispozici píšťalových varhan. Jedná se o varhany postavené v České republice.$organBuilderInfo V 1. úrovni JSONu jsou klaviatury a jejich název, ve 2. názvy rejstříků a spojek. Názvy klaviatur a rejstříků mohou být česky, německy nebo francouzsky. Dále pošlu název varhanní skladby, kterou chci na těchto varhanách hrát. Jako odpověď mi pošli seznam varhanních rejstříků a spojek, které mám zapnout. V odpovědi pošli na 1. řádku JSON ve tvaru např. [[0, 14], [1, 5]]. Tento zápis znamená, že na klaviatuře s indexem 0 mám zapnout rejstřík nebo spojku s indexem 14 a na klaviatuře s indexem 1 mám zapnout rejstřík nebo spojku s indexem 5. V odpovědi na 2. řádku pošli další doporučení ohledně registrování. Nepoužívej v odpovědi žádné formátování."],
+                ['role' => 'user', 'content' => "Jaké rejstříky mám zapnout pro varhanní skladbu \"$piece\" na varhanách, které mají tuto dispozici:\n$dispositionJson"],
             ],
         ]);
 
         $dispositionRegistersBackup = $this->dispositionRegisters;
         try {
-            $suggestedRegisters = json_decode($result->choices[0]->message->content, true);
+            $rows = explode("\n", $result->choices[0]->message->content);
+            if (!isset($rows[0])) throw new \Exception;
+
+            $suggestedRegisters = json_decode($rows[0], true);
             if (!is_array($suggestedRegisters)) throw new \Exception;
             else {
                 $this->dispositionRegisters = [];
@@ -624,6 +640,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     $this->dispositionRegisters[$dispositionRegister->id] = true;
                 }
                 $this->js('showToast("suggestRegistrationSuccess")');
+                if (trim($rows[1] ?? '') !== '') $this->suggestRegistrationInfo = $rows[1];
             }
         }
         catch (\Exception $ex) {
@@ -642,7 +659,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
     @endif
     
-    <h3>
+    <h3 @if (Auth::user()?->admin) title="ID: {{ $disposition->id }}" @endif>
         {{ $disposition->name }}
         @if (!$disposition->isPublic())
             <i class="bi-lock text-warning d-print-none" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
@@ -839,10 +856,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="removeAllDispositionRegisters">
                             <i class="bi-x-circle"></i> {{ __('Vypnout vše') }}
                         </button>
-                        &nbsp;
-                        <button type="button" class="btn btn-sm btn-outline-secondary" @click="suggestRegistration($wire)">
-                            <i class="bi-magic"></i> {{ __('Naregistrovat pomocí AI') }}
-                        </button>
+                        @can('suggestRegistrations')
+                            &nbsp;
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#suggestRegistrationModal" @click="prefillPiece()">
+                                <i class="bi-magic"></i> {{ __('Naregistrovat pomocí AI') }}
+                            </button>
+                        @endcan
                     </div>
                 @endif
                 
@@ -861,12 +880,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 {{-- manuály --}}
                 @if ($sort === 'order')
                     <ol
-                        @class(['keyboards', 'disposition', 'mb-0', 'row' => $keyboardsInSeparateColumns, 'row-cols-lg-3' => $keyboardsInSeparateColumns, 'd-inline-block' => !$keyboardsInSeparateColumns, 'g-0'])
-                        @style(['width: calc(100% + 4em)' => $keyboardsInSeparateColumns, 'min-width: 22em' => !$keyboardsInSeparateColumns])
+                        @class(['keyboards', 'disposition', 'mb-0', 'keyboards-in-separate-columns' => $keyboardsInSeparateColumns, 'row' => $keyboardsInSeparateColumns, 'row-cols-lg-3' => $keyboardsInSeparateColumns, 'd-inline-block' => !$keyboardsInSeparateColumns, 'g-0'])
+                        @style(['min-width: 22em' => !$keyboardsInSeparateColumns])
                         type="I"
                     >
                         @foreach ($disposition->keyboards as $keyboard)
-                            <li wire:key="keyboard{{ $keyboard->id }}" @class(['keyboard', 'col', 'mb-3' => !$loop->last, 'exclude-from-numbering' => !$disposition->keyboard_numbering || $keyboard['pedal']]) @style(['padding-right: 4em' => $keyboardsInSeparateColumns, 'list-style-type: none' => $keyboard->pedal])>
+                            <li wire:key="keyboard{{ $keyboard->id }}" @class(['keyboard', 'col', 'mb-3' => !$loop->last, 'exclude-from-numbering' => !$disposition->keyboard_numbering || $keyboard['pedal']]) @style(['list-style-type: none' => $keyboard->pedal])>
                                 <div class="border border-tertiary" style="border-right: none !important; border-top: none !important; border-bottom: none !important;">
                                     <div
                                         class="disposition-item disposition-item-padding"
@@ -1043,6 +1062,26 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endcan
     </div>
 
+    @isset($this->suggestRegistrationInfo)
+        @teleport('body')
+            <div class="position-fixed bottom-0 w-100 p-3">
+                <div id="suggestRegistrationInfo" class="toast show position m-auto" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">{{ __('Podrobnosti k registraci') }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+
+                    <div class="toast-body">
+                        <div class="info">{{ $this->suggestRegistrationInfo }}</div>
+                        <div class="mt-2 pt-2 border-top text-end">
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">{{ __('Zavřít') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endteleport
+    @endisset
+        
     <x-organomania.modals.categories-modal :categoriesGroups="$this->registerCategoriesGroups" :categoryClass="RegisterCategory::class" :title="__('Přehled kategorií rejstříků')" />
         
     <x-organomania.modals.share-modal />
@@ -1063,12 +1102,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     >
         {{ __('Opravdu chcete registraci smazat?') }}
     </x-organomania.modals.confirm-modal>
+      
+    <x-organomania.modals.suggest-registration-modal />
         
     <x-organomania.toast toastId="suggestRegistrationFail">
         {{ __('Při zjišťování registrace došlo k chybě.') }}
     </x-organomania.toast>
     <x-organomania.toast toastId="suggestRegistrationSuccess">
-        {{ __('Registrace byla úspěšně nastavena') }}
+        {{ __('Registrace byla úspěšně nastavena.') }}
     </x-organomania.toast>
 </div>
 
@@ -1102,13 +1143,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (url !== '') Livewire.navigate(url)
     }
         
-    window.suggestRegistration = function ($wire) {
-        let piece = window.prompt('Skladba (např.: Lefébure-Wély: Sortie): ');
-        if (piece !== null && piece !== '') $wire.suggestRegistration(piece)
+    window.prefillPiece = function () {
+        let registrationName = $('#registrationId').val()
+        if (registrationName !== '') {
+            $('#suggestRegistrationModal .piece').val(registrationName)
+        }
     }
         
     document.addEventListener('livewire:navigated', function () {
-        if (location.hash) {
+        if (location.hash !== '') {
             $(location.hash).get(0).scrollIntoView({behavior: 'smooth'});
         }
     })

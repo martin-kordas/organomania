@@ -70,9 +70,9 @@ enum Pitch: int
         return $groups;
     }
     
-    public function getLabel(DispositionLanguage $language)
+    public function getLabel(DispositionLanguage $language, $html = false)
     {
-        return match ($language) {
+        $label = match ($language) {
             DispositionLanguage::Czech,
             DispositionLanguage::German,
             DispositionLanguage::French => match ($this) {
@@ -112,6 +112,8 @@ enum Pitch: int
             },
             default => throw new \RuntimeException
         };
+        if ($html) $label = str($label)->replace(' ', '&nbsp;');
+        return $label;
     }
     
     public function getAliquoteTone()

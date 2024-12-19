@@ -53,7 +53,7 @@
         @endif
         @isset($register->pitch)
             <div>
-                {{ $register->pitch->getLabel($this->preferredLanguage) }}
+                {!! $register->pitch->getLabel($this->preferredLanguage, html: true) !!}
             </div>
         @endisset
         <a

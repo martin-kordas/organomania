@@ -151,4 +151,13 @@ class Helpers
         return $calculator->getDistance($coordinate1, $coordinate2);
     }
     
+    static function formatUrlsInLiterature($literature)
+    {
+        return preg_replace(
+            '#https?://[^ ]*[^. ]#',
+            '<a href="$0" target="_blank">$0</a>',
+            e($literature)
+        );
+    }
+    
 }

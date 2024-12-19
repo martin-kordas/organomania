@@ -81,8 +81,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <div class="col-9 col-sm-auto">
             <input class="form-control form-control-sm" size="35" type="search" wire:model.live="searchName" placeholder="{{ __('Hledat dispozice') }}&hellip;" />
         </div>
-        <div class="col-3 col-sm-auto me-2">
-            <div class="btn-group float-end">
+        <div class="col-3 col-sm-auto me-lg-2">
+            <div class="btn-group">
                 {{-- wire:navigate: nefunguje v nepřihlášeném stavu --}}
                 <a class="btn btn-sm btn-primary" href="{{ route('dispositions.create') }}">
                     <i class="bi-plus-lg"></i> {{ __('Přidat') }}

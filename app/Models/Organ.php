@@ -77,6 +77,11 @@ class Organ extends Model
         return $this->hasMany(Festival::class);
     }
     
+    public function competitions()
+    {
+        return $this->belongsToMany(Competition::class)->withTimestamps()->orderBy('name');
+    }
+    
     public function dispositions()
     {
         return $this->hasMany(Disposition::class)->orderBy('name');

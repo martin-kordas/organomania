@@ -6,6 +6,7 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Route;
+use App\Helpers;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\OrganRebuild;
@@ -162,7 +163,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 <div class="organ-builder-show container">
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
-            <h3>
+            <h3 @if (Auth::user()?->admin) title="ID: {{ $organBuilder->id }}" @endif>
                 {{ $organBuilder->name }}
                 @if ($this->showActivePeriodInHeading)
                     <span class="text-body-tertiary">({{ $organBuilder->active_period }})</span>
@@ -186,7 +187,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         </a>
                     @endif
                     @if ($organBuilder->region)
-                        <img width="100" class="region position-absolute start-0 m-2 bottom-0" src="{{ Vite::asset("resources/images/regions/{$organBuilder->region_id}.png") }}" />
+                        <img width="100" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => isset($organ->image_url)]) src="{{ Vite::asset("resources/images/regions/{$organBuilder->region_id}.png") }}" />
                     @endif
                 </div>
             </div>
@@ -312,7 +313,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <td class="text-break">
                     <div class="items-list">
                         @foreach ($organBuilder->renovatedOrgans as $organ)
-                            <x-organomania.organ-link :organ="$organ" :year="$organ->year_renovated" />
+                            <x-organomania.organ-link :organ="$organ" :year="$organ->year_renovated ?? false" :isRenovation="true" />
                             @if (!$loop->last) <br /> @endif
                         @endforeach
                     </div>
@@ -359,6 +360,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @isset($organBuilder->region_id)
             <x-organomania.accordion-item
                 id="accordion-map"
+                class="d-print-none"
                 title="{{ __('Mapa') }}"
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
@@ -376,7 +378,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             >
                 <ul class="list-group list-group-flush small">
                     @foreach (explode("\n", $organBuilder->literature) as $literature1)
-                        <li @class(['list-group-item', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>{{ $literature1 }}</li>
+                        <li @class(['list-group-item', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>{!! Helpers::formatUrlsInLiterature($literature1) !!}}</li>
                     @endforeach
                 </ul>
             </x-organomania.accordion-item>

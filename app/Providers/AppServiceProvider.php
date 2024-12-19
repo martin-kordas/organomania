@@ -85,6 +85,10 @@ class AppServiceProvider extends ServiceProvider
             return true;        // pro všechny přihlášené
         });
         
+        Gate::define('suggestRegistrations', function (?User $user) {
+            return $user?->isAdmin();
+        });
+        
         $modelBindings = [
             'organ' => Organ::class,
             'organBuilder' => OrganBuilder::class,

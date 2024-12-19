@@ -88,8 +88,11 @@ div.side-buttons {
 @media screen and (max-width: 767px) {
     .entity-page {
         .side-buttons-inner {
-            opacity: 75%;
             transition: opacity 0.35s;
+            
+            &:not(:has(.dropdown-menu.show)) {
+                opacity: 75%;
+            }
 
             &:hover {
                 opacity: 100%;
@@ -245,6 +248,15 @@ div.side-buttons {
     &.keyboards {
         & > li::marker {
             font-weight: bold;
+        }
+        
+        @media print, screen and (min-width: 768px) {
+            &.keyboards-in-separate-columns {
+                width: calc(100% + 4em);
+                .keyboard {
+                    padding-right: 4em;
+                }
+            }
         }
     }
 }

@@ -69,7 +69,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </a>
     </h1>
     
-    <h2 class="modal-title fs-5" id="registerModalLabel">
+    <h2 class="modal-title fs-5" id="registerModalLabel" @if (Auth::user()?->admin) title="ID: {{ $registerName->id }}" @endif>
         {{ $registerName->name }}
         @if (!$registerName->hide_language)
             <span class="text-body-secondary">({{ $registerName->language }})</span>

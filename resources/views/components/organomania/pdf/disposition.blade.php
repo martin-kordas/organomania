@@ -20,9 +20,12 @@
             li.keyboard::marker {
                 font-weight: bold;
             }
-            h2 {
+            h2, h3 {
                 margin-top: 0;
                 font-weight: normal;
+            }
+            h2 {
+              margin-bottom: 0;
             }
             .keyboards {
                 margin-top: 1em;
@@ -58,7 +61,8 @@
     </head>
     <body @class(['doc' => $doc])>
         <div>
-            <h2>{{ $disposition->name }}</h2>
+            <h2>{{ __('organ_disposition_1') }}</h2>
+            <h3>{{ $disposition->name }}</h3>
 
             <ol class="disposition keyboards" type="I" @style(['list-style-type: none' => !$disposition->keyboard_numbering])>
                 @foreach ($disposition->keyboards->chunk(2) as $chunk)

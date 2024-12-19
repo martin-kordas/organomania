@@ -91,7 +91,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 <div class="registration-set-show container">
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
-            <h3 class="fw-bold">
+            <h3 class="fw-bold" @if (Auth::user()?->admin) title="ID: {{ $registrationSet->id }}" @endif>
                 {{ $registrationSet->name }}
             </h3>
           

@@ -58,7 +58,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 <div class="organ-builder-show container">
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
-            <h3>
+            <h3 @if (Auth::user()?->admin) title="ID: {{ $festival->id }}" @endif>
                 {{ $festival->name }}
             </h3>
             
@@ -151,6 +151,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div class="accordion">
         <x-organomania.accordion-item
             id="accordion-map"
+            class="d-print-none"
             title="{{ __('Mapa') }}"
             :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
             onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
