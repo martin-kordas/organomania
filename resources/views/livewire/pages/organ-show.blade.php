@@ -12,6 +12,8 @@ use App\Helpers;
 use App\Repositories\AbstractRepository;
 use App\Repositories\OrganRepository;
 use App\Services\MarkdownConvertorService;
+use App\Services\AI\DescribeDispositionAI;
+use App\Services\AI\SuggestRegistrationAI;
 use App\Models\Disposition;
 use App\Models\Organ;
 use App\Models\Scopes\OwnedEntityScope;
@@ -27,6 +29,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     protected MarkdownConvertorService $markdownConvertor;
 
     protected OrganRepository $repository;
+
+    public $suggestRegistrationDisposition;
+    private $suggestRegistrationInfo;
+    private $dispositionDescription;
 
     const
         SESSION_KEY_SHOW_MAP = 'organs.show.show-map',
@@ -154,6 +160,29 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
+    public function disposition()
+    {
+        $disposition = $this->suggestRegistrationDisposition ?? $this->organ->disposition;
+        $disposition = str($this->markdownConvertor->convert($disposition))->trim();
+
+        // zarovnání stopových výšek doprava
+        //  - na řádku nesmí být čárka, to značí více spojek na 1 řádku - nemá smysl zarovnávat
+        $disposition = $disposition->replaceMatches(
+            '#^([^,]+?)(([0-9]+ )?[0-9/]+\'.*)$#m',
+            '$1<span class="float-end">$2</span>'
+        );
+
+        // appendix vypíšeme malým písmem
+        $pos = $disposition->position(Organ::DISPOSITION_APPENDIX_DELIMITER);
+        if ($pos !== false) {
+            $disposition = $disposition
+                ->replace(Organ::DISPOSITION_APPENDIX_DELIMITER."\n", '<small>')
+                ->append('</small>');
+        }
+        return $disposition;
+    }
+
+    #[Computed]
     private function relatedOrgans()
     {
         $relatedOrganIds = match ($this->organ->id) {
@@ -178,6 +207,59 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return collect($relatedOrganIds)->map(
             fn ($organId) => Organ::find($organId)
         );
+    }
+
+    private function highlightSuggestedRegisters(string $disposition, array $registerRowNumbers)
+    {
+        return str($disposition)->explode("\n")->mapWithKeys(function ($row, $key) use ($registerRowNumbers) {
+            $rowNumber = $key + 1;
+            $row = trim($row);
+            if (in_array($rowNumber, $registerRowNumbers)) $row = "=={$row}==";
+            return [$key => $row];
+        })->implode("\n");
+    }
+
+    public function suggestRegistration(string $piece)
+    {
+        Gate::authorize('useAI');
+        $disposition = $this->organ->disposition ?? throw new \RuntimeException;
+
+        // appendix odmažeme
+        $pos = str($disposition)->position(Organ::DISPOSITION_APPENDIX_DELIMITER);
+        if ($pos !== false) $disposition = str($disposition)->substr(0, $pos);
+        $disposition = Helpers::normalizeLineBreaks($disposition);
+
+        try {
+            $AI = app()->makeWith(SuggestRegistrationAI::class, [
+                'disposition' => $disposition,
+                'organ' => $this->organ,
+            ]);
+            $res = $AI->suggest($piece);
+            
+            $this->suggestRegistrationDisposition = $this->highlightSuggestedRegisters($disposition, $res['registerRowNumbers']);
+            $this->suggestRegistrationInfo = $res['recommendations'];
+        }
+        catch (\Exception $ex) {
+            $this->js('showToast("suggestRegistrationFail")');
+        }
+    }
+
+    public function describeDisposition()
+    {
+        Gate::authorize('useAI');
+        $disposition = $this->organ->disposition ?? throw new \RuntimeException;
+        $disposition = Helpers::normalizeLineBreaks($disposition);
+
+        try {
+            $AI = app()->makeWith(DescribeDispositionAI::class, [
+                'disposition' => $disposition,
+                'organ' => $this->organ,
+            ]);
+            $this->dispositionDescription = $AI->describe();
+        }
+        catch (\Exception $ex) {
+            $this->js('showToast("describeDispositionFail")');
+        }
     }
 
 }; ?>
@@ -425,13 +507,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (isset($organ->disposition) || $organ->dispositions->isNotEmpty())
             <x-organomania.accordion-item
                 id="accordion-disposition"
+                class="position-relative"
                 title="{{ __('Disposition_1') }}"
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_DISPOSITION)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_DISPOSITION }}')"
             >
-                <x-organomania.info-alert>
+                
+                <x-organomania.info-alert class="mb-2">
                     {!! __('<strong>Varhanní dispozice</strong> je souhrnem zvukových a&nbsp;technických vlastností varhan.') !!}
-                    {!! __('Kromě seznamu rejstříků (píšťalových řad) a&nbsp;pomocných zařízení může obsahovat i základní technickou charakteristiku varhan.') !!}
+                    <span class="d-none d-md-inline">
+                        {!! __('Kromě seznamu rejstříků (píšťalových řad) a&nbsp;pomocných zařízení může obsahovat i základní technickou charakteristiku varhan.') !!}
+                    </span>
                 </x-organomania.info-alert>
                 
                 @if ($organ->dispositions->isNotEmpty())
@@ -461,7 +547,34 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @if ($organ->dispositions->isNotEmpty())
                         <h5 class="mt-4">{{ __('Jednoduché zobrazení') }}</h5>
                     @endif
-                    <div class="markdown accordion-disposition" style="column-count: {{ $this->dispositionColumnsCount }}">{!! trim($this->markdownConvertor->convert($organ->disposition)) !!}</div>
+                        
+                    <x-organomania.info-alert class="mb-2">
+                        {!! __('Jednotlivé rejstříky jsou popsány v') !!} <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" target="_blank">{{ __('Encyklopedii rejstříků') }}</a>.
+                    </x-organomania.info-alert>
+                        
+                    <div class="position-relative">
+                        <div wire:loading.block wire:target="suggestRegistration, describeDisposition" wire:loading.class="opacity-25" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
+                            <x-organomania.spinner class="align-items-center h-100" :margin="false" />
+                        </div>
+                        <div class="markdown accordion-disposition" style="column-count: {{ $this->dispositionColumnsCount }}">{!! $this->disposition !!}</div>
+                    </div>
+                    
+                    @can('useAI')
+                        <hr>
+                        <div>
+                            {{ __('AI funkce') }}
+                            <span class="ms-1" data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat skladbu s pomocí umělé inteligence') }}">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#suggestRegistrationModal">
+                                    <i class="bi-magic"></i> {{ __('Registrace') }}
+                                </button>
+                            </span>
+                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Charakterizovat dispozici a popsat důležité rejstříky') }}">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="describeDisposition">
+                                    <i class="bi-magic"></i> {{ __('Popsat dispozici') }}
+                                </button>
+                            </span>
+                        </div>
+                    @endcan
                 @endisset
             </x-organomania.accordion-item>
         @endif
@@ -536,4 +649,30 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
             
     <x-organomania.modals.categories-modal :categoriesGroups="$this->organCategoriesGroups" :categoryClass="OrganCategory::class" />
+        
+    @isset($this->suggestRegistrationInfo)
+        <x-organomania.toasts.ai-info-toast title="{{ __('Podrobnosti k registraci') }}">
+            <x-organomania.warning-alert class="mb-2 d-print-none">
+                {{ __('Buďte obezřetní – umělá inteligence poskytuje nepřesné výsledky.') }}
+            </x-organomania.warning-alert>
+            {!! trim($this->markdownConvertor->convert($this->suggestRegistrationInfo)) !!}
+        </x-organomania.toasts.ai-info-toast>
+    @endisset
+    @isset($this->dispositionDescription)
+        <x-organomania.toasts.ai-info-toast title="{{ __('Popis dispozice') }}">
+            <x-organomania.warning-alert class="mb-2 d-print-none">
+                {{ __('Buďte obezřetní – umělá inteligence poskytuje nepřesné výsledky.') }}
+            </x-organomania.warning-alert>
+            {!! trim($this->markdownConvertor->convert($this->dispositionDescription)) !!}
+        </x-organomania.toasts.ai-info-toast>
+    @endisset
+
+    <x-organomania.toast toastId="suggestRegistrationFail" color="danger">
+        {{ __('Omlouváme se, při zjišťování registrace došlo k chybě.') }}
+    </x-organomania.toast>
+    <x-organomania.toast toastId="describeDispositionFail">
+        {{ __('Omlouváme se, při zjišťování popisu dispozice došlo k chybě.') }}
+    </x-organomania.toast>
+
+    <x-organomania.modals.suggest-registration-modal />
 </div>

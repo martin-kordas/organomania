@@ -15,6 +15,8 @@
         </p>
         <p>
             {{ __('Předem děkuji.') }}
+            <br />
+            {{ __('Autor') }}
         </p>
     </div>
 </x-app-bootstrap-layout>

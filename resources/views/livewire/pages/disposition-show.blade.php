@@ -609,182 +609,28 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         Gate::authorize('useAI');
         if (!$this->isEdit) throw new \RuntimeException;
 
-        $apiKey = getenv('OPENAI_API_KEY');
-        $client = OpenAI::client($apiKey);
-
         $rowNumberDispositionRegisterId = [];
         $dispositionText = $this->disposition->toPlaintext(numbering: false, rowNumberDispositionRegisterId: $rowNumberDispositionRegisterId);
-        $dispositionTextJson = json_encode($dispositionText);
-
-        $organBuilder = $this->disposition->organ?->organBuilder;
-        if ($organBuilder) {
-            if ($organBuilder->is_workshop) $organBuilderInfo = " Postavila je varhanářská firma {$organBuilder->name}";
-            else $organBuilderInfo = " Postavil je varhanář {$organBuilder->first_name} {$organBuilder->last_name}";
-            $yearBuilt = $this->disposition->organ->year_built;
-            if ($yearBuilt) $organBuilderInfo .= " v roce $yearBuilt";
-            $organBuilderInfo .= ".";
-        }
-        else $organBuilderInfo = '';
-
-        "Chat se bude týkat píšťalových varhan. Pošlu JSON strukturu obsahující dispozici píšťalových varhan. Jedná se o varhany postavené v České republice.$organBuilderInfo V 1. úrovni JSONu jsou klaviatury a jejich název, ve 2. názvy rejstříků a spojek. Názvy klaviatur a rejstříků mohou být česky, německy nebo francouzsky. Dále pošlu název varhanní skladby, kterou chci na těchto varhanách hrát. Jako odpověď mi pošli seznam varhanních rejstříků a spojek, které mám zapnout. V odpovědi pošli na 1. řádku JSON ve tvaru např. [[0, 14], [1, 5]]. Tento zápis znamená, že na klaviatuře s indexem 0 mám zapnout rejstřík nebo spojku s indexem 14 a na klaviatuře s indexem 1 mám zapnout rejstřík nebo spojku s indexem 5. V odpovědi na 2. řádku pošli další doporučení ohledně registrování. Nepoužívej v odpovědi žádné formátování.";
-
-"Jaké rejstříky mám zapnout pro varhanní skladbu \"$piece\" na varhanách, které mají tuto dispozici:";
-
-        $systemMsg = <<<EOL
-            Provide a selection of organ stops and couplers to use for playing a specific organ piece, given the disposition (list of organ stops and couplers) of a pipe organ.
-
-                # Steps
-
-                1. **Review the Organ Disposition**: Analyze the provided list of organ stops and couplers available on the specified pipe organ. The pipe organ is located in Czech Republic. It means that names in the disposition (keyboard names and stops name) will be mostly in Czech or German language.
-                2. **Understand the Musical Piece**: Consider the characteristics of the organ piece provided, including its era, style, and mood.
-                3. **Select Appropriate Stops**: Based on the disposition and the piece's characteristics, choose a combination of stops and couplers that best suit the musical piece. Consider the following:
-                   - Tone and Dynamics: Choose stops that match the tonal quality and dynamic range needed for the piece.
-                   - Authenticity: If applicable, select stops that align with the historical performance practice of the piece.
-                   - Balance: Ensure the stops selected provide a balanced sound across divisions (e.g., Great, Swell, Pedal).
-
-                # Input format
-
-                Input is JSON object with two keys. First key "piece" specifies the organ piece I want to play (it contains composer of the piece and then name of the piece). The name of the piece is often specified in Czech language. Second key "disposition" contains array of organ keyboards (manuals or pedal). Each keyboard contains first key "name" holding string representing name of the keyboard (like "Great", "Swell" or simply "Pedal", "I. Manual", "II. Manual") and second key "stops" containing array of stops and couplers belonging to the keyboard.
-
-                Example input:
-                {"disposition": [{"name": "I. Great", "stops": ["Principal 8'", "Octave 4'", "Superoctave 2'", "II/I"]}, {"name": "II. Swell", "stops": ["Gedackt 8'", "Trumpet 8'"]}, {"name": "Pedal", "stops": ["Subbas 16'"]}], "piece": "Johann Sebastian Bach: Toccata and fugue in d minor, BWV 565"}
-                There is only one coupler in the example. It is "II/I" which couples keyboard "II. Swell" to keyboard "I. Great".
-
-                # Output Format
-
-                Provide a list of recommended organ stops and couplers to use when playing specified organ piece. Response should be JSON without any formatting. First key of JSON is "stops". It contains array of recommended stops and couplers. Each stops is represented by array in form [keyboard_index, stop_index]. Indexes are pointing to keyboards and stops from the input data. Second key of JSON is "recommendations" and it should contain plaintext string with natural language explanation why you selected exactly these organ stops and couplers. It should contain recommendations about possible and appropriate modifications of organ stops selection. Recommendations may highlight any specific stops that may offer unique characteristics important for the piece. Provide recommendations always in Czech language.
-
-                Example output:
-                {"recommendations": "...", "stops": [[0, 0], [0, 1], [0, 2], [2, 0]]}
-                This output means that it is recommended to use organ stops "Principal 8'", "Octave 4'", "Superoctave 2'" on keyboard "I. Great" and organ stop "Subbas 16'" on keyboard "Pedal".
-
-                (Note: Real examples will depend on the specific details of the organ's disposition and the musical piece provided.)
-            EOL;
-
-        $exampleDisposition = <<<EOL
-            Hauptwerk
-            Principal 8'
-            Octave 4'
-            Flöte 4'
-            Superoctave 2'
-
-            Schwellwek
-            Gedackt 8'
-            Flöte 4'
-            Oboe 8'
-
-            Pedal
-            Subbass 16'
-            I/P
-            EOL;
-        $exampleDispositionJson = json_encode($exampleDisposition);
-
-        $systemMsg = <<<EOL
-            Provide a selection of pipe organ stops and couplers to use for playing a specific organ piece, given the organ disposition (list of organ stops and couplers).
-
-            # Input format
-            JSON containing two keys: "disposition" containing organ disposition and "piece" containing organ piece I want to play.
-
-            Example:
-            {
-                "disposition": $exampleDispositionJson,
-                "piece": "Johann Sebastian Bach: Toccata and Fugue d-minor, BWV 565"
-            }
-
-            # Output format
-            JSON containing two keys: key "stops" containing array of line numbers pointings to stops and couplers in the disposition, and key "recommendations" containing other textual recommendations about the registration.
-
-            Example: Following output means I should use stops Principal 8', Octave 4', Superoctave 2' in Hauptwerk and Subbass 16' with coupler I/P in Pedal:
-            {
-                "stops": [2, 3, 5, 13, 14],
-                "recommendations": "..."
-            }
-        EOL;
-
-        $content = json_encode(['disposition' => $dispositionText, 'piece' => $piece]);
-        $content = <<<EOL
-            I play pipe organ and I want to play piece $piece. What organ stops should I use on organ with given disposition?
-
-            In the disposition each stop is marked with ID in square brackets. Output comma-separated list of IDs corresponding to stops and couplers that I should use.
-
-            Disposition:
-            $dispositionText
-        EOL;
-        $content = <<<EOL
-            I will write you pipe organ disposition where each stop is identified by ID in square brackets. On this organ I want to play piece $piece. What organ stops and couplers should I use? Output comma-separated list of IDs corresponding to stops and couplers that I should use.
-
-            Disposition:
-            $dispositionText
-        EOL;
-        $content = <<<EOL
-            I will write you pipe organ disposition where each stop is identified by ID in square brackets. Stop names may be in Czech, German or other languages. On this organ I want to play piece $piece. What organ stops and couplers should I use? Output only 1 variant. On the last line of output specify recommendations about chosen stops (use Czech language and avoid any formatting).
-
-            Disposition:
-            $dispositionText
-        EOL;
-//On the second line output textual recommendations about this registration in Czech language. Do not mention stop IDs in the recommendations. Pipe organ is located in Czech Republic.
-// Organ stops names are often in Czech or German language.
-        $systemMsg = <<<EOL
-            Provide a selection of organ stops and couplers to use for playing a specific organ piece, given the disposition (list of organ stops and couplers) of a pipe organ.
-
-            # Steps
-
-                1. **Review the Organ Disposition**: Analyze the provided list of organ stops and couplers available on the specified pipe organ. The pipe organ is located in Czech Republic. It means that names in the disposition (keyboard names and stops name) will be mostly in Czech or German language.
-                2. **Understand the Musical Piece**: Consider the characteristics of the organ piece provided, including its era, style, and mood. The name of the piece can often be in Czech language.
-                3. **Select Appropriate Stops**: Based on the disposition and the piece's characteristics, choose a combination of stops and couplers in manuals and pedal that best suit the musical piece. Consider the following:
-                   - Tone and Dynamics: Choose stops that match the tonal quality and dynamic range needed for the piece.
-                   - Authenticity: If applicable, select stops that align with the historical performance practice of the piece.
-                   - Balance: Ensure the stops selected provide a balanced sound across divisions (e.g., Great, Swell, Pedal).
-                4. **Select Appropriate Couplers**: Couplers are usually named in form e.g. II/I, which means that manual II is coupled to manual I, or I/P which means that manual I is coupled to Pedal.
-        EOL;
-
-        // JSON containing two keys: key "stops" containing array of line numbers where each line number points to a line in disposition text representing stop of coupler which I should use, and key "recommendations" containing other textual recommendations about the registration.
-        /*$result = $client->chat()->create([
-            //'model' => 'gpt-4o',
-            'model' => 'gpt-4o',
-            //'response_format' => ['type' => 'json_object'],
-            'temperature' => 1,
-            'messages' => [
-                //['role' => 'system', 'content' => $systemMsg],
-                ['role' => 'user', 'content' => $content],
-            ],
-        ]);*/
 
         $dispositionRegistersBackup = $this->dispositionRegisters;
         try {
-            
             $AI = app()->makeWith(SuggestRegistrationAI::class, [
                 'disposition' => $dispositionText,
                 'organ' => $this->disposition->organ,
             ]);
             $res = $AI->suggest($piece);
 
-
-            /*$res = json_decode($result->choices[0]->message->content, true);
-            dd($dispositionText, $rowNumberDispositionRegisterId, $res);
-            if (!is_array($res) || !is_array($res['stops'])) throw new \Exception;*/
-
-            //dd($content, $rowNumberDispositionRegisterId, $result->choices[0]->message->content);
-            //$rows = explode("\n", $result->choices[0]->message->content);
-            //if (!$rows[0]) throw new \Exception;
-            //$stops = explode(',', $rows[0]);
-
             $this->dispositionRegisters = [];
             foreach ($res['registerRowNumbers'] as $rowNumber) {
                 $dispositionRegisterId = $rowNumberDispositionRegisterId[$rowNumber] ?? throw new \RuntimeException;
-                //$dispositionRegisterId = $rowNumberDispositionRegisterId[(int)$rowNumber] ?? null;
-                //$dispositionRegisterId = (int)$dispositionRegisterId;
-                //if (in_array($dispositionRegisterId, $rowNumberDispositionRegisterId))
                 $this->dispositionRegisters[$dispositionRegisterId] = true;
             }
             $this->suggestRegistrationInfo = $res['recommendations'];
             $this->js('showToast("suggestRegistrationSuccess")');
-            
         }
         catch (\Exception $ex) {
             $this->dispositionRegisters = $dispositionRegistersBackup;
             $this->js('showToast("suggestRegistrationFail")');
-            //dump($dispositionText, $rowNumberDispositionRegisterId, $result->choices[0]->message->content);
         }
     }
 
@@ -1231,7 +1077,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
       
     <x-organomania.modals.suggest-registration-modal />
         
-    <x-organomania.toast toastId="suggestRegistrationFail">
+    <x-organomania.toast toastId="suggestRegistrationFail" color="danger">
         {{ __('Omlouváme se, při zjišťování registrace došlo k chybě.') }}
     </x-organomania.toast>
     <x-organomania.toast toastId="suggestRegistrationSuccess">

@@ -175,7 +175,9 @@ new class extends Component {
                                         <br />
                                         <small class="hstack text-secondary">
                                             {!! $this->highlight($organBuilder->municipality) !!}
-                                            <x-organomania.stars class="ms-auto" :count="round($organBuilder->importance / 2)" />
+                                            @if (!$organBuilder->shouldHideImportance())
+                                                <x-organomania.stars class="ms-auto" :count="round($organBuilder->importance / 2)" />
+                                            @endif
                                         </small>
                                     @endif
                                 </a>

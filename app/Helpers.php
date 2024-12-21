@@ -160,4 +160,9 @@ class Helpers
         );
     }
     
+    static function normalizeLineBreaks(string $string)
+    {
+        return preg_replace('~\R~u', "\n", $string);
+    }
+    
 }

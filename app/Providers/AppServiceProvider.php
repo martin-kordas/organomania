@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
+use OpenAI;
+use OpenAI\Contracts\ClientContract;
 use App\Repositories\OrganRepository;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
@@ -41,6 +43,11 @@ class AppServiceProvider extends ServiceProvider
                 $seeder->defaultOnly = true;
                 return $seeder;
             });
+            
+        $this->app->bind(ClientContract::class, function () {
+            $apiKey = getenv('OPENAI_API_KEY');
+            return OpenAI::client($apiKey);
+        });
     }
 
     /**
@@ -85,8 +92,8 @@ class AppServiceProvider extends ServiceProvider
             return true;        // pro všechny přihlášené
         });
         
-        Gate::define('suggestRegistrations', function (?User $user) {
-            return $user?->isAdmin();
+        Gate::define('useAI', function (?User $user) {
+            return $user?->isAdmin() || $user->id === User::USER_ID_KRASNI;
         });
         
         $modelBindings = [

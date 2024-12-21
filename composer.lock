@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7ee0fd22e04c3c1b17ed4217a774541",
+    "content-hash": "f14694c166accede755402943d7cd86b",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3044,6 +3044,49 @@
                 }
             ],
             "time": "2024-11-12T13:57:08+00:00"
+        },
+        {
+            "name": "n0sz/commonmark-marker-extension",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/noah1400/commonmark-marker-extension.git",
+                "reference": "acb34415b84f28cc360123eba53fbb4cc4418672"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/noah1400/commonmark-marker-extension/zipball/acb34415b84f28cc360123eba53fbb4cc4418672",
+                "reference": "acb34415b84f28cc360123eba53fbb4cc4418672",
+                "shasum": ""
+            },
+            "require": {
+                "league/commonmark": "^2.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5.25"
+            },
+            "type": "commonmark-extension",
+            "autoload": {
+                "psr-4": {
+                    "N0sz\\CommonMark\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A marker extension for CommonMark PHP implementation",
+            "homepage": "https://github.com/noah1400/commonmark-marker-extension",
+            "keywords": [
+                "commonmark",
+                "markdown",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/noah1400/commonmark-marker-extension/issues",
+                "source": "https://github.com/noah1400/commonmark-marker-extension/tree/1.0.1"
+            },
+            "time": "2022-09-27T20:19:00+00:00"
         },
         {
             "name": "nesbot/carbon",

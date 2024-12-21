@@ -4,13 +4,15 @@ namespace App\Services\AI;
 
 use OpenAI\Contracts\ClientContract;
 use OpenAI\Contracts\ResponseContract;
-use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use App\Helpers;
 use App\Models\Organ;
+use App\Models\OrganBuilder;
+use App\Models\OrganRebuild;
 
 abstract class DispositionAI
 {
     
+    protected string $dispositionPlain;
     protected string $locale;
     
     /**
@@ -26,7 +28,8 @@ abstract class DispositionAI
     {
         $this->disposition = Helpers::normalizeLineBreaks($this->disposition);
         if ($addRegisterNumbers) $this->disposition = $this->addRegisterNumbers($this->disposition);
-
+        $this->dispositionPlain = str($this->disposition)->replace('*', '');
+        
         $this->locale = app()->getLocale();
     }
     
@@ -53,30 +56,35 @@ abstract class DispositionAI
         return $response->choices[0]->message->content ?? throw new \RuntimeException;
     }
     
-    protected function getThreadReponse(ThreadRunResponse $threadRun)
+    protected function getOrganBuilderLabel(OrganBuilder $organBuilder)
     {
-        // https://gehri.dev/blog/how-to-use-the-openai-assistants-api-in-php-and-laravel
-        while (in_array($threadRun->status, ['queued', 'in_progress'])) {
-            $threadRun = $this->client->threads()->runs()->retrieve(
-                threadId: $threadRun->threadId,
-                runId: $threadRun->id,
-            );
-            sleep(0.5);
-        }
-
-        if ($threadRun->status !== 'completed') throw new \RuntimeException;
-
-        $messageList = $this->client->threads()->messages()->list(
-            threadId: $threadRun->threadId,
-        );
-
-        return $messageList;
+        if ($organBuilder->is_workshop) return "organ workshop '{$organBuilder->name}'";
+        else return "organ builder '{$organBuilder->first_name} {$organBuilder->last_name}'";
     }
     
-    protected function getThreadReponseContent(ThreadRunResponse $threadRun)
+    protected function getOrganInfo()
     {
-        $messageList = $this->getThreadReponse($threadRun);
-        return $messageList->data[0]->content[0]->text->value;
+        $info = 'The organ is located in Czech Republic.';
+        
+        $organBuilder = $this->organ?->organBuilder;
+        $info .= ' It was built by ';
+        if (!isset($organBuilder)) $info = 'unknown organ builder';
+        else $info .= $this->getOrganBuilderLabel($organBuilder);
+        $yearBuilt = $this->organ->year_built;
+        if ($yearBuilt) $info .= " in $yearBuilt";
+        $info .= ".";
+        
+        if ($this->organ->organRebuilds->isNotEmpty()) {
+            $rebuildsStr = $this->organ->organRebuilds->map(function (OrganRebuild $rebuild) {
+                $label = 'by ';
+                $label .= $this->getOrganBuilderLabel($rebuild->organBuilder);
+                $label .= " in {$rebuild->year_built}";
+                return $label;
+            })->join(', ', ' and ');
+            $info .= " It was later rebuilt $rebuildsStr.";
+        }
+        
+        return $info;
     }
     
 }

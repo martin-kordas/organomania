@@ -16,7 +16,6 @@ class SuggestRegistrationAI extends DispositionAI
     protected function sendRequest(string $piece)
     {
         $language = locale_get_display_language($this->locale, 'en');
-        $disposition = str($this->disposition)->replace('*', '');
         
         $systemContent = <<<EOL
             You will be given organ piece and organ disposition.
@@ -27,22 +26,18 @@ class SuggestRegistrationAI extends DispositionAI
         $content = <<<EOL
             I want to play organ piece "$piece". Which organ stops should I use on organ with this disposition?
 
-            $disposition
+            $this->dispositionPlain
         EOL;
         
         $chat1 = [
-            'assistant_id' => 'asst_XVgpOxotMBvV4zcp7qBOGgef',
+            'model' => 'gpt-4o',
             'temperature' => 1,
-            'thread' => [
-                'messages' => [
-                    //['role' => 'system', 'content' => $systemContent],
-                    ['role' => 'user', 'content' => $content],
-                ],
-            ]
+            'messages' => [
+                ['role' => 'system', 'content' => $systemContent],
+                ['role' => 'user', 'content' => $content],
+            ],
         ];
-        $threadRun = $this->client->threads()->createAndRun($chat1);
-        $resContent = $this->getThreadReponseContent($threadRun);
-        dd($resContent);
+        $resStops = $this->client->chat()->create($chat1);
         
         // pokud se recommendations vyžádají už v prvním requestu, zvolená registrace není moc dobrá, proto samostatná request
         if ($this->suggestRegistrationRecommendations) {

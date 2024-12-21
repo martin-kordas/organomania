@@ -161,6 +161,7 @@ class Disposition extends Model
             $registers = $keyboard->dispositionRegisters->map(
                 function(DispositionRegister $register) use (&$number) {
                     return [
+                        'id' => $register->id,
                         'number' => $this->numbering ? $number++ : null,
                         'name' => $register->realName,
                         'coupler' => (bool)$register->coupler,
@@ -216,14 +217,15 @@ class Disposition extends Model
                 return $registerName;
             }, $keyboard['registers']);
             
-            $keyboard = ['name' => $keyboardName, 'registers' => $registers];
+            $keyboard = ['name' => $keyboardName, 'stops' => $registers];
             $array[] = $keyboard;
         }
         return $array;
     }
     
-    public function toPlaintext($numbering = true)
+    public function toPlaintext($numbering = true, $registerIds = false, &$rowNumberDispositionRegisterId = null)
     {
+        $rowNumberDispositionRegisterId = [];
         $rows = [];
         foreach ($this->toStructuredArray()['keyboards'] as $keyboard) {
             $keyboardRow = '';
@@ -237,7 +239,9 @@ class Disposition extends Model
                 if ($register['multiplier'] != '') $register['multiplier'] .= '×';
                 $registerData = array_filter([$register['name'], $register['multiplier'], $register['pitch']]);
                 $registerRow .= implode(' ', $registerData);
+                if ($registerIds) $registerRow .= " [{$register['id']}]";
                 $rows[] = $registerRow;
+                $rowNumberDispositionRegisterId[array_key_last($rows) + 1] = $register['id'];
             }
             
             $rows[] = '';

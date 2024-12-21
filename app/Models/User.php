@@ -11,6 +11,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    const USER_ID_KRASNI = 3;
+    
     /**
      * The attributes that are mass assignable.
      *

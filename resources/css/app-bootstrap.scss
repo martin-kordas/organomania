@@ -184,6 +184,9 @@ div.side-buttons {
         /* odstavce není potřeba oddělovat, protože už jsou odděleny díky white-space */
         margin-bottom: 0;
     }
+    mark {
+        padding: 0;
+    }
 }
 
 .items-list {
@@ -400,7 +403,8 @@ div.side-buttons {
     
     
     .accordion-disposition {
-        column-width: 15em;
+        column-width: 13em;
+        column-gap: 1.5em;
         orphans: 4;
     }
     

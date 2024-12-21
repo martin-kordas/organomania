@@ -2,7 +2,6 @@
 @use(App\Enums\OrganCategory)
 @use(App\Enums\OrganBuilderCategory)
 
-
 <div class="suggest-registration-modal modal fade" id="suggestRegistrationModal" tabindex="-1" data-focus="false" aria-labelledby="suggestRegistrationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <form class="modal-content" onsubmit="return suggestRegistrationModal.suggestRegistration()">
@@ -14,9 +13,22 @@
             </div>
 
             <div class="modal-body">
+                <x-organomania.warning-alert class="mb-2 d-print-none">
+                    {{ __('Buďte obezřetní – umělá inteligence poskytuje nepřesné výsledky.') }}
+                </x-organomania.warning-alert>
+                
                 <div class="mb-3">
-                    <label for="piece" class="form-label">{{ __('Skladba') }}</label>
+                    <label for="piece" class="form-label">{{ __('Skladba (část skladby, typ skladby)') }}</label>
                     <input type="text" class="piece form-control" id="piece" placeholder="{{ __('např.') }} {{ __('J. S. Bach: Toccata a fuga d-moll, BWV 565') }}">
+                </div>
+              
+                <div class="form-text">
+                    {{ __('Doporučení') }}:
+                    <ul class="mb-0">
+                        <li>{{ __('Registrování je individuální umělecká činnost, kterou varhaník provádí na základě kontaktu s nástrojem.') }}</li>
+                        <li style="word-break: keep-all">{{ __('Umělou inteligenci proto používejte jen pro inspiraci nebo potřebujete-li nutně poradit.') }}</li>
+                        <li>{{ __('Naregistrování opakujte, dokud umělá inteligence neposkytne optimální výsledek.') }}</li>
+                    </ul>
                 </div>
             </div>
 

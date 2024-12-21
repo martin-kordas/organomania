@@ -243,15 +243,15 @@ trait EntityPageView
 
     private function getShareUrl(Model $entity)
     {
-        $fn = isset($entity->user_id) ? URL::signedRoute(...) : route(...);
-        $relativeUrl = $fn($this->showRoute, $entity->slug, absolute: false);
+        if (isset($entity->user_id)) $relativeUrl = URL::signedRoute($this->showRoute, $entity->slug, absolute: false);
+        else $relativeUrl = route($this->showRoute, $entity->slug, absolute: false);
         return url($relativeUrl);
     }
 
     private function getViewUrl(Model $entity)
     {
-        $fn = !Gate::allows('view', $entity) ? URL::signedRoute(...) : route(...);
-        $relativeUrl = $fn($this->showRoute, $entity->slug, absolute: false);
+        if (!Gate::allows('view', $entity)) $relativeUrl = URL::signedRoute($this->showRoute, $entity->slug, absolute: false);
+        else $relativeUrl = route($this->showRoute, $entity->slug, absolute: false);
         return url($relativeUrl);
     }
 

@@ -19,6 +19,7 @@
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
         "mjaschen/phpgeo": "^5.0",
+        "n0sz/commonmark-marker-extension": "^1.0",
         "opcodesio/log-viewer": "^3.10",
         "openai-php/client": "^0.10.3",
         "pharaonic/livewire-select2": "^1.2"
