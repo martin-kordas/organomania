@@ -5,8 +5,7 @@ namespace App\Services\AI;
 class SuggestRegistrationAI extends DispositionAI
 {
     
-    // když vrací i recommendations, volba rejstříků není dobrá
-    protected bool $suggestRegistrationRecommendations = false;
+    protected bool $suggestRegistrationRecommendations = true;
     
     public function suggest(string $piece)
     {
@@ -18,16 +17,15 @@ class SuggestRegistrationAI extends DispositionAI
     {
         $language = locale_get_display_language($this->locale, 'en');
         $disposition = str($this->disposition)->replace('*', '');
-        $recommendationsPrompt = $this->suggestRegistrationRecommendations ? "Output detailed recommentations in $language language on the second line." : '';
         
         $systemContent = <<<EOL
             You will be given organ piece and organ disposition.
             You should select organ stops I should use when playing the piece.
-            Output only comma separated ordinal numbers of selected organ stops on the first line. $recommendationsPrompt
+            Output only comma separated ordinal numbers of organ stops.
         EOL;
         
         $content = <<<EOL
-            I want to play organ piece "$piece". What organ stops should I use on organ with this disposition?
+            I want to play organ piece "$piece". Which organ stops should I use on organ with this disposition?
 
             $disposition
         EOL;
@@ -40,23 +38,39 @@ class SuggestRegistrationAI extends DispositionAI
                 ['role' => 'user', 'content' => $content],
             ],
         ];
-        return $this->client->chat()->create($chat1);
+        $resStops = $this->client->chat()->create($chat1);
+        
+        // pokud se recommendations vyžádají už v prvním requestu, zvolená registrace není moc dobrá, proto samostatná request
+        if ($this->suggestRegistrationRecommendations) {
+            $content = <<<EOL
+                Provide recommentations about selected stops in $language language.
+                Use Markdown formatting, but only bold text.
+                Do not use stop ordinal numbers in the text.
+            EOL;
+            
+            $chat2 = $chat1;
+            $chat2['messages'][] = ['role' => 'assistant', 'content' => $this->getResponseContent($resStops)];
+            $chat2['messages'][] = ['role' => 'user', 'content' => $content];
+            $resRecommendations = $this->client->chat()->create($chat2);
+        }
+        else $resRecommendations = null;
+        
+        return [$resStops, $resRecommendations];
     }
     
     protected function processResponse($res)
     {
-        $content = $res->choices[0]->message->content ?? throw new \RuntimeException;
-        $resRows = explode("\n", $content);
+        [$resStops, $resRecommendations] = $res;
+        $contentStops = $this->getResponseContent($resStops);
         
-        $registerNumbers = str($content)
+        $registerNumbers = str($contentStops)
             ->explode(',')
             ->map(fn ($registerNumber) => intval($registerNumber))
             ->filter();
         if ($registerNumbers->isEmpty()) throw new \RuntimeException;
         
         if ($this->suggestRegistrationRecommendations) {
-            $recommendations = trim(last($resRows));
-            if ($recommendations === '') $recommendations = null;
+            $recommendations = $this->getResponseContent($resRecommendations);
         }
         else $recommendations = null;
 
@@ -69,6 +83,7 @@ class SuggestRegistrationAI extends DispositionAI
             if ($rowIndex === false) throw new \RuntimeException;
             $registerRowNumbers[] = $rowIndex + 1;
         }
+        //dd($this->disposition, $registerNumbers, $registerRowNumbers);
         
         return compact('registerRowNumbers', 'recommendations');
     }

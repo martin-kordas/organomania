@@ -3,6 +3,7 @@
 namespace App\Services\AI;
 
 use OpenAI\Contracts\ClientContract;
+use OpenAI\Contracts\ResponseContract;
 use App\Helpers;
 use App\Models\Organ;
 
@@ -38,6 +39,7 @@ abstract class DispositionAI
         return str($disposition)->explode("\n")->map(function ($row) {
             static $registerNumber = 1;
             if (trim($row) !== '' && !str($row)->startsWith('*')) {
+                $row = str($row)->replaceMatches('/^[0-9]+\\\\?\. /', '');     // odstranění existujícího číslování
                 $row = "$registerNumber. $row";
                 $registerNumber++;
             }
@@ -45,5 +47,9 @@ abstract class DispositionAI
         })->implode("\n");
     }
     
+    protected function getResponseContent(ResponseContract $response)
+    {
+        return $response->choices[0]->message->content ?? throw new \RuntimeException;
+    }
     
 }
