@@ -31,14 +31,18 @@ class SuggestRegistrationAI extends DispositionAI
         EOL;
         
         $chat1 = [
-            'model' => 'gpt-4o',
+            'assistant_id' => 'asst_XVgpOxotMBvV4zcp7qBOGgef',
             'temperature' => 1,
-            'messages' => [
-                ['role' => 'system', 'content' => $systemContent],
-                ['role' => 'user', 'content' => $content],
-            ],
+            'thread' => [
+                'messages' => [
+                    //['role' => 'system', 'content' => $systemContent],
+                    ['role' => 'user', 'content' => $content],
+                ],
+            ]
         ];
-        $resStops = $this->client->chat()->create($chat1);
+        $threadRun = $this->client->threads()->createAndRun($chat1);
+        $resContent = $this->getThreadReponseContent($threadRun);
+        dd($resContent);
         
         // pokud se recommendations vyžádají už v prvním requestu, zvolená registrace není moc dobrá, proto samostatná request
         if ($this->suggestRegistrationRecommendations) {

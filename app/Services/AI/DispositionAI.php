@@ -4,6 +4,7 @@ namespace App\Services\AI;
 
 use OpenAI\Contracts\ClientContract;
 use OpenAI\Contracts\ResponseContract;
+use OpenAI\Responses\Threads\Runs\ThreadRunResponse;
 use App\Helpers;
 use App\Models\Organ;
 
@@ -25,7 +26,7 @@ abstract class DispositionAI
     {
         $this->disposition = Helpers::normalizeLineBreaks($this->disposition);
         if ($addRegisterNumbers) $this->disposition = $this->addRegisterNumbers($this->disposition);
-        
+
         $this->locale = app()->getLocale();
     }
     
@@ -50,6 +51,32 @@ abstract class DispositionAI
     protected function getResponseContent(ResponseContract $response)
     {
         return $response->choices[0]->message->content ?? throw new \RuntimeException;
+    }
+    
+    protected function getThreadReponse(ThreadRunResponse $threadRun)
+    {
+        // https://gehri.dev/blog/how-to-use-the-openai-assistants-api-in-php-and-laravel
+        while (in_array($threadRun->status, ['queued', 'in_progress'])) {
+            $threadRun = $this->client->threads()->runs()->retrieve(
+                threadId: $threadRun->threadId,
+                runId: $threadRun->id,
+            );
+            sleep(0.5);
+        }
+
+        if ($threadRun->status !== 'completed') throw new \RuntimeException;
+
+        $messageList = $this->client->threads()->messages()->list(
+            threadId: $threadRun->threadId,
+        );
+
+        return $messageList;
+    }
+    
+    protected function getThreadReponseContent(ThreadRunResponse $threadRun)
+    {
+        $messageList = $this->getThreadReponse($threadRun);
+        return $messageList->data[0]->content[0]->text->value;
     }
     
 }
