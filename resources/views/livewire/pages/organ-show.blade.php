@@ -552,29 +552,28 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         {!! __('Jednotlivé rejstříky jsou popsány v') !!} <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" target="_blank">{{ __('Encyklopedii rejstříků') }}</a>.
                     </x-organomania.info-alert>
                         
-                    <div class="position-relative">
-                        <div wire:loading.block wire:target="suggestRegistration, describeDisposition" wire:loading.class="opacity-25" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
-                            <x-organomania.spinner class="align-items-center h-100" :margin="false" />
-                        </div>
-                        <div @class(['markdown', 'accordion-disposition', 'm-auto' => $this->dispositionColumnsCount > 1]) style="column-count: {{ $this->dispositionColumnsCount }}">{!! $this->disposition !!}</div>
-                    </div>
-                    
                     @can('useAI')
-                        <hr>
-                        <div>
+                        <div class="mb-2">
                             {{ __('AI funkce') }}
-                            <span class="ms-1" data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat skladbu s pomocí umělé inteligence') }}">
+                            <span class="ms-1 align-text-bottom" data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat skladbu s pomocí umělé inteligence') }}" onclick="setTimeout(removeTooltips);">
                                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#suggestRegistrationModal">
                                     <i class="bi-magic"></i> {{ __('Registrace') }}
                                 </button>
                             </span>
-                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Charakterizovat dispozici a popsat důležité rejstříky') }}">
+                            <span class="align-text-bottom" data-bs-toggle="tooltip" data-bs-title="{{ __('Charakterizovat dispozici a popsat důležité rejstříky') }}">
                                 <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="describeDisposition">
                                     <i class="bi-magic"></i> {{ __('Popsat dispozici') }}
                                 </button>
                             </span>
                         </div>
                     @endcan
+                        
+                    <div class="position-relative">
+                        <div wire:loading.block wire:target="suggestRegistration, describeDisposition" wire:loading.class="opacity-25" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
+                            <x-organomania.spinner class="align-items-center h-100" :margin="false" />
+                        </div>
+                        <div @class(['markdown', 'accordion-disposition', 'm-auto' => $this->dispositionColumnsCount > 1]) style="column-count: {{ $this->dispositionColumnsCount }}">{!! $this->disposition !!}</div>
+                    </div>
                 @endisset
             </x-organomania.accordion-item>
         @endif

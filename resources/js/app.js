@@ -212,6 +212,10 @@ window.scrollToTop = function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+window.scrollToElement = function (elem) {
+    $(elem).get(0).scrollIntoView({ behavior: 'smooth' });
+}
+
 window.copyToClipboard = function (text) {
     return navigator.clipboard.writeText(text);
 }

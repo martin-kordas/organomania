@@ -842,7 +842,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         </button>
                         @can('useAI')
                             &nbsp;
-                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat s pomocí umělé inteligence') }}">
+                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat s pomocí umělé inteligence') }}" onclick="setTimeout(removeTooltips);">
                                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#suggestRegistrationModal" @click="prefillPiece()">
                                     <i class="bi-magic"></i> {{ __('Naregistrovat s AI') }}
                                 </button>
@@ -1124,7 +1124,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         
     document.addEventListener('livewire:navigated', function () {
         if (location.hash !== '') {
-            $(location.hash).get(0).scrollIntoView({behavior: 'smooth'});
+            scrollToElement(location.hash);
         }
     })
 </script>
