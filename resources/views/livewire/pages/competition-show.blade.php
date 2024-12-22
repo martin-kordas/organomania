@@ -67,7 +67,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 <div class="organ-builder-show container">  
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
-            <h3 @if (Auth::user()?->admin) title="ID: {{ $competition->id }}" @endif>
+            <h3 class="fs-2" @if (Auth::user()?->admin) title="ID: {{ $competition->id }}" @endif>
                 {{ $competition->name }}
             </h3>
             

@@ -31,7 +31,7 @@ class Organ extends Model
     
     protected $guarded = [];
     
-    const DISPOSITION_APPENDIX_DELIMITER = '====';
+    const DISPOSITION_APPENDIX_DELIMITER = '////';
     
     protected static function booted(): void
     {

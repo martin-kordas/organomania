@@ -20,7 +20,8 @@ class SuggestRegistrationAI extends DispositionAI
         $systemContent = <<<EOL
             You will be given organ piece and organ disposition.
             You should select organ stops I should use when playing the piece.
-            Output only comma separated ordinal numbers of organ stops.
+            Stop names write always with their ordinal numbers in square brackets.
+            Do not propose any alternative stops.
         EOL;
         
         $content = <<<EOL
@@ -62,10 +63,7 @@ class SuggestRegistrationAI extends DispositionAI
         [$resStops, $resRecommendations] = $res;
         $contentStops = $this->getResponseContent($resStops);
         
-        $registerNumbers = str($contentStops)
-            ->explode(',')
-            ->map(fn ($registerNumber) => intval($registerNumber))
-            ->filter();
+        $registerNumbers = str($contentStops)->matchAll('/\[([0-9]+)\]/');
         if ($registerNumbers->isEmpty()) throw new \RuntimeException;
         
         if ($this->suggestRegistrationRecommendations) {

@@ -16,6 +16,7 @@ use App\Services\AI\DescribeDispositionAI;
 use App\Services\AI\SuggestRegistrationAI;
 use App\Models\Disposition;
 use App\Models\Organ;
+use App\Models\RegisterName;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Traits\HasAccordion;
 
@@ -172,11 +173,29 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             '$1<span class="float-end">$2</span>'
         );
 
+        // odkazy na rejstříky do encyklopedie
+        $disposition = $disposition->explode("\n")->map(function ($row) {
+            static $appendix = false;
+            if (str($row)->contains(Organ::DISPOSITION_APPENDIX_DELIMITER)) $appendix = true;
+            elseif (!$appendix) {
+                $row = preg_replace_callback('/^(<mark>)?([0-9]+\\\\?\. )?([[:alpha:]]+( [[:alpha:]]+)*)/u', function ($matches) {
+                    $registerName = RegisterName::where('name', $matches[3])->first();
+                    if ($registerName) {
+                        $url = route('dispositions.registers.show', $registerName->slug);
+                        $urlHtml = e($url);
+                        return "{$matches[1]}{$matches[2]}<a href='$urlHtml' target='_blank' class='link-dark link-offset-1 link-underline-opacity-10 link-underline-opacity-50-hover'>{$matches[3]}</a>";
+                    }
+                    return $matches[0];
+                }, $row, limit: 1);
+            }
+            return $row;
+        })->implode("\n");
+
         // appendix vypíšeme malým písmem
-        $pos = $disposition->position(Organ::DISPOSITION_APPENDIX_DELIMITER);
+        $pos = str($disposition)->position(Organ::DISPOSITION_APPENDIX_DELIMITER);
         if ($pos !== false) {
-            $disposition = $disposition
-                ->replace(Organ::DISPOSITION_APPENDIX_DELIMITER."\n", '<small>')
+            $disposition = str($disposition)
+                ->replace(Organ::DISPOSITION_APPENDIX_DELIMITER, '<small>')
                 ->append('</small>');
         }
         return $disposition;
@@ -226,7 +245,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         // appendix odmažeme
         $pos = str($disposition)->position(Organ::DISPOSITION_APPENDIX_DELIMITER);
-        if ($pos !== false) $disposition = str($disposition)->substr(0, $pos);
+        if ($pos !== false) {
+            $appendix = str($disposition)->substr($pos);
+            $disposition = str($disposition)->substr(0, $pos);
+        }
+        else $appendix = '';
         $disposition = Helpers::normalizeLineBreaks($disposition);
 
         try {
@@ -237,6 +260,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             $res = $AI->suggest($piece);
             
             $this->suggestRegistrationDisposition = $this->highlightSuggestedRegisters($disposition, $res['registerRowNumbers']);
+            $this->suggestRegistrationDisposition .= $appendix;
             $this->suggestRegistrationInfo = $res['recommendations'];
         }
         catch (\Exception $ex) {
@@ -267,7 +291,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 <div class="organ-show container">
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
-            <h3 class="lh-sm fw-normal" @if (Auth::user()?->admin) title="ID: {{ $organ->id }}" @endif>
+            <h3 class="fs-2 lh-sm fw-normal" @if (Auth::user()?->admin) title="ID: {{ $organ->id }}" @endif>
                 <strong >{{ $organ->municipality }}</strong>
                 <br />
                 <span class="fs-4">{{ $organ->place }}</span>
@@ -545,7 +569,18 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endif
                 @isset($organ->disposition)
                     @if ($organ->dispositions->isNotEmpty())
-                        <h5 class="mt-4">{{ __('Jednoduché zobrazení') }}</h5>
+                        <h5 class="mt-4">
+                            <button
+                                type="button"
+                                class="btn btn-sm float-end"
+                                data-bs-toggle="tooltip"
+                                data-bs-title="{{ __('Kopírovat dispozici do schránky') }}"
+                                @click="copyDispositionToCliboard()""
+                            >
+                                <i class="bi-copy"></i>
+                            </button>
+                            {{ __('Jednoduché zobrazení') }}
+                        </h5>
                     @endif
                         
                     <x-organomania.info-alert class="mb-2">
@@ -553,23 +588,38 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </x-organomania.info-alert>
                         
                     @can('useAI')
-                        <div class="mb-2">
-                            {{ __('AI funkce') }}
-                            <span class="ms-1 align-text-bottom" data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat skladbu s pomocí umělé inteligence') }}" onclick="setTimeout(removeTooltips);">
+                        <div class="mb-2 lh-lg">
+                            {{ __('AI') }}
+                            <span class="d-none d-sm-inline">{{ __('funkce') }}</span>
+                            <span class="ms-1" data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat skladbu s pomocí umělé inteligence') }}" onclick="setTimeout(removeTooltips);">
                                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#suggestRegistrationModal">
-                                    <i class="bi-magic"></i> {{ __('Registrace') }}
+                                    <span wire:loading.remove wire:target="suggestRegistration">
+                                        <i class="bi-magic"></i>
+                                    </span>
+                                    <span wire:loading wire:target="suggestRegistration">
+                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                        <span class="visually-hidden" role="status">{{ __('Načítání...') }}</span>
+                                    </span>
+                                    {{ __('Registrace') }}
                                 </button>
                             </span>
-                            <span class="align-text-bottom" data-bs-toggle="tooltip" data-bs-title="{{ __('Charakterizovat dispozici a popsat důležité rejstříky') }}">
+                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Charakterizovat dispozici a popsat důležité rejstříky') }}">
                                 <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="describeDisposition">
-                                    <i class="bi-magic"></i> {{ __('Popsat dispozici') }}
+                                    <span wire:loading.remove wire:target="describeDisposition">
+                                        <i class="bi-magic"></i>
+                                    </span>
+                                    <span wire:loading wire:target="describeDisposition">
+                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                        <span class="visually-hidden" role="status">{{ __('Načítání...') }}</span>
+                                    </span>
+                                    {{ __('Popis dispozice') }}
                                 </button>
                             </span>
                         </div>
                     @endcan
                         
                     <div class="position-relative">
-                        <div wire:loading.block wire:target="suggestRegistration, describeDisposition" wire:loading.class="opacity-25" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
+                        <div wire:loading.block wire:target="suggestRegistration, describeDisposition" wire:loading.class="opacity-75" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
                             <x-organomania.spinner class="align-items-center h-100" :margin="false" />
                         </div>
                         <div @class(['markdown', 'accordion-disposition', 'm-auto' => $this->dispositionColumnsCount > 1]) style="column-count: {{ $this->dispositionColumnsCount }}">{!! $this->disposition !!}</div>
@@ -672,6 +722,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <x-organomania.toast toastId="describeDispositionFail">
         {{ __('Omlouváme se, při zjišťování popisu dispozice došlo k chybě.') }}
     </x-organomania.toast>
+        
+    <x-organomania.toast toastId="dispositionCopied">
+        {{ __('Dispozice byla úspěšně zkopírována do schránky.') }}
+    </x-organomania.toast>
 
     <x-organomania.modals.suggest-registration-modal />
 </div>
+
+@script
+<script>
+    window.copyDispositionToCliboard = async function () {
+        // TODO: kopíruje to bez mezer mezi manuály
+        let disposition = $('.accordion-disposition').text()
+        await navigator.clipboard.writeText(disposition)
+        showToast('dispositionCopied')
+    }
+</script>
+@endscript

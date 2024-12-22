@@ -2,7 +2,7 @@
 
 return [
     
-    'simulate_loading' => env('APP_ENV') === 'local',
+    'simulate_loading' => false && env('APP_ENV') === 'local',
     
     'app_admin_email' => env('APP_ADMIN_EMAIL'),
     
