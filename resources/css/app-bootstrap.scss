@@ -403,9 +403,14 @@ div.side-buttons {
     
     
     .accordion-disposition {
-        column-width: 13em;
+        column-width: 15em;
         column-gap: 1.5em;
+        max-width: fit-content;
         orphans: 4;
+        
+        @media screen and (max-width: 767px) {
+            max-width: 22em;
+        }
     }
     
     .organ-img {

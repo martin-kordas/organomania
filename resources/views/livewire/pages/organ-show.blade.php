@@ -556,7 +556,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <div wire:loading.block wire:target="suggestRegistration, describeDisposition" wire:loading.class="opacity-25" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
                             <x-organomania.spinner class="align-items-center h-100" :margin="false" />
                         </div>
-                        <div class="markdown accordion-disposition" style="column-count: {{ $this->dispositionColumnsCount }}">{!! $this->disposition !!}</div>
+                        <div @class(['markdown', 'accordion-disposition', 'm-auto' => $this->dispositionColumnsCount > 1]) style="column-count: {{ $this->dispositionColumnsCount }}">{!! $this->disposition !!}</div>
                     </div>
                     
                     @can('useAI')
