@@ -47,6 +47,12 @@
                 <x-slot:description>{{ __('podcast o varhanách v Santiniho kostelích, prokládaný improvizačními ukázkami') }}</x-slot>
             </x-organomania.link-list-item>
             
+            <x-organomania.link-list-item icon="volume-up" url="https://vltava.rozhlas.cz/znejici-poklady-varhany-moravskoslezskeho-kraje-ve-stare-hudbe-8884410">
+                <x-slot:source>{{ __('Český rozhlas') }}</x-slot>
+                {{ __('Znějící poklady. Varhany Moravskoslezského kraje ve staré hudbě') }}
+                <x-slot:description>{{ __('pořad o zajímavých historických i nově postavených varhanách, proložený řadou nahrávek') }}</x-slot>
+            </x-organomania.link-list-item>
+            
             <x-organomania.link-list-item icon="camera-video" url="https://www.ceskatelevize.cz/porady/15013853311-varhanni-nej">
                 <x-slot:source>{{ __('Česká televize') }}</x-slot>
                 {{ __('Varhanní nej') }}
@@ -60,6 +66,7 @@
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="camera-video" url="https://www.dltm.cz/dokumentarni-cyklus-putovani-za-varhanami-litomericke-dieceze2">
+                <x-slot:source>{{ __('Youtube') }}</x-slot>
                 {{ __('Putování za varhanami Litoměřické diecéze') }}
                 <x-slot:description>{{ __('cyklus výpravných pořadů o zajímavých varhanách, uváděný organologem Litoměřické diecéze Radkem Rejškem') }}</x-slot>
             </x-organomania.link-list-item>
@@ -95,6 +102,11 @@
             <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/knihy/varhany-a-jejich-osudy-81909">
                 Jan Tomíček: Varhany a jejich osudy
                 <x-slot:description>{{ __('sbírka čtivých pojednání o vybraných domácích varhanách a varhanářích') }}</x-slot>
+            </x-organomania.link-list-item>
+            
+            <x-organomania.link-list-item icon="book" url="https://www.baerenreiter.cz/cs/dilo/belsky-vratislav/4518-nauka-o-varhanach">
+                Vratislav Bělský: Nauka o varhanách
+                <x-slot:description>{{ __('osvědčená publikace o historii, stavbě a zvukové podstatě varhan') }}</x-slot>
             </x-organomania.link-list-item>
         </x-organomania.link-list>
         

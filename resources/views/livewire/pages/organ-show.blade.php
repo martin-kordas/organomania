@@ -6,7 +6,9 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use App\Enums\DispositionLanguage;
 use App\Enums\OrganCategory;
+use App\Enums\Pitch;
 use App\Enums\Region;
 use App\Helpers;
 use App\Repositories\AbstractRepository;
@@ -18,11 +20,13 @@ use App\Models\Disposition;
 use App\Models\Organ;
 use App\Models\RegisterName;
 use App\Models\Scopes\OwnedEntityScope;
+use App\Traits\HasRegisterModal;
 use App\Traits\HasAccordion;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     use HasAccordion;
+    use HasRegisterModal;
 
     #[Locked]
     public Organ $organ;
@@ -34,6 +38,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $suggestRegistrationDisposition;
     private $suggestRegistrationInfo;
     private $dispositionDescription;
+    private DispositionLanguage $dispositionLanguage;
 
     const
         SESSION_KEY_SHOW_MAP = 'organs.show.show-map',
@@ -52,6 +57,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $this->repository = $repository;
         $this->markdownConvertor = $markdownConvertor;
+        $this->dispositionLanguage = DispositionLanguage::getDefault();
 
         $this->organ->load(['dispositions' => function (HasMany $query) {
             $query->withCount('realDispositionRegisters');
@@ -173,21 +179,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             '$1<span class="float-end">$2</span>'
         );
 
-        // odkazy na rejstříky do encyklopedie
+        // odkazy na rejstříky do encyklopedie rejstříků - dynamicky získáním názvu z textu dispozice a dohledáním rejstříku v db.
         $disposition = $disposition->explode("\n")->map(function ($row) {
             static $appendix = false;
             if (str($row)->contains(Organ::DISPOSITION_APPENDIX_DELIMITER)) $appendix = true;
-            elseif (!$appendix) {
-                $row = preg_replace_callback('/^(<mark>)?([0-9]+\\\\?\. )?([[:alpha:]]+( [[:alpha:]]+)*)/u', function ($matches) {
-                    $registerName = RegisterName::where('name', $matches[3])->first();
-                    if ($registerName) {
-                        $url = route('dispositions.registers.show', $registerName->slug);
-                        $urlHtml = e($url);
-                        return "{$matches[1]}{$matches[2]}<a href='$urlHtml' target='_blank' class='link-dark link-offset-1 link-underline-opacity-10 link-underline-opacity-50-hover'>{$matches[3]}</a>";
-                    }
-                    return $matches[0];
-                }, $row, limit: 1);
-            }
+            elseif (!$appendix) $row = $this->addLinkToDispositionRow($row);
             return $row;
         })->implode("\n");
 
@@ -199,6 +195,33 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 ->append('</small>');
         }
         return $disposition;
+    }
+
+    private function addLinkToDispositionRow(string $row)
+    {
+        //  - <mark>: zvýraznění rejstříku při suggestRegistration()
+        //  - 0-9: číslování
+        return preg_replace_callback('/^(<mark>)?([0-9]+\\\\?\. )?([[:alpha:]-]+( [[:alpha:]-]+)*)/u', function ($matches) use ($row) {
+            $registerName = RegisterName::where('name', $matches[3])->first();
+            if ($registerName) {
+                $url = route('dispositions.registers.show', $registerName->slug);
+                $urlHtml = e($url);
+                $class = 'link-dark link-offset-1 link-underline-opacity-10 link-underline-opacity-50-hover';
+                $registerNameStr = $matches[3];
+                $pitchIdArg = $this->getPitchFromDispositionRow($row)?->value ?? 'null';
+                return "{$matches[1]}{$matches[2]}<a href='$urlHtml' class='$class' wire:click='setRegisterName({$registerName->id}, $pitchIdArg)' data-bs-toggle='modal' data-bs-target='#registerModal'>$registerNameStr</a>";
+            }
+            return $matches[0];
+        }, $row, limit: 1);
+    }
+
+    private function getPitchFromDispositionRow(string $row): ?Pitch
+    {
+        $matches = [];
+        if (preg_match("#[0-9/ ]+'#", $row, $matches)) {
+            return Pitch::tryFromLabel($matches[0], $this->dispositionLanguage);
+        }
+        return null;
     }
 
     #[Computed]
@@ -459,20 +482,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endif
-        @if (isset($organ->web))
-            <tr>
-                <th>
-                    <span class="d-none d-md-inline">{{ __('Webové odkazy') }}</span>
-                    <span class="d-md-none">{{ __('Web') }}</span>
-                </th>
-                <td class="text-break items-list">
-                    @foreach (explode("\n", $organ->web) as $url)
-                        <x-organomania.web-link :url="$url" />
-                        @if (!$loop->last) <br /> @endif
-                    @endforeach
-                </td>
-            </tr>
-        @endif
         @isset($organ->varhany_net_id)
             <tr>
                 <th>
@@ -487,39 +496,38 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endisset
+        @if (isset($organ->web))
+            <x-organomania.tr-responsive title="{{ __('Webové odkazy') }}">
+                <div class="text-break items-list">
+                    @foreach (explode("\n", $organ->web) as $url)
+                        <x-organomania.web-link :url="$url" />
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
+                </div>
+            </x-organomania.tr-responsive>
+        @endif
         @if (!empty($this->discs))
-            <tr>
-                <th>{{ __('Nahrávky') }}</th>
-                <td>
-                    <div class="items-list">
-                        @foreach ($this->discs as [$discName, $info, $discUrl, $icon])
-                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" href="{{ $discUrl }}" target="_blank">
-                                <i class="bi bi-{{ $icon }}"></i>
-                                <span>
-                                    <span class="text-decoration-underline">{{ $discName }}</span>
-                                    @if ($info !== '')
-                                        <span class="text-secondary">({{ $info }})</span>
-                                    @endif
-                                </span>
-                            </a>
-                            @if (!$loop->last) <br /> @endif
-                        @endforeach
-                    </div>
-                </td>
-            </tr>
+            <x-organomania.tr-responsive title="{{ __('Nahrávky') }}">
+                <div class="items-list">
+                    @foreach ($this->discs as [$discName, $info, $discUrl, $icon])
+                        <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" href="{{ $discUrl }}" target="_blank">
+                            <i class="bi bi-{{ $icon }}"></i>
+                            <span>
+                                <span class="text-decoration-underline">{{ $discName }}</span>
+                                @if ($info !== '')
+                                    <span class="text-secondary">({{ $info }})</span>
+                                @endif
+                            </span>
+                        </a>
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
+                </div>
+            </x-organomania.tr-responsive>
         @endif
         @if (isset($organ->description))
-            <tr class="d-none d-md-table-row">
-                <th>{{ __('Popis') }}</th>
-                <td><div class="markdown">{!! $this->descriptionHtml !!}</div></td>
-            </tr>
-            <tr class="d-md-none">
-                <td colspan="2">
-                    <strong>{{ __('Popis') }}</strong>
-                    <br />
-                    <div class="markdown">{!! $this->descriptionHtml !!}</div>
-                </td>
-            </tr>
+            <x-organomania.tr-responsive title="{{ __('Popis') }}">
+                <div class="markdown">{!! $this->descriptionHtml !!}</div>
+            </x-organomania.tr-responsive>
         @endif
     </table>
     
@@ -584,26 +592,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @endif
                         
                     <x-organomania.info-alert class="mb-2">
-                        {!! __('Jednotlivé rejstříky jsou popsány v') !!} <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" target="_blank">{{ __('Encyklopedii rejstříků') }}</a>.
+                        <span class="d-none d-sm-inline">
+                            {!! __('Jednotlivé rejstříky jsou popsány v') !!} <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" target="_blank">{{ __('Encyklopedii rejstříků') }}</a>.
+                        </span>
+                        <span class="d-sm-none">
+                            {!! __('Rejstříky jsou popsány v') !!} <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" target="_blank">{{ __('Encyklopedii') }}</a>.
+                        </span>
                     </x-organomania.info-alert>
                         
                     @can('useAI')
-                        <div class="mb-2 lh-lg">
-                            {{ __('AI') }}
-                            <span class="d-none d-sm-inline">{{ __('funkce') }}</span>
-                            <span class="ms-1" data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat skladbu s pomocí umělé inteligence') }}" onclick="setTimeout(removeTooltips);">
-                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#suggestRegistrationModal">
-                                    <span wire:loading.remove wire:target="suggestRegistration">
-                                        <i class="bi-magic"></i>
-                                    </span>
-                                    <span wire:loading wire:target="suggestRegistration">
-                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                                        <span class="visually-hidden" role="status">{{ __('Načítání...') }}</span>
-                                    </span>
-                                    {{ __('Registrace') }}
-                                </button>
+                        <div class="mb-3 lh-lg">
+                            <span class="position-relative" style="top: 2px">
+                                {{ __('AI') }}
+                                <span class="d-none d-sm-inline">{{ __('funkce') }}</span>
                             </span>
-                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Charakterizovat dispozici a popsat důležité rejstříky') }}">
+                            <span class="ms-1" data-bs-toggle="tooltip" data-bs-title="{{ __('Charakterizovat dispozici a popsat důležité rejstříky') }}">
                                 <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="describeDisposition">
                                     <span wire:loading.remove wire:target="describeDisposition">
                                         <i class="bi-magic"></i>
@@ -613,6 +616,18 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                         <span class="visually-hidden" role="status">{{ __('Načítání...') }}</span>
                                     </span>
                                     {{ __('Popis dispozice') }}
+                                </button>
+                            </span>
+                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat skladbu s pomocí umělé inteligence') }}" onclick="setTimeout(removeTooltips);">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#suggestRegistrationModal">
+                                    <span wire:loading.remove wire:target="suggestRegistration">
+                                        <i class="bi-magic"></i>
+                                    </span>
+                                    <span wire:loading wire:target="suggestRegistration">
+                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                        <span class="visually-hidden" role="status">{{ __('Načítání...') }}</span>
+                                    </span>
+                                    {{ __('Registrace') }}
                                 </button>
                             </span>
                         </div>
@@ -679,7 +694,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             >
                 <ul class="list-group list-group-flush small">
                     @foreach (explode("\n", $organ->literature) as $literature1)
-                        <li @class(['list-group-item', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>{!! Helpers::formatUrlsInLiterature($literature1) !!}}</li>
+                        <li @class(['list-group-item', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>{!! Helpers::formatUrlsInLiterature($literature1) !!}</li>
                     @endforeach
                 </ul>
             </x-organomania.accordion-item>
@@ -698,6 +713,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
             
     <x-organomania.modals.categories-modal :categoriesGroups="$this->organCategoriesGroups" :categoryClass="OrganCategory::class" />
+        
+    <x-organomania.modals.register-modal
+        :registerName="$registerName"
+        :pitch="$pitch"
+        :language="$this->dispositionLanguage"
+        :excludeOrganIds="[$organ->id]"
+    />
         
     @isset($this->suggestRegistrationInfo)
         <x-organomania.toasts.ai-info-toast title="{{ __('Podrobnosti k registraci') }}">

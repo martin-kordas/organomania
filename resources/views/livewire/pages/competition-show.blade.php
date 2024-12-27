@@ -95,7 +95,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div class="text-center">
         <x-organomania.warning-alert class="d-inline-block mb-3 asds">
             {!! __('Uváděné parametry soutěže vychází z posledního známého ročníku a <strong>nemusí být aktuální</strong>!') !!}
-            <br />
+            <br class="d-none d-md-inline" />
             {{ __('Pro aktuální informace navštivte vždy oficiální web soutěže.') }}
         </x-organomania.warning-alert>
     </div>
@@ -118,19 +118,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <td>{{ $competition->place }}</td>
             </tr>
         @endisset
-        @if ($competition->organs->isNotEmpty())
-            <tr>
-                <th>{{ __('Varhany') }}</th>
-                <td>
-                    <div class="items-list">
-                        @foreach ($competition->organs as $organ)
-                            <x-organomania.organ-link :organ="$organ" :year="$organ->year_built" :showOrganBuilder="true" />
-                            @if (!$loop->last) <br /> @endif
-                        @endforeach
-                    </div>
-                </td>
-            </tr>
-        @endif
         @isset($competition->frequency)
             <tr>
                 <th>
@@ -152,19 +139,25 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endisset
+        @if ($competition->organs->isNotEmpty())
+            <x-organomania.tr-responsive title="{{ __('Varhany') }}">
+                <div class="text-break items-list">
+                    @foreach ($competition->organs as $organ)
+                        <x-organomania.organ-link :organ="$organ" :year="$organ->year_built" :showOrganBuilder="true" />
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
+                </div>
+            </x-organomania.tr-responsive>
+        @endif
         @isset($competition->url)
-            <tr>
-                <th>
-                    <span class="d-none d-md-inline">{{ __('Webové odkazy') }}</span>
-                    <span class="d-md-none">{{ __('Web') }}</span>
-                </th>
-                <td class="text-break items-list">
+            <x-organomania.tr-responsive title="{{ __('Webové odkazy') }}">
+                <div class="text-break items-list">
                     @foreach (explode("\n", $competition->url) as $url)
                         <x-organomania.web-link :url="$url" />
                         @if (!$loop->last) <br /> @endif
                     @endforeach
-                </td>
-            </tr>
+                </div>
+            </x-organomania.tr-responsive>
         @endisset
     </table>
     

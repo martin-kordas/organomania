@@ -16,6 +16,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     use EntityPage;
 
+    #[Url(keep: true)]
+    public $filterName;
+    #[Url(keep: true)]
+    public $filterMunicipality;
+
     private OrganBuilderRepository $repository;
     private OrganBuilder $model;
     private OrganBuilderCategoryModel $categoryModel;
@@ -44,6 +49,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->entityPageViewComponent = 'organ-builders-view';
         $this->entityClass = OrganBuilder::class;
         $this->entityNamePluralAkuzativ = __('varhanáře');
+        $this->filtersModalAutofocus = '#filterCategories';
+        $this->filters[] = 'filterName';
+        $this->filters[] = 'filterMunicipality';
         $this->title = __('Varhanáři');
     }
 

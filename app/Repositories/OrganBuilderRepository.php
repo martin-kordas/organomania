@@ -33,7 +33,27 @@ class OrganBuilderRepository extends AbstractRepository
         if (!empty($withCount)) $query->withCount($withCount);
         
         foreach ($filters as $field => $value) {
+            $value = trim($value);
+            
             switch ($field) {
+                case 'name':
+                    $query->where(function (Builder $query) use ($value) {
+                        $query
+                            ->where('workshop_name', 'like', "%$value%")
+                            ->orWhereRaw('
+                                CONCAT(
+                                    IFNULL(first_name, ""),
+                                    " ",
+                                    IFNULL(last_name, "")
+                                ) LIKE ?
+                            ', ["%$value%"]);
+                    });
+                    break;
+                    
+                case 'municipality':
+                    $this->filterLike($query, $field, $value);
+                    break;
+                
                 case 'regionId':
                 case 'importance':
                 case 'isFavorite':

@@ -71,6 +71,7 @@ trait EntityPage
     private string $entityPageViewComponent;
     private string $entityClass;
     private string $entityNamePluralAkuzativ;
+    private string $filtersModalAutofocus;
     private array $filters = [];
     private array $commonFilters = [
         'filterCategories', 'filterRegionId', 'filterImportance', 'filterFavorite', 'filterPrivate',

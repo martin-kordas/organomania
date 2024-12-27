@@ -7,13 +7,14 @@
 
 @php
     use App\Models\Organ;
+    use App\Models\OrganBuilder;
     use App\Models\Festival;
     use App\Models\Competition;
 @endphp
 
-<div class="modal fade" id="filtersModal" tabindex="-1" data-focus="false" aria-labelledby="filtersModalLabel" aria-hidden="true" @keydown.enter="onEsc">
+<div class="modal fade" id="filtersModal" tabindex="-1" data-focus="false" aria-labelledby="filtersModalLabel" aria-hidden="true" @keydown.enter="onEnter" data-autofocus="{{ $this->filtersModalAutofocus }}">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <form class="filters-form modal-content" onsubmit="return false">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="filtersModalLabel">{{ __('Filtry') }}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
@@ -22,7 +23,7 @@
                 @if (in_array($entityClass, [Festival::class, Competition::class]))
                     <div class="mb-3">
                         <label class="form-label" for="filterNameLocality">{{ __('Název, lokalita') }}</label>
-                        <input id="filterNameLocality" class="form-control" type="search" wire:model="filterNameLocality" />
+                        <input id="filterNameLocality" class="form-control" type="search" wire:model="filterNameLocality" minlength="3" />
                     </div>
                 @endif
                 @if ($this->isCategorizable)
@@ -43,6 +44,19 @@
                         <label class="form-label" for="filterOrganBuilderId">{{ __('Varhanář') }}</label>
                         <x-organomania.selects.organ-builder-select model="filterOrganBuilderId" :organBuilders="$organBuilders" :allowClear="true" />
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="filterLocality">{{ __('Lokalita') }}</label>
+                        <input class="form-control" type="search" id="filterLocality" wire:model="filterLocality" minlength="3" placeholder="{{ __('Zadejte obec nebo název kostela') }}" />
+                    </div>
+                @elseif ($entityClass === OrganBuilder::class)
+                    <div class="mb-3">
+                        <label class="form-label" for="filterName">{{ __('Jméno') }}, {{ __('název dílny') }}</label>
+                        <input class="form-control" type="search" id="filterName" wire:model="filterName" minlength="3" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="filterMunicipality">{{ __('Lokalita') }}</label>
+                        <input class="form-control" type="search" id="filterMunicipality" wire:model="filterMunicipality" minlength="3" placeholder="{{ __('Zadejte obec') }}" />
+                    </div>
                 @endif
                 <div class="mb-3">
                     <label class="form-label" for="filterRegion">{{ __('Kraj') }}</label>
@@ -56,16 +70,21 @@
                 @endif
                 
                 @if ($entityClass === Organ::class)
+                    <div class="mb-3">
+                        <label class="form-label" for="filterDisposition">{{ __('Dispozice') }}</label>
+                        <input class="form-control" type="search" id="filterDisposition" wire:model="filterDisposition" minlength="3" placeholder="{{ __('Zadejte název rejstříku nebo pomocného zařízení') }}" />
+                        <div class="form-text">{{ __('Název rejstříku musí být zadán přesně, jak je uveden v dispozici (např. Prinzipal namísto Principál).') }}</div>
+                    </div>
                     <div class="form-check form-switch">
-                        <label class="form-check-label" for="filterConcertHall">{{ __('Jen nástroje v koncertních síních') }}</label>
+                        <label class="form-check-label" for="filterConcertHall">{{ __('Jen varhany v koncertních síních') }}</label>
                         <input class="form-check-input" type="checkbox" role="switch" id="filterConcertHall" wire:model="filterConcertHall">
                     </div>
                     <div class="form-check form-switch">
-                        <label class="form-check-label" for="filterForeignOrganBuilder">{{ __('Jen nástroje postavené zahraničním varhanářem') }}</label>
+                        <label class="form-check-label" for="filterForeignOrganBuilder">{{ __('Jen varhany postavené zahraničním varhanářem') }}</label>
                         <input class="form-check-input" type="checkbox" role="switch" id="filterForeignOrganBuilder" wire:model="filterForeignOrganBuilder">
                     </div>
                     <div class="form-check form-switch">
-                        <label class="form-check-label" for="filterHasDisposition">{{ __('Jen nástroje s uvedenou dispozicí') }}</label>
+                        <label class="form-check-label" for="filterHasDisposition">{{ __('Jen varhany s uvedenou dispozicí') }}</label>
                         <input class="form-check-input" type="checkbox" role="switch" id="filterHasDisposition" wire:model="filterHasDisposition">
                     </div>
                 @endif
@@ -92,18 +111,40 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Zavřít') }}</button>
-                <button id="filterButton" type="button" class="btn btn-primary" data-bs-dismiss="modal" wire:click="$refresh"><i class="bi-funnel"></i> {{ __('Filtrovat') }}</button>
+                <button id="filterButton" type="button" class="btn btn-primary" @click="submitFilters()">
+                    <i class="bi-funnel"></i> {{ __('Filtrovat') }}
+                </button>
             </div>
-        </div>
+        </form>
 
     </div>
 </div>
 
 @script
 <script>
-    window.onEsc = function (e) {
-        isSelect2 = $(e.target).closest('.select2-container').length > 0
+    window.submitFilters = function () {
+        let form = $('.filters-form')[0]
+        if (form.checkValidity()) {
+            let modal = bootstrap.Modal.getOrCreateInstance('#filtersModal')
+            modal.hide()
+            $wire.$refresh()
+        }
+        else form.reportValidity()
+    }
+    
+    window.onEnter = function (e) {
+        let isSelect2 = $(e.target).closest('.select2-container').length > 0
         if (!isSelect2) $('#filterButton').click()
     }
+        
+    $(() => {
+        $('#filtersModal').each(function () {
+            this.addEventListener('shown.bs.modal', (e) => {
+                let elem = $($(this).data('autofocus'))
+                if (elem.hasClass('select2')) elem.select2('focus')
+                else elem.focus()
+            })
+        })
+    })
 </script>
 @endscript

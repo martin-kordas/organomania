@@ -57,6 +57,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
         
         @if (request()->routeIs(['organs.index', 'organs.show', 'organ-builders.index', 'organ-builders.show', 'festivals.index', 'festivals.show', 'competitions.index', 'competitions.show']))
             <script src="{{ $googleMapsScript }}" defer></script>
+            <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js" defer></script>
         @endif    
     </head>
     <body>
@@ -121,7 +122,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                 </div>
             </footer>
                 
-            <a class="back-to-top btn btn-primary position-fixed z-1 d-print-none" onclick="scrollToTop()">
+            <a class="back-to-top btn btn-primary position-fixed d-print-none" onclick="scrollToTop()" style="z-index: 10">
                 <i class="bi-chevron-up"></i>
             </a>
         </div>

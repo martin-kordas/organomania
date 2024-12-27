@@ -28,6 +28,10 @@ new class extends Component {
     use WithPagination, EntityPageView;
 
     #[Reactive]
+    public $filterLocality;
+    #[Reactive]
+    public $filterDisposition;
+    #[Reactive]
     public $filterOrganBuilderId;
     #[Reactive]
     public $filterConcertHall;
@@ -46,7 +50,6 @@ new class extends Component {
     
     public function boot(OrganRepository $repository)
     {
-        $this->repository = $repository;
         $this->categoriesRelation = 'organCategories';
         $this->customCategoriesRelation = 'organCustomCategories';
         $this->exportFilename = 'organs.json';
@@ -69,6 +72,8 @@ new class extends Component {
     public function organs()
     {
         $filters = $this->getFiltersArray();
+        if ($this->filterLocality) $filters['locality'] = $this->filterLocality;
+        if ($this->filterDisposition) $filters['disposition'] = $this->filterDisposition;
         if ($this->filterOrganBuilderId) $filters['organBuilderId'] = $this->filterOrganBuilderId;
         if ($this->filterConcertHall) $filters['concertHall'] = $this->filterConcertHall;
         if ($this->filterForeignOrganBuilder) $filters['foreignOrganBuilder'] = $this->filterForeignOrganBuilder;

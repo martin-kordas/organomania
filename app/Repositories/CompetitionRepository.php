@@ -29,6 +29,8 @@ class CompetitionRepository extends AbstractRepository
         if (!empty($withCount)) $query->withCount($withCount);
         
         foreach ($filters as $field => $value) {
+            $value = trim($value);
+            
             switch ($field) {
                 case 'nameLocality':
                     $query->where(function (Builder $query) use ($value) {

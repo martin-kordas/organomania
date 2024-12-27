@@ -59,6 +59,16 @@ enum Pitch: int
         };
     }
     
+    public static function tryFromLabel(string $label, DispositionLanguage $language): ?static
+    {
+        foreach (static::cases() as $pitch) {
+            if ($pitch->getLabel($language) === $label) {
+                return $pitch;
+            }
+        }
+        return null;
+    }
+    
     public static function getPitchGroups()
     {
         $groups = [];

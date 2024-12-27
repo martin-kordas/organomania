@@ -84,6 +84,7 @@ trait EntityPageView
     private string $mapViewComponent = 'organomania.entity-page-view-map';
     private string $mapId;
     private string $thumbnailComponent;
+    private bool $useMapClusters = false;
     
     private abstract function getResourceCollection(Collection $data): ResourceCollection;
     private abstract function viewComponent(): string;

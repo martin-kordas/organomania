@@ -42,7 +42,6 @@ new class extends Component {
         $this->isLikeable = false;
         $this->showThumbnailFooter = true;
 
-        $this->repository = $repository;
         $this->categoriesRelation = null;
         $this->customCategoriesRelation = null;
         $this->exportFilename = null;

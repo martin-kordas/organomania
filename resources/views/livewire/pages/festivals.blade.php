@@ -54,6 +54,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->entityPageViewComponent = 'festivals-view';
         $this->entityClass = Festival::class;
         $this->entityNamePluralAkuzativ = __('festivaly');
+        $this->filtersModalAutofocus = '#filterNameLocality';
         $this->filters[] = 'filterNameLocality';
         $this->title = __('Festivaly varhanní hudby');
     }

@@ -38,7 +38,17 @@ class OrganRepository extends AbstractRepository
         if (!empty($withCount)) $query->withCount($withCount);
         
         foreach ($filters as $field => $value) {
+            $value = trim($value);
+            
             switch ($field) {
+                case 'locality':
+                    $query->whereAny(['place', 'municipality'], 'like', "%$value%");
+                    break;
+                
+                case 'disposition':
+                    $this->filterLike($query, $field, $value);
+                    break;
+                
                 case 'organBuilderId':
                     $query->where(function (Builder $query) use ($value) {
                         $query

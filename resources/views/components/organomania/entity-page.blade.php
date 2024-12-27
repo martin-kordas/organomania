@@ -119,7 +119,7 @@
                 <div class="row gx-4 gy-2 justify-content-center align-items-center">
                     @if (in_array($this->entityClass, [Festival::class, Competition::class]))
                         <div class="col col-md-6">
-                            <input id="filterNameLocality" size="30" class="form-control" type="search" wire:model.live="filterNameLocality" placeholder="{{ __('Hledat') }} {{ $this->entityNamePluralAkuzativ }}&hellip;" />
+                            <input id="quickFilterNameLocality" size="30" class="form-control" type="search" wire:model.live="filterNameLocality" placeholder="{{ __('Hledat') }} {{ $this->entityNamePluralAkuzativ }}&hellip;" />
                         </div>
                     @else
                         <div class="col-md-8 col-lg-7 col-xl-6 hstack">
@@ -258,10 +258,14 @@
             :is="$this->entityPageViewComponent"
             :filterCategories="$this->filterCategories" :filterRegionId="$this->filterRegionId" :filterImportance="$this->filterImportance" :filterPrivate="$this->filterPrivate" :filterFavorite="$this->filterFavorite"
             :filterNearLatitude="$this->filterNearLatitude" :filterNearLongitude="$this->filterNearLongitude" :filterNearDistance="$this->filterNearDistance"
+            :filterLocality="$this->filterLocality ?? null"
+            :filterDisposition="$this->filterDisposition ?? null"
             :filterOrganBuilderId="$this->filterOrganBuilderId ?? null"
             :filterConcertHall="$this->filterConcertHall ?? null"
             :filterForeignOrganBuilder="$this->filterForeignOrganBuilder ?? null"
             :filterHasDisposition="$this->filterHasDisposition ?? null"
+            :filterName="$this->filterName ?? null"
+            :filterMunicipality="$this->filterMunicipality ?? null"
             :filterNameLocality="$this->filterNameLocality ?? null"
             :id="$this->id ?? null"
             :sortColumn="$this->sortColumn" :sortDirection="$this->sortDirection" :perPage="$this->perPage"

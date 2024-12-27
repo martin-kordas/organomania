@@ -6,7 +6,7 @@
     if ($year) $details[] = $year;
     if ($isRebuild) $details[] = __('přestavba');
     elseif ($isRenovation) {
-        $organInfo = $organ->organBuilder->shortName;
+        $organInfo = $organ->organBuilder->shortName ?? __('neznámý varhanář');
         if (isset($organ->year_built)) $organInfo .= " {$organ->year_built}";
         $details[] = $organInfo;
     }

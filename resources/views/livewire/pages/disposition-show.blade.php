@@ -16,14 +16,13 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Disposition;
 use App\Models\DispositionRegister;
 use App\Models\Registration;
-use App\Models\RegisterName;
 use App\Models\Keyboard;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Traits\HasAccordion;
 use App\Traits\HasHighlightDispositionFilters;
+use App\Traits\HasRegisterModal;
 use App\Enums\RegisterCategory;
 use App\Enums\DispositionLanguage;
-use App\Enums\Pitch;
 use App\DispositionFilters\DispositionFilter;
 use App\DispositionFilters\PlenoFilter;
 use App\DispositionFilters\TuttiFilter;
@@ -37,14 +36,12 @@ use App\Helpers;
 new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     use HasAccordion, HasHighlightDispositionFilters;
+    use HasRegisterModal;
 
     #[Locked]
     public $dispositionSlug;
     #[Locked]
     public Disposition $disposition;
-
-    public ?RegisterName $registerName = null;
-    public ?Pitch $pitch = null;
 
     #[Url(history: true)]
     public ?int $registrationId = null;
@@ -279,13 +276,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         }
         
         return $filters;
-    }
-
-    public function setRegisterName($registerNameId, $pitchId = null)
-    {
-        if (config('custom.simulate_loading')) usleep(300_000);
-        $this->registerName = RegisterName::find($registerNameId);
-        $this->pitch = $pitchId ? Pitch::from($pitchId) : null;
     }
 
     public function getDispositionRegisterName(DispositionRegister $dispositionRegister, $translate = false)

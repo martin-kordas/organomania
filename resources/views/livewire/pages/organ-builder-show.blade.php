@@ -154,6 +154,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             38 => [42],
             // Schwarz
             68 => [4],
+            // Harbich
+            37 => [72],
             default => []
         };
         return collect($relatedOrganBuilderIds)->map(
@@ -190,7 +192,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         </a>
                     @endif
                     @if ($organBuilder->region)
-                        <img width="100" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => isset($organ->image_url)]) src="{{ Vite::asset("resources/images/regions/{$organBuilder->region_id}.png") }}" />
+                        <img width="100" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => isset($organBuilder->image_url)]) src="{{ Vite::asset("resources/images/regions/{$organBuilder->region_id}.png") }}" />
                     @endif
                 </div>
             </div>
@@ -259,20 +261,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </td>
         </tr>
         @endif
-        @if (isset($organBuilder->web))
-        <tr>
-            <th>
-                <span class="d-none d-md-inline">{{ __('Webové odkazy') }}</span>
-                <span class="d-md-none">{{ __('Web') }}</span>
-            </th>
-            <td class="text-break items-list">
-                @foreach (explode("\n", $organBuilder->web) as $url)
-                    <x-organomania.web-link :url="$url" />
-                    @if (!$loop->last) <br /> @endif
-                @endforeach
-            </td>
-        </tr>
-        @endif
         @isset($organBuilder->varhany_net_id)
             <tr>
                 <th>
@@ -287,47 +275,48 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endisset
-        @if ($organBuilder->organs->isNotEmpty())
-            <tr>
-                <th>
-                    <span class="d-none d-md-inline">{{ __('Významné varhany') }}</span>
-                    <span class="d-md-none">{{ __('Varhany') }}</span>
-                </th>
-                <td class="text-break">
-                    <div class="items-list">
-                        @foreach ($this->organs as ['isRebuild' => $isRebuild, 'organ' => $organ, 'year' => $year])
-                                <x-organomania.organ-link :organ="$organ" :isRebuild="$isRebuild" :year="$year" />
-                                @if (!$loop->last) <br /> @endif
-                        @endforeach
-                    </div>
-                    @if ($this->organs->count() > 1)
-                        <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id]) }}">
-                            <i class="bi bi-music-note-list"></i>
-                            {{ __('Zobrazit vše') }}
-                            <span class="badge text-bg-secondary rounded-pill">{{ $this->organs->count() }}</span>
-                        </a>
-                    @endif
-                </td>
-            </tr>
-        @endif
-        @if ($organBuilder->renovatedOrgans->isNotEmpty())
-            <tr>
-                <th>{{ __('Oprava') }} /<br />{{ __('restaurování') }}</th>
-                <td class="text-break">
-                    <div class="items-list">
-                        @foreach ($organBuilder->renovatedOrgans as $organ)
-                            <x-organomania.organ-link :organ="$organ" :year="$organ->year_renovated ?? false" :isRenovation="true" />
-                            @if (!$loop->last) <br /> @endif
-                        @endforeach
-                    </div>
-                </td>
-            </tr>
-        @endif
         @if (isset($organBuilder->workshop_members))
         <tr>
             <th>{{ __('Členové dílny') }}</th>
             <td class="pre-line">{{ $organBuilder->workshop_members }}</td>
         </tr>
+        @endif
+        @if (isset($organBuilder->web))
+            <x-organomania.tr-responsive title="{{ __('Webové odkazy') }}">
+                <div class="text-break items-list">
+                    @foreach (explode("\n", $organBuilder->web) as $url)
+                        <x-organomania.web-link :url="$url" />
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
+                </div>
+            </x-organomania.tr-responsive>
+        @endif
+        @if ($organBuilder->organs->isNotEmpty())
+            <x-organomania.tr-responsive title="{{ __('Významné varhany') }}">
+                <div class="text-break items-list">
+                    @foreach ($this->organs as ['isRebuild' => $isRebuild, 'organ' => $organ, 'year' => $year])
+                            <x-organomania.organ-link :organ="$organ" :isRebuild="$isRebuild" :year="$year" />
+                            @if (!$loop->last) <br /> @endif
+                    @endforeach
+                </div>
+                @if ($this->organs->count() > 1)
+                    <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id]) }}">
+                        <i class="bi bi-music-note-list"></i>
+                        {{ __('Zobrazit vše') }}
+                        <span class="badge text-bg-secondary rounded-pill">{{ $this->organs->count() }}</span>
+                    </a>
+                @endif
+            </x-organomania.tr-responsive>
+        @endif
+        @if ($organBuilder->renovatedOrgans->isNotEmpty())
+            <x-organomania.tr-responsive title="{{ __('Opravy') }} / {{ __('restaurování') }}">
+                <div class="text-break items-list">
+                    @foreach ($organBuilder->renovatedOrgans as $organ)
+                        <x-organomania.organ-link :organ="$organ" :year="$organ->year_renovated ?? false" :isRenovation="true" />
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
+                </div>
+            </x-organomania.tr-responsive>
         @endif
         @if ($this->relatedOrganBuilders->isNotEmpty())
             <tr>
@@ -343,19 +332,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </tr>
         @endif
         @if (isset($organBuilder->description))
-            <tr class="d-none d-md-table-row">
-                <th>{{ __('Popis') }}</th>
-                <td>
-                    <div class="markdown">{!! $this->descriptionHtml !!}</div>
-                </td>
-            </tr>
-            <tr class="d-md-none">
-                <td colspan="2">
-                    <strong>{{ __('Popis') }}</strong>
-                    <br />
-                    <div class="markdown">{!! $this->descriptionHtml !!}</div>
-                </td>
-            </tr>
+            <x-organomania.tr-responsive title="{{ __('Popis') }}">
+                <div class="markdown">{!! $this->descriptionHtml !!}</div>
+            </x-organomania.tr-responsive>
         @endif
     </table>
         

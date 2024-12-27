@@ -33,6 +33,7 @@
         style="height: 70vh"
         rendering-type="vector"
         wire:ignore
+        @if ($this->useMapClusters) data-use-map-clusters @endif
     >
         @foreach ($organs as $organ)
             @php

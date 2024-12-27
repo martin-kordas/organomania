@@ -9,6 +9,7 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Reactive;
 use App\Http\Resources\OrganBuilderCollection;
 use App\Models\OrganBuilder;
 use App\Repositories\OrganBuilderRepository;
@@ -17,6 +18,11 @@ use App\Traits\EntityPageView;
 new class extends Component {
     
     use WithPagination, EntityPageView;
+
+    #[Reactive]
+    public $filterName;
+    #[Reactive]
+    public $filterMunicipality;
 
     // TODO: jako public mít radši jen id?
     #[Locked]
@@ -28,7 +34,6 @@ new class extends Component {
 
     public function boot(OrganBuilderRepository $repository)
     {
-        $this->repository = $repository;
         $this->categoriesRelation = 'organBuilderCategories';
         $this->customCategoriesRelation = 'organBuilderCustomCategories';
         $this->exportFilename = 'organ-builders.json';
@@ -43,6 +48,8 @@ new class extends Component {
         $this->unlikedMessage = __('Varhanář byl odebrán z oblíbených.');
         $this->mapId = 'organomania-organ-builders-view';
         $this->thumbnailComponent = 'organomania.organ-builder-thumbnail';
+        // varhanáři tvoří shluky na stejných místech, protože neznáme jejich přesné adresy v daném městě
+        $this->useMapClusters = true;
         $this->bootCommon($repository);
     }
 
@@ -66,6 +73,9 @@ new class extends Component {
     public function organs()
     {
         $filters = $this->getFiltersArray();
+        if ($this->filterName) $filters['name'] = $this->filterName;
+        if ($this->filterMunicipality) $filters['municipality'] = $this->filterMunicipality;
+
         if ($this->viewType === 'map') $sorts = ['importance' => 'asc'];
         else $sorts = [$this->sortColumn => $this->sortDirection];
 

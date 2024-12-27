@@ -129,18 +129,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </td>
         </tr>
         @isset($festival->url)
-            <tr>
-                <th>
-                    <span class="d-none d-md-inline">{{ __('Webové odkazy') }}</span>
-                    <span class="d-md-none">{{ __('Web') }}</span>
-                </th>
-                <td class="text-break items-list">
+            <x-organomania.tr-responsive title="{{ __('Webové odkazy') }}">
+                <div class="text-break items-list">
                     @foreach (explode("\n", $festival->url) as $url)
                         <x-organomania.web-link :url="$url" />
                         @if (!$loop->last) <br /> @endif
                     @endforeach
-                </td>
-            </tr>
+                </div>
+            </x-organomania.tr-responsive>
         @endisset
     </table>
         

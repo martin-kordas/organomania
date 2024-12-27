@@ -51,6 +51,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->entityPageViewComponent = 'competitions-view';
         $this->entityClass = Competition::class;
         $this->entityNamePluralAkuzativ = __('soutěže');
+        $this->filtersModalAutofocus = '#filterNameLocality';
         $this->filters[] = 'filterNameLocality';
         $this->title = __('Soutěže varhaníků');
     }

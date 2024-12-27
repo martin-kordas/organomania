@@ -61,6 +61,11 @@ class AbstractRepository
         }
     }
     
+    protected function filterLike(Builder $query, $field, $value)
+    {
+        $query->whereLike($field, "%$value%");
+    }
+    
     protected function filterNear(Builder $query, float $latitude, float $longitude, float $nearDistance)
     {
         $query->whereRaw('

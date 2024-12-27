@@ -205,6 +205,13 @@ window.initGoogleMap = function ($wire) {
                 marker.appendChild(pin.element)
             }
         });
+        
+        if ($(map).is('[data-use-map-clusters]')) {
+            new markerClusterer.MarkerClusterer({
+                map: map.innerMap,
+                markers
+            })
+        }
     })
 }
 

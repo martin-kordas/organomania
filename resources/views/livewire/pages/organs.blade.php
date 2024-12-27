@@ -27,6 +27,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     use EntityPage;
 
     #[Url(keep: true)]
+    public $filterLocality;
+    #[Url(keep: true)]
+    public $filterDisposition;
+    #[Url(keep: true)]
     public $filterOrganBuilderId;
     #[Url(keep: true)]
     public $filterConcertHall;
@@ -65,6 +69,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->entityPageViewComponent = 'organs-view';
         $this->entityClass = Organ::class;
         $this->entityNamePluralAkuzativ = __('varhany');
+        $this->filtersModalAutofocus = '#filterCategories';
+        $this->filters[] = 'filterLocality';
+        $this->filters[] = 'filterDisposition';
         $this->filters[] = 'filterOrganBuilderId';
         $this->filters[] = 'filterConcertHall';
         $this->filters[] = 'filterForeignOrganBuilder';
