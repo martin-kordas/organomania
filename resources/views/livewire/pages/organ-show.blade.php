@@ -174,18 +174,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         // zarovnání stopových výšek doprava
         //  - na řádku nesmí být čárka, to značí více spojek na 1 řádku - nemá smysl zarovnávat
-        $disposition = $disposition->replaceMatches(
-            '#^([^,]+?)(([0-9]+ )?[0-9/]+\'.*)$#m',
-            '$1<span class="float-end">$2</span>'
-        );
+        $disposition = preg_replace_callback('#^([^,]+?)(([0-9]+ )?[0-9/]+\'[^,\\n]*)$#m', function ($matches) {
+            // je-li floatující část stringu příliš velká, rozbila by vykreslení
+            if (mb_strlen($matches[2]) <= 8) {
+                return "{$matches[1]}<span class='float-end'>{$matches[2]}</span>";
+            }
+            return $matches[0];
+        }, $disposition);
 
         // odkazy na rejstříky do encyklopedie rejstříků - dynamicky získáním názvu z textu dispozice a dohledáním rejstříku v db.
-        $disposition = $disposition->explode("\n")->map(function ($row) {
+        $disposition = str($disposition)->explode("\n")->map(function ($row) {
             static $appendix = false;
             if (str($row)->contains(Organ::DISPOSITION_APPENDIX_DELIMITER)) $appendix = true;
             elseif (!$appendix) $row = $this->addLinkToDispositionRow($row);
             return $row;
         })->implode("\n");
+
 
         // appendix vypíšeme malým písmem
         $pos = str($disposition)->position(Organ::DISPOSITION_APPENDIX_DELIMITER);
