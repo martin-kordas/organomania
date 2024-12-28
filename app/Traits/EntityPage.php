@@ -14,18 +14,16 @@ use App\Models\Category as CategoryModel;
 use App\Models\Region;
 use App\Models\CustomCategory;
 use App\Interfaces\Category;
+use App\Traits\HasSorting;
 
 trait EntityPage
 {
     
+    use HasSorting;
+    
     #[Session(key: 'viewType')]
     #[Url(keep: true)]
     public $viewType = 'thumbnails';
-    
-    #[Url(keep: true)]
-    public $sortColumn = 'importance';
-    #[Url(keep: true)]
-    public $sortDirection = 'desc';
     
     #[Url(keep: true)]
     public $filterCategories;
@@ -156,34 +154,6 @@ trait EntityPage
         return $this->model->query()->whereNotNull('user_id')->count();
     }
 
-    private function isCurrentSort($column, $direction)
-    {
-        return $column === $this->sortColumn && $direction === $this->sortDirection;
-    }
-
-    private function getCurrentSortOption()
-    {
-        return $this->getSortOption($this->sortColumn);
-    }
-
-    private function getSortLabel()
-    {
-        $sortOption = $this->getCurrentSortOption();
-        $label = __($sortOption['label']);
-        $arrow = $this->sortDirection === 'asc' ? '↑' : '↓';
-        return "$label $arrow";
-    }
-
-    private function getSortOption($column)
-    {
-        foreach (static::SORT_OPTIONS as $sortOption) {
-            if ($sortOption['column'] === $column) {
-                return $sortOption;
-            }
-        }
-        throw new RuntimeException;
-    }
-    
     private function getCustomCategoryGroupName($group)
     {
         return match($group) {
@@ -295,19 +265,6 @@ trait EntityPage
             if ($this->{$filter} && !in_array($filter, $this->invisibleFilters)) $count++;
         }
         return $count;
-    }
-
-    public function sort($column, $direction)
-    {
-        
-        if ($this->getSortOption($column)) {
-            if ($column !== $this->sortColumn) {
-                $this->dispatch('sort-changed');
-            }
-            $this->sortColumn = $column;
-            $this->sortDirection = $direction;
-        }
-        $this->dispatch('bootstrap-rendered');
     }
 
     #[Computed]

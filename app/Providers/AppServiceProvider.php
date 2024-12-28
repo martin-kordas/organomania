@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
+use NumberFormatter;
 use OpenAI;
 use OpenAI\Contracts\ClientContract;
 use App\Repositories\OrganRepository;
@@ -48,6 +49,13 @@ class AppServiceProvider extends ServiceProvider
             $apiKey = getenv('OPENAI_API_KEY');
             return OpenAI::client($apiKey);
         });
+        
+        $this->app
+            ->when(NumberFormatter::class)
+            ->needs('$locale')
+            ->give(
+                fn() => app()->getLocale()
+            );
     }
 
     /**
@@ -89,6 +97,10 @@ class AppServiceProvider extends ServiceProvider
             return true;        // pro všechny přihlášené
         });
         Gate::define('useRegistrationSets', function (User $user) {
+            return true;        // pro všechny přihlášené
+        });
+        
+        Gate::define('likeOrganists', function (User $user) {
             return true;        // pro všechny přihlášené
         });
         

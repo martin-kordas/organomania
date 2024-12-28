@@ -113,6 +113,9 @@ Volt::route('dispositions/{disposition}/registration-sets/{registrationSet}', 'p
     ->name('dispositions.registration-sets.show')
     ->scopeBindings();
 
+Volt::route('organists', 'pages.organists')
+    ->name('organists.index');
+
 Route::get('organ-custom-categories/{id}/organs', function ($id) {
     $params = ['filterCategories' => ["custom-$id"], 'viewType' => 'table'];
     if (request()->hasValidSignature(false)) {

@@ -33,12 +33,7 @@ class CompetitionRepository extends AbstractRepository
             
             switch ($field) {
                 case 'nameLocality':
-                    $query->where(function (Builder $query) use ($value) {
-                        $query
-                            ->where('name', 'LIKE', "%$value%")
-                            ->orWhere('locality', 'LIKE', "%$value%")
-                            ->orWhere('place', 'LIKE', "%$value%");
-                    });
+                    $query->whereAny(['name', 'locality', 'place'], 'LIKE', "%$value%");
                     break;
                 
                 case 'regionId':

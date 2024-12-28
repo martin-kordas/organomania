@@ -3,6 +3,7 @@
 namespace App;
 
 use Transliterator;
+use NumberFormatter;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -107,13 +108,25 @@ class Helpers
     
     static function formatDate(Carbon $date)
     {
-        return $date->translatedFormat('j. F Y');
+        // Carbon zřejmě neumí automaticky změnit formát podle locale
+        $format = app()->getLocale() === 'en' ? 'jS F Y' : 'j. F Y';
+        return $date->translatedFormat($format);
+    }
+    
+    static function formatNumber(float $number, int $style = NumberFormatter::DECIMAL, ?int $decimals = null)
+    {
+        $formatter = app(NumberFormatter::class, ['style' => $style]);
+        if (isset($decimals)) {
+            $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, $decimals);
+            $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, $decimals);
+        }
+        return $formatter->format($number);
     }
     
     static function formatCurrency(float $amount, string $currency = 'Kč', bool $html = true)
     {
         $separator = $html ? '&nbsp;' : ' ';
-        $number = number_format($amount, 2, ',', $separator);
+        $number = static::formatNumber($amount, decimals: 2);
         return $number . $separator . $currency;
     }
     

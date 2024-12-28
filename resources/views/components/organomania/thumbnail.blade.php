@@ -158,7 +158,10 @@
                                 data-bs-toggle="tooltip"
                                 data-bs-title="{{ __('Přidat do oblíbených') }}"
                             >
-                                <i class="bi-heart"></i> {{ $organ->likes_count }}
+                                <i class="bi-heart"></i>
+                                @if ($organ->likes_count > 0)
+                                    {{ $organ->likes_count }}
+                                @endif
                             </a>
                         </div>
                     @endif

@@ -560,3 +560,33 @@ div.side-buttons {
         width: 100% !important;
     }
 }
+
+.organists {
+    max-width: 850px;
+    
+    .organist:not(:hover) {
+        background: #fdfdfd;
+    }
+    
+    .avatar {
+        width: 5.5em;
+        height: auto;
+    }
+    
+    .web-link span {
+        text-decoration-color: rgba(138, 92, 26, 0.5) !important;
+    }
+    
+    @media screen and (min-width: 768px) {
+        .avatar-container {
+            width: auto !important;
+            min-width: 5.75em;
+        }
+    }
+    
+    @media screen and (max-width: 767px) {
+        .organist-stats {
+            font-size: 80%;
+        }
+    }
+}

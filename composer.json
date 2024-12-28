@@ -9,6 +9,8 @@
         "bacon/bacon-qr-code": "*",
         "barryvdh/laravel-dompdf": "^2.2",
         "cviebrock/eloquent-sluggable": "^11.0",
+        "google/apiclient": "^2.18",
+        "guzzlehttp/guzzle": "^7.9",
         "jaybizzle/crawler-detect": "^1.2",
         "jdorn/sql-formatter": "^1.2",
         "jfcherng/php-diff": "^6.16",
