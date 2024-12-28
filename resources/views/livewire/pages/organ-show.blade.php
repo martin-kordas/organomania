@@ -176,7 +176,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         //  - na řádku nesmí být čárka, to značí více spojek na 1 řádku - nemá smysl zarovnávat
         $disposition = preg_replace_callback('#^([^,]+?)(([0-9]+ )?[0-9/]+\'[^,\\n]*)$#m', function ($matches) {
             // je-li floatující část stringu příliš velká, rozbila by vykreslení
-            if (mb_strlen($matches[2]) <= 8) {
+            // TODO: zohlednit raději součet počtu znaků vč. názvu rejstříku ($matches[1])
+            if (mb_strlen($matches[2]) <= 10) {
                 return "{$matches[1]}<span class='float-end'>{$matches[2]}</span>";
             }
             return $matches[0];
