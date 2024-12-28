@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
@@ -31,6 +32,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ['column' => 'videos_count', 'label' => 'Počet videí', 'type' => 'numeric', 'directions' => ['desc']],
         ['column' => 'last_video_date', 'label' => 'Nejnovější video', 'type' => 'numeric', 'directions' => ['desc']],
     ];
+
+    public function rendering(View $view): void
+    {
+        $view->title(__('Varhaníci na českém Youtube'));
+    }
 
     public function mount()
     {
@@ -76,7 +82,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         }
         $query->orderBy('id');
 
-        return $query->paginate(5);
+        return $query->paginate(15);
     }
 
     public function likeToggle($organistId)
@@ -250,15 +256,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             <div class="flex-grow-1">
                                 <div class="border-bottom">
                                     <h5 class="card-title">
-                                        <i class="bi bi-youtube text-danger"></i>
-                                        @if ($this->sortColumn === 'name')
-                                            {{ $organist->last_name }}, {{ $organist->first_name }}
-                                        @else
-                                            {{ $organist->first_name }} {{ $organist->last_name }}
-                                        @endif
-                                        @isset($organist->year_of_birth)
-                                            <span class="fw-normal text-body-tertiary">(*{{ $organist->year_of_birth }})</span>
-                                        @endisset
+                                        <a class="text-decoration-none link-dark" href="{{ $organist->channelUrl }}" target="_blank">
+                                            <i class="bi bi-youtube text-danger"></i>
+                                            @if ($this->sortColumn === 'name')
+                                                {{ $organist->last_name }}, {{ $organist->first_name }}
+                                            @else
+                                                {{ $organist->first_name }} {{ $organist->last_name }}
+                                            @endif
+                                            @isset($organist->year_of_birth)
+                                                <span class="fw-normal text-body-tertiary">(*{{ $organist->year_of_birth }})</span>
+                                            @endisset
+                                        </a>
                                     </h6>
                                     @isset($organist->occupation)
                                         <h6 class="small card-subtitle pre-line mb-2 text-body-secondary lh-base">{{ $organist->occupation }}</h6>

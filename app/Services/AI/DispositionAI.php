@@ -83,6 +83,11 @@ abstract class DispositionAI
             })->join(', ', ' and ');
             $info .= " It was later rebuilt $rebuildsStr.";
         }
+        else {
+            if ($this->organ->year_built < 1800) {
+                $info .= " Organ was built in South German baroque style, which means it has probably limited keyboad range. Consider this when thinking about suitable repertoir.";
+            }
+        }
         
         return $info;
     }

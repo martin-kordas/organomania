@@ -15,11 +15,14 @@ class DescribeDispositionAI extends DispositionAI
     {
         $language = locale_get_display_language($this->locale, 'en');
         
+        if ($language === 'cs') $czechAdvices = ' For organ stops use Czech term "rejstříky".';
+        else $czechAdvices = '';
+        
         $systemContent = <<<EOL
             You will be given organ disposition.
             You should characterize the disposition of organ - describe important organ stops and characterize the whole disposition principles and style.
             Think about organ music reperoir suitable for this organ.
-            Use $language language.
+            Use $language language.$czechAdvices
             Use Markdown formatting, but format only bold text, avoid headings.
         EOL;
         
