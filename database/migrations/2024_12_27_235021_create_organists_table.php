@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('first_name', length: 50);
             $table->string('last_name', length: 50);
-            $table->integer('year_of_birth');
+            $table->integer('year_of_birth')->nullable();
             $table->text('occupation')->nullable();
             $table->string('channel_character', length: 300)->nullable();
             $table->string('channel_username', length: 300);

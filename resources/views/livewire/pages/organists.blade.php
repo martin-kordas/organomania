@@ -3,6 +3,7 @@
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Volt\Component;
@@ -35,12 +36,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->title(__('Varhaníci na českém Youtube'));
+        $view->title(__('Varhaníci českého Youtube'));
+    }
+
+    public function updated($property)
+    {
+        if (in_array($property, ['filter', 'filterFavorite'])) {
+            $this->resetPage();
+        }
     }
 
     public function mount()
     {
-        $this->sortColumn = 'last_video_date';
+        if (request()->query('sortColumn') === null) $this->sortColumn = 'last_video_date';
         $this->favoriteCount = $this->getFavoriteCount();
     }
 
@@ -74,6 +82,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             case 'subscribers_count':
             case 'videos_count':
             case 'last_video_date':
+                $query->orderBy(DB::raw("`{$this->sortColumn}` IS NULL"));
                 $query->orderBy($this->sortColumn, $this->sortDirection);
                 break;
 
@@ -83,6 +92,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $query->orderBy('id');
 
         return $query->paginate(15);
+    }
+
+    public function sort1($column, $direction)
+    {
+        $this->sort($column, $direction);
+        $this->resetPage();
     }
 
     public function likeToggle($organistId)
@@ -156,7 +171,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @php $directions = $sortOption['directions'] ?? ['asc', 'desc'] @endphp
                     @if (in_array('asc', $directions))
                         <li>
-                            <a href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'asc')]) wire:click="sort('{{ $sortOption['column'] }}', 'asc')">
+                            <a href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'asc')]) wire:click="sort1('{{ $sortOption['column'] }}', 'asc')">
                                 {{ __($sortOption['label']) }} ({{ __('vzestupně') }})
                                 <i class="float-end bi-sort-{{ $sortOption['type'] }}-up"></i>
                             </a>
@@ -164,7 +179,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @endif
                     @if (in_array('desc', $directions))
                         <li>
-                            <a href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'desc')]) wire:click="sort('{{ $sortOption['column'] }}', 'desc')">
+                            <a href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'desc')]) wire:click="sort1('{{ $sortOption['column'] }}', 'desc')">
                                 {{ __($sortOption['label']) }} ({{ __('sestupně') }})
                                 <i class="float-end bi-sort-{{ $sortOption['type'] }}-down-alt"></i>
                             </a>
@@ -178,7 +193,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
         
         <div class="me-auto order-1">
-            <h3>{{ __('Varhaníci na českém Youtube') }}</h3>
+            <h3>{{ __('Varhaníci českého Youtube') }}</h3>
 
             <em class="text-body-secondary">
                 {{ __('Posláním stránky je upozorňovat na kvalitní volně dostupné nahrávky našich koncertních varhaníků.') }}

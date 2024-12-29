@@ -564,8 +564,11 @@ div.side-buttons {
 .organists {
     max-width: 850px;
     
-    .organist:not(:hover) {
-        background: #fdfdfd;
+    .organist {
+        background: #fafafa;
+        &:hover {
+            background: #f5f5f5;
+        }
     }
     
     .avatar {
@@ -586,7 +589,7 @@ div.side-buttons {
     
     @media screen and (max-width: 767px) {
         .organist-stats {
-            font-size: 80%;
+            font-size: 85%;
         }
     }
 }
