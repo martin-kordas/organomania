@@ -51,6 +51,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (!request()->hasValidSignature(false)) {
             $this->authorize('view', $this->organ);
         }
+
+        $this->organ->viewed();
     }
 
     public function boot(OrganRepository $repository, MarkdownConvertorService $markdownConvertor)
@@ -319,7 +321,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 <div class="organ-show container">
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
-            <h3 class="fs-2 lh-sm fw-normal" @if (Auth::user()?->admin) title="ID: {{ $organ->id }}" @endif>
+            <h3 class="fs-2 mb-3 lh-sm fw-normal" @if (Auth::user()?->admin) title="ID: {{ $organ->id }}" @endif>
                 <strong >{{ $organ->municipality }}</strong>
                 <br />
                 <span class="fs-4">{{ $organ->place }}</span>
@@ -328,8 +330,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endif
                 @if ($organ->region->id !== Region::Praha->value)
                     <br />
-                    <small class="text-secondary position-relative" style="font-size: var(--bs-body-font-size); top: -6px;">
-                        ({{ $organ->region->name }})
+                    <small class="text-secondary position-relative" style="font-size: var(--bs-body-font-size); top: -4px;">
+                        {{ $organ->region->name }}
                     </small>
                 @endif
             </h3>
@@ -351,7 +353,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
     </div>
     
-    <table class="table mb-4">
+    <table class="table mb-2">
         <tr>
             <th>{{ __('Varhanář') }}</th>
             <td>
@@ -535,6 +537,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.tr-responsive>
         @endif
     </table>
+    
+    @if ($organ->isPublic())
+        <div class="small text-secondary text-end mb-4">
+            {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organ->views) }}&times;
+        </div>
+    @endif
     
     @if (count($this->images) > 1)
         <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />

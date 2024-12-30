@@ -21,13 +21,14 @@ use App\Models\Like;
 use App\Models\OrganRebuild;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Traits\OwnedEntity;
+use App\Traits\Viewable;
 use App\Helpers;
 
 #[ObservedBy([OrganObserver::class])]
 class Organ extends Model
 {
     use HasFactory, SoftDeletes, Searchable, Sluggable;
-    use OwnedEntity;
+    use OwnedEntity, Viewable;
     
     protected $guarded = [];
     

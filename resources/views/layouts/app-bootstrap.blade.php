@@ -110,7 +110,6 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                                 <x-organomania.footer-nav-item href="mailto:{{ config('custom.app_admin_email') }}">
                                     {{ __('Kontakt') }}
                                 </x-organomania.footer-nav-item>
-                                <div class="w-100 d-sm-none"></div>
                                 <li class="nav-item d-flex align-items-center">
                                     <a href="https://www.facebook.com/organomania.varhany" target="_blank" class="nav-link text-body-secondary fs-4 px-1 py-0 position-relative" style="top: -2px">
                                         <i class="bi bi-facebook"></i>

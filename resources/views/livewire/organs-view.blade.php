@@ -39,6 +39,8 @@ new class extends Component {
     public $filterForeignOrganBuilder;
     #[Reactive]
     public $filterHasDisposition;
+    #[Reactive]
+    public $filterValuableCase;
 
     // TODO: jako public mít radši jen id?
     #[Locked]
@@ -78,6 +80,7 @@ new class extends Component {
         if ($this->filterConcertHall) $filters['concertHall'] = $this->filterConcertHall;
         if ($this->filterForeignOrganBuilder) $filters['foreignOrganBuilder'] = $this->filterForeignOrganBuilder;
         if ($this->filterHasDisposition) $filters['hasDisposition'] = $this->filterHasDisposition;
+        if ($this->filterValuableCase) $filters['valuableCase'] = $this->filterValuableCase;
 
         if ($this->viewType === 'map') $sorts = ['importance' => 'asc'];
         else $sorts = [$this->sortColumn => $this->sortDirection];

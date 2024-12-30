@@ -8,6 +8,7 @@ use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Route;
 use App\Models\Festival;
 use App\Traits\HasAccordion;
+use App\Helpers;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
 
@@ -18,6 +19,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     const
         SESSION_KEY_SHOW_MAP = 'festivals.show.show-map';
+
+    public function mount()
+    {
+        $this->festival->viewed();
+    }
 
     public function rendering(View $view): void
     {
@@ -83,7 +89,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
     </div>
     
-    <table class="table">
+    <table class="table mb-2">
         @isset($festival->locality)
             <tr>
                 <th>{{ __('Obec') }}</th>
@@ -139,6 +145,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.tr-responsive>
         @endisset
     </table>
+    
+    <div class="small text-secondary text-end mb-4">
+        {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($festival->views) }}&times;
+    </div>
         
     @if (count($this->images) > 1)
         <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />

@@ -44,6 +44,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (!request()->hasValidSignature(false)) {
             $this->authorize('view', $this->organBuilder);
         }
+        $this->organBuilder->viewed();
     }
 
     public function rendering(View $view): void
@@ -199,7 +200,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
     </div>
     
-    <table class="table">
+    <table class="table mb-2">
         <tr>
             <th>{{ __('Místo působení') }}</th>
             <td>
@@ -337,6 +338,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.tr-responsive>
         @endif
     </table>
+
+    @if ($organBuilder->isPublic())
+        <div class="small text-secondary text-end mb-4">
+            {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organBuilder->views) }}&times;
+        </div>
+    @endif
         
     <div class="accordion">
         @isset($organBuilder->region_id)
@@ -360,7 +367,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             >
                 <ul class="list-group list-group-flush small">
                     @foreach (explode("\n", $organBuilder->literature) as $literature1)
-                        <li @class(['list-group-item', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>{!! Helpers::formatUrlsInLiterature($literature1) !!}}</li>
+                        <li @class(['list-group-item', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>{!! Helpers::formatUrlsInLiterature($literature1) !!}</li>
                     @endforeach
                 </ul>
             </x-organomania.accordion-item>

@@ -37,11 +37,13 @@
         <p class="mb-0">
             {!! __('O uváděných <strong>parametrech varhan</strong> platí:') !!}
         </p>
-        <ul>
-            <li>{{ __('Záměrem je uvádět současný (ne historický) stav. V případech, kdy je nedostatek dostupných zdrojů, mohou být nicméně informace neaktuální.') }}</li>
+        <ul class="mb-0">
+            <li>{{ __('Záměrem je postihnout současný (ne historický) stav. V případech, kdy je nedostatek dostupných zdrojů, mohou být nicméně informace neaktuální.') }}</li>
             <li>{{ __('Údaj o počtu rejstříků může v některých případech započítávat i transmise a extenze.') }}</li>
             <li>{{ __('Kategorizace varhan podle traktur zohledňuje tónovou, ne rejstříkovou trakturu.') }}</li>
+            <li>{{ __('Evidovány jsou pouze výrazné přestavby varhan a jejich poslední generální oprava nebo restaurování.') }}</li>
         </ul>
+        <p>{!! __('Podrobnější informace o nástroji lze obvykle najít v katalogu <a href="http://varhany.net">varhany.net</a>.') !!}</p>
         
         <img class="rounded float-start me-3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/2022_Byst%C5%99ice_lustr_a_varhany.jpg/360px-2022_Byst%C5%99ice_lustr_a_varhany.jpg" title="{{ __('Licence obrázku') }}: Qasinka, CC0, via Wikimedia Commons" style="max-height: 310px; width: auto; max-width: 50%" />
         <p>
@@ -55,7 +57,7 @@
             {!! __('Diskutabilní je i <strong>výběr varhan a varhanářů</strong>, které web pokrývá.') !!}
             {{ __('Záměrem je poskytnout přehled pouze těch "významných".') }}
             {{ __('Skupinu "významných" však opět není možné objektivně definovat, ani rozsahově pokrýt.') }}
-            {{ __('V praxi se tedy při výběru varhan uplatnila řada hledisek: starobylost, velikost a konstrukční zajímavost varhan, historický význam místa, kde stojí, hodnotná varhanní skříň nebo i nedávno proběhlé restaurování varhan a jejich aktivní hudební využívání.') }}
+            {{ __('V praxi se tedy při výběru varhan uplatnila řada hledisek: starobylost, velikost a konstrukční zajímavost varhan, historický význam místa, kde stojí, hodnotná varhanní skříň nebo i nedávno proběhlé restaurování nástroje a jeho aktivní hudební využívání.') }}
             {{ __('Zatímco nejvýznamější varhany jsou pokryty snad kompletně, v případě těch méně významných jde jen o vybranou výseč.') }}
         </p>
         

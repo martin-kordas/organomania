@@ -29,6 +29,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->markdownConvertor = $markdownConvertor;
     }
 
+    public function mount()
+    {
+        $this->competition->viewed();
+    }
+
     public function rendering(View $view): void
     {
         $view->title($this->competition->name);
@@ -160,10 +165,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.tr-responsive>
         @endisset
     </table>
-    
+
     <h5 class="mt-4">{{ __('Obvyklé soutěžní podmínky') }}</h5>
-    
-    <table class="table mb-4">
+
+    <table class="table mb-2">
         <tr>
             <th>{{ __('Mezinárodní soutěž') }}</th>
             <td>
@@ -207,6 +212,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </tr>
         @endisset
     </table>
+
+    <div class="small text-secondary text-end mb-4">
+        {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($competition->views) }}&times;
+    </div>
         
     @if (count($this->images) > 1)
         <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />

@@ -22,12 +22,13 @@ use App\Models\Scopes\OwnedEntityScope;
 use App\Models\Like;
 use App\Enums\OrganBuilderCategory as OrganBuilderCategoryEnum;
 use App\Traits\OwnedEntity;
+use App\Traits\Viewable;
 
 #[ObservedBy([OrganBuilderObserver::class])]
 class OrganBuilder extends Model
 {
     use HasFactory, SoftDeletes, Searchable, Sluggable;
-    use OwnedEntity;
+    use OwnedEntity, Viewable;
     
     protected $guarded = [];
     

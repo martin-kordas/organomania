@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('year_renovated')->nullable();
             $table->integer('stops_count')->nullable();
             $table->integer('manuals_count')->nullable();
+            $table->integer('valuable_case')->default(0);
             $table->integer('concert_hall')->default(0);
             $table->string('image_url', length: 500)->nullable();
             $table->string('image_credits', length: 500)->nullable();

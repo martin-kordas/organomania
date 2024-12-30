@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 use App\Models\Region;
 use App\Models\Organ;
+use App\Traits\Viewable;
 
 class Festival extends Model
 {
     use HasFactory, SoftDeletes, Sluggable;
+    use Viewable;
     
     protected $fillable = ['organ_id'];
     

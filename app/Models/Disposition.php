@@ -13,12 +13,13 @@ use App\Enums\DispositionLanguage;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Traits\OwnedEntity;
 use App\Helpers;
+use App\Traits\Viewable;
 
 #[ObservedBy([DispositionObserver::class])]
 class Disposition extends Model
 {
     use HasFactory, SoftDeletes, Sluggable;
-    use OwnedEntity;
+    use OwnedEntity, Viewable;
     
     protected $guarded = [];
     

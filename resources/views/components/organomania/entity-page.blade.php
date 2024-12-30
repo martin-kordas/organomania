@@ -264,6 +264,7 @@
             :filterConcertHall="$this->filterConcertHall ?? null"
             :filterForeignOrganBuilder="$this->filterForeignOrganBuilder ?? null"
             :filterHasDisposition="$this->filterHasDisposition ?? null"
+            :filterValuableCase="$this->filterValuableCase ?? null"
             :filterName="$this->filterName ?? null"
             :filterMunicipality="$this->filterMunicipality ?? null"
             :filterNameLocality="$this->filterNameLocality ?? null"

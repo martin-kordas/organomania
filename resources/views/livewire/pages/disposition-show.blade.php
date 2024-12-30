@@ -129,6 +129,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (!$this->signed) {
             $this->authorize('view', $this->disposition);
         }
+        $this->disposition->viewed();
 
         $this->setRegistration();
     }
@@ -955,6 +956,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     @if (isset($disposition->description) && $this->showDescription)
         <h5 class="mt-3">{{ __('Popis') }}</h5>
         <div class="pre-line">{{ $this->disposition->description }}</div>
+    @endif
+        
+    @if ($disposition->isPublic())
+        <div class="small text-secondary text-end">
+            {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($disposition->views) }}&times;
+        </div>
     @endif
 
     {{-- statistiky, nastavení --}}

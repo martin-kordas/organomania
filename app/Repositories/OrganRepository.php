@@ -60,7 +60,9 @@ class OrganRepository extends AbstractRepository
                     break;
                 
                 case 'concertHall':
-                    $query->where('concert_hall', $value ? 1 : 0);
+                case 'valuableCase':
+                    $column = str($field)->snake();
+                    $query->where($column, $value ? 1 : 0);
                     break;
                 
                 case 'foreignOrganBuilder':

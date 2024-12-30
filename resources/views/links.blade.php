@@ -20,7 +20,7 @@
         </x-organomania.link-list>
 
         
-        <h4 class="mt-4">{{ __('Varhany v médiích') }}</h4>
+        <h4 class="mt-3">{{ __('Varhany v médiích') }}</h4>
         
         <x-organomania.link-list class="mt-3">
             <x-organomania.link-list-item icon="book" url="https://www.klasikaplus.cz/rubrika/serial/varhany-a-varhanici/">
@@ -72,7 +72,9 @@
             </x-organomania.link-list-item>
         </x-organomania.link-list>
         
-        <h4 class="mt-4">{{ __('Literatura') }}</h4>
+        <h4 class="mt-3">{{ __('Literatura') }}</h4>
+        
+        <h5>{{ __('Varhany v českých zemích') }}</h5>
         
         <x-organomania.link-list class="mt-3">
             <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/recenze/nejvyznamnejsi-varhany-ceske-republiky-426600">
@@ -103,11 +105,20 @@
                 Jan Tomíček: Varhany a jejich osudy
                 <x-slot:description>{{ __('sbírka čtivých pojednání o vybraných domácích varhanách a varhanářích') }}</x-slot>
             </x-organomania.link-list-item>
-            
+        </x-organomania.link-list>
+        
+        <h5 class="mt-3">{{ __('Varhany obecně') }}</h5>
+        
+        <x-organomania.link-list class="mt-3">
+            <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/knihy/organ-v-kulture-dvoch-tisicroci-294751">
+                Ferdinand Klinda: Organ v kultúre dvoch tisícročí
+                <x-slot:description>{{ __('výpravná publikace o historii varhan a varhanní hudby v jednotlivých zemích a o konstrukční stránce nástroje') }}</x-slot>
+            </x-organomania.link-list-item>
             <x-organomania.link-list-item icon="book" url="https://www.baerenreiter.cz/cs/dilo/belsky-vratislav/4518-nauka-o-varhanach">
                 Vratislav Bělský: Nauka o varhanách
                 <x-slot:description>{{ __('osvědčená publikace o historii, stavbě a zvukové podstatě varhan') }}</x-slot>
             </x-organomania.link-list-item>
+          
         </x-organomania.link-list>
         
     </div>
