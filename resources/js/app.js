@@ -173,6 +173,11 @@ window.removeTooltips = function () {
     $('.dropdown-menu').removeClass('show')
 }
 
+function showThumbnailOrgan($wire, organId) {
+    new bootstrap.Modal($('#organThumbnail')[0]).show()
+    $wire.setThumbnailOrgan(organId)
+}
+
 window.initGoogleMap = function ($wire) {
     setTimeout(function () {
         const map = document.querySelector('gmp-map')
@@ -182,9 +187,8 @@ window.initGoogleMap = function ($wire) {
         // a s pointerdown naopak není kompatibilní data-bs-toggle, proto modal aktivujeme v JS
         markers.forEach(marker => {
             marker.addEventListener('pointerdown', function () {
-                new bootstrap.Modal($('#organThumbnail')[0]).show()
                 let organId = marker.dataset.organId
-                $wire.setThumbnailOrgan(organId)
+                showThumbnailOrgan($wire, organId)
             })
             const infoWindow = new google.maps.InfoWindow({
                 headerDisabled: true,
@@ -211,6 +215,121 @@ window.initGoogleMap = function ($wire) {
                 map: map.innerMap,
                 markers
             })
+        }
+    })
+}
+
+function getTimelineOptions(step, maxDate, orientationAxis)
+{
+    return {
+        min: '1500-01-01',
+        max: maxDate,
+        showCurrentTime: false,
+        timeAxis: { scale: 'year', step },
+        dataAttributes: ['entityType', 'entityId', 'url', 'isWorkshop'],
+        orientation: { axis: orientationAxis },
+        order: function (item1, item2) {
+            // varhany: podle data stavby
+            if (item1.entityType === 'organ' && item2.entityType === 'organ') {
+                return item2.start - item1.start
+            }
+
+            // nejprve varhanáři, pak varhany
+            if (item1.entityType === 'organ') return -1
+            if (item2.entityType === 'organ') return 1
+
+            // varhanáři: podle data, timeline položky patřící stejnému varhanáři u sebe
+            if (item1.entityId !== item2.entityId) return item2.entityId - item1.entityId
+            if (item1.start.getTime() === item2.start.getTime()) return item2.end - item1.end
+            return item2.start - item1.start
+        },
+        groupOrder: 'orderValue',
+        xss: {
+            filterOptions: {
+                whiteList: {
+                    span: ['class'],
+                    i: ['class'],
+                }
+            }
+        },
+        template: function (item, element, data) {
+            if (item.type === 'background') return ''
+            
+            var icon = item.entityType === 'organ' ? 'music-note-list' : 'person-circle'
+            var timeClass = 'text-body-secondary';
+            if (item.entityType !== 'organ') timeClass += ' small';
+            var iconPrivate = (item.entityType === 'organBuilder' && !item.public) ? ' <i class="bi-lock text-warning"></i>' : ''
+            return `<i class='bi-${icon} text-primary'></i> ${data.name}${iconPrivate} <span class='${timeClass}'>(${data.time})</span>`
+        },
+        groupTemplate: function (item) {
+            if (item.content.startsWith('ž-')) return ''
+            return item.content
+        }
+    }
+}
+
+window.initTimeline = async function ($wire, timelineItems, timelineGroups, timelineMarkers) {
+    // TODO: alternativní způsoby importu nejsou tak datově náročné (https://github.com/visjs/vis-timeline)
+    const vis = await import('vis-timeline/standalone')
+    
+    setTimeout(function () {
+        var container = $('#timeline')[0]
+        
+        var max = new Date()
+        max.setFullYear(max.getFullYear() + 20)
+        var step = parseInt(container.dataset.step)
+        var orientationAxis = $(container).is('[data-axis-both]') ? 'both' : 'bottom'
+
+        var options = getTimelineOptions(step, max, orientationAxis)
+        
+        timelineItems = timelineItems.map(function (item) {
+            item.end ??= max
+            return item
+        })
+        
+        var items = new vis.DataSet(timelineItems)
+        var timeline = new vis.Timeline(container, items, options)
+        
+        if (timelineGroups !== null) {
+            var groups = new vis.DataSet()
+            for (var key in timelineGroups) {
+                groups.add({
+                    id: timelineGroups[key].name,
+                    orderValue: timelineGroups[key].orderValue,
+                    content: timelineGroups[key].name,
+                    nestedGroups: timelineGroups[key].nestedGroups
+                })
+            }
+            timeline.setGroups(groups)
+        }
+        
+        timelineMarkers.forEach(function (marker, i) {
+            let id = `marker${i}`
+            timeline.addCustomTime(marker.date, id)
+            timeline.setCustomTimeMarker(marker.name, id)
+            timeline.setCustomTimeTitle(marker.description, id)
+        })
+        
+        timeline.on('click', function ({ item }) {
+            if (item) {
+                var timelineItem = items.get(item);
+                if (timelineItem.entityType === 'organ') {
+                    window.open(timelineItem.url, '_blank')
+                }
+                else showThumbnailOrgan($wire, timelineItem.entityId)
+            }
+        })
+        
+        var selectedEntityType = container.dataset.selectedEntityType
+        var selectedEntityId = container.dataset.selectedEntityId ? parseInt(container.dataset.selectedEntityId) : undefined
+        if (selectedEntityType && selectedEntityId) {
+            var ids = [];
+            items.forEach(item => {
+                if (item.entityType === selectedEntityType && item.entityId === selectedEntityId) {
+                    ids.push(item.id)
+                }
+            })
+            if (ids.length > 0) timeline.setSelection(ids)
         }
     })
 }

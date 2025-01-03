@@ -7,6 +7,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Route;
 use App\Helpers;
+use App\Enums\Region;
 use App\Models\Competition;
 use App\Services\MarkdownConvertorService;
 use App\Traits\HasAccordion;
@@ -98,7 +99,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
     
     <div class="text-center">
-        <x-organomania.warning-alert class="d-inline-block mb-3 asds">
+        <x-organomania.warning-alert class="d-inline-block mb-3">
             {!! __('Uváděné parametry soutěže vychází z posledního známého ročníku a <strong>nemusí být aktuální</strong>!') !!}
             <br class="d-none d-md-inline" />
             {{ __('Pro aktuální informace navštivte vždy oficiální web soutěže.') }}
@@ -108,10 +109,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <table class="table">
         @isset($competition->locality)
             <tr>
-                <th>{{ __('Lokalita') }}</th>
+                <th>{{ __('Obec') }}</th>
                 <td>
                     {{ $competition->locality }}
-                    @if ($competition->region)
+                    @if ($competition->region && $competition->region->id !== Region::Praha->value)
                         <span class="text-secondary">({{ $competition->region->name }})</span>
                     @endif
                 </td>

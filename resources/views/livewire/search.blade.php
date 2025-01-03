@@ -2,6 +2,7 @@
 
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Organ;
@@ -59,8 +60,16 @@ new class extends Component {
                         'organs.id', 'organs.slug', 'organs.place', 'organs.municipality', 'organs.importance', 'organs.organ_builder_id',
                         'organs.year_built', 'organs.user_id',
                     ])
+                    ->selectRaw(
+                        'MATCH(organs.municipality, organs.place) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
+                        [$this->sanitizedSearch]
+                    )
                     ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
+                    // přednostně varhany, kde je nějaký výskyt hledaného výrazu v lokalitě (municipality, place)
+                    ->orderByRaw('relevance > 0 DESC')
                     ->orderBy('importance', 'DESC')
+                    ->orderBy('municipality')
+                    ->orderBy('place')
                     ->take(8);
             })
             ->get();
@@ -71,14 +80,20 @@ new class extends Component {
         return OrganBuilder::search($this->sanitizedSearch)
             ->query(function (Builder $builder) {
                 $builder
+                    ->orderBy('relevance', 'DESC')
                     ->orderBy('importance', 'DESC')
+                    ->orderByName()
                     ->take(8)
                     ->select([
                         'id', 'slug',
                         'is_workshop', 'workshop_name', 'first_name', 'last_name',
                         'active_period', 'municipality', 'importance',
                         'user_id',
-                    ]);
+                    ])
+                    ->selectRaw(
+                        'MATCH(workshop_name, first_name, last_name) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
+                        [$this->sanitizedSearch]
+                    );
             })
             ->get()
             ->append(['name']);
@@ -90,7 +105,7 @@ new class extends Component {
             ->query(function (Builder $builder) {
                 $builder
                     ->select([
-                        'register_id', 'name', 'slug', 'language'
+                        'register_id', 'name', 'slug', 'language', 'hide_language'
                     ])
                     ->with('register:id,register_category_id')
                     ->orderBy('name')
@@ -107,7 +122,7 @@ new class extends Component {
 
 }; ?>
 
-<form role="search" id="{{ $id }}-form" class="col" style="font-size: 95%;">
+<form role="search" id="{{ $id }}-form" class="col" style="font-size: 95%;" onsubmit="return false">
     <div x-data="{isTyped: false}">
         <div class="position-relative">
             <div class="input-group search-input-group">
@@ -198,7 +213,9 @@ new class extends Component {
                                 >
                                     <span class="me-auto">
                                         {!! $this->highlight($registerName->name) !!}
-                                        <span class="text-body-secondary">({{ $registerName->language }})</span>
+                                        @if (!$registerName->hide_language)
+                                            <span class="text-body-secondary">({{ $registerName->language }})</span>
+                                        @endif
                                     </span>
                                     
                                     <span class="badge text-bg-primary">

@@ -54,6 +54,7 @@ class OrganBuilderRepository extends AbstractRepository
                     $this->filterLike($query, $field, $value);
                     break;
                 
+                case 'id':
                 case 'regionId':
                 case 'importance':
                 case 'isFavorite':

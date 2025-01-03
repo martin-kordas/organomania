@@ -58,6 +58,8 @@ Route::view('donate', 'donate')
     ->name('donate');
 Route::view('links', 'links')
     ->name('links');
+Route::view('organ', 'organ')
+    ->name('organ');
 
 Route::get('sitemap.xml', SitemapController::class);
 Route::get('qr', QrController::class);

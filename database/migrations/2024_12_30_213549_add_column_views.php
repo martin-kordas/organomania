@@ -16,7 +16,8 @@ return new class extends Migration
     {
         foreach ($this->tables as $table) {
             Schema::table($table, function (Blueprint $table) {
-                $table->integer('views')->after('deleted_at');
+                $table->integer('views')->default(0);
+                $table->timestamp('viewed_at')->nullable();
             });
         }
     }
@@ -28,7 +29,7 @@ return new class extends Migration
     {
         foreach ($this->tables as $table) {
             Schema::table($table, function (Blueprint $table) {
-                $table->dropColumn('views');
+                $table->dropColumn(['views', 'viewed_at']);
             });
         }
     }

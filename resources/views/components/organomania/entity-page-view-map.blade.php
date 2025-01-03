@@ -51,13 +51,7 @@
         @endforeach
     </gmp-map>
   
-    <div wire:ignore.self class="modal organ-thumbnail-modal fade" id="organThumbnail" tabindex="-1" data-focus="false" aria-labelledby="organThumbnailLabel" aria-hidden="true">
-        <div class="modal-dialog shadow-lg" wire:key="{{ $thumbnailOrgan->id ?? 0 }}">
-            <div class="modal-content">
-                <x-dynamic-component :component="$this->thumbnailComponent" :organ="$thumbnailOrgan" :modal="true" />
-            </div>
-        </div>
-    </div>
+    <x-organomania.modals.organ-thumbnail-modal />
 </div>
 
 @script

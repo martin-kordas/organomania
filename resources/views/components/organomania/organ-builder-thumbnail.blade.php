@@ -1,6 +1,6 @@
-@props(['organ' => null, 'modal' => false])
+@props(['organ' => null, 'modal' => false, 'showOrgansTimeline' => false])
 
-<x-organomania.thumbnail :$organ :$modal>
+<x-organomania.thumbnail :$organ :$modal :$showOrgansTimeline>
     
     <x-slot:header>
         @isset($organ)

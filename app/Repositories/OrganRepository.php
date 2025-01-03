@@ -60,7 +60,6 @@ class OrganRepository extends AbstractRepository
                     break;
                 
                 case 'concertHall':
-                case 'valuableCase':
                     $column = str($field)->snake();
                     $query->where($column, $value ? 1 : 0);
                     break;
@@ -79,6 +78,7 @@ class OrganRepository extends AbstractRepository
                     });
                     break;
                     
+                case 'id':
                 case 'regionId':
                 case 'importance':
                 case 'isFavorite':

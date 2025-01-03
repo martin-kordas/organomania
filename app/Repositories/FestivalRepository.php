@@ -44,6 +44,7 @@ class FestivalRepository extends AbstractRepository
                     $query->whereAny(['name', 'locality', 'place'], 'LIKE', "%$value%");
                     break;
                 
+                case 'id':
                 case 'regionId':
                     $this->filterEntityQuery($query, $field, $value);
                     break;

@@ -19,6 +19,7 @@ enum OrganBuilderCategory: int implements Category
     case NeobaroqueUniversal = 7;
     
     case FactoryProduction = 8;
+    case Restoration = 9;
     
     const DATA = [
         self::BuiltTo1799->value            => ['name' => 'do 1799'],
@@ -41,6 +42,10 @@ enum OrganBuilderCategory: int implements Category
         self::FactoryProduction->value => [
             'name' => 'Tovární výroba',
             'description' => 'Varhany vyráběné sériovou výrobou v továrnách',
+        ],
+        self::Restoration->value => [
+            'name' => 'Restaurování',
+            'description' => 'Restaurování vzácných historických nástrojů',
         ],
     ];
     

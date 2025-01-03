@@ -30,6 +30,10 @@ class OrganBuilder extends Model
     use HasFactory, SoftDeletes, Searchable, Sluggable;
     use OwnedEntity, Viewable;
     
+    const
+        ORGAN_BUILDER_ID_RIEGER_KLOSS = 2,
+        ORGAN_BUILDER_ID_ORGANA = 52;
+    
     protected $guarded = [];
     
     protected $attributes = [
@@ -52,6 +56,11 @@ class OrganBuilder extends Model
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+    
+    public function timelineItems()
+    {
+        return $this->hasMany(OrganBuilderTimelineItem::class);
     }
     
     public function organs()
@@ -96,6 +105,8 @@ class OrganBuilder extends Model
         return
             config('custom.hide_current_organ_builders_importance')
             && $this->isPublic()
+            && $this->id !== static::ORGAN_BUILDER_ID_RIEGER_KLOSS
+            && $this->id !== static::ORGAN_BUILDER_ID_ORGANA
             && $this->organBuilderCategories->contains(
                 fn($category) => $category->id === OrganBuilderCategoryEnum::BuiltFrom1990->value
             );

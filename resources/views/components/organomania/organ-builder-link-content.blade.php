@@ -9,7 +9,7 @@
         @if ($showActivePeriod)
             ({{ $organBuilder->active_period }})
         @elseif ($yearBuilt)
-            (@if ($isRebuild){{ __('přestavba') }}, @endif{{ $yearBuilt }})
+            ({{ $yearBuilt }}@if ($isRebuild), {{ __('přestavba') }}@endif)
         @endif
     </span>
 </span>

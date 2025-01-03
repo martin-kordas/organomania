@@ -21,6 +21,7 @@ enum OrganCategory: int implements Category
     
     case Oldest = 9;
     case Biggest = 10;
+    case ValuableCase = 18;
     
     case ActionMechanical = 11;
     case ActionPneumatical = 12;
@@ -60,6 +61,10 @@ enum OrganCategory: int implements Category
         self::Biggest->value => [
             'name' => 'Mimořádně velké',
             'description' => 'Varhany patřící v době svého vzniku k největším',
+        ],
+        self::ValuableCase->value => [
+            'name' => 'Mimořádně cenná skříň',
+            'description' => 'Varhany postavené do výtvarně nebo konstrukčně cenné skříně',
         ],
         
         self::ActionMechanical->value => [

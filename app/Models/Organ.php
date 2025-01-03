@@ -153,4 +153,15 @@ class Organ extends Model
         ])->render();
     }
     
+    public function getSizeInfo(): ?string
+    {
+        if (isset($this->manuals_count)) {
+            $parts = [];
+            $parts[] = Helpers::formatRomanNumeral($this->manuals_count);
+            if (isset($this->stops_count)) $parts[] = $this->stops_count;
+            return implode('/', $parts);
+        }
+        return null;
+    }
+    
 }

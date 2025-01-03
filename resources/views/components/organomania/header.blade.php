@@ -64,7 +64,6 @@
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{{ route('profile') }}">{{ __('Profil') }}</a></li>
-                                <li><a class="dropdown-item disabled" href="#">{{ __('Nastavení') }}</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{{ route('logout') }}">{{ __('Odhlásit se') }}</a></li>
                             </ul>

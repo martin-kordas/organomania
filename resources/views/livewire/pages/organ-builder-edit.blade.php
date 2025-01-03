@@ -11,6 +11,7 @@ use Livewire\Volt\Component;
 use App\Models\OrganBuilder;
 use App\Helpers;
 use App\Livewire\Forms\OrganBuilderForm;
+use App\Models\OrganBuilderTimelineItem;
 use App\Models\Region;
 use App\Enums\OrganBuilderCategory;
 use App\Events\EntityCreated;
@@ -130,12 +131,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->organBuilder->fill($data)->save();
         $this->organBuilder->organBuilderCategories()->sync($this->form->categories);
 
+        // pro private varhanáře se timeline položky ukládají automaticky
+        if (!$this->isOrganBuilderPublic()) $this->saveTimelineItem();
+
         if ($this->organBuilder->exists) EntityUpdated::dispatch($this->organBuilder);
         else EntityCreated::dispatch($this->organBuilder);
 
         session()->flash('status-success', __('Varhanář byl úspěšně uložen.'));
         if (isset($this->previousUrl)) $this->redirect($this->previousUrl, navigate: true);
         else $this->redirectRoute('organ-builders.index', navigate: true);
+    }
+
+    private function saveTimelineItem()
+    {
+        $timelineItem = $this->organBuilder->timelineItems->first() ?? new OrganBuilderTimelineItem;
+        $timelineItem->loadFromOrganBuilder($this->organBuilder);
+        $timelineItem->save();
     }
 
     public function isOrganBuilderPublic()

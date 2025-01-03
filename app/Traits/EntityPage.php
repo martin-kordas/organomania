@@ -26,6 +26,8 @@ trait EntityPage
     public $viewType = 'thumbnails';
     
     #[Url(keep: true)]
+    public $filterId;
+    #[Url(keep: true)]
     public $filterCategories;
     #[Url(keep: true)]
     public $filterRegionId;
@@ -72,12 +74,13 @@ trait EntityPage
     private string $filtersModalAutofocus;
     private array $filters = [];
     private array $commonFilters = [
-        'filterCategories', 'filterRegionId', 'filterImportance', 'filterFavorite', 'filterPrivate',
+        'filterId', 'filterCategories', 'filterRegionId', 'filterImportance', 'filterFavorite', 'filterPrivate',
         'filterNearLatitude', 'filterNearLongitude', 'filterNearDistance'
     ];
     private array $invisibleFilters = [
-        'filterNearLatitude', 'filterNearLongitude', 'filterNearDistance'
+        'filterId', 'filterNearLatitude', 'filterNearLongitude', 'filterNearDistance'
     ];
+    private array $viewTypes = ['thumbnails', 'table', 'map'];
     private string $title;
     
     abstract private function getCategoryEnum();
@@ -99,6 +102,12 @@ trait EntityPage
         if ($this->isEditable) $this->privateOrgansCount = $this->getPrivateOrgansCount();
     }
     
+    protected function bootCommon()
+    {
+        // viewType se sdílí mezi entitami, může tedy být aktivní viewType, který aktuální entita nepodporuje
+        if (!in_array($this->viewType, $this->viewTypes)) $this->viewType = reset($this->viewTypes);
+    }
+    
     private function getCustomCategoryIds()
     {
         // TODO: podobná funkcionalita je v OrganForm
@@ -115,11 +124,11 @@ trait EntityPage
             $this->dispatch('filtering-changed');
             
             // Google mapa má z tech. důvodů nastaveno wire:replace, při aktualizaci zobrazených varhan tedy musíme přenačíst celou stranu
-            if ($this->viewType === 'map')
+            if (in_array($this->viewType, ['map', 'timeline']))
                 $this->js('location.reload()');
         }
         
-        if ($property === 'viewType' && $this->viewType === 'map') {
+        if ($property === 'viewType' && in_array($this->viewType, ['map', 'timeline'])) {
             $this->js('location.reload()');
         }
     }

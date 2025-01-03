@@ -38,14 +38,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $filterForeignOrganBuilder;
     #[Url(keep: true)]
     public $filterHasDisposition;
-    #[Url(keep: true)]
-    public $filterValuableCase;
 
     private OrganRepository $repository;
     private Organ $model;
     private OrganCategoryModel $categoryModel;
 
-    private bool $showFilterHasDisposition = false;
+    private bool $showFilterHasDisposition = true;
 
     const SORT_OPTIONS = [
         ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric'],
@@ -58,6 +56,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function boot(OrganRepository $repository, Organ $model, OrganCategoryModel $categoryModel)
     {
+        $this->bootCommon();
+
         $this->repository = $repository;
         $this->model = $model;
         $this->categoryModel = $categoryModel;
@@ -80,7 +80,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->filters[] = 'filterConcertHall';
         $this->filters[] = 'filterForeignOrganBuilder';
         $this->filters[] = 'filterHasDisposition';
-        $this->filters[] = 'filterValuableCase';
         $this->title = __('Varhany');
     }
 

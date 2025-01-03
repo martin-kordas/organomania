@@ -3,8 +3,13 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Competition;
+use App\Models\Disposition;
+use App\Models\Festival;
 use App\Models\User;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
@@ -85,15 +90,30 @@ class CollectStats extends Command
         return Organ::withCount('likes')
             ->whereNull('user_id')
             ->get()
-            ->avg('organ_likes_count');
+            ->avg('likes_count');
+    }
+    
+    private function getViewedCount(Model $model, Carbon $viewedAfter)
+    {
+        return $model::where('viewed_at', '>=', $viewedAfter)->count();
+    }
+    
+    private function getViewedLastDayCount(Model $model)
+    {
+        return $this->getViewedCount($model, viewedAfter: today()->subDay());
+    }
+    
+    private function getViewedLastWeekCount(Model $model)
+    {
+        return $this->getViewedCount($model, viewedAfter: today()->subWeek());
     }
     
     private function getStats()
     {
         $organLikesMax = $this->getOrganLikesMax();
         $organLikesAvg = $this->getOrganLikesAvg();
-        
-        return [
+
+        $stats = [
             'usersCount' => User::count(),
             'organsCount' => Organ::count(),
             'organBuildersCount' => OrganBuilder::count(),
@@ -104,5 +124,21 @@ class CollectStats extends Command
             'organLikesMaxOrganId' => $organLikesMax['organ_id'] ?? null,
             'organLikesAvg' => $organLikesAvg,
         ];
+        
+        $models = [
+            'organs' => new Organ,
+            'organBuilders' => new OrganBuilder,
+            'dispositions' => new Disposition,
+            'festivals' => new Festival,
+            'competitions' => new Competition
+        ];
+        
+        foreach ($models as $modelName => $model) {
+            $stats["{$modelName}Views"] = $model::sum('views');
+            $stats["{$modelName}ViewedLastDay"] = $this->getViewedLastDayCount($model);
+            $stats["{$modelName}ViewedLastWeek"] = $this->getViewedLastWeekCount($model);
+        }
+        
+        return $stats;
     }
 }

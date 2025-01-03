@@ -28,6 +28,7 @@ class OrganBuilderObserver
     public function deleted(OrganBuilder $organBuilder): void
     {
         $organBuilder->organBuilderCategories()->detach();
+        $organBuilder->timelineItems()->delete();
     }
 
     /**

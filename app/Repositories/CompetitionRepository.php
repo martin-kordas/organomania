@@ -36,6 +36,7 @@ class CompetitionRepository extends AbstractRepository
                     $query->whereAny(['name', 'locality', 'place'], 'LIKE', "%$value%");
                     break;
                 
+                case 'id':
                 case 'regionId':
                 case 'importance':
                     $this->filterEntityQuery($query, $field, $value);

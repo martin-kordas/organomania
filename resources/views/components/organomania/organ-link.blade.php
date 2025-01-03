@@ -1,4 +1,4 @@
-@props(['organ', 'year' => null, 'showOrganBuilder' => false, 'isRebuild' => false, 'isRenovation' => false])
+@props(['organ', 'year' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'isRebuild' => false, 'isRenovation' => false])
 
 @php
     if (isset($organ->perex)) $description = $organ->perex;
@@ -25,8 +25,8 @@
         @endif
     >
         <i class="bi bi-music-note-list"></i>
-        <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder :$isRebuild :$isRenovation />
+        <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder :$showSizeInfo :$isRebuild :$isRenovation />
     </a>
 @else
-    <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder :$isRebuild :$isRenovation />
+    <x-organomania.organ-link-content :$organ :$year :$showOrganBuilder :$showSizeInfo :$isRebuild :$isRenovation />
 @endcan

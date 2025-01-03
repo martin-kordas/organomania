@@ -5,12 +5,14 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Route;
 use App\Helpers;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\OrganRebuild;
 use App\Enums\OrganBuilderCategory;
+use App\Enums\Region;
 use App\Services\MarkdownConvertorService;
 use App\Traits\HasAccordion;
 
@@ -108,11 +110,29 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
+    private function workshopMembers()
+    {
+        if (isset($this->organBuilder->workshop_members)) {
+            return preg_replace(
+                '/\(.*?\)/',
+                '<span class="text-body-secondary">$0</span>',
+                e($this->organBuilder->workshop_members)
+            );
+        }
+    }
+
+    #[Computed]
     private function organs()
     {
+        $this->organBuilder->load([
+            'organs' => function (HasMany $query) {
+                $query->withCount('organRebuilds');
+            }
+        ]);
         $organs = $this->organBuilder->organs->map(
             fn (Organ $organ) => ['isRebuild' => false, 'organ' => $organ, 'year' => $organ->year_built]
         );
+
         $rebuiltOrgans = $this->organBuilder->organRebuilds->map(
             fn (OrganRebuild $rebuild) => ['isRebuild' => true, 'organ' => $rebuild->organ, 'year' => $rebuild->year_built]
         );
@@ -177,6 +197,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @if (!$organBuilder->isPublic())
                     <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
                 @endif
+                    
+                <br />
+                <small style="font-size: 60%">
+                    {{ $this->municipalityCountry[0] }}
+                    @isset ($this->municipalityCountry[1])
+                        <span class="text-secondary">({{ $this->municipalityCountry[1] }})</span>
+                    @endisset
+                    @if ($organBuilder->region && $organBuilder->region->id !== Region::Praha->value)
+                        <span class="text-secondary" style="font-size: var(--bs-body-font-size);">({{ $organBuilder->region->name }})</span>
+                    @endif
+                </small>
             </h3>
 
             @if (isset($organBuilder->perex))
@@ -200,19 +231,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
     </div>
     
+    <div class="text-center mt-3">
+        <x-organomania.info-alert class="d-inline-block mb-1">
+            {!! __('O stylovém vývoji našeho varhanářství více') !!}
+            <a class="link-primary text-decoration-none" href="{{ route('organ') }}#history" wire:navigate>{{ __('zde') }}</a>.
+        </x-organomania.info-alert>
+    </div>
+    
     <table class="table mb-2">
-        <tr>
-            <th>{{ __('Místo působení') }}</th>
-            <td>
-                {{ $this->municipalityCountry[0] }}
-                @isset ($this->municipalityCountry[1])
-                    <span class="text-secondary">({{ $this->municipalityCountry[1] }})</span>
-                @endisset
-                @if ($organBuilder->region)
-                    <span class="text-secondary">({{ $organBuilder->region->name }})</span>
-                @endif
-            </td>
-        </tr>
         @if (isset($organBuilder->place_of_birth))
             <tr>
                 <th>{{ __('Místo narození') }}</th>
@@ -276,10 +302,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endisset
-        @if (isset($organBuilder->workshop_members))
+        @if (isset($this->workshop_members))
         <tr>
             <th>{{ __('Členové dílny') }}</th>
-            <td class="pre-line">{{ $organBuilder->workshop_members }}</td>
+            <td>
+                <span class="pre-line">{!! $this->workshop_members !!}</span>
+                @if (isset($organBuilder->region_id) && $organBuilder->timelineItems->count() > 0)
+                    <br />
+                    <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organ-builders.index', ['filterId' => $organBuilder->id, 'viewType' => 'timeline']) }}" wire:navigate>
+                        <i class="bi bi-clock"></i>
+                        {{ __('Časová osa') }}
+                    </a>
+                @endif
+            </td>
         </tr>
         @endif
         @if (isset($organBuilder->web))
@@ -296,15 +331,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <x-organomania.tr-responsive title="{{ __('Významné varhany') }}">
                 <div class="text-break items-list">
                     @foreach ($this->organs as ['isRebuild' => $isRebuild, 'organ' => $organ, 'year' => $year])
-                            <x-organomania.organ-link :organ="$organ" :isRebuild="$isRebuild" :year="$year" />
+                            <x-organomania.organ-link :organ="$organ" :isRebuild="$isRebuild" :year="$year" :showSizeInfo="true" />
                             @if (!$loop->last) <br /> @endif
                     @endforeach
                 </div>
                 @if ($this->organs->count() > 1)
-                    <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id]) }}">
+                    <a class="btn btn-sm btn-outline-secondary mt-1 me-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id]) }}">
                         <i class="bi bi-music-note-list"></i>
                         {{ __('Zobrazit vše') }}
                         <span class="badge text-bg-secondary rounded-pill">{{ $this->organs->count() }}</span>
+                    </a>
+                @endif
+                @if (isset($organBuilder->region_id))
+                    <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organ-builders.index', ['filterId' => $organBuilder->id, 'viewType' => 'timeline']) }}" wire:navigate>
+                        <i class="bi bi-clock"></i>
+                        {{ __('Časová osa') }}
                     </a>
                 @endif
             </x-organomania.tr-responsive>

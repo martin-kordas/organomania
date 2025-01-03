@@ -293,7 +293,7 @@ div.side-buttons {
         max-height: 400px;
         max-width: 100%;
     }
-    .organ-of-day > div {
+    .organ-of-day > div, .organ > div {
         background: var(--header-footer-background-light);
         &:hover {
             background: var(--header-footer-background);
@@ -313,7 +313,7 @@ div.side-buttons {
         text-align: center;
     }
     
-    .organ-of-day > div, .welcome-card > div {
+    .organ-of-day > div, .organ > div, .welcome-card > div {
         border-color: var(--header-footer-border-color) !important;
         transition: background 0.25s;
     }
@@ -385,9 +385,7 @@ div.side-buttons {
 
 @media screen and (max-width: 767px) {
     .entity-page-view-container {
-        &.view-type-table, &.view-type-map, &.view-type-thumbnails {
-            width: calc(100% + 5.7rem);
-        }
+        width: calc(100% + 5.7rem);
     }
 }
 
@@ -436,11 +434,46 @@ div.side-buttons {
     }
 }
 
-.entity-page-map {
+.entity-page-map, .entity-page-timeline {
     padding: 0;
     
     .organ-thumbnail {
-      width: 23em;
+        width: 23em;
+    }
+}
+
+.entity-page-timeline {
+    .vis-custom-time {
+        pointer-events: none;
+    }
+    .vis-item {
+        font-size: 90%;
+        cursor: pointer;
+        background-color: var(--header-footer-background);
+        border-color: var(--header-footer-border-color);
+        
+        &[data-isworkshop="true"]:not(.vis-selected) {
+            background: white;
+        }
+    }
+    .vis-point {
+        opacity: 70%;
+        font-size: 80%;
+    }
+    .vis-dot {
+        display: none;
+    }
+    .vis-nested-group {
+        border: none;
+    }
+    .vis-ltr .vis-label.vis-nested-group .vis-inner {
+        padding-left: 20px;
+    }
+    
+    @media screen and (max-width: 767px) {
+        .vis-text {
+            font-size: 70%;
+        }
     }
 }
 
@@ -559,6 +592,10 @@ div.side-buttons {
     .registration-select {
         width: 100% !important;
     }
+}
+
+.organ {
+    max-width: 850px;
 }
 
 .organists {

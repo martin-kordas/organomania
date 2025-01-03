@@ -8,7 +8,7 @@
             {{ $this->organs->links() }}
         @endif
     
-        <div @class(['entity-page-view-container', "view-type-{$this->viewType}"])">
+        <div @class(['entity-page-view-container', "view-type-{$this->viewType}"])>
             <x-dynamic-component :component="$this->viewComponent" :organs="$this->organs" :thumbnailOrgan="$this->thumbnailOrgan" />
         </div>
             

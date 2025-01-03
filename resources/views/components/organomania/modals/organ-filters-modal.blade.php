@@ -89,10 +89,6 @@
                             <input class="form-check-input" type="checkbox" role="switch" id="filterHasDisposition" wire:model="filterHasDisposition">
                         </div>
                     @endif
-                    <div class="form-check form-switch">
-                        <label class="form-check-label" for="filterValuableCase">{{ __('Jen varhany s obzvláště cennou skříni') }}</label>
-                        <input class="form-check-input" type="checkbox" role="switch" id="filterValuableCase" wire:model="filterValuableCase">
-                    </div>
                 @endif
                 
                 @if ($this->isLikeable)

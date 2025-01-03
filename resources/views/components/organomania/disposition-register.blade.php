@@ -62,7 +62,7 @@
             wire:click="setRegisterName({{ $register->register_name_id }}, {{ $register->pitch?->value }})"
             data-bs-toggle="modal"
             data-bs-target="#registerModal"
-            data-description="{{ str($register->register?->description) }}"
+            data-description="{{ str($register->register?->description)->replace('*', '') }}"
         >
             <span data-bs-toggle="tooltip" data-bs-title="{{ __('Podrobnosti o rejstříku') }}">
                 <i class="bi-question-circle"></i>

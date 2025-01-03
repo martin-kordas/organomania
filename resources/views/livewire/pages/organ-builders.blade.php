@@ -34,6 +34,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function boot(OrganBuilderRepository $repository, OrganBuilder $model, OrganBuilderCategoryModel $categoryModel)
     {
+        $this->viewTypes[] = 'timeline';
+        $this->bootCommon();
+
         $this->repository = $repository;
         $this->model = $model;
         $this->categoryModel = $categoryModel;

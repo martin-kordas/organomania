@@ -4,10 +4,51 @@
     'newTab' => false
 ])
 
+@use(App\Models\Register)
+@use(App\Services\MarkdownConvertorService)
+
 @php
+    // TODO: výpočty do PHP komponenty
     $language ??= $registerName?->language;
     $categoryTag = $categoriesAsLink ? 'a' : 'span';
     $categoryIds = $register->registerCategories->pluck('id')->push($register->registerCategory->value);
+
+    if (isset($register->description)) {
+        $descriptionHtml = app(MarkdownConvertorService::class)->convert($register->description);
+        $descriptionHtml = trim($descriptionHtml);
+    }
+    else $descriptionHtml = '';
+
+    $relatedRegisterIds = match ($registerName->register_id) {
+        56 => [57], 57 => [56],
+        91 => [31],
+        31 => [6],
+        41 => [1],
+        58 => [36],
+        59 => [60],
+        60 => [59],
+        61 => [22],
+        63 => [62],
+        66 => [67],
+        67 => [66],
+        74 => [38],
+        75 => [21],
+        76 => [3],
+        81 => [16],
+        85 => [15],
+        91 => [32],
+        94 => [3],
+        108 => [24],
+        113 => [3],
+        115 => [3],
+        default => [],
+    };
+    $relatedRegisters = collect($relatedRegisterIds)->map(
+        fn ($registerId) => Register::find($registerId)
+    );
+
+    $dispositionRegisterIdDispositionId = null;
+    $dispositions = $register->getDispositions($excludeDispositionIds, $excludeOrganIds, $dispositionsLimit, $dispositionRegisterIdDispositionId);
 @endphp
 
 <div>
@@ -50,12 +91,12 @@
     </span>
 </div>
 
-@isset($register->description)
+@if ($descriptionHtml !== '')
     <div class="mt-2">
-        {{ $register->description }}
+        {!! $descriptionHtml !!}
     </div>
     <hr>
-@endisset
+@endif
 
 @isset($pitch)
     <div class="mt-2">
@@ -73,22 +114,39 @@
 @endif
 
 @php 
-    $dispositionRegisterIdDispositionId = null;
-    $dispositions = $register->getDispositions($excludeDispositionIds, $excludeOrganIds, $dispositionsLimit, $dispositionRegisterIdDispositionId);
+    
 @endphp
-@if ($dispositions->isNotEmpty())
-    <div class="mt-2">
-        {{ __('Příklady v dispozicích') }}:
-        <div class="items-list">
-            @foreach ($dispositions as $disposition)
-                <x-organomania.disposition-link
-                    :disposition="$disposition"
-                    :highlightRegisterId="$registerName->register_id"
-                    :firstDispositionRegisterId="$dispositionRegisterIdDispositionId[$disposition->id]"
-                    :newTab="$newTab"
-                />
-                @if (!$loop->last) <br /> @endif
-            @endforeach
+@if ($relatedRegisters->isNotEmpty() || $dispositions->isNotEmpty())
+    @if (isset($pitch) || $showPitches)
+        <hr>
+    @endif
+    @if ($relatedRegisters->isNotEmpty())
+        <div class="mt-2 small">
+            {{ __('Související rejstříky') }}
+            <div class="items-list">
+                @foreach ($relatedRegisters as $register)
+                    <x-organomania.register-name-link
+                        :registerName="$registerName->getRelatedRegisterName($register)"
+                        :newTab="$newTab"
+                    />
+                    @if (!$loop->last) <br /> @endif
+                @endforeach
+            </div>
         </div>
-    </div>
+    @endif
+    @if ($dispositions->isNotEmpty())<div class="mt-2 small">
+            {{ __('Příklady v dispozicích') }}
+            <div class="items-list">
+                @foreach ($dispositions as $disposition)
+                    <x-organomania.disposition-link
+                        :disposition="$disposition"
+                        :highlightRegisterId="$registerName->register_id"
+                        :firstDispositionRegisterId="$dispositionRegisterIdDispositionId[$disposition->id]"
+                        :newTab="$newTab"
+                    />
+                    @if (!$loop->last) <br /> @endif
+                @endforeach
+            </div>
+        </div>
+    @endif
 @endif

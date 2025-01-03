@@ -1,7 +1,7 @@
 @props(['title', 'url', 'imageUrl', 'imageCredit', 'buttonLabel' => 'Zobrazit'])
 
 <div
-    class="welcome-card col-lg-4 d-flex"
+    {{ $attributes->class(['welcome-card', 'd-flex', 'col-lg-4']) }}
     data-target-url="{{ $url }}"
     onclick="location.href = this.dataset.targetUrl"
     style="cursor: pointer;"

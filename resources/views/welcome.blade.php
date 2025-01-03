@@ -61,6 +61,26 @@
         @endisset
         
         <h2 class="text-center fs-3 mb-3">{{ __('Kam dál?') }}</h2>
+        
+        <div class="row g-4 align-items-stretch mb-3">
+            <div class="organ col-lg-4 mx-auto" style="cursor: pointer;" data-target-url="{{ route('organ') }}" onclick="location.href = this.dataset.targetUrl">
+                <div class="position-relative p-2 border border-tertiary rounded h-100 w-100">
+                    <div class="d-flex">
+                        <h5 class="me-2 mb-0 mt-0 me-auto align-self-center">
+                            <i class="bi bi-file-text"></i>
+                            {{ __('O varhanách') }}
+                        </h5>
+                        <p class="mb-0">
+                            <a class="btn btn-sm btn-secondary" href="{{ route('organ') }}" wire:navigate>{{ __('Zobrazit') }} »</a>
+                        </p>
+                    </div>
+                    <small>
+                        {{ __('Varhany a jejich stylový vývoj v českých zemích.') }}
+                    </small>
+                </div>
+            </div>
+        </div>
+        
         <div class="row text-center g-4 align-items-stretch">
             <x-organomania.welcome-card
                 title="{{ __('Varhany') }}"

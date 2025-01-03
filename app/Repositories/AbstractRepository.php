@@ -37,6 +37,10 @@ class AbstractRepository
     protected function filterEntityQuery(Builder $query, $field, $value)
     {
         switch ($field) {
+            case 'id':
+                $this->filter($query, 'id', $value);
+                break;
+            
             case 'regionId':
                 $this->filter($query, 'region_id', $value);
                 break;

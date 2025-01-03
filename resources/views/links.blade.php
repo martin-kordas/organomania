@@ -1,4 +1,8 @@
 <x-app-bootstrap-layout>
+    @push('meta')
+        <meta name="description" content="{{ __('Zajímavé webové odkazy a literatura o varhanách v České republice a o varhanách obecně.') }}">
+    @endpush
+    
     <div class="about container">
         <h3>{{ __('Zajímavé odkazy') }}</h3>
 
@@ -20,7 +24,7 @@
         </x-organomania.link-list>
 
         
-        <h4 class="mt-3">{{ __('Varhany v médiích') }}</h4>
+        <h4 id="media" class="mt-3">{{ __('Varhany v médiích') }}</h4>
         
         <x-organomania.link-list class="mt-3">
             <x-organomania.link-list-item icon="book" url="https://www.klasikaplus.cz/rubrika/serial/varhany-a-varhanici/">
@@ -72,7 +76,8 @@
             </x-organomania.link-list-item>
         </x-organomania.link-list>
         
-        <h4 class="mt-3">{{ __('Literatura') }}</h4>
+        
+        <h4 id="literature" class="mt-3">{{ __('Literatura') }}</h4>
         
         <h5>{{ __('Varhany v českých zemích') }}</h5>
         
@@ -107,7 +112,7 @@
             </x-organomania.link-list-item>
         </x-organomania.link-list>
         
-        <h5 class="mt-3">{{ __('Varhany obecně') }}</h5>
+        <h5 id="literatureGeneral" class="mt-3">{{ __('Varhany obecně') }}</h5>
         
         <x-organomania.link-list class="mt-3">
             <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/knihy/organ-v-kulture-dvoch-tisicroci-294751">

@@ -1,4 +1,6 @@
-@props(['organ' => null, 'modal' => false])
+@props(['organ' => null, 'modal' => false, 'showOrgansTimeline' => false])
+
+@use(App\Models\OrganBuilder)
 
 @php
     if (isset($organ->perex)) $description = $organ->perex;
@@ -165,6 +167,11 @@
                             </a>
                         </div>
                     @endif
+                @elseif ($organ && $organ::class === OrganBuilder::class && $organ->organs->isNotEmpty() && $showOrgansTimeline)
+                    <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organ-builders.index', ['filterId' => $organ->id, 'viewType' => 'timeline']) }}" target="_blank">
+                        <i class="bi bi-clock"></i>
+                        {{ __('Časová osa varhan') }}
+                    </a>
                 @endif
             </div>
         </div>

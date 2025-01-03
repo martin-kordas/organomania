@@ -41,6 +41,20 @@ class RegisterName extends Model
         return $registerName->getVisualIdentifier() === $this->getVisualIdentifier();
     }
     
+    public function getRelatedRegisterName(Register $register)
+    {
+        // pro související rejstřík použít RegisterName ve stejném jazyce jako aktuální RegisterName, pokud existuje
+        $registerNames = $register->registerNames->filter(
+            fn (RegisterName $registerName) => $registerName->language === $this->language
+        );
+        if ($registerNames->isEmpty()) $registerNames = $register->registerNames;
+        
+        // upřednostnit RegisterName s nejnižším ID, protože to je nejobvyklejší tvar (např. 'Copula minor' namísto 'Copl minor')
+        $registerNames = $registerNames->sortBy('id');
+        
+        return $registerNames->first();
+    }
+    
     public function sluggable(): array
     {
         return [

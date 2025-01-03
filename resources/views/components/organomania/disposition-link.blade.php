@@ -18,9 +18,9 @@
         @endif
 
         @if ($disposition->real_disposition_registers_count > 0)
-            <small class="text-secondary">
+            <span class="text-secondary">
                 ({{ $disposition->real_disposition_registers_count }} {{ $disposition->getDeclinedRealDispositionRegisters() }})
-            </small>
+            </span>
         @endif
     </span>
 </a>

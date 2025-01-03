@@ -6,6 +6,7 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Route;
+use App\Enums\Region;
 use App\Models\Festival;
 use App\Traits\HasAccordion;
 use App\Helpers;
@@ -95,7 +96,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <th>{{ __('Obec') }}</th>
                 <td>
                     {{ $festival->locality }}
-                    @if ($festival->region)
+                    @if ($festival->region && $festival->region->id !== Region::Praha->value)
                         <span class="text-secondary">({{ $festival->region->name }})</span>
                     @endif
                 </td>

@@ -208,7 +208,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         //  - <mark>: zvýraznění rejstříku při suggestRegistration()
         //  - 0-9: číslování
-        return preg_replace_callback('/^(<mark>)?([0-9]+\\\\?\. )?([[:alpha:]-]+( [[:alpha:]-]+)*)/u', function ($matches) use ($row) {
+        return preg_replace_callback('/^(<mark>)?([0-9+]+\\\\?\. )?([[:alpha:]-]+( [[:alpha:]-]+)*)/u', function ($matches) use ($row) {
             $registerName = RegisterName::where('name', $matches[3])->first();
             if ($registerName) {
                 $url = route('dispositions.registers.show', $registerName->slug);
@@ -251,11 +251,24 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             87 => [86],
             75 => [76],
             76 => [75],
+            88 => [166],
+            166 => [88],
             default => []
         };
         return collect($relatedOrganIds)->map(
             fn ($organId) => Organ::find($organId)
         );
+    }
+
+    #[Computed]
+    private function timelineUrl()
+    {
+        return route('organ-builders.index', [
+            'filterId' => $this->organ->organBuilder->id,
+            'viewType' => 'timeline',
+            'selectedTimelineEntityType' => 'organ',
+            'selectedTimelineEntityId' => $this->organ->id
+        ]);
     }
 
     private function highlightSuggestedRegisters(string $disposition, array $registerRowNumbers)
@@ -378,8 +391,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </tr>
         @if ($organ->year_built)
             <tr>
-                <th>{{ __('Rok stavby') }}</th>
-                <td>{{ $organ->year_built }}</td>
+                <th class="align-middle">{{ __('Rok stavby') }}</th>
+                <td class="d-flex align-items-center">
+                    <span class="me-auto">{{ $organ->year_built }}</span>
+                    @if (isset($organ->organBuilder?->region_id))
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ $this->timelineUrl }}" wire:navigate>
+                            <i class="bi bi-clock"></i>
+                            {{ __('Časová osa') }}
+                        </a>
+                    @endif
+                </td>
             </tr>
         @endif
         @if ($organ->renovationOrganBuilder)

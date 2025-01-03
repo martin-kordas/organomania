@@ -32,6 +32,8 @@ trait EntityPageView
     public $perPage = 9;
 
     #[Reactive]
+    public $filterId;
+    #[Reactive]
     public $filterCategories;
     #[Reactive]
     public $filterRegionId;
@@ -50,6 +52,11 @@ trait EntityPageView
     
     #[Reactive]
     public $activeFiltersCount;
+    
+    #[Reactive]
+    public $selectedTimelineEntityType;
+    #[Reactive]
+    public $selectedTimelineEntityId;
     
     public $organCustomCategoriesIds;
     
@@ -82,6 +89,7 @@ trait EntityPageView
     private ?string $unlikedMessage;
     private string $thumbnailsViewComponent = 'organomania.entity-page-view-thumbnails';
     private string $mapViewComponent = 'organomania.entity-page-view-map';
+    private string $timelineViewComponent = 'organomania.entity-page-view-timeline';
     private string $mapId;
     private string $thumbnailComponent;
     private bool $useMapClusters = false;
@@ -101,7 +109,7 @@ trait EntityPageView
     private function bootCommon(AbstractRepository $repository)
     {
         $this->repository = $repository;
-        if ($this->viewType === 'map') $this->setShouldPaginate(false);
+        if (in_array($this->viewType, ['map', 'timeline'])) $this->setShouldPaginate(false);
     }
 
     private function setShouldPaginate($shouldPaginate = true)
@@ -196,6 +204,7 @@ trait EntityPageView
     public function getFiltersArray()
     {
         $filters = [];
+        if ($this->filterId) $filters['id'] = $this->filterId;
         if ($this->filterRegionId) $filters['regionId'] = $this->filterRegionId;
         if ($this->filterImportance) $filters['importance'] = $this->filterImportance;
         if ($this->filterFavorite) $filters['isFavorite'] = true;

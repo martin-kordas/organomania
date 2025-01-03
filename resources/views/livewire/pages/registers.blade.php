@@ -9,6 +9,7 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use App\Models\Register;
 use App\Models\RegisterName;
 use App\Enums\DispositionLanguage;
 use App\Enums\RegisterCategory;
@@ -92,7 +93,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ->get()
             ->unique(
                 // pro každý jazyk zobrazujeme jen 1 variantu názvu rejstříku, aby se nekupily podobné názvy (Prinzipal, Principal...)
-                fn(RegisterName $registerName) => "{$registerName->register_id}"
+                fn(RegisterName $registerName) => "{$registerName->register_id}_{$registerName->language->value}"
             )
             ->sortBy('name');
         
@@ -102,6 +103,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return new LengthAwarePaginator(
             $records->forPage($page, $perPage), $records->count(), $perPage, $page, ['path' => Paginator::resolveCurrentPath()]
         );
+    }
+
+    private function getRegisterDescription(Register $register)
+    {
+        return str($register->description)->replace('*', '');      // odstranění markdownu
     }
 
     #[Computed]
@@ -219,8 +225,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             <td class="fst-italic">
                                 {{ $registerName->register->getPitchesLabels($this->getDefaultLanguage())->implode(', ') }}
                             </td>
-                            <td title="{{ $registerName->register->description }}" class="d-none d-md-table-cell">
-                                <small>{{ str($registerName->register->description)->limit(80) }}</small>
+                            <td title="{{ $this->getRegisterDescription($registerName->register) }}" class="d-none d-md-table-cell">
+                                <small>{{ $this->getRegisterDescription($registerName->register)->limit(80) }}</small>
                             </td>
                             <td class="text-end">
                                 <div class="btn-group col-auto">

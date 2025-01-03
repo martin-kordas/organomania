@@ -62,7 +62,9 @@
         </p>
         
         <p>
-            {{ __('Katalog varhanářů uvádí ze soudobých dílen pouze ty věnující se restaurování a stavbám větších nástrojů.') }}
+            {{ __('Jména některých historických varhanářů jsou uváděna v české, jiná v německé variantě.') }}
+            {{ __('Volba jazykové varianty je dána především její zaužívaností a nevypovídá o rodném jazyce či národnosti daných osob.') }}
+            {{ __('Ze soudobých dílen uvádí katalog varhanářů pouze ty věnující se restaurování a stavbám větších nástrojů.') }}
             {{ __('Aktivních varhanářů je u nás podstatně více.') }}
         </p>
         

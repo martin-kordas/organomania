@@ -46,7 +46,7 @@
                             <span class="badge rounded-pill text-bg-primary">{{ $this->activeVisibleFiltersCount }}</span>
                         @endif
                     </a>
-                    @if ($this->viewType !== 'map')
+                    @if (!in_array($this->viewType, ['map', 'timeline']))
                         <a @class(['btn', 'btn-sm', 'btn-outline-primary', 'dropdown-toggle', 'd-none' => $this->viewType === 'table', 'd-md-inline' => $this->viewType === 'table']) data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi-sort-up"></i>
                             <span class="d-none d-md-inline">
@@ -95,7 +95,7 @@
                     </div>
                 @endif
               
-                @if ($this->viewType !== 'map')
+                @if (!in_array($this->viewType, ['map', 'timeline']))
                     <div @class(['per-page-div', 'd-none' => $this->viewType === 'thumbnails', 'd-lg-block' => $this->viewType === 'thumbnails'])>
                         <label for="perPage" class="form-label mb-1 bg-white rounded">
                             <span class="d-none d-md-inline">{!!__('Záznamů na&nbsp;stránce') !!}</span>
@@ -174,7 +174,7 @@
         @endif
 
         {{-- subnavigace --}}
-        <div class="container d-flex mb-3 px-0">
+        <div class="container d-flex mb-3 mt-3 px-0">
             <div class="w-100">
             <ul class="nav nav-underline align-center justify-content-center row-gap-1">
                 <x-organomania.view-type-nav-item viewType="thumbnails">
@@ -186,18 +186,27 @@
                 <x-organomania.view-type-nav-item viewType="map">
                     <i class="bi-pin-map"></i> {{ __('Mapa') }}
                 </x-organomania.view-type-nav-item>
+                @if ($this->entityClass === OrganBuilder::class)
+                    <x-organomania.view-type-nav-item viewType="timeline">
+                        <i class="bi-clock"></i> {{ __('Časová osa') }}
+                    </x-organomania.view-type-nav-item>
+                @endif
             </ul>
             </div>
         </div>
       
-        @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && $this->viewType !== 'map')
+        @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && !in_array($this->viewType, ['map', 'timeline']))
         @php($showOrganInfoHint = $this->entityClass === Organ::class)
         @php($showSortImportaceHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && $this->viewType !== 'map')
-        @php($showSortActiveFromYearHint = $this->entityClass === OrganBuilder::class && $this->sortColumn !== 'active_from_year' && $this->viewType !== 'map')
+        @php($showSortActiveFromYearHint = $this->entityClass === OrganBuilder::class && $this->sortColumn !== 'active_from_year' && !in_array($this->viewType, ['map', 'timeline']))
         @php($showOrganImportanceHint = $this->entityClass === Organ::class && $this->viewType === 'map' && $this->activeFiltersCount <= 0)
+        @php($showOrganBuilderImportanceHint = $this->entityClass === OrganBuilder::class && $this->viewType === 'timeline' && $this->activeFiltersCount <= 0)
         @php($showCompetitionsWarning = $this->entityClass === Competition::class)
         
-        @if ($showFilterRegionHint || $showOrganInfoHint || $showOrganImportanceHint || $showSortImportaceHint || $showSortActiveFromYearHint || $showCompetitionsWarning)
+        @if (
+            $showFilterRegionHint || $showOrganInfoHint || $showOrganImportanceHint || $showOrganBuilderImportanceHint
+            || $showSortImportaceHint || $showSortActiveFromYearHint || $showCompetitionsWarning
+        )
             <div class="mb-2">
                 @if ($showFilterRegionHint)
                     <div class="text-center">
@@ -212,20 +221,20 @@
                     <div class="text-center">
                         <x-organomania.info-alert class="d-inline-block mb-1">
                             {{ __('Více o varhanách jako nástroji') }}
-                            <a class="link-primary text-decoration-none" href="https://www.svatovitskevarhany.com/cs/co-jsou-to-varhany" target="_blank">{{ __('zde') }}</a>.
+                            <a class="link-primary text-decoration-none" href="{{ route('organ') }}" wire:navigate>{{ __('zde') }}</a>.
                         </x-organomania.info-alert>
                     </div>
                 @endif
 
-                @if ($showOrganImportanceHint)
+                @if ($showOrganImportanceHint || $showOrganBuilderImportanceHint)
                     <div class="text-center">
                         <x-organomania.info-alert class="d-inline-block mb-1">
                             {{ __('Zobrazte si jen') }}
-                            <a class="link-primary text-decoration-none" href="#" @click="$wire.set('filterImportance', 4)">{{ __('nejvýznamnější varhany') }}</a>.
+                            <a class="link-primary text-decoration-none" href="#" @click="$wire.set('filterImportance', 4)">{{ __($showOrganImportanceHint ? 'nejvýznamnější varhany' : 'nejvýznamnější varhanáře') }}</a>.
                         </x-organomania.info-alert>
                     </div>
                 @endif
-
+              
                 @if ($showSortImportaceHint)
                     <div class="text-center">
                         <x-organomania.info-alert class="d-inline-block mb-1">
@@ -256,6 +265,7 @@
         
         <livewire:dynamic-component
             :is="$this->entityPageViewComponent"
+            :filterId="$this->filterId"
             :filterCategories="$this->filterCategories" :filterRegionId="$this->filterRegionId" :filterImportance="$this->filterImportance" :filterPrivate="$this->filterPrivate" :filterFavorite="$this->filterFavorite"
             :filterNearLatitude="$this->filterNearLatitude" :filterNearLongitude="$this->filterNearLongitude" :filterNearDistance="$this->filterNearDistance"
             :filterLocality="$this->filterLocality ?? null"
@@ -264,10 +274,10 @@
             :filterConcertHall="$this->filterConcertHall ?? null"
             :filterForeignOrganBuilder="$this->filterForeignOrganBuilder ?? null"
             :filterHasDisposition="$this->filterHasDisposition ?? null"
-            :filterValuableCase="$this->filterValuableCase ?? null"
             :filterName="$this->filterName ?? null"
             :filterMunicipality="$this->filterMunicipality ?? null"
             :filterNameLocality="$this->filterNameLocality ?? null"
+            :selectedTimelineEntityType="request()->query('selectedTimelineEntityType')" :selectedTimelineEntityId="request()->query('selectedTimelineEntityId')"
             :id="$this->id ?? null"
             :sortColumn="$this->sortColumn" :sortDirection="$this->sortDirection" :perPage="$this->perPage"
             :viewType="$this->viewType"

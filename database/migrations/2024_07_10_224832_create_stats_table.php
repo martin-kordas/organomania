@@ -22,6 +22,25 @@ return new class extends Migration
             $table->integer('organ_likes_max');
             $table->integer('organ_likes_max_organ_id');
             $table->float('organ_likes_avg');
+            
+            $table->integer('organs_views');
+            $table->integer('organ_builders_views');
+            $table->integer('dispositions_views');
+            $table->integer('festivals_views');
+            $table->integer('competitions_views');
+            
+            $table->integer('organs_viewed_last_day');
+            $table->integer('organ_builders_viewed_last_day');
+            $table->integer('dispositions_viewed_last_day');
+            $table->integer('festivals_viewed_last_day');
+            $table->integer('competitions_viewed_last_day');
+            
+            $table->integer('organs_viewed_last_week');
+            $table->integer('organ_builders_viewed_last_week');
+            $table->integer('dispositions_viewed_last_week');
+            $table->integer('festivals_viewed_last_week');
+            $table->integer('competitions_viewed_last_week');
+            
             $table->timestamps();
         });
     }
