@@ -167,7 +167,7 @@ class ImportData extends Command
             
             $categories = [];
             if ($builtTo1799) $categories[] = OrganBuilderCategory::BuiltTo1799;
-            if ($builtFrom1800To1944) $categories[] = OrganBuilderCategory::BuiltFrom1800To1944;
+            if ($builtFrom1800To1944) $categories[] = OrganBuilderCategory::BuiltFrom1800To1859;
             if ($builtFrom1945To1989) $categories[] = OrganBuilderCategory::BuiltFrom1945To1989;
             if ($builtFrom1990) $categories[] = OrganBuilderCategory::BuiltFrom1990;
             if ($baroque) $categories[] = OrganBuilderCategory::Baroque;
@@ -288,7 +288,7 @@ class ImportData extends Command
             
             $categories = [];
             if ($builtTo1799) $categories[] = OrganCategory::BuiltTo1799;
-            if ($builtFrom1800To1944) $categories[] = OrganCategory::BuiltFrom1800To1944;
+            if ($builtFrom1800To1944) $categories[] = OrganCategory::BuiltFrom1800To1859;
             if ($builtFrom1945To1989) $categories[] = OrganCategory::BuiltFrom1945To1989;
             if ($builtFrom1990) $categories[] = OrganCategory::BuiltFrom1990;
             if ($renaissance) $categories[] = OrganCategory::Renaissance;

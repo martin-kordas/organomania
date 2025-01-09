@@ -33,8 +33,8 @@
             <div class="row justify-content-center mb-4 mb-md-5">
                 <div
                     class="organ-of-day col col-lg-9 text-center"
-                    href="{{ route('organs.show', $organOfDay->slug) }}"
-                    wire:navigate
+                    data-href="{{ route('organs.show', $organOfDay->slug) }}"
+                    onclick="openOrganOfDay(event)"
                     style="cursor: pointer;"
                 >
                     <div class="border border-tertiary rounded p-2">
@@ -63,7 +63,7 @@
         <h2 class="text-center fs-3 mb-3">{{ __('Kam dál?') }}</h2>
         
         <div class="row g-4 align-items-stretch mb-3">
-            <div class="organ col-lg-4 mx-auto" style="cursor: pointer;" data-target-url="{{ route('organ') }}" onclick="location.href = this.dataset.targetUrl">
+            <div class="organ col-lg-4 mx-auto" style="cursor: pointer;" data-target-url="{{ route('about-organ') }}" onclick="location.href = this.dataset.targetUrl">
                 <div class="position-relative p-2 border border-tertiary rounded h-100 w-100">
                     <div class="d-flex">
                         <h5 class="me-2 mb-0 mt-0 me-auto align-self-center">
@@ -71,7 +71,7 @@
                             {{ __('O varhanách') }}
                         </h5>
                         <p class="mb-0">
-                            <a class="btn btn-sm btn-secondary" href="{{ route('organ') }}" wire:navigate>{{ __('Zobrazit') }} »</a>
+                            <a class="btn btn-sm btn-secondary" href="{{ route('about-organ') }}" wire:navigate>{{ __('Zobrazit') }} »</a>
                         </p>
                     </div>
                     <small>
@@ -157,4 +157,11 @@
             </p>
         </div>
     </div>
+        
+    <script>
+        function openOrganOfDay(e) {
+            if (!$(event.target).closest('.organ-builder-link').length)
+                Livewire.navigate(e.currentTarget.dataset.href)
+        }
+    </script>
 </x-app-bootstrap-layout>

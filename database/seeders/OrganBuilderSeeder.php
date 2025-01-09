@@ -39,7 +39,7 @@ class OrganBuilderSeeder extends Seeder
                     END,
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::Romantic,
                 OrganBuilderCategory::FactoryProduction,
             ]
@@ -164,7 +164,7 @@ class OrganBuilderSeeder extends Seeder
                     END,
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::Romantic,
                 OrganBuilderCategory::FactoryProduction,
             ]
@@ -194,7 +194,7 @@ class OrganBuilderSeeder extends Seeder
                     END,
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::Romantic,
             ]
         );
@@ -224,7 +224,7 @@ class OrganBuilderSeeder extends Seeder
                 'perex' => 'Frekventovaná varhanářská firma konce 19. a začátku 20. století.',
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::Romantic,
                 OrganBuilderCategory::FactoryProduction,
             ]
@@ -336,7 +336,7 @@ class OrganBuilderSeeder extends Seeder
                 'perex' => null,
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::BuiltFrom1945To1989,
                 OrganBuilderCategory::BuiltFrom1990,
                 OrganBuilderCategory::Romantic,
@@ -391,7 +391,7 @@ class OrganBuilderSeeder extends Seeder
                 'perex' => null,
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::Baroque,
             ]
         );
@@ -418,7 +418,7 @@ class OrganBuilderSeeder extends Seeder
                 'perex' => null,
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::BuiltFrom1945To1989,
                 OrganBuilderCategory::BuiltFrom1990,
                 OrganBuilderCategory::Romantic,
@@ -447,7 +447,7 @@ class OrganBuilderSeeder extends Seeder
                 'perex' => null,
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::Baroque,
             ]
         );
@@ -553,7 +553,7 @@ class OrganBuilderSeeder extends Seeder
                 'perex' => null,
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::Romantic,
             ]
         );
@@ -580,7 +580,7 @@ class OrganBuilderSeeder extends Seeder
                 'perex' => null,
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::Romantic,
             ]
         );
@@ -607,7 +607,7 @@ class OrganBuilderSeeder extends Seeder
                 'perex' => null,
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::BuiltFrom1945To1989,
                 OrganBuilderCategory::BuiltFrom1990,
                 OrganBuilderCategory::Romantic,
@@ -637,7 +637,7 @@ class OrganBuilderSeeder extends Seeder
                 'perex' => null,
             ],
             categories: [
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::Romantic,
             ]
         );
@@ -746,7 +746,7 @@ class OrganBuilderSeeder extends Seeder
             categories: [
                 OrganBuilderCategory::Romantic,
                 OrganBuilderCategory::NeobaroqueUniversal,
-                OrganBuilderCategory::BuiltFrom1800To1944,
+                OrganBuilderCategory::BuiltFrom1800To1859,
                 OrganBuilderCategory::BuiltFrom1945To1989,
                 OrganBuilderCategory::BuiltFrom1990,
             ]

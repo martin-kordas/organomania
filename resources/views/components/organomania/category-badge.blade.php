@@ -1,10 +1,16 @@
 <a
     href="{{ $category->getItemsUrl() }}"
-    wire:navigate
+    @if ($newTab) target="_blank" @else wire:navigate @endif
     class="badge text-decoration-none text-bg-{{ $category->getColor() }}"
     data-category-id="{{ $category->getValue() }}"
     @if ($showTooltip)
         data-bs-toggle="tooltip"
         data-bs-title="{{ $category->getDescription() }}"
     @endif
->{{ __($category->getName()) }}</a>
+>
+    @if (!$slot->isEmpty())
+        {{ $slot }}
+    @else
+        {{ __($category->getName()) }}
+    @endif
+</a>

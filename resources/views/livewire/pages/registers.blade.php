@@ -137,7 +137,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     
     <h3>{{ __('Encyklopedie rejstříků') }}</h3>
     
-    <div class="row mt-3 mb-2 gx-2 gy-2 align-items-center">
+    <x-organomania.info-alert class="mt-2 mb-3 d-print-none d-inline-block">
+        {!! __('<strong>Rejstřík</strong> je sada píšťal určité zvukové barvy.') !!}
+        {!! __('Rejstříky dělíme do kategorií podle způsobu konstrukce.') !!}
+    </x-organomania.info-alert>
+    
+    <div class="row mb-2 gx-2 gy-2 align-items-center">
         <div class="col-9 col-sm-auto">
             <input class="form-control form-control-sm" size="28" type="search" wire:model.live="filterName" placeholder="{{ __('Hledat podle názvu') }}&hellip;" />
         </div>
@@ -258,13 +263,31 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         {{ $this->registerNames->links() }}
     </div>
     
-    <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#registersReferencesModal">
+    <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#referencesModal">
         <small>{{ __('Použitá literatura') }}</small>
     </a>
     
+    <x-organomania.modals.references-modal>
+        <x-organomania.link-list>
+            <x-organomania.link-list-item icon="book" url="https://www.baerenreiter.cz/cs/dilo/belsky-vratislav/4518-nauka-o-varhanach">
+                Vratislav Bělský: Nauka o varhanách
+                <x-slot:description>BĚLSKÝ, Vratislav. <em>Nauka o varhanách</em>. 4. vyd., (V Editio Bärenreiter Praha vyd. 1.). Praha: Editio Bärenreiter, 2000. ISBN 80-86385-04-3.</x-slot>
+            </x-organomania.link-list-item>
+
+            <x-organomania.link-list-item icon="book" url="https://namu.cz/kapitoly-o-varhanach">
+                Václav Syrový: Kapitoly o varhanách
+                <x-slot:description>SYROVÝ, Václav. <em>Kapitoly o varhanách</em>. Vyd. 2., dopl., přeprac. Akustická knihovna Zvukového studia Hudební fakulty AMU. V Praze: Akademie múzických umění, 2004. ISBN 80-7331-009-0.</x-slot>
+            </x-organomania.link-list-item>
+
+            <x-organomania.link-list-item url="http://www.organstops.org">
+                Encyclopedia of Organ Stops
+                <x-slot:description><em>Encyclopedia of Organ Stops</em>. Online. 2024. Dostupné z: http://www.organstops.org.</x-slot>
+            </x-organomania.link-list-item>
+        </x-organomania.link-list>
+    </x-organomania.modals.references-modal>
+    
     <x-organomania.modals.categories-modal :categoriesGroups="$this->registerCategoriesGroups" :categoryClass="RegisterCategory::class" />
     <x-organomania.modals.register-modal :registerName="$this->registerName" :categoriesAsLink="true" />
-    <x-organomania.modals.registers-references-modal />
     <x-organomania.modals.share-modal />
         
 </div>

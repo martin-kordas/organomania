@@ -41,6 +41,8 @@
         108 => [24],
         113 => [3],
         115 => [3],
+        118 => [10],
+        119 => [23],
         default => [],
     };
     $relatedRegisters = collect($relatedRegisterIds)->map(

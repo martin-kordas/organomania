@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Livewire\Volt\Volt;
+use App\Http\Controllers\AboutOrganController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\SitemapController;
@@ -58,8 +59,8 @@ Route::view('donate', 'donate')
     ->name('donate');
 Route::view('links', 'links')
     ->name('links');
-Route::view('organ', 'organ')
-    ->name('organ');
+Route::get('about-organ', AboutOrganController::class)
+    ->name('about-organ');
 
 Route::get('sitemap.xml', SitemapController::class);
 Route::get('qr', QrController::class);

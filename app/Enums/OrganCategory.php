@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use App\Models\Organ;
+use Illuminate\Database\Eloquent\Builder;
 use App\Interfaces\Category;
 use App\Traits\EnumeratesCategories;
 
@@ -10,7 +12,8 @@ enum OrganCategory: int implements Category
     use EnumeratesCategories;
     
     case BuiltTo1799 = 1;
-    case BuiltFrom1800To1944 = 2;
+    case BuiltFrom1800To1859 = 2;
+    case BuiltFrom1860To1944 = 19;
     case BuiltFrom1945To1989 = 3;
     case BuiltFrom1990 = 4;
     
@@ -33,9 +36,10 @@ enum OrganCategory: int implements Category
     
     const DATA = [
         self::BuiltTo1799->value            => ['name' => 'do 1799'],
-        self::BuiltFrom1800To1944->value    => ['name' => '1800-1944'],
-        self::BuiltFrom1945To1989->value    => ['name' => '1945-1989'],
-        self::BuiltFrom1990->value          => ['name' => '1990-nyní'],
+        self::BuiltFrom1800To1859->value    => ['name' => '1800–1859'],
+        self::BuiltFrom1860To1944->value    => ['name' => '1860–1944'],
+        self::BuiltFrom1945To1989->value    => ['name' => '1945–1989'],
+        self::BuiltFrom1990->value          => ['name' => '1990–nyní'],
         
         self::Renaissance->value => [
             'name' => 'Renesanční',
@@ -114,7 +118,7 @@ enum OrganCategory: int implements Category
     public function isPeriodCategory(): bool
     {
         return in_array($this, [
-            static::BuiltTo1799, static::BuiltFrom1800To1944, static::BuiltFrom1945To1989, static::BuiltFrom1990
+            static::BuiltTo1799, static::BuiltFrom1800To1859, static::BuiltFrom1860To1944, static::BuiltFrom1945To1989, static::BuiltFrom1990
         ]);
     }
     
@@ -136,6 +140,13 @@ enum OrganCategory: int implements Category
     public function getItemsUrl(): string
     {
         return route('organs.index', ['filterCategories' => [$this->value]]);
+    }
+    
+    public function getOrgansCount()
+    {
+        return Organ::whereHas('organCategories', function (Builder $query) {
+            $query->where('id', $this->value);
+        })->count();
     }
     
     public static function getCategoryGroups()

@@ -165,6 +165,14 @@ div.side-buttons {
             max-width: 100%;
         }
     }
+    
+    @media screen and (max-width: 576px) {
+        .carousel-caption > p {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
 }
 
 .image-container {
@@ -467,7 +475,10 @@ div.side-buttons {
         border: none;
     }
     .vis-ltr .vis-label.vis-nested-group .vis-inner {
-        padding-left: 20px;
+        padding-left: 0px;
+    }
+    .vis-label.vis-nested-group {
+        max-width: 5.8em;
     }
     
     @media screen and (max-width: 767px) {
@@ -594,8 +605,24 @@ div.side-buttons {
     }
 }
 
-.organ {
-    max-width: 850px;
+.about-organ {
+    @media screen and (max-width: 991px) {
+        #content {
+            border-right: none !important;
+        }
+    }
+    
+    @media screen and (min-width: 992px) {
+        #content > nav {
+            position: sticky;
+            top: 91px;
+            max-height: calc(100vh - 91px);
+            overflow-y: auto;
+        }
+    }
+    .terms {
+        max-width: 750px;
+    }
 }
 
 .organists {

@@ -221,7 +221,7 @@
                     <div class="text-center">
                         <x-organomania.info-alert class="d-inline-block mb-1">
                             {{ __('Více o varhanách jako nástroji') }}
-                            <a class="link-primary text-decoration-none" href="{{ route('organ') }}" wire:navigate>{{ __('zde') }}</a>.
+                            <a class="link-primary text-decoration-none" href="{{ route('about-organ') }}" wire:navigate>{{ __('zde') }}</a>.
                         </x-organomania.info-alert>
                     </div>
                 @endif

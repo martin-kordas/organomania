@@ -253,6 +253,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             76 => [75],
             88 => [166],
             166 => [88],
+            46 => [58],
             default => []
         };
         return collect($relatedOrganIds)->map(
@@ -335,7 +336,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
             <h3 class="fs-2 mb-3 lh-sm fw-normal" @if (Auth::user()?->admin) title="ID: {{ $organ->id }}" @endif>
-                <strong >{{ $organ->municipality }}</strong>
+                {{ $organ->municipality }}
                 <br />
                 <span class="fs-4">{{ $organ->place }}</span>
                 @if (!$organ->isPublic())
@@ -403,11 +404,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endif
-        @if ($organ->renovationOrganBuilder)
+        @if ($organ->renovationOrganBuilder || $organ->year_renovated)
             <tr>
                 <th>{{ __('Oprava') }} /<br />{{ __('restaurování') }}</th>
                 <td>
-                    <x-organomania.organ-builder-link :organBuilder="$organ->renovationOrganBuilder" :yearBuilt="$organ->year_renovated" />
+                    @if (!$organ->renovationOrganBuilder)
+                        {{ $organ->year_renovated }}
+                    @else
+                        <x-organomania.organ-builder-link :organBuilder="$organ->renovationOrganBuilder" :yearBuilt="$organ->year_renovated" />
+                    @endif
                 </td>
             </tr>
         @endif

@@ -219,9 +219,9 @@ window.initGoogleMap = function ($wire) {
     })
 }
 
-function getTimelineOptions(step, maxDate, orientationAxis)
+function getTimelineOptions(step, maxDate, orientationAxis, start, end)
 {
-    return {
+    let options = {
         min: '1500-01-01',
         max: maxDate,
         showCurrentTime: false,
@@ -249,8 +249,12 @@ function getTimelineOptions(step, maxDate, orientationAxis)
                 whiteList: {
                     span: ['class'],
                     i: ['class'],
+                    h6: ['class'],
                 }
             }
+        },
+        loadingScreenTemplate: function() {
+            return '<h6 class="text-center">Načítání časové osy...</h6>'
         },
         template: function (item, element, data) {
             if (item.type === 'background') return ''
@@ -266,6 +270,11 @@ function getTimelineOptions(step, maxDate, orientationAxis)
             return item.content
         }
     }
+    
+    if (start) options.start = start;
+    if (end) options.end = end;
+    
+    return options;
 }
 
 window.initTimeline = async function ($wire, timelineItems, timelineGroups, timelineMarkers) {
@@ -279,11 +288,17 @@ window.initTimeline = async function ($wire, timelineItems, timelineGroups, time
         max.setFullYear(max.getFullYear() + 20)
         var step = parseInt(container.dataset.step)
         var orientationAxis = $(container).is('[data-axis-both]') ? 'both' : 'bottom'
+        var start = $(container).data('start')
+        var end = $(container).data('end')
 
-        var options = getTimelineOptions(step, max, orientationAxis)
+        var options = getTimelineOptions(step, max, orientationAxis, start, end)
         
         timelineItems = timelineItems.map(function (item) {
             item.end ??= max
+            if (item.entityType === 'organBuilder') {
+                item.title = item.name
+                if (item.time) item.title += ` (${item.time})`
+            }
             return item
         })
         
@@ -307,6 +322,7 @@ window.initTimeline = async function ($wire, timelineItems, timelineGroups, time
             let id = `marker${i}`
             timeline.addCustomTime(marker.date, id)
             timeline.setCustomTimeMarker(marker.name, id)
+            // TODO: title nastavit nejde
             timeline.setCustomTimeTitle(marker.description, id)
         })
         

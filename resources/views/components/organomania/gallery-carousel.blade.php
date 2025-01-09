@@ -7,9 +7,18 @@
         @endforeach
     </div>
     <div class="carousel-inner rounded">
-        @foreach ($images as [$src, $credits])
+        @foreach ($images as $key => [$src, $credits])
+            @php 
+                $caption = $images[$key][2] ?? null;
+                $additional = $images[$key][3] ?? false;
+            @endphp
             <div @class(['carousel-item', 'active' => $loop->first])>
                 <img src="{{ $src }}" class="d-block m-auto" alt="{{ __('Náhled') }}" @isset($credits) title="{{ __('Licence obrázku') }}: {{ $credits }}" @endisset>
+                @isset($caption)
+                    <div @class(['carousel-caption', 'small', 'text-dark' => $additional, 'text-primary' => !$additional])>
+                        <p class="bg-light rounded mb-1 p-1 fst-italic" style="opacity: 85%">{!! $caption !!}</p>
+                    </div>
+                @endisset
             </div>
         @endforeach
     </div>

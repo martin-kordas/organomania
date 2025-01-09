@@ -122,6 +122,48 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
+    public function images()
+    {
+        $images = [];
+        foreach ($this->organBuilder->organs as $organ) {
+            if (isset($organ->image_url, $organ->outside_image_url)) {
+                $caption = view('components.organomania.organ-link', [
+                    'organ' => $organ,
+                    'showSizeInfo' => true,
+                    'iconLink' => false,
+                ])->render();
+                $images[] = [$organ->image_url, $organ->image_credits, $caption];
+            }
+        }
+
+        // HACK: správně má být uloženo v db.
+        foreach ($this->additionalImages as [$imageUrl, $imageCredits, $name, $details]) {
+            $content = '<i class="bi bi-music-note-list"></i> ' . e($name);
+            if (isset($details)) $content .= sprintf(" <span class='text-body-secondary'>(%s)</span>", e($details));
+
+            $images[] = [$imageUrl, $imageCredits, $content, true];
+        }
+
+        return $images;
+    }
+
+    #[Computed]
+    public function additionalImages()
+    {
+        return match ($this->organBuilder->id) {
+            1 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/8/88/Varhany_t%C3%BDnsky_kostel.jpg',
+                    'kredity',
+                    'Praha, Matky Boží před Týnem',
+                    'II/45'
+                ]
+            ],
+            default => []
+        };
+    }
+
+    #[Computed]
     private function organs()
     {
         $this->organBuilder->load([
@@ -234,7 +276,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div class="text-center mt-3">
         <x-organomania.info-alert class="d-inline-block mb-1">
             {!! __('O stylovém vývoji našeho varhanářství více') !!}
-            <a class="link-primary text-decoration-none" href="{{ route('organ') }}#history" wire:navigate>{{ __('zde') }}</a>.
+            <a class="link-primary text-decoration-none" href="{{ route('about-organ') }}" wire:navigate>{{ __('zde') }}</a>.
         </x-organomania.info-alert>
     </div>
     
@@ -384,6 +426,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <div class="small text-secondary text-end mb-4">
             {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organBuilder->views) }}&times;
         </div>
+    @endif
+  
+    @if (count($this->images) > 1)
+        <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />
     @endif
         
     <div class="accordion">

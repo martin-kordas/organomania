@@ -74,6 +74,12 @@
                 {{ __('Putování za varhanami Litoměřické diecéze') }}
                 <x-slot:description>{{ __('cyklus výpravných pořadů o zajímavých varhanách, uváděný organologem Litoměřické diecéze Radkem Rejškem') }}</x-slot>
             </x-organomania.link-list-item>
+            
+            <x-organomania.link-list-item icon="camera-video" url="https://www.youtube.com/playlist?list=PL7vMTJUgGJKD5s697Q-1ZLoGLKUARVoKz">
+                <x-slot:source>{{ __('Youtube') }}</x-slot>
+                Tour of Stops &ndash; Filip Harant
+                <x-slot:description>{{ __('podrobná zvuková představení řady zajímavých historických varhan v českých zemích') }}</x-slot>
+            </x-organomania.link-list-item>
         </x-organomania.link-list>
         
         
@@ -109,6 +115,11 @@
             <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/knihy/varhany-a-jejich-osudy-81909">
                 Jan Tomíček: Varhany a jejich osudy
                 <x-slot:description>{{ __('sbírka čtivých pojednání o vybraných domácích varhanách a varhanářích') }}</x-slot>
+            </x-organomania.link-list-item>
+          
+            <x-organomania.link-list-item icon="book" url="https://theses.cz/id/ugwhfa/">
+                Petra Novotná: Sochařská a řezbářská výzdoba barokních varhan v 18. století v Olomoucké arcidiecézi se zaměřením na děkanát Šumperk
+                <x-slot:description>{{ __('diplomová práce, která podrobně rozebírá naše barokní varhanářství, a to především po výtvarné stránce') }}</x-slot>
             </x-organomania.link-list-item>
         </x-organomania.link-list>
         

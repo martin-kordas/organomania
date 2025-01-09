@@ -18,6 +18,8 @@ class Register extends Model
 {
     use HasFactory;
     
+    protected $guarded = [];
+    
     private $dispositions;
     
     public function registerCategories()

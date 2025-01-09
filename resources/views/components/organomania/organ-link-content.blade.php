@@ -1,4 +1,4 @@
-@props(['organ', 'year' => null, 'yearBuilt' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'isRebuild' => false, 'isRenovation' => false])
+@props(['organ', 'name' => null, 'size' => null, 'year' => null, 'yearBuilt' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'isRebuild' => false, 'isRenovation' => false])
 
 @php
     $details = [];
@@ -11,13 +11,19 @@
         $details[] = $organInfo;
     }
     elseif ($showSizeInfo) {
-        if ($organ->organ_rebuilds_count <= 0 && ($sizeInfo = $organ->getSizeInfo()))
+        if (isset($size)) $details[] = $size;
+        elseif ($organ->organ_rebuilds_count <= 0 && ($sizeInfo = $organ->getSizeInfo()))
             $details[] = $sizeInfo;
     }
 @endphp
 
 <span>
-    {{ $organ->municipality }}, {{ $organ->place }}
+    @isset($name)
+        {{ $name }}
+    @else
+        {{ $organ->municipality }}, {{ $organ->place }}
+    @endisset
+
     @if (!$organ->isPublic())
         <i class="bi bi-lock text-warning"></i>
     @endif

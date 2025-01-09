@@ -11,9 +11,11 @@ trait Viewable
     public function viewed()
     {
         if (!Auth::user()?->isAdmin() && !Helpers::isCrawler()) {
-            $this->views++;
-            $this->viewed_at = now();
-            $this->save();
+            if (!method_exists($this, 'isPublic') || $this->isPublic()) {
+                $this->views++;
+                $this->viewed_at = now();
+                $this->save();
+            }
         }
     }
     

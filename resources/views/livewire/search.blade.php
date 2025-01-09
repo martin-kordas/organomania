@@ -111,7 +111,10 @@ new class extends Component {
                     ->orderBy('name')
                     ->take(12);
             })
-            ->get();
+            ->get()
+            ->unique(
+                fn (RegisterName $registerName1) => $registerName1->getVisualIdentifier()
+            );
     }
 
     private function highlight($text)
@@ -122,118 +125,144 @@ new class extends Component {
 
 }; ?>
 
-<form role="search" id="{{ $id }}-form" class="col" style="font-size: 95%;" onsubmit="return false">
-    <div x-data="{isTyped: false}">
-        <div class="position-relative">
-            <div class="input-group search-input-group">
-                @if ($id === 'welcomeSearch')
-                    <span class="input-group-text">
-                        <i class="bi bi-search"></i>
-                    </span>
-                @endif
-                <input
-                    id="{{ $id }}"
-                    type="search"
-                    class="search form-control px-1 px-xxl-2"
-                    placeholder="{{ $placeholder }}"
-                    aria-label="{{ __('Hledat') }}"
-                    size="{{ app()->getLocale() === 'cs' ? 30 : 29 }}"
-                    @input.debounce.400ms="isTyped = ($event.target.value != '' && $event.target.value.length >= $wire.minSearchLength)"
-                    @keydown.esc="isTyped = false"
-                    @click.outside="isTyped = false"
-                    @keydown.slash.window="focusSearch"
-                    wire:model.live.debounce.350ms="search"
-                    autocomplete="off"
-                />
-            </div>
-            <div class="search-results card position-absolute shadow w-100 z-1" x-show="isTyped" x-cloak style="display: none;">
-                @if ($this->resultsCount > 0)
-                    @if ($this->resultsOrgans->isNotEmpty())
-                        <div class="card-header fw-bold">
-                            <i class="bi-music-note-list"></i> {{ __('Varhany') }}
-                        </div>
-                        <div class="list-group list-group-flush">
-                            @foreach ($this->resultsOrgans as $organ)
-                                <a class="list-group-item list-group-item-action" href="{{ route('organs.show', ['organ' => $organ->slug]) }}" wire:navigate>
-                                    {!! $this->highlight($organ->municipality) !!}, {!! $this->highlight($organ->place) !!}
-                                    @if (!$organ->isPublic())
-                                        <i class="bi-lock text-warning"></i>
-                                    @endif
-                                    <br />
-                                    <small class="hstack text-secondary">
-                                        <span>
-                                            {!! $this->highlight($organ->organBuilder?->name ?? __('neznámý varhanář')) !!}
-                                            @isset($organ->year_built)
-                                                ({{ $organ->year_built }})
-                                            @endisset
-                                        </span>
-                                        <x-organomania.stars class="ms-auto" :count="round($organ->importance / 2)" />
-                                    </small>
-                                </a>
-                            @endforeach
-                        </div>
+<div class="col">
+    <form role="search" id="{{ $id }}-form" style="font-size: 95%;" onsubmit="return false">
+        <div x-data="{isTyped: false}">
+            <div class="position-relative">
+                <div class="input-group search-input-group">
+                    @if ($id === 'welcomeSearch')
+                        <span class="input-group-text">
+                            <i class="bi bi-search"></i>
+                        </span>
                     @endif
-                
-                    @if ($this->resultsOrganBuilders->isNotEmpty())
-                        <div class="card-header fw-bold">
-                            <i class="bi-person-circle"></i> {{ __('Varhanáři') }}
-                        </div>
-                        <div class="list-group list-group-flush">
-                            @foreach ($this->resultsOrganBuilders as $organBuilder)
-                                <a class="list-group-item list-group-item-action" href="{{ route('organ-builders.show', ['organBuilder' => $organBuilder->slug]) }}" wire:navigate>
-                                    {!! $this->highlight($organBuilder->name) !!}
-                                    @if (!$organBuilder->isPublic()) 
-                                        <i class="bi-lock text-warning"></i>
-                                    @endif
-                                    @if ($organBuilder->active_period)
-                                        <span class="text-secondary">({{ $organBuilder->active_period }})</span>
+                    <input
+                        id="{{ $id }}"
+                        type="search"
+                        class="search form-control px-1 px-xxl-2"
+                        placeholder="{{ $placeholder }}"
+                        aria-label="{{ __('Hledat') }}"
+                        size="{{ app()->getLocale() === 'cs' ? 30 : 29 }}"
+                        @input.debounce.400ms="isTyped = ($event.target.value != '' && $event.target.value.length >= $wire.minSearchLength)"
+                        @keydown.esc="isTyped = false"
+                        @click.outside="isTyped = false"
+                        @keydown.slash.window="focusSearch"
+                        wire:model.live.debounce.350ms="search"
+                        autocomplete="off"
+                    />
+                </div>
+                <div class="search-results card position-absolute shadow w-100 z-1" x-show="isTyped" x-cloak style="display: none;">
+                    @if ($this->resultsCount > 0)
+                        @if ($this->resultsOrgans->isNotEmpty())
+                            <div class="card-header fw-bold">
+                                <i class="bi-music-note-list"></i> {{ __('Varhany') }}
+                            </div>
+                            <div class="list-group list-group-flush">
+                                @foreach ($this->resultsOrgans as $organ)
+                                    <a class="list-group-item list-group-item-action" href="{{ route('organs.show', ['organ' => $organ->slug]) }}" wire:navigate>
+                                        {!! $this->highlight($organ->municipality) !!}, {!! $this->highlight($organ->place) !!}
+                                        @if (!$organ->isPublic())
+                                            <i class="bi-lock text-warning"></i>
+                                        @endif
                                         <br />
                                         <small class="hstack text-secondary">
-                                            {!! $this->highlight($organBuilder->municipality) !!}
-                                            @if (!$organBuilder->shouldHideImportance())
-                                                <x-organomania.stars class="ms-auto" :count="round($organBuilder->importance / 2)" />
-                                            @endif
+                                            <span>
+                                                {!! $this->highlight($organ->organBuilder?->name ?? __('neznámý varhanář')) !!}
+                                                @isset($organ->year_built)
+                                                    ({{ $organ->year_built }})
+                                                @endisset
+                                            </span>
+                                            <x-organomania.stars class="ms-auto" :count="round($organ->importance / 2)" />
                                         </small>
-                                    @endif
-                                </a>
-                            @endforeach
-                        </div>
-                    @endif
-                
-                    @if ($this->resultsRegisterNames->isNotEmpty())
-                        <div class="card-header fw-bold">
-                            <i class="bi-record-circle"></i> {{ __('Rejstříky') }}
-                        </div>
-                        <div class="list-group list-group-flush">
-                            @foreach ($this->resultsRegisterNames as $registerName)
-                                <a
-                                    class="list-group-item list-group-item-action d-flex column-gap-1 align-items-center"
-                                    href="{{ route('dispositions.registers.show', ['registerName' => $registerName->slug]) }}"
-                                    wire:navigate
-                                >
-                                    <span class="me-auto">
-                                        {!! $this->highlight($registerName->name) !!}
-                                        @if (!$registerName->hide_language)
-                                            <span class="text-body-secondary">({{ $registerName->language }})</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        @if ($this->resultsOrganBuilders->isNotEmpty())
+                            <div class="card-header fw-bold">
+                                <i class="bi-person-circle"></i> {{ __('Varhanáři') }}
+                            </div>
+                            <div class="list-group list-group-flush">
+                                @foreach ($this->resultsOrganBuilders as $organBuilder)
+                                    <a class="list-group-item list-group-item-action" href="{{ route('organ-builders.show', ['organBuilder' => $organBuilder->slug]) }}" wire:navigate>
+                                        {!! $this->highlight($organBuilder->name) !!}
+                                        @if (!$organBuilder->isPublic()) 
+                                            <i class="bi-lock text-warning"></i>
                                         @endif
-                                    </span>
-                                    
-                                    <span class="badge text-bg-primary">
-                                        {{ $registerName->register->registerCategory->getName() }}
-                                    </span>
+                                        @if ($organBuilder->active_period)
+                                            <span class="text-secondary">({{ $organBuilder->active_period }})</span>
+                                            <br />
+                                            <small class="hstack text-secondary">
+                                                {!! $this->highlight($organBuilder->municipality) !!}
+                                                @if (!$organBuilder->shouldHideImportance())
+                                                    <x-organomania.stars class="ms-auto" :count="round($organBuilder->importance / 2)" />
+                                                @endif
+                                            </small>
+                                        @endif
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endif
+                    
+                        <div class="list-group list-group-flush position-relative text-center border-0">
+                            <div class="list-group-item list-group-item-action">
+                                <a type="submit" class="link-primary text-decoration-none stretched-link" href="#" onclick="$('#searchVarhanyNet').submit()">
+                                    <i class="bi bi-search"></i>
+                                    {{ __('Hledat v katalogu varhany.net') }}
                                 </a>
-                            @endforeach
+                            </div>
+                        </div>
+
+                        @if ($this->resultsRegisterNames->isNotEmpty())
+                            <div class="card-header fw-bold">
+                                <i class="bi-record-circle"></i> {{ __('Rejstříky') }}
+                            </div>
+                            <div class="list-group list-group-flush">
+                                @foreach ($this->resultsRegisterNames as $registerName)
+                                    <a
+                                        class="list-group-item list-group-item-action d-flex column-gap-1 align-items-center"
+                                        href="{{ route('dispositions.registers.show', ['registerName' => $registerName->slug]) }}"
+                                        wire:navigate
+                                    >
+                                        <span class="me-auto">
+                                            {!! $this->highlight($registerName->name) !!}
+                                            @if (!$registerName->hide_language)
+                                                <span class="text-body-secondary">({{ $registerName->language }})</span>
+                                            @endif
+                                        </span>
+
+                                        <span class="badge text-bg-primary">
+                                            {{ $registerName->register->registerCategory->getName() }}
+                                        </span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endif
+                    @else
+                        <div class="list-group position-relative text-center">
+                            <div class="list-group-item list-group-item-action">
+                                <div>
+                                    {{ __('Nic nebylo nalezeno.') }}
+                                </div>
+                                <div>
+                                    <a type="submit" class="link-primary text-decoration-none stretched-link" href="#" onclick="$('#searchVarhanyNet').submit()">
+                                        <i class="bi bi-search"></i>
+                                        {{ __('Hledat v katalogu varhany.net') }}
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     @endif
-                @else
-                    <div class="card-body">
-                        {{ __('Nic nebylo nalezeno.') }}
-                    </div>
-                @endif
+                </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+    
+    <form class="d-none" id="searchVarhanyNet" method="post" accept-charset="windows-1250" action="http://www.varhany.net/search.php" target="_blank">
+        <input type="hidden" name="obeca" value="{{ $this->sanitizedSearch }}" />
+        <input type="hidden" name="ob" value="1" />
+    </form>
+</div>
 
 @script
 <script>

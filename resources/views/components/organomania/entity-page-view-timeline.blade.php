@@ -10,22 +10,26 @@
     <div
         id="timeline"
         data-step="{{ $this->timelineStep }}"
-        @if($this->selectedTimelineEntityType) data-selected-entity-type="{{ $this->selectedTimelineEntityType }}" @endif
-        @if($this->selectedTimelineEntityId) data-selected-entity-id="{{ $this->selectedTimelineEntityId }}" @endif
-        @if(!$this->filterId) data-axis-both @endif
+        @if ($this->selectedTimelineEntityType) data-selected-entity-type="{{ $this->selectedTimelineEntityType }}" @endif
+        @if ($this->selectedTimelineEntityId) data-selected-entity-id="{{ $this->selectedTimelineEntityId }}" @endif
+        @if (!$this->filterId) data-axis-both @endif
+        @isset ($this->timelineViewRange) data-start="{{ $this->timelineViewRange[0] }}" @endisset
+        @isset ($this->timelineViewRange) data-end="{{ $this->timelineViewRange[1] }}" @endisset
         wire:ignore
     ></div>
     
     <x-organomania.modals.organ-thumbnail-modal :showOrgansTimeline="!$this->filterId" />
       
-    <h6 class="mt-4">{{ __('Vyznačené milníky') }}</h6>
-    <ul class="small">
-        @foreach ($this->timelineMarkers as $marker)
-            <li>
-                <strong>{{ $marker['name'] }}</strong>: {{ $marker['description'] }}
-            </li>
-        @endforeach
-    </ul>
+    @if (!$this->filterId)
+        <h6 class="mt-4">{{ __('Vyznačené milníky') }}</h6>
+        <ul class="small">
+            @foreach ($this->timelineMarkers as $marker)
+                <li>
+                    <strong>{{ $marker['name'] }}</strong>: {{ $marker['description'] }}
+                </li>
+            @endforeach
+        </ul>
+    @endif
 
 </div>
 

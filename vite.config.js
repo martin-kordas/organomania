@@ -15,9 +15,17 @@ export default defineConfig({
     css: {
       devSourcemap: true
     },
+    build: {
+      rollupOptions: {
+        external: [
+          'vis-timeline/standalone',
+        ]
+      }
+    }
+    /* na serveru odkomentováno */
     /*server: {
         hmr: {
-            host: '164.92.133.216'
+            host: 'organomania.cz'
         },
     }*/
 });

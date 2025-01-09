@@ -1,4 +1,4 @@
-@props(['organBuilder', 'yearBuilt' => null, 'isRebuild' => false, 'showActivePeriod' => false, 'showIcon' => true, 'placeholder' => __('neznámý varhanář')])
+@props(['organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showIcon' => true, 'placeholder' => __('neznámý varhanář'), 'iconLink' => true])
 
 @php
     if (isset($organBuilder->perex)) $description = $organBuilder->perex;
@@ -13,7 +13,7 @@
 
 @can('view', $organBuilder)
     <a
-        class="icon-link icon-link-hover align-items-start link-primary text-decoration-none"
+        {{ $attributes->class(['organ-builder-link', 'align-items-start', 'link-primary', 'text-decoration-none', 'icon-link' => $iconLink, 'icon-link-hover'=> $iconLink]) }}
         href="{{ route('organ-builders.show', $organBuilder->slug) }}"
         wire:navigate
         @if ($description)
@@ -26,8 +26,8 @@
         @if ($showIcon)
             <i class="bi bi-person-circle"></i>
         @endif
-        <x-organomania.organ-builder-link-content :$organBuilder :$yearBuilt :$isRebuild :$showActivePeriod :$placeholder />
+        <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$showActivePeriod :$activePeriod :$showMunicipality :$placeholder />
     </a>
 @else
-    <x-organomania.organ-builder-link-content :$organBuilder :$yearBuilt :$isRebuild :$showActivePeriod :$placeholder />
+    <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$showActivePeriod :$activePeriod :$showMunicipality :$placeholder />
 @endcan

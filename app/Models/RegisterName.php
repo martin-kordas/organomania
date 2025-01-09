@@ -14,6 +14,14 @@ class RegisterName extends Model
 {
     use HasFactory, Searchable, Sluggable;
     
+    protected $guarded = [];
+    
+    const
+        REGISTER_NAME_ID_FLETNA_HARMONICKA = 5,
+        REGISTER_NAME_ID_KLARINET = 232,
+        REGISTER_NAME_ID_HARMONIA_AETHEREA = 268,
+        REGISTER_NAME_ID_VOX_COELESTIS = 38;
+    
     public function register()
     {
         return $this->belongsTo(Register::class);

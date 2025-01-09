@@ -1,4 +1,4 @@
-@props(['registerName', 'newTab' => false])
+@props(['registerName', 'showCategory' => true, 'newTab' => false])
 
 <a
     class="register-link icon-link icon-link-hover align-items-start link-primary text-decoration-none"
@@ -9,7 +9,9 @@
     <span>
         {{ $registerName->name }}
     </span>
-    <span class="text-body-secondary">
-        ({{ $registerName->register->registerCategory->getName() }})
-    </span>
+    @if ($showCategory)
+        <span class="text-body-secondary">
+            ({{ $registerName->register->registerCategory->getName() }})
+        </span>
+    @endif
 </a>

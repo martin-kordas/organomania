@@ -28,7 +28,8 @@ class CollectStats extends Command
      */
     protected $signature = 'app:collect-stats
                             {--db : Write stats to database}
-                            {--mailto=* : Send stats to given emails}';
+                            {--mailto=* : Send stats to given emails}
+                            {--schedule}';
 
     /**
      * The console command description.
@@ -42,7 +43,7 @@ class CollectStats extends Command
      */
     public function handle()
     {
-        if ($this->confirm('Do you wish to continue?')) {
+        if ($this->confirm('Do you wish to continue?') || $this->option('schedule')) {
             $stats = $this->getStats();
             $this->table(array_keys($stats), [array_values($stats)]);
             

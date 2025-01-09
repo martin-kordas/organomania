@@ -339,7 +339,7 @@ class OrganSeeder extends Seeder
                     END,
             ],
             categories: [
-                OrganCategory::BuiltFrom1800To1944,
+                OrganCategory::BuiltFrom1800To1859,
                 OrganCategory::Romantic,
                 OrganCategory::NeobaroqueUniversal,
                 OrganCategory::ActionPneumatical,
@@ -435,7 +435,7 @@ class OrganSeeder extends Seeder
                     END,
             ],
             categories: [
-                OrganCategory::BuiltFrom1800To1944,
+                OrganCategory::BuiltFrom1800To1859,
                 OrganCategory::Romantic,
                 OrganCategory::Biggest,
                 OrganCategory::ActionPneumatical,
@@ -465,7 +465,7 @@ class OrganSeeder extends Seeder
                 'literature' => 'Krátký, Jiří a Svoboda, Štěpán. Nejvýznamnější varhany v České republice. 1. vydání. V Brně: CPress, 2019. 267 stran. ISBN 978-80-264-2859-6. (str. 34)',
             ],
             categories: [
-                OrganCategory::BuiltFrom1800To1944,
+                OrganCategory::BuiltFrom1800To1859,
                 OrganCategory::Baroque,
                 OrganCategory::ActionMechanical,
                 OrganCategory::WindchestSchleif,
@@ -979,7 +979,7 @@ class OrganSeeder extends Seeder
                     END
             ],
             categories: [
-                OrganCategory::BuiltFrom1800To1944,
+                OrganCategory::BuiltFrom1800To1859,
                 OrganCategory::Romantic,
                 OrganCategory::NeobaroqueUniversal,
                 OrganCategory::ActionPneumatical,

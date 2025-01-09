@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
@@ -145,8 +146,6 @@ new class extends Component {
 
         foreach ([1600, 1800, 2000] as $year) {
             $endYear = $year + 100;
-            $endYear1 = $endYear - 1;
-            $name = "{$year}–$endYear1";
             $items[] = [
                 'type' => 'background',
                 'entityType' => null,
@@ -192,6 +191,7 @@ new class extends Component {
         return $items;
     }
 
+    // členění varhanářu dle zemí (např. Čechy) a center (např. Loket)
     #[Computed]
     public function timelineGroups()
     {
@@ -243,7 +243,7 @@ new class extends Component {
         $years = [
             1620 => __('Období baroka bývá označováno za zlatý věk varhanářství. Posílení významu církve dává vzniknout nejen řadě sakrálních staveb, ale i množství varhan. Jejich stavbě se věnují špičkové, často vícegenerační varhanářské dílny.'),
             1800 => __('Od 19. století nastává pozvolný úpadek barokního varhanářství, který souvisí s josefínskými reformami (rušení klášterů) a ekonomickými problémy vzešlými z napoleonských válek. Ve varhanních dispozicích se začíná uplatňovat větší množství hlubokých hlasů, což je typické pro romantické varhanářství.'),
-            1860 => __('Od 3. čtvrtiny 19. století vznikají velké podniky provozující tovární výrobu varhan. Postupně se prosazuje kuželková vzdušnice a pneumatická traktura. Varhanní dispozice jsou ovlivněny ceciliánskou reformou, která upřednostňuje rejstříky v nízkých polohách.'),
+            1860 => __('S rozvojem průmyslu vznikají velké podniky provozující tovární výrobu varhan. Postupně se prosazuje kuželková vzdušnice a pneumatická traktura. Varhanní dispozice jsou ovlivněny ceciliánskou reformou, která upřednostňuje rejstříky v nízkých polohách.'),
             1945 => __('V období komunismu funguje pouze několik varhanářských firem. Dispozice varhan se pod vlivem varhanního hnutí navrací k baroknímu zvukovému ideálu a staví se varhany tzv. univerzálního typu. Kromě pneumatické traktury se uplatňuje i traktura elektrická a mechanická.'),
             1990 => __('Po pádu komunismu vzniká řada menších varhanářských dílen. Kromě univerzálních se staví i stylově vyhraněné nástroje. Probíhá restaurování cenných historických nástrojů.')
         ];
@@ -257,6 +257,37 @@ new class extends Component {
             ];
         }
         return $markers;
+    }
+
+    // určuje časový úsek zobrazený defaultně na časové ose
+    //  - úsek omezujeme, je-li vyfiltrován konkrétní varhanář a jeho varhany
+    #[Computed]
+    public function timelineViewRange()
+    {
+        if ($this->filterId && $this->timelineItems->isNotEmpty()) {
+            $items = $this->timelineItems->filter(
+                fn ($item) => in_array($item['entityType'], ['organ', 'organBuilder'])
+            );
+
+            $oldest = $items
+                ->pluck('start')
+                ->sort()
+                ->first();
+            $newest = $items
+                ->map(
+                    fn ($item) => $item['end'] ?? $item['start']
+                )
+                ->sortDesc()
+                ->first();
+
+            $start = (new Carbon($oldest))
+                ->subYears(100)
+                ->format('Y-m-d');
+            $end = (new Carbon($newest))
+                ->addYears(100)
+                ->format('Y-m-d');
+            return [$start, $end];
+        }
     }
 
     #[Computed]

@@ -1,4 +1,8 @@
 <x-app-bootstrap-layout>
+    @push('meta')
+        <meta name="description" content="{{ __('Zjistěte, jak web Organomania vznikl, jakým způsobem jsou vybírány varhany a varhanáři zařazení do katalogu a jaký je význam u nich u uváděných údajů.') }}">
+    @endpush
+    
     <div class="about container">
         <h3>{{ __('O webu') }}</h3>
 
@@ -30,7 +34,7 @@
         
         <p>
             {!! __('Obsah uváděný na webu má <strong>stručný, přehledový charakter</strong>.') !!}
-            {{ __('Nevychází z vlastní dokumentační činnosti, nýbrž z literatury a veřejně dostupných zdrojů.') }}
+            {{ __('Nevychází obvykle z vlastní dokumentační činnosti, nýbrž z literatury a veřejně dostupných zdrojů.') }}
             {!! __('Obrazové materiály jsou převzaty z <em>Wikimedia Commons</em> (autor a licence obrázku se zobrazí po najetí myši).') !!}
         </p>
             
@@ -42,16 +46,17 @@
             <li>{{ __('Údaj o počtu rejstříků může v některých případech započítávat i transmise a extenze.') }}</li>
             <li>{{ __('Kategorizace varhan podle traktur zohledňuje tónovou, ne rejstříkovou trakturu.') }}</li>
             <li>{{ __('Evidovány jsou pouze výrazné přestavby varhan a jejich poslední generální oprava nebo restaurování.') }}</li>
+            <li>{{ __('Velikost varhan je někdy zkráceně zapisována ve tvaru "počet manuálů / počet rejstříků" (např. III/43).') }}</li>
         </ul>
         <p>{!! __('Podrobnější informace o nástroji lze obvykle najít v katalogu <a href="http://varhany.net">varhany.net</a>.') !!}</p>
         
-        <img class="rounded float-start me-3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/2022_Byst%C5%99ice_lustr_a_varhany.jpg/360px-2022_Byst%C5%99ice_lustr_a_varhany.jpg" title="{{ __('Licence obrázku') }}: Qasinka, CC0, via Wikimedia Commons" style="max-height: 310px; width: auto; max-width: 50%" />
         <p>
             {!! __('Pro usnadnění orientace bývají záznamy seřazeny podle <strong>"významu"</strong>.') !!}
             {{ __('Je evidentní, že význam určitých varhan nebo varhanáře záleží na mnoha faktorech a nelze jej objektivně stanovit.') }}
             {{ __('Uváděná míra významu je tedy vždy nedokonalá a orientační.') }}
             {{ __('Totéž platí o kategorizaci varhan a varhanářů podle stylového období.') }}
         </p>
+        <img class="rounded float-start me-3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/2022_Byst%C5%99ice_lustr_a_varhany.jpg/360px-2022_Byst%C5%99ice_lustr_a_varhany.jpg" title="{{ __('Licence obrázku') }}: Qasinka, CC0, via Wikimedia Commons" style="max-height: 310px; width: auto; max-width: 50%" />
         
         <p>
             {!! __('Diskutabilní je i <strong>výběr varhan a varhanářů</strong>, které web pokrývá.') !!}
@@ -59,6 +64,7 @@
             {{ __('Skupinu "významných" však opět není možné objektivně definovat, ani rozsahově pokrýt.') }}
             {{ __('V praxi se tedy při výběru varhan uplatnila řada hledisek: starobylost, velikost a konstrukční zajímavost varhan, historický význam místa, kde stojí, hodnotná varhanní skříň nebo i nedávno proběhlé restaurování nástroje a jeho aktivní hudební využívání.') }}
             {{ __('Zatímco nejvýznamější varhany jsou pokryty snad kompletně, v případě těch méně významných jde jen o vybranou výseč.') }}
+            {{ __('S ohledem na nadprůměrnou velikost je pokryta (zčásti) řada třímanuálových varhan, byť tyto nástroje mnohdy nemají zásadní památkovou či uměleckou hodnotu.') }}
         </p>
         
         <p>

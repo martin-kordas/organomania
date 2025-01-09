@@ -18,7 +18,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
         @stack('meta')
 
         <title>
-            @isset($title) {{ $title }} | @endisset{{ config('app.name', 'Organomania') }}@if (!isset($title)) - {{ __('varhany_v_cr_full') }}  @endif
+            @isset($title) {{ $title }} | @endisset{{ config('app.name', 'Organomania') }}@if (!isset($title)) – {{ __('varhany_v_cr_full') }}  @endif
         </title>
 
         <!-- Fonts -->
@@ -95,7 +95,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                                         {{ __('Log') }}
                                     </x-organomania.footer-nav-item>
                                 @endif
-                                <x-organomania.footer-nav-item href="{{ route('organ') }}" wire:navigate>
+                                <x-organomania.footer-nav-item href="{{ route('about-organ') }}" wire:navigate>
                                     {{ __('O varhanách') }}
                                 </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('organists.index') }}" wire:navigate>

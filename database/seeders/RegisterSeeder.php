@@ -2533,7 +2533,7 @@ class RegisterSeeder extends Seeder
         );
     }
     
-    private function insertRegister(
+    public function insertRegister(
         array $data,
         array $names = [],
         array $paletteRegisters = [],
