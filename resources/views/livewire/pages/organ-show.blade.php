@@ -539,6 +539,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
             </x-organomania.tr-responsive>
         @endif
+        @if (isset($organ->place_web))
+            <x-organomania.tr-responsive title="{{ __('Web místa') }}">
+                <div class="text-break items-list">
+                    @foreach (explode("\n", $organ->place_web) as $url)
+                        <x-organomania.web-link :url="$url" />
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
+                </div>
+            </x-organomania.tr-responsive>
+        @endif
         @if (!empty($this->discs))
             <x-organomania.tr-responsive title="{{ __('Nahrávky') }}">
                 <div class="items-list">

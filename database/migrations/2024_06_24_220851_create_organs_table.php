@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('outside_image_url', length: 500)->nullable();
             $table->string('outside_image_credits', length: 500)->nullable();
             $table->text('web')->nullable();
+            $table->text('place_web')->nullable();
             $table->integer('varhany_net_id')->nullable();
             $table->text('perex')->nullable();
             $table->text('description')->nullable();

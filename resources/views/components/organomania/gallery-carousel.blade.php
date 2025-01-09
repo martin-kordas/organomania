@@ -1,6 +1,6 @@
 @props(['images', 'id' => 'galleryCarousel'])
 
-<div id="{{ $id }}" {{ $attributes->class(['gallery-carousel', 'carousel', 'slide', 'rounded', 'border']) }}>
+<div id="{{ $id }}" {{ $attributes->class(['gallery-carousel', 'carousel', 'slide', 'rounded', 'border']) }} data-bs-ride="carousel">
     <div class="carousel-indicators">
         @foreach ($images as $image)
             <button type="button" data-bs-target="#{{ $id }}" data-bs-slide-to="{{ $loop->index }}" class="active" aria-current="true" aria-label="Slide {{ $loop->iteration }}"></button>
@@ -12,7 +12,7 @@
                 $caption = $images[$key][2] ?? null;
                 $additional = $images[$key][3] ?? false;
             @endphp
-            <div @class(['carousel-item', 'active' => $loop->first])>
+            <div @class(['carousel-item', 'active' => $loop->first]) data-bs-interval="8000">
                 <img src="{{ $src }}" class="d-block m-auto" alt="{{ __('Náhled') }}" @isset($credits) title="{{ __('Licence obrázku') }}: {{ $credits }}" @endisset>
                 @isset($caption)
                     <div @class(['carousel-caption', 'small', 'text-dark' => $additional, 'text-primary' => !$additional])>

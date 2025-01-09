@@ -98,6 +98,8 @@
                         Je důležité si uvědomit, že velké množství nástrojů bylo nově postaveno do starší skříně.
                         Barokní skříň umístěná na kůru tedy nutně neznamená, že se tam nachází i barokní varhany.
                         Také podoba samotného varhanního stroje může být výsledkem přestaveb, realizovaných postupně v různých časových obdobích.
+                        Varhanním skříním se v textu věnujeme spíše okrajově.
+                        Můžete si nicméně zobrazit <a class="text-decoration-none" href="{{ route('organs.index', ['filterCategories' => [OrganCategory::ValuableCase]]) }}" target="_blank">přehled varhan s mimořádně cennou skříní</a>.
                     </p>
                     
                     <p>

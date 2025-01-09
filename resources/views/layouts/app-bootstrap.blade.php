@@ -101,14 +101,14 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                                 <x-organomania.footer-nav-item href="{{ route('organists.index') }}" wire:navigate>
                                     {{ __('Varhaníci') }}
                                 </x-organomania.footer-nav-item>
+                                <x-organomania.footer-nav-item href="{{ route('links') }}" wire:navigate>
+                                    {{ __('Odkazy') }}
+                                </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('about') }}" wire:navigate>
                                     {{ __('O webu') }}
                                 </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('donate') }}" wire:navigate>
                                     {{ __('Podpořte web') }}
-                                </x-organomania.footer-nav-item>
-                                <x-organomania.footer-nav-item href="{{ route('links') }}" wire:navigate>
-                                    {{ __('Odkazy') }}
                                 </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="mailto:{{ config('custom.app_admin_email') }}">
                                     {{ __('Kontakt') }}

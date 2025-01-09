@@ -609,6 +609,12 @@ div.side-buttons {
     @media screen and (max-width: 991px) {
         #content {
             border-right: none !important;
+            
+            /* na mobilním zobrazení se scrollspy nepoužívá, tedy nezvýrazňujeme položky obsahu */
+            .active {
+                background: inherit !important;
+                color: var(--bs-primary) !important;
+            }
         }
     }
     
