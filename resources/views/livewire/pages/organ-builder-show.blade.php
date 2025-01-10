@@ -135,10 +135,24 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $images[] = [$organ->image_url, $organ->image_credits, $caption];
             }
         }
+        foreach ($this->organBuilder->renovatedOrgans as $organ) {
+            if (isset($organ->image_url, $organ->outside_image_url)) {
+                $year = __('restaurováno');
+                if (isset($organ->year_renovated)) $year .= " {$organ->year_renovated}";
+                $caption = view('components.organomania.organ-link', [
+                    'organ' => $organ,
+                    'showSizeInfo' => true,
+                    'iconLink' => false,
+                    'year' => $year,
+                    'isRenovation'=> true,
+                ])->render();
+                $images[] = [$organ->image_url, $organ->image_credits, $caption];
+            }
+        }
 
         // HACK: správně má být uloženo v db.
         foreach ($this->additionalImages as [$imageUrl, $imageCredits, $name, $details]) {
-            $content = '<i class="bi bi-music-note-list"></i> ' . e($name);
+            $content = e($name);
             if (isset($details)) $content .= sprintf(" <span class='text-body-secondary'>(%s)</span>", e($details));
 
             $images[] = [$imageUrl, $imageCredits, $content, true];
@@ -151,12 +165,160 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function additionalImages()
     {
         return match ($this->organBuilder->id) {
-            1 => [
+            3 => [
                 [
-                    'https://upload.wikimedia.org/wikipedia/commons/8/88/Varhany_t%C3%BDnsky_kostel.jpg',
-                    'kredity',
-                    'Praha, Matky Boží před Týnem',
-                    'II/45'
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/%C5%A0a%C5%A1t%C3%ADn_bazilika_41.jpg/640px-%C5%A0a%C5%A1t%C3%ADn_bazilika_41.jpg',
+                    'Ľuboš Repta, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Šaštín, bazilika Sedmibolestné Panny Marie',
+                    '1771, II/23'
+                ]
+            ],
+            4 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Wien_-_Michaelerkirche%2C_Orgelempore.JPG/320px-Wien_-_Michaelerkirche%2C_Orgelempore.JPG',
+                    '© C.Stadler/Bwag or © C.Stadler/Bwag; CC-BY-SA-4.0, via Wikimedia Commons',
+                    'Vídeň, kostel sv. Michaela',
+                    '1714, III/40'
+                ]
+            ],
+            49 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Stolmir_kostel_varhany.JPG/517px-Stolmir_kostel_varhany.JPG',
+                    'Petr Vilgus, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Štolmíř, kostel sv. Havla',
+                    '1688, I/10'
+                ]
+            ],
+            9 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/A_1989_489_z_20.02.1959_Ko%C5%9Bci%C3%B3%C5%82_parafialny_Wniebowzi%C4%99cia_NMP_%28d._klasztorny_NMP_%C5%81askawej%29_8.jpg/640px-A_1989_489_z_20.02.1959_Ko%C5%9Bci%C3%B3%C5%82_parafialny_Wniebowzi%C4%99cia_NMP_%28d._klasztorny_NMP_%C5%81askawej%29_8.jpg',
+                    'Fotonews, CC BY-SA 3.0 PL, via Wikimedia Commons',
+                    'Křešov, klášterní kostel Nanebevzetí Panny Marie',
+                    '1736, III/53'
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Breslau_St._Elizabeth_04.jpg/429px-Breslau_St._Elizabeth_04.jpg',
+                    'ErwinMeier, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Vratislav, kostel sv. Alžběty',
+                    '1761, III/54, novodobá replika'
+                ],
+            ],
+            60 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG/640px-Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG',
+                    'Capkova Pavlina, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Olomouc, bazilika Navštívení Panny Marie (Svatý Kopeček)',
+                    '1724, dochována jen skříň'
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Velehrad_-_48448317417.jpg/640px-Velehrad_-_48448317417.jpg',
+                    'liakada-web, CC BY 2.0, via Wikimedia Commons',
+                    'Velehrad, bazilika Nanebevzetí P. Marie a svatých Cyrila a Metoděje',
+                    '1747, dochována jen skříň'
+                ],
+            ],
+            50 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Suchdol_evang._kostel_varhany.JPG/640px-Suchdol_evang._kostel_varhany.JPG',
+                    'Qasinka, Public domain, via Wikimedia Commons',
+                    'Suchdol nad Odrou, evangelický kostel',
+                    '1905, II/18'
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Kostel_sv._M%C3%A1%C5%99%C3%AD_Magdal%C3%A9ny_v_D%C4%9Btmarovic%C3%ADch%2C_kruchta_s_varhany._Noc_kostel%C5%AF_20150529.jpg/640px-Kostel_sv._M%C3%A1%C5%99%C3%AD_Magdal%C3%A9ny_v_D%C4%9Btmarovic%C3%ADch%2C_kruchta_s_varhany._Noc_kostel%C5%AF_20150529.jpg',
+                    'Ikcur, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Dětmarovice, kostel sv. Maří Magdalény',
+                    '1871, II/18'
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Varhany_z_roku_1885.jpg/512px-Varhany_z_roku_1885.jpg',
+                    'Tomáš Adamec, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Moravičany, kostel sv. Jiří',
+                    '1885, II/17'
+                ],
+            ],
+            64 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/M%C4%9Bsto_Brno_-_varhany_v_kostele_Sv._Jakuba.jpg/516px-M%C4%9Bsto_Brno_-_varhany_v_kostele_Sv._Jakuba.jpg',
+                    'Kirk, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Brno, kostel sv. Jakuba',
+                    '1691, dochována jen skříň'
+                ]
+            ],
+            72 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Z%C3%A1mek_Ho%C5%A1%C5%A5%C3%A1lkovy_kaple.jpg/640px-Z%C3%A1mek_Ho%C5%A1%C5%A5%C3%A1lkovy_kaple.jpg',
+                    'Pavel L., CC BY-SA 4.0, via Wikimedia Commons',
+                    'Hošťálkovy, kaple Narození Panny Marie',
+                    '1780, I/9'
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Kru%C5%BEberk_varhany.jpg/640px-Kru%C5%BEberk_varhany.jpg',
+                    'Ladin, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Kružberk, kostel sv. Petra a Pavla',
+                    '1808, I/6'
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Nov%C3%BD_Ji%C4%8D%C3%ADn_-_%C5%BDilina%2C_Kostel_sv._Mikul%C3%A1%C5%A1e%2C_Pohled_z_lodi_na_kruchtu.jpg/640px-Nov%C3%BD_Ji%C4%8D%C3%ADn_-_%C5%BDilina%2C_Kostel_sv._Mikul%C3%A1%C5%A1e%2C_Pohled_z_lodi_na_kruchtu.jpg',
+                    'Jakub Bartoň, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Nový Jičín, kostel sv. Mikuláše (Žilina)',
+                    '1820, I/9'
+                ],
+            ],
+            19 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/DM_-_Starobrn%C4%9Bnsk%C3%A1_bazilika_%2801%29.jpg/319px-DM_-_Starobrn%C4%9Bnsk%C3%A1_bazilika_%2801%29.jpg',
+                    'Dominik Matus, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Brno, bazilika Nanebevzetí Panny Marie (Staré Brno)',
+                    '1876, dochována jen skříň'
+                ]
+            ],
+            33 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Interi%C3%A9r_kostela_svat%C3%A9ho_Linharta%2C_n%C3%A1ves%2C_C%C3%ADtov%2C_okr._M%C4%9Bln%C3%ADk%2C_St%C5%99edo%C4%8Desk%C3%BD_kraj_03.jpg/640px-Interi%C3%A9r_kostela_svat%C3%A9ho_Linharta%2C_n%C3%A1ves%2C_C%C3%ADtov%2C_okr._M%C4%9Bln%C3%ADk%2C_St%C5%99edo%C4%8Desk%C3%BD_kraj_03.jpg',
+                    'Horakvlado, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Cítov, kostel sv. Linharta',
+                    '1877, II/13'
+                ]
+            ],
+            44 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Lomnice_n._P._-_sv._Mikul%C3%A1%C5%A1_08.JPG/640px-Lomnice_n._P._-_sv._Mikul%C3%A1%C5%A1_08.JPG',
+                    'Hadonos, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Lomnice nad Popelkou, kostel sv. Mikuláše',
+                    '1882, II/20'
+                ]
+            ],
+            45 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Kostel_sv.Barbory_%C5%A0umperk-varhany.jpg/360px-Kostel_sv.Barbory_%C5%A0umperk-varhany.jpg',
+                    'Miroslava Fišerová, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Šumperk, kostel sv. Barbory',
+                    '1904, I/8'
+                ]
+            ],
+            51 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Kostel_ve_Strahovsk%C3%A9m_kl%C3%A1%C5%A1te%C5%99e_FR02.jpg/640px-Kostel_ve_Strahovsk%C3%A9m_kl%C3%A1%C5%A1te%C5%99e_FR02.jpg',
+                    'Fried Marek, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Praha, bazilika Nanebevzetí Panny Marie (Strahov)',
+                    'dochována jen skříň'
+                ]
+            ],
+            69 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/GuentherZ_2013-07-15_0308_Vranov_nad_Dyj%C3%AD-Frain_an_der_Thaya_Pfarrkirche_Mari%C3%A4_Himmelfahrt.JPG/640px-GuentherZ_2013-07-15_0308_Vranov_nad_Dyj%C3%AD-Frain_an_der_Thaya_Pfarrkirche_Mari%C3%A4_Himmelfahrt.JPG',
+                    'GuentherZ, CC BY 3.0, via Wikimedia Commons',
+                    'Vranov nad Dyjí, kostel Nanebevzetí Panny Marie',
+                    'II/15'
+                ]
+            ],
+            77 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Salv%C3%A1tor-evang-kostel2012interi%C3%A9r2.jpg/640px-Salv%C3%A1tor-evang-kostel2012interi%C3%A9r2.jpg',
+                    'Ben Skála, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Praha, kostel sv. Salvátora',
+                    '1865, dochována jen skříň'
                 ]
             ],
             default => []

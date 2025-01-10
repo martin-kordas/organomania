@@ -45,7 +45,7 @@ class AboutOrganController extends Controller
             Organ::ORGAN_ID_LITOMERICE_KATEDRALA_SV_STEPANA_VELKE_VARHANY, Organ::ORGAN_ID_TEPLA, Organ::ORGAN_ID_KLADRUBY,
             Organ::ORGAN_ID_ZDAR, Organ::ORGAN_ID_REPIN, Organ::ORGAN_ID_OLOMOUC_SVATY_KOPECEK_HLAVNI_KUR,
             Organ::ORGAN_ID_FILIPOV, Organ::ORGAN_ID_KUTNA_HORA_SV_JAKUB_VELKE_VARHANY, Organ::ORGAN_ID_MOST,
-            Organ::ORGAN_ID_BOZKOV,
+            Organ::ORGAN_ID_BOZKOV, Organ::ORGAN_ID_KRNOV_KOSTEL_SV_DUCHA,
         ])->keyBy('id');
     }
     

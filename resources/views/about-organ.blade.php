@@ -628,12 +628,12 @@
                         Varhanářství v letech 1945–1989
                     </x-organomania.about-organ-h4>
 
-                    <div class="ms-md-3 mb-2 float-md-end mx-auto text-center" style="width: 340px; max-width: 100%;">
-                        <div class="position-relative d-inline-block" title="Licence obrázku: Juandev, CC BY-SA 4.0, via Wikimedia Commons">
-                            <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Kostel_Nanebevzet%C3%AD_Panny_Marie%2C_interi%C3%A9r_%28029%29.jpg/639px-Kostel_Nanebevzet%C3%AD_Panny_Marie%2C_interi%C3%A9r_%28029%29.jpg" />
+                    <div class="ms-md-3 mb-2 float-md-end mx-auto text-center" style="width: 295px; max-width: 100%;">
+                        <div class="position-relative d-inline-block" title="Licence obrázku: Petr.lhotan, CC BY-SA 4.0, via Wikimedia Commons">
+                            <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Presbyt%C3%A1%C5%99_a_hlavn%C3%AD_lo%C4%8F_kostela_sv._Ducha_v_Krnov%C4%9B.JPG/512px-Presbyt%C3%A1%C5%99_a_hlavn%C3%AD_lo%C4%8F_kostela_sv._Ducha_v_Krnov%C4%9B.JPG" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_MOST]" :year="false" :showSizeInfo="true" :newTab="true" class="stretched-link" />
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_KRNOV_KOSTEL_SV_DUCHA]" :year="false" :showSizeInfo="true" :newTab="true" class="stretched-link" />
                             </em>
                         </div>
                     </div>
@@ -743,7 +743,9 @@
                         V některých případech jsou napadeny červotočem a hrozí jejich zánik.
                     </p>
 
-                    <p class="mb-0">K nejvýznamnějším restaurátorským počinům patří:</p>
+                    <p class="mb-0">
+                        K nejvýznamnějším restaurátorským počinům patří:
+                    </p>
                     <ul class="items-list">
                         @foreach ($renovatedOrgans as $organ)
                             <li>
@@ -763,6 +765,10 @@
                             </li>
                         @endforeach
                     </ul>
+                    
+                    <p>
+                        Můžete si také zobrazit <a class="text-decoration-none" href="{{ route('organ-builders.index', ['filterCategories' => [OrganBuilderCategory::Restoration]]) }}" target="_blank">přehled varhanářů věnujících se restaurování</a> (přehled není úplný).
+                    </p>
                     
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Ricardalovesmonuments, CC BY-SA 4.0, via Wikimedia Commons">
