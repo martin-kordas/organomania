@@ -80,7 +80,7 @@
                         <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/S.Giacomo_Maggiore_a_Praga.jpg/418px-S.Giacomo_Maggiore_a_Praga.jpg" style="max-width: 100%;" />
                         <br />
                         <em>
-                            <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_JAKUBA_VETSIHO]" :showOrganBuilder="true" :newTab="true" class="stretched-link" />
+                            <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_JAKUBA_VETSIHO]" :showOrganBuilder="true" class="stretched-link" />
                         </em>
                     </div>
                 </div>
@@ -127,14 +127,14 @@
                     </p>
 
                     <p>
-                        Renesanční varhanářství se kromě renesančního tvarosloví skříní vyznačuje pestrou rejstříkovou dispozicí, ve které jsou obsaženy barevně navzájem kontrastující rejstříky.
+                        Renesanční varhanářství se kromě renesančního tvarosloví skříní vyznačuje pestrou rejstříkovou dispozicí, ve které jsou obsaženy barevně navzájem kontrastující rejstříky, imitující nejrůznější nástroje.
                     </p>
                     
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Štěpán Svoboda, CC BY-SA 4.0, via Wikimedia Commons">
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Pipe_organs_in_Church_of_Holy_Trinity_in_Sme%C4%8Dno.jpg/330px-Pipe_organs_in_Church_of_Holy_Trinity_in_Sme%C4%8Dno.jpg" style="max-width: 300px;" />
                             <br />
-                            <em><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_SMECNO]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" :newTab="true" /></em>
+                            <em><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_SMECNO]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" /></em>
                         </div>
                     </div>
 
@@ -187,6 +187,12 @@
                     </p>
                     
                     <p>
+                        Estetika barokních varhanních skříní prochází živým vývojem.
+                        Půdorysné linie skříní začínají být během 18. století zvlněné.
+                        Na konci 18. století se často objevují rokokové vázy.
+                    </p>
+                    
+                    <p>
                         Období, kdy se při stavbě varhan uplatňují principy barokního varhanářství, je podstatně delší než epocha hudebního baroka &ndash; tradice barokního varhanářství u nás doznívají ještě v 1. polovině 19. století.
                     </p>
 
@@ -208,7 +214,7 @@
                             <br />
                             <em>
                                 <em>
-                                    <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PLASY]" :showOrganBuilder="true" :showSizeInfo="true" :newTab="true" class="stretched-link" /> &ndash; uspořádání skříní po stranách okna a zadní pozitiv v zábradlí
+                                    <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PLASY]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" /> &ndash; uspořádání skříní po stranách okna a zadní pozitiv v zábradlí
                                 </em>
                             </em>
                         </div>
@@ -230,19 +236,19 @@
                     </p>
                     <ul class="items-list">
                         <li>
-                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_HEINRICH_MUNDT]" :showActivePeriod="true" />
+                            <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_HEINRICH_MUNDT]" :showActivePeriod="true" />
                             <ul>
                                 <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_MATKY_BOZI_PRED_TYNEM]" :showSizeInfo="true" /> &ndash; mimořádně cenný a starobylý nástroj</li>
                             </ul>
                         </li>
                         <li>
-                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_TOMAS_SCHWARZ]" :showActivePeriod="true" />
+                            <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_TOMAS_SCHWARZ]" :showActivePeriod="true" />
                             <ul>
-                                <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MIKULASE_VELKE_VARHANY]" :showSizeInfo="true" /> &ndash; nástroj bohužel poznamenaný přestavbami
+                                <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MIKULASE_VELKE_VARHANY]" :showSizeInfo="true" /> &ndash; nástroj bohužel poznamenaný přestavbami
                             </ul>
                         </li>
                         <li>
-                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_LEOPOLD_SPIEGEL]" :showActivePeriod="true" />
+                            <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_LEOPOLD_SPIEGEL]" :showActivePeriod="true" />
                         </li>
                     </ul>
 
@@ -255,10 +261,10 @@
                         K dalším střediskům barokního varhanářství v Čechách patří:
                     </p>
                     <ul class="items-list">
-                        <li><strong>Čistá</strong> &ndash; rod <x-organomania.organ-builder-link name="Guthů" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_GUTHOVE]" :showActivePeriod="true" /></li>
-                        <li><strong>Kutná Hora</strong> &ndash; rod <x-organomania.organ-builder-link name="Horáků" activePeriod="2. pol. 18. stol – poč. 19. stol." :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_PAVEL_FRANTISEK_HORAK]" :showActivePeriod="true" /></li>
-                        <li><strong>Tachov</strong> &ndash; rod <x-organomania.organ-builder-link name="Gartnerů" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_GARTNEROVE]" :showActivePeriod="true" /></li>
-                        <li><strong>Vrchlabí</strong> &ndash; rod <x-organomania.organ-builder-link name="Tauchmannů" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_TAUCHMANNOVE]" :showActivePeriod="true" /></li>
+                        <li><strong>Čistá</strong> &ndash; rod <x-organomania.organ-builder-link name="Guthů" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_GUTHOVE]" :showActivePeriod="true" :iconLink="false" /></li>
+                        <li><strong>Kutná Hora</strong> &ndash; rod <x-organomania.organ-builder-link name="Horáků" activePeriod="2. pol. 18. stol – poč. 19. stol." :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_PAVEL_FRANTISEK_HORAK]" :showActivePeriod="true" :iconLink="false" /></li>
+                        <li><strong>Tachov</strong> &ndash; rod <x-organomania.organ-builder-link name="Gartnerů" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_GARTNEROVE]" :showActivePeriod="true" :iconLink="false" /></li>
+                        <li><strong>Vrchlabí</strong> &ndash; rod <x-organomania.organ-builder-link name="Tauchmannů" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_TAUCHMANNOVE]" :showActivePeriod="true" :iconLink="false" /></li>
                     </ul>
                     
                     <div class="text-center mb-4 mx-auto" style="width: 560px; max-width: 100%;">
@@ -266,7 +272,7 @@
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG/640px-Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG" style="max-width: 100%;" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_OLOMOUC_SVATY_KOPECEK_HLAVNI_KUR]" :showOrganBuilder="false" :year="false" :newTab="true" class="stretched-link" />
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_OLOMOUC_SVATY_KOPECEK_HLAVNI_KUR]" :showOrganBuilder="false" :year="false" class="stretched-link" />
                                 &ndash; skříň pochází z varhan Jana Davida Siebera a Antonína Richtera (1724)
                             </em>
                         </div>
@@ -298,7 +304,7 @@
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/And%C4%9Bl%C3%A9_nesouc%C3%AD_chr%C3%A1my_07.jpg/640px-And%C4%9Bl%C3%A9_nesouc%C3%AD_chr%C3%A1my_07.jpg" style="max-width: 100%;" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_ZDAR]" :showOrganBuilder="true" :showSizeInfo="true" :newTab="true" class="stretched-link" />
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_ZDAR]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
                                 &ndash; unikátní Santiniho skřín
                             </em>
                         </div>
@@ -310,8 +316,8 @@
                         V Českém Slezsku bychom našli 2 varhanářská centra:
                     </p>
                     <ul>
-                        <li><strong>Andělská Hora</strong> &ndash; rod <x-organomania.organ-builder-link name="Staudingerů" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_STAUDINGEROVE]" :showActivePeriod="true" /></li>
-                        <li><strong>Opava</strong> &ndash; rod <x-organomania.organ-builder-link name="Horčičků" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_HORCICKOVE]" :showActivePeriod="true" /> a další</li>
+                        <li><strong>Andělská Hora</strong> &ndash; rod <x-organomania.organ-builder-link name="Staudingerů" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_STAUDINGEROVE]" :showActivePeriod="true" :iconLink="false" /></li>
+                        <li><strong>Opava</strong> &ndash; rod <x-organomania.organ-builder-link name="Horčičků" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_HORCICKOVE]" :showActivePeriod="true" :iconLink="false" /> a další</li>
                     </ul>
 
                     <h5 id="baroque3Manuals">Třímanuálové barokní varhany</h5>
@@ -328,11 +334,10 @@
                         Z alespoň částečně dochovalých třímanuálových varhan na našem území zmiňme:
                     </p>
                     <ul class="items-list">
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_OLOMOUC_KOSTEL_SV_MORICE]" size="III/44" :showOrganBuilder="true" :showSizeInfo="true" /> &ndash; dispozice rozšířena ve 20. století</li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MIKULASE_VELKE_VARHANY]" :showOrganBuilder="true" :showSizeInfo="true" /> &ndash; přestavováno v 19. a 20. století</li>
-                        <li>
-                            <x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_TEPLA]" :showOrganBuilder="true" :showSizeInfo="true" /> &ndash; dispozice upravena v 19. století a 20. století
-                        </li>
+                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_OLOMOUC_KOSTEL_SV_MORICE]" size="III/44" :showOrganBuilder="true" :showSizeInfo="true" :iconLink="false" /> &ndash; dispozice rozšířena ve 20. století</li>
+                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MIKULASE_VELKE_VARHANY]" :showOrganBuilder="true" :showSizeInfo="true" :iconLink="false" /> &ndash; přestavováno v 19. a 20. století</li>
+                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_TEPLA]" :showOrganBuilder="true" :showSizeInfo="true" :iconLink="false" /> &ndash; dispozice upravena v 19. století a 20. století</li>
+                        <li>Týn nad Vltavou, kostel sv. Jakuba <span class="text-body-secondary">(Semrád, 1777, III/26)</span> &ndash; nástroj byl Bedřichem Semrádem stavěn v několika etapách a v 19. století rozšiřován</li>
                     </ul>
                     
                     <div class="text-center mb-4">
@@ -340,7 +345,7 @@
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Chram_sv_Mikulase_interier_vstup-varhany.jpg/405px-Chram_sv_Mikulase_interier_vstup-varhany.jpg" style="max-width: 100%;" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MIKULASE_VELKE_VARHANY]" :showOrganBuilder="true" :showSizeInfo="true" :newTab="true" class="stretched-link" />
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MIKULASE_VELKE_VARHANY]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
                             </em>
                         </div>
                     </div>
@@ -363,7 +368,7 @@
                         Konstrukčně stále vycházejí z osvědčených barokních principů (použití <x-organomania.category-badge :category="OrganCategory::ActionMechanical" :newTab="true">mechanické traktury</x-organomania.category-badge> a <x-organomania.category-badge :category="OrganCategory::WindchestSchleif" :newTab="true">zásuvkové vzdušnice</x-organomania.category-badge>). Začínají však upřednostňovat temnější zvuk, docílený častým disponováním rejstříků v nižších polohách, což varhany přibližuje ke zvukovému ideálu symfonického orchestru.
                         Již od dob pozdního baroka panuje obliba smykavých rejstříků, které přímo napodobují smyčcové nástroje.
                         Postupně se rozšiřuje tónový rozsah manuálů i pedálu, naopak se ale přestává stavět zadní pozitiv v zábradlí kůru (varhanní stroj pozitivu je vsazen do hlavní skříně).
-                        Zdobnost varhanních skříní se viditelně zmenšuje.
+                        Zdobnost varhanních skříní se viditelně zmenšuje, mizí půdorysné zvlnění.
                     </p>
                     
                     <div class="text-center mb-4 mx-auto" style="width: 500px; max-width: 100%">
@@ -371,7 +376,7 @@
                             <img class="rounded mb-2" src="/images/rychnov.jpg" style="max-width: 100%" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_RYCHNOV_NAD_KNEZNOU_ZAMECKY_KOSTEL]" :showOrganBuilder="true" :showSizeInfo="true" :newTab="true" class="stretched-link" /> &ndash; jedna z prvních neogotických skříní u nás
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_RYCHNOV_NAD_KNEZNOU_ZAMECKY_KOSTEL]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" /> &ndash; jedna z prvních neogotických skříní u nás
                             </em>
                         </div>
                     </div>
@@ -396,7 +401,7 @@
                             <img class="rounded mb-2" src="/images/bozkov.jpg" style="width: 460px; max-width: 100%" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_BOZKOV]" :showOrganBuilder="true" :showSizeInfo="true" :newTab="true" class="stretched-link" />
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_BOZKOV]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
                             </em>
                         </div>
                     </div>
@@ -423,7 +428,7 @@
                             <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Phillipsdorf-Orgel.jpg/542px-Phillipsdorf-Orgel.jpg" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_FILIPOV]" :showOrganBuilder="true" :showSizeInfo="true" :newTab="true" class="stretched-link" />
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_FILIPOV]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
                                 &ndash; neorománská skříň
                             </em>
                         </div>
@@ -436,11 +441,11 @@
                     
                     <p class="mb-0">
                         Tento trend ve vývoji dispozic posiluje <em>řezenská ceciliánská reforma</em>. Ta se snaží o očištění církevní hudby od světských vlivů a varhany chápe jen jako doprovodný nástroj.
-                        Jako první byly u nás v duchu této reformy postaveny dva nástroje od firmy <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_STEINMEYER]" />:
+                        Jako první byly u nás v duchu této reformy postaveny dva nástroje od firmy <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_STEINMEYER]" />:
                     </p>
                     <ul class="items-list">
-                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_BRNO_STARE_BRNO]" size="II/24" :year="1876" :showSizeInfo="true" /> &ndash; byly nahrazeny novým nástrojem</li>
-                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_VOJTECHA]" :showSizeInfo="true" /> &ndash; dochovaly se dodnes</li>
+                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_BRNO_STARE_BRNO]" size="II/24" :year="1876" :showSizeInfo="true" :iconLink="false" /> &ndash; byly nahrazeny novým nástrojem</li>
+                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_VOJTECHA]" :showSizeInfo="true" :iconLink="false" /> &ndash; dochovaly se dodnes</li>
                     </ul>
 
                     <p>
@@ -481,7 +486,7 @@
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Smetana_Hall_at_the_Municipal_House_%28Obecni_Dum%29%2C_Prague_-_8973.jpg/640px-Smetana_Hall_at_the_Municipal_House_%28Obecni_Dum%29%2C_Prague_-_8973.jpg" style="width: 550px; max-width: 100%;" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_OBECNI_DUM]" :showOrganBuilder="true" :showSizeInfo="true" :newTab="true" class="stretched-link" /> &ndash; secesní skříň
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_OBECNI_DUM]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" /> &ndash; secesní skříň
                             </em>
                         </div>
                     </div>
@@ -515,7 +520,7 @@
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/St.Veit_-_Orgel.jpg/640px-St.Veit_-_Orgel.jpg" style="width: 550px; max-width: 100%;" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_CESKY_KRUMLOV_KOSTEL_SV_VITA]" :showOrganBuilder="true" :showSizeInfo="true" :newTab="true" class="stretched-link" /> &ndash; neogotická skříň
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_CESKY_KRUMLOV_KOSTEL_SV_VITA]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" /> &ndash; neogotická skříň
                             </em>
                         </div>
                     </div>
@@ -528,32 +533,32 @@
                     </p>
                     <ul class="items-list">
                         <li>
-                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_RIEGER]" :showActivePeriod="true" :showMunicipality="true" />
+                            <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_RIEGER]" :showActivePeriod="true" :showMunicipality="true" />
                             &ndash; naše největší a světově nejproslulejší varhanářská firma
                             <ul>
-                                <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_OLOMOUC_KATEDRALA_SV_VACLAVA]" :showSizeInfo="true" /></li>
+                                <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_OLOMOUC_KATEDRALA_SV_VACLAVA]" :showSizeInfo="true" /></li>
                             </ul>
                         </li>
                         <li>
                             firmy sídlící v Praze
                             <ul>
                                 <li>
-                                    <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_EMANUEL_STEPAN_PETR]" :showActivePeriod="true" />
+                                    <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_EMANUEL_STEPAN_PETR]" :showActivePeriod="true" />
                                     <ul>
-                                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_LUDMILY]" :showSizeInfo="true" /></li>
-                                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_CYRILA_A_METODEJE_KARLIN]" :showSizeInfo="true" /> &ndash; jedny z největších romantických varhan u nás</li>
+                                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_LUDMILY]" :showSizeInfo="true" /></li>
+                                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_CYRILA_A_METODEJE_KARLIN]" :showSizeInfo="true" /> &ndash; jedny z největších romantických varhan u nás</li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_BRATRI_PASTIKOVE]" :showActivePeriod="true" />
+                                    <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_BRATRI_PASTIKOVE]" :showActivePeriod="true" />
                                     <ul>
-                                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_PETRA_A_PAVLA_VYSEHRAD]" :showSizeInfo="true" /></li>
+                                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_PETRA_A_PAVLA_VYSEHRAD]" :showSizeInfo="true" /></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JINDRICH_SCHIFFNER]" :showActivePeriod="true" />
+                                    <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JINDRICH_SCHIFFNER]" :showActivePeriod="true" />
                                     <ul>
-                                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_CESKY_KRUMLOV_KOSTEL_SV_VITA]" :showSizeInfo="true" /></li>
+                                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_CESKY_KRUMLOV_KOSTEL_SV_VITA]" :showSizeInfo="true" /></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -562,33 +567,33 @@
                             firmy sídlící v Kutné Hoře
                             <ul>
                                 <li>
-                                    <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JAN_TUCEK]" :showActivePeriod="true" />
+                                    <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JAN_TUCEK]" :showActivePeriod="true" />
                                     <ul>
-                                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_NYMBURK_KOSTEL_SV_JILJI]" :showSizeInfo="true" /></li>
+                                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_NYMBURK_KOSTEL_SV_JILJI]" :showSizeInfo="true" /></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JOSEF_MELZER]" :showActivePeriod="true" />
+                                    <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JOSEF_MELZER]" :showActivePeriod="true" />
                                     <ul>
-                                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KATEDRALA_SV_VITA_WOHLMUTOVA_KRUCHTA]" :showSizeInfo="true" /></li>
+                                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KATEDRALA_SV_VITA_WOHLMUTOVA_KRUCHTA]" :showSizeInfo="true" /></li>
                                     </ul>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_BRATRI_BRAUNEROVE]" :showActivePeriod="true" :showMunicipality="true" />
+                            <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_BRATRI_BRAUNEROVE]" :showActivePeriod="true" :showMunicipality="true" />
                             <ul>
-                                <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PLZEN_VELKA_SYNAGOGA]" :showSizeInfo="true" /></li>
+                                <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PLZEN_VELKA_SYNAGOGA]" :showSizeInfo="true" /></li>
                             </ul>
                         </li>
                         <li>
-                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_MARTIN_ZAUS]" :showActivePeriod="true" :showMunicipality="true" />
+                            <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_MARTIN_ZAUS]" :showActivePeriod="true" :showMunicipality="true" />
                             <ul>
-                                <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_CHEB_KOSTEL_SV_MIKULASE]" :showSizeInfo="true" /></li>
+                                <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_CHEB_KOSTEL_SV_MIKULASE]" :showSizeInfo="true" /></li>
                             </ul>
                         </li>
                         <li>
-                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_NEUSSEROVE]" name="NEUSSER, Karl" activePeriod="1844–1925" :showActivePeriod="true" :showMunicipality="true" />
+                            <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_NEUSSEROVE]" name="NEUSSER, Karl" activePeriod="1844–1925" :showActivePeriod="true" :showMunicipality="true" />
                         </li>
                     </ul>
 
@@ -596,8 +601,8 @@
                         Na našem území působí někdy i zahraniční (zejm. německé) firmy, např.:
                     </p>
                     <ul class="items-list">
-                        <li><x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_A_SCHUSTER_UND_SOHN]" :showMunicipality="true" /></li>
-                        <li><x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JEHMLICH]" :showMunicipality="true" /></li>
+                        <li><x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_A_SCHUSTER_UND_SOHN]" :showMunicipality="true" /></li>
+                        <li><x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JEHMLICH]" :showMunicipality="true" /></li>
                     </ul>
 
                     <p class="mb-0">
@@ -607,9 +612,9 @@
                         Níže uvádíme příklady nejznámějších nástrojů:
                     </p>
                     <ul class="items-list">
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_LUDGEROVICE]" :showSizeInfo="true" :showOrganBuilder="true" /></li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_SLUKNOV]" :showSizeInfo="true" :showOrganBuilder="true" /></li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_LITOMERICE_KATEDRALA_SV_STEPANA_VELKE_VARHANY]" :showSizeInfo="true" :showOrganBuilder="true" /></li>
+                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_LUDGEROVICE]" :showSizeInfo="true" :showOrganBuilder="true" /></li>
+                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_SLUKNOV]" :showSizeInfo="true" :showOrganBuilder="true" /></li>
+                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_LITOMERICE_KATEDRALA_SV_STEPANA_VELKE_VARHANY]" :showSizeInfo="true" :showOrganBuilder="true" /></li>
                     </ul>
                     
                     <div class="text-center mb-4 mx-auto"style="width: 550px; max-width: 100%;">
@@ -617,7 +622,7 @@
                             <img class="rounded mb-2" src="/images/kutna-hora-svaty-jakub-stul.jpg" style="max-width: 100%;" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_KUTNA_HORA_SV_JAKUB_VELKE_VARHANY]" :showOrganBuilder="true" :showSizeInfo="true" :newTab="true" class="stretched-link" />
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_KUTNA_HORA_SV_JAKUB_VELKE_VARHANY]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
                                 &ndash; hrací stůl s řadou pomocných zařízení
                             </em>
                         </div>
@@ -633,7 +638,7 @@
                             <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Presbyt%C3%A1%C5%99_a_hlavn%C3%AD_lo%C4%8F_kostela_sv._Ducha_v_Krnov%C4%9B.JPG/512px-Presbyt%C3%A1%C5%99_a_hlavn%C3%AD_lo%C4%8F_kostela_sv._Ducha_v_Krnov%C4%9B.JPG" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_KRNOV_KOSTEL_SV_DUCHA]" :year="false" :showSizeInfo="true" :newTab="true" class="stretched-link" />
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_KRNOV_KOSTEL_SV_DUCHA]" :year="false" :showSizeInfo="true" class="stretched-link" />
                             </em>
                         </div>
                     </div>
@@ -666,18 +671,18 @@
                         Z varhan postavených v tomto období zmíníme výhradně velké koncertní nástroje firmy Rieger-Kloss:
                     </p>
                     <ul class="items-list">
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_OLOMOUC_KOSTEL_SV_MORICE]" :showSizeInfo="true" :year="1968" :isRebuild="true" /> &ndash; rozšíření barokního nástroje Michaela Englera</li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_JAKUBA_VETSIHO]" :showSizeInfo="true" :year="1982" :isRebuild="true" /> &ndash; přestavba koncertního nástroje na čtyřmanuálový</li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_RUDOLFINUM]" :showSizeInfo="true" /> &ndash; velký koncertní mechanický nástroj</li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_BRNO_KOSTEL_SV_AUGUSTINA]" :showSizeInfo="true" /> &ndash; o něco menší mechanický nástroj</li>
+                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_OLOMOUC_KOSTEL_SV_MORICE]" :showSizeInfo="true" :year="1968" :isRebuild="true" :iconLink="false" /> &ndash; rozšíření barokního nástroje Michaela Englera</li>
+                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_JAKUBA_VETSIHO]" :showSizeInfo="true" :year="1982" :isRebuild="true" :iconLink="false" /> &ndash; přestavba koncertního nástroje na čtyřmanuálový</li>
+                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_RUDOLFINUM]" :showSizeInfo="true" :iconLink="false" /> &ndash; velký koncertní mechanický nástroj</li>
+                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_BRNO_KOSTEL_SV_AUGUSTINA]" :showSizeInfo="true" :iconLink="false"z /> &ndash; o něco menší mechanický nástroj</li>
                     </ul>
                     
                     <div class="text-center mb-4">
-                        <div class="position-relative d-inline-block" title="Licence obrázku: Momimariani1962, CC BY-SA 4.0, via Wikimedia Commons">
-                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Praga_S.Giacomo_consolle.jpg/640px-Praga_S.Giacomo_consolle.jpg" style="width: 550px; max-width: 100%;" />
+                        <div class="position-relative d-inline-block">
+                            <img class="rounded mb-2" src="/images/olomouc-sv-moric.jpg" style="width: 540px; max-width: 100%;" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_JAKUBA_VETSIHO]" :year="false" :showSizeInfo="true" :iconLink="false" :newTab="true" class="stretched-link" />
+                                <x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_OLOMOUC_KOSTEL_SV_MORICE]" :year="1968" :showSizeInfo="true" :iconLink="false" class="stretched-link" />
                                 &ndash; hrací stůl firmy Rieger-Kloss
                             </em>
                         </div>
@@ -699,19 +704,19 @@
                         K renomovaným stavitelům nových nástrojů patří především firma <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_KANSKY_BRACHTL]" :showMunicipality="true" /> a dílna <x-organomania.organ-builder-link :iconLink="false" name="Vladimíra ŠLAJCHA" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_VLADIMIR_SLAJCH]" :showMunicipality="true" />. Z významnějších nástrojů vybíráme tyto:
                     </p>
                     <ul class="items-list">
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MARKETY_BREVNOV]" :showOrganBuilder="true" :showSizeInfo="true" /></li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRIBRAM_SVATA_HORA]" :showOrganBuilder="true" :showSizeInfo="true" /></li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_KOLIN_KOSTEL_SV_BARTOLOMEJE]" :showSizeInfo="true" /> &ndash; postavily společně firmy <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_KANSKY_BRACHTL]" :showMunicipality="true" /> a <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_DLABAL_METTLER]" :showMunicipality="true" /></li>
+                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MARKETY_BREVNOV]" :showOrganBuilder="true" :showSizeInfo="true" :iconLink="false" /></li>
+                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRIBRAM_SVATA_HORA]" :showOrganBuilder="true" :showSizeInfo="true" :iconLink="false" /></li>
+                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_KOLIN_KOSTEL_SV_BARTOLOMEJE]" :showSizeInfo="true" :iconLink="false" /> &ndash; postavily společně firmy <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_KANSKY_BRACHTL]" :showMunicipality="true" /> a <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_DLABAL_METTLER]" :showMunicipality="true" /></li>
                     </ul>
 
                     <p class="mb-0">
                         Zajímavé nástroje staví na našem území i zahraniční firmy, např.:
                     </p>
                     <ul class="items-list">
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_SALVATORA]" :showOrganBuilder="true" :showSizeInfo="true" /></li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_BRNO_JEZUITSKY_KOSTEL_NANEBEVZETI_PANNY_MARIE]" :showOrganBuilder="true" :showSizeInfo="true" /></li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KAROLINUM]" :showOrganBuilder="true" :showSizeInfo="true" /></li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KATEDRALA_SV_VITA_ZAPADNI_KRUCHTA]" :showOrganBuilder="true" :showSizeInfo="true" /></li>
+                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_SALVATORA]" :showOrganBuilder="true" :showSizeInfo="true" /></li>
+                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_BRNO_JEZUITSKY_KOSTEL_NANEBEVZETI_PANNY_MARIE]" :showOrganBuilder="true" :showSizeInfo="true" /></li>
+                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KAROLINUM]" :showOrganBuilder="true" :showSizeInfo="true" /></li>
+                        <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KATEDRALA_SV_VITA_ZAPADNI_KRUCHTA]" :showOrganBuilder="true" :showSizeInfo="true" /></li>
                     </ul>
 
                     <p>
@@ -724,7 +729,7 @@
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Basilica_of_the_Assumption_of_the_Virgin_Mary_in_P%C5%99%C3%ADbram_23.jpg/640px-Basilica_of_the_Assumption_of_the_Virgin_Mary_in_P%C5%99%C3%ADbram_23.jpg" style="width: 500px; max-width: 100%;" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRIBRAM_SVATA_HORA]" :showOrganBuilder="true" :showSizeInfo="true" :newTab="true" class="stretched-link" />
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRIBRAM_SVATA_HORA]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
                             </em>
                         </div>
                     </div>
@@ -754,11 +759,11 @@
                                     <li>
                                         restaurování:
                                         @if ($organ->id === Organ::ORGAN_ID_POLNA_KOSTEL_NANEBEVZETI_PANNY_MARIE_VELKE_VARHANY)
-                                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_DLABAL_METTLER]" :yearBuilt="$organ->year_renovated" />,
-                                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_DALIBOR_MICHEK]" :yearBuilt="$organ->year_renovated" />,
-                                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_MAREK_VORLICEK]" :yearBuilt="$organ->year_renovated" />
+                                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_DLABAL_METTLER]" :yearBuilt="$organ->year_renovated" :iconLink="false" />,
+                                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_DALIBOR_MICHEK]" :yearBuilt="$organ->year_renovated" :iconLink="false" />,
+                                            <x-organomania.organ-builder-link :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_MAREK_VORLICEK]" :yearBuilt="$organ->year_renovated" :iconLink="false" />
                                         @else
-                                            <x-organomania.organ-builder-link :organBuilder="$organ->renovationOrganBuilder" :yearBuilt="$organ->year_renovated" />
+                                            <x-organomania.organ-builder-link :organBuilder="$organ->renovationOrganBuilder" :yearBuilt="$organ->year_renovated" :iconLink="false" />
                                         @endif
                                     </li>
                                 </ul>
@@ -775,7 +780,7 @@
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Teynkirche_Prag_Orgel.jpg/560px-Teynkirche_Prag_Orgel.jpg" style="width: 350px; max-width: 100%;" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_MATKY_BOZI_PRED_TYNEM]" :showOrganBuilder="true" :showSizeInfo="true" :newTab="true" class="stretched-link" />
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_MATKY_BOZI_PRED_TYNEM]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
                             </em>
                         </div>
                     </div>
@@ -848,16 +853,6 @@
                 </x-organomania.link-list-item>
             </x-organomania.link-list>
         </x-organomania.modals.references-modal>
-        
-
-       {{--
-       obrázky
-       co je to dispozuice (a další pojmy?)
-       tlačítka barokní varhany, barokní varhanáři...
-       odkaz na vysvětlení kategorií (traktura atd.)
-       zmínka o dílnách - odkaz na timeline?
-       dávat tam okresy?
-       --}}
     </div>
     
     <script type="module">

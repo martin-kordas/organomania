@@ -61,6 +61,11 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
         @endif    
     </head>
     <body>
+        @if (request()->routeIs(['welcome']))
+            <div id="fb-root"></div>
+            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v21.0"></script>
+        @endif
+        
         <div class="d-flex flex-column" style="min-height: 100%;">
             @isset($title)
               <h1 class="d-none">{{ $title }}</h1>

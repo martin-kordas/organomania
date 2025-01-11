@@ -129,7 +129,11 @@ class OrganBuilder extends Model
     
     public function organBuilderCategories()
     {
-        return $this->belongsToMany(OrganBuilderCategory::class)->withTimestamps()->orderBy('id');
+        return $this
+            ->belongsToMany(OrganBuilderCategory::class)
+            ->withTimestamps()
+            // HACK: řeší dodatečné přidání štítku
+            ->orderByRaw('IF(id = 10, 2.5, id)');
     }
     
     public function getGeneralCategories()

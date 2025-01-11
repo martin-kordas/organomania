@@ -236,6 +236,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'Moravičany, kostel sv. Jiří',
                     '1885, II/17'
                 ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Kostel_Bo%C5%BEsk%C3%A9ho_srdce_P%C3%A1n%C4%9B_%28Bohum%C3%ADn%29_Interi%C3%A9r.jpg/640px-Kostel_Bo%C5%BEsk%C3%A9ho_srdce_P%C3%A1n%C4%9B_%28Bohum%C3%ADn%29_Interi%C3%A9r.jpg',
+                    'fotograf pro webovou stránku www.mesto-bohumin.cz, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Bohumín, kostel Božského srdce Páně',
+                    'K. Neusser, 1903?, II'
+                ],
             ],
             64 => [
                 [
@@ -320,6 +326,118 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'Praha, kostel sv. Salvátora',
                     '1865, dochována jen skříň'
                 ]
+            ],
+            27 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Damn%C3%ADkov_%2822%29.jpg/320px-Damn%C3%ADkov_%2822%29.jpg',
+                    'Martina Bílá, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Damníkov, kostel sv. Jana Křtitele',
+                    '1898, II/14'
+                ]
+            ],
+            76 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Kruchta_s_rokokov%C3%BDmi_varhanami_Horn%C3%AD_Brann%C3%A1.JPG/640px-Kruchta_s_rokokov%C3%BDmi_varhanami_Horn%C3%AD_Brann%C3%A1.JPG',
+                    'Bara.honlova, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Horní Branná, kostel sv. Mikuláše',
+                    'A. Tauchmann, 1777'
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/%C3%9A%C5%A1t%C4%9Bk_kostel_sv._Petra_a_Pavla_interi%C3%A9r_varhany.jpg/640px-%C3%9A%C5%A1t%C4%9Bk_kostel_sv._Petra_a_Pavla_interi%C3%A9r_varhany.jpg',
+                    'VitVit, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Úštěk, kostel sv. Petra a Pavla',
+                    'A. Tauchmann, 1802, dochována jen skříň'
+                ],
+            ],
+            6 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/2021-10-24_Church_of_Saints_Philip_and_James_%28Lelekovice%29_interior_2.jpg/640px-2021-10-24_Church_of_Saints_Philip_and_James_%28Lelekovice%29_interior_2.jpg',
+                    'Lasy, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Lelekovice, kostel sv. Filipa a Jakuba',
+                    '1857, I/7'
+                ]
+            ],
+            37 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Da%C5%88kovice-kostel2013interi%C3%A9r.jpg/640px-Da%C5%88kovice-kostel2013interi%C3%A9r.jpg',
+                    'Ben Skála, Benfoto, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Daňkovice, evangelický kostel',
+                    '1810, I/7, později rozšířeno'
+                ]
+            ],
+            62 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Brno_-_Kostel_sv._Tom%C3%A1%C5%A1e%2C_m%C3%ADstodr%C5%BEitelsk%C3%BD_pal%C3%A1c_a_alegorick%C3%A1_postava_spravedlnosti.jpg/640px-Brno_-_Kostel_sv._Tom%C3%A1%C5%A1e%2C_m%C3%ADstodr%C5%BEitelsk%C3%BD_pal%C3%A1c_a_alegorick%C3%A1_postava_spravedlnosti.jpg',
+                    'Millenium187, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Brno, kostel sv. Tomáše',
+                    null,
+                ]
+            ],
+            39 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/P%C5%99erov%2C_kostel_sv._Vav%C5%99ince%2C_interi%C3%A9r%2C_varhany.jpg/640px-P%C5%99erov%2C_kostel_sv._Vav%C5%99ince%2C_interi%C3%A9r%2C_varhany.jpg',
+                    'Palickap, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Přerov, kostel sv. Vavřince',
+                    'F. Horčička st., 1761, dochována jen skříň',
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Uhersk%C3%A9_Hradi%C5%A1t%C4%9B%2C_kostel_svat%C3%A9ho_Franti%C5%A1ka_Xaversk%C3%A9ho%2C_varhany.jpg/640px-Uhersk%C3%A9_Hradi%C5%A1t%C4%9B%2C_kostel_svat%C3%A9ho_Franti%C5%A1ka_Xaversk%C3%A9ho%2C_varhany.jpg',
+                    'Palickap, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Uherské Hradiště, kostel sv. Františka Xaverského',
+                    'F. Horčička ml., 1772, dochována jen skříň',
+                ]
+            ],
+            38 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Varhany_Rokytnice.JPG/640px-Varhany_Rokytnice.JPG',
+                    'Kmenicka, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Rokytnice nad Jizerou, kostel sv. Michala',
+                    '1760, dochována jen skříň',
+                ],
+                [
+                    '/images/malesov.jpg',
+                    null,
+                    'Malešov, kostel sv. Václava',
+                    'II/13',
+                ],
+            ],
+            34 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Prag_Dom_St._Veit_10.jpg/435px-Prag_Dom_St._Veit_10.jpg',
+                    'ErwinMeier, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Praha, katedrála sv. Víta, horní varhany',
+                    'A. Gartner, 1765, dochována jen skříň',
+                ],
+            ],
+            46 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/F-Konojedy348.jpg/457px-F-Konojedy348.jpg',
+                    'M. Pröller, CC0, via Wikimedia Commons',
+                    'Konojedy, kostel Nanebevzetí Panny Marie, dnes ve Varnsdorfu',
+                    'F. Katzer, 1763, II/18',
+                ],
+            ],
+            1 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Varhanycerkostbrno.jpg/640px-Varhanycerkostbrno.jpg',
+                    'David Novák cs:Gothic2, CC BY 3.0, via Wikimedia Commons',
+                    'Brno, evangelický kostel J. A. Komenského',
+                    '1887, II/20',
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Krnov%2C_evangelick%C3%BD_kostel%2C_interi%C3%A9r_%28Archiv_%C4%8CCE%29_2.jpg/305px-Krnov%2C_evangelick%C3%BD_kostel%2C_interi%C3%A9r_%28Archiv_%C4%8CCE%29_2.jpg',
+                    'Evangelical Church of Czech Brethren archive, Ústřední archiv Českobratrské církve evangelické, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Krnov, evangelický kostel',
+                    '1902, II/21',
+                ],
+            ],
+            68 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Bohosudov%2C_2020_%2818%29.jpg/640px-Bohosudov%2C_2020_%2818%29.jpg',
+                    'Draceane, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Bohosudov, bazilika Panny Marie Bolestné',
+                    '1734, II/22, dochována jen skříň',
+                ],
             ],
             default => []
         };

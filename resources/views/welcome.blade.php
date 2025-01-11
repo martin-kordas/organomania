@@ -138,7 +138,7 @@
                 </x-slot:footer>
             </x-organomania.welcome-card>
         </div>
-      
+        
         <div class="py-3 px-1 mt-4 pb-2 mx-auto text-center">
             <p class="fs-5 text-body-secondary">
                 {{ __('Stránky jsou určeny pro aktivní varhaníky,') }}
@@ -155,6 +155,10 @@
             <p class="text-body-tertiary">
                 {{ __('Poslední aktualizace') }}: {{ Carbon::instance($lastUpdate)->isoFormat('LLL') }}
             </p>
+        </div>
+        
+        <div class="text-center mb-4" style="height: 130px">
+            <div class="fb-page" data-href="https://www.facebook.com/organomania.varhany/" data-tabs="" data-width="500" data-height="70" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/organomania.varhany/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/organomania.varhany/">Organomania: varhany v České republice</a></blockquote></div>
         </div>
     </div>
         

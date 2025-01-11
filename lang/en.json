@@ -249,7 +249,7 @@
     "Přidat registraci": "Create registration",
     "Přihlášení": "Log in",
     "Připomínky a podněty k obsahu zasílejte na": "Please send any feedback to",
-    "Přispět na provoz webu můžete zasláním libovolné částky na účet vedený u banky Creditas:": "Please donate any amount of money to my website. You can use following bank account (Creditas bank, CZK):",
+    "Přispět na další fungování webu můžete zasláním libovolné částky na účet vedený u banky Creditas.": "Please donate any amount of money to my website. You can use following bank account (Creditas bank, CZK).",
     "Příklady porovnání": "Comparison examples",
     "Příklady v dispozicích": "Examples in dispositions",
     "Příští ročník": "Next year",
@@ -450,5 +450,7 @@
     "Další": "Other",
     "Zjistěte, jak web Organomania vznikl, jakým způsobem jsou vybírány varhany a varhanáři zařazení do katalogu a jaký je význam u nich u uváděných údajů.": "Find out why Organomania was created, how organs and organ builders included in the database are selected and what is the meaning of presented organ parameters.",
     "Poznejte varhany jako hudební nástroj, který se po zvukové i konstrukční stránce neustále vyvíjí. Prohlédněte si nejvýznamnější varhany a varhanáře jednotlivých stylových období.": "Pipe organ is an instrument whose sound and construction form are under constant development. Explore the most important organs and organ builders of every style period.",
-    "Rejstříky dělíme do kategorií podle způsobu konstrukce, viz": "Several construction categories of stops can be distinguished, see"
+    "Rejstříky dělíme do kategorií podle způsobu konstrukce, viz": "Several construction categories of stops can be distinguished, see",
+    "Kromě množství času stráveného programováním a tvorbou obsahu spotřebovává web Organomania i finanční náklady, které jsou spojené s provozem serveru (momentálně asi 350 Kč / měsíc).": "Apart from time spent with programming and content creation Organomania consumes money needed for running the server (currently around $14 per month).",
+    "QR kód platby (předvolená částka 350 Kč)": "Payment QR code (default amount 350 Kč)"
 }

@@ -144,7 +144,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     
     <div class="row mb-2 gx-2 gy-2 align-items-center">
         <div class="col-9 col-sm-auto">
-            <input class="form-control form-control-sm" size="28" type="search" wire:model.live="filterName" placeholder="{{ __('Hledat podle názvu') }}&hellip;" />
+            <input class="form-control form-control-sm" size="28" type="search" wire:model.live="filterName" placeholder="{{ __('Hledat podle názvu') }}&hellip;" autofocus />
         </div>
         <div class="col-9 col-sm-auto">
             <select id="language" class="form-select form-select-sm" wire:model.change="filterLanguage">

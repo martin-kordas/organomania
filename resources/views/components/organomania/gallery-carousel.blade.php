@@ -1,11 +1,14 @@
 @props(['images', 'id' => 'galleryCarousel'])
 
 <div id="{{ $id }}" {{ $attributes->class(['gallery-carousel', 'carousel', 'slide', 'rounded', 'border']) }} data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        @foreach ($images as $image)
-            <button type="button" data-bs-target="#{{ $id }}" data-bs-slide-to="{{ $loop->index }}" class="active" aria-current="true" aria-label="Slide {{ $loop->iteration }}"></button>
-        @endforeach
-    </div>
+    @if (count($images) > 1)
+        <div class="carousel-indicators">
+            @foreach ($images as $image)
+                <button type="button" data-bs-target="#{{ $id }}" data-bs-slide-to="{{ $loop->index }}" class="active" aria-current="true" aria-label="Slide {{ $loop->iteration }}"></button>
+            @endforeach
+        </div>
+    @endif
+    
     <div class="carousel-inner rounded">
         @foreach ($images as $key => [$src, $credits])
             @php 
@@ -22,12 +25,15 @@
             </div>
         @endforeach
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#{{ $id }}" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">{{ __('Předchozí') }}</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#{{ $id }}" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">{{ __('Další') }}</span>
-    </button>
+    
+    @if (count($images) > 1)
+        <button class="carousel-control-prev" type="button" data-bs-target="#{{ $id }}" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{{ __('Předchozí') }}</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#{{ $id }}" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{{ __('Další') }}</span>
+        </button>
+    @endif
 </div>

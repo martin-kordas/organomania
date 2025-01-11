@@ -79,7 +79,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     
     <div class="row mt-3 mb-2 gx-2 gy-2">
         <div class="col-9 col-sm-auto">
-            <input class="form-control form-control-sm" size="35" type="search" wire:model.live="searchName" placeholder="{{ __('Hledat dispozice') }}&hellip;" />
+            <input class="form-control form-control-sm" size="35" type="search" wire:model.live="searchName" placeholder="{{ __('Hledat dispozice') }}&hellip;" autofocus />
         </div>
         <div class="col-3 col-sm-auto me-lg-2">
             <div class="btn-group">

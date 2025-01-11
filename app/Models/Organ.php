@@ -105,7 +105,12 @@ class Organ extends Model
     
     public function organCategories()
     {
-        return $this->belongsToMany(OrganCategory::class)->withTimestamps()->orderBy('id');
+        
+        return $this
+            ->belongsToMany(OrganCategory::class)
+            ->withTimestamps()
+            // HACK: řeší dodatečné přidání štítku
+            ->orderByRaw('IF(id = 19, 2.5, id)');
     }
     
     public function organCustomCategories()
