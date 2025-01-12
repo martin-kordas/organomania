@@ -73,7 +73,7 @@
                     <div class="mb-3">
                         <label class="form-label" for="filterDisposition">{{ __('Dispozice') }}</label>
                         <input class="form-control" type="search" id="filterDisposition" wire:model="filterDisposition" minlength="3" placeholder="{{ __('Zadejte název rejstříku nebo pomocného zařízení') }}" />
-                        <div class="form-text">{{ __('Název rejstříku musí být zadán přesně, jak je uveden v dispozici (např. Prinzipal namísto Principál).') }}</div>
+                        <div class="form-text">{{ __('Název rejstříku musí být zadán přesně, jak je uveden v dispozici (např. Prinzipal namísto Principál), stačí však i počáteční písmena (např. Prin).') }} {{ __('Lze uvést více hledaných tvarů současně.') }}</div>
                     </div>
                     <div class="form-check form-switch">
                         <label class="form-check-label" for="filterConcertHall">{{ __('Jen varhany v koncertních síních') }}</label>

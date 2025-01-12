@@ -41,6 +41,7 @@ class OrganBuilderTimelineItem extends Model
         
         $this->year_to = $yearTo;
         $this->is_workshop = $organBuilder->is_workshop;
+        $this->land = 'Neurčeno';
     }
     
 }

@@ -129,7 +129,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $data = Helpers::arrayKeysSnake($this->form->except(['categories']));
         if (!$this->isOrganBuilderPublic()) $this->organBuilder->user_id = Auth::id();
         $this->organBuilder->fill($data)->save();
-        $this->organBuilder->organBuilderCategories()->sync($this->form->categories);
+        $categoryIds = array_filter($this->form->categories, fn ($categoryId) => $categoryId !== '__rm__');
+        $this->organBuilder->organBuilderCategories()->sync($categoryIds);
 
         // pro private varhanáře se timeline položky ukládají automaticky
         if (!$this->isOrganBuilderPublic()) $this->saveTimelineItem();
@@ -379,10 +380,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <small class="text-secondary"><i class="bi-info-circle-fill"></i> {!! __('Stiskněte <kbd>Ctrl+Enter</kbd> pro uložení') !!}</small>
             </div>
                 
-            <a class="btn btn-sm btn-secondary" href="{{ url()->previous() }}"><i class="bi-arrow-return-left"></i> Zpět</a>&nbsp;
+            <a class="btn btn-sm btn-secondary" href="{{ url()->previous() }}"><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>&nbsp;
             <button type="submit" class="btn btn-sm btn-primary">
                 <span wire:loading.remove wire:target="save">
-                    <i class="bi-floppy"></i> Uložit
+                    <i class="bi-floppy"></i> {{ __('Uložit') }}
                 </span>
                 <span wire:loading wire:target="save">
                     <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>

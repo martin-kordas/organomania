@@ -46,7 +46,10 @@ class OrganRepository extends AbstractRepository
                     break;
                 
                 case 'disposition':
-                    $this->filterLike($query, $field, $value);
+                    $query->where(function (Builder $query) use ($field, $value) {
+                        $this->filterLike($query, $field, $value);
+                        $query->orWhereFulltext($field, $value);
+                    });
                     break;
                 
                 case 'organBuilderId':

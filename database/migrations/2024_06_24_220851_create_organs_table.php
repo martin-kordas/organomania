@@ -46,6 +46,7 @@ return new class extends Migration
             $table->fullText(['municipality', 'place'], name: 'organs_locality_fulltext');
             $table->fullText('perex');
             $table->fullText('description');
+            $table->fullText('disposition');
         });
     }
 

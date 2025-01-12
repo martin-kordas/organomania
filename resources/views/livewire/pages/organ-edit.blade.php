@@ -399,10 +399,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             @endif
                 
             <small class="text-secondary ms-auto me-2"><i class="bi-info-circle-fill"></i> {!! __('Stiskněte <kbd>Ctrl+Enter</kbd> pro uložení') !!}</small>
-            <a class="btn btn-sm btn-secondary" href="{{ url()->previous() }}"><i class="bi-arrow-return-left"></i> Zpět</a>&nbsp;
+            <a class="btn btn-sm btn-secondary" href="{{ url()->previous() }}"><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>&nbsp;
             <button type="submit" class="btn btn-sm btn-primary">
                 <span wire:loading.remove wire:target="save">
-                    <i class="bi-floppy"></i> Uložit
+                    <i class="bi-floppy"></i> {{ __('Uložit') }}
                 </span>
                 <span wire:loading wire:target="save">
                     <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>

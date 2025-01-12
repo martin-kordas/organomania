@@ -11,7 +11,7 @@ Artisan::command('inspire', function () {
 
 Schedule::command(
     CollectStats::class,
-    ['--db']
+    ['--db', '--schedule']
 )->daily();
 
 Schedule::command(

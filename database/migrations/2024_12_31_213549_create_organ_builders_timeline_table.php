@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('active_period', length: 50)->nullable();
             $table->integer('is_workshop')->default(0);
             $table->string('locality', length: 100)->nullable();
-            $table->string('land', length: 50);
+            $table->string('land', length: 50)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
