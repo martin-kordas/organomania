@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 use Laravel\Scout\Attributes\SearchUsingFullText;
+use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Cviebrock\EloquentSluggable\Sluggable;
 use App\Observers\OrganObserver;
 use App\Models\Region;
@@ -110,7 +111,13 @@ class Organ extends Model
             ->belongsToMany(OrganCategory::class)
             ->withTimestamps()
             // HACK: řeší dodatečné přidání štítku
-            ->orderByRaw('IF(id = 19, 2.5, id)');
+            ->orderByRaw('
+                CASE
+                    WHEN id = 18 THEN 10.5
+                    WHEN id = 19 THEN 2.5
+                    ELSE id
+                END
+            ');
     }
     
     public function organCustomCategories()
@@ -178,7 +185,11 @@ class Organ extends Model
     {
         return 
             $this->only(['place', 'municipality', 'description', 'perex'])
-            + ['organ_builders.last_name' => '', 'organ_builders.workshop_name' => ''];
+            + [
+                'organ_builders.last_name' => '', 'organ_builders.workshop_name' => '',
+                // HACK: díky tomuto se description hledá i ne-fulltextově (výhodné, protože hledá i neúplná slova)
+                'organs.description' => '',
+            ];
     }
     
     public function sluggable(): array

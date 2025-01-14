@@ -42,6 +42,9 @@
                     </td>
                     <td>
                         <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" placeholder="{{ __('neznámý') }}" :showIcon="false" />
+                        @if ($organ->organRebuilds->isNotEmpty())
+                            <span class="text-body-secondary">(přestavěno)</span>
+                        @endif
                     </td>
                     <td class="text-end">{{ $organ->year_built }}</td>
                     <td class="text-end">{{ $organ->manuals_count }}</td>

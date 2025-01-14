@@ -65,7 +65,14 @@ new class extends Component {
                         [$this->sanitizedSearch]
                     )
                     ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
-                    // přednostně varhany, kde je nějaký výskyt hledaného výrazu v lokalitě (municipality, place)
+                    // přednostně varhany, kde je nějaký výskyt hledaného výrazu v údajích zobrazovaných v našeptávači (lokalita, varhanář)
+                    ->orderByRaw('
+                        relevance > 0
+                        OR LOCATE(?, organ_builders.first_name)
+                        OR LOCATE(?, organ_builders.last_name)
+                        OR LOCATE(?, organ_builders.workshop_name)
+                        DESC
+                    ', [$this->sanitizedSearch, $this->sanitizedSearch, $this->sanitizedSearch])
                     ->orderByRaw('relevance > 0 DESC')
                     ->orderBy('importance', 'DESC')
                     ->orderBy('municipality')

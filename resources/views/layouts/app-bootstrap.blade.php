@@ -62,8 +62,8 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
     </head>
     <body>
         @if (request()->routeIs(['welcome']))
+            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v21.0" data-navigate-track></script>
             <div id="fb-root"></div>
-            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v21.0"></script>
         @endif
         
         <div class="d-flex flex-column" style="min-height: 100%;">

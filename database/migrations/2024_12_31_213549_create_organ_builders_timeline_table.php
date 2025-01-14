@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('organ_builder_timeline_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organ_builder_id')
-                ->constrained(indexName: 'fk_organ_builder_timeline_items_organ_builder_id');
+                ->constrained(indexName: 'fk_organ_builder_timeline_items_organ_builder_id')
+                ->cascadeOnDelete();
             $table->string('name', length: 400);
             $table->integer('year_from');
             $table->integer('year_to')->nullable();

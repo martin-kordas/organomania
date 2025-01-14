@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markéta Prokopovičová - Concert Organist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            background-color: #fdf6e3;
+            color: #5a4231;
+        }
+        .header-nav {
+            background:
+                url('/marketa-prokopovicova/title.jpg') no-repeat center -85px/cover
+                #2b1709;
+            background-size: clamp(1000px, 100%, 1500px) auto;
+        }
+        header {
+            position: relative;
+            height: 65dvh;
+            color: white;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            text-align: center;
+        }
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 4rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin-bottom: 0.15em;
+        }
+        .title-subtitle {
+            margin-bottom: 3.3em;
+        }
+        .name-break {
+            display: none;
+        }
+        * {
+            line-height: 1.75;
+        }
+        p.subtitle {
+            margin: 0;
+            font-size: 190%;
+        }
+        p.concert {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        a {
+            color: saddlebrown;
+        }
+        .mb-0 {
+            margin-bottom: 0;
+        }
+        nav {
+            background-color: rgba(179, 119, 75, 0.6);
+            color: white;
+            padding: 1em;
+            display: flex;
+            justify-content: center;
+            gap: 3em;
+            font-size: 1.2rem;
+            box-sizing: border-box;
+        }
+        nav a {
+            line-height: 1.25;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+        }
+        nav a:hover {
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 255, 255, 0.7);
+        }
+        section {
+            padding: 1.5em;
+            max-width: 1200px;
+            margin: auto;
+            font-size: 1.1rem;
+        }
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            margin-bottom: 0.5em;
+        }
+        h3 {
+            font-family: 'Merriweather', serif;
+        }
+        .biography, .repertoire, .reviews, .recordings, .gallery, .contact {
+            margin-bottom: 3em;
+        }
+        .recordings div {
+            display: flex;
+            align-items: start;
+            flex-wrap: wrap;
+            gap: 1em;
+        }
+        .recordings iframe {
+            height: 215px;
+            flex: 1 0 26%;
+            max-width: 32%;
+            width: auto;
+        }
+        .gallery div {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5em;
+        }
+        .gallery img {
+            max-width: 100%;
+            border-radius: 5px;
+            max-height: 350px;
+            box-shadow: rgba(0, 0, 0, 0.45) 0px 8px 16px 0px;
+        }
+        footer {
+            background-color: rgb(179, 119, 75);
+            color: white;
+            text-align: center;
+            padding: 0.75em;
+        }
+        footer p {
+            margin: 0;
+        }
+        .language-switch {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        .language-switch button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 145%;
+        }
+        hr {
+            border-color: rgba(179, 119, 75, 0.25);
+        }
+        @media (max-width: 1200px) {
+            .header-nav {
+                background-position-y: -50px;
+            }
+        }
+        @media (max-width: 992px) {
+            .recordings iframe {
+                height: 320px;
+                width: 100%;
+                flex-basis: initial;
+                max-width: unset;
+            }
+        }
+        @media (max-width: 768px) {
+            nav {
+                height: 15.5em;
+                flex-direction: column;
+                gap: 1.2em;
+                font-size: 1rem;
+            }
+            .name-break {
+                display: inline;
+            }
+            .gallery a {
+                margin-bottom: 1em;
+                margin: auto;
+            }
+            .recordings {
+                display: block;
+            }
+            .header-nav {
+                background-size: cover;
+            }
+            header {
+                height: calc(100dvh - 15.5em);
+                background-position-y: center;
+            }
+            header h1 {
+                font-size: 3rem;
+                margin-bottom: 0.35em;
+            }
+            .title-subtitle {
+                margin-bottom: 2.7em;
+            }
+            section {
+                padding: 1em;
+            }
+            p.subtitle {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            .header-nav {
+                background-position-x: -270px;
+                background-position-y: 0px;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userLang = navigator.language || navigator.userLanguage;
+            const defaultLang = userLang.startsWith('cs') ? 'cs' : 'en';
+            switchLanguage(defaultLang);
+        });
+
+        function switchLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                el.style.display = el.getAttribute('data-lang') === lang ? 'block' : 'none';
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="header-nav">
+        <header>
+            <div class="title-subtitle">
+                <h1>
+                    Markéta
+                    <br class="name-break" />
+                    Prokopovičová
+                </h1>
+                <p class="subtitle" data-lang="cs">koncertní varhanice</p>
+                <p class="subtitle" data-lang="en">Concert Organist</p>
+            </div>
+            <div class="language-switch">
+                <button onclick="switchLanguage('cs')"><img src="/marketa-prokopovicova/cz.svg" width="30" /></button>
+                <button onclick="switchLanguage('en')"><img src="/marketa-prokopovicova/en.svg" width="30" /></button>
+            </div>
+        </header>
+
+        <nav>
+            <a href="#biography" data-lang="cs">Životopis</a>
+            <a href="#biography" data-lang="en">Biography</a>
+            <a href="#reviews" data-lang="cs">Koncerty</a>
+            <a href="#reviews" data-lang="en">Concerts</a>
+            <a href="#repertoire" data-lang="cs">Repertoár</a>
+            <a href="#repertoire" data-lang="en">Repertoire</a>
+            <a href="#recordings" data-lang="cs">Nahrávky</a>
+            <a href="#recordings" data-lang="en">Recordings</a>
+            <a href="#gallery" data-lang="cs">Galerie</a>
+            <a href="#gallery" data-lang="en">Gallery</a>
+            <a href="#contact" data-lang="cs">Kontakt</a>
+            <a href="#contact" data-lang="en">Contact</a>
+        </nav>
+    </div>
+
+    <main>
+        <section id="biography" class="biography">
+            <h2 data-lang="cs">Životopis</h2>
+            <h2 data-lang="en">Biography</h2>
+            <p data-lang="cs" class="mb-0">
+              <strong>Markéta Prokopovičová</strong> (*1989) pochází z Olomouce, kde se také začala věnovat hře na varhany na ZUŠ Žerotín pod vedením Vladimíra Sobotky. Hru na varhany pak dále studovala ve třídě Petra Rajnohy a Hany Ryšavé na olomoucké Konzervatoři Evangelické akademie, kterou absolvovala v roce 2015. Následně pokračovala ve studiu varhan na Janáčkově akademii múzických umění, kterou absolvovala v roce 2022. Během svého studia se zúčastnila několika celostátních i mezinárodních varhanních soutěží: soutěže žáků základních uměleckých škol Organum Regium Pardubice 2006–2008 (3. místo v kategorii Juniori, čestné uznání v kategorii Virtuosi), Mezinárodní interpretační soutěže Pražského jara 2013 a Mezinárodní varhanní soutěže Petra Ebena v Opavě 2016. Své interpretační schopnosti dále pravidelně prohlubuje aktivní účastí na mistrovských kurzech vedených významnými osobnostmi, jako jsou J. P. Knijff, E. Wiersinga, T. Jellema, B. Klapprott, O. Latry, M. Schmeding, H.-O. Ericsson či W. Zerer. Markéta Prokopovičová koncertně vystupuje jak v ČR, tak i v zahraničí (Německo) a kromě toho se věnuje také činnosti pedagogické – vede varhanní třídu na ZUŠ Uničov a vyučuje klavír na ZUŠ Žerotín.
+            </p>
+            <p data-lang="en" class="mb-0">Markéta Prokopovičová is organist from Czech Republic...</p>
+        </section>
+      
+        <hr>
+
+        <section id="reviews" class="reviews">
+            <h2 data-lang="cs">Koncerty</h2>
+            <h2 data-lang="en">Concerts</h2>
+            
+            <div data-lang="cs">
+                <h3>Proběhlé koncerty</h3>
+                <div style="margin-bottom: 1.8em;">
+                    <p class="concert">
+                        14. 12. 2024 | <strong>Olomouc</strong>, dóm sv. Václava (CZ)
+                        <br />
+                        <small>gratulační koncert</small>
+                    </p>
+
+                    <p class="concert">
+                        7. 12. 2024 | <strong>Třebíč</strong>, kostel sv. Martina (CZ)
+                        <br />
+                        <small>sólový recitál</small>
+                    </p>
+
+                    <p class="concert">
+                        1. 12. 2024 | <strong>Vlkoš u Přerova</strong> (CZ)
+                        <br />
+                        <small>varhanní koncert</small>
+                    </p>
+                    
+                    <p class="concert">
+                      18. 8. 2024 | <strong>Velký Újezd u Olomouce</strong> (CZ)
+                      <br />
+                      <small>varhanní koncert</small>
+                    </p>
+                </div>
+                
+                <h3>Ohlasy v médiích</h3>
+                <a href="https://bumibahagia.com/2017/04/10/marketa-prokopovicova-johann-sebastian-bach-praeludium-und-fuge-in-es-dur/" target="_blank">Markéta Prokopovičová / Johann Sebastian Bach / Praeludium und Fuge in Es – Dur</a>
+            </div>
+            <div data-lang="en">
+            </div>
+        </section>
+      
+        <hr>
+
+        <section id="repertoire" class="repertoire">
+            <h2 data-lang="cs">Repertoár</h2>
+            <h2 data-lang="en">Repertoire</h2>
+            <div data-lang="cs">
+                Johann Sebastian Bach (1685&ndash;1750)
+                <ul>
+                    <li>Fantasia a fuga g-moll, BWV 542</li>
+                    <li>Preludium a fuga e-moll, BWV 548</li>
+                    <li>Preludium a fuga a-moll, BWV 543</li>
+                </ul>
+                
+                Charles-Marie Widor (1844&ndash;1937)
+                <ul>
+                    <li>Symfonie č. 5 f-moll</li>
+                    <li>Symfonie č. 6 g-moll</li>
+                </ul>
+                
+                Vítězslav Novák (1870&ndash;1949)
+                <ul class="mb-0">
+                    <li>Preludium na valašskou píseň</li>
+                </ul>
+            </div>
+            <div data-lang="en">Markéta performs works by Johann Sebastian Bach...</div>
+        </section>
+      
+        <hr>
+
+        <section id="recordings" class="recordings">
+            <h2 data-lang="cs">Nahrávky</h2>
+            <h2 data-lang="en">Recordings</h2>
+            <div>
+                <iframe src="https://www.youtube.com/embed/0ZewAl7s3RM" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/BJLe6lo5VVY" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/yis5-BGQUPE" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/LLyck0RJjJo" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/-5F3gTHoX7U" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/_8chi4Tw9E8" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <p data-lang="cs">
+                Další videa sledujte na Markétině <a href="https://www.youtube.com/@Parketak" target="_blank">Youtube kanálu</a>.
+            </p>
+            <p data-lang="en">
+                Watch more videos on Markéta's <a href="https://www.youtube.com/@Parketak" target="_blank">Youtube channel</a>.
+            </p>
+        </section>
+      
+        <hr>
+
+        <section id="gallery" class="gallery">
+            <h2 data-lang="cs">Galerie</h2>
+            <h2 data-lang="en">Gallery</h2>
+            <div>
+                <a href="/marketa-prokopovicova/foto1.jpg" target="_blank">
+                    <img src="/marketa-prokopovicova/foto1.jpg" alt="Portrét Markéty Prokopovičové">
+                </a>
+                <a href="/marketa-prokopovicova/foto4.png" target="_blank">
+                    <img src="/marketa-prokopovicova/foto4.png" alt="Markéta Prokopovičová na koncertě">
+                </a>
+                <a href="/marketa-prokopovicova/foto5.jpg" target="_blank">
+                    <img src="/marketa-prokopovicova/foto5.jpg" alt="Markéta Prokopovičová u varhan">
+                </a>
+                <a href="/marketa-prokopovicova/foto2.jpg" target="_blank">
+                    <img src="/marketa-prokopovicova/foto2.jpg" alt="Markéta Prokopovičová u varhan">
+                </a>
+            </div>
+        </section>
+      
+        <hr>
+
+        <section id="contact" class="contact">
+            <h2 data-lang="cs">Kontakt</h2>
+            <h2 data-lang="en">Contact</h2>
+            <div data-lang="cs">
+              <p class="mb-0">
+                  E-mail: <a href="mailto:market@example.com">marketa.prokopovicova@seznam.cz</a>
+              </p>
+            </div>
+            <div data-lang="en">
+                <p class="mb-0">
+                    E-mail: <a href="mailto:marketa@example.com">marketa.prokopovicova@seznam.cz</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Markéta Prokopovičová</p>
+    </footer>
+</body>
+</html>

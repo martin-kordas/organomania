@@ -180,8 +180,9 @@
                         (U varhan z pozdějších období bývá toto okno zakryto varhanním strojem, což kůr i zbytek kostela poněkud zatemňuje.)
                         Stroj slabšího manuálu může být realizován jako tzv. <em>zadní pozitiv</em>, vestavěný do zábradlí kůru.
                         Toto specifické umístění zadního pozitivu přispívá k zajímavému zvukovému kontrastu s hlavním strojem.
-                        Hrací stůl často není zabudován do varhanní skříně, ale stojí samostatně.
-                        Takové řešení je konstrukčně složitější, ale umožňuje varhaníkovi doprovázejícímu bohoslužbu snadno sledovat dění v lodi kostela.
+                        (Varhanní <em>pozitiv</em> může stát i odděleně &ndash; představuje pak samostatné menší varhany bez pedálu.)
+                        Hrací stůl s klaviaturou a rejstříkovými táhly často není zabudován do varhanní skříně, ale stojí na kůru zvlášť, otočený směrem do lodi kostela.
+                        Takové řešení je konstrukčně složitější, ale umožňuje varhaníkovi snadno sledovat bohoslužebné dění.
                         Barokní varhany mají specifické ladění, ve kterém zní akordy běžných tónin (např. C-dur nebo G-dur) čistě, zatímco akordy tónin s větším počtem předznamenání (např. H-dur) zní mírně rozladěně.
                         Této skutečnosti dobová varhanní hudba příhodně využívá jako výrazového prostředku.
                     </p>

@@ -204,10 +204,15 @@ class OrganBuilder extends Model
     #[SearchUsingFullText(['description', 'perex'])]
     public function toSearchableArray(): array
     {
-        return $this->only([
-            'workshop_name', 'first_name', 'last_name',
-            'municipality', 'description', 'perex',
-        ]);
+        return
+            $this->only([
+                'workshop_name', 'first_name', 'last_name',
+                'municipality', 'description', 'perex',
+            ])
+            + [
+                // HACK: díky tomuto se description hledá i ne-fulltextově (výhodné, protože hledá i neúplná slova)
+                'organ_builders.description' => ''
+            ];
     }
     
     public function sluggable(): array
