@@ -145,7 +145,7 @@
 
                             @can($this->gateUseCustomCategories)
                                 <div class="vr mx-2"></div>
-                                <a class="btn btn-outline-secondary text-nowrap" href="{{ route($this->customCategoriesRoute) }}" data-bs-toggle="tooltip" data-bs-title="{{ __('Spravovat vlastní kategorie varhan') }}" wire:navigate>
+                                <a class="btn btn-outline-secondary text-nowrap" href="{{ route($this->customCategoriesRoute) }}" data-bs-toggle="tooltip" data-bs-title="{{ $this->customCategoriesTitle }}" wire:navigate>
                                     <i class="bi-tag"></i><small class="d-none d-lg-inline"> {{ __('Vlastní kategorie') }}</small>
                                 </a>
                             @endcan

@@ -148,7 +148,7 @@
     "Name": "Name",
     "name": "name",
     "Namísto období konání seřaďte festivaly": "Instead of date you can sort events",
-    "např. Kladruby, Rieger-Kloss, Flétna trubicová": "e.g. Praha, Rieger-Kloss, Principal",
+    "např. Kladruby, Rieger-Kloss, Flétna trubicová": "e.g. Praha, Rieger, Principal",
     "Nastavení": "Settings",
     "Nastavení zobrazení": "View settings",
     "Nebyly nalezeny žádné dispozice.": "No dispositions were found.",
@@ -471,5 +471,19 @@
     "Rok začátku působení": "Active from year",
     "Vlastní kategorie varhanářů": "Custom organ builder categories",
     "Vlastní kategorie varhan": "Custom organ categories",
-    "Lze uvést více hledaných tvarů současně.": "You may enter multiple names."
+    "Lze uvést více hledaných tvarů současně.": "You may enter multiple names.",
+    "Zobrazit jen oblíbené": "Show only favorite",
+    "Zobrazit jen soukromé": "Show only private",
+    "Spravovat vlastní kategorie varhan": "Manage custom organ categories",
+    "Spravovat vlastní kategorie varhanářů": "Manage custom organ builder categories",
+    "Období baroka bývá označováno za zlatý věk varhanářství. Posílení významu církve dává vzniknout nejen řadě sakrálních staveb, ale i množství varhan. Jejich stavbě se věnují špičkové, často vícegenerační varhanářské dílny.": "Baroque period is often called organ golden age. Huge church impact stimulates building of many new churches as well as organs. Organs are built by respected, often multigenerational workshops.",
+    "Od 19. století nastává pozvolný úpadek barokního varhanářství, který souvisí s josefínskými reformami (rušení klášterů) a ekonomickými problémy vzešlými z napoleonských válek. Ve varhanních dispozicích se začíná uplatňovat větší množství hlubokých hlasů, což je typické pro romantické varhanářství.": "From 19th century gradual decline of organ building begins. It is caused by josephinism (closing of monasteries) and economical problems stemming from Napoleonic Wars. In organ dispositions many more deep registers emerge, which is typical for romantic organ building.",
+    "S rozvojem průmyslu vznikají velké podniky provozující tovární výrobu varhan. Postupně se prosazuje kuželková vzdušnice a pneumatická traktura. Varhanní dispozice jsou ovlivněny ceciliánskou reformou, která upřednostňuje rejstříky v nízkých polohách.": "With development of industry large organ companies are established. They produce organs as industry products. Gradually organ builders start to use cone valve windchest (Kegellade) and pneumatical action. Organ dispositions are influenced by Cecilian movement, which prefer organ dispositions with plenty of deep registers.",
+    "V období komunismu funguje pouze několik varhanářských firem. Dispozice varhan se pod vlivem varhanního hnutí navrací k baroknímu zvukovému ideálu a staví se varhany tzv. univerzálního typu. Kromě pneumatické traktury se uplatňuje i traktura elektrická a mechanická.": "During the communist period only several organ building companies are active. Organ dispositions are being designed according to organ movement (Orgelbewegung) principles and organ is returning to the Baroque sound ideal. Many universal type organs are built.",
+    "Po pádu komunismu vzniká řada menších varhanářských dílen. Kromě univerzálních se staví i stylově vyhraněné nástroje. Probíhá restaurování cenných historických nástrojů.": "After fall of communism many smaller organ building workshops are created. Apart from universal organs there are also built organs distinctive in style. Many valuable historic instruments are being renovated."
+    
+    
+    
+    
+    
 }

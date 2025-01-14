@@ -64,6 +64,7 @@ trait EntityPage
     private ?string $customCategoriesRoute;
     private ?string $customCategoryRoute;
     private ?string $categorySelectPlaceholder;
+    private ?string $customCategoriesTitle;
     private ?string $gateUseCustomCategories;
     private int $maxImportance = 5;
     private ?string $categoryClass = null;

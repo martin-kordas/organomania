@@ -67,6 +67,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->customCategoriesRoute = 'organs.organ-custom-categories';
         $this->customCategoryRoute = 'organs.custom-category-organs.index';
         $this->categorySelectPlaceholder = __('Zvolte kategorii varhan');
+        $this->customCategoriesTitle = __('Spravovat vlastní kategorie varhan');
         $this->gateUseCustomCategories = 'useOrganCustomCategories';
         $this->categoryClass = OrganCategory::class;
         $this->gateLike = 'likeOrgans';
