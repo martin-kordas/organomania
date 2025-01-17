@@ -9,6 +9,7 @@
 <div class="container entity-page-timeline">
     <div
         id="timeline"
+        class="mb-4"
         data-min="{{ $this->timelineRange[0] }}"
         data-max="{{ $this->timelineRange[1] }}"
         data-scale="{{ $this->timelineScale }}"
@@ -24,7 +25,7 @@
     <x-organomania.modals.organ-thumbnail-modal :showOrgansTimeline="!$this->filterId" />
       
     @if (!$this->filterId && !empty($this->timelineMarkers))
-        <h6 class="mt-4">{{ __('Vyznačené milníky') }}</h6>
+        <h6>{{ __('Vyznačené milníky') }}</h6>
         <ul class="small">
             @foreach ($this->timelineMarkers as $marker)
                 <li>

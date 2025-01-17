@@ -43,7 +43,7 @@ class SuggestRegistrationAI extends DispositionAI
         // pokud se recommendations vyžádají už v prvním requestu, zvolená registrace není moc dobrá, proto samostatná request
         if ($this->suggestRegistrationRecommendations) {
             $content = <<<EOL
-                Provide recommentations about selected stops in $language language.
+                Provide recommendations about selected stops in $language language.
                 Use Markdown formatting, but only bold text.
                 Do not use stop ordinal numbers in the text.
             EOL;

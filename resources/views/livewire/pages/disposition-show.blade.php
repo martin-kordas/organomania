@@ -833,7 +833,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         </button>
                         @can('useAI')
                             &nbsp;
-                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat s pomocí umělé inteligence') }}" onclick="setTimeout(removeTooltips);">
+                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat zadanou skladbu s pomocí umělé inteligence') }}" onclick="setTimeout(removeTooltips);">
                                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#suggestRegistrationModal" @click="prefillPiece()">
                                     <i class="bi-magic"></i> {{ __('Naregistrovat s AI') }}
                                 </button>

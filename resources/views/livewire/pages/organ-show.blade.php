@@ -651,38 +651,56 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         </span>
                     </x-organomania.info-alert>
                         
-                    @can('useAI')
-                        <div class="mb-3 lh-lg">
-                            <span class="position-relative" style="top: 2px">
-                                {{ __('AI') }}
-                                <span class="d-none d-sm-inline">{{ __('funkce') }}</span>
-                            </span>
-                            <span class="ms-1" data-bs-toggle="tooltip" data-bs-title="{{ __('Charakterizovat dispozici a popsat důležité rejstříky') }}">
-                                <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="describeDisposition">
-                                    <span wire:loading.remove wire:target="describeDisposition">
-                                        <i class="bi-magic"></i>
-                                    </span>
-                                    <span wire:loading wire:target="describeDisposition">
-                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                                        <span class="visually-hidden" role="status">{{ __('Načítání...') }}</span>
-                                    </span>
-                                    {{ __('Popis dispozice') }}
-                                </button>
-                            </span>
-                            <span data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat skladbu s pomocí umělé inteligence') }}" onclick="setTimeout(removeTooltips);">
-                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#suggestRegistrationModal">
-                                    <span wire:loading.remove wire:target="suggestRegistration">
-                                        <i class="bi-magic"></i>
-                                    </span>
-                                    <span wire:loading wire:target="suggestRegistration">
-                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                                        <span class="visually-hidden" role="status">{{ __('Načítání...') }}</span>
-                                    </span>
-                                    {{ __('Registrace') }}
-                                </button>
-                            </span>
-                        </div>
-                    @endcan
+                    <div class="mb-3 lh-lg">
+                        <span class="position-relative" style="top: 2px">
+                            {{ __('AI') }}
+                            <span class="d-none d-sm-inline">{{ __('funkce') }}</span>
+                        </span>
+                        <span class="ms-1" data-bs-toggle="tooltip" data-bs-title="{{ __('Charakterizovat dispozici a popsat důležité rejstříky') }}">
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-outline-secondary"
+                                @can('useAI')
+                                    wire:click="describeDisposition"
+                                @else
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#premiumModal"
+                                @endcan
+                            >
+                                <span wire:loading.remove wire:target="describeDisposition">
+                                    <i class="bi-magic"></i>
+                                </span>
+                                <span wire:loading wire:target="describeDisposition">
+                                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                    <span class="visually-hidden" role="status">{{ __('Načítání...') }}</span>
+                                </span>
+                                {{ __('Popis dispozice') }}
+                            </button>
+                        </span>
+                        <span data-bs-toggle="tooltip" data-bs-title="{{ __('Naregistrovat zadanou skladbu s pomocí umělé inteligence') }}" onclick="setTimeout(removeTooltips);">
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-outline-secondary"
+                                @can('useAI')
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#suggestRegistrationModal"
+                                @else 
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#premiumModal"
+                                @endcan
+                            >
+                                <span wire:loading.remove wire:target="suggestRegistration">
+                                    <i class="bi-magic"></i>
+                                </span>
+                                <span wire:loading wire:target="suggestRegistration">
+                                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                    <span class="visually-hidden" role="status">{{ __('Načítání...') }}</span>
+                                </span>
+                                <span class="d-none d-sm-inline">{{ __('Naregistrovat skladbu') }}</span>
+                                <span class="d-sm-none">{{ __('Registrace') }}</span>
+                            </button>
+                        </span>
+                    </div>
                         
                     <div class="position-relative">
                         <div wire:loading.block wire:target="suggestRegistration, describeDisposition" wire:loading.class="opacity-75" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
@@ -801,6 +819,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </x-organomania.toast>
 
     <x-organomania.modals.suggest-registration-modal />
+    <x-organomania.modals.premium-modal />
 </div>
 
 @script

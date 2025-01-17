@@ -105,7 +105,7 @@ class AppServiceProvider extends ServiceProvider
         });
         
         Gate::define('useAI', function (?User $user) {
-            return $user?->isAdmin() || $user?->id === User::USER_ID_KRASNI;
+            return $user?->isAdmin() || $user->premium;
         });
         
         $modelBindings = [
