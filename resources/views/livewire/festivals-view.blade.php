@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Locked;
+use App\Enums\Region;
 use App\Models\Festival;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Http\Resources\OrganCollection;
@@ -89,6 +91,7 @@ new class extends Component {
             'thumbnails' => $this->thumbnailsViewComponent,
             'table' => 'organomania.festivals-view-table',
             'map' => $this->mapViewComponent,
+            'timeline' => $this->timelineViewComponent,
             default => throw new \LogicException
         };
     }
@@ -100,6 +103,108 @@ new class extends Component {
         return $title;
     }
     
+    #[Computed]
+    public function timelineItems()
+    {
+        $items = $this->organs->flatMap(function (Festival $festival) {
+            $year = now()->year;
+            $yearOverflow = isset($festival->starting_month, $festival->ending_month) && $festival->starting_month > $festival->ending_month;
+            $startDate = Carbon::createFromDate($year, $festival->starting_month ?? 1, 1);
+            if ($yearOverflow) $endDate = Carbon::createFromDate($year, 12, 31);
+            else $endDate = Carbon::createFromDate($year, $festival->ending_month ?? 12)->endOfMonth();
+
+            $details = null;
+            if ($festival->region_id !== Region::Praha->value) $details = $festival->locality;
+
+            $item = [
+                'entityType' => 'festival',
+                'entityId' => $festival->id,
+                'type' => 'range',
+                'name' => $festival->name,
+                'details' => $details,
+                'start' => $startDate->format('Y-m-d'),
+                'end' => $endDate->format('Y-m-d'),
+                'group' => $festival->region?->name ?? __('celá ČR'),
+            ];
+            
+            $items = [$item];
+
+            if ($yearOverflow) {
+                $startDate = Carbon::createFromDate($year, 1, 1);
+                $endDate = Carbon::createFromDate($year, $festival->ending_month)->endOfMonth();
+
+                $item['start'] = $startDate->format('Y-m-d');
+                $item['end'] = $endDate->format('Y-m-d');
+                $items[] = $item;
+            }
+            return $items;
+        });
+
+        $items[] = [
+            'type' => 'background',
+            'entityType' => null,
+            'start' => now()->startOfMonth()->format('Y-m-d'),
+            'end' => now()->endOfMonth()->format('Y-m-d'),
+        ];
+
+        return $items;
+    }
+
+    // členění varhanářu dle zemí (např. Čechy) a center (např. Loket)
+    #[Computed]
+    public function timelineGroups()
+    {
+        if ($this->filterId) return null;
+
+        return $this->timelineItems
+            ->pluck('group')
+            ->filter()
+            ->unique()
+            ->values()
+            ->map(
+                fn ($group) => [
+                    'name' => $group,
+                    'orderValue' => $group === __('celá ČR') ? 'ž' : $group
+                ]
+            );
+    }
+
+    #[Computed]
+    public function timelineMarkers()
+    {
+        return [];
+    }
+
+    #[Computed]
+    public function timelineScale()
+    {
+        return 'month';
+    }
+
+    // určuje rozmezí časové osy
+    #[Computed]
+    public function timelineRange()
+    {
+        $year = now()->year;
+        $start = Carbon::createFromDate($year, 1, 1);
+        $end = Carbon::createFromDate($year, 12, 31);
+        return [$start, $end];
+    }
+
+    // určuje časový úsek zobrazený defaultně na časové ose
+    //  - úsek omezujeme, je-li vyfiltrován konkrétní varhanář a jeho varhany
+    #[Computed]
+    public function timelineViewRange()
+    {
+        return null;
+    }
+
+    #[Computed]
+    public function timelineStep()
+    {
+        return null;
+    }
+
 }; ?>
 
 <x-organomania.entity-page-view />

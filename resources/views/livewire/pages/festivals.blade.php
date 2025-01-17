@@ -35,6 +35,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function boot(FestivalRepository $repository, Festival $model)
     {
+        $this->viewTypes[] = 'timeline';
         $this->bootCommon();
 
         $this->repository = $repository;

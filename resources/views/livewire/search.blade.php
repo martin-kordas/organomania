@@ -178,7 +178,9 @@ new class extends Component {
                                                     ({{ $organ->year_built }})
                                                 @endisset
                                             </span>
-                                            <x-organomania.stars class="ms-auto" :count="round($organ->importance / 2)" />
+                                            @if (!$organ->shouldHideImportance())
+                                                <x-organomania.stars class="ms-auto" :count="round($organ->importance / 2)" />
+                                            @endif
                                         </small>
                                     </a>
                                 @endforeach

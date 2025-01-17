@@ -68,12 +68,28 @@ class Festival extends Model
     
     public function shouldHighlightFrequency()
     {
-        return isset($this->starting_month) && $this->starting_month === (int)date('n');
+        if (!isset($this->starting_month) || !isset($this->ending_month))
+            return false;
+        
+        $month = now()->month;
+        if ($this->starting_month > $this->ending_month) {  // např. od října (10) do ledna (1)
+            return $this->starting_month <= $month || $this->ending_month >= $month;
+        }
+        else return $this->starting_month <= $month && $this->ending_month >= $month;
     }
     
     public static function getHighlightedCount()
     {
-        return static::query()->where('starting_month', date('n'))->count();
+        $month = now()->month;
+        return static::query()
+            ->whereRaw('
+                IF(
+                    starting_month > ending_month,
+                    starting_month <= ? OR ending_month >= ?,
+                    starting_month <= ? AND ending_month >= ?
+                )
+            ', [$month, $month, $month, $month])
+            ->count();
     }
     
     public function sluggable(): array

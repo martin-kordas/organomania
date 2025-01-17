@@ -219,16 +219,37 @@ window.initGoogleMap = function ($wire) {
     })
 }
 
-function getTimelineOptions(step, maxDate, orientationAxis, start, end)
-{
+function isFullYearTimelineItem(item) {
+    return (
+        item.start.getDate() === 1 && item.start.getMonth() === 0
+        && item.end.getDate() === 31 && item.end.getMonth() === 11
+    )
+}
+
+function getTimelineOptions(container) {
     let options = {
-        min: '1500-01-01',
-        max: maxDate,
+        min: container.dataset.min,
+        max: container.dataset.max,
         showCurrentTime: false,
-        timeAxis: { scale: 'year', step },
+        showMajorLabels: container.dataset.scale !== 'month',
+        timeAxis: {
+            scale: container.dataset.scale,
+            step: parseInt(container.dataset.step)
+        },
+        format: {
+            minorLabels: (date) => {
+                // standardní lokalizace s využitím moment.js nefungovala (https://visjs.github.io/vis-timeline/docs/timeline/#Localization)
+                return date.toDate().toLocaleString(navigator.language, { month: "short" })
+            }
+        },
         dataAttributes: ['entityType', 'entityId', 'url', 'isWorkshop'],
-        orientation: { axis: orientationAxis },
+        orientation: { axis: container.dataset.axis },
         order: function (item1, item2) {
+            if (item1.entityType === 'festival' && item2.entityType === 'festival') {
+                if (isFullYearTimelineItem(item1) && !isFullYearTimelineItem(item2)) return -1
+                return item2.name.localeCompare(item1.name)
+            }
+            
             // varhany: podle data stavby
             if (item1.entityType === 'organ' && item2.entityType === 'organ') {
                 return item2.start - item1.start
@@ -259,11 +280,18 @@ function getTimelineOptions(step, maxDate, orientationAxis, start, end)
         template: function (item, element, data) {
             if (item.type === 'background') return ''
             
-            var icon = item.entityType === 'organ' ? 'music-note-list' : 'person-circle'
-            var timeClass = 'text-body-secondary';
-            if (item.entityType !== 'organ') timeClass += ' small';
+            var icon
+            if (item.entityType === 'organ') icon = 'music-note-list'
+            else if (item.entityType === 'organBuilder') icon = 'person-circle'
+            else icon = 'calendar-date'
+            
+            var detailsClass = 'text-body-secondary';
+            if (item.entityType !== 'organ') detailsClass += ' small';
             var iconPrivate = (item.entityType === 'organBuilder' && !item.public) ? ' <i class="bi-lock text-warning"></i>' : ''
-            return `<i class='bi-${icon} text-primary'></i> ${data.name}${iconPrivate} <span class='${timeClass}'>(${data.time})</span>`
+            
+            var tmpl = `<i class='bi-${icon} text-primary'></i> ${data.name}${iconPrivate}`
+            if (data.details) tmpl += ` <span class='${detailsClass}'>(${data.details})</span>`;
+            return tmpl;
         },
         groupTemplate: function (item) {
             if (item.content.startsWith('ž-')) return ''
@@ -271,42 +299,35 @@ function getTimelineOptions(step, maxDate, orientationAxis, start, end)
         }
     }
     
-    if (start) options.start = start;
-    if (end) options.end = end;
+    if (container.dataset.start) options.start = container.dataset.start;
+    if (container.dataset.end) options.end = container.dataset.end;
     
     return options;
 }
 
 window.initTimeline = async function ($wire, timelineItems, timelineGroups, timelineMarkers) {
-    // TODO: alternativní způsoby importu nejsou tak datově náročné (https://github.com/visjs/vis-timeline)
-    const vis = await import('vis-timeline/standalone')
-    
-    setTimeout(function () {
+    Promise.all([
+        import('vis-data/peer'),
+        import('vis-timeline/peer'),
+        import('vis-timeline/styles/vis-timeline-graph2d.css'),
+    ]).then(([visData, visTimeline]) => {
         var container = $('#timeline')[0]
-        
-        var max = new Date()
-        max.setFullYear(max.getFullYear() + 20)
-        var step = parseInt(container.dataset.step)
-        var orientationAxis = $(container).is('[data-axis-both]') ? 'both' : 'bottom'
-        var start = $(container).data('start')
-        var end = $(container).data('end')
-
-        var options = getTimelineOptions(step, max, orientationAxis, start, end)
+        var options = getTimelineOptions(container)
         
         timelineItems = timelineItems.map(function (item) {
-            item.end ??= max
-            if (item.entityType === 'organBuilder') {
+            item.end ??= container.dataset.max
+            if (item.entityType === 'organBuilder' || item.entityType === 'festival') {
                 item.title = item.name
-                if (item.time) item.title += ` (${item.time})`
+                if (item.details) item.title += ` (${item.details})`
             }
             return item
         })
         
-        var items = new vis.DataSet(timelineItems)
-        var timeline = new vis.Timeline(container, items, options)
+        var items = new visData.DataSet(timelineItems)
+        var timeline = new visTimeline.Timeline(container, items, options)
         
         if (timelineGroups !== null) {
-            var groups = new vis.DataSet()
+            var groups = new visData.DataSet()
             for (var key in timelineGroups) {
                 groups.add({
                     id: timelineGroups[key].name,

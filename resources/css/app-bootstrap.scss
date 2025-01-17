@@ -167,7 +167,7 @@ div.side-buttons {
     }
     
     @media screen and (max-width: 576px) {
-        .carousel-caption > p {
+        .carousel-caption > p.collapsed {
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;

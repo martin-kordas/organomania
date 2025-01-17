@@ -9,10 +9,13 @@
 <div class="container entity-page-timeline">
     <div
         id="timeline"
+        data-min="{{ $this->timelineRange[0] }}"
+        data-max="{{ $this->timelineRange[1] }}"
+        data-scale="{{ $this->timelineScale }}"
         data-step="{{ $this->timelineStep }}"
+        data-axis="{{ $this->filterId ? 'bottom' : 'both' }}"
         @if ($this->selectedTimelineEntityType) data-selected-entity-type="{{ $this->selectedTimelineEntityType }}" @endif
         @if ($this->selectedTimelineEntityId) data-selected-entity-id="{{ $this->selectedTimelineEntityId }}" @endif
-        @if (!$this->filterId) data-axis-both @endif
         @isset ($this->timelineViewRange) data-start="{{ $this->timelineViewRange[0] }}" @endisset
         @isset ($this->timelineViewRange) data-end="{{ $this->timelineViewRange[1] }}" @endisset
         wire:ignore
@@ -20,7 +23,7 @@
     
     <x-organomania.modals.organ-thumbnail-modal :showOrgansTimeline="!$this->filterId" />
       
-    @if (!$this->filterId)
+    @if (!$this->filterId && !empty($this->timelineMarkers))
         <h6 class="mt-4">{{ __('Vyznačené milníky') }}</h6>
         <ul class="small">
             @foreach ($this->timelineMarkers as $marker)
@@ -39,6 +42,8 @@
     let timelineGroups = {{ Js::from($this->timelineGroups) }}
     let timelineMarkers = {{ Js::from($this->timelineMarkers) }}
     
-    initTimeline($wire, timelineItems, timelineGroups, timelineMarkers)
+    setTimeout(() => {
+        initTimeline($wire, timelineItems, timelineGroups, timelineMarkers)
+    })
 </script>
 @endscript

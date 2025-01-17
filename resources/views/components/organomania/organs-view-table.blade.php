@@ -57,7 +57,9 @@
                         @endforeach
                     </td>
                     <td class="text-nowrap">
-                        <x-organomania.stars class="responsive" :count="round($organ->importance / 2)" :showCount="true" />
+                        @if (!$organ->shouldHideImportance())
+                            <x-organomania.stars class="responsive" :count="round($organ->importance / 2)" :showCount="true" />
+                        @endif
                     </td>
                     <td class="text-nowrap">
                         <x-organomania.entity-page-view-table-buttons :record="$organ" />

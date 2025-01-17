@@ -118,9 +118,11 @@
             <form class="filters container-sm mb-2 ps-0">
                 <div class="row gx-4 gy-2 justify-content-center align-items-center">
                     @if (in_array($this->entityClass, [Festival::class, Competition::class]))
-                        <div class="col col-md-6">
-                            <input id="quickFilterNameLocality" size="30" class="form-control" type="search" wire:model.live="filterNameLocality" placeholder="{{ __('Hledat') }} {{ $this->entityNamePluralAkuzativ }}&hellip;" />
-                        </div>
+                        @if ($this->viewType !== 'timeline')
+                            <div class="col col-md-6">
+                                <input id="quickFilterNameLocality" size="30" class="form-control" type="search" wire:model.live="filterNameLocality" placeholder="{{ __('Hledat') }} {{ $this->entityNamePluralAkuzativ }}&hellip;" />
+                            </div>
+                        @endif
                     @else
                         <div class="col-md-8 col-lg-7 col-xl-6 hstack">
                             <div class="input-group">
@@ -186,7 +188,7 @@
                 <x-organomania.view-type-nav-item viewType="map">
                     <i class="bi-pin-map"></i> {{ __('Mapa') }}
                 </x-organomania.view-type-nav-item>
-                @if ($this->entityClass === OrganBuilder::class)
+                @if (in_array($this->entityClass, [OrganBuilder::class, Festival::class]))
                     <x-organomania.view-type-nav-item viewType="timeline">
                         <i class="bi-clock"></i> {{ __('Časová osa') }}
                     </x-organomania.view-type-nav-item>
@@ -197,7 +199,7 @@
       
         @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && !in_array($this->viewType, ['map', 'timeline']))
         @php($showOrganInfoHint = $this->entityClass === Organ::class)
-        @php($showSortImportaceHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && $this->viewType !== 'map')
+        @php($showSortImportaceHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && !in_array($this->viewType, ['map', 'timeline']))
         @php($showSortActiveFromYearHint = $this->entityClass === OrganBuilder::class && $this->sortColumn !== 'active_from_year' && !in_array($this->viewType, ['map', 'timeline']))
         @php($showOrganImportanceHint = $this->entityClass === Organ::class && $this->viewType === 'map' && $this->activeFiltersCount <= 0)
         @php($showOrganBuilderImportanceHint = $this->entityClass === OrganBuilder::class && $this->viewType === 'timeline' && $this->activeFiltersCount <= 0)

@@ -36,7 +36,9 @@
                         / {{ $organ->stops_count }} <small>{{ $organ->getDeclinedStops() }}</small>
                     @endif
                 </span>
-                <x-organomania.stars class="float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Význam') }}" :count="round($organ->importance / 2)" />
+                @if (!$organ->shouldHideImportance())
+                    <x-organomania.stars class="float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Význam') }}" :count="round($organ->importance / 2)" />
+                @endif
             </div>
         @endisset
     </x-slot:header>

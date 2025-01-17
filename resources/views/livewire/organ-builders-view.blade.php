@@ -118,7 +118,7 @@ new class extends Component {
                     'isWorkshop' => $item->is_workshop,
                     'type' => 'range',
                     'name' => $item->name,
-                    'time' => $item->active_period ?? $item->organBuilder->active_period,
+                    'details' => $item->active_period ?? $item->organBuilder->active_period,
                     'start' => "{$item->year_from}-01-01",
                     'end' => isset($item->year_to) ? "{$item->year_to}-01-01" : null,
                     'land' => $item->land,
@@ -162,16 +162,16 @@ new class extends Component {
         $items = [];
         foreach ($organBuilder->organs as $organ) {
             if (isset($organ->year_built)) {
-                $time = $organ->year_built;
+                $details = $organ->year_built;
                 if ($organ->organ_rebuilds_count <= 0 && ($sizeInfo = $organ->getSizeInfo()))
-                    $time .= ", $sizeInfo";
+                    $details .= ", $sizeInfo";
 
                 $items[] = [
                     'entityType' => 'organ',
                     'entityId' => $organ->id,
                     'type' => 'point',
                     'name' => "{$organ->municipality}, {$organ->place}",
-                    'time' => $time,
+                    'details' => $details,
                     'start' => "{$organ->year_built}-01-01",
                     'url' => route('organs.show', $organ->slug),
                 ];
@@ -183,7 +183,7 @@ new class extends Component {
                 'entityId' => $rebuild->organ->id,
                 'type' => 'point',
                 'name' => "{$rebuild->organ->municipality}, {$rebuild->organ->place}",
-                'time' => $rebuild->year_built,
+                'details' => $rebuild->year_built,
                 'start' => "{$rebuild->year_built}-01-01",
                 'url' => route('organs.show', $rebuild->organ->slug),
             ];
@@ -257,6 +257,21 @@ new class extends Component {
             ];
         }
         return $markers;
+    }
+
+    #[Computed]
+    public function timelineScale()
+    {
+        return 'year';
+    }
+
+    // určuje rozmezí časové osy
+    #[Computed]
+    public function timelineRange()
+    {
+        $start = Carbon::createFromDate(1500, 1, 1)->format('Y-m-d');
+        $end = now()->addYears(20)->format('Y-m-d');
+        return [$start, $end];
     }
 
     // určuje časový úsek zobrazený defaultně na časové ose

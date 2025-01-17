@@ -451,12 +451,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endforeach
             </td>
         </tr>
-        <tr>
-            <th>{{ __('Význam') }}</th>
-            <td>
-                <x-organomania.stars :count="round($organ->importance / 2)" :showCount="true" />
-            </td>
-        </tr>
+        @if (!$organ->shouldHideImportance())
+            <tr>
+                <th>{{ __('Význam') }}</th>
+                <td>
+                    <x-organomania.stars :count="round($organ->importance / 2)" :showCount="true" />
+                </td>
+            </tr>
+        @endif
         @if ($organ->festivals->isNotEmpty())
             <tr>
                 <th>

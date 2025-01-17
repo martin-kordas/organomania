@@ -18,7 +18,7 @@ export default defineConfig({
     build: {
       rollupOptions: {
         external: [
-          'vis-timeline/standalone',
+          /*'vis-timeline/standalone',*/
         ]
       }
     }

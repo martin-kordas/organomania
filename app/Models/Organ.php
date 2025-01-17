@@ -120,6 +120,11 @@ class Organ extends Model
             ');
     }
     
+    public function shouldHideImportance()
+    {
+        return $this->importance <= 2;
+    }
+    
     public function organCustomCategories()
     {
         return $this->belongsToMany(OrganCustomCategory::class)->withTimestamps()->orderBy('name');

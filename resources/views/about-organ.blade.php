@@ -71,7 +71,7 @@
 
                 <p>
                     V České republice se podle odhadů nachází až 10 tisíc varhan.
-                    Jsou situovány nejen v kostelích, nýbrž i v koncertních sálech či školách.
+                    Jsou situovány nejen v kostelích, nýbrž i v koncertních sálech nebo na hudebních školách.
                     Mnoho z nich naléhavě vyžaduje opravu.
                 </p>
                 
@@ -91,7 +91,7 @@
                     <p>
                         Varhany svojí zvukovou, konstrukční a výtvarnou povahou podávají svědectví o místě a době, kdy byly postaveny.
                         Řada historických nástrojů byla v průběhu let přestavěna nebo zcela zanikla.
-                        I tak se na území České republiky náchází velký počet vzácných varhan, ojedinělý i v evropském měřítku.
+                        I tak se na území České republiky nachází velký počet vzácných varhan, ojedinělý i v evropském měřítku.
                     </p>
                     
                     <p>
@@ -516,6 +516,11 @@
                         Od období mezi válkami se rozšiřuje použití zjednodušených funkcionalistických skříní.
                     </p>
                     
+                    <p>
+                        V celoevropském kontextu je naše romantické varhanářství opět značně ovlivněno tím německým.
+                        Zřetelně odlišitelné je od varhanářství francouzského, které používá velké množství <x-organomania.category-badge :category="RegisterCategory::Reed" :newTab="true">jazykových rejstříků</x-organomania.category-badge> a i v 19. století staví varhany se <x-organomania.category-badge :category="OrganCategory::WindchestSchleif" :newTab="true">zásuvkovou vzdušnici</x-organomania.category-badge>.
+                    </p>
+                    
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Wolfgang Sauber, CC BY-SA 3.0, via Wikimedia Commons">
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/St.Veit_-_Orgel.jpg/640px-St.Veit_-_Orgel.jpg" style="width: 550px; max-width: 100%;" />
@@ -794,6 +799,13 @@
                         Moderní náhled na varhany se naštěstí snaží docenit všechny kvalitní nástroje, bez ohledu na období jejich vzniku.
                         Konstrukční a stylová rozmanitost varhan klade velké nároky na varhanáře a varhaníky, kteří musí své nástroje důkladně pochopit.
                         Zároveň však přináší o to větší potěšení všem, kdo varhany poslouchají a objevují jejich krásu &ndash; ještě i dnes, stovky let poté, co je jejich tvůrce postavil.
+                    </p>
+                    
+                    <p>
+                        Se stylovým charakterem varhan úzce souvisí výběr hudby, kterou na nich lze hrát.
+                        Nejlepšího vyznění dosáhne varhanní hudba na nástroji stejného typu, pro jaký byla napsána.
+                        Tato problematika je však již mimo rozsahové možnosti našeho článku.
+                        O hudbě pro varhany se můžete více dozvědět např. v knize <a href="https://eshop.jamu.cz/prehled-skladatelu-varhanni-hudby/" target="_blank">Přehled skladatelů varhanní hudby</a>.
                     </p>
                 </div>
                 

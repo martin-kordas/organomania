@@ -10,6 +10,10 @@
     else $description = null;
 
     $year ??= $organ->year_built;
+    
+    $popoverDetails = [];
+    if ($organ->organBuilder) $popoverDetails[] = $organ->organBuilder->shortName;
+    $popoverDetails[] = $year;
 @endphp
 
 @can('view', $organ)
@@ -20,7 +24,7 @@
         @if ($description)
             data-bs-trigger="hover focus"
             data-bs-toggle="popover"
-            data-bs-title="{{ $organ->municipality }}, {{ $organ->place }}@isset($organ->year_built) ({{ $organ->year_built }})@endisset"
+            data-bs-title="{{ $organ->municipality }}, {{ $organ->place }}@isset($organ->year_built) ({{ implode(', ', $popoverDetails) }})@endisset"
             data-bs-content="{{ $description }}"
         @endif
     >
