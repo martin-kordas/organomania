@@ -165,7 +165,7 @@ new class extends Component {
                             </div>
                             <div class="list-group list-group-flush">
                                 @foreach ($this->resultsOrgans as $organ)
-                                    <a class="list-group-item list-group-item-action" href="{{ route('organs.show', ['organ' => $organ->slug]) }}" wire:navigate>
+                                    <a class="list-group-item list-group-item-action" href="{{ route('organs.show', ['organSlug' => $organ->slug]) }}" wire:navigate>
                                         {!! $this->highlight($organ->municipality) !!}, {!! $this->highlight($organ->place) !!}
                                         @if (!$organ->isPublic())
                                             <i class="bi-lock text-warning"></i>
