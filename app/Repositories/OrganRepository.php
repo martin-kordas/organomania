@@ -27,6 +27,8 @@ class OrganRepository extends AbstractRepository
         CATEGORIES_WITH_COUNT = ['organs'],
         CUSTOM_CATEGORIES_WITH_COUNT = ['organs'];
     
+    protected const MODEL_CLASS = Organ::class;
+    
     public function getOrgansQuery(
         array $filters = [], array $sorts = [],
         $with = self::ORGANS_WITH, $withCount = self::ORGANS_WITH_COUNT

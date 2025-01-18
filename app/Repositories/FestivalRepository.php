@@ -18,6 +18,8 @@ class FestivalRepository extends AbstractRepository
         ],
         FESTIVALS_WITH_COUNT = [];
     
+    protected const MODEL_CLASS = Festival::class;
+    
     public function getFestivalsQuery(
         array $filters = [], array $sorts = [],
         $with = self::FESTIVALS_WITH, $withCount = self::FESTIVALS_WITH_COUNT

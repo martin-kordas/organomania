@@ -18,6 +18,8 @@ class CompetitionRepository extends AbstractRepository
         ],
         COMPETITIONS_WITH_COUNT = [];
     
+    protected const MODEL_CLASS = Competition::class;
+    
     public function getCompetitionsQuery(
         array $filters = [], array $sorts = [],
         $with = self::COMPETITIONS_WITH, $withCount = self::COMPETITIONS_WITH_COUNT

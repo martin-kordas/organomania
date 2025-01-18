@@ -249,7 +249,7 @@
     "Přidat registraci": "Create registration",
     "Přihlášení": "Log in",
     "Připomínky a podněty k obsahu zasílejte na": "Please send any feedback to",
-    "Přispět na další fungování webu můžete <strong>zasláním libovolné částky</strong> na účet uvedený níže.": "Please <strong>donate any amount of money</strong> to my website. You can use bank account described below.",
+    "Přispět na další fungování webu můžete <strong>zasláním libovolné částky</strong> na účet uvedený níže.": "Please <strong>donate any amount of money</strong> to the website. You can use bank account described below.",
     "Příklady porovnání": "Comparison examples",
     "Příklady v dispozicích": "Examples in dispositions",
     "Příští ročník": "Next year",
@@ -451,7 +451,7 @@
     "Zjistěte, jak web Organomania vznikl, jakým způsobem jsou vybírány varhany a varhanáři zařazení do katalogu a jaký je význam u nich u uváděných údajů.": "Find out why Organomania was created, how organs and organ builders included in the database are selected and what is the meaning of presented organ parameters.",
     "Poznejte varhany jako hudební nástroj, který se po zvukové i konstrukční stránce neustále vyvíjí. Prohlédněte si nejvýznamnější varhany a varhanáře jednotlivých stylových období.": "Pipe organ is an instrument whose sound and construction form are under constant development. Explore the most important organs and organ builders of every style period.",
     "Rejstříky dělíme do kategorií podle způsobu konstrukce, viz": "Several construction categories of stops can be distinguished, see",
-    "kromě značného množství času stráveného programováním a tvorbou obsahu spotřebovává web Organomania i finanční náklady, které jsou spojené s provozem serveru (momentálně asi 350 Kč / měsíc).": "apart from quite a lot of time spent with programming and content creation Organomania consumes also finance needed for running the server (currently around $14 per month).",
+    "Kromě značného množství času stráveného <a href=\"https://github.com/martin-kordas/organomania\" target=\"_blank\">programováním</a> a tvorbou obsahu spotřebovává Organomania i finanční náklady, které jsou spojené s provozem serveru (momentálně asi 350 Kč / měsíc).": "Apart from quite a lot of time spent with <a href=\"https://github.com/martin-kordas/organomania\" target=\"_blank\">programming</a> and content creation Organomania consumes also finance needed for running the server (currently around $14 per month).",
     "QR kód platby (předvolená částka 350 Kč)": "Payment QR code (default amount 350 Kč)",
     "Přidat varhany": "Create organ",
     "Přidat varhanáře": "Create organ builder",
@@ -496,7 +496,7 @@
     "Naregistrovat": "Register",
     "Buďte obezřetní – umělá inteligence poskytuje nepřesné výsledky.": "Be careful - artificial intelligence may provide incorrect outputs.",
     "např.": "e.g.",
-    "Vážení příznivci webu Organomania": "Dear supporters of web Organomania",
+    "Vážení příznivci Organomanie": "Dear supporters of Organomania",
     "Každému přispěvateli budou navíc v Organomanii zpřístupněny <a href=\"#ai\" class=\"text-decoration-none\">prémiové funkce</a>.": "Every supporter will be given access to <a href=\"#ai\" class=\"text-decoration-none\">premium features</a> as a bonus.",
     "Za veškerou podporu předem děkuji.": "Thank you for every support.",
     "Platební údaje": "Payment details",
@@ -513,7 +513,8 @@
     "Registrování je individuální umělecká činnost, kterou varhaník provádí na základě kontaktu s nástrojem.": "Organ registering is an individual artistic activity that the organist performs based on his contact with the instrument.",
     "Umělou inteligenci proto používejte jen pro inspiraci nebo potřebujete-li nutně poradit.": "Therefore, use artificial intelligence only for inspiration or if you absolutely need advice.",
     "Naregistrování opakujte, dokud umělá inteligence neposkytne optimální výsledek.": "Repeat the registration until artificial intelligence provides the optimal result.",
-    "organomaniak při práci": "organomaniac during work"
+    "organomaniak při práci": "organomaniac during work",
+    "web, který si nyní prohlížíte, je ve vývoji již od června 2024.": "the web you are browsing now has been under development since June 2024."
     
     
     

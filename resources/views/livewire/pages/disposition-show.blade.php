@@ -18,6 +18,7 @@ use App\Models\DispositionRegister;
 use App\Models\Registration;
 use App\Models\Keyboard;
 use App\Models\Scopes\OwnedEntityScope;
+use App\Repositories\DispositionRepository;
 use App\Traits\HasAccordion;
 use App\Traits\HasHighlightDispositionFilters;
 use App\Traits\HasRegisterModal;
@@ -87,20 +88,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         SESSION_KEY_SHOW_STATS = 'dispositions.edit.showStats',
         SESSION_KEY_SHOW_SETTINGS = 'dispositions.edit.showSettings';
 
-    public function boot(MarkdownConvertorService $markdownConvertor)
+    public function boot(DispositionRepository $repository, MarkdownConvertorService $markdownConvertor)
     {
         $this->markdownConvertor = $markdownConvertor;
 
         $this->signed ??= request()->hasValidSignature(false);
         // nepoužíváme klasický route model binding, protože potřebujeme ručně odebrat OwnedEntityScope
         //  - musí to fungovat i Livewire AJAX requestech
-        $this->disposision ??= $this->getDisposition();
-
-        $query = Disposition::query();
-        if ($this->signed) $query->withoutGlobalScope(OwnedEntityScope::class);
-        if (is_numeric($this->dispositionSlug)) $query->where('id', $this->dispositionSlug);
-        else $query->where('slug', $this->dispositionSlug);
-        $this->disposition = $query->firstOrFail();
+        $this->disposition = $repository->getBySlug($this->dispositionSlug, $this->signed);
 
         // při překreslení komponenty se signed URL zřejmě již nepoužije
         //  - proto informaci o autorizovaném registrationId cachujeme
@@ -132,15 +127,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->disposition->viewed();
 
         $this->setRegistration();
-    }
-
-    private function getDisposition()
-    {
-        $query = Disposition::query();
-        if ($this->signed) $query->withoutGlobalScope(OwnedEntityScope::class);
-        if (is_numeric($this->dispositionSlug)) $query->where('id', $this->dispositionSlug);
-        else $query->where('slug', $this->dispositionSlug);
-        return $query->firstOrFail();
     }
 
     public function updatedRegistrationId()

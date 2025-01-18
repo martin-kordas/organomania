@@ -9,10 +9,11 @@
         </div>
 
         <p>
-            {{ __('Vážení příznivci webu Organomania') }},
+            {{ __('Vážení příznivci Organomanie') }},
         </p>
         <p>
-            {{ __('kromě značného množství času stráveného programováním a tvorbou obsahu spotřebovává web Organomania i finanční náklady, které jsou spojené s provozem serveru (momentálně asi 350 Kč / měsíc).') }}
+            {{ __('web, který si nyní prohlížíte, je ve vývoji již od června 2024.') }}
+            {!! __('Kromě značného množství času stráveného <a href="https://github.com/martin-kordas/organomania" target="_blank">programováním</a> a tvorbou obsahu spotřebovává Organomania i finanční náklady, které jsou spojené s provozem serveru (momentálně asi 350 Kč / měsíc).') !!}
         </p>
         <p>
             {!! __('Přispět na další fungování webu můžete <strong>zasláním libovolné částky</strong> na účet uvedený níže.') !!}

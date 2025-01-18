@@ -22,6 +22,8 @@ class OrganBuilderRepository extends AbstractRepository
         CATEGORIES_WITH_COUNT = ['organBuilders'],
         CUSTOM_CATEGORIES_WITH_COUNT = ['organBuilders'];
     
+    protected const MODEL_CLASS = OrganBuilder::class;
+    
     public function getOrganBuildersQuery(
         array $filters = [], array $sorts = [],
         $with = self::ORGAN_BUILDERS_WITH, $withCount = self::ORGAN_BUILDERS_WITH_COUNT

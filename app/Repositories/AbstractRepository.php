@@ -13,6 +13,8 @@ use App\Models\Scopes\OwnedEntityScope;
 class AbstractRepository
 {
     
+    protected const MODEL_CLASS = Model::class;
+    
     protected function filter(Builder $query, string $column, mixed $value)
     {
         if (is_array($value)) {
@@ -134,5 +136,15 @@ class AbstractRepository
         else return $query->paginate($perPage);
     }
     
+    // použije se, pokud nepoužíváme klasický route model binding
+    public function getBySlug($slug, bool $signed = false)
+    {
+        $model = static::MODEL_CLASS;
+        $query = $model::query();
+        if ($signed) $query->withoutGlobalScope(OwnedEntityScope::class);
+        if (is_numeric($slug)) $query->where('id', $slug);
+        else $query->where('slug', $slug);
+        return $query->firstOrFail();
+    }
     
 }

@@ -29,11 +29,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     use HasRegisterModal;
 
     #[Locked]
+    public $organSlug;
+    #[Locked]
     public Organ $organ;
 
     protected MarkdownConvertorService $markdownConvertor;
 
     protected OrganRepository $repository;
+
+    #[Locked]
+    public bool $signed;
 
     public $suggestRegistrationDisposition;
     private $suggestRegistrationInfo;
@@ -48,7 +53,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function mount()
     {
-        if (!request()->hasValidSignature(false)) {
+        if (!$this->signed) {
             $this->authorize('view', $this->organ);
         }
 
@@ -61,9 +66,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->markdownConvertor = $markdownConvertor;
         $this->dispositionLanguage = DispositionLanguage::getDefault();
 
+        $this->signed ??= request()->hasValidSignature(false);
+        // nepoužíváme klasický route model binding, protože potřebujeme ručně odebrat OwnedEntityScope
+        //  - musí to fungovat i Livewire AJAX requestech
+        $this->organ = $repository->getBySlug($this->organSlug, $this->signed);
+
         $this->organ->load(['dispositions' => function (HasMany $query) {
             $query->withCount('realDispositionRegisters');
-            if (request()->hasValidSignature(false))
+            if ($this->signed)
                 $query->withoutGlobalScope(OwnedEntityScope::class);
         }]);
     }

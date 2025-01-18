@@ -78,7 +78,7 @@ Volt::route('organs', 'pages.organs')
     ->name('organs.index');
 Volt::route('custom-category-organs', 'pages.organs')
     ->name('organs.custom-category-organs.index');
-Volt::route('organs/{organ}', 'pages.organ-show')
+Volt::route('organs/{organSlug}', 'pages.organ-show')
     ->name('organs.show');
 Route::get('export/organs', [ExportController::class, 'exportOrgans'])
     ->name('organs.export');
