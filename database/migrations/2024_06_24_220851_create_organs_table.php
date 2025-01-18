@@ -43,7 +43,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             
-            $table->fullText(['municipality', 'place'], name: 'organs_locality_fulltext');
+            $table->fullText(['perex', 'description'], name: 'organs_perex_description_fulltext');
             $table->fullText('perex');
             $table->fullText('description');
             $table->fullText('disposition');

@@ -158,11 +158,7 @@ class DispositionParser
             }
         }
         
-        if (mb_strpos($name, '/') === false) return false;
-        
         $parts = explode('/', $name);
-        if (count($parts) !== 2) return false;
-        
         foreach ($parts as $part) {
             if ($part !== 'P' && !preg_match('/^[IV]{1,3}$/', $part)) {
                 return false;

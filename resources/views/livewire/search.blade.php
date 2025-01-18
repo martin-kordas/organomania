@@ -54,26 +54,31 @@ new class extends Component {
         // https://laravel-news.com/laravel-scout-practical-guide#content-write-a-search-query
         return Organ::search($this->sanitizedSearch)
             ->query(function (Builder $builder) {
+                $searchWildcard = "%{$this->sanitizedSearch}%";
+
                 $builder
                     ->leftJoin('organ_builders', 'organs.organ_builder_id', 'organ_builders.id')
                     ->select([
                         'organs.id', 'organs.slug', 'organs.place', 'organs.municipality', 'organs.importance', 'organs.organ_builder_id',
                         'organs.year_built', 'organs.user_id',
                     ])
+                    ->selectRaw('
+                        IFNULL(organs.municipality, "") LIKE ?
+                        OR IFNULL(organs.place, "") LIKE ?
+                        OR IFNULL(organ_builders.first_name, "") LIKE ?
+                        OR IFNULL(organ_builders.last_name, "") LIKE ?
+                        OR IFNULL(organ_builders.workshop_name, "") LIKE ?
+                        AS highlighted
+                    ', [$searchWildcard, $searchWildcard, $searchWildcard, $searchWildcard, $searchWildcard])
                     ->selectRaw(
-                        'MATCH(organs.municipality, organs.place) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
+                        'MATCH(organs.description, organs.perex) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
                         [$this->sanitizedSearch]
                     )
                     ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
-                    // přednostně varhany, kde je nějaký výskyt hledaného výrazu v údajích zobrazovaných v našeptávači (lokalita, varhanář)
-                    ->orderByRaw('
-                        relevance > 0
-                        OR LOCATE(?, organ_builders.first_name)
-                        OR LOCATE(?, organ_builders.last_name)
-                        OR LOCATE(?, organ_builders.workshop_name)
-                        DESC
-                    ', [$this->sanitizedSearch, $this->sanitizedSearch, $this->sanitizedSearch])
-                    ->orderByRaw('relevance > 0 DESC')
+                    // přednostně varhany, kde je nějaký výskyt hledaného výrazu v údajích v našeptávači (lokalita, varhanář)
+                    ->orderBy('highlighted', 'DESC')
+                    // pokud je výskyt hledaného výrazu jen ve skrytých textech (description atd.), řadit podle míry shody
+                    ->orderByRaw('IF(highlighted, 1, relevance) DESC')
                     ->orderBy('importance', 'DESC')
                     ->orderBy('municipality')
                     ->orderBy('place')
@@ -86,8 +91,13 @@ new class extends Component {
     {
         return OrganBuilder::search($this->sanitizedSearch)
             ->query(function (Builder $builder) {
+                $searchWildcard = "%{$this->sanitizedSearch}%";
+
                 $builder
-                    ->orderBy('relevance', 'DESC')
+                    // přednostně varhanáři, kde je nějaký výskyt hledaného výrazu v údajích v našeptávači (jméno, lokalita)
+                    ->orderBy('highlighted', 'DESC')
+                    // pokud je výskyt hledaného výrazu jen ve skrytých textech (description atd.), řadit podle míry shody
+                    ->orderByRaw('IF(highlighted, 1, relevance) DESC')
                     ->orderBy('importance', 'DESC')
                     ->orderByName()
                     ->take(8)
@@ -97,8 +107,15 @@ new class extends Component {
                         'active_period', 'municipality', 'importance',
                         'user_id',
                     ])
+                    ->selectRaw('
+                        IFNULL(workshop_name, "") LIKE ?
+                        OR IFNULL(first_name, "") LIKE ?
+                        OR IFNULL(last_name, "") LIKE ?
+                        OR IFNULL(municipality, "") LIKE ?
+                        AS highlighted
+                    ', [$searchWildcard, $searchWildcard, $searchWildcard, $searchWildcard])
                     ->selectRaw(
-                        'MATCH(workshop_name, first_name, last_name) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
+                        'MATCH(perex, description) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
                         [$this->sanitizedSearch]
                     );
             })

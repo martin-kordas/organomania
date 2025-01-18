@@ -41,9 +41,16 @@ class Register extends Model
     
     public function getPitchesLabels(DispositionLanguage $language)
     {
-        return $this->registerPitches->map(
-            fn(PitchModel $pitch) => $pitch->getEnum()->getLabel($language)
-        );
+        return $this->registerPitches
+            ->map(
+                fn (PitchModel $pitch) => $pitch->getEnum()
+            )
+            ->sortBy(
+                fn (Pitch $pitch) => $pitch->getAliquoteOrder()
+            )
+            ->map(
+                fn (Pitch $pitch) => $pitch->getLabel($language)
+            );
     }
     
     public function registerNames()
