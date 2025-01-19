@@ -497,7 +497,7 @@
     "Buďte obezřetní – umělá inteligence poskytuje nepřesné výsledky.": "Be careful - artificial intelligence may provide incorrect outputs.",
     "např.": "e.g.",
     "Vážení příznivci Organomanie": "Dear supporters of Organomania",
-    "Každému přispěvateli budou navíc v Organomanii zpřístupněny <a href=\"#ai\" class=\"text-decoration-none\">prémiové funkce</a>.": "Every supporter will be given access to <a href=\"#ai\" class=\"text-decoration-none\">premium features</a> as a bonus.",
+    "Každému přispěvateli budou navíc v Organomanii zpřístupněny <a href=\"#ai\" class=\"text-decoration-none\">prémiové funkce</a> (jejich zapnutí si lze posléze vyžádat na <a href=\"mailto:info@organomania.cz\" class=\"text-decoration-none\">info@organomania.cz</a>).": "Every supporter will be given access to <a href=\"#ai\" class=\"text-decoration-none\">premium features</a> as a bonus (you can then request this access via e-mail <a href=\"mailto:info@organomania.cz\" class=\"text-decoration-none\">info@organomania.cz</a>).",
     "Za veškerou podporu předem děkuji.": "Thank you for every support.",
     "Platební údaje": "Payment details",
     "banka": "bank",
@@ -514,7 +514,18 @@
     "Umělou inteligenci proto používejte jen pro inspiraci nebo potřebujete-li nutně poradit.": "Therefore, use artificial intelligence only for inspiration or if you absolutely need advice.",
     "Naregistrování opakujte, dokud umělá inteligence neposkytne optimální výsledek.": "Repeat the registration until artificial intelligence provides the optimal result.",
     "organomaniak při práci": "organomaniac during work",
-    "web, který si nyní prohlížíte, je ve vývoji již od června 2024.": "the web you are browsing now has been under development since June 2024."
+    "web, který si nyní prohlížíte, je ve vývoji již od června 2024.": "the web you are browsing now has been under development since June 2024.",
+    "Význam varhan": "Organ importance",
+    "Význam varhanáře": "Organ builder importance",
+    "Význam varhanáře se eviduje, aby bylo možné množství varhanářů přibližně seřadit podle důležitosti.": "The importance of organ builder is defined so that organ builders can be roughly sorted by importance.",
+    "Význam varhan se eviduje, aby bylo možné nástroje přibližně seřadit podle důležitosti.": "The importance of organ is defined so that organs can be roughly sorted by importance.",
+    "Více viz strana": "See more at page",
+    "Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhanáře.": "The importance is determined by a rough estimate based on number of criteria and is not an assessment of the quality of the organ builder.",
+    "Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhan.": "The importance is determined by a rough estimate based on number of criteria and is not an assessment of the quality of the organ."
+    
+    
+    
+    
     
     
     

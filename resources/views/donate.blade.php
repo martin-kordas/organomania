@@ -17,7 +17,7 @@
         </p>
         <p>
             {!! __('Přispět na další fungování webu můžete <strong>zasláním libovolné částky</strong> na účet uvedený níže.') !!}
-            {!! __('Každému přispěvateli budou navíc v Organomanii zpřístupněny <a href="#ai" class="text-decoration-none">prémiové funkce</a>.') !!}
+            {!! __('Každému přispěvateli budou navíc v Organomanii zpřístupněny <a href="#ai" class="text-decoration-none">prémiové funkce</a> (jejich zapnutí si lze posléze vyžádat na <a href="mailto:info@organomania.cz" class="text-decoration-none">info@organomania.cz</a>).') !!}
         </p>
         
         <p>

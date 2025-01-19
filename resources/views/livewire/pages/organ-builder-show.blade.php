@@ -604,7 +604,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </tr>
         @if (!$organBuilder->shouldHideImportance())
         <tr>
-            <th>{{ __('Význam') }}</th>
+            <th>
+                {{ __('Význam') }}
+                <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#importanceHintModal">
+                    <i class="bi bi-question-circle"></i>
+                </a>
+            </th>
             <td>
                 <x-organomania.stars :count="round($organBuilder->importance / 2)" :showCount="true" />
             </td>
@@ -749,4 +754,30 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
         
     <x-organomania.modals.categories-modal :categoriesGroups="$this->organBuilderCategoriesGroups" :categoryClass="OrganBuilderCategory::class" />
+        
+    <div class="modal fade" id="importanceHintModal" tabindex="-1" data-focus="false" aria-labelledby="importanceHintLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="importanceHintLabel">{{ __('Význam varhanáře') }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-light mb-0">
+                        <p>
+                            <i class="bi bi-info-circle"></i>
+                            {{ __('Význam varhanáře se eviduje, aby bylo možné množství varhanářů přibližně seřadit podle důležitosti.') }}
+                            {{ __('Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhanáře.') }}
+                        </p>
+                        <p class="mb-0">
+                            {{ __('Více viz strana') }} <a href="{{ route('about') }}" class="text-decoration-none" wire:navigate>{{ __('O webu') }}</a>.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Zavřít') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

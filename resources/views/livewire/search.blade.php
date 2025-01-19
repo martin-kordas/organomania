@@ -230,7 +230,7 @@ new class extends Component {
                             </div>
                         @endif
                     
-                        <div class="list-group list-group-flush position-relative text-center border-0">
+                        <div class="list-group list-group-flush position-relative text-center border-top-0">
                             <div class="list-group-item list-group-item-action">
                                 <a type="submit" class="link-primary text-decoration-none stretched-link" href="#" onclick="$('#searchVarhanyNet').submit()">
                                     <i class="bi bi-search"></i>
