@@ -311,6 +311,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                             <i class="bi bi-facebook"></i>
                                         </a>
                                     @endisset
+                                    @isset($organist->instagram)
+                                        <a class="icon-link me-1" href="{{ $organist->instagramUrl }}" target="_blank">
+                                            <i class="bi bi-instagram"></i>
+                                        </a>
+                                    @endisset
                                     @isset($organist->web)
                                         <x-organomania.web-link :url="$organist->web" icon="globe-americas" />
                                     @endisset

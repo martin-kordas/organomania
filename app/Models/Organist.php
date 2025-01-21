@@ -46,6 +46,13 @@ class Organist extends Model
         );
     }
     
+    protected function instagramUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $_val, array $organist) => "https://www.instagram.com/{$organist['instagram']}",
+        );
+    }
+    
     public function getAvatarRelativeFilename(): string
     {
         return "organist-avatars/{$this->id}";

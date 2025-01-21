@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('channel_username', length: 300);
             $table->string('channel_id', length: 300);
             $table->string('facebook', length: 300)->nullable();
+            $table->string('instagram', length: 300)->nullable();
             $table->string('web', length: 300)->nullable();
             $table->integer('subscribers_count')->nullable();
             $table->integer('videos_count')->nullable();

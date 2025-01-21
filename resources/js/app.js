@@ -383,6 +383,11 @@ window.copyToClipboard = function (text) {
     return navigator.clipboard.writeText(text);
 }
 
+function initFacebook() {
+    // při prvním načtení stránky obvykle ještě není objekt FB dostupný, ale v takovém případě se plugin načte automaticky už includováním skriptu v <head>
+    window?.FB?.XFBML?.parse()
+}
+
 // TODO: toasty se překrývají, pokud jsou zobrazeny těsně za sebou
 //  - lepší by bylo mít jen 1 HTML toast, volat ho JS funkcí a text toastu funkci předat jako argument
 //  - při zobrazení dalšího toastu by se text předchozího toastu prostě jen přepsal (protože jde o jediný HTML element)
@@ -428,6 +433,7 @@ if (typeof Livewire !== typeof undefined) {
             removeTooltips()
             refreshSelect2()
             refreshBootstrap()
+            initFacebook()
         })
     refreshBootstrap()
 

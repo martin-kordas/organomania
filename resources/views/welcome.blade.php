@@ -156,17 +156,6 @@
                 {{ __('Poslední aktualizace') }}: {{ Carbon::instance($lastUpdate)->isoFormat('LLL') }}
             </p>
         </div>
-        
-        <div class="text-center mb-4">
-            <div class="fb-page" data-href="https://www.facebook.com/organomania.varhany/" data-tabs="" data-width="500" data-height="70" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
-                <blockquote cite="https://www.facebook.com/organomania.varhany/" class="fb-xfbml-parse-ignore" style="height: 130px">
-                    <a href="https://www.facebook.com/organomania.varhany/">
-                        <i class="bi bi-facebook"></i>
-                        Organomania: varhany v České republice
-                    </a>
-                </blockquote>
-            </div>
-        </div>
     </div>
         
     <script>
@@ -174,12 +163,5 @@
             if (!$(event.target).closest('.organ-builder-link').length)
                 Livewire.navigate(e.currentTarget.dataset.href)
         }
-            
-        function initFacebook() {
-            // při prvním načtení stránky obvykle ještě není objekt FB dostupný, ale v takovém případě se plugin načte automaticky už includováním skriptu v <head>
-            document?.FB?.XFBML?.parse();       
-        }
-            
-        document.addEventListener('livewire:navigated', initFacebook)
     </script>
 </x-app-bootstrap-layout>
