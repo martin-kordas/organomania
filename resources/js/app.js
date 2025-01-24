@@ -236,12 +236,6 @@ function getTimelineOptions(container) {
             scale: container.dataset.scale,
             step: parseInt(container.dataset.step)
         },
-        format: {
-            minorLabels: (date) => {
-                // standardní lokalizace s využitím moment.js nefungovala (https://visjs.github.io/vis-timeline/docs/timeline/#Localization)
-                return date.toDate().toLocaleString(navigator.language, { month: "short" })
-            }
-        },
         dataAttributes: ['entityType', 'entityId', 'url', 'isWorkshop'],
         orientation: { axis: container.dataset.axis },
         order: function (item1, item2) {
@@ -301,6 +295,15 @@ function getTimelineOptions(container) {
     
     if (container.dataset.start) options.start = container.dataset.start;
     if (container.dataset.end) options.end = container.dataset.end;
+    
+    if (container.dataset.scale === 'month') {
+        options.format = {
+            minorLabels: (date) => {
+                // standardní lokalizace s využitím moment.js nefungovala (https://visjs.github.io/vis-timeline/docs/timeline/#Localization)
+                return date.toDate().toLocaleString(navigator.language, { month: "short" })
+            }
+        }
+    }
     
     return options;
 }
@@ -385,7 +388,7 @@ window.copyToClipboard = function (text) {
 
 function initFacebook() {
     // při prvním načtení stránky obvykle ještě není objekt FB dostupný, ale v takovém případě se plugin načte automaticky už includováním skriptu v <head>
-    window?.FB?.XFBML?.parse()
+    window.FB?.XFBML?.parse($('#fbPage')[0])
 }
 
 // TODO: toasty se překrývají, pokud jsou zobrazeny těsně za sebou

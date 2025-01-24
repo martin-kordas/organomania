@@ -28,7 +28,7 @@ class Organist extends Model
     protected function channelUrl(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $_val, array $organist) => "https://www.youtube.com/@{$organist['channel_username']}",
+            get: fn (mixed $_val, array $organist) => "https://www.youtube.com/{$organist['channel_username']}",
         );
     }
     
@@ -80,4 +80,15 @@ class Organist extends Model
         );
     }
     
+    public function shouldHighlightLastVideoDate()
+    {
+        return isset($this->last_video_date) && $this->last_video_date >= today()->subDays(5);
+    }
+    
+    public static function getHighlightedCount()
+    {
+        return static::query()
+            ->whereRaw('last_video_date >= CURDATE() - INTERVAL 5 DAY')
+            ->count();
+    }
 }

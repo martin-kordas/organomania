@@ -295,7 +295,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     @endisset
                                     @isset($organist->last_video_id)
                                         <div>
-                                            <em>{{ __('Nejnovější video') }}</em> <span class="text-body-secondary">({{ Helpers::formatDate($organist->last_video_date) }})</span>
+                                            <em>{{ __('Nejnovější video') }}</em>
+                                            <span @class(['text-body-secondary', 'mark' => $organist->shouldHighlightLastVideoDate()])>({{ Helpers::formatDate($organist->last_video_date) }})</span>
                                             <br />
                                             <a class="icon-link icon-link-hover align-items-start text-decoration-none" href="{{ $organist->lastVideoUrl }}" target="_blank">
                                                 <i class="bi bi-play-circle"></i>

@@ -143,8 +143,8 @@ new class extends Component {
 
     private function highlight($text)
     {
-        if ($this->search == '' || $text == '') return $text;
-        return Helpers::highlightEscapeText($text, $this->search);
+        if ($this->sanitizedSearch == '' || $text == '') return $text;
+        return Helpers::highlightEscapeText($text, $this->sanitizedSearch);
     }
 
 }; ?>

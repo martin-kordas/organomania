@@ -3,14 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markéta Prokopovičová - Concert Organist</title>
+    <title>Markéta Prokopovičová - koncertní varhanice / Concert Organist</title>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1NS736N6C4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1NS736N6C4');
+    </script>
     <style>
         body {
             margin: 0;
             font-family: 'Playfair Display', serif;
+            /*background: rgb(253, 246, 227);*/
+            /* https://heropatterns.com/ */
             background-color: #fdf6e3;
-            color: #5a4231;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='46' viewBox='0 0 70 46'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.02'%3E%3Cpolygon points='68 44 62 44 62 46 56 46 56 44 52 44 52 46 46 46 46 44 40 44 40 46 38 46 38 44 32 44 32 46 26 46 26 44 22 44 22 46 16 46 16 44 12 44 12 46 6 46 6 44 0 44 0 42 8 42 8 28 6 28 6 0 12 0 12 28 10 28 10 42 18 42 18 28 16 28 16 0 22 0 22 28 20 28 20 42 28 42 28 28 26 28 26 0 32 0 32 28 30 28 30 42 38 42 38 0 40 0 40 42 48 42 48 28 46 28 46 0 52 0 52 28 50 28 50 42 58 42 58 28 56 28 56 0 62 0 62 28 60 28 60 42 68 42 68 0 70 0 70 46 68 46'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
         .header-nav {
             background:
@@ -142,6 +154,16 @@
         hr {
             border-color: rgba(179, 119, 75, 0.25);
         }
+        .youtube-link {
+            text-decoration: none;
+        }
+        .bi-youtube {
+            color: red;
+        }
+        .repertoire-list {
+            columns: 24em;
+            column-gap: 2em;
+        }
         @media (max-width: 1200px) {
             .header-nav {
                 background-position-y: -50px;
@@ -257,9 +279,11 @@
             <h2 data-lang="cs">Životopis</h2>
             <h2 data-lang="en">Biography</h2>
             <p data-lang="cs" class="mb-0">
-              <strong>Markéta Prokopovičová</strong> (*1989) pochází z Olomouce, kde se také začala věnovat hře na varhany na ZUŠ Žerotín pod vedením Vladimíra Sobotky. Hru na varhany pak dále studovala ve třídě Petra Rajnohy a Hany Ryšavé na olomoucké Konzervatoři Evangelické akademie, kterou absolvovala v roce 2015. Následně pokračovala ve studiu varhan na Janáčkově akademii múzických umění, kterou absolvovala v roce 2022. Během svého studia se zúčastnila několika celostátních i mezinárodních varhanních soutěží: soutěže žáků základních uměleckých škol Organum Regium Pardubice 2006–2008 (3. místo v kategorii Juniori, čestné uznání v kategorii Virtuosi), Mezinárodní interpretační soutěže Pražského jara 2013 a Mezinárodní varhanní soutěže Petra Ebena v Opavě 2016. Své interpretační schopnosti dále pravidelně prohlubuje aktivní účastí na mistrovských kurzech vedených významnými osobnostmi, jako jsou J. P. Knijff, E. Wiersinga, T. Jellema, B. Klapprott, O. Latry, M. Schmeding, H.-O. Ericsson či W. Zerer. Markéta Prokopovičová koncertně vystupuje jak v ČR, tak i v zahraničí (Německo) a kromě toho se věnuje také činnosti pedagogické – vede varhanní třídu na ZUŠ Uničov a vyučuje klavír na ZUŠ Žerotín.
+              <strong>Markéta Prokopovičová</strong> (*1989) pochází z Olomouce, kde se také začala věnovat hře na varhany na ZUŠ Žerotín pod vedením Vladimíra Sobotky. Hru na varhany pak dále studovala ve třídě Petra Rajnohy a Hany Ryšavé na olomoucké Konzervatoři Evangelické akademie v Olomouci, kterou absolvovala v roce 2015. Následně pokračovala ve studiu varhan na Janáčkově akademii múzických umění v Brně, kde v roce 2022 úspěšně dokončila magisterské studium. Zúčastnila se několika celostátních i mezinárodních varhanních soutěží: soutěže žáků základních uměleckých škol Organum Regium Pardubice 2006–2008 (3. místo v kategorii Juniori, čestné uznání v kategorii Virtuosi), Mezinárodní interpretační soutěže Pražského jara 2013 a Mezinárodní varhanní soutěže Petra Ebena v Opavě 2016. Své interpretační schopnosti dále pravidelně prohlubuje aktivní účastí na mistrovských kurzech vedených významnými osobnostmi, jako jsou J. P. Knijff, E. Wiersinga, T. Jellema, B. Klapprott, O. Latry, M. Schmeding, H.-O. Ericsson či W. Zerer. Markéta Prokopovičová koncertně vystupuje jak v ČR, tak i v zahraničí (Německo) a kromě toho se věnuje také činnosti pedagogické &ndash; vede varhanní třídu na ZUŠ Uničov a vyučuje klavír na ZUŠ Žerotín. Posluchače oslovuje i prostřednictvím internetu &ndash; její kanál na síti Youtube je s téměř 1,5 tisíci odběrateli nejsledovanějším kanálem koncertního varhaníka u nás.
             </p>
-            <p data-lang="en" class="mb-0">Markéta Prokopovičová is organist from Czech Republic...</p>
+            <p data-lang="en" class="mb-0">
+                <strong>Markéta Prokopovičová</strong> (*1989) comes from Olomouc, where she also began to play the organ at the Žerotín Music School under the guidance of Vladimír Sobotka. She then studied organ playing in the class of Petr Rajnoha and Hana Ryšavá at the Olomouc Conservatory of the Evangelical Academy in Olomouc, which she graduated in 2015. She subsequently continued her organ studies at the Janáček Academy of Performing Arts in Brno, where she successfully completed her master's degree in 2022. She participated in several national and international organ competitions: the competition of students of elementary art schools Organum Regium Pardubice 2006–2008 (3rd place in the Junior category, honorable mention in the Virtuosi category), the International Interpretation Competition of the Prague Spring 2013 and the International Petr Eben Organ Competition in Opava 2016. She regularly deepens her interpretative skills by actively participating in master classes led by prominent personalities such as J. P. Knijff, E. Wiersinga, T. Jellema, B. Klapprott, O. Latry, M. Schmeding, H.-O. Ericsson and W. Zerer. Markéta Prokopovičová performs in concerts both in the Czech Republic and abroad (Germany) and is also engaged in teaching &ndash; she leads an organ class at the Uničov primary music school and teaches piano at the Žerotín primary music school. She also addresses listeners via the Internet &ndash; her YouTube channel, with almost 1.5 thousand subscribers, is the most watched concert organist channel in Czech Republic.
+            </p>
         </section>
       
         <hr>
@@ -297,40 +321,303 @@
                 </div>
                 
                 <h3>Ohlasy v médiích</h3>
-                <a href="https://bumibahagia.com/2017/04/10/marketa-prokopovicova-johann-sebastian-bach-praeludium-und-fuge-in-es-dur/" target="_blank">Markéta Prokopovičová / Johann Sebastian Bach / Praeludium und Fuge in Es – Dur</a>
+                <ul>
+                    <li>
+                        <a href="https://www.farnostuh.cz/include/stahnout_soubor.php?soubor=1603" target="_blank">Slavnosti vína a památek ve farním kostele</a> (2022, Xaver - informačník farnosti Uherské Hradiště, str. 4)
+                    </li>
+                    <li>
+                        <a href="https://www.vybezek.eu/141655-mezinarodni-hudebni-festival-varhanni-duchovni-hudby-ve-filipove-2019-poseste/" target="_blank">Mezinárodní hudební festival varhanní duchovní hudby ve Filipově 2019 pošesté</a> (2019, výběžek.eu)
+                    </li>
+                    <li>
+                        <a href="/recenze-offenbach.pdf" target="_blank">Mit Liebe zum Detail: Konzertreihe „Historische Orgellandschaft RheinMain“ in der Marienkirche eröffnet</a> (2018, Offenbach Post)
+                    </li>
+                    <li>
+                        <a href="https://bumibahagia.com/2017/04/10/marketa-prokopovicova-johann-sebastian-bach-praeludium-und-fuge-in-es-dur/" target="_blank">Markéta Prokopovičová / Johann Sebastian Bach / Praeludium und Fuge in Es – Dur (2017)</a>
+                    </li>
+                </ul>
             </div>
+            
             <div data-lang="en">
+                <h3>Recent concerts</h3>
+                <div style="margin-bottom: 1.8em;">
+                    <p class="concert">
+                        14. 12. 2024 | <strong>Olomouc</strong>, St. Wenceslas cathedral (CZ)
+                        <br />
+                        <small>gratulation concert</small>
+                    </p>
+
+                    <p class="concert">
+                        7. 12. 2024 | <strong>Třebíč</strong>, St. Martin church (CZ)
+                        <br />
+                        <small>organ recital</small>
+                    </p>
+
+                    <p class="concert">
+                        1. 12. 2024 | <strong>Vlkoš u Přerova</strong> (CZ)
+                        <br />
+                        <small>organ concert</small>
+                    </p>
+                    
+                    <p class="concert">
+                      18. 8. 2024 | <strong>Velký Újezd u Olomouce</strong> (CZ)
+                      <br />
+                      <small>organ concert</small>
+                    </p>
+                </div>
+                
+                <h3>Media reports</h3>
+                <ul>
+                    <li>
+                        <a href="https://www.farnostuh.cz/include/stahnout_soubor.php?soubor=1603" target="_blank">Slavnosti vína a památek ve farním kostele</a> (2022, Xaver - informačník farnosti Uherské Hradiště, str. 4)
+                    </li>
+                    <li>
+                        <a href="https://www.vybezek.eu/141655-mezinarodni-hudebni-festival-varhanni-duchovni-hudby-ve-filipove-2019-poseste/" target="_blank">Mezinárodní hudební festival varhanní duchovní hudby ve Filipově 2019 pošesté</a> (2019, výběžek.eu)
+                    </li>
+                    <li>
+                        <a href="/recenze-offenbach.pdf" target="_blank">Mit Liebe zum Detail: Konzertreihe „Historische Orgellandschaft RheinMain“ in der Marienkirche eröffnet</a> (2018, Offenbach Post)
+                    </li>
+                    <li>
+                        <a href="https://bumibahagia.com/2017/04/10/marketa-prokopovicova-johann-sebastian-bach-praeludium-und-fuge-in-es-dur/" target="_blank">Markéta Prokopovičová / Johann Sebastian Bach / Praeludium und Fuge in Es – Dur (2017)</a>
+                    </li>
+                </ul>
             </div>
         </section>
       
         <hr>
 
+        
         <section id="repertoire" class="repertoire">
             <h2 data-lang="cs">Repertoár</h2>
             <h2 data-lang="en">Repertoire</h2>
-            <div data-lang="cs">
-                Johann Sebastian Bach (1685&ndash;1750)
-                <ul>
-                    <li>Fantasia a fuga g-moll, BWV 542</li>
-                    <li>Preludium a fuga e-moll, BWV 548</li>
-                    <li>Preludium a fuga a-moll, BWV 543</li>
-                </ul>
-                
-                Charles-Marie Widor (1844&ndash;1937)
-                <ul>
-                    <li>Symfonie č. 5 f-moll</li>
-                    <li>Symfonie č. 6 g-moll</li>
-                </ul>
-                
-                Vítězslav Novák (1870&ndash;1949)
-                <ul class="mb-0">
-                    <li>Preludium na valašskou píseň</li>
-                </ul>
+            
+            <div data-lang="cs"> 
+                <p>
+                    Mezi nejoblíbenější Markétiny skladatele patří samozřejmě Johann Sebastian Bach, dále skladatelé francouzského romantismu, Felix Mendelssohn-Bartholdy a vybraná soudobá hudba.
+                </p>
+
+                <h3>Výběr z repertoáru</h3>
+
+                <p>
+                    Ukázky z Markétina repertoáru si můžete poslechnout tak, jak zazněly při zkouškách a koncertech v řadě známých moravských a českých chrámů (kostel sv. Mořice v Olomouci, katedrála sv. Václava v Olomouci, katedrála sv. Petra a Pavla v Brně na Petrově, kostel sv. Salvátora v Praze aj.)
+                </p>
+
+                <div class="repertoire-list">
+                    <strong>Bach, Johann Sebastian</strong> (1685&ndash;1750)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=OhrRqSB1I_g" target="_blank"><i class="bi bi-youtube"></i> Concerto d-moll, BWV 596 (10:55)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=qNBdDBhq8Dc" target="_blank"><i class="bi bi-youtube"></i> Fantasia a fuga g-moll, BWV 542 (11:34)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=GrdOtQiBe0k" target="_blank"><i class="bi bi-youtube"></i> Preludium a fuga C-dur, BWV 547 (10:23)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=U1g_v9ubSQE" target="_blank"><i class="bi bi-youtube"></i> Preludium a fuga c-moll, BWV 546 (12:30)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=0ZewAl7s3RM" target="_blank"><i class="bi bi-youtube"></i> Preludium a fuga Es-dur, BWV 552 (16:50)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=g8kkGu_MLuY" target="_blank"><i class="bi bi-youtube"></i> Preludium a fuga h-moll, BWV 544 (11:44)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=XICWvt5gN_U" target="_blank"><i class="bi bi-youtube"></i> Allein Gott in der Höh´ sei Ehr´, BWV 676 (4:45)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=CZ-GFfbAA04" target="_blank"><i class="bi bi-youtube"></i> Der Tag, der ist so freudenreich, BWV 605 (1:49)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=rTEl2kTItMc" target="_blank"><i class="bi bi-youtube"></i> Herr Jesu Christ, dich zu uns wend, BWV 655 (4:01)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=QzTOyN4IyTE" target="_blank"><i class="bi bi-youtube"></i> Wo soll ich fliehen hin, BWV 646 (1:36)</a></li>
+                        <li>Preludium a fuga a-moll, BWV 543</li>
+                        <li>Preludium a fuga e-moll, BWV 548</li>
+                    </ul>
+
+                    <strong>Brahms, Johannes</strong> (1833&ndash;1897)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=q573F6ilyZs" target="_blank"><i class="bi bi-youtube"></i> Preludium a fuga g-moll, WoO 10 (7:33)</a></li>
+                    </ul>
+
+                    <strong>Buxtehude, Dietrich</strong> (1637&ndash;1707)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=zD-s9hDRdXU" target="_blank"><i class="bi bi-youtube"></i> Toccata F-dur, BuxWV 157 (5:21)</a></li>
+                    </ul>
+
+                    <strong>Dupré, Marcel</strong> (1886&ndash;1971)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=fKOzHAOubjo" target="_blank"><i class="bi bi-youtube"></i> Preludium g-moll (3 preludia a fugy, op. 7) (7:34)</a></li>
+                    </ul>
+
+                    <strong>Duruflé, Maurice</strong> (1902&ndash;1986)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=XcV9cIX0KH8" target="_blank"><i class="bi bi-youtube"></i> Suite, op. 5 (23:06)</a></li>
+                    </ul>
+
+                    <strong>Kabeláč, Miloslav</strong> (1908&ndash;1979)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=ynpFwWylXGk" target="_blank"><i class="bi bi-youtube"></i> Fantasia d-moll, op. 32, č. 1 (7:49)</a></li>
+                    </ul>
+
+                    <strong>Mendelssohn-Bartholdy, Felix</strong> (1809&ndash;1847)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=yis5-BGQUPE" target="_blank"><i class="bi bi-youtube"></i> Sonata č. 6 d-moll "Vater unser in Himmelreich", op. 65 (14:55)</a></li>
+                    </ul>
+
+                    <strong>Messiaen, Olivier</strong> (1908&ndash;1992)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=_8chi4Tw9E8" target="_blank"><i class="bi bi-youtube"></i> Les Corps Glorieux &ndash; Combat de la Mort et de la Vie (13:10)</a></li>
+                    </ul>
+
+                    <strong>Musil, František</strong> (1852&ndash;1908)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=vF7HWj9e3yo" target="_blank"><i class="bi bi-youtube"></i> Sonata solemnis (18:20)</a></li>
+                    </ul>
+
+                    <strong>Novák, Vítězslav</strong> (1870&ndash;1949)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=9R0lWsOUZq0" target="_blank"><i class="bi bi-youtube"></i> Preludium na moravskou píseň (3:01)</a></li>
+                    </ul>
+
+                    <strong>Pachelbel, Johann</strong> (1653&ndash;1706)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=LLyck0RJjJo" target="_blank"><i class="bi bi-youtube"></i> Was Gott tut, das ist wohlgetan (10:06)</a></li>
+                    </ul>
+
+                    <strong>Reger, Max</strong> (1873&ndash;1916)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=-5F3gTHoX7U" target="_blank"><i class="bi bi-youtube"></i> Preludium d-moll, op. 65, č. 7 (7:04)</a></li>
+                    </ul>
+
+                    <strong>Saint-Saëns, Camille</strong> (1835&ndash;1921)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=6eITMpFk7X8" target="_blank"><i class="bi bi-youtube"></i> Fantasie Es-dur (5:23)</a></li>
+                    </ul>
+
+                    <strong>Tournemire, Charles</strong> (1870&ndash;1939)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=GOkjJMoaUDs" target="_blank"><i class="bi bi-youtube"></i> Improvisation sur le Te Deum (7:21)</a></li>
+                    </ul>
+
+                    <strong>Vierne, Louis</strong> (1870&ndash;1937)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=4WumocF-SNk" target="_blank"><i class="bi bi-youtube"></i> Symfonie č. 1 d-moll (40:20)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=QdFaV5JCAM8" target="_blank"><i class="bi bi-youtube"></i> Symfonie č. 3 fis-moll (6:13 - Final)</a></li>
+                    </ul>
+
+                    <strong>Widor, Charles-Marie</strong> (1844&ndash;1937)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/playlist?list=PLaRkGiPGGUu-gRT6NLBrQl1_VSL4RHlsv" target="_blank"><i class="bi bi-youtube"></i> Symfonie č. 5 f-moll</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=YVkp3CvzMEk" target="_blank"><i class="bi bi-youtube"></i> Symfonie č. 6 g-moll (34:43)</a></li>
+                    </ul>
+
+                    <strong>Wiedermann, Bedřich Antonín</strong> (1883&ndash;1951)
+                    <ul class="mb-0">
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=TNpKuXgeRis" target="_blank"><i class="bi bi-youtube"></i> Impetuoso (6:45)</a></li>
+                    </ul>
+                </div>
             </div>
-            <div data-lang="en">Markéta performs works by Johann Sebastian Bach...</div>
+            
+            <div data-lang="en">
+                <p>
+                    Among Markéta's most favorite composers are, of course, Johann Sebastian Bach, as well as French Romantic composers, Felix Mendelssohn-Bartholdy, and selected contemporary music.
+                </p>
+
+                <h3>Repertoire selection</h3>
+
+                <p>
+                    You can listen to samples from Markéta's repertoire as they were performed during rehearsals and concerts in a number of well-known Moravian and Czech churches (St. Maurice Church in Olomouc, St. Wenceslas Cathedral in Olomouc, St. Peter and Paul Cathedral in Brno, St. Salvator's Church in Prague, etc.)
+                </p>
+
+                <div class="repertoire-list">
+                    <strong>Bach, Johann Sebastian</strong> (1685&ndash;1750)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=OhrRqSB1I_g" target="_blank"><i class="bi bi-youtube"></i> Concerto in d minor, BWV 596 (10:55)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=qNBdDBhq8Dc" target="_blank"><i class="bi bi-youtube"></i> Fantasia and fugue in g minor, BWV 542 (11:34)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=GrdOtQiBe0k" target="_blank"><i class="bi bi-youtube"></i> Prelude and fugue in C major, BWV 547 (10:23)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=U1g_v9ubSQE" target="_blank"><i class="bi bi-youtube"></i> Prelude and fugue in c minor, BWV 546 (12:30)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=0ZewAl7s3RM" target="_blank"><i class="bi bi-youtube"></i> Prelude and fugue in E-flat major, BWV 552 (16:50)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=g8kkGu_MLuY" target="_blank"><i class="bi bi-youtube"></i> Prelude and fugue in h minor, BWV 544 (11:44)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=XICWvt5gN_U" target="_blank"><i class="bi bi-youtube"></i> Allein Gott in der Höh´ sei Ehr´, BWV 676 (4:45)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=CZ-GFfbAA04" target="_blank"><i class="bi bi-youtube"></i> Der Tag, der ist so freudenreich, BWV 605 (1:49)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=rTEl2kTItMc" target="_blank"><i class="bi bi-youtube"></i> Herr Jesu Christ, dich zu uns wend, BWV 655 (4:01)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=QzTOyN4IyTE" target="_blank"><i class="bi bi-youtube"></i> Wo soll ich fliehen hin, BWV 646 (1:36)</a></li>
+                        <li>Prelude and fugue in a minor, BWV 543</li>
+                        <li>Prelude and fugue in e minor, BWV 548</li>
+                    </ul>
+
+                    <strong>Brahms, Johannes</strong> (1833&ndash;1897)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=q573F6ilyZs" target="_blank"><i class="bi bi-youtube"></i> Prelude and fugue in g minor, WoO 10 (7:33)</a></li>
+                    </ul>
+
+                    <strong>Buxtehude, Dietrich</strong> (1637&ndash;1707)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=zD-s9hDRdXU" target="_blank"><i class="bi bi-youtube"></i> Toccata in F major, BuxWV 157 (5:21)</a></li>
+                    </ul>
+
+                    <strong>Dupré, Marcel</strong> (1886&ndash;1971)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=fKOzHAOubjo" target="_blank"><i class="bi bi-youtube"></i> Prelude in g minor (3 preludes and fugues, op. 7) (7:34)</a></li>
+                    </ul>
+
+                    <strong>Duruflé, Maurice</strong> (1902&ndash;1986)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=XcV9cIX0KH8" target="_blank"><i class="bi bi-youtube"></i> Suite, op. 5 (23:06)</a></li>
+                    </ul>
+
+                    <strong>Kabeláč, Miloslav</strong> (1908&ndash;1979)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=ynpFwWylXGk" target="_blank"><i class="bi bi-youtube"></i> Fantasia in d minor, op. 32, č. 1 (7:49)</a></li>
+                    </ul>
+
+                    <strong>Mendelssohn-Bartholdy, Felix</strong> (1809&ndash;1847)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=yis5-BGQUPE" target="_blank"><i class="bi bi-youtube"></i> Sonata No. 6 in d minor "Vater unser in Himmelreich", op. 65 (14:55)</a></li>
+                    </ul>
+
+                    <strong>Messiaen, Olivier</strong> (1908&ndash;1992)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=_8chi4Tw9E8" target="_blank"><i class="bi bi-youtube"></i> Les Corps Glorieux &ndash; Combat de la Mort et de la Vie (13:10)</a></li>
+                    </ul>
+
+                    <strong>Musil, František</strong> (1852&ndash;1908)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=vF7HWj9e3yo" target="_blank"><i class="bi bi-youtube"></i> Sonata solemnis (18:20)</a></li>
+                    </ul>
+
+                    <strong>Novák, Vítězslav</strong> (1870&ndash;1949)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=9R0lWsOUZq0" target="_blank"><i class="bi bi-youtube"></i> Prelude on a Moravian Song (3:01)</a></li>
+                    </ul>
+
+                    <strong>Pachelbel, Johann</strong> (1653&ndash;1706)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=LLyck0RJjJo" target="_blank"><i class="bi bi-youtube"></i> Was Gott tut, das ist wohlgetan (10:06)</a></li>
+                    </ul>
+
+                    <strong>Reger, Max</strong> (1873&ndash;1916)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=-5F3gTHoX7U" target="_blank"><i class="bi bi-youtube"></i> Prelude in d minor, op. 65, č. 7 (7:04)</a></li>
+                    </ul>
+
+                    <strong>Saint-Saëns, Camille</strong> (1835&ndash;1921)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=6eITMpFk7X8" target="_blank"><i class="bi bi-youtube"></i> Fantasie E-flat major (5:23)</a></li>
+                    </ul>
+
+                    <strong>Tournemire, Charles</strong> (1870&ndash;1939)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=GOkjJMoaUDs" target="_blank"><i class="bi bi-youtube"></i> Improvisation sur le Te Deum (7:21)</a></li>
+                    </ul>
+
+                    <strong>Vierne, Louis</strong> (1870&ndash;1937)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=4WumocF-SNk" target="_blank"><i class="bi bi-youtube"></i> Symfonie No. 1 in d minor (40:20)</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=QdFaV5JCAM8" target="_blank"><i class="bi bi-youtube"></i> Symfonie No. 3 in F-sharp minor (6:13 - Final)</a></li>
+                    </ul>
+
+                    <strong>Widor, Charles-Marie</strong> (1844&ndash;1937)
+                    <ul>
+                        <li><a class="youtube-link" href="https://www.youtube.com/playlist?list=PLaRkGiPGGUu-gRT6NLBrQl1_VSL4RHlsv" target="_blank"><i class="bi bi-youtube"></i> Symfonie No. 5 in f minor</a></li>
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=YVkp3CvzMEk" target="_blank"><i class="bi bi-youtube"></i> Symfonie No. 6 in g minor(34:43)</a></li>
+                    </ul>
+
+                    <strong>Wiedermann, Bedřich Antonín</strong> (1883&ndash;1951)
+                    <ul class="mb-0">
+                        <li><a class="youtube-link" href="https://www.youtube.com/watch?v=TNpKuXgeRis" target="_blank"><i class="bi bi-youtube"></i> Impetuoso (6:45)</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr>
         </section>
-      
-        <hr>
+        
+        
 
         <section id="recordings" class="recordings">
             <h2 data-lang="cs">Nahrávky</h2>
@@ -360,14 +647,17 @@
                 <a href="/foto1.jpg" target="_blank">
                     <img src="/foto1.jpg" alt="Portrét Markéty Prokopovičové">
                 </a>
-                <a href="/foto4.png" target="_blank">
-                    <img src="/foto4.png" alt="Markéta Prokopovičová na koncertě">
+                <a href="/foto6.jpg" target="_blank">
+                    <img src="/foto6.jpg" alt="Markéta Prokopovičová u varhan">
+                </a>
+                <a href="/foto4.jpg" target="_blank">
+                    <img src="/foto4.jpg" alt="Markéta Prokopovičová na koncertě">
+                </a>
+                <a href="/foto7.jpg" target="_blank">
+                    <img src="/foto7.jpg" alt="Markéta Prokopovičová u varhan">
                 </a>
                 <a href="/foto5.jpg" target="_blank">
                     <img src="/foto5.jpg" alt="Markéta Prokopovičová u varhan">
-                </a>
-                <a href="/foto2.jpg" target="_blank">
-                    <img src="/foto2.jpg" alt="Markéta Prokopovičová u varhan">
                 </a>
             </div>
         </section>
@@ -379,12 +669,12 @@
             <h2 data-lang="en">Contact</h2>
             <div data-lang="cs">
               <p class="mb-0">
-                  E-mail: <a href="mailto:market@example.com">marketa.prokopovicova@seznam.cz</a>
+                  E-mail: <a href="mailto:info@marketa-organist.com">info@marketa-organist.com</a>
               </p>
             </div>
             <div data-lang="en">
                 <p class="mb-0">
-                    E-mail: <a href="mailto:marketa@example.com">marketa.prokopovicova@seznam.cz</a>
+                    E-mail: <a href="mailto:info@marketa-organist.com">info@marketa-organist.com</a>
                 </p>
             </div>
         </section>

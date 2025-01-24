@@ -1,12 +1,15 @@
 @php
 use Illuminate\Support\Facades\App;
 use App\Helpers;
+use App\Models\Organist;
 
 $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
     'key' => env('GOOGLE_API_KEY'),
     'libraries' => 'maps,marker',
     'v' => 'beta'
 ]);
+
+$organistHighlightedCount = Organist::getHighlightedCount();
 @endphp
 
 <!DOCTYPE html>
@@ -61,10 +64,8 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
         @endif    
     </head>
     <body>
-        @if (true || request()->routeIs(['welcome']))
-            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v21.0" data-navigate-track></script>
-            <div id="fb-root"></div>
-        @endif
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v21.0"></script>
+        <div id="fb-root"></div>
         
         <div class="d-flex flex-column" style="min-height: 100%;">
             @isset($title)
@@ -82,7 +83,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                 
                 {{ $slot }}
               
-                <div @class(['text-center', 'mt-3' => !request()->routeIs('welcome'), 'mb-0'])>
+                <div id="fbPage" @class(['text-center', 'mt-3' => !request()->routeIs('welcome'), 'mb-0'])>
                     <div class="fb-page" data-href="https://www.facebook.com/organomania.varhany/" data-tabs="" data-width="500" data-height="70" data-small-header="{{ !request()->routeIs('welcome') }}" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="{{ request()->routeIs('welcome') }}">
                         <blockquote cite="https://www.facebook.com/organomania.varhany/" class="fb-xfbml-parse-ignore" style="height: 130px">
                             <a href="https://www.facebook.com/organomania.varhany/">
@@ -116,6 +117,13 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
                                 </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('organists.index') }}" wire:navigate>
                                     {{ __('Varhaníci') }}
+                                    @if ($organistHighlightedCount > 0)
+                                        <span class="info-count-badge position-absolute top-0 start-100 translate-middle">
+                                            <span class="badge rounded-pill text-bg-danger" style="font-size: 55%;">
+                                                {{ $organistHighlightedCount }}
+                                            </span>
+                                        </span>
+                                    @endif
                                 </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('links') }}" wire:navigate>
                                     {{ __('Odkazy') }}
