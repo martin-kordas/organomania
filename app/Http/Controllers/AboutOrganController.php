@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\RegisterName;
+use App\Helpers;
 
 class AboutOrganController extends Controller
 {
@@ -12,6 +13,8 @@ class AboutOrganController extends Controller
     public function __invoke()
     {
         $organs = $this->getOrgans();
+        
+        Helpers::logPageViewIntoCache('about-organ');
         
         return view('about-organ', [
             'organs' => $organs,

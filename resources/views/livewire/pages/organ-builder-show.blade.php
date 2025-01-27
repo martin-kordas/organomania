@@ -181,6 +181,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     '1714, III/40'
                 ]
             ],
+            8 => [
+                [
+                    '/images/osek-choralni.jpg',
+                    'Vianney2, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Osek u Duchcova, kostel Nanebevzetí P. Marie',
+                    'Wenzel Stark, 1715, I/11'
+                ]
+            ],
             49 => [
                 [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Stolmir_kostel_varhany.JPG/517px-Stolmir_kostel_varhany.JPG',
@@ -437,6 +445,28 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'Draceane, CC BY-SA 4.0, via Wikimedia Commons',
                     'Bohosudov, bazilika Panny Marie Bolestné',
                     '1734, II/22, dochována jen skříň',
+                ],
+            ],
+            40 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Kostel_sv_Anton%C3%ADna_Praha_2012_4.jpg/471px-Kostel_sv_Anton%C3%ADna_Praha_2012_4.jpg',
+                    'Karelj, CC BY 3.0, via Wikimedia Commons',
+                    'Praha, kostel sv. Antonína Paduánského (Holešovice)',
+                    '1913, III',
+                ],
+            ],
+            105 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/KirchenschiffOssegg.jpg/640px-KirchenschiffOssegg.jpg',
+                    'SchiDD, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Osek u Duchcova, kostel Nanebevzetí P. Marie',
+                    '1838, II/33, dochována jen skříň',
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/%C4%8Cesk%C3%A1_L%C3%ADpa%2C_kostel_V%C5%A1ech_svat%C3%BDch%2C_varhany_01.jpg/640px-%C4%8Cesk%C3%A1_L%C3%ADpa%2C_kostel_V%C5%A1ech_svat%C3%BDch%2C_varhany_01.jpg',
+                    'Daniel Baránek, CC BY-SA 3.0, via Wikimedia Commons',
+                    'Česká Lípa, kostel Všech svatých',
+                    '1848, II/23',
                 ],
             ],
             default => []

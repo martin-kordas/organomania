@@ -87,8 +87,10 @@ $organistHighlightedCount = Organist::getHighlightedCount();
                     <div class="fb-page" data-href="https://www.facebook.com/organomania.varhany/" data-tabs="" data-width="500" data-height="70" data-small-header="{{ !request()->routeIs('welcome') }}" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="{{ request()->routeIs('welcome') }}">
                         <blockquote cite="https://www.facebook.com/organomania.varhany/" class="fb-xfbml-parse-ignore" style="height: 130px">
                             <a href="https://www.facebook.com/organomania.varhany/">
-                                <i class="bi bi-facebook"></i>
-                                Organomania: varhany v České republice
+                                <span class="d-none">
+                                    <i class="bi bi-facebook"></i>
+                                    Organomania: varhany v České republice
+                                </span>
                             </a>
                         </blockquote>
                     </div>

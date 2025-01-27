@@ -73,6 +73,7 @@
                     V České republice se podle odhadů nachází až 10 tisíc varhan.
                     Jsou situovány nejen v kostelích, nýbrž i v koncertních sálech nebo na hudebních školách.
                     Mnoho z nich naléhavě vyžaduje opravu.
+                    Další, nové nástroje se právě staví.
                 </p>
                 
                 <div class="text-center mb-4">

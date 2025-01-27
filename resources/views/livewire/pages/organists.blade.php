@@ -50,6 +50,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         if (request()->query('sortColumn') === null) $this->sortColumn = 'last_video_date';
         $this->favoriteCount = $this->getFavoriteCount();
+        Helpers::logPageViewIntoCache('organists');
     }
 
     #[Computed]

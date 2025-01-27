@@ -218,7 +218,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         //  - <mark>: zvýraznění rejstříku při suggestRegistration()
         //  - 0-9: číslování
-        return preg_replace_callback('/^(<mark>)?([0-9+]+\\\\?\. )?([[:alpha:]-]+( [[:alpha:]-]+)*)/u', function ($matches) use ($row) {
+        return preg_replace_callback('/^(<mark>)?([0-9+]+\\\\?\. )?([[:alpha:]´-]+( [[:alpha:]´-]+)*)/u', function ($matches) use ($row) {
             $registerName = RegisterName::where('name', $matches[3])->first();
             if ($registerName) {
                 $url = route('dispositions.registers.show', $registerName->slug);

@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             App\Http\Middleware\AddContext::class,
             App\Http\Middleware\SetLocale::class,
+            App\Http\Middleware\HandleSites::class,
         ]);
         $middleware->validateCsrfTokens(except: [
             'banks', 'cars',

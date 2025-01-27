@@ -5,6 +5,8 @@ namespace App;
 use Transliterator;
 use NumberFormatter;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
@@ -176,6 +178,17 @@ class Helpers
     static function normalizeLineBreaks(string $string)
     {
         return preg_replace('~\R~u', "\n", $string);
+    }
+    
+    static function logPageViewIntoCache(string $page)
+    {
+        if (!Auth::user()?->isAdmin() && !self::isCrawler()) {
+            $cacheKey = "views.$page";
+            if (!Cache::has($cacheKey)) Cache::forever($cacheKey, 0);
+            Cache::increment($cacheKey);
+
+            Cache::forever("viewed-at.$page", now()->format('Y-m-d H:i:s'));
+        }
     }
     
 }

@@ -19,7 +19,7 @@
                 <img src="{{ $src }}" class="d-block m-auto" alt="{{ __('Náhled') }}" @isset($credits) title="{{ __('Licence obrázku') }}: {{ $credits }}" @endisset>
                 @isset($caption)
                     <div @class(['carousel-caption', 'small', 'text-dark' => $additional, 'text-primary' => !$additional])>
-                        <p class="bg-light rounded mb-1 p-1 fst-italic collapsed" style="opacity: 85%" onmousedown="toggleGalleryCaption(this)" ontouchstart="toggleGalleryCaption(this)">{!! $caption !!}</p>
+                        <p class="bg-light rounded mb-1 p-1 fst-italic collapsed" style="opacity: 85%" onmousedown="toggleGalleryCaption(this)">{!! $caption !!}</p>
                     </div>
                 @endisset
             </div>
