@@ -388,7 +388,8 @@ window.copyToClipboard = function (text) {
 
 function initFacebook() {
     // při prvním načtení stránky obvykle ještě není objekt FB dostupný, ale v takovém případě se plugin načte automaticky už includováním skriptu v <head>
-    window.FB?.XFBML?.parse($('#fbPage')[0])
+    var elem = $('#fbPage')
+    if (!elem.find('iframe').length) window.FB?.XFBML?.parse(elem[0])
 }
 
 // TODO: toasty se překrývají, pokud jsou zobrazeny těsně za sebou

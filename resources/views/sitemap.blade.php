@@ -1,4 +1,6 @@
-@props(['organs', 'organBuilders', 'dispositions', 'registerNames', 'festivals', 'competitions'])
+@use(Illuminate\Support\Facades\URL)
+
+@props(['organs', 'privateOrgans', 'organBuilders', 'dispositions', 'registerNames', 'festivals', 'competitions'])
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <urlset
@@ -51,6 +53,13 @@
         <x-organomania.sitemap-item-entity
             :url="route('organs.show', $organ->slug)"
             :lastmod="$organ->updated_at"
+        />
+    @endforeach
+    @foreach ($privateOrgans as $organ)
+        <x-organomania.sitemap-item-entity
+            :url="url(URL::signedRoute('organs.show', $organ->slug, absolute: false))"
+            :lastmod="$organ->updated_at"
+            :signedUrl="true"
         />
     @endforeach
     @foreach ($organBuilders as $organBuilder)

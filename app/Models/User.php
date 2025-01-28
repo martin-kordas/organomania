@@ -11,6 +11,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    const USER_ID_ADMIN = 1;
     const USER_ID_KRASNI = 3;
     
     /**

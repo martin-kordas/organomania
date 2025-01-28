@@ -167,11 +167,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return match ($this->organBuilder->id) {
             3 => [
                 [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/St._Wenceslaus_Mikulov_organ.JPG/360px-St._Wenceslaus_Mikulov_organ.JPG',
+                    'PetrS., CC BY-SA 4.0, via Wikimedia Commons',
+                    'Mikulov, kostel sv. Václava',
+                    '1771, II/19'
+                ],
+                [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/%C5%A0a%C5%A1t%C3%ADn_bazilika_41.jpg/640px-%C5%A0a%C5%A1t%C3%ADn_bazilika_41.jpg',
                     'Ľuboš Repta, CC BY-SA 4.0, via Wikimedia Commons',
                     'Šaštín, bazilika Sedmibolestné Panny Marie',
-                    '1771, II/23'
-                ]
+                    '1771, II/23, dochována jen skříň'
+                ],
             ],
             4 => [
                 [
@@ -197,6 +203,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     '1688, I/10'
                 ]
             ],
+            28 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Plana_Anna_Orgel_Burkhardt.jpg/640px-Plana_Anna_Orgel_Burkhardt.jpg',
+                    'Regerman, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Planá, kostel sv. Anny',
+                    '1730, II/15'
+                ]
+            ],
             9 => [
                 [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/A_1989_489_z_20.02.1959_Ko%C5%9Bci%C3%B3%C5%82_parafialny_Wniebowzi%C4%99cia_NMP_%28d._klasztorny_NMP_%C5%81askawej%29_8.jpg/640px-A_1989_489_z_20.02.1959_Ko%C5%9Bci%C3%B3%C5%82_parafialny_Wniebowzi%C4%99cia_NMP_%28d._klasztorny_NMP_%C5%81askawej%29_8.jpg',
@@ -212,16 +226,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 ],
             ],
             60 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG/640px-Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG',
+                [ 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG/640px-Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG',
                     'Capkova Pavlina, CC BY-SA 3.0, via Wikimedia Commons',
-                    'Olomouc, bazilika Navštívení Panny Marie (Svatý Kopeček)',
+                    'Olomouc, bazilika Navštívení P. Marie (Svatý Kopeček)',
                     '1724, dochována jen skříň'
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Minorite_Brno_fc04.jpg/640px-Minorite_Brno_fc04.jpg',
+                    'Fczarnowski, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Brno, kostel sv. Janů',
+                    '1732, přestavěno'
                 ],
                 [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Velehrad_-_48448317417.jpg/640px-Velehrad_-_48448317417.jpg',
                     'liakada-web, CC BY 2.0, via Wikimedia Commons',
-                    'Velehrad, bazilika Nanebevzetí P. Marie a svatých Cyrila a Metoděje',
+                    'Velehrad, bazilika Nanebevzetí P. Marie',
                     '1747, dochována jen skříň'
                 ],
             ],
@@ -418,6 +437,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 ],
             ],
             46 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Varhany_nad_sakristi%C3%AD_20.jpg/360px-Varhany_nad_sakristi%C3%AD_20.jpg',
+                    'Pohled 111, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Želiv, kostel Narození P. Marie, chorální varhany',
+                    'J. Halbig, 1734, II/13',
+                ],
                 [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/F-Konojedy348.jpg/457px-F-Konojedy348.jpg',
                     'M. Pröller, CC0, via Wikimedia Commons',
