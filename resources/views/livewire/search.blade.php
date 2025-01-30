@@ -51,6 +51,7 @@ new class extends Component {
 
     private function getOrgans()
     {
+        sleep(2);
         // https://laravel-news.com/laravel-scout-practical-guide#content-write-a-search-query
         return Organ::search($this->sanitizedSearch)
             ->query(function (Builder $builder) {
@@ -229,7 +230,7 @@ new class extends Component {
                                 @endforeach
                             </div>
                         @endif
-                    
+
                         <div class="list-group list-group-flush position-relative text-center border-top-0">
                             <div class="list-group-item list-group-item-action">
                                 <a type="submit" class="link-primary text-decoration-none stretched-link" href="#" onclick="$('#searchVarhanyNet').submit()">
@@ -265,7 +266,7 @@ new class extends Component {
                             </div>
                         @endif
                     @else
-                        <div class="list-group position-relative text-center">
+                        <div class="list-group position-relative text-center" wire:loading.remove>
                             <div class="list-group-item list-group-item-action">
                                 <div>
                                     {{ __('Nic nebylo nalezeno.') }}
@@ -276,6 +277,12 @@ new class extends Component {
                                         {{ __('Hledat v katalogu varhany.net') }}
                                     </a>
                                 </div>
+                            </div>
+                        </div>
+                    
+                        <div class="list-group list-group-flush position-relative text-center border-top-0" wire:loading>
+                            <div class="list-group-item my-2">
+                                <x-organomania.spinner :margin="false" />
                             </div>
                         </div>
                     @endif
