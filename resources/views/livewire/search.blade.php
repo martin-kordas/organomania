@@ -51,7 +51,6 @@ new class extends Component {
 
     private function getOrgans()
     {
-        sleep(2);
         // https://laravel-news.com/laravel-scout-practical-guide#content-write-a-search-query
         return Organ::search($this->sanitizedSearch)
             ->query(function (Builder $builder) {
