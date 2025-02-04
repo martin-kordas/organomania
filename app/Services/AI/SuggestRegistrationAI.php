@@ -2,6 +2,8 @@
 
 namespace App\Services\AI;
 
+use Illuminate\Support\Facades\Log;
+
 class SuggestRegistrationAI extends DispositionAI
 {
     
@@ -10,6 +12,7 @@ class SuggestRegistrationAI extends DispositionAI
     public function suggest(string $piece)
     {
         $res = $this->sendRequest($piece);
+        Log::info("SuggestRegistrationAI - request made", ['organId' => $this->organ?->id, 'piece' => $piece]);
         return $this->processResponse($res);
     }
     

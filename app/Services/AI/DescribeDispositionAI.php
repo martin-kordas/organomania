@@ -2,12 +2,15 @@
 
 namespace App\Services\AI;
 
+use Illuminate\Support\Facades\Log;
+
 class DescribeDispositionAI extends DispositionAI
 {
     
     public function describe()
     {
         $res = $this->sendRequest();
+        Log::info("DescribeDispositionAI - request made", ['organId' => $this->organ?->id]);
         return $this->getResponseContent($res);
     }
     

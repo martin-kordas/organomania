@@ -390,7 +390,7 @@ window.initChart = async function ($wire, chartItems, texts) {
             {
                 name: texts.manualsCount,
                 data: chartItems.series.manualsCount,
-               hidden: manualsCountHidden,
+                hidden: manualsCountHidden,
                 color: 'var(--bs-secondary)',
             },
             {
@@ -482,6 +482,7 @@ window.initChart = async function ($wire, chartItems, texts) {
                 }
             }
         },
+        // TODO: title labelů osy Y je kostrbatým zřetězením, změnit lze ale jen obtížně (srv. https://chatgpt.com/share/67a29de0-ddbc-8012-9548-0c346a2bc02b - konec)
         yaxis: {
             labels: {
                 style: {
