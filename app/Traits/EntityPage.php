@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Session;
 use Livewire\Attributes\Url;
 use RuntimeException;
@@ -121,17 +122,38 @@ trait EntityPage
     
     public function updated($property)
     {
+        $jsViewType = in_array($this->viewType, ['map', 'timeline', 'chart']);
+        $reloaded = false;
+        
         if (in_array($property, [...$this->getFilters(), 'perPage'])) {
             $this->dispatch('filtering-changed');
             
             // Google mapa má z tech. důvodů nastaveno wire:replace, při aktualizaci zobrazených varhan tedy musíme přenačíst celou stranu
-            if (in_array($this->viewType, ['map', 'timeline']))
+            if ($jsViewType) {
                 $this->js('location.reload()');
+                $reloaded = true;
+            }
         }
-        
-        if ($property === 'viewType' && in_array($this->viewType, ['map', 'timeline'])) {
-            $this->js('location.reload()');
-        }
+    }
+    
+    public function setViewType($viewType)
+    {
+        $this->setViewTypeHelp($viewType);
+    }
+            
+    protected function setViewTypeHelp($viewType)
+    {
+        $this->viewType = $viewType;
+        $jsViewType = in_array($this->viewType, ['map', 'timeline', 'chart']);
+        if ($jsViewType) $this->js('setTimeout(() => location.reload())');
+    }
+    
+    #[On('pagination-changed')]
+    #[On('sort-changed')]
+    #[On('sort-direction-changed')]
+    public function onSortChanged()
+    {
+        if ($this->viewType === 'chart') $this->js('location.reload()');
     }
     
     private function getFilters()

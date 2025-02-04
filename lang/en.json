@@ -166,7 +166,7 @@
     "Název": "Name",
     "Název dispozice": "Disposition name",
     "název dílny": "workshop name",
-    "Název rejstříku musí být zadán přesně, jak je uveden v dispozici (např. Prinzipal namísto Principál), stačí však i počáteční písmena (např. Prin).": "Stop name must be the same as in the disposition (e.g. Prinzipal instead of Principal). Leading letters are sufficient however (e.g. Prin).",
+    "Název rejstříku musí být zadán přesně, jak je uveden v dispozici (např. <em>Prinzipal</em> namísto <em>Principál</em>), stačí však i počáteční písmena (např. <em>Prin</em>).": "Stop name must be the same as in the disposition (e.g. <em>Prinzipal</em> instead of <em>Principal</em>). Leading letters are sufficient however (e.g. <em>Prin</em>).",
     "Název, lokalita": "Name, locality",
     "Němčina": "German",
     "O webu": "About",
@@ -521,8 +521,13 @@
     "Význam varhan se eviduje, aby bylo možné nástroje přibližně seřadit podle důležitosti.": "The importance of organ is defined so that organs can be roughly sorted by importance.",
     "Více viz strana": "See more at page",
     "Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhanáře.": "The importance is determined by a rough estimate based on number of criteria and is not an assessment of the quality of the organ builder.",
-    "Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhan.": "The importance is determined by a rough estimate based on number of criteria and is not an assessment of the quality of the organ."
-    
+    "Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhan.": "The importance is determined by a rough estimate based on number of criteria and is not an assessment of the quality of the organ.",
+    "Srovnat velikost": "Compare size",
+    "Klikněte na místo v grafu pro zobrazení podrobností.": "Click on the point in the chart to show details.",
+    "Počet manuálů (původní)": "Manuals count (original)",
+    "Počet rejstříků (původní)": "Stops count (original)",
+    "Původní": "Original",
+    "Současná": "Current"
     
     
     

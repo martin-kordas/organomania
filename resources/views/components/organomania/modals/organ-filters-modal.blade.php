@@ -25,7 +25,18 @@
                         <label class="form-label" for="filterNameLocality">{{ __('Název, lokalita') }}</label>
                         <input id="filterNameLocality" class="form-control" type="search" wire:model="filterNameLocality" minlength="3" />
                     </div>
+                @elseif ($entityClass === Organ::class)
+                    <div class="mb-3">
+                        <label class="form-label" for="filterLocality">{{ __('Lokalita') }}</label>
+                        <input class="form-control" type="search" id="filterLocality" wire:model="filterLocality" minlength="3" placeholder="{{ __('Zadejte obec nebo název kostela') }}" />
+                    </div>
+                @elseif ($entityClass === OrganBuilder::class)
+                    <div class="mb-3">
+                        <label class="form-label" for="filterMunicipality">{{ __('Lokalita') }}</label>
+                        <input class="form-control" type="search" id="filterMunicipality" wire:model="filterMunicipality" minlength="3" placeholder="{{ __('Zadejte obec') }}" />
+                    </div>
                 @endif
+                
                 @if ($this->isCategorizable)
                     <div class="mb-3">
                         <label class="form-label" for="filterCategories">{{ __('Kategorie') }}</label>
@@ -39,23 +50,16 @@
                         />
                     </div>
                 @endif
+                
                 @if ($entityClass === Organ::class)
                     <div class="mb-3">
                         <label class="form-label" for="filterOrganBuilderId">{{ __('Varhanář') }}</label>
                         <x-organomania.selects.organ-builder-select model="filterOrganBuilderId" :organBuilders="$organBuilders" :allowClear="true" />
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="filterLocality">{{ __('Lokalita') }}</label>
-                        <input class="form-control" type="search" id="filterLocality" wire:model="filterLocality" minlength="3" placeholder="{{ __('Zadejte obec nebo název kostela') }}" />
-                    </div>
                 @elseif ($entityClass === OrganBuilder::class)
                     <div class="mb-3">
                         <label class="form-label" for="filterName">{{ __('Jméno') }}, {{ __('název dílny') }}</label>
                         <input class="form-control" type="search" id="filterName" wire:model="filterName" minlength="3" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="filterMunicipality">{{ __('Lokalita') }}</label>
-                        <input class="form-control" type="search" id="filterMunicipality" wire:model="filterMunicipality" minlength="3" placeholder="{{ __('Zadejte obec') }}" />
                     </div>
                 @endif
                 <div class="mb-3">
@@ -73,7 +77,7 @@
                     <div class="mb-3">
                         <label class="form-label" for="filterDisposition">{{ __('Dispozice') }}</label>
                         <input class="form-control" type="search" id="filterDisposition" wire:model="filterDisposition" minlength="3" placeholder="{{ __('Zadejte název rejstříku nebo pomocného zařízení') }}" />
-                        <div class="form-text">{{ __('Název rejstříku musí být zadán přesně, jak je uveden v dispozici (např. Prinzipal namísto Principál), stačí však i počáteční písmena (např. Prin).') }} {{ __('Lze uvést více hledaných tvarů současně.') }}</div>
+                        <div class="form-text">{!! __('Název rejstříku musí být zadán přesně, jak je uveden v dispozici (např. <em>Prinzipal</em> namísto <em>Principál</em>), stačí však i počáteční písmena (např. <em>Prin</em>).') !!} {{ __('Lze uvést více hledaných tvarů současně.') }}</div>
                     </div>
                     <div class="form-check form-switch">
                         <label class="form-check-label" for="filterConcertHall">{{ __('Jen varhany v koncertních síních') }}</label>

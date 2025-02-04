@@ -374,6 +374,135 @@ window.initTimeline = async function ($wire, timelineItems, timelineGroups, time
     })
 }
 
+window.initChart = async function ($wire, chartItems, texts) {
+    const { default: ApexCharts } = await import('apexcharts')
+
+    let manualsCountHidden = true
+    let stopsCountHidden = true
+    let originalStopsCountHidden = true
+    let sortColumn = new URLSearchParams(window.location.search).get('sortColumn');
+    if (sortColumn === 'manuals_count') manualsCountHidden = false
+    else if (sortColumn === 'original_stops_count') originalStopsCountHidden = false
+    else stopsCountHidden = false;
+
+    let options = {
+        series: [
+            {
+                name: texts.manualsCount,
+                data: chartItems.series.manualsCount,
+               hidden: manualsCountHidden,
+                color: 'var(--bs-secondary)',
+            },
+            {
+                name: texts.originalManualsCount,
+                data: chartItems.series.originalManualsCount,
+                hidden: true,
+                color: 'rgb(149, 161, 172)',
+            },
+            {
+                name: texts.stopsCount,
+                data: chartItems.series.stopsCount,
+                hidden: stopsCountHidden,
+                color: 'var(--bs-primary)',
+            },
+            {
+                name: texts.originalStopsCount,
+                data: chartItems.series.originalStopsCount,
+                hidden: originalStopsCountHidden,
+                color: 'rgb(189, 127, 39)',
+            },
+        ],
+        chart: {
+            type: 'bar',
+            height: `${chartItems.categories.length * 50 + 70}px`,
+            fontFamily: 'inherit',
+            toolbar: {
+                show: false
+            },
+            events: {
+                click: function (_event, _chartContext, opts) {
+                    if (opts.dataPointIndex >= 0) {
+                        let organData = chartItems.organData[opts.dataPointIndex]
+                        let organId = organData.id
+                        showThumbnailOrgan($wire, organId)
+                    }
+                }
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                borderRadiusApplication: 'end',
+                horizontal: true,
+                dataLabels: {
+                    position: 'top',
+                },
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            offsetX: -20,
+            formatter: function (_val, opt) {
+                let organData = chartItems.organData[opt.dataPointIndex]
+                let originalSeries = [1, 3].includes(opt.seriesIndex)
+                let sizeInfo = originalSeries ? organData.originalSizeInfo : organData.sizeInfo
+                return sizeInfo ?? '?'
+            },
+        },
+        legend: {
+            position: 'top'
+        },
+        tooltip: {
+            shared: true,
+            intersect: false,
+            x: {
+                formatter: function ([municipality, place, organBuilderName, yearBuilt]) {
+                    let text = `<strong>${municipality}</strong> | ${place}<br />${organBuilderName}`
+                    if (yearBuilt) text += ` <span class='text-body-secondary'>(${yearBuilt})</span>`
+                    return text
+                }
+            },
+            y: {
+                formatter: val => val
+            }
+        },
+        xaxis: {
+            categories: chartItems.categories,
+            labels: {
+                formatter: function (value) {
+                    // desetinná čísla nezobrazujeme
+                    let isDecimal = value % 1 != 0
+                    return isDecimal ? '' : value
+                }
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    fontSize: '13px',
+                },
+                offsetY: 5,
+                maxWidth: $(window).width() / 3,
+                formatter: function (val) {
+                    if (Array.isArray(val)) {
+                        let [municipality, place, organBuilderName, yearBuilt] = val
+                        
+                        let line1 = municipality
+                        let details = [organBuilderName]
+                        if (yearBuilt) details.push(yearBuilt)
+                        line1 += ` (${details.join(', ')})`
+                        
+                        return [line1, place]
+                    }
+                }
+            }
+        }
+    };
+
+    var chart = new ApexCharts($("#chart")[0], options)
+    chart.render()
+}
+
 window.scrollToTop = function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }

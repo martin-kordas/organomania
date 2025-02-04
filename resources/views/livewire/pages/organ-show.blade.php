@@ -429,12 +429,31 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if ($organ->manuals_count)
             <tr>
                 <th>{{ __('Velikost') }}</th>
-                <td>
-                    {{ $organ->manuals_count }} <small>{{ $organ->getDeclinedManuals() }}</small>
-                    @if ($organ->stops_count)
-                        <br />
-                        {{ $organ->stops_count }} <small>{{ $organ->getDeclinedStops() }}</small>
-                    @endif
+                <td class="d-flex column-gap-3">
+                    @isset($organ->original_manuals_count)
+                        <div>
+                            {{ __('Původní') }}
+                            @isset($organ->year_built) ({{ $organ->year_built }}) @endisset
+                            <br />
+                            {{ $organ->original_manuals_count }}&nbsp;<small>{{ $organ->getDeclinedManuals(original: true) }}</small>
+                            @if ($organ->original_stops_count)
+                                <br />
+                                {{ $organ->original_stops_count }}&nbsp;<small>{{ $organ->getDeclinedStops(original: true) }}</small>
+                            @endif
+                        </div>
+                            
+                    @endisset
+                    <div>
+                        @isset($organ->original_manuals_count)
+                            {{ __('Současná') }}
+                            <br />
+                        @endisset
+                        {{ $organ->manuals_count }}&nbsp;<small>{{ $organ->getDeclinedManuals() }}</small>
+                        @if ($organ->stops_count)
+                            <br />
+                            {{ $organ->stops_count }}&nbsp;<small>{{ $organ->getDeclinedStops() }}</small>
+                        @endif
+                    </div>
                 </td>
             </tr>
         @endif

@@ -122,6 +122,7 @@ new class extends Component {
             'thumbnails' => $this->thumbnailsViewComponent,
             'table' => 'organomania.organs-view-table',
             'map' => $this->mapViewComponent,
+            'chart' => $this->chartViewComponent,
             default => throw new \LogicException
         };
     }
@@ -129,6 +130,34 @@ new class extends Component {
     private function getMapMarkerTitle(Model $entity): string
     {
         return "{$entity->municipality}, {$entity->place}";
+    }
+
+    #[Computed]
+    public function chartData()
+    {
+        $series = $categories = $organData = [];
+        foreach (['stopsCount', 'originalStopsCount', 'manualsCount', 'originalManualsCount'] as $key) {
+            $series[$key] = [];
+        }
+
+        $this->organs->each(function (Organ $organ) use (&$series, &$categories, &$organData) {
+            if (isset($organ->stops_count)) {
+                $series['stopsCount'][] = $organ->stops_count;
+                $series['originalStopsCount'][] = $organ->original_stops_count ?? $organ->stops_count;
+                $series['manualsCount'][] = $organ->manuals_count;
+                $series['originalManualsCount'][] = $organ->original_manuals_count ?? $organ->manuals_count;
+
+                $organBuilderName = $organ->organBuilder?->shortName ?? __('neznámý varhanář');
+                $categories[] = [$organ->municipality, $organ->place, $organBuilderName, $organ->year_built];
+                $organData[] = [
+                    'id' => $organ->id,
+                    'sizeInfo' => $organ->getSizeInfo(),
+                    'originalSizeInfo' => $organ->getSizeInfo(original: true),
+                ];
+            }
+        });
+
+        return compact('series', 'categories', 'organData');
     }
     
 }; ?>

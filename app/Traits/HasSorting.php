@@ -46,6 +46,9 @@ trait HasSorting
             if ($column !== $this->sortColumn) {
                 $this->dispatch('sort-changed');
             }
+            if ($direction !== $this->sortDirection) {
+                $this->dispatch('sort-direction-changed');
+            }
             $this->sortColumn = $column;
             $this->sortDirection = $direction;
         }

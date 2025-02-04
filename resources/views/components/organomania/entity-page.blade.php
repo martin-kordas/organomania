@@ -188,6 +188,11 @@
                 <x-organomania.view-type-nav-item viewType="map">
                     <i class="bi-pin-map"></i> {{ __('Mapa') }}
                 </x-organomania.view-type-nav-item>
+                @if (in_array($this->entityClass, [Organ::class]))
+                    <x-organomania.view-type-nav-item viewType="chart">
+                        <i class="bi-bar-chart-line"></i> {{ __('Srovnat velikost') }}
+                    </x-organomania.view-type-nav-item>
+                @endif
                 @if (in_array($this->entityClass, [OrganBuilder::class, Festival::class]))
                     <x-organomania.view-type-nav-item viewType="timeline">
                         <i class="bi-clock"></i> {{ __('Časová osa') }}
@@ -197,8 +202,8 @@
             </div>
         </div>
       
-        @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && !in_array($this->viewType, ['map', 'timeline']))
-        @php($showOrganInfoHint = $this->entityClass === Organ::class)
+        @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && !in_array($this->viewType, ['map', 'timeline', 'chart']))
+        @php($showOrganInfoHint = $this->entityClass === Organ::class && !in_array($this->viewType, ['chart']))
         @php($showSortImportaceHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && !in_array($this->viewType, ['map', 'timeline']))
         @php($showSortActiveFromYearHint = $this->entityClass === OrganBuilder::class && $this->sortColumn !== 'active_from_year' && !in_array($this->viewType, ['map', 'timeline']))
         @php($showOrganImportanceHint = $this->entityClass === Organ::class && $this->viewType === 'map' && $this->activeFiltersCount <= 0)

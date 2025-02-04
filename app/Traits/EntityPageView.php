@@ -90,6 +90,7 @@ trait EntityPageView
     private string $thumbnailsViewComponent = 'organomania.entity-page-view-thumbnails';
     private string $mapViewComponent = 'organomania.entity-page-view-map';
     private string $timelineViewComponent = 'organomania.entity-page-view-timeline';
+    private string $chartViewComponent = 'organomania.entity-page-view-chart';
     private string $mapId;
     private string $thumbnailComponent;
     private bool $useMapClusters = false;
@@ -165,6 +166,11 @@ trait EntityPageView
     {
         $this->resetPage();
         unset($this->organs);
+    }
+    
+    public function updatedPage()
+    {
+        $this->dispatch('pagination-changed');
     }
     
     private function filterCategories(Builder $query, $ids)

@@ -161,28 +161,32 @@ class Organ extends Model
             return ['image_url' => $this->image_url, 'image_credits' => $this->image_credits];
     }
     
-    public function getDeclinedManuals()
+    public function getDeclinedManuals($original = false)
     {
-        return __(Helpers::declineCount($this->manuals_count, 'manuálů', 'manuál', 'manuály'));
+        $count = $original ? $this->original_manuals_count : $this->manuals_count;
+        return __(Helpers::declineCount($count, 'manuálů', 'manuál', 'manuály'));
     }
     
-    public function getDeclinedStops()
+    public function getDeclinedStops($original = false)
     {
         if ($this->stops_count < 0) throw new \LogicException;
         
-        return __(Helpers::declineCount($this->stops_count, 'rejstříků', 'rejstřík', 'rejstříky'));
+        $count = $original ? $this->original_stops_count : $this->stops_count;
+        return __(Helpers::declineCount($count, 'rejstříků', 'rejstřík', 'rejstříky'));
     }
     
-    public function getDeclinedManualsCount()
+    public function getDeclinedManualsCount($original = false)
     {
-        $manuals = $this->getDeclinedManuals();
-        return "{$this->manuals_count} $manuals";
+        $manuals = $this->getDeclinedManuals($original);
+        $count = $original ? $this->original_manuals_count : $this->manuals_count;
+        return "$count $manuals";
     }
     
-    public function getDeclinedStopsCount()
+    public function getDeclinedStopsCount($original = false)
     {
-        $stops = $this->getDeclinedStops();
-        return "{$this->stops_count} $stops";
+        $stops = $this->getDeclinedStops($original);
+        $count = $original ? $this->original_stops_count : $this->stops_count;
+        return "$count $stops";
     }
     
     #[SearchUsingFullText(['description', 'perex'])]
@@ -222,12 +226,21 @@ class Organ extends Model
         ])->render();
     }
     
-    public function getSizeInfo(): ?string
+    public function getSizeInfo($original = false): ?string
     {
         if (isset($this->manuals_count)) {
+            if ($original) {
+                $manualsCount = $this->original_manuals_count ?? $this->manuals_count;
+                $stopsCount = $this->original_stops_count ?? $this->stops_count;
+            }
+            else {
+                $manualsCount = $this->manuals_count;
+                $stopsCount = $this->stops_count;
+            }
+            
             $parts = [];
-            $parts[] = Helpers::formatRomanNumeral($this->manuals_count);
-            if (isset($this->stops_count)) $parts[] = $this->stops_count;
+            $parts[] = Helpers::formatRomanNumeral($manualsCount);
+            if (isset($stopsCount)) $parts[] = $stopsCount;
             return implode('/', $parts);
         }
         return null;

@@ -51,11 +51,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ['column' => 'year_built', 'label' => 'Rok', 'type' => 'numeric'],
         ['column' => 'manuals_count', 'label' => 'Počet manuálů', 'shortLabel' => 'Man.', 'type' => 'numeric'],
         ['column' => 'stops_count', 'label' => 'Počet rejstříků', 'shortLabel' => 'Rejstříky', 'type' => 'numeric'],
+        ['column' => 'original_stops_count', 'label' => 'Počet rejstříků (původní)', 'shortLabel' => 'Rejstříky (původní)', 'type' => 'numeric'],
         ['column' => 'municipality', 'label' => 'Obec', 'type' => 'alpha'],
     ];
 
     public function boot(OrganRepository $repository, Organ $model, OrganCategoryModel $categoryModel)
     {
+        $this->viewTypes[] = 'chart';
         $this->bootCommon();
 
         $this->repository = $repository;
@@ -74,7 +76,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->entityPageViewComponent = 'organs-view';
         $this->entityClass = Organ::class;
         $this->entityNamePluralAkuzativ = __('varhany');
-        $this->filtersModalAutofocus = '#filterCategories';
+        $this->filtersModalAutofocus = '#filterLocality';
         $this->filters[] = 'filterLocality';
         $this->filters[] = 'filterDisposition';
         $this->filters[] = 'filterOrganBuilderId';
@@ -87,6 +89,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function mount()
     {
         $this->mountCommon();
+    }
+
+    public function setViewType($viewType)
+    {
+        if ($viewType === 'chart' && !in_array($this->sortColumn, ['stops_count', 'manuals_count'])) {
+            $this->sortColumn = 'stops_count';
+            $this->sortDirection = 'desc';
+        }
+        $this->setViewTypeHelp($viewType);
     }
 
     private function getCategoryEnum()

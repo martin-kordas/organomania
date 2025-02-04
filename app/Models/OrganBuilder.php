@@ -189,7 +189,8 @@ class OrganBuilder extends Model
     {
         return Attribute::make(
             get: function (mixed $_value, array $attributes) {
-                if ($attributes['is_workshop']) return $attributes['workshop_name'];
+                if (isset($attributes['short_name'])) return $attributes['short_name'];
+                elseif ($attributes['is_workshop']) return $attributes['workshop_name'];
                 else return $attributes['last_name'];
             }
         );
