@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
@@ -71,11 +72,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         //  - musí to fungovat i Livewire AJAX requestech
         $this->organ = $repository->getBySlug($this->organSlug, $this->signed);
 
-        $this->organ->load(['dispositions' => function (HasMany $query) {
-            $query->withCount('realDispositionRegisters');
-            if ($this->signed)
-                $query->withoutGlobalScope(OwnedEntityScope::class);
-        }]);
+        $this->organ->load([
+            'organBuilder' => function (BelongsTo $query) {
+                if ($this->signed)
+                    $query->withoutGlobalScope(OwnedEntityScope::class);
+            },
+            'dispositions' => function (HasMany $query) {
+                $query->withCount('realDispositionRegisters');
+                if ($this->signed)
+                    $query->withoutGlobalScope(OwnedEntityScope::class);
+            },
+        ]);
     }
 
     public function rendering(View $view): void
@@ -384,7 +391,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="items-list">
                     @if ($organ->organBuilder)
                         @php $showYearBuilt = $organ->organRebuilds->isNotEmpty(); @endphp
-                        <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$showYearBuilt ? $organ->year_built : null" />
+                        <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$showYearBuilt ? $organ->year_built : null" :signed="$this->signed" />
                         @if (!$showYearBuilt && !$organ->organBuilder->is_workshop && isset($organ->organBuilder->active_period))
                             <span class="text-body-secondary">({{ $organ->organBuilder->active_period }})</span>
                         @endif

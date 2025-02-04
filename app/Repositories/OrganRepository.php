@@ -119,6 +119,10 @@ class OrganRepository extends AbstractRepository
                         ->orderBy($orderExpression, $direction);
                     break;
                 
+                case 'original_stops_count':
+                    $query->orderByRaw("IFNULL(original_stops_count, stops_count) $direction");
+                    break;
+                
                 case 'manuals_count':
                     $this->orderBy($query, $field, $direction);
                     $this->orderBy($query, 'stops_count', $direction);

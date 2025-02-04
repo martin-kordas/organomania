@@ -1,4 +1,12 @@
-@props(['organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showIcon' => true, 'placeholder' => __('neznámý varhanář'), 'iconLink' => true])
+@use(Illuminate\Support\Facades\Gate)
+@use(Illuminate\Support\Facades\URL)
+
+@props([
+    'organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false,
+    'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showIcon' => true,
+    'placeholder' => __('neznámý varhanář'), 'iconLink' => true,
+    'signed' => false,
+])
 
 @php
     if (isset($organBuilder->perex)) $description = $organBuilder->perex;
@@ -9,12 +17,18 @@
             ->limit(200);
     }
     else $description = null;
+
+    $canView = Gate::allows('view', $organBuilder);
+    if ($showLink = $canView || $signed) {
+        if ($canView) $href = route('organ-builders.show', $organBuilder->slug, absolute: false);
+        else $href = URL::signedRoute('organ-builders.show', $organBuilder->slug, absolute: false);
+    }
 @endphp
 
-@can('view', $organBuilder)
+@if ($showLink)
     <a
         {{ $attributes->class(['organ-builder-link', 'align-items-start', 'link-primary', 'text-decoration-none', 'icon-link' => $iconLink, 'icon-link-hover'=> $iconLink]) }}
-        href="{{ route('organ-builders.show', $organBuilder->slug) }}"
+        href="{{ url($href) }}"
         wire:navigate
         @if ($description)
             data-bs-trigger="hover focus"
@@ -30,4 +44,4 @@
     </a>
 @else
     <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$showActivePeriod :$activePeriod :$showMunicipality :$placeholder />
-@endcan
+@endif
