@@ -681,7 +681,7 @@
                         <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_OLOMOUC_KOSTEL_SV_MORICE]" :showSizeInfo="true" :year="1968" :isRebuild="true" :iconLink="false" /> &ndash; rozšíření barokního nástroje Michaela Englera</li>
                         <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_JAKUBA_VETSIHO]" :showSizeInfo="true" :year="1982" :isRebuild="true" :iconLink="false" /> &ndash; přestavba koncertního nástroje na čtyřmanuálový</li>
                         <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_RUDOLFINUM]" :showSizeInfo="true" :iconLink="false" /> &ndash; velký koncertní mechanický nástroj</li>
-                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_BRNO_KOSTEL_SV_AUGUSTINA]" :showSizeInfo="true" :iconLink="false"z /> &ndash; o něco menší mechanický nástroj</li>
+                        <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_BRNO_KOSTEL_SV_AUGUSTINA]" :showSizeInfo="true" :iconLink="false" /> &ndash; o něco menší mechanický nástroj</li>
                     </ul>
                     
                     <div class="text-center mb-4">
