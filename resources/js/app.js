@@ -420,13 +420,15 @@ window.initChart = async function ($wire, chartItems, texts) {
                 show: false
             },
             events: {
-                click: function (_event, _chartContext, opts) {
-                    if (opts.dataPointIndex >= 0) {
-                        let organData = chartItems.organData[opts.dataPointIndex]
-                        let organId = organData.id
-                        showThumbnailOrgan($wire, organId)
+                dataPointSelection: function (_event, _chartContext, opts) {
+                    //if (['mouseup', 'touchend'].includes(event.type)) {
+                        if (opts.dataPointIndex >= 0) {
+                            let organData = chartItems.organData[opts.dataPointIndex]
+                            let organId = organData.id
+                            showThumbnailOrgan($wire, organId)
+                        }
                     }
-                }
+                //}
             }
         },
         plotOptions: {
@@ -450,13 +452,17 @@ window.initChart = async function ($wire, chartItems, texts) {
             },
         },
         legend: {
-            position: 'top'
+            position: 'top',
+            fontSize: '13px',
+            markers: {
+                size: 10
+            }
         },
         tooltip: {
             shared: true,
             intersect: false,
             x: {
-                formatter: function ([municipality, place, organBuilderName, yearBuilt]) {
+                formatter: function ([municipality, place, _shortPlace, organBuilderName, _organBuilderShortName, yearBuilt]) {
                     let text = `<strong>${municipality}</strong> | ${place}<br />${organBuilderName}`
                     if (yearBuilt) text += ` <span class='text-body-secondary'>(${yearBuilt})</span>`
                     return text
@@ -485,14 +491,13 @@ window.initChart = async function ($wire, chartItems, texts) {
                 maxWidth: $(window).width() / 3,
                 formatter: function (val) {
                     if (Array.isArray(val)) {
-                        let [municipality, place, organBuilderName, yearBuilt] = val
+                        let [municipality, _place, shortPlace, _organBuilderName, organBuilderShortName, yearBuilt] = val
                         
-                        let line1 = municipality
-                        let details = [organBuilderName]
-                        if (yearBuilt) details.push(yearBuilt)
-                        line1 += ` (${details.join(', ')})`
+                        let line1 = `${municipality.toUpperCase()}, ${shortPlace}`
+                        let line2 = organBuilderShortName
+                        if (yearBuilt) line2 += `, ${yearBuilt}`
                         
-                        return [line1, place]
+                        return [line1, line2]
                     }
                 }
             }

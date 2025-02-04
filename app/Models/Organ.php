@@ -161,6 +161,27 @@ class Organ extends Model
             return ['image_url' => $this->image_url, 'image_credits' => $this->image_credits];
     }
     
+    public function shortPlace(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                return str($attributes['place'])->chopStart([
+                    'kostel',
+                    'klášterní kostel',
+                    'jezuitský kostel',
+                    'bazilika',
+                    'kaple',
+                    'konkatedrála',
+                    'opatský kostel',
+                    'piaristický kostel',
+                    'proboštský kostel',
+                    'zámecká kaple',
+                    'zámecký kostel',
+                ]);
+            }
+        );
+    }
+    
     public function getDeclinedManuals($original = false)
     {
         $count = $original ? $this->original_manuals_count : $this->manuals_count;

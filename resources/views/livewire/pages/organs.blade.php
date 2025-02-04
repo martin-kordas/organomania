@@ -51,7 +51,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ['column' => 'year_built', 'label' => 'Rok', 'type' => 'numeric'],
         ['column' => 'manuals_count', 'label' => 'Počet manuálů', 'shortLabel' => 'Man.', 'type' => 'numeric'],
         ['column' => 'stops_count', 'label' => 'Počet rejstříků', 'shortLabel' => 'Rejstříky', 'type' => 'numeric'],
-        ['column' => 'original_stops_count', 'label' => 'Počet rejstříků (původní)', 'shortLabel' => 'Rejstříky (původní)', 'type' => 'numeric'],
+        ['column' => 'original_stops_count', 'label' => 'Rejstříků původně', 'shortLabel' => 'Rejstříků původně', 'type' => 'numeric'],
         ['column' => 'municipality', 'label' => 'Obec', 'type' => 'alpha'],
     ];
 
