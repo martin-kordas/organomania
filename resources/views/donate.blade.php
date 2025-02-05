@@ -13,7 +13,7 @@
         </p>
         <p>
             {{ __('web, který si nyní prohlížíte, je ve vývoji již od června 2024.') }}
-            {!! __('Kromě značného množství času stráveného <a href="https://github.com/martin-kordas/organomania" target="_blank">programováním</a> a tvorbou obsahu spotřebovává Organomania i finanční náklady, které jsou spojené s provozem serveru (momentálně asi 350 Kč / měsíc).') !!}
+            {!! __('Kromě značného množství času stráveného <a href="https://github.com/martin-kordas/organomania" target="_blank">programováním</a> a tvorbou obsahu spotřebovává Organomania i finanční náklady, které jsou spojené s provozem serveru (momentálně asi 200 Kč / měsíc).') !!}
         </p>
         <p>
             {!! __('Přispět na další fungování webu můžete <strong>zasláním libovolné částky</strong> na účet uvedený níže.') !!}
@@ -41,7 +41,7 @@
         </p>
         
         <p>
-            {{ __('QR kód platby (předvolená částka 350 Kč)') }}:
+            {{ __('QR kód platby (předvolená částka 1000 Kč)') }}:
             <br />
             <img src="/images/donate.png" width="200" />
         </p>
