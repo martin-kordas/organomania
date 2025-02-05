@@ -9,7 +9,7 @@
     @isset($organ->year_built)
         <span style='color: grey'>({{ $organ->year_built }})</span>
     @endisset
-    <span style="float: right; margin-left: 1em; color: grey">{{ $organ->manuals_count }} {{ $organ->getDeclinedManuals() }}</span>
+    <span style="float: right; margin-left: 1em; color: grey">{{ $organ->getSizeInfo() }}</span>
 </div>
 
 @isset($distance)
