@@ -42,15 +42,18 @@ class Helpers
         return $transliterator->transliterate($string);
     }
     
-    static function highlightEscapeText(string $haystack, string $needle)
+    static function highlightEscapeText(string $haystack, string $needle, bool $words = false)
     {
-        return static::highlightText(
+        $fn = $words ? static::highlightTextWords(...) : static::highlightText(...);
+        return $fn(
             htmlspecialchars($haystack, ENT_QUOTES),
             htmlspecialchars($needle, ENT_QUOTES)
         );
     }
     
-    // TODO: zvýrazňuje jen celý $needle, ne jednotlivá slova v něm
+    /**
+     * zvýrazní souvislý text $needle v $haystack
+     */
     static function highlightText(string $haystack, string $needle)
     {
         $haystack1 = static::stripAccents($haystack);
@@ -67,6 +70,49 @@ class Helpers
             mb_substr($haystack, $pos + $needleLength),
         ];
         return implode($parts);
+    }
+    
+    /**
+     * rozdělí text $needle na jednotlivá slova a zvýrazní je v $haystack 
+     */
+    static function highlightTextWords(string $haystack, string $needle)
+    {
+        $haystack1 = static::stripAccents($haystack);
+        $needle1 = static::stripAccents($needle);
+
+        // $needle rozdělíme na slova
+        $words = str($needle1)->explode(' ')
+            ->filter(fn ($word) => mb_strlen($word) >= 3)
+            ->map(trim(...));
+        $alternation = $words->map(
+            fn ($word) => preg_quote($word, '/')
+        )->implode('|');
+        $regex = "/($alternation)/iu";
+        
+        // matching provedeme vůči $haystack1 (bez diakritiky)
+        // nalezená slova pak na základě offsetů zvýrazňujeme v původním $haystack
+        //  - postupujeme odzadu, jinak by offsety nesouhlasily
+        $matches = [];
+        if (preg_match_all($regex, $haystack1, $matches, PREG_OFFSET_CAPTURE)) {
+            foreach (array_reverse($matches[0]) as [$word, $offset]) {
+                $highlightStart = $offset;
+                $highlightEnd = $offset + mb_strlen($word);
+                $haystack = static::mbSubstrReplace($haystack, '</mark>', $highlightEnd, 0);
+                $haystack = static::mbSubstrReplace($haystack, '<mark class="px-0">', $highlightStart, 0);
+            }
+        }
+        return $haystack;
+    }
+    
+    // https://stackoverflow.com/a/35638691/14967413
+    static function mbSubstrReplace($original, $replacement, $position, $length)
+    {
+        $startString = mb_substr($original, 0, $position);
+        $endString = mb_substr($original, $position + $length, mb_strlen($original));
+
+        $out = $startString . $replacement . $endString;
+
+        return $out;
     }
     
     // lze řešit i Laravel funkcí trans_choice(), ale toto je asi pohodlnější

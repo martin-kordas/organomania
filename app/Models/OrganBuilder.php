@@ -202,7 +202,8 @@ class OrganBuilder extends Model
             return ['image_url' => $this->image_url, 'image_credits' => $this->image_credits];
     }
     
-    #[SearchUsingFullText(['description', 'perex'])]
+    // first_name, last_name je rovněž nutné hledat fulltextově, jinak by současně zadané celé jméno (např. "Emanuel Petr") nenašlo nic
+    #[SearchUsingFullText(['first_name', 'last_name', 'description', 'perex'])]
     public function toSearchableArray(): array
     {
         return
@@ -211,7 +212,9 @@ class OrganBuilder extends Model
                 'municipality', 'description', 'perex',
             ])
             + [
-                // HACK: díky tomuto se description hledá i ne-fulltextově (výhodné, protože hledá i neúplná slova)
+                // HACK: díky tomuto se sloupce hledají i ne-fulltextově (i u description výhodné, protože hledá i neúplná slova)
+                'organ_builders.first_name' => '',
+                'organ_builders.last_name' => '',
                 'organ_builders.description' => ''
             ];
     }

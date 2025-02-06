@@ -40,7 +40,9 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             
-            $table->fullText(['perex', 'description'], name: 'organ_builders_perex_description_fulltext');
+            $table->fullText(['perex', 'description', 'first_name', 'last_name'], name: 'organ_builders_perex_description_first_name_last_name_fulltext');
+            $table->fullText('first_name');
+            $table->fullText('last_name');
             $table->fullText('perex');
             $table->fullText('description');
         });

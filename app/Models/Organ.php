@@ -210,14 +210,18 @@ class Organ extends Model
         return "$count $stops";
     }
     
-    #[SearchUsingFullText(['description', 'perex'])]
+    // place, municipality je rovněž nutné hledat fulltextově, jinak by text nebyl nalezen, pokud hledaný výraz obsahuje pouze část textu
+    //  - např. "Praha Jakuba" by nic nenašlo, protože by se hledal celý výskyt "Praha Jakuba"
+    #[SearchUsingFullText(['place', 'municipality', 'description', 'perex'])]
     public function toSearchableArray(): array
     {
         return 
             $this->only(['place', 'municipality', 'description', 'perex'])
             + [
                 'organ_builders.last_name' => '', 'organ_builders.workshop_name' => '',
-                // HACK: díky tomuto se description hledá i ne-fulltextově (výhodné, protože hledá i neúplná slova)
+                // HACK: díky tomuto se sloupce hledají i ne-fulltextově (i u description výhodné, protože hledá i neúplná slova)
+                'organs.place' => '',
+                'organs.municipality' => '',
                 'organs.description' => '',
             ];
     }

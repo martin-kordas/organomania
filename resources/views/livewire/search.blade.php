@@ -10,9 +10,7 @@ use App\Models\OrganBuilder;
 use App\Models\RegisterName;
 use App\Helpers;
 
-// https://forum.laravel-livewire.com/t/search-with-autocomplete/2966/2
-// TODO: jsou-li zadána 2 slova z různých nefulltextových sloupců, vyhovující záznam není nalezen (možná musí mít oba sloupce fulltext index)
-//  - obecně po zadání druhého slova hledání nefunguje dobře
+// návrh komponenty: https://forum.laravel-livewire.com/t/search-with-autocomplete/2966/2
 new class extends Component {
 
     public $search;
@@ -71,7 +69,7 @@ new class extends Component {
                         AS highlighted
                     ', [$searchWildcard, $searchWildcard, $searchWildcard, $searchWildcard, $searchWildcard])
                     ->selectRaw(
-                        'MATCH(organs.description, organs.perex) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
+                        'MATCH(organs.place, organs.municipality, organs.description, organs.perex) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
                         [$this->sanitizedSearch]
                     )
                     ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
@@ -115,7 +113,7 @@ new class extends Component {
                         AS highlighted
                     ', [$searchWildcard, $searchWildcard, $searchWildcard, $searchWildcard])
                     ->selectRaw(
-                        'MATCH(perex, description) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
+                        'MATCH(first_name, last_name, perex, description) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
                         [$this->sanitizedSearch]
                     );
             })
@@ -144,7 +142,7 @@ new class extends Component {
     private function highlight($text)
     {
         if ($this->sanitizedSearch == '' || $text == '') return $text;
-        return Helpers::highlightEscapeText($text, $this->sanitizedSearch);
+        return Helpers::highlightEscapeText($text, $this->sanitizedSearch, words: true);
     }
 
 }; ?>

@@ -670,15 +670,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @isset($organ->disposition)
                     @if ($organ->dispositions->isNotEmpty())
                         <h5 class="mt-4">
-                            <button
-                                type="button"
-                                class="btn btn-sm float-end"
-                                data-bs-toggle="tooltip"
-                                data-bs-title="{{ __('Kopírovat dispozici do schránky') }}"
-                                @click="copyDispositionToCliboard()""
-                            >
-                                <i class="bi-copy"></i>
-                            </button>
                             {{ __('Jednoduché zobrazení') }}
                         </h5>
                     @endif
@@ -739,6 +730,18 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 </span>
                                 <span class="d-none d-sm-inline">{{ __('Naregistrovat skladbu') }}</span>
                                 <span class="d-sm-none">{{ __('Registrace') }}</span>
+                            </button>
+                        </span>
+                        
+                        <span class="float-end position-relative">
+                            <button
+                                type="button"
+                                class="btn btn-sm"
+                                data-bs-toggle="tooltip"
+                                data-bs-title="{{ __('Kopírovat dispozici do schránky') }}"
+                                @click="copyDispositionToCliboard()""
+                            >
+                                <i class="bi-copy"></i>
                             </button>
                         </span>
                     </div>
