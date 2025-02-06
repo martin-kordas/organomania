@@ -384,6 +384,8 @@ window.initChart = async function ($wire, chartItems, texts) {
     if (sortColumn === 'manuals_count') manualsCountHidden = false
     else if (sortColumn === 'original_stops_count') originalStopsCountHidden = false
     else stopsCountHidden = false;
+    
+    let yLabelWidth = Math.min($(window).width() / 3, 320)
 
     let options = {
         series: [
@@ -421,14 +423,12 @@ window.initChart = async function ($wire, chartItems, texts) {
             },
             events: {
                 dataPointSelection: function (_event, _chartContext, opts) {
-                    //if (['mouseup', 'touchend'].includes(event.type)) {
-                        if (opts.dataPointIndex >= 0) {
-                            let organData = chartItems.organData[opts.dataPointIndex]
-                            let organId = organData.id
-                            showThumbnailOrgan($wire, organId)
-                        }
+                    if (opts.dataPointIndex >= 0) {
+                        let organData = chartItems.organData[opts.dataPointIndex]
+                        let organId = organData.id
+                        showThumbnailOrgan($wire, organId)
                     }
-                //}
+                }
             }
         },
         plotOptions: {
@@ -489,7 +489,8 @@ window.initChart = async function ($wire, chartItems, texts) {
                     fontSize: '13px',
                 },
                 offsetY: 5,
-                maxWidth: $(window).width() / 3,
+                minWidth: yLabelWidth,
+                maxWidth: yLabelWidth,
                 formatter: function (val) {
                     if (Array.isArray(val)) {
                         let [municipality, _place, shortPlace, _organBuilderName, organBuilderShortName, yearBuilt] = val
