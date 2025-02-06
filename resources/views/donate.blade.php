@@ -56,17 +56,19 @@
             </div>
 
             @if ($donations->isNotEmpty())
-                <div style="max-height: 22.9em; overflow-y: scroll">
-                    <h4>{{ __('Přehled darů') }}</h4>
+                <div>
+                    <h4>{{ __('Přijaté dary') }}</h4>
 
-                    <table class="table table-sm">
-                        @foreach ($donations as $donation)
-                            <tr>
-                                <td class="pe-3">{{ Helpers::formatDate($donation->date) }}</td>
-                                <td class="pe-3 text-end">{!! Helpers::formatCurrency($donation->amount) !!}</td>
-                            </tr>
-                        @endforeach
-                    </table>
+                    <div style="max-height: 22.9em; overflow-y: scroll">
+                        <table class="table table-sm">
+                            @foreach ($donations as $donation)
+                                <tr>
+                                    <td class="pe-3">{{ Helpers::formatDate($donation->date) }}</td>
+                                    <td class="pe-3 text-end">{!! Helpers::formatCurrency($donation->amount) !!}</td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
                 </div>
             @endif
         </div>
