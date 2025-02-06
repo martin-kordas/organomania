@@ -20,7 +20,7 @@
     @isset($organ)
         <div wire:loading.remove wire:target="setThumbnailOrgan" @class(['image-container', 'position-relative', 'bg-light' => !isset($organ->image_url)])>
             @if ($modal)
-                <button type="button" class="btn-close position-absolute end-0 m-2 z-1 p-2 bg-light" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
+                <button type="button" class="btn-close position-absolute end-0 m-2 z-1 p-3 p-md-2 bg-light" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             @endif
             @isset($image)
                 <a

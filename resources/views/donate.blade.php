@@ -1,3 +1,10 @@
+@use(App\Helpers)
+@use(App\Models\Donation)
+
+@php
+    $donations = Donation::orderBy('date', 'desc')->get();
+@endphp
+
 <x-app-bootstrap-layout>
     <div class="about container">        
         <h3>{{ __('Podpořte web') }}</h3>
@@ -26,25 +33,43 @@
             <a class="text-decoration-none" href="/martin-kordas">{{ __('Autor') }}</a>
         </p>
         
-        <h4>{{ __('Platební údaje') }}</h4>
-        
-        
-        <p>
-            {{ __('Číslo účtu') }}: 8393310005/2250
-            <br />
-            ({{ __('banka') }}: Creditas)
-        </p>
-        <p>
-            IBAN: CZ56 2250 0000 0083 9331 0005
-            <br />
-            SWIFT BIC: CTASCZ22
-        </p>
-        
-        <p>
-            {{ __('QR kód platby (předvolená částka 1000 Kč)') }}:
-            <br />
-            <img src="/images/donate.png" width="200" />
-        </p>
+        <div class="d-md-flex column-gap-5">
+            <div>
+                <h4>{{ __('Platební údaje') }}</h4>
+
+                <p>
+                    {{ __('Číslo účtu') }}: 8393310005/2250
+                    <br />
+                    ({{ __('banka') }}: Creditas)
+                </p>
+                <p>
+                    IBAN: CZ56 2250 0000 0083 9331 0005
+                    <br />
+                    SWIFT BIC: CTASCZ22
+                </p>
+
+                <p>
+                    {{ __('QR kód platby (předvolená částka 1000 Kč)') }}:
+                    <br />
+                    <img src="/images/donate.png" width="200" />
+                </p>
+            </div>
+
+            @if ($donations->isNotEmpty())
+                <div style="max-height: 22.9em; overflow-y: scroll">
+                    <h4>{{ __('Přehled darů') }}</h4>
+
+                    <table class="table table-sm">
+                        @foreach ($donations as $donation)
+                            <tr>
+                                <td class="pe-3">{{ Helpers::formatDate($donation->date) }}</td>
+                                <td class="pe-3 text-end">{!! Helpers::formatCurrency($donation->amount) !!}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            @endif
+        </div>
         
         <h4 id="ai"><i class="bi bi-magic"></i> {{ __('Prémiové funkce') }}</h4>
         <p>

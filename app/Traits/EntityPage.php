@@ -325,7 +325,7 @@ trait EntityPage
                 fn($val) => $val * 10,
                 range(2, 10),
             ),
-            100, 200, 300
+            200, 300
         ];
     }
     

@@ -2,7 +2,7 @@
 
 <p class="text-secondary text-center mb-3">
     <small>
-        {{ __('Klikněte na místo v grafu pro zobrazení podrobností.') }}
+        {{ __('Klikněte na sloupec v grafu pro zobrazení podrobností.') }}
     </small>
 </p>
 
