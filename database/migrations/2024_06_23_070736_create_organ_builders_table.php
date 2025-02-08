@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('place_of_death', length: 50)->nullable();
             $table->string('active_period', length: 50)->nullable();
             $table->integer('active_from_year');
-            $table->string('municipality', length: 50);
+            $table->string('municipality', length: 100);
             $table->double('latitude');
             $table->double('longitude');
             $table->foreignId('region_id')->nullable()->constrained();

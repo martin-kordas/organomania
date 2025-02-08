@@ -506,14 +506,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $query->withCount('organRebuilds');
             }
         ]);
+
+        // ::collect(): konverze Eloquent kolekce na standardní kolekci
         $organs = $this->organBuilder->organs->map(
             fn (Organ $organ) => ['isRebuild' => false, 'organ' => $organ, 'year' => $organ->year_built]
-        );
-
+        )->collect();
         $rebuiltOrgans = $this->organBuilder->organRebuilds->map(
             fn (OrganRebuild $rebuild) => ['isRebuild' => true, 'organ' => $rebuild->organ, 'year' => $rebuild->year_built]
-        );
+        )->collect();
 
+        // jsou-li v $rebuiltOrgans zahrnuty stejné varhany jako v $organs, pak $this->organs->count() je větší je počet reálně vyfiltrovaných varhan
         return $organs
             ->merge($rebuiltOrgans)
             ->sortBy('year');
@@ -709,7 +711,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
             </x-organomania.tr-responsive>
         @endif
-        @if ($organBuilder->organs->isNotEmpty())
+        @if ($this->organs->isNotEmpty())
             <x-organomania.tr-responsive title="{{ __('Významné varhany') }}">
                 <div class="text-break items-list">
                     @foreach ($this->organs as ['isRebuild' => $isRebuild, 'organ' => $organ, 'year' => $year])
@@ -724,10 +726,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <span class="badge text-bg-secondary rounded-pill">{{ $this->organs->count() }}</span>
                     </a>
                 @endif
-                @if (isset($organBuilder->region_id))
+                @if (isset($organBuilder->region_id) && $organBuilder->timelineItems->isNotEmpty())
                     <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organ-builders.index', ['filterId' => $organBuilder->id, 'viewType' => 'timeline']) }}" wire:navigate>
                         <i class="bi bi-clock"></i>
                         {{ __('Časová osa') }}
+                    </a>
+                @endif
+                @if ($this->organs->count() > 1)
+                    <a class="btn btn-sm btn-outline-secondary mt-1 me-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id, 'viewType' => 'chart', 'sortColumn' => 'stops_count']) }}" wire:navigate>
+                        <i class="bi bi-bar-chart-line"></i>
+                        {{ __('Srovnat velikost') }}
                     </a>
                 @endif
             </x-organomania.tr-responsive>
@@ -762,15 +770,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
     </table>
 
-    @if ($organBuilder->isPublic())
-        <div class="small text-secondary text-end mb-4">
-            {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organBuilder->views) }}&times;
-        </div>
-    @endif
-  
-    @if (count($this->images) > 0)
-        <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />
-    @endif
+    <div class="mb-4">
+        @if ($organBuilder->isPublic())
+            <div class="small text-secondary text-end mb-4">
+                {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organBuilder->views) }}&times;
+            </div>
+        @endif
+
+        @if (count($this->images) > 0)
+            <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />
+        @endif
+    </div>
         
     <div class="accordion">
         @isset($organBuilder->region_id)

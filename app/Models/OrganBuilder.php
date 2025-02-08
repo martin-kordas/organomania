@@ -146,12 +146,15 @@ class OrganBuilder extends Model
     public function shouldHideImportance()
     {
         return
-            config('custom.hide_current_organ_builders_importance')
-            && $this->isPublic()
-            && $this->id !== static::ORGAN_BUILDER_ID_RIEGER_KLOSS
-            && $this->id !== static::ORGAN_BUILDER_ID_ORGANA
-            && $this->organBuilderCategories->contains(
-                fn($category) => $category->id === OrganBuilderCategoryEnum::BuiltFrom1990->value
+            $this->importance <= 1
+            || (
+                config('custom.hide_current_organ_builders_importance')
+                && $this->isPublic()
+                && $this->id !== static::ORGAN_BUILDER_ID_RIEGER_KLOSS
+                && $this->id !== static::ORGAN_BUILDER_ID_ORGANA
+                && $this->organBuilderCategories->contains(
+                    fn($category) => $category->id === OrganBuilderCategoryEnum::BuiltFrom1990->value
+                )
             );
     }
     
@@ -161,7 +164,7 @@ class OrganBuilder extends Model
             IF(
                 organ_builders.is_workshop,
                 organ_builders.workshop_name,
-                CONCAT(organ_builders.last_name, organ_builders.first_name)
+                CONCAT(organ_builders.last_name, IFNULL(organ_builders.first_name, ""))
             )'
         );
         $query->orderBy($raw, $sortDirection);
@@ -178,6 +181,8 @@ class OrganBuilder extends Model
             get: function (mixed $_value, array $attributes) {
                 if ($attributes['is_workshop']) return $attributes['workshop_name'];
                 else {
+                    if (!isset($attributes['first_name'])) return $attributes['last_name'];
+                    
                     $lastName = mb_strtoupper($attributes['last_name']);
                     return "$lastName, {$attributes['first_name']}";
                 }

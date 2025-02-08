@@ -32,6 +32,10 @@
                     </div>
                 @elseif ($entityClass === OrganBuilder::class)
                     <div class="mb-3">
+                        <label class="form-label" for="filterName">{{ __('Jméno') }}, {{ __('název dílny') }}</label>
+                        <input class="form-control" type="search" id="filterName" wire:model="filterName" minlength="3" />
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label" for="filterMunicipality">{{ __('Lokalita') }}</label>
                         <input class="form-control" type="search" id="filterMunicipality" wire:model="filterMunicipality" minlength="3" placeholder="{{ __('Zadejte obec') }}" />
                     </div>
@@ -55,11 +59,7 @@
                     <div class="mb-3">
                         <label class="form-label" for="filterOrganBuilderId">{{ __('Varhanář') }}</label>
                         <x-organomania.selects.organ-builder-select model="filterOrganBuilderId" :organBuilders="$organBuilders" :allowClear="true" />
-                    </div>
-                @elseif ($entityClass === OrganBuilder::class)
-                    <div class="mb-3">
-                        <label class="form-label" for="filterName">{{ __('Jméno') }}, {{ __('název dílny') }}</label>
-                        <input class="form-control" type="search" id="filterName" wire:model="filterName" minlength="3" />
+                        <div class="form-text">{{ __('Filtr hledá i mezi varhanáři, kteří provedli přestavbu varhan.') }}</div>
                     </div>
                 @endif
                 <div class="mb-3">

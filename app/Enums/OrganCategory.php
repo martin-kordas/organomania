@@ -4,6 +4,7 @@ namespace App\Enums;
 
 use App\Models\Organ;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use App\Interfaces\Category;
 use App\Traits\EnumeratesCategories;
 
@@ -33,6 +34,7 @@ enum OrganCategory: int implements Category
     case WindchestSchleif = 15;         // zásuvková
     case WindchestKegel = 16;           // kuželková
     case WindchestMembran = 17;         // membránová
+    case WindchestUnit = 20;            // unit
     
     const DATA = [
         self::BuiltTo1799->value            => ['name' => 'do 1799'],
@@ -99,6 +101,10 @@ enum OrganCategory: int implements Category
             'name' => 'Membránová vzdušnice',
             'description' => 'Konstrukce varhan založená na výpustném systému, kde po stisku klávesy klesne tlak vzduchu tlačícího na membránu a díky tomu se uvolní přívod vzduchu pro rozeznění píšťaly'
         ],
+        self::WindchestUnit->value       => [
+            'name' => 'Vzdušnice unit',
+            'description' => 'Úsporná konstrukce varhan, při níž se jedna řada píšťal používá pro několik rejstříků současně.'
+        ],
     ];
     
     public function getValue(): int
@@ -126,7 +132,7 @@ enum OrganCategory: int implements Category
     {
         return in_array($this, [
             static::ActionMechanical, static::ActionPneumatical, static::ActionElectrical, static::ActionBarker,
-            static::WindchestSchleif, static::WindchestKegel, static::WindchestMembran,
+            static::WindchestSchleif, static::WindchestKegel, static::WindchestMembran, static::WindchestUnit,
         ]);
     }
     
@@ -171,6 +177,25 @@ enum OrganCategory: int implements Category
             'generalCategories' => 'Kategorie podle typu',
             default => throw new \RuntimeException
         };
+    }
+    
+    public static function getPeriodCategories(int|array $years)
+    {
+        $years = Arr::wrap($years);
+        
+        $categories = collect();
+        foreach ($years as $year) {
+            $category = match (true) {
+                $year <= 1799 => static::BuiltTo1799,
+                $year <= 1859 => static::BuiltFrom1800To1859,
+                $year <= 1944 => static::BuiltFrom1860To1944,
+                $year <= 1989 => static::BuiltFrom1945To1989,
+                default => static::BuiltFrom1990,
+            };
+            if (!$categories->contains($category)) $categories[] = $category;
+        }
+        
+        return $categories;
     }
     
 }

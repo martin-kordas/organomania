@@ -71,6 +71,9 @@ new class extends Component {
         );
         if ($this->id) $query->where('id', $this->id);
 
+        // optimalizace: při zobrazení thumbnailu stačí načíst jen dané varhany (celá mapa se nepřekresluje)
+        if (isset($this->thumbnailOrganId)) $query->where('id', $this->thumbnailOrganId);
+
         if ($this->shouldPaginate) return $query->paginate($this->perPage);
         return $query->get();
     }

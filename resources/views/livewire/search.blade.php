@@ -217,7 +217,7 @@ new class extends Component {
                                             <span class="text-secondary">({{ $organBuilder->active_period }})</span>
                                             <br />
                                             <small class="hstack text-secondary">
-                                                {!! $this->highlight($organBuilder->municipality) !!}
+                                                <span>{!! $this->highlight($organBuilder->municipality) !!}</span>
                                                 @if (!$organBuilder->shouldHideImportance())
                                                     <x-organomania.stars class="ms-auto" :count="round($organBuilder->importance / 2)" />
                                                 @endif

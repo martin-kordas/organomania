@@ -101,4 +101,23 @@ enum OrganBuilderCategory: int implements Category
         };
     }
     
+    public static function getPeriodCategories(int $yearFrom, ?int $yearTo)
+    {
+        $yearTo ??= $yearFrom;
+        
+        $categories = collect();
+        for ($year = $yearFrom; $year <= $yearTo; $year++) {
+            $category = match (true) {
+                $year <= 1799 => static::BuiltTo1799,
+                $year <= 1859 => static::BuiltFrom1800To1859,
+                $year <= 1944 => static::BuiltFrom1860To1944,
+                $year <= 1989 => static::BuiltFrom1945To1989,
+                default => static::BuiltFrom1990,
+            };
+            if (!$categories->contains($category)) $categories[] = $category;
+        }
+        
+        return $categories;
+    }
+    
 }

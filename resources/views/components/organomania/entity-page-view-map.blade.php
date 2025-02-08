@@ -35,20 +35,22 @@
         wire:ignore
         @if ($this->useMapClusters) data-use-map-clusters @endif
     >
-        @foreach ($organs as $organ)
-            @php
-                $latitude = $this->filterNearLatitude ? (float)$this->filterNearLatitude : null;
-                $longitude = $this->filterNearLongitude ? (float)$this->filterNearLongitude : null;
-            @endphp
-            <gmp-advanced-marker
-                position="{{ $organ->latitude }},{{ $organ->longitude }}"
-                data-map-info="{{ $organ->getMapInfo($latitude, $longitude) }}"
-                data-organ-id="{{ $organ->id }}"
-                @if ($organ->latitude === $this->filterNearLatitude && $organ->longitude === $this->filterNearLongitude)
-                    data-near-coordinate
-                @endif
-            ></gmp-advanced-marker>
-        @endforeach
+        @if (!isset($this->thumbnailOrgan))
+            @foreach ($organs as $organ)
+                @php
+                    $latitude = $this->filterNearLatitude ? (float)$this->filterNearLatitude : null;
+                    $longitude = $this->filterNearLongitude ? (float)$this->filterNearLongitude : null;
+                @endphp
+                <gmp-advanced-marker
+                    position="{{ $organ->latitude }},{{ $organ->longitude }}"
+                    data-map-info="{{ $organ->getMapInfo($latitude, $longitude) }}"
+                    data-organ-id="{{ $organ->id }}"
+                    @if ($organ->latitude === $this->filterNearLatitude && $organ->longitude === $this->filterNearLongitude)
+                        data-near-coordinate
+                    @endif
+                ></gmp-advanced-marker>
+            @endforeach
+        @endif
     </gmp-map>
   
     <x-organomania.modals.organ-thumbnail-modal />

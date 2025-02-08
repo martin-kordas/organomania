@@ -18,7 +18,7 @@ class OrganBuilderRepository extends AbstractRepository
             'organBuilderCategories', 'organBuilderCustomCategories',
             'region',
         ],
-        ORGAN_BUILDERS_WITH_COUNT = ['organs', 'likes', 'organBuilderCustomCategories'],
+        ORGAN_BUILDERS_WITH_COUNT = ['organs', 'organRebuilds', 'likes', 'organBuilderCustomCategories'],
         CATEGORIES_WITH_COUNT = ['organBuilders'],
         CUSTOM_CATEGORIES_WITH_COUNT = ['organBuilders'];
     

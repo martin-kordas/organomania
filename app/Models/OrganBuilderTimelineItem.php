@@ -35,12 +35,13 @@ class OrganBuilderTimelineItem extends Model
         $this->year_from = $organBuilder->active_from_year;
         
         $matches = [];
-        if (preg_match('/-([0-9]{4})$/', $organBuilder->active_period, $matches))
+        if (preg_match('/[-|–]([0-9]{4})$/', $organBuilder->active_period, $matches))
             $yearTo = $matches[1];
         else $yearTo = $this->year_from + 50;
         
         $this->year_to = $yearTo;
         $this->is_workshop = $organBuilder->is_workshop;
+        $this->active_period = $organBuilder->active_period;
         $this->land = 'Neurčeno';
     }
     

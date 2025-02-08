@@ -617,15 +617,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
     </table>
     
-    @if ($organ->isPublic())
-        <div class="small text-secondary text-end mb-4">
-            {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organ->views) }}&times;
-        </div>
-    @endif
-    
-    @if (count($this->images) > 1)
-        <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />
-    @endif
+    <div class="mb-4">
+        @if ($organ->isPublic())
+            <div class="small text-secondary text-end mb-4">
+                {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organ->views) }}&times;
+            </div>
+        @endif
+
+        @if (count($this->images) > 1)
+            <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />
+        @endif
+    </div>
     
     <div class="accordion">
         @if (isset($organ->disposition) || $organ->dispositions->isNotEmpty())

@@ -148,6 +148,19 @@ class Helpers
         );
     }
     
+    static function parseRomanNumeral(string $numeral)
+    {
+        return match ($numeral) {
+            'I' => 1,
+            'II' => 2,
+            'III' => 3,
+            'IV' => 4,
+            'V' => 5,
+            'VI' => 6,
+            default => throw new \RuntimeException
+        };
+    }
+    
     static function formatRomanNumeral(int $num)
     {
         static $nf = new \NumberFormatter('@numbers=roman', \NumberFormatter::DECIMAL);
@@ -224,6 +237,11 @@ class Helpers
     static function normalizeLineBreaks(string $string)
     {
         return preg_replace('~\R~u', "\n", $string);
+    }
+    
+    static function normalizeWhiteSpace(string $string)
+    {
+        return preg_replace('/\s+/u', ' ', $string);
     }
     
     static function logPageViewIntoCache(string $page)

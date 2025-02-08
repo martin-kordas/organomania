@@ -18,6 +18,7 @@ use App\Models\OrganBuilder;
 use App\Models\OrganRebuild;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Services\RuntimeStatsService;
+use App\Services\VarhanyNetService;
 
 class ImportData extends Command
 {
@@ -355,23 +356,7 @@ class ImportData extends Command
     
     private function getTechnicalCategoriesFromType($type)
     {
-        $categories = match ($type) {
-            'e' => [OrganCategory::ActionElectrical],
-            'ek' => [OrganCategory::ActionElectrical, OrganCategory::WindchestKegel],
-            'ep', 'p/e' => [OrganCategory::ActionElectrical, OrganCategory::ActionPneumatical],
-            'epk' => [OrganCategory::ActionElectrical, OrganCategory::ActionPneumatical, OrganCategory::WindchestKegel],
-            'm' => [OrganCategory::ActionMechanical],
-            'm-Bkk', 'm-Bkk-mBk' => [OrganCategory::ActionBarker, OrganCategory::WindchestKegel],
-            'm-Bkz' => [OrganCategory::ActionBarker, OrganCategory::WindchestSchleif],
-            'mez', 'mz; rejstříková traktura elektrická' => [OrganCategory::ActionMechanical, OrganCategory::ActionElectrical, OrganCategory::WindchestSchleif],
-            'mk' => [OrganCategory::ActionMechanical, OrganCategory::WindchestKegel],
-            'mk-p' => [OrganCategory::ActionMechanical, OrganCategory::WindchestKegel, OrganCategory::ActionPneumatical],
-            'mz', 'mz?' => [OrganCategory::ActionMechanical, OrganCategory::WindchestSchleif],
-            'p', 'p?', 'pp' => [OrganCategory::ActionPneumatical],
-            'pv' => [OrganCategory::ActionPneumatical, OrganCategory::WindchestMembran], 
-            'pk' => [OrganCategory::ActionPneumatical, OrganCategory::WindchestKegel],
-            default => [],
-        };
+        $categories = VarhanyNetService::getTechnicalCategoriesFromType($type);
         if (empty($categories)) $this->line("Type not recognized: $type");
         return $categories;
     }

@@ -9,6 +9,69 @@ use App\Http\Controllers\QrController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\WelcomeController;
 
+//dd(preg_replace('/[0-9]+\. /u', '', '1. Pomezí2. , Ušovice u Mariánských Lázní '));
+// více varhanářů: 210
+Route::get('scrape', function () {
+    set_time_limit(0);
+    $service = app(App\Interfaces\GeocodingService::class);
+    $organs = App\Models\Organ::where('user_id', 5)->where('latitude', 0)->where('id', '>=', 4101)/*->where('id', 4280)*/->orderBy('id')->take(1000)->get();
+    foreach ($organs as $organ) {
+        $address = "{$organ['municipality']} {$organ['place']}";
+        //dd($address);
+        try {
+            $res = $service->geocode($address);
+            $organ->latitude = $res['latitude'];
+            $organ->longitude = $res['longitude'];
+            $organ->region_id = $res['regionId'];
+            $organ->save();
+            dump("Úspěšně zjištěna pozice varhan (organId: {$organ->id})");
+        }
+        catch (RuntimeException $ex) {
+            if ($ex->getMessage() === 'Pozice nebyla nalezena.') dump("CHYBA! Nenalezena přesná pozice (organId: {$organ->id})");
+            else throw $ex;
+        }
+        //dd($res);
+    }
+    return;
+    
+    $res = $service->geocode('kostel sv. Tomáše Praha, Malá Strana');
+    dd($res);
+    $res['geometry']['location']['lat'];
+    $res['geometry']['location']['long'];
+    
+    
+    /*$organBuilders = \App\Models\OrganBuilder::where('user_id', 5)->orderBy('id')->get();
+    foreach ($organBuilders as $organBuilder) {
+        if ($organBuilder->active_from_year !== 9999) {
+            $item = new \App\Models\OrganBuilderTimelineItem;
+            $item->loadFromOrganBuilder($organBuilder);
+            $item->save();
+       }
+    }*/
+    return;
+    
+    
+    Illuminate\Support\Facades\Artisan::call('app:scrape-varhany-net', ['startOrganId' => 210]);
+    
+    return;
+    $serv = new App\Services\VarhanyNetService;
+    $scraped = $serv->scrapeOrgan(210);
+    dd($scraped);
+    $scraped['organ']->save();
+    $categoryIds = $scraped['organCategories']->pluck('value');
+    
+    
+    $scraped['organ']->organRebuilds()->sync($categoryIds);
+    return;
+    
+    $serv = new App\Services\VarhanyNetService;
+    //$serv->scrapeOrgan(539);
+    $scraped = $serv->scrapeOrganBuilder(158795);
+    $scraped['organBuilder']->save();
+    $categoryIds = $scraped['organBuilderCategories']->pluck('value');
+    $scraped['organBuilder']->organBuilderCategories()->sync($categoryIds);
+});
+
 Route::middleware(["auth"])->group(function () {
     Volt::route('dispositions/create', 'pages.disposition-edit')
         ->name('dispositions.create');

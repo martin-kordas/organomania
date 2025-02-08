@@ -74,6 +74,8 @@ trait EntityPageView
     private bool $isLikeable = true;
     private bool $showThumbnailFooter = true;
     
+    private ?int $thumbnailOrganId = null;
+    
     private ?string $categoriesRelation;
     private ?string $customCategoriesRelation;
     private ?string $gateUseCustomCategories;
@@ -149,6 +151,7 @@ trait EntityPageView
     public function setThumbnailOrgan($id)
     {
         if (config('custom.simulate_loading')) usleep(300_000);
+        $this->thumbnailOrganId = $id;
         $this->thumbnailOrgan = $this->organs->firstOrFail('id', $id);
         $this->dispatch('bootstrap-rendered');
     }
@@ -185,25 +188,30 @@ trait EntityPageView
             else $categoryIds[] = $id;
         }
 
+        // více kategorií - AND
         $query->where(function (Builder $query) use ($categoryIds, $customIds) {
-            if (!empty($categoryIds)) $query->orWhereHas(
-                $this->categoriesRelation,
-                fn(Builder $query) => $query
-                    ->when(
-                        $this->isCustomCategoryOrgans,
-                        fn(Builder $query) => $query->withoutGlobalScope(OwnedEntityScope::class)
-                    )
-                    ->whereIn('id', $categoryIds)
-            );
-            if (!empty($customIds)) $query->orWhereHas(
-                $this->customCategoriesRelation,
-                fn(Builder $query) => $query
-                    ->when(
-                        $this->isCustomCategoryOrgans,
-                        fn(Builder $query) => $query->withoutGlobalScope(OwnedEntityScope::class)
-                    )
-                    ->whereIn('id', $customIds)
-            );
+            foreach ($categoryIds as $categoryId) {
+                $query->whereHas(
+                    $this->categoriesRelation,
+                    fn (Builder $query) => $query
+                        ->when(
+                            $this->isCustomCategoryOrgans,
+                            fn(Builder $query) => $query->withoutGlobalScope(OwnedEntityScope::class)
+                        )
+                        ->where('id', $categoryId)
+                );
+            }
+            foreach ($customIds as $customId) {
+                $query->whereHas(
+                    $this->customCategoriesRelation,
+                    fn (Builder $query) => $query
+                        ->when(
+                            $this->isCustomCategoryOrgans,
+                            fn (Builder $query) => $query->withoutGlobalScope(OwnedEntityScope::class)
+                        )
+                        ->where('id', $customId)
+                );
+            }
         });
     }
     

@@ -11,6 +11,7 @@ use NumberFormatter;
 use OpenAI;
 use OpenAI\Contracts\ClientContract;
 use App\Repositories\OrganRepository;
+use App\Interfaces\GeocodingService;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\Disposition;
@@ -21,6 +22,7 @@ use App\Models\RegisterName;
 use App\Models\User;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Listeners\EntityEventSubscriber;
+use App\Services\MapyCzGeocodingService;
 use App\Console\Commands\ImportData;
 use Database\Seeders\DatabaseSeeder;
 
@@ -49,6 +51,8 @@ class AppServiceProvider extends ServiceProvider
             $apiKey = getenv('OPENAI_API_KEY');
             return OpenAI::client($apiKey);
         });
+        
+        $this->app->bind(GeocodingService::class, MapyCzGeocodingService::class);
         
         $this->app
             ->when(NumberFormatter::class)

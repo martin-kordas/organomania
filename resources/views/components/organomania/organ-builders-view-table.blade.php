@@ -72,7 +72,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             <x-organomania.entity-page-view-table-buttons :record="$organBuilder" />
                         </td>
                         <td>
-                            @if ($organBuilder->organs_count > 0)
+                            @php $organsCount = $organBuilder->organs_count + $organBuilder->organ_rebuilds_count; @endphp
+                            @if ($organsCount > 0)
                                 <a
                                     class="btn btn-sm btn-outline-secondary text-nowrap w-100"
                                     data-bs-toggle="tooltip"
@@ -82,7 +83,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 >
                                     <i class="bi-music-note-list"></i>
                                     <span class="d-none d-xxl-inline">{{ __('Varhany') }}</span>
-                                    <span class="badge text-bg-secondary rounded-pill">{{ $organBuilder->organs_count }}</span>
+                                    {{-- jsou-li v organ_rebuilds_count zahrnuty stejné varhany jako v organs_count, pak se zde objeví větší číslo než je reálně vyfiltrovaných varhan --}}
+                                    <span class="badge text-bg-secondary rounded-pill">{{ $organsCount }}</span>
                                 </a>
                             @endif
                         </td>
