@@ -24,7 +24,7 @@ class MapyCzGeocodingService implements GeocodingService
             'locality' => 'cz',
             'limit' => 1,
         ]);
-
+        
         if ($response->successful()) {
             $res = $response->json()['items'][0] ?? null;
             if (!isset($res)) throw new RuntimeException('Pozice nebyla nalezena.');
@@ -46,7 +46,7 @@ class MapyCzGeocodingService implements GeocodingService
             ];
         }
 
-        return null; // Handle errors as needed
+        throw new RuntimeException('Server nevrátil úspěšnou odpověď.');
     }
     
     public function reverseGeocode(float $lat, float $lng): ?array

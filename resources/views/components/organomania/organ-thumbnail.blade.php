@@ -30,12 +30,14 @@
                 @endforeach
             </div>
             <div class="stars">
-                <span class="text-body-secondary">
-                    {{ $organ->manuals_count }} <small>{{ $organ->getDeclinedManuals() }}</small>
-                    @if ($organ->stops_count)
-                        / {{ $organ->stops_count }} <small>{{ $organ->getDeclinedStops() }}</small>
-                    @endif
-                </span>
+                @isset($organ->manuals_count)
+                    <span class="text-body-secondary">
+                        {{ $organ->manuals_count }} <small>{{ $organ->getDeclinedManuals() }}</small>
+                        @if ($organ->stops_count)
+                            / {{ $organ->stops_count }} <small>{{ $organ->getDeclinedStops() }}</small>
+                        @endif
+                    </span>
+                @endisset
                 @if (!$organ->shouldHideImportance())
                     <x-organomania.stars class="float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Význam') }}" :count="round($organ->importance / 2)" />
                 @endif

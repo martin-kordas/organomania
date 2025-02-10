@@ -135,7 +135,7 @@ class VarhanyNetService
             
             if (in_array($organBuilder, ['neznámý', 'svépomocně'])) $organBuilderId = null;
             else {
-                // TODO: je-li uvedeno více varhanářů, vezme jen první uvedený (např. id 210)
+                // TODO: je-li uvedeno více varhanářů, vezme se jen první uvedený (např. id 210)
                 $organBuilderLink = $node->filter('.modul_dva_red a, .modul_dva_lok a');
                 if ($organBuilderLink->count() <= 0) $organBuilderId = null;
                 else {

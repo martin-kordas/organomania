@@ -727,7 +727,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </a>
                 @endif
                 @if (isset($organBuilder->region_id) && $organBuilder->timelineItems->isNotEmpty())
-                    <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organ-builders.index', ['filterId' => $organBuilder->id, 'viewType' => 'timeline']) }}" wire:navigate>
+                    <a class="btn btn-sm btn-outline-secondary mt-1 me-1" href="{{ route('organ-builders.index', ['filterId' => $organBuilder->id, 'viewType' => 'timeline']) }}" wire:navigate>
                         <i class="bi bi-clock"></i>
                         {{ __('Časová osa') }}
                     </a>
@@ -783,7 +783,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
         
     <div class="accordion">
-        @isset($organBuilder->region_id)
+        @if (isset($organBuilder->region_id) && $organBuilder->latitude > 0)
             <x-organomania.accordion-item
                 id="accordion-map"
                 class="d-print-none"

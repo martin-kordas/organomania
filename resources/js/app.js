@@ -186,7 +186,7 @@ window.initGoogleMap = function ($wire) {
         // zobrazení modalu řešeno v JS, protože kliknutí na mobilu funguje jen s událostí pointerdown (ne click)
         // a s pointerdown naopak není kompatibilní data-bs-toggle, proto modal aktivujeme v JS
         markers.forEach(marker => {
-            marker.addEventListener('pointerdown', function () {
+            marker.addEventListener('pointerup', function () {
                 let organId = marker.dataset.organId
                 showThumbnailOrgan($wire, organId)
             })

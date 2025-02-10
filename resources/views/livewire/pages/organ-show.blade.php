@@ -410,14 +410,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if ($organ->year_built)
             <tr>
                 <th class="align-middle">{{ __('Rok stavby') }}</th>
-                <td class="d-flex align-items-center">
-                    <span class="me-auto">{{ $organ->year_built }}</span>
-                    @if (isset($organ->organBuilder?->region_id))
-                        <a class="btn btn-sm btn-outline-secondary" href="{{ $this->timelineUrl }}" wire:navigate>
-                            <i class="bi bi-clock"></i>
-                            {{ __('Časová osa') }}
-                        </a>
-                    @endif
+                <td>
+                    <div class="d-flex align-items-center">
+                        <span class="me-auto">{{ $organ->year_built }}</span>
+                        @if (isset($organ->organBuilder?->region_id))
+                            <a class="btn btn-sm btn-outline-secondary" href="{{ $this->timelineUrl }}" wire:navigate>
+                                <i class="bi bi-clock"></i>
+                                {{ __('Časová osa') }}
+                            </a>
+                        @endif
+                    </div>
                 </td>
             </tr>
         @endif
@@ -436,30 +438,32 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if ($organ->manuals_count)
             <tr>
                 <th>{{ __('Velikost') }}</th>
-                <td class="d-flex column-gap-3">
-                    @isset($organ->original_manuals_count)
-                        <div>
-                            {{ __('Původní') }}
-                            @isset($organ->year_built) ({{ $organ->year_built }}) @endisset
-                            <br />
-                            {{ $organ->original_manuals_count }}&nbsp;<small>{{ $organ->getDeclinedManuals(original: true) }}</small>
-                            @if ($organ->original_stops_count)
+                <td>
+                    <div class="d-flex column-gap-3">
+                        @isset($organ->original_manuals_count)
+                            <div>
+                                {{ __('Původní') }}
+                                @isset($organ->year_built) ({{ $organ->year_built }}) @endisset
                                 <br />
-                                {{ $organ->original_stops_count }}&nbsp;<small>{{ $organ->getDeclinedStops(original: true) }}</small>
+                                {{ $organ->original_manuals_count }}&nbsp;<small>{{ $organ->getDeclinedManuals(original: true) }}</small>
+                                @if ($organ->original_stops_count)
+                                    <br />
+                                    {{ $organ->original_stops_count }}&nbsp;<small>{{ $organ->getDeclinedStops(original: true) }}</small>
+                                @endif
+                            </div>
+
+                        @endisset
+                        <div>
+                            @isset($organ->original_manuals_count)
+                                {{ __('Současná') }}
+                                <br />
+                            @endisset
+                            {{ $organ->manuals_count }}&nbsp;<small>{{ $organ->getDeclinedManuals() }}</small>
+                            @if ($organ->stops_count)
+                                <br />
+                                {{ $organ->stops_count }}&nbsp;<small>{{ $organ->getDeclinedStops() }}</small>
                             @endif
                         </div>
-                            
-                    @endisset
-                    <div>
-                        @isset($organ->original_manuals_count)
-                            {{ __('Současná') }}
-                            <br />
-                        @endisset
-                        {{ $organ->manuals_count }}&nbsp;<small>{{ $organ->getDeclinedManuals() }}</small>
-                        @if ($organ->stops_count)
-                            <br />
-                            {{ $organ->stops_count }}&nbsp;<small>{{ $organ->getDeclinedStops() }}</small>
-                        @endif
                     </div>
                 </td>
             </tr>
@@ -758,28 +762,30 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.accordion-item>
         @endif
 
-        <x-organomania.accordion-item
-            id="accordion-map"
-            class="d-print-none"
-            title="{{ __('Mapa') }}"
-            :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
-            onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
-        >
-            <x-organomania.map-detail :latitude="$organ->latitude" :longitude="$organ->longitude" />
-            <div class="mt-2">
-                {{ __('Zobrazit zajímavé varhany v okruhu') }}:
-                @foreach ([25, 50] as $distance)
-                    <a
-                        class="link-primary text-decoration-none"
-                        href="{{ route('organs.index', ['filterNearLatitude' => $this->organ->latitude, 'filterNearLongitude' => $this->organ->longitude, 'filterNearDistance' => $distance, 'viewType' => 'map']) }}"
-                        wire:navigate
-                    >
-                        {{ $distance }}&nbsp;km
-                        @if (!$loop->last) | @endif
-                    </a>
-                @endForeach
-            </div>
-        </x-organomania.accordion-item>
+        @if ($organ->latitude > 0)
+            <x-organomania.accordion-item
+                id="accordion-map"
+                class="d-print-none"
+                title="{{ __('Mapa') }}"
+                :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
+                onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
+            >
+                <x-organomania.map-detail :latitude="$organ->latitude" :longitude="$organ->longitude" />
+                <div class="mt-2">
+                    {{ __('Zobrazit zajímavé varhany v okruhu') }}:
+                    @foreach ([25, 50] as $distance)
+                        <a
+                            class="link-primary text-decoration-none"
+                            href="{{ route('organs.index', ['filterNearLatitude' => $this->organ->latitude, 'filterNearLongitude' => $this->organ->longitude, 'filterNearDistance' => $distance, 'viewType' => 'map']) }}"
+                            wire:navigate
+                        >
+                            {{ $distance }}&nbsp;km
+                            @if (!$loop->last) | @endif
+                        </a>
+                    @endForeach
+                </div>
+            </x-organomania.accordion-item>
+        @endif
         
         @if ($this->similarOrgans->isNotEmpty())
             <x-organomania.accordion-item
