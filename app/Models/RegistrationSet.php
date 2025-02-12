@@ -23,6 +23,11 @@ class RegistrationSet extends Model
         static::addGlobalScope(new OwnedEntityScope);
     }
     
+    protected function getShowRoute(): string
+    {
+        return 'dispositions.registration-sets.show';
+    }
+    
     protected $guarded = [];
     
     public function registrations()

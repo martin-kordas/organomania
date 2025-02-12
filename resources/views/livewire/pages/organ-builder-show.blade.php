@@ -725,15 +725,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         {{ __('Zobrazit vše') }}
                         <span class="badge text-bg-secondary rounded-pill">{{ $this->organs->count() }}</span>
                     </a>
+                    <br class="d-sm-none" />
                 @endif
                 @if (isset($organBuilder->region_id) && $organBuilder->timelineItems->isNotEmpty())
-                    <a class="btn btn-sm btn-outline-secondary mt-1 me-1" href="{{ route('organ-builders.index', ['filterId' => $organBuilder->id, 'viewType' => 'timeline']) }}" wire:navigate>
-                        <i class="bi bi-clock"></i>
-                        {{ __('Časová osa') }}
+                    <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organ-builders.index', ['filterId' => $organBuilder->id, 'viewType' => 'timeline']) }}" wire:navigate>
+                        <i class="bi bi-clock"></i> {{ __('Časová osa') }}
                     </a>
                 @endif
                 @if ($this->organs->count() > 1)
-                    <a class="btn btn-sm btn-outline-secondary mt-1 me-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id, 'viewType' => 'chart', 'sortColumn' => 'stops_count']) }}" wire:navigate>
+                    <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id, 'viewType' => 'chart', 'sortColumn' => 'stops_count']) }}" wire:navigate>
                         <i class="bi bi-bar-chart-line"></i>
                         {{ __('Srovnat velikost') }}
                     </a>
@@ -814,35 +814,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div class="text-end mt-3">
         <a class="btn btn-sm btn-secondary" href="{{ $this->previousUrl }}" wire:navigate><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>&nbsp;
         @can('update', $organBuilder)
-            <a class="btn btn-sm btn-outline-primary" href="{{ route('organ-builders.edit', ['organBuilder' => $organBuilder->id]) }}" wire:navigate><i class="bi-pencil"></i> {{ __('Upravit') }}</a>
+            <a class="btn btn-sm btn-outline-primary" href="{{ route('organ-builders.edit', ['organBuilder' => $organBuilder->id]) }}" wire:navigate>
+                <i class="bi-pencil"></i> <span class="d-none d-sm-inline">{{ __('Upravit') }}</span>
+            </a>
         @endcan
+        <a class="btn btn-sm btn-outline-primary"  href="#" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $organBuilder->getShareUrl() }}">
+            <i class="bi-share"></i> <span class="d-none d-sm-inline">{{ __('Sdílet') }}</span>
+        </a>
     </div>
         
     <x-organomania.modals.categories-modal :categoriesGroups="$this->organBuilderCategoriesGroups" :categoryClass="OrganBuilderCategory::class" />
         
-    <div class="modal fade" id="importanceHintModal" tabindex="-1" data-focus="false" aria-labelledby="importanceHintLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="importanceHintLabel">{{ __('Význam varhanáře') }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-light mb-0">
-                        <p>
-                            <i class="bi bi-info-circle"></i>
-                            {{ __('Význam varhanáře se eviduje, aby bylo možné množství varhanářů přibližně seřadit podle důležitosti.') }}
-                            {{ __('Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhanáře.') }}
-                        </p>
-                        <p class="mb-0">
-                            {{ __('Více viz strana') }} <a href="{{ route('about') }}" class="text-decoration-none" wire:navigate>{{ __('O webu') }}</a>.
-                        </p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Zavřít') }}</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-organomania.modals.share-modal />
+        
+    <x-organomania.modals.importance-hint-modal :title="__('Význam varhanáře')">
+        {{ __('Význam varhanáře se eviduje, aby bylo možné množství varhanářů přibližně seřadit podle důležitosti.') }}
+        {{ __('Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhanáře.') }}
+    </x-organomania.modals.importance-hint-modal>
+    
 </div>

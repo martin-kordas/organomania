@@ -267,6 +267,7 @@ trait EntityPageView
 
     private function getShareUrl(Model $entity)
     {
+        // nelze použít OwnedEntity::getShareUrl(), protože ne všechny $entity jsou OwnedEntity
         if (isset($entity->user_id)) $relativeUrl = URL::signedRoute($this->showRoute, $entity->slug, absolute: false);
         else $relativeUrl = route($this->showRoute, $entity->slug, absolute: false);
         return url($relativeUrl);
@@ -274,6 +275,7 @@ trait EntityPageView
 
     private function getViewUrl(Model $entity)
     {
+        // nelze použít OwnedEntity::getViewUrl(), protože ne všechny $entity jsou OwnedEntity
         if (!Gate::allows('view', $entity)) $relativeUrl = URL::signedRoute($this->showRoute, $entity->slug, absolute: false);
         else $relativeUrl = route($this->showRoute, $entity->slug, absolute: false);
         return url($relativeUrl);

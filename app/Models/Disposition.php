@@ -29,6 +29,11 @@ class Disposition extends Model
         static::addGlobalScope(new OwnedEntityScope);
     }
     
+    protected function getShowRoute(): string
+    {
+        return 'dispositions.show';
+    }
+    
     public function keyboards()
     {
         return $this->hasMany(Keyboard::class)->orderBy('order');

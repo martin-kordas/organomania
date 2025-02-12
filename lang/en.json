@@ -529,5 +529,18 @@
     "Členové dílny": "Workshop members",
     "Číslo účtu": "Account number",
     "Řazení rejstříků": "Sort stops",
-    "Filtr hledá i mezi varhanáři, kteří provedli přestavbu varhan.": "Filter searches also for organ builders who performed organ rebuild."
+    "Filtr hledá i mezi varhanáři, kteří provedli přestavbu varhan.": "Filter searches also for organ builders who performed organ rebuild.",
+    "vše": "all",
+    "Přečíst z fotografie": "Read from photo",
+    "Funkce umělé inteligence jsou dostupné jako bonus pro uživatele, kteří podpořili provoz webu Organomania libovolným finančním příspěvkem.": "Artificial intelligence features are available as a bonus for users who have supported Organomania website with any financial contribution.",
+    "Podpořit web": "Donate",
+    "Funkce umožňují slovně charakterizovat varhanní dispozici, naregistrovat zadanou varhanní skladbu a přečíst při editaci varhan dispozici z fotografií hracího stolu.": "The functions allow you to verbally characterize the organ disposition, register a given organ composition, and read disposition from photos of the organ console when editing the organ.",
+    "Funkce zatím fungují v experimentálním režimu.": "The functions are currently in experimental mode.",
+    "Přečíst dispozici z fotografie": "Read disposition from photo",
+    "Přečíst dispozici": "Read disposition",
+    "Nahrát jiné fotografie": "Choose different photos",
+    "Vložit do dispozice": "Copy to disposition",
+    "Přečtená dispozice": "Recognized disposition",
+    "Přečtení dispozice z fotografie": "Reading disposition from photos",
+    "při editaci varhan automaticky sepíše varhanní dispozici na základě zadaných fotografií hracího stolu": "when editing the organ, it automatically writes organ disposition based on the entered photos of organ console"
 }

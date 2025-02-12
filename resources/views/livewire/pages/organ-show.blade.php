@@ -7,14 +7,15 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Enums\DispositionLanguage;
 use App\Enums\OrganCategory;
-use App\Enums\Pitch;
 use App\Enums\Region;
 use App\Helpers;
 use App\Repositories\AbstractRepository;
 use App\Repositories\OrganRepository;
 use App\Services\MarkdownConvertorService;
+use App\Services\DispositionTextualFormatter;
 use App\Services\AI\DescribeDispositionAI;
 use App\Services\AI\SuggestRegistrationAI;
 use App\Models\Disposition;
@@ -35,6 +36,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public Organ $organ;
 
     protected MarkdownConvertorService $markdownConvertor;
+    protected DispositionTextualFormatter $dispositionFormatter;
 
     protected OrganRepository $repository;
 
@@ -61,11 +63,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->organ->viewed();
     }
 
-    public function boot(OrganRepository $repository, MarkdownConvertorService $markdownConvertor)
+    public function boot(OrganRepository $repository, MarkdownConvertorService $markdownConvertor, DispositionTextualFormatter $dispositionFormatter)
     {
         $this->repository = $repository;
         $this->markdownConvertor = $markdownConvertor;
         $this->dispositionLanguage = DispositionLanguage::getDefault();
+        $this->dispositionFormatter = $dispositionFormatter;
+        $this->dispositionFormatter->setDispositionLanguage($this->dispositionLanguage);
 
         $this->signed ??= request()->hasValidSignature(false);
         // nepoužíváme klasický route model binding, protože potřebujeme ručně odebrat OwnedEntityScope
@@ -156,17 +160,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
-    private function dispositionColumnsCount()
-    {
-        $linesCount = str($this->organ->disposition ?? '')->substrCount("\n");
-        return match (true) {
-            $linesCount > 44 => 3,
-            $linesCount > 22 => 2,
-            default => 1
-        };
-    }
-
-    #[Computed]
     public function organCategoriesGroups()
     {
         return OrganCategory::getCategoryGroups();
@@ -189,63 +182,31 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function disposition()
     {
         $disposition = $this->suggestRegistrationDisposition ?? $this->organ->disposition;
-        $disposition = str($this->markdownConvertor->convert($disposition))->trim();
-
-        // zarovnání stopových výšek doprava
-        //  - na řádku nesmí být čárka, to značí více spojek na 1 řádku - nemá smysl zarovnávat
-        $disposition = preg_replace_callback('#^([^,]+?)(([0-9]+ )?[0-9/]+\'[^,\\n]*)$#m', function ($matches) {
-            // je-li floatující část stringu příliš velká, rozbila by vykreslení
-            // TODO: zohlednit raději součet počtu znaků vč. názvu rejstříku ($matches[1])
-            if (mb_strlen($matches[2]) <= 10) {
-                return "{$matches[1]}<span class='float-end'>{$matches[2]}</span>";
-            }
-            return $matches[0];
-        }, $disposition);
-
-        // odkazy na rejstříky do encyklopedie rejstříků - dynamicky získáním názvu z textu dispozice a dohledáním rejstříku v db.
-        $disposition = str($disposition)->explode("\n")->map(function ($row) {
-            static $appendix = false;
-            if (str($row)->contains(Organ::DISPOSITION_APPENDIX_DELIMITER)) $appendix = true;
-            elseif (!$appendix) $row = $this->addLinkToDispositionRow($row);
-            return $row;
-        })->implode("\n");
-
-
-        // appendix vypíšeme malým písmem
-        $pos = str($disposition)->position(Organ::DISPOSITION_APPENDIX_DELIMITER);
-        if ($pos !== false) {
-            $disposition = str($disposition)
-                ->replace(Organ::DISPOSITION_APPENDIX_DELIMITER, '<small>')
-                ->append('</small>');
-        }
-        return $disposition;
+        return $this->dispositionFormatter->format($disposition, links: true);
     }
 
-    private function addLinkToDispositionRow(string $row)
+    public function exportDispositionAsPdf()
     {
-        //  - <mark>: zvýraznění rejstříku při suggestRegistration()
-        //  - 0-9: číslování
-        return preg_replace_callback('/^(<mark>)?([0-9+]+\\\\?\. )?([[:alpha:]´-]+( [[:alpha:]´-]+)*)/u', function ($matches) use ($row) {
-            $registerName = RegisterName::where('name', $matches[3])->first();
-            if ($registerName) {
-                $url = route('dispositions.registers.show', $registerName->slug);
-                $urlHtml = e($url);
-                $class = 'link-dark link-offset-1 link-underline-opacity-10 link-underline-opacity-50-hover';
-                $registerNameStr = $matches[3];
-                $pitchIdArg = $this->getPitchFromDispositionRow($row)?->value ?? 'null';
-                return "{$matches[1]}{$matches[2]}<a href='$urlHtml' class='$class' wire:click='setRegisterName({$registerName->id}, $pitchIdArg)' data-bs-toggle='modal' data-bs-target='#registerModal'>$registerNameStr</a>";
-            }
-            return $matches[0];
-        }, $row, limit: 1);
-    }
+        $disposition = $this->organ->disposition;
+        // "podrobnosti viz zdroj" v dispozici odřízneme
+        $pos = mb_strrpos($disposition, '---');
+        if ($pos !== false) $disposition = mb_substr($disposition, 0, $pos);
+        $disposition = $this->dispositionFormatter->format($disposition);
 
-    private function getPitchFromDispositionRow(string $row): ?Pitch
-    {
-        $matches = [];
-        if (preg_match("#[0-9/ ]+'#", $row, $matches)) {
-            return Pitch::tryFromLabel($matches[0], $this->dispositionLanguage);
-        }
-        return null;
+        $filename = __('Disposition_1') . " - {$this->organ->municipality}, {$this->organ->place}.pdf";
+
+        return response()
+            ->streamDownload(
+                function () use ($disposition) {
+                    $pdf = Pdf::loadView('components.organomania.pdf.disposition-textual', [
+                        'organ' => $this->organ,
+                        'disposition' => $disposition,
+                    ]);
+                    echo $pdf->stream();
+                },
+                name: $filename,
+                headers: ['Content-Type' => 'application/pdf'],
+            );
     }
 
     #[Computed]
@@ -305,7 +266,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $disposition = $this->organ->disposition ?? throw new \RuntimeException;
 
         // appendix odmažeme
-        $pos = str($disposition)->position(Organ::DISPOSITION_APPENDIX_DELIMITER);
+        $pos = str($disposition)->position(DispositionTextualFormatter::APPENDIX_DELIMITER);
         if ($pos !== false) {
             $appendix = str($disposition)->substr($pos);
             $disposition = str($disposition)->substr(0, $pos);
@@ -742,10 +703,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <span class="float-end position-relative">
                             <button
                                 type="button"
-                                class="btn btn-sm"
+                                class="btn btn-sm px-1"
+                                data-bs-toggle="tooltip"
+                                data-bs-title="{{ __('Exportovat dispozici do PDF') }}"
+                                wire:click="exportDispositionAsPdf"
+                                style="font-size: 115%"
+                            >
+                                <i class="bi-file-pdf"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-sm px-1"
                                 data-bs-toggle="tooltip"
                                 data-bs-title="{{ __('Kopírovat dispozici do schránky') }}"
-                                @click="copyDispositionToCliboard()""
+                                @click="copyDispositionToCliboard()"
+                                style="font-size: 115%"
                             >
                                 <i class="bi-copy"></i>
                             </button>
@@ -756,7 +728,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <div wire:loading.block wire:target="suggestRegistration, describeDisposition" wire:loading.class="opacity-75" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
                             <x-organomania.spinner class="align-items-center h-100" :margin="false" />
                         </div>
-                        <div @class(['markdown', 'accordion-disposition', 'm-auto' => $this->dispositionColumnsCount > 1]) style="column-count: {{ $this->dispositionColumnsCount }}">{!! $this->disposition !!}</div>
+                        <div @class(['markdown', 'accordion-disposition', 'm-auto' => $organ->getDispositionColumnsCount() > 1]) style="column-count: {{ $organ->getDispositionColumnsCount() }}">{!! $this->disposition !!}</div>
                     </div>
                 @endisset
             </x-organomania.accordion-item>
@@ -827,10 +799,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <i class="bi-plus-lg"></i> {{ __('Přidat dispozici') }}
         </a>
         
-        <a class="btn btn-sm btn-secondary ms-auto" wire:navigate href="{{ $this->previousUrl }}"><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>
+        <a class="btn btn-sm btn-secondary ms-auto me-1" wire:navigate href="{{ $this->previousUrl }}"><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>
         @can('update', $organ)
-            &nbsp;<a class="btn btn-sm btn-outline-primary" wire:navigate href="{{ route('organs.edit', ['organ' => $organ->id]) }}"><i class="bi-pencil"></i> {{ __('Upravit') }}</a>
+            &nbsp;
+            <a class="btn btn-sm btn-outline-primary" wire:navigate href="{{ route('organs.edit', ['organ' => $organ->id]) }}">
+                <i class="bi-pencil"></i> <span class="d-none d-sm-inline">{{ __('Upravit') }}</span>
+            </a>
         @endcan
+        &nbsp;
+        <a class="btn btn-sm btn-outline-primary"  href="#" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $organ->getShareUrl() }}">
+            <i class="bi-share"></i> <span class="d-none d-sm-inline">{{ __('Sdílet') }}</span>
+        </a>
     </div>
             
     <x-organomania.modals.categories-modal :categoriesGroups="$this->organCategoriesGroups" :categoryClass="OrganCategory::class" />
@@ -870,34 +849,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         {{ __('Dispozice byla úspěšně zkopírována do schránky.') }}
     </x-organomania.toast>
 
+    <x-organomania.modals.share-modal :hintAppend="__('Sdílením varhan sdílíte i jejich varhanáře a dispozice.')" />
     <x-organomania.modals.suggest-registration-modal />
     <x-organomania.modals.premium-modal />
         
-    <div class="modal fade" id="importanceHintModal" tabindex="-1" data-focus="false" aria-labelledby="importanceHintLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="importanceHintLabel">{{ __('Význam varhan') }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-light mb-0">
-                        <p>
-                            <i class="bi bi-info-circle"></i>
-                            {{ __('Význam varhan se eviduje, aby bylo možné nástroje přibližně seřadit podle důležitosti.') }}
-                            {{ __('Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhan.') }}
-                        </p>
-                        <p class="mb-0">
-                            {{ __('Více viz strana') }} <a href="{{ route('about') }}" class="text-decoration-none" wire:navigate>{{ __('O webu') }}</a>.
-                        </p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Zavřít') }}</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-organomania.modals.importance-hint-modal :title="__('Význam varhan')">
+        {{ __('Význam varhan se eviduje, aby bylo možné nástroje přibližně seřadit podle důležitosti.') }}
+        {{ __('Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhan.') }}
+    </x-organomania.modals.importance-hint-modal>
 </div>
 
 @script

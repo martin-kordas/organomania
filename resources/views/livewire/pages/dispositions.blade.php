@@ -48,14 +48,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ->paginate(15);
     }
 
-    private function getShareUrl(Disposition $disposition)
-    {
-        $fn = isset($disposition->user_id) ? URL::signedRoute(...) : route(...);
-        $absolute = false;      // varianta s named argumenty z neznámého důvodu nefunguje, je-li $disposition->organ_id === null
-        $relativeUrl = $fn('dispositions.show', $disposition->slug, null, $absolute);
-        return url($relativeUrl);
-    }
-
 }; ?>
 
 <div class="dispositions container px-0">
@@ -174,7 +166,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                 <i class="bi-pencil"></i>
                                             </a>
                                         @endcan
-                                        <button type="button" class="btn btn-sm btn-outline-primary z-1" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $this->getShareUrl($disposition) }}">
+                                        <button type="button" class="btn btn-sm btn-outline-primary z-1" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $disposition->getShareUrl() }}">
                                             <span data-bs-toggle="tooltip" data-bs-title="{{ __('Sdílet') }}">
                                                 <i class="bi-share"></i>
                                             </span>

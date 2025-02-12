@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Disposition;
 
+// všechny routy zde mají prefix dev!
+
 Route::get('testPdf/{name}', function ($name) {
     $parameters = match ($name) {
         'disposition' => [
@@ -11,8 +13,8 @@ Route::get('testPdf/{name}', function ($name) {
                 ->with(['keyboards' => function (HasMany $query) {
                     $query->withCount('realDispositionRegisters');
                 }])
-                ->findOrFail(1),
-            ],
+                ->findOrFail(3),
+        ],
         default => [],
     };
     

@@ -1,4 +1,4 @@
-@props(['images', 'id' => 'galleryCarousel'])
+@props(['images', 'id' => 'galleryCarousel', 'noAdditional' => false])
 
 <div id="{{ $id }}" {{ $attributes->class(['gallery-carousel', 'carousel', 'slide', 'rounded', 'border']) }} data-bs-ride="carousel">
     @if (count($images) > 1)
@@ -13,7 +13,7 @@
         @foreach ($images as $key => [$src, $credits])
             @php 
                 $caption = $images[$key][2] ?? null;
-                $additional = $images[$key][3] ?? false;
+                $additional = $noAdditional || ($images[$key][3] ?? false);
             @endphp
             <div @class(['carousel-item', 'active' => $loop->first]) data-bs-interval="8000">
                 <img src="{{ $src }}" class="d-block m-auto" alt="{{ __('Náhled') }}" @isset($credits) title="{{ __('Licence obrázku') }}: {{ $credits }}" @endisset>

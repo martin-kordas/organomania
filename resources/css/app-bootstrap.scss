@@ -219,6 +219,13 @@ div.side-buttons {
     }
 }
 
+.disposition-ocr-modal {
+    .gallery-carousel .carousel-inner img {
+        max-width: 100%;
+        max-height: 500px;
+    }
+}
+
 /* zajistí vertikální vycentrování modalu */
 /* - PROBLÉM: nesprávná animace při zobrazenímodalu */
 /* - správně se má řešit třídou .modal-dialog-centered, ale ta kvůli upravenému markupu modalu působí jiné zobrazení - muselo by se přizpůsobit */

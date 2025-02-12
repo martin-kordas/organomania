@@ -4,7 +4,9 @@
     <div class="position-fixed bottom-0 w-100 p-3" style="z-index: 11">
         <div id="suggestRegistrationInfo" class="toast show position m-auto bg-white" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="width: 500px;">
             <div class="toast-header">
-                <strong class="me-auto">{{ $title }}</strong>
+                <strong class="me-auto">
+                    <i class="bi bi-magic"></i> {{ $title }}
+                </strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="{{ __('Zavřít') }}"></button>
             </div>
 

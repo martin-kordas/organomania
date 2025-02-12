@@ -85,6 +85,11 @@ class OrganBuilder extends Model
         static::addGlobalScope(new OwnedEntityScope);
     }
     
+    protected function getShowRoute(): string
+    {
+        return 'organ-builders.show';
+    }
+    
     public function casts()
     {
         return [

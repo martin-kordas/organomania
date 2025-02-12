@@ -162,6 +162,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return Region::query()->orderBy('name')->get();
     }
 
+    #[Computed]
+    public function workshopMembersPlaceholder()
+    {
+        return <<<EOL
+            Bauer, Johann (1680–1735)
+            Bauer, Georg (1704–1756)
+            EOL;
+    }
+
     public function getTitle()
     {
         if ($this->organBuilder->exists) return 'Upravit varhanáře';
@@ -222,7 +231,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </div>
                     <div>
                         <label for="workshopMembers" class="form-label">{{ __('Členové dílny') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
-                        <textarea rows="3" class="form-control" id="workshopMembers" wire:model="form.workshopMembers"></textarea>
+                        <textarea rows="3" class="form-control" id="workshopMembers" wire:model="form.workshopMembers" placeholder="{{ $this->workshopMembersPlaceholder }}"></textarea>
                     </div>
                 </div>
                 @else
@@ -355,11 +364,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div class="row g-3">
                 <div>
                     <label for="perex" class="form-label">{{ __('Perex') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
-                    <textarea rows="3" class="form-control" id="perex" wire:model="form.perex"></textarea>
+                    <textarea rows="3" class="form-control" id="perex" wire:model="form.perex" placeholder="{{ __('Krátká jednovětá charakteristika varhanáře, která se vypíše v rámečku s miniaturou.') }}"></textarea>
                 </div>
                 <div>
                     <label for="description" class="form-label">{{ __('Popis') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
-                    <textarea rows="8" class="form-control" id="description" wire:model="form.description"></textarea>
+                    <textarea rows="8" class="form-control" id="description" wire:model="form.description" placeholder="{{ __('Podrobnější popis varhanáře, který se vypíše v detailním zobrazení.') }}"></textarea>
                 </div>
                 <div>
                     <label for="literature" class="form-label">{{ __('Literatura') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>

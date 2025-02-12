@@ -1006,7 +1006,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div class="buttons mt-3 hstack d-print-none">
         @if ($disposition->keyboards->isNotEmpty())
             <button type="submit" @class(['btn', 'btn-sm', 'btn-outline-secondary', 'disabled' => $isEdit]) onclick="alert('{{ __('Pro správné vytištění zrušte nastavení tisku okrajů stránky.') }}'); window.print()">
-                <i class="bi-printer"></i> {{ __('Tisk') }}
+                <i class="bi-printer"></i> <span class="d-none d-sm-inline">{{ __('Tisk') }}</span>
             </button>
             &nbsp;
             <div class="btn-group">
@@ -1021,14 +1021,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </ul>
             </div>
         @endif
-        <a @class(['btn', 'btn-sm', 'btn-secondary', 'ms-auto', 'disabled' => $isEdit]) wire:navigate href="{{ url()->previous() }}">
+        <a @class(['btn', 'btn-sm', 'btn-secondary', 'ms-auto', 'me-1', 'disabled' => $isEdit]) wire:navigate href="{{ url()->previous() }}">
             <i class="bi-arrow-return-left"></i> {{ __('Zpět') }}
-        </a>&nbsp;
+        </a>
         @can('update', $disposition)
+            &nbsp;
             <a @class(['btn', 'btn-sm', 'btn-outline-primary', 'disabled' => $isEdit]) wire:navigate href="{{ route('dispositions.edit', $disposition->id) }}" data-bs-toggle="tooltip" data-bs-title="{{ __('Upravit dispozici') }}">
-                <i class="bi-pencil"></i> {{ __('Upravit') }}
+                <i class="bi-pencil"></i> <span class="d-none d-sm-inline">{{ __('Upravit') }}</span>
             </a>
         @endcan
+        &nbsp;
+        <a class="btn btn-sm btn-outline-primary"  href="#" data-bs-toggle="modal" data-bs-target="#shareModalDisposition" data-share-url="{{ $disposition->getShareUrl() }}">
+            <i class="bi-share"></i> <span class="d-none d-sm-inline">{{ __('Sdílet') }}</span>
+        </a>
     </div>
 
     @isset($this->suggestRegistrationInfo)
@@ -1040,6 +1045,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <x-organomania.modals.categories-modal :categoriesGroups="$this->registerCategoriesGroups" :categoryClass="RegisterCategory::class" :title="__('Přehled kategorií rejstříků')" />
         
     <x-organomania.modals.share-modal />
+    <x-organomania.modals.share-modal id="shareModalDisposition" />
         
     <x-organomania.modals.register-modal
         :registerName="$registerName"

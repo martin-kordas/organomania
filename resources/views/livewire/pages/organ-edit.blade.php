@@ -6,23 +6,29 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\Region;
 use App\Livewire\Forms\OrganForm;
+use App\Livewire\Forms\DispositionOcrForm;
 use App\Enums\OrganCategory;
 use App\Repositories\OrganRepository;
+use App\Services\AI\DispositionOcr;
 use App\Traits\ConvertEmptyStringsToNull;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
 
+    use WithFileUploads;
     use ConvertEmptyStringsToNull;
 
     #[Locked]
     public Organ $organ;
 
     public OrganForm $form;
+    public DispositionOcrForm $dispositionOcrForm;
 
     private OrganRepository $repository;
 
@@ -30,6 +36,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public string $public = '0';
 
     public $previousUrl;
+
+    public $dispositionOcrResult;
 
     public function boot(OrganRepository $repository)
     {
@@ -138,6 +146,36 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return ['custom' => $this->organCustomCategories];
     }
 
+    #[Computed]
+    public function dispositionPlaceholder()
+    {
+        return match (app()->getLocale()) {
+            'cs' => <<<EOL
+                **I. manuál** (C-g3)
+                Principál 8'
+                Oktáva 4'
+                Mixtura 3-4x 2 2/3'
+
+                **Pedál**
+                Subbas 16'
+                Oktávbas 8'
+                I/P
+                EOL,
+
+            default => <<<EOL
+                **I. manual** (C-g3)
+                Prinzipal 8'
+                Oktave 4'
+                Mixtur 3-4x 2 2/3'
+
+                **Pedal**
+                Subbas 16'
+                Oktavbas 8'
+                I/P
+                EOL
+        };
+    }
+
     private function getCustomCategoryGroupName()
     {
         return __('Vlastní kategorie');
@@ -175,13 +213,41 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $this->dispatch("select2-rendered");
     }
+
+    #[Computed]
+    public function uploadedPhotos() {
+        $useCaptions = count($this->dispositionOcrForm->photos) > 1;
+
+        return collect($this->dispositionOcrForm->photos)->map(function ($photo) use ($useCaptions) {
+            static $no = 1;
+            $caption = $useCaptions ? (__('Obrázek č.') . ' ' . $no++) : null;
+            return [$photo->temporaryUrl(), null, $caption];
+        });
+    }
+
+    public function doDispositionOcr(DispositionOcr $service)
+    {
+        $this->dispositionOcrForm->validate();
+
+        $photos = collect($this->dispositionOcrForm->photos)->map(
+            fn ($photo) => $photo->path()
+        )->toArray();
+        $this->dispositionOcrResult = $service->doOcr($photos);
+    }
+
+    public function resetDispositionOcr()
+    {
+        $this->dispositionOcrForm->reset();
+        unset($this->dispositionOcrResult);
+    }
     
 }; ?>
 
 <div class="organ-edit container">
     <form method="post" wire:submit="save" wire:keydown.ctrl.enter="save">
-        @if ($this->form->regionId)
-            <img class="float-end z-1 position-relative" src="{{ Vite::asset("resources/images/regions/{$this->form->regionId}.png") }}" width="110" />
+        {{-- mapa působí problém při malé šířce obrazovky a u nových varhan (dodatečné zobrazení mapy po vyplnění kraje), proto je v těchto případech skryta --}}
+        @if ($this->form->regionId && $this->organ->exists)
+            <img class="d-none d-xl-inline float-end z-1 position-relative" src="{{ Vite::asset("resources/images/regions/{$this->form->regionId}.png") }}" width="110" />
         @endif
         <h3>
             {{ __($this->getTitle()) }}
@@ -194,7 +260,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div class="row g-3">
                 <div class="col-md-4">
                     <div class="form-floating">
-                        <input class="form-control form-control-lg @error('form.municipality') is-invalid @enderror" id="municipality" wire:model.blur="form.municipality" aria-describedby="municipalityFeedback" autofocus>
+                        <input class="form-control form-control-lg @error('form.municipality') is-invalid @enderror" id="municipality" wire:model.live="form.municipality" aria-describedby="municipalityFeedback" autofocus>
                         <label for="municipality">{{ __('Obec') }}</label>
                         @error('form.municipality')
                             <div id="municipalityFeedback" class="invalid-feedback">{{ $message }}</div>
@@ -203,7 +269,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
                 <div class="col-md-8">
                     <div class="form-floating">
-                        <input class="form-control form-control-lg @error('form.place') is-invalid @enderror" id="place" wire:model.blur="form.place" aria-describedby="placeFeedback">
+                        <input class="form-control form-control-lg @error('form.place') is-invalid @enderror" id="place" wire:model.live="form.place" aria-describedby="placeFeedback">
                         <label for="place">{{ __('Místo') }}</label>
                         @error('form.place')
                             <div id="placeFeedback" class="invalid-feedback">{{ $message }}</div>
@@ -246,7 +312,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </div>
                     <div class="col-md-2" wire:key="{{ "rebuildsYearBuilt$i" }}">
                         <label for="{{ "rebuildYearBuilt$i" }}" class="form-label">{{ __('Rok přestavby') }}</label>
-                        <input class="form-control @error("form.rebuilds.$i.yearBuilt") is-invalid @enderror" id="{{ "rebuildYearBuilt$i" }}" type="number" min="0" max="3000" wire:model.blur="form.rebuilds.{{ $i }}.yearBuilt">
+                        <input class="form-control @error("form.rebuilds.$i.yearBuilt") is-invalid @enderror" id="{{ "rebuildYearBuilt$i" }}" type="number" min="0" max="3000" wire:model.live="form.rebuilds.{{ $i }}.yearBuilt">
                         @error("form.rebuilds.$i.yearBuilt")
                             <div id="{{ "rebuildYearBuiltFeedback$i" }}" class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -283,7 +349,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="col-md-6">
                     <label for="name" class="form-label">{{ __('Význam') }} <span class="text-secondary">({{ __('od 1 do 10') }})</span></label>
                     <div class="hstack gap-3">
-                        <input class="form-control w-auto flex-grow-1 @error('form.importance') is-invalid @enderror" type="number" id="name" placeholder="4" min="1" max="10" wire:model.blur.number="form.importance" aria-describedby="importanceFeedback">
+                        <input class="form-control w-auto flex-grow-1 @error('form.importance') is-invalid @enderror" type="number" id="name" placeholder="4" min="1" max="10" wire:model.live.number="form.importance" aria-describedby="importanceFeedback">
                         <x-organomania.stars :count="$this->getStarsCount()" />
                         @error('form.importance')
                             <div id="importanceFeedback" class="invalid-feedback">{{ $message }}</div>
@@ -325,11 +391,58 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             
             <div class="row g-3">
                 <div>
+                    <div class="d-flex align-items-end mb-2">
+                        <label for="disposition" class="form-label me-auto mb-0">{{ __('Disposition_1') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-outline-secondary"
+                            data-bs-toggle="modal"
+                            @can('useAI')
+                                data-bs-target="#dispositionOcrModal"
+                            @else
+                                data-bs-target="#premiumModal"
+                            @endcan
+                        >
+                            <i class="bi-magic"></i>
+                            {{ __('Přečíst z fotografie') }}
+                        </button>
+                    </div>
+                    <textarea rows="10" class="form-control" id="disposition" wire:model="form.disposition" placeholder="{{ $this->dispositionPlaceholder }}"></textarea>
+                    <span class="form-text">
+                        {{ __('Pro správné formátování dispozice používejte pro označení stopové výšky jednoduché uvozovky ( \' ).') }}
+                        {{ __('Pro ztučnění písma nadpisů uveďte hvězdičky (**).') }}
+                    </span>
+                </div>
+                <div>
+                    <label for="perex" class="form-label">{{ __('Perex') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                    <textarea rows="3" class="form-control" id="perex" wire:model="form.perex" placeholder="{{ __('Krátká jednovětá charakteristika varhan, která se vypíše v rámečku s miniaturou.') }}"></textarea>
+                </div>
+                <div>
+                    <label for="description" class="form-label">{{ __('Popis') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                    <textarea rows="8" class="form-control" id="description" wire:model="form.description" placeholder="{{ __('Podrobnější popis varhan, který se vypíše v detailním zobrazení.') }}"></textarea>
+                </div>
+                <div>
+                    <label for="literature" class="form-label">{{ __('Literatura') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                    <textarea rows="3" class="form-control" id="literature" wire:model="form.literature"></textarea>
+                    <div class="form-text">
+                        {{ __('Každá publikace se uvede na samostatném řádku.') }}
+                    </div>
+                </div>
+            </div>
+            
+            <hr>
+            
+            <div class="row g-3">
+                <div>
                     <label for="imageUrl" class="form-label">{{ __('URL obrázku') }}</label>
                     <input class="form-control @error('form.imageUrl') is-invalid @enderror" id="imageUrl" wire:model="form.imageUrl" aria-describedby="imageUrlFeedback">
+                    
                     @error('form.imageUrl')
                         <div id="imageUrlFeedback" class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                    <div class="form-text">
+                        {{ __('Obrázek můžete nahrát např. přes službu') }} <a href="https://postimages.org/" target="_blank">postimages.org</a> {{ __('a sem zkopírovat vygenerovaný "přímý odkaz"') }}.
+                    </div>
                 </div>
                 <div>
                     <label for="imageCredits" class="form-label">{{ __('Licence obrázku') }}</label>
@@ -346,6 +459,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @error('form.outsideImageUrl')
                         <div id="outsideImageUrlFeedback" class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                    <div class="form-text">
+                        {{ __('Obrázek můžete nahrát např. přes službu') }} <a href="https://postimages.org/" target="_blank">postimages.org</a> {{ __('a sem zkopírovat vygenerovaný "přímý odkaz"') }}.
+                    </div>
                 </div>
                 <div>
                     <label for="outsideImageCredits" class="form-label">
@@ -363,31 +479,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <div id="webFeedback" class="invalid-feedback">{{ $errors->first('form.webArray.*') }}</div>
                     @enderror
                     <div class="form-text">
-                        {{ __('Více odkazů zadejte na samostatných řádcích.') }}
-                    </div>
-                </div>
-            </div>
-            
-            <hr>
-            
-            <div class="row g-3">
-                <div>
-                    <label for="perex" class="form-label">{{ __('Perex') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
-                    <textarea rows="3" class="form-control" id="perex" wire:model="form.perex"></textarea>
-                </div>
-                <div>
-                    <label for="description" class="form-label">{{ __('Popis') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
-                    <textarea rows="8" class="form-control" id="description" wire:model="form.description"></textarea>
-                </div>
-                <div>
-                    <label for="disposition" class="form-label">{{ __('Dispozice') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
-                    <textarea rows="8" class="form-control" id="disposition" wire:model="form.disposition"></textarea>
-                </div>
-                <div>
-                    <label for="literature" class="form-label">{{ __('Literatura') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
-                    <textarea rows="3" class="form-control" id="literature" wire:model="form.literature"></textarea>
-                    <div class="form-text">
-                        {{ __('Každá publikace se uvede na samostatném řádku.') }}
+                        {{ __('Více webových odkazů zadejte na samostatných řádcích.') }}
                     </div>
                 </div>
             </div>
@@ -431,6 +523,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     >
         {{ __('Opravdu chcete smazat přestavbu?') }}
     </x-organomania.modals.confirm-modal>
+  
+    <x-organomania.modals.premium-modal />
+    <x-organomania.modals.disposition-ocr-modal />
 </div>
 
 @script

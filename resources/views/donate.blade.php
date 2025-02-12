@@ -80,6 +80,9 @@
         </p>
         <ul>
             <li>
+                <strong>{{ __('Přečtení dispozice z fotografie') }}</strong> &ndash; {{ __('při editaci varhan automaticky sepíše varhanní dispozici na základě zadaných fotografií hracího stolu') }}
+            </li>
+            <li>
                 <strong>{{ __('Popis dispozice') }}</strong> &ndash; {{ __('popíše ve větách charakter rejstříkové dispozice daného nástroje a navrhne pro něj vhodný typ varhanní literatury') }}
             </li>
             <li>
@@ -87,10 +90,14 @@
             </li>
         </ul>
         
+        @php
+            $images = [
+                ['/images/ai-funkce2.png', null],
+                ['/images/ai-funkce.png', null],
+            ];
+        @endphp
         <div class="text-center my-3">
-            <a href="/images/ai-funkce.png" target="_blank">
-                <img class="rounded" src="/images/ai-funkce.png" style="width: 500px; max-width: 100%;" />
-            </a>
+            <x-organomania.gallery-carousel :images="$images" />
         </div>
         
         <x-organomania.warning-alert class="mb-2 d-print-none">

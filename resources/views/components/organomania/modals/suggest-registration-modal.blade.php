@@ -7,7 +7,7 @@
         <form class="modal-content" onsubmit="return suggestRegistrationModal.suggestRegistration()">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="suggestRegistrationModalLabel">
-                    {{ __('Naregistrovat pomocí AI') }}
+                     <i class="bi bi-magic"></i> {{ __('Naregistrovat pomocí AI') }}
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             </div>

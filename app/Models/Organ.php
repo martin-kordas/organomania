@@ -81,12 +81,15 @@ class Organ extends Model
     
     protected $guarded = [];
     
-    const DISPOSITION_APPENDIX_DELIMITER = '////';
-    
     protected static function booted(): void
     {
         // řešení atributem ScopedBy nefunguje
         static::addGlobalScope(new OwnedEntityScope);
+    }
+    
+    protected function getShowRoute(): string
+    {
+        return 'organs.show';
     }
     
     public function region()
@@ -269,6 +272,16 @@ class Organ extends Model
             return implode('/', $parts);
         }
         return null;
+    }
+    
+    public function getDispositionColumnsCount()
+    {
+        $linesCount = str($this->disposition ?? '')->substrCount("\n");
+        return match (true) {
+            $linesCount > 44 => 3,
+            $linesCount > 22 => 2,
+            default => 1
+        };
     }
     
 }

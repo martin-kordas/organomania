@@ -272,5 +272,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             
     <div class="text-end mt-3">
         <a class="btn btn-sm btn-secondary" href="{{ $this->previousUrl }}" wire:navigate><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>
+        &nbsp;
+        <a class="btn btn-sm btn-outline-primary"  href="#" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ route('competitions.show', $competition->slug) }}">
+            <i class="bi-share"></i> <span class="d-none d-sm-inline">{{ __('Sdílet') }}</span>
+        </a>
     </div>
+            
+    <x-organomania.modals.share-modal />
 </div>

@@ -1,17 +1,17 @@
-@props(['hintAppend' => null])
+@props(['hintAppend' => null, 'id' => 'shareModal'])
 
 <div>
-    <div class="share-modal modal fade" id="shareModal" tabindex="-1" data-focus="false" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="share-modal modal fade" id="{{ $id }}" tabindex="-1" data-focus="false" aria-labelledby="{{ "{$id}Label" }}" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="shareModalLabel">{{ __('Sdílet odkaz') }}</h1>
+                    <h1 class="modal-title fs-5" id="{{ "{$id}Label" }}">{{ __('Sdílet odkaz') }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="input-group">
                         <input class="link form-control" type="text" readonly>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="{{ __('Kopírovat odkaz do schránky') }}" onclick="shareModal.copyLinkToClipboard()">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="{{ __('Kopírovat odkaz do schránky') }}" onclick="shareModal.copyLinkToClipboard('{{ $id }}')">
                             <i class="copy-icon bi-clipboard"></i> {{ __('Kopírovat') }}
                         </button>
                         <a class="btn btn-outline-primary open-link" data-bs-toggle="tooltip" data-bs-title="{{ __('Přejít na odkaz') }}" href="#" target="_blank">
@@ -42,8 +42,8 @@
 <script>
     window.shareModal = {}
     
-    window.shareModal.copyLinkToClipboard = async function () {
-        var modal = $('#shareModal')
+    window.shareModal.copyLinkToClipboard = async function (id) {
+        var modal = $(`#${id}`)
         var link = modal.find('input.link').val()
         
         await copyToClipboard(link)
@@ -64,18 +64,19 @@
     var initModal = function () {
         setTimeout(() => {      // setTimeout nutný, protože entity-page-view je lazy
             $('.share-modal').each(function () {
+                let that = this
                 this.addEventListener('show.bs.modal', (e) => {
                     // na základě tlačítka, které vyvolalo zobrazení dialogu, určíme URL, která se má v dialogu zobrazit
                     var shareBtn = e.relatedTarget
                     var url = shareBtn.dataset.shareUrl
-                    var modal = $('#shareModal')
+                    var modal = $(that)
                     modal.find('input.link').val(url)
                     modal.find('img.qr').attr('src', `/qr?string=${encodeURIComponent(url)}`)
                     modal.find('a.open-link').attr('href', url)
                 })
                 this.addEventListener('shown.bs.modal', () => $(this).find('input.link').select())
                 this.addEventListener('hidden.bs.modal', () => {
-                    $('#shareModal')
+                    $(that)
                         .find('.copy-icon')
                         .removeClass('bi-clipboard-check')
                         .addClass('bi-clipboard')

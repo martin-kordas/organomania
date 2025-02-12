@@ -32,9 +32,9 @@ class OrganForm extends Form
     public $place;
     
     #[Validate('required', message: 'Zeměpisná šířka musí být vyplněna.')]
-    public $latitude;
+    public $latitude = 1;
     #[Validate('required', message: 'Zeměpisná délka musí být vyplněna.')]
-    public $longitude;
+    public $longitude = 1;
     #[Validate('required', message: 'Kraj musí být vyplněn.')]
     public $regionId;
     #[Validate('required', message: 'Význam musí být vyplněn.')]
