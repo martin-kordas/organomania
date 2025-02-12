@@ -15,21 +15,21 @@
 
                 <div class="modal-body">
                     @php $isFileError = $errors->has('dispositionOcrForm.photos') || $errors->has('dispositionOcrForm.photos.*'); @endphp
-                    @if (!empty($this->dispositionOcrForm->photos) && $this->uploadedPhotos->isNotEmpty() && !$isFileError)
-                        <x-organomania.gallery-carousel :images="$this->uploadedPhotos" class="mb-2" :noAdditional="true" />
+                    @if (!empty($this->dispositionOcrForm->photos) && $this->uploadedOcrPhotos->isNotEmpty() && !$isFileError)
+                        <x-organomania.gallery-carousel :images="$this->uploadedOcrPhotos" class="mb-2" :noAdditional="true" />
                         <div class="text-end">
                             <button class="btn btn-sm btn-outline-secondary" type="button" wire:click="resetDispositionOcr">
                                 <i class="bi bi-x-lg"></i> {{ __('Nahrát jiné fotografie') }}
                             </button>
                         </div>
                     @else
-                        <input id="photos" class="form-control @if ($isFileError) is-invalid @endif" type="file" wire:model="dispositionOcrForm.photos" aria-describedby="photosFeedback" multiple>
+                        <input id="ocrPhotos" class="form-control @if ($isFileError) is-invalid @endif" type="file" wire:model="dispositionOcrForm.photos" aria-describedby="ocrPhotosFeedback" multiple>
                         @if ($isFileError)
                             @error('dispositionOcrForm.photos')
-                                <div id="photosFeedback" class="invalid-feedback">{{ $message }}</div>
+                                <div id="ocrPhotosFeedback" class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             @error('dispositionOcrForm.photos.*')
-                                <div id="photosFeedback" class="invalid-feedback">{{ $message }}</div>
+                                <div id="ocrPhotosFeedback" class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         @endif
                         <div class="form-text">

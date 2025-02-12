@@ -71,12 +71,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         EntityDeleted::dispatch($this->registrationSet);
 
         session()->flash('status-success', __('Sada registrací byla úspěšně smazána.'));
-        $this->redirectBack(delete: true);
+        $this->redirectBack(exists: true, delete: true);
     }
 
     public function save()
     {
         $this->form->validate();
+        $exists = $this->registrationSet->exists;
         $data = Helpers::arrayKeysSnake($this->form->except(['registrations']));
         if (!$this->isRegistrationSetPublic()) $this->registrationSet->user_id = Auth::id();
         $this->registrationSet->fill($data);
@@ -87,8 +88,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if ($this->registrationSet->exists) EntityUpdated::dispatch($this->registrationSet);
         else EntityCreated::dispatch($this->registrationSet);
 
+        $this->registrationSet->refresh();
         session()->flash('status-success', __('Sada registrací byla úspěšně uložena.'));
-        $this->redirectBack();
+        $this->redirectBack($exists);
     }
 
     private function getRegistrationsForSave()
@@ -101,10 +103,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $registrations;
     }
 
-    private function redirectBack($delete = false)
+    private function redirectBack($exists, $delete = false)
     {
         if (
             isset($this->previousUrl)
+            && $exists
             // nemůžeme přesměrovat na detail záznamu, který jsme smazali
             && (!$delete || !in_array($this->previousUrl, [
                 // místo slugů mohla být jako parametry zadána id, ale to pro jednoduchost nezohledňujeme
@@ -113,7 +116,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ) {
             $this->redirect($this->previousUrl, navigate: true);
         }
-        else $this->redirectRoute('dispositions.registration-sets.index', ['disposition' => $this->disposition->slug], navigate: true);
+        else $this->redirectRoute(
+            'dispositions.registration-sets.show',
+            ['disposition' => $this->disposition->slug, 'registrationSet' => $this->registrationSet->slug],
+            navigate: true
+        );
     }
 
     private function isRegistrationSetPublic()

@@ -284,4 +284,10 @@ class Organ extends Model
         };
     }
     
+    public function getImageStoragePath()
+    {
+        if (!$this->id) throw new \Exception;
+        return "organ-images/{$this->id}";
+    }
+    
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
@@ -119,7 +120,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $images = [];
         if ($this->organ->image_url) $images[] = [$this->organ->image_url, $this->organ->image_credits];
-        if ($this->organ->outside_image_url) $images[] = [$this->organ->outside_image_url, $this->organ->outside_image_credits] ;
+        if ($this->organ->outside_image_url) $images[] = [$this->organ->outside_image_url, $this->organ->outside_image_credits];
+        
+        $path = $this->organ->getImageStoragePath();
+        $pattern = storage_path("app/public/$path") . '/*.*';
+        foreach (File::glob($pattern) as $filename) {
+            $imageUrl = "/storage/$path/" . basename($filename);
+            $images[] = [$imageUrl, null];
+        }
+
         return $images;
     }
     
@@ -335,12 +344,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         
         <div class="text-center">
             <div class="position-relative d-inline-block">
-                @if ($organ->image_url)
-                    <a href="{{ $organ->image_url }}" target="_blank">
-                        <img class="organ-img rounded border" src="{{ $organ->image_url }}" @isset($organ->image_credits) title="{{ __('Licence obrázku') }}: {{ $organ->image_credits }}" @endisset height="200" />
+                @foreach ($this->images as [$imageUrl, $imageCredits])
+                    <a href="{{ $imageUrl }}" target="_blank">
+                        <img class="organ-img rounded border" src="{{ $imageUrl }}" @isset($imageCredits) title="{{ __('Licence obrázku') }}: {{ $imageCredits }}" @endisset height="200" />
                     </a>
-                @endif
-                <img width="100" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => isset($organ->image_url)]) src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
+                    @break
+                @endforeach
+                <img width="100" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => !empty($this->images)]) src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
             </div>
         </div>
     </div>
@@ -841,7 +851,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <x-organomania.toast toastId="suggestRegistrationFail" color="danger">
         {{ __('Omlouváme se, při zjišťování registrace došlo k chybě.') }}
     </x-organomania.toast>
-    <x-organomania.toast toastId="describeDispositionFail">
+    <x-organomania.toast toastId="describeDispositionFail" color="danger">
         {{ __('Omlouváme se, při zjišťování popisu dispozice došlo k chybě.') }}
     </x-organomania.toast>
         

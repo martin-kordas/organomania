@@ -533,7 +533,7 @@ function initFacebook() {
 //  - při zobrazení dalšího toastu by se text předchozího toastu prostě jen přepsal (protože jde o jediný HTML element)
 window.showToast = function (id) {
     var toast = $(`#${id}`)[0]
-    var bootstrapToast = bootstrap.Toast.getOrCreateInstance(toast, { delay: 1750 })
+    var bootstrapToast = bootstrap.Toast.getOrCreateInstance(toast, { delay: 3000 })
     bootstrapToast.show()
 }
 

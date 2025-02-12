@@ -436,10 +436,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             }
         }
 
+        $exists = $this->disposition->exists;
         $this->form->save();
+        $this->form->disposition->refresh();
+
         session()->flash('status-success', __('Dispozice byla úspěšně uložena.'));
-        if (isset($this->previousUrl)) $this->redirect($this->previousUrl, navigate: true);
-        else $this->redirectRoute('dispositions.index', navigate: true);
+        if (isset($this->previousUrl) && $exists) $this->redirect($this->previousUrl, navigate: true);
+        else $this->redirectRoute('dispositions.show', $this->form->disposition->slug, navigate: true);
     }
 
     public function delete()

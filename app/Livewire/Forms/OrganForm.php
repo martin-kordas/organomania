@@ -68,6 +68,16 @@ class OrganForm extends Form
     public $concertHall;
     
     #[Validate([
+        'photos' => 'array|max:10',
+        'photos.*' => 'image|max:4096',
+    ], message: [
+        'photos.max' => 'Maximálně lze zvolit 10 souborů.',
+        'image' => 'Nahraný soubor musí být obrázek.',
+        'photos.*.max' => 'Nahraný soubor nesmí být větší než 4 MB.',
+    ])]
+    public $photos = [];
+    
+    #[Validate([
         'rebuilds.*.organBuilderId' => 'required',
         'rebuilds.*.yearBuilt' => 'required|gte:yearBuilt',
     ], message: [
@@ -162,7 +172,7 @@ class OrganForm extends Form
     public function save()
     {
         $this->validate();
-        $data = Helpers::arrayKeysSnake($this->except(['categories', 'rebuilds', 'organ', 'webArray']));
+        $data = Helpers::arrayKeysSnake($this->except(['categories', 'rebuilds', 'organ', 'webArray', 'photos']));
         $data['concert_hall'] ??= 0;
         $update = $this->organ->exists;
         
@@ -203,6 +213,12 @@ class OrganForm extends Form
             }
             $this->organ->push();   // uloží změny v existujících rebuildech
         });
+        
+        // TODO: zabezpečení obrázků - jsou ve složce public, tedy přístupné všem
+        foreach ($this->photos as $photo) {
+            $path = 'public/' . $this->organ->getImageStoragePath();
+            $photo->store(path: $path);
+        }
         
         if ($update) EntityUpdated::dispatch($this->organ);
         else EntityCreated::dispatch($this->organ);

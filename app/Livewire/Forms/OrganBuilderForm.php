@@ -33,9 +33,9 @@ class OrganBuilderForm extends Form
     #[Validate('required', message: 'Obec musí být vyplněna.')]
     public $municipality;
     #[Validate('required', message: 'Zeměpisná šířka musí být vyplněna.')]
-    public $latitude;
+    public $latitude = 1;
     #[Validate('required', message: 'Zeměpisná délka být vyplněna.')]
-    public $longitude;
+    public $longitude = 1;
     public $regionId;
     #[Validate('nullable')]
     #[Validate('url', message: 'Nebyla zadána platná URL adresa.')]

@@ -180,7 +180,7 @@
             <div class="w-100">
             <ul class="nav nav-underline align-center justify-content-center row-gap-1">
                 <x-organomania.view-type-nav-item viewType="thumbnails">
-                    <i class="bi-card-text"></i> {{ __('Miniatury') }}
+                    <i class="bi-image"></i> {{ __('Miniatury') }}
                 </x-organomania.view-type-nav-item>
                 <x-organomania.view-type-nav-item viewType="table">
                     <i class="bi-table"></i> {{ __('Tabulka') }}

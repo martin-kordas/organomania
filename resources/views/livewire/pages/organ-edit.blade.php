@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Computed;
@@ -12,13 +14,13 @@ use Livewire\WithFileUploads;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\Region;
+use App\Interfaces\GeocodingService;
 use App\Livewire\Forms\OrganForm;
 use App\Livewire\Forms\DispositionOcrForm;
 use App\Enums\OrganCategory;
 use App\Repositories\OrganRepository;
 use App\Services\AI\DispositionOcr;
 use App\Traits\ConvertEmptyStringsToNull;
-use Exception;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
 
@@ -32,6 +34,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public DispositionOcrForm $dispositionOcrForm;
 
     private OrganRepository $repository;
+    private GeocodingService $geocodingService;
 
     #[Url]
     public string $public = '0';
@@ -40,9 +43,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public $dispositionOcrResult;
 
-    public function boot(OrganRepository $repository)
+    public function boot(OrganRepository $repository, GeocodingService $geocodingService)
     {
         $this->repository = $repository;
+        $this->geocodingService = $geocodingService;
         $this->form->boot($this->public);
 
         if ($this->public) {
@@ -72,6 +76,25 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function updatedFormWeb()
     {
         $this->form->updatedWeb();
+    }
+
+    public function geocode()
+    {
+        $locationFilled
+            = !isset($this->form->regionId)
+            && ($this->form->latitude ?? 1) === 1
+            && ($this->form->longitude ?? 1) === 1;
+        if ($locationFilled && $this->form->municipality && $this->form->place) {
+            try {
+                $address = "{$this->form->municipality} {$this->form->place}";
+                $res = $this->geocodingService->geocode($address);
+                $this->form->latitude = $res['latitude'];
+                $this->form->longitude = $res['longitude'];
+                $this->form->regionId = $res['regionId'];
+                $this->js('showToast("geocoded")');
+            }
+            catch (Exception $ex) { }
+        }
     }
 
     public function mount()
@@ -109,9 +132,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         // při vkládání nových varhan není jasná jejich pozice v rámci seznamu varhan - přehlednější je tedy tabulkové zobrazení
         if (!$this->organ->exists) $params['viewType'] = 'table';
         $this->form->save();
+        $this->form->organ->refresh();
         session()->flash('status-success', __('Varhany byly úspěšně uloženy.'));
         if (isset($this->previousUrl) && $this->organ->exists) $this->redirect($this->previousUrl, navigate: true);
-        else $this->redirectRoute('organs.index', $params, navigate: true);
+        else $this->redirectRoute('organs.show', ['organSlug' => $this->form->organ->slug], navigate: true);
     }
 
     #[Computed]
@@ -216,7 +240,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
-    public function uploadedPhotos() {
+    public function uploadedOcrPhotos() {
         $useCaptions = count($this->dispositionOcrForm->photos) > 1;
 
         return collect($this->dispositionOcrForm->photos)->map(function ($photo) use ($useCaptions) {
@@ -233,14 +257,35 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         })->filter();
     }
 
+    #[Computed]
+    public function uploadedPhotos() {
+        return collect($this->form->photos)->map(function ($photo) {
+            try {
+                $temporaryUrl = $photo->temporaryUrl();     // není-li soubor obrázek, vyhodí výjimku
+                return [$temporaryUrl, null];
+            }
+            catch (Exception $ex) {
+                return null;
+            }
+        })->filter();
+    }
+
     public function doDispositionOcr(DispositionOcr $service)
     {
-        $this->dispositionOcrForm->validate();
+        $user = Auth::user();
+        $rateLimiterKey = "disposition-ocr:{$user->id}";
+        $limitHit = RateLimiter::tooManyAttempts($rateLimiterKey, maxAttempts: 15);
 
-        $photos = collect($this->dispositionOcrForm->photos)->map(
-            fn ($photo) => $photo->path()
-        )->toArray();
-        $this->dispositionOcrResult = $service->doOcr($photos);
+        if ($limitHit) $this->js('showToast("dispositionOcrCantExecute")');
+        else {
+            $this->dispositionOcrForm->validate();
+
+            $photos = collect($this->dispositionOcrForm->photos)->map(
+                fn ($photo) => $photo->path()
+            )->toArray();
+            $this->dispositionOcrResult = $service->doOcr($photos);
+            RateLimiter::increment($rateLimiterKey, decaySeconds: 3600 * 12, amount: count($photos));
+        }
     }
 
     public function resetDispositionOcr()
@@ -248,6 +293,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->dispositionOcrForm->reset();
         $this->dispositionOcrForm->resetValidation();
         unset($this->dispositionOcrResult);
+    }
+
+    public function resetPhotos()
+    {
+        $this->form->photos = [];
     }
     
 }; ?>
@@ -269,7 +319,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div class="row g-3">
                 <div class="col-md-4">
                     <div class="form-floating">
-                        <input class="form-control form-control-lg @error('form.municipality') is-invalid @enderror" id="municipality" wire:model.live="form.municipality" aria-describedby="municipalityFeedback" autofocus>
+                        <input class="form-control form-control-lg @error('form.municipality') is-invalid @enderror" id="municipality" wire:model.live="form.municipality" aria-describedby="municipalityFeedback" wire:blur="geocode" autofocus>
                         <label for="municipality">{{ __('Obec') }}</label>
                         @error('form.municipality')
                             <div id="municipalityFeedback" class="invalid-feedback">{{ $message }}</div>
@@ -278,7 +328,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
                 <div class="col-md-8">
                     <div class="form-floating">
-                        <input class="form-control form-control-lg @error('form.place') is-invalid @enderror" id="place" wire:model.live="form.place" aria-describedby="placeFeedback">
+                        <input class="form-control form-control-lg @error('form.place') is-invalid @enderror" id="place" wire:model.live="form.place" aria-describedby="placeFeedback" wire:blur="geocode">
                         <label for="place">{{ __('Místo') }}</label>
                         @error('form.place')
                             <div id="placeFeedback" class="invalid-feedback">{{ $message }}</div>
@@ -442,8 +492,35 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <hr>
             
             <div class="row g-3">
+                {{-- TODO: obrázky lze jen přidávat, ne mazat --}}
                 <div>
-                    <label for="imageUrl" class="form-label">{{ __('URL obrázku') }}</label>
+                    <label for="photos" class="form-label">{{ __('Nahrát obrázky') }}</label>
+                    @php $isFileError = $errors->has('form.photos') || $errors->has('form.photos.*'); @endphp
+                    @if (!empty($this->form->photos) && $this->uploadedPhotos->isNotEmpty() && !$isFileError)
+                        <x-organomania.gallery-carousel :images="$this->uploadedPhotos" class="mb-2" :noAdditional="true" />
+                        <div class="text-end">
+                            <button class="btn btn-sm btn-outline-secondary" type="button" wire:click="resetPhotos">
+                                <i class="bi bi-x-lg"></i> {{ __('Nahrát jiné fotografie') }}
+                            </button>
+                        </div>
+                    @else
+                        <input id="photos" class="form-control @if ($isFileError) is-invalid @endif" type="file" wire:model="form.photos" aria-describedby="photosFeedback" multiple>
+                        @if ($isFileError)
+                            @error('form.photos')
+                                <div id="photosFeedback" class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            @error('form.photos.*')
+                                <div id="photosFeedback" class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        @endif
+                        <div class="form-text">
+                            {{ __('Můžete nahrát 1 až 10 fotografií.') }}
+                        </div>
+                    @endif
+                </div>
+                
+                <div>
+                    <label for="imageUrl" class="form-label">{{ __('URL obrázku') }} &ndash; {{ __('pro miniaturu') }}</label>
                     <input class="form-control @error('form.imageUrl') is-invalid @enderror" id="imageUrl" wire:model="form.imageUrl" aria-describedby="imageUrlFeedback">
                     
                     @error('form.imageUrl')
@@ -454,7 +531,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </div>
                 </div>
                 <div>
-                    <label for="imageCredits" class="form-label">{{ __('Licence obrázku') }}</label>
+                    <label for="imageCredits" class="form-label">{{ __('Licence obrázku') }} &ndash; {{ __('pro miniaturu') }}</label>
                     <input class="form-control @error('form.imageCredits') is-invalid @enderror" id="imageCredits" wire:model="form.imageCredits" aria-describedby="imageCreditsFeedback">
                     @error('form.imageCredits')
                         <div id="imageCreditsFeedback" class="invalid-feedback">{{ $message }}</div>
@@ -532,6 +609,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     >
         {{ __('Opravdu chcete smazat přestavbu?') }}
     </x-organomania.modals.confirm-modal>
+    
+    <x-organomania.toast toastId="geocoded">
+        {{ __('Souřadnice místa varhan byly automaticky vypočítány.') }}
+    </x-organomania.toast>
+    <x-organomania.toast toastId="dispositionOcrCantExecute" color="danger">
+        {{ __('Přečtení fotografií nelze provést, protože byl dosažen limit zpracování 15 fotografií denně.') }}
+    </x-organomania.toast>
   
     <x-organomania.modals.premium-modal />
     <x-organomania.modals.disposition-ocr-modal />

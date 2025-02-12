@@ -16,7 +16,7 @@
                 $additional = $noAdditional || ($images[$key][3] ?? false);
             @endphp
             <div @class(['carousel-item', 'active' => $loop->first]) data-bs-interval="8000">
-                <img src="{{ $src }}" class="d-block m-auto" alt="{{ __('Náhled') }}" @isset($credits) title="{{ __('Licence obrázku') }}: {{ $credits }}" @endisset>
+                <img src="{{ $src }}" class="d-block m-auto" alt="{{ __('Náhled') }}" @isset($credits) title="{{ __('Licence obrázku') }}: {{ $credits }}" @endisset />
                 @isset($caption)
                     <div @class(['carousel-caption', 'small', 'text-dark' => $additional, 'text-primary' => !$additional])>
                         <p class="bg-light rounded mb-1 p-1 fst-italic collapsed" style="opacity: 85%" onmousedown="toggleGalleryCaption(this)">{!! $caption !!}</p>

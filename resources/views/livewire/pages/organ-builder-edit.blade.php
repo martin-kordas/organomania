@@ -126,6 +126,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         else $this->form->workshopName = null;
 
         $this->form->validate();
+        $exists = $this->organBuilder->exists;
         $data = Helpers::arrayKeysSnake($this->form->except(['categories']));
         if (!$this->isOrganBuilderPublic()) $this->organBuilder->user_id = Auth::id();
         $this->organBuilder->fill($data)->save();
@@ -135,12 +136,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         // pro private varhanáře se timeline položky ukládají automaticky
         if (!$this->isOrganBuilderPublic()) $this->saveTimelineItem();
 
-        if ($this->organBuilder->exists) EntityUpdated::dispatch($this->organBuilder);
+        if ($exists) EntityUpdated::dispatch($this->organBuilder);
         else EntityCreated::dispatch($this->organBuilder);
 
+        $this->organBuilder->refresh();
         session()->flash('status-success', __('Varhanář byl úspěšně uložen.'));
-        if (isset($this->previousUrl)) $this->redirect($this->previousUrl, navigate: true);
-        else $this->redirectRoute('organ-builders.index', navigate: true);
+        if (isset($this->previousUrl) && $exists) $this->redirect($this->previousUrl, navigate: true);
+        else $this->redirectRoute('organ-builders.show', $this->organBuilder->slug, navigate: true);
     }
 
     private function saveTimelineItem()

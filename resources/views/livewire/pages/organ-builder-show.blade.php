@@ -6,6 +6,7 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use App\Helpers;
 use App\Models\Organ;
@@ -135,8 +136,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $images[] = [$organ->image_url, $organ->image_credits, $caption];
             }
         }
+        $organIds = $this->organBuilder->organs->pluck('id');
+
         foreach ($this->organBuilder->renovatedOrgans as $organ) {
-            if (isset($organ->image_url, $organ->outside_image_url)) {
+            if (isset($organ->image_url, $organ->outside_image_url) && !$organIds->contains($organ->id)) {
                 $year = __('restaurováno');
                 if (isset($organ->year_renovated)) $year .= " {$organ->year_renovated}";
                 $caption = view('components.organomania.organ-link', [
@@ -511,7 +514,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $organs = $this->organBuilder->organs->map(
             fn (Organ $organ) => ['isRebuild' => false, 'organ' => $organ, 'year' => $organ->year_built]
         )->collect();
-        $rebuiltOrgans = $this->organBuilder->organRebuilds->map(
+
+        $rebuiltOrgans = $this->organBuilder->organRebuilds->filter(
+            // přestavované varhany mohou být cizího uživatele, pak se vůbec nenačtou
+            fn (OrganRebuild $rebuild) => isset($rebuild->organ)
+        )->map(
             fn (OrganRebuild $rebuild) => ['isRebuild' => true, 'organ' => $rebuild->organ, 'year' => $rebuild->year_built]
         )->collect();
 

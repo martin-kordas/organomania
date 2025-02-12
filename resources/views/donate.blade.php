@@ -83,10 +83,10 @@
                 <strong>{{ __('Přečtení dispozice z fotografie') }}</strong> &ndash; {{ __('při editaci varhan automaticky sepíše varhanní dispozici na základě zadaných fotografií hracího stolu') }}
             </li>
             <li>
-                <strong>{{ __('Popis dispozice') }}</strong> &ndash; {{ __('popíše ve větách charakter rejstříkové dispozice daného nástroje a navrhne pro něj vhodný typ varhanní literatury') }}
+                <strong>{{ __('Registrace') }}</strong> &ndash; {{ __('naregistruje na varhanách zadanou skladbu (výsledné rejstříky přímo zvýrazní v dispozici)') }}
             </li>
             <li>
-                <strong>{{ __('Registrace') }}</strong> &ndash; {{ __('naregistruje na varhanách zadanou skladbu (výsledné rejstříky přímo zvýrazní v dispozici)') }}
+                <strong>{{ __('Popis dispozice') }}</strong> &ndash; {{ __('popíše ve větách charakter rejstříkové dispozice daného nástroje a navrhne pro něj vhodný typ varhanní literatury') }}
             </li>
         </ul>
         
@@ -94,6 +94,8 @@
             $images = [
                 ['/images/ai-funkce2.png', null],
                 ['/images/ai-funkce.png', null],
+                ['/images/ai-funkce3.png', null],
+                ['/images/ai-funkce4.png', null],
             ];
         @endphp
         <div class="text-center my-3">

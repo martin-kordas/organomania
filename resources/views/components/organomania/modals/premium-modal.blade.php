@@ -2,6 +2,8 @@
     $images = [
         ['/images/ai-funkce2.png', null],
         ['/images/ai-funkce.png', null],
+        ['/images/ai-funkce3.png', null],
+        ['/images/ai-funkce4.png', null],
     ];
 @endphp
 

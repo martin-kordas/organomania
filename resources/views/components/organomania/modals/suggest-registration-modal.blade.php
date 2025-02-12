@@ -19,7 +19,17 @@
                 
                 <div class="mb-3">
                     <label for="piece" class="form-label">{{ __('Skladba (část skladby, typ skladby)') }}</label>
-                    <input type="text" class="piece form-control" id="piece" placeholder="{{ __('např.') }} {{ __('J. S. Bach: Toccata a fuga d-moll, BWV 565') }}">
+                    <input id="piece" type="text" class="piece form-control" id="piece" placeholder="{{ __('např.') }} {{ __('J. S. Bach: Toccata a fuga d-moll, BWV 565') }}">
+                    <div class="form-text">
+                        {{ __('Obvyklé typy skladeb') }}:
+                        <ul>
+                            @foreach (['doprovod kostelní písně', 'slavnostní předehra', 'meditativní mezihra'] as $pieceType)
+                                <li>
+                                    <a class="text-decoration-none" href="#" onclick="return suggestRegistrationModal.pieceTypeOnclick(this)">{{ __($pieceType) }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
               
                 <div class="form-text">
@@ -50,6 +60,11 @@
             $wire.suggestRegistration(piece)
             bootstrap.Modal.getOrCreateInstance(`#${modalId}`).hide()
         }
+        return false
+    }
+        
+    window.suggestRegistrationModal.pieceTypeOnclick = function (elem) {
+        $('#piece').val(elem.textContent).focus()
         return false
     }
     

@@ -19,5 +19,4 @@ class DispositionOcrForm extends Form
     ])]
     public $photos = [];
     
-    
 }
