@@ -41,6 +41,8 @@ class DispositionOcr
         
         $contentText = <<<EOL
             Output list of organ stops at given images.
+            Output each stop on separate line.
+            Stops from different photos separate by blank line.
             Do not ouput any other comments.
             If there is no organ stops at the image, do not output anything.
         EOL;

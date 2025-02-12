@@ -21,7 +21,7 @@
                     {{ __('Funkce umožňují slovně charakterizovat varhanní dispozici, naregistrovat zadanou varhanní skladbu a přečíst při editaci varhan dispozici z fotografií hracího stolu.') }}
                     {{ __('Funkce zatím fungují v experimentálním režimu.') }}
                 </p>
-                <x-organomania.gallery-carousel :images="$images" />
+                <x-organomania.gallery-carousel id="premiumModalCarousel" :images="$images" />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Zavřít') }}</button>
