@@ -34,11 +34,6 @@ class DispositionOcr
     
     protected function sendRequest(array $photos)
     {
-        
-        $systemContent = <<<EOL
-            
-        EOL;
-        
         $contentText = <<<EOL
             Output list of organ stops at given images.
             Output each stop on separate line.
@@ -64,7 +59,6 @@ class DispositionOcr
             'model' => 'gpt-4o',
             'temperature' => 1,
             'messages' => [
-                //['role' => 'system', 'content' => $systemContent],
                 [
                     'role' => 'user',
                     'content' => $content,
