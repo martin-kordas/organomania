@@ -14,7 +14,8 @@
                 </div>
 
                 <div class="modal-body">
-                    @if ($this->uploadedPhotos->isNotEmpty())
+                    @php $isFileError = $errors->has('dispositionOcrForm.photos') || $errors->has('dispositionOcrForm.photos.*'); @endphp
+                    @if (!empty($this->dispositionOcrForm->photos) && $this->uploadedPhotos->isNotEmpty() && !$isFileError)
                         <x-organomania.gallery-carousel :images="$this->uploadedPhotos" class="mb-2" :noAdditional="true" />
                         <div class="text-end">
                             <button class="btn btn-sm btn-outline-secondary" type="button" wire:click="resetDispositionOcr">
@@ -22,7 +23,6 @@
                             </button>
                         </div>
                     @else
-                        @php $isFileError = $errors->has('dispositionOcrForm.photos') || $errors->has('dispositionOcrForm.photos.*'); @endphp
                         <input id="photos" class="form-control @if ($isFileError) is-invalid @endif" type="file" wire:model="dispositionOcrForm.photos" aria-describedby="photosFeedback" multiple>
                         @if ($isFileError)
                             @error('dispositionOcrForm.photos')
@@ -58,7 +58,7 @@
                             <i class="bi bi-clipboard"></i> {{ __('Vložit do dispozice') }}
                         </button>
                     @else
-                        <button id="filterButton" type="submit" class="btn btn-primary">
+                        <button id="filterButton" type="submit" class="btn btn-primary" @disabled(empty($this->dispositionOcrForm->photos || $isFileError))>
                             <span wire:loading.remove wire:target="doDispositionOcr">
                                 <i class="bi-magic"></i>
                             </span>

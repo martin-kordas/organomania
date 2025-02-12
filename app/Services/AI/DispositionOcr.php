@@ -34,13 +34,18 @@ class DispositionOcr
     
     protected function sendRequest(array $photos)
     {
+        
+        $differentPhotos = count($photos) > 1 ? 'Stops from different photos separate by blank line.' : '';
+        
         $contentText = <<<EOL
-            Output list of organ stops at given images.
+            Output list of organ stops with their pitch at given images.
             Output each stop on separate line.
-            Stops from different photos separate by blank line.
+            $differentPhotos
             Do not ouput any other comments.
-            If there is no organ stops at the image, do not output anything.
+            If there is no organ stops at the image, output empty response.
         EOL;
+        //$contentText = 'Output list of organ stops at given images.';
+        
         $content = [
             ['type' => 'text', 'text' => $contentText]
         ];

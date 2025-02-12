@@ -18,6 +18,7 @@ use App\Enums\OrganCategory;
 use App\Repositories\OrganRepository;
 use App\Services\AI\DispositionOcr;
 use App\Traits\ConvertEmptyStringsToNull;
+use Exception;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
 
@@ -220,9 +221,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         return collect($this->dispositionOcrForm->photos)->map(function ($photo) use ($useCaptions) {
             static $no = 1;
-            $caption = $useCaptions ? (__('Obrázek č.') . ' ' . $no++) : null;
-            return [$photo->temporaryUrl(), null, $caption];
-        });
+
+            try {
+                $temporaryUrl = $photo->temporaryUrl();     // není-li soubor obrázek, vyhodí výjimku
+                $caption = $useCaptions ? (__('Obrázek č.') . ' ' . $no++) : null;
+                return [$temporaryUrl, null, $caption];
+            }
+            catch (Exception $ex) {
+                return null;
+            }
+        })->filter();
     }
 
     public function doDispositionOcr(DispositionOcr $service)
@@ -238,6 +246,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function resetDispositionOcr()
     {
         $this->dispositionOcrForm->reset();
+        $this->dispositionOcrForm->resetValidation();
         unset($this->dispositionOcrResult);
     }
     
