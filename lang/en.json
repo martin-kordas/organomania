@@ -543,5 +543,15 @@
     "Přečtená dispozice": "Recognized disposition",
     "Přečtení dispozice z fotografie": "Reading disposition from photos",
     "při editaci varhan automaticky sepíše varhanní dispozici na základě zadaných fotografií hracího stolu": "when editing the organ, it automatically writes organ disposition based on the entered photos of organ console",
-    "Obrázek č.": "Image no."
+    "Obrázek č.": "Image no.",
+    "Přidat obrázky": "Add images",
+    "Přidat nahrávky": "Add recordings",
+    "URL obrázku": "Image URL",
+    "pro miniaturu": "for thumbnail",
+    "exteriér": "exterior",
+    "Můžete zvolit 1 až 10 fotografií velkých maximálně 4 MB.": "You can upload 1 to 10 photos with maximum size of 4 MB.",
+    "Můžete zvolit 1 až 5 nahrávek velkých maximálně 10 MB.": "You can upload 1 to 5 recordings with maximum size of 10 MB.",
+    "Kategorizace": "Categorization",
+    "Dokumentace": "Documentation",
+    "Externí materiály": "External materials"
 }

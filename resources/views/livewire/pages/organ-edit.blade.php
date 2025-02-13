@@ -8,6 +8,7 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 use Livewire\WithFileUploads;
@@ -78,20 +79,33 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->form->updatedWeb();
     }
 
+    #[Renderless]
     public function geocode()
     {
-        $locationFilled
-            = !isset($this->form->regionId)
-            && ($this->form->latitude ?? 1) === 1
+        $locationEmpty
+            = ($this->form->latitude ?? 1) === 1
             && ($this->form->longitude ?? 1) === 1;
-        if ($locationFilled && $this->form->municipality && $this->form->place) {
+
+        if ($locationEmpty && $this->form->municipality && $this->form->place) {
             try {
                 $address = "{$this->form->municipality} {$this->form->place}";
                 $res = $this->geocodingService->geocode($address);
+
                 $this->form->latitude = $res['latitude'];
                 $this->form->longitude = $res['longitude'];
-                $this->form->regionId = $res['regionId'];
-                $this->js('showToast("geocoded")');
+                $this->form->regionId ??= $res['regionId'];
+
+                $js = sprintf(<<<JS
+                    $('#latitude').val(%s)
+                    $('#longitude').val(%s)
+                    if (!$('#regionId').val()) {
+                        $('#regionId').val(%s)
+                        $('#regionId').trigger('change')
+                    }
+
+                    showToast("geocoded")
+                JS, json_encode($res['latitude']), json_encode($res['longitude']), json_encode($res['regionId']));
+                $this->js($js);
             }
             catch (Exception $ex) { }
         }
@@ -249,6 +263,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             try {
                 $temporaryUrl = $photo->temporaryUrl();     // není-li soubor obrázek, vyhodí výjimku
                 $caption = $useCaptions ? (__('Obrázek č.') . ' ' . $no++) : null;
+                $caption = $photo->getClientOriginalName();
                 return [$temporaryUrl, null, $caption];
             }
             catch (Exception $ex) {
@@ -315,7 +330,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             @endif
         </h3>
         
-        <div class="mb-4">
+        <div class="mb-4 mt-3">
             <div class="row g-3">
                 <div class="col-md-4">
                     <div class="form-floating">
@@ -337,11 +352,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
               
                 <div class="col-md-6">
-                    <label for="organBuilderId" class="form-label">{{ __('Varhanář') }}</label>
+                    <label for="organBuilderId" class="form-label">{{ __('Varhanář') }}</label>&nbsp;
+                    <small>(<a class="text-decoration-none" href="{{ route('organ-builders.create') }}" target="_blank">{{ __('přidat varhanáře') }}</a>)</small>
                     <x-organomania.selects.organ-builder-select
                         id="organBuilderId"
                         model="form.organBuilderId"
                         :organBuilders="$this->organBuilders"
+                        :allowClear="true"
                     />
                 </div>
                 <div class="col-md-2">
@@ -389,9 +406,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
             </div>
             
-            <hr>
-            
-            <div class="row g-3">
+            <div class="row g-3 bg-light rounded p-2 mt-4">
+                <h5 class="mt-1 mb-0">{{ __('Kategorizace') }}</h5>
+                
                 <div class="col-md-6">
                     <label for="categories" class="form-label">{{ __('Kategorie') }}</label>
                     <x-organomania.selects.organ-category-select
@@ -446,9 +463,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
             </div>
             
-            <hr>
-            
-            <div class="row g-3">
+            <div class="row g-3 bg-light rounded p-2 mt-4">
+                <h5 class="mt-1 mb-0">{{ __('Dokumentace') }}</h5>
+                
                 <div>
                     <div class="d-flex align-items-end mb-2">
                         <label for="disposition" class="form-label me-auto mb-0">{{ __('Disposition_1') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
@@ -473,28 +490,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </span>
                 </div>
                 <div>
-                    <label for="perex" class="form-label">{{ __('Perex') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
-                    <textarea rows="3" class="form-control" id="perex" wire:model="form.perex" placeholder="{{ __('Krátká jednovětá charakteristika varhan, která se vypíše v rámečku s miniaturou.') }}"></textarea>
-                </div>
-                <div>
                     <label for="description" class="form-label">{{ __('Popis') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
                     <textarea rows="8" class="form-control" id="description" wire:model="form.description" placeholder="{{ __('Podrobnější popis varhan, který se vypíše v detailním zobrazení.') }}"></textarea>
                 </div>
                 <div>
-                    <label for="literature" class="form-label">{{ __('Literatura') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
-                    <textarea rows="3" class="form-control" id="literature" wire:model="form.literature"></textarea>
-                    <div class="form-text">
-                        {{ __('Každá publikace se uvede na samostatném řádku.') }}
-                    </div>
+                    <label for="perex" class="form-label">{{ __('Perex') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                    <textarea rows="3" class="form-control" id="perex" wire:model="form.perex" placeholder="{{ __('Krátká jednovětá charakteristika varhan, která se vypíše v rámečku s miniaturou.') }}"></textarea>
                 </div>
             </div>
             
-            <hr>
-            
-            <div class="row g-3">
-                {{-- TODO: obrázky lze jen přidávat, ne mazat --}}
+            <div class="row g-3 bg-light rounded p-2 mt-4">
+                <h5 class="mt-1 mb-0">{{ __('Externí materiály') }}</h5>
+                
+                {{-- TODO: soubory lze jen přidávat, ne mazat --}}
                 <div>
-                    <label for="photos" class="form-label">{{ __('Nahrát obrázky') }}</label>
+                    <label for="photos" class="form-label">{{ __('Přidat obrázky') }}</label>
                     @php $isFileError = $errors->has('form.photos') || $errors->has('form.photos.*'); @endphp
                     @if (!empty($this->form->photos) && $this->uploadedPhotos->isNotEmpty() && !$isFileError)
                         <x-organomania.gallery-carousel :images="$this->uploadedPhotos" class="mb-2" :noAdditional="true" />
@@ -514,9 +524,26 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             @enderror
                         @endif
                         <div class="form-text">
-                            {{ __('Můžete nahrát 1 až 10 fotografií.') }}
+                            {{ __('Můžete zvolit 1 až 10 fotografií velkých maximálně 4 MB.') }}
                         </div>
                     @endif
+                </div>
+                
+                <div>
+                    <label for="recordings" class="form-label">{{ __('Přidat nahrávky') }}</label>
+                    @php $isFileError = $errors->has('form.recordings') || $errors->has('form.recordings.*'); @endphp
+                    <input id="recordings" class="form-control @if ($isFileError) is-invalid @endif" type="file" wire:model="form.recordings" aria-describedby="recordingsFeedback" multiple>
+                    @if ($isFileError)
+                        @error('form.recordings')
+                            <div id="recordingsFeedback" class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        @error('form.recordings.*')
+                            <div id="recordingsFeedback" class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    @endif
+                    <div class="form-text">
+                        {{ __('Můžete zvolit 1 až 5 nahrávek velkých maximálně 10 MB.') }}
+                    </div>
                 </div>
                 
                 <div>
@@ -537,27 +564,30 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <div id="imageCreditsFeedback" class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-                <div>
-                    <label for="outsideImageUrl" class="form-label">
-                        {{ __('URL obrázku') }} &ndash; {{ __('exteriér') }} <span class="text-secondary">({{ __('nepovinné') }})</span>
-                    </label>
-                    <input class="form-control @error('form.outsideImageUrl') is-invalid @enderror" id="outsideImageUrl" wire:model="form.outsideImageUrl" aria-describedby="outsideImageUrlFeedback">
-                    @error('form.outsideImageUrl')
-                        <div id="outsideImageUrlFeedback" class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                    <div class="form-text">
-                        {{ __('Obrázek můžete nahrát např. přes službu') }} <a href="https://postimages.org/" target="_blank">postimages.org</a> {{ __('a sem zkopírovat vygenerovaný "přímý odkaz"') }}.
+                {{-- externí obrázek uživatelům pro zkrácení stránky nezobrazujeme - mohou nahrávat pomocí photos --}}
+                @if ($this->form->isOrganPublic())
+                    <div>
+                        <label for="outsideImageUrl" class="form-label">
+                            {{ __('URL obrázku') }} &ndash; {{ __('exteriér') }} <span class="text-secondary">({{ __('nepovinné') }})</span>
+                        </label>
+                        <input class="form-control @error('form.outsideImageUrl') is-invalid @enderror" id="outsideImageUrl" wire:model="form.outsideImageUrl" aria-describedby="outsideImageUrlFeedback">
+                        @error('form.outsideImageUrl')
+                            <div id="outsideImageUrlFeedback" class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <div class="form-text">
+                            {{ __('Obrázek můžete nahrát např. přes službu') }} <a href="https://postimages.org/" target="_blank">postimages.org</a> {{ __('a sem zkopírovat vygenerovaný "přímý odkaz"') }}.
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <label for="outsideImageCredits" class="form-label">
-                        {{ __('Licence obrázku') }} &ndash; {{ __('exteriér') }} <span class="text-secondary">({{ __('nepovinné') }})</span>
-                    </label>
-                    <input class="form-control @error('form.outsideImageCredits') is-invalid @enderror" id="outsideImageCredits" wire:model="form.outsideImageCredits" aria-describedby="outsideImageCreditsFeedback">
-                    @error('form.outsideImageCredits')
-                        <div id="outsideImageCreditsFeedback" class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                    <div>
+                        <label for="outsideImageCredits" class="form-label">
+                            {{ __('Licence obrázku') }} &ndash; {{ __('exteriér') }} <span class="text-secondary">({{ __('nepovinné') }})</span>
+                        </label>
+                        <input class="form-control @error('form.outsideImageCredits') is-invalid @enderror" id="outsideImageCredits" wire:model="form.outsideImageCredits" aria-describedby="outsideImageCreditsFeedback">
+                        @error('form.outsideImageCredits')
+                            <div id="outsideImageCreditsFeedback" class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
                 <div>
                     <label for="web" class="form-label">{{ __('Web') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
                     <textarea rows="2" class="form-control @error('form.webArray.*') is-invalid @enderror" id="web" wire:model="form.web" aria-describedby="webFeedback"></textarea>
@@ -566,6 +596,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @enderror
                     <div class="form-text">
                         {{ __('Více webových odkazů zadejte na samostatných řádcích.') }}
+                    </div>
+                </div>
+                <div>
+                    <label for="literature" class="form-label">{{ __('Literatura') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                    <textarea rows="3" class="form-control" id="literature" wire:model="form.literature"></textarea>
+                    <div class="form-text">
+                        {{ __('Každá publikace se uvede na samostatném řádku.') }}
                     </div>
                 </div>
             </div>

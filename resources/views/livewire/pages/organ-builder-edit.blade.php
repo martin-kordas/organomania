@@ -273,9 +273,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endif
             </div>
             
-            <hr>
-            
-            <div class="row g-3">
+            <div class="row g-3 bg-light rounded p-2 mt-4">
+                <h5 class="mt-1 mb-0">{{ __('Kategorizace') }}</h5>
+                
                 <div class="col-md-6">
                     <label for="categories" class="form-label">{{ __('Kategorie') }}</label>
                     <select id="categories" class="form-select select2 @error('form.categories') is-invalid @enderror" wire:model.live="form.categories" data-placeholder="{{ __('Zvolte kategorii') }}" multiple aria-describedby="categoriesFeedback">
@@ -348,22 +348,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </div>
                 </div>
             </div>
+            
+            <div class="row g-3 bg-light rounded p-2 mt-4">
+                <h5 class="mt-1 mb-0">{{ __('Dokumentace') }}</h5>
                 
-            <hr>
-            
-            <div class="row g-3">
-                <div>
-                    <label for="web" class="form-label">{{ __('Web') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
-                    <input class="form-control @error('form.web') is-invalid @enderror" id="web" wire:model="form.web" aria-describedby="webFeedback">
-                    @error('form.web')
-                        <div id="webFeedback" class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            
-            <hr>
-            
-            <div class="row g-3">
                 <div>
                     <label for="perex" class="form-label">{{ __('Perex') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
                     <textarea rows="3" class="form-control" id="perex" wire:model="form.perex" placeholder="{{ __('Krátká jednovětá charakteristika varhanáře, která se vypíše v rámečku s miniaturou.') }}"></textarea>
@@ -371,6 +359,18 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div>
                     <label for="description" class="form-label">{{ __('Popis') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
                     <textarea rows="8" class="form-control" id="description" wire:model="form.description" placeholder="{{ __('Podrobnější popis varhanáře, který se vypíše v detailním zobrazení.') }}"></textarea>
+                </div>
+            </div>
+                
+            <div class="row g-3 bg-light rounded p-2 mt-4">
+                <h5 class="mt-1 mb-0">{{ __('Externí materiály') }}</h5>
+                
+                <div>
+                    <label for="web" class="form-label">{{ __('Web') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                    <input class="form-control @error('form.web') is-invalid @enderror" id="web" wire:model="form.web" aria-describedby="webFeedback">
+                    @error('form.web')
+                        <div id="webFeedback" class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div>
                     <label for="literature" class="form-label">{{ __('Literatura') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>

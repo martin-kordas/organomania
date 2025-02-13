@@ -13,6 +13,7 @@ class MapyCzGeocodingService implements GeocodingService
     
     protected string $baseUrl = 'https://api.mapy.cz/v1/geocode/';
 
+    // TODO: vrací souřadnice i pro zcela nesmyslé dotazy (např. "Test něco")
     public function geocode(string $address): ?array
     {
         $apiKey = env('MAPY_CZ_API_KEY');
@@ -24,7 +25,7 @@ class MapyCzGeocodingService implements GeocodingService
             'locality' => 'cz',
             'limit' => 1,
         ]);
-        
+
         if ($response->successful()) {
             $res = $response->json()['items'][0] ?? null;
             if (!isset($res)) throw new RuntimeException('Pozice nebyla nalezena.');

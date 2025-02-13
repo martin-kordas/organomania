@@ -290,4 +290,10 @@ class Organ extends Model
         return "organ-images/{$this->id}";
     }
     
+    public function getRecordingStoragePath()
+    {
+        if (!$this->id) throw new \Exception;
+        return "organ-recordings/{$this->id}";
+    }
+    
 }

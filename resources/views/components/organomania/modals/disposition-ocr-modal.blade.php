@@ -34,7 +34,7 @@
                         @endif
                         <div class="form-text">
                             {{ __('Můžete nahrát 1 až 5 fotografií.') }}
-                            {{ __('Mělo by jít o dobře čitelné fotografie rejstříkových sklopek nebo táhel.') }}
+                            {{ __('Mělo by jít o dobře čitelné fotografie detailů rejstříkových sklopek nebo táhel.') }}
                         </div>
                     @endif
 

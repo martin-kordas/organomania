@@ -39,17 +39,18 @@ class OrganForm extends Form
     public $regionId;
     #[Validate('required', message: 'Význam musí být vyplněn.')]
     public $importance;
-    #[Validate('required', message: 'Varhanář musí být vyplněn.')]
     public $organBuilderId;
     public $yearBuilt;
     public $stopsCount;
     public $manualsCount;
     #[Validate('nullable')]
-    #[Validate('url', message: 'Nebyla zadána platná URL adresa.')]
+    // TODO: imageUrl se má validovat jako url nebo jako absolutní url (/image/zerotin.jpg)
+    //#[Validate('url', message: 'Nebyla zadána platná URL adresa.')]
     public $imageUrl;
     public $imageCredits;
     #[Validate('nullable')]
-    #[Validate('url', message: 'Nebyla zadána platná URL adresa.')]
+    // TODO: imageUrl se má validovat jako url nebo jako absolutní url (/image/zerotin.jpg)
+    //#[Validate('url', message: 'Nebyla zadána platná URL adresa.')]
     public $outsideImageUrl;
     public $outsideImageCredits;
     public $web;
@@ -76,6 +77,16 @@ class OrganForm extends Form
         'photos.*.max' => 'Nahraný soubor nesmí být větší než 4 MB.',
     ])]
     public $photos = [];
+    
+    #[Validate([
+        'recordings' => 'array|max:5',
+        'recordings.*' => 'mimes:mp3,wav,wma,aiff,aac,flac|max:10485',
+    ], message: [
+        'recordings.max' => 'Maximálně lze zvolit 5 souborů.',
+        'mimes' => 'Nahraný soubor musí být zvuková nahrávka.',
+        'recordings.*.max' => 'Nahraný soubor nesmí být větší než 10 MB.',
+    ])]
+    public $recordings = [];
     
     #[Validate([
         'rebuilds.*.organBuilderId' => 'required',
@@ -172,7 +183,7 @@ class OrganForm extends Form
     public function save()
     {
         $this->validate();
-        $data = Helpers::arrayKeysSnake($this->except(['categories', 'rebuilds', 'organ', 'webArray', 'photos']));
+        $data = Helpers::arrayKeysSnake($this->except(['categories', 'rebuilds', 'organ', 'webArray', 'photos', 'recordings']));
         $data['concert_hall'] ??= 0;
         $update = $this->organ->exists;
         
@@ -214,10 +225,25 @@ class OrganForm extends Form
             $this->organ->push();   // uloží změny v existujících rebuildech
         });
         
-        // TODO: zabezpečení obrázků - jsou ve složce public, tedy přístupné všem
+        // TODO: zabezpečení souborů - jsou ve složce public, tedy přístupné všem
+        $photoFilename1 = null;
         foreach ($this->photos as $photo) {
             $path = 'public/' . $this->organ->getImageStoragePath();
-            $photo->store(path: $path);
+            $photoFilename1 ??= $photo->store(path: $path);
+        }
+        foreach ($this->recordings as $recording) {
+            $path = 'public/' . $this->organ->getRecordingStoragePath();
+            // nahraje-li uživatel další soubor se stejným jménem, přemaže se
+            //  - původní jméno se ponechává kvůli identifikaci nahrávky
+            $recording->storeAs(path: $path, name: $recording->getClientOriginalName());
+        }
+        
+        // aby se zobrazil nějaký obrázek v miniatuře, použijeme pro image_url první z obrázků ve photos
+        if (!isset($this->organ->image_url) && isset($photoFilename1)) {
+            $path = $this->organ->getImageStoragePath();
+            $imageUrl = "/storage/$path/" . basename($photoFilename1);
+            $this->organ->image_url = $imageUrl;
+            $this->organ->save();
         }
         
         if ($update) EntityUpdated::dispatch($this->organ);

@@ -133,6 +133,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
     
     #[Computed]
+    public function recordings()
+    {
+        $recordings = [];
+        
+        $path = $this->organ->getRecordingStoragePath();
+        $pattern = storage_path("app/public/$path") . '/*.*';
+        foreach (File::glob($pattern) as $filename) {
+            $name = basename($filename);
+            $recordingUrl = "/storage/$path/" . $name;
+            $recordings[] = [$recordingUrl, $name];
+        }
+
+        return $recordings;
+    }
+    
+    #[Computed]
     public function discs()
     {
         if (($this->organ->discography ?? '') !== '') {
@@ -567,21 +583,33 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
             </x-organomania.tr-responsive>
         @endif
-        @if (!empty($this->discs))
+        @if (!empty($this->discs) || !empty($this->recordings))
             <x-organomania.tr-responsive title="{{ __('Nahrávky') }}">
                 <div class="items-list">
-                    @foreach ($this->discs as [$discName, $info, $discUrl, $icon])
-                        <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" href="{{ $discUrl }}" target="_blank">
-                            <i class="bi bi-{{ $icon }}"></i>
-                            <span>
-                                <span class="text-decoration-underline">{{ $discName }}</span>
-                                @if ($info !== '')
-                                    <span class="text-secondary">({{ $info }})</span>
-                                @endif
-                            </span>
-                        </a>
-                        @if (!$loop->last) <br /> @endif
-                    @endforeach
+                    <div>
+                        @foreach ($this->discs as [$discName, $info, $discUrl, $icon])
+                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" href="{{ $discUrl }}" target="_blank">
+                                <i class="bi bi-{{ $icon }}"></i>
+                                <span>
+                                    <span class="text-decoration-underline">{{ $discName }}</span>
+                                    @if ($info !== '')
+                                        <span class="text-secondary">({{ $info }})</span>
+                                    @endif
+                                </span>
+                            </a>
+                            @if (!$loop->last) <br /> @endif
+                        @endforeach
+                    </div>
+                        
+                    <div>
+                        @foreach ($this->recordings as [$recordingUrl, $name])
+                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" href="{{ $recordingUrl }}" target="_blank">
+                                <i class="bi bi-volume-up"></i>
+                                <span class="text-decoration-underline">{{ $name }}</span>
+                            </a>
+                            @if (!$loop->last) <br /> @endif
+                        @endforeach
+                    </div>
                 </div>
             </x-organomania.tr-responsive>
         @endif
