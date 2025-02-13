@@ -54,7 +54,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="resetDispositionOcr">{{ __('Zavřít') }}</button>
 
                     @if ($dispositionOcrResult !== '')
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" wire:click="resetDispositionOcr" @click="appendOcrResultToDisposition()">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" wire:click="resetDispositionOcr" @click="appendOcrResultToDisposition($wire)">
                             <i class="bi bi-clipboard"></i> {{ __('Vložit do dispozice') }}
                         </button>
                     @else
@@ -77,11 +77,11 @@
 
 @script
 <script>
-    window.appendOcrResultToDisposition = function () {
+    window.appendOcrResultToDisposition = function ($wire) {
         let dispositionValue = $('#disposition').val()
         if (dispositionValue.trim() !== '') dispositionValue += "\n"
         dispositionValue += $('#dispositionOcrResult').val()
-        $('#disposition').val(dispositionValue)
+        $wire.form.disposition = dispositionValue
     }
 </script>
 @endscript

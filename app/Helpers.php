@@ -255,4 +255,9 @@ class Helpers
         }
     }
     
+    static function getMapUrl(float $latitude, float $longitude)
+    {
+        return url()->query("https://mapy.cz/", ['q' => "$latitude,$longitude"]);
+    }
+    
 }

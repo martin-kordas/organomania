@@ -537,6 +537,10 @@ window.showToast = function (id) {
     bootstrapToast.show()
 }
 
+window.getMapUrl = function (latitude, longitude) {
+    return `https://mapy.cz/?q=${latitude},${longitude}`
+}
+
 if (typeof Livewire !== typeof undefined) {
     $(document)
         .on('livewire:init', () => {

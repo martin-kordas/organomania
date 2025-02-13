@@ -95,6 +95,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $this->form->longitude = $res['longitude'];
                 $this->form->regionId ??= $res['regionId'];
 
+                // akce je Renderless a hodnoty nastavujeme v JS, aby GUI nepřeblikávalo
                 $js = sprintf(<<<JS
                     $('#latitude').val(%s)
                     $('#longitude').val(%s)
@@ -142,6 +143,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function save()
     {
+        // většina povinných údajů, kde vznikají chyby, jsou v horní části stránky
+        $this->js('scrollToTop()');
+
         $params = [];
         // při vkládání nových varhan není jasná jejich pozice v rámci seznamu varhan - přehlednější je tedy tabulkové zobrazení
         if (!$this->organ->exists) $params['viewType'] = 'table';
@@ -452,6 +456,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <input class="form-control" id="longitude" type="number" min="-180" max="180" step="0.0000001" wire:model="form.longitude" placeholder="20,1234567">
                     @error('form.longitude')
                         <div id="longitudeFeedback" class="invalid-feedback">{{ $message }}</div>
+                    @else
+                        <div class="form-text text-end">
+                            <a href="#" onclick="return openMap()">{{ __('Zobrazit na mapě') }}</a>
+                        </div>
                     @enderror
                 </div>
                 <div class="col-md-3">
@@ -505,6 +513,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 {{-- TODO: soubory lze jen přidávat, ne mazat --}}
                 <div>
                     <label for="photos" class="form-label">{{ __('Přidat obrázky') }}</label>
+                    <small class="text-body-secondary" wire:loading wire:target="form.photos">({{ __('nahrávání souboru') }}&hellip;)</small>
                     @php $isFileError = $errors->has('form.photos') || $errors->has('form.photos.*'); @endphp
                     @if (!empty($this->form->photos) && $this->uploadedPhotos->isNotEmpty() && !$isFileError)
                         <x-organomania.gallery-carousel :images="$this->uploadedPhotos" class="mb-2" :noAdditional="true" />
@@ -531,6 +540,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 
                 <div>
                     <label for="recordings" class="form-label">{{ __('Přidat nahrávky') }}</label>
+                    <small class="text-body-secondary" wire:loading wire:target="form.recordings">({{ __('nahrávání souboru') }}&hellip;)</small>
                     @php $isFileError = $errors->has('form.recordings') || $errors->has('form.recordings.*'); @endphp
                     <input id="recordings" class="form-control @if ($isFileError) is-invalid @endif" type="file" wire:model="form.recordings" aria-describedby="recordingsFeedback" multiple>
                     @if ($isFileError)
@@ -613,7 +623,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"><i class="bi-trash"></i> Smazat</button>
             @endif
                 
-            <small class="text-secondary ms-auto me-2"><i class="bi-info-circle-fill"></i> {!! __('Stiskněte <kbd>Ctrl+Enter</kbd> pro uložení') !!}</small>
+            <small class="text-secondary ms-auto ps-2 me-2"><i class="bi-info-circle-fill"></i> {!! __('Stiskněte <kbd>Ctrl+Enter</kbd> pro uložení') !!}</small>
             <a class="btn btn-sm btn-secondary" href="{{ url()->previous() }}"><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>&nbsp;
             <button type="submit" class="btn btn-sm btn-primary">
                 <span wire:loading.remove wire:target="save">
@@ -653,6 +663,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <x-organomania.toast toastId="dispositionOcrCantExecute" color="danger">
         {{ __('Přečtení fotografií nelze provést, protože byl dosažen limit zpracování 15 fotografií denně.') }}
     </x-organomania.toast>
+    <x-organomania.toast toastId="locationIncomplete" color="danger">
+        {{ __('Souřadnice nejsou úplné.') }}
+    </x-organomania.toast>
   
     <x-organomania.modals.premium-modal />
     <x-organomania.modals.disposition-ocr-modal />
@@ -663,6 +676,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     window.deleteRebuild = function () {
         var rebuildIndex = confirmModal.getInvokeButton('confirmDeleteRebuildModal').dataset.rebuildIndex
         $wire.deleteRebuild(rebuildIndex)
+    }
+        
+    window.openMap = function () {
+        let lat = $('#latitude').val()
+        let lon = $('#longitude').val()
+        if (!lat | !lon) showToast('locationIncomplete')
+        else {
+            let url = getMapUrl(lat, lon)
+            window.open(url, '_blank')
+        }
+        return false
     }
 </script>
 @endscript

@@ -59,7 +59,7 @@
                 <div>
                     <h4>{{ __('Přijaté dary') }}</h4>
 
-                    <div style="max-height: 22.9em; overflow-y: scroll">
+                    <div style="max-height: 22.9em; overflow-y: auto">
                         <table class="table table-sm">
                             @foreach ($donations as $donation)
                                 <tr>

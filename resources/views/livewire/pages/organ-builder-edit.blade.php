@@ -120,6 +120,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function save()
     {
+        // většina povinných údajů, kde vznikají chyby, jsou v horní části stránky
+        $this->js('scrollToTop()');
+
         if ($this->form->isWorkshop) {
             $this->form->firstName = $this->form->lastName = null;
         }
@@ -325,6 +328,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <input class="form-control" id="longitude" type="number" min="-180" max="180" step="0.0000001" wire:model="form.longitude" placeholder="20,1234567">
                     @error('form.longitude')
                         <div id="longitudeFeedback" class="invalid-feedback">{{ $message }}</div>
+                    @else
+                        <div class="form-text text-end">
+                            <a href="#" onclick="return openMap()">{{ __('Zobrazit na mapě') }}</a>
+                        </div>
                     @enderror
                 </div>
 
@@ -412,4 +419,23 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     >
         {{ __('Opravdu chcete varhanáře smazat?') }}
     </x-organomania.modals.confirm-modal>
+    
+    <x-organomania.toast toastId="locationIncomplete" color="danger">
+        {{ __('Souřadnice nejsou úplné.') }}
+    </x-organomania.toast>
 </div>
+
+@script
+<script>
+    window.openMap = function () {
+        let lat = $('#latitude').val()
+        let lon = $('#longitude').val()
+        if (!lat | !lon) showToast('locationIncomplete')
+        else {
+            let url = getMapUrl(lat, lon)
+            window.open(url, '_blank')
+        }
+        return false
+    }
+</script>
+@endscript
