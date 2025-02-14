@@ -785,7 +785,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
 
         @if (count($this->images) > 0)
-            <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />
+            <x-organomania.gallery-carousel :images="$this->images" class="my-4" />
         @endif
     </div>
         

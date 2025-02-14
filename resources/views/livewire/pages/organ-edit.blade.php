@@ -458,7 +458,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <div id="longitudeFeedback" class="invalid-feedback">{{ $message }}</div>
                     @else
                         <div class="form-text text-end">
-                            <a href="#" onclick="return openMap()">{{ __('Zobrazit na mapě') }}</a>
+                            <a class="text-decoration-none" href="#" onclick="return openMap()">{{ __('Zobrazit na mapě') }}</a>
                         </div>
                     @enderror
                 </div>

@@ -84,8 +84,10 @@ $organistHighlightedCount = Organist::getHighlightedCount();
                 @endif
                 
                 @if (session('status-success'))
-                    <div class="alert alert-success">
-                        <i class="bi-check-circle-fill"></i> {{ session('status-success') }}
+                    <div class="mx-auto" style="max-width: 850px;">
+                        <x-organomania.alert color="success" icon="check-circle-fill">
+                            {{ session('status-success') }}
+                        </x-organomania.alert>
                     </div>
                 @endif
                 

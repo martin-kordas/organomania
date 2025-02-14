@@ -44,13 +44,11 @@ class OrganForm extends Form
     public $stopsCount;
     public $manualsCount;
     #[Validate('nullable')]
-    // TODO: imageUrl se má validovat jako url nebo jako absolutní url (/image/zerotin.jpg)
-    //#[Validate('url', message: 'Nebyla zadána platná URL adresa.')]
+    #[Validate('url', message: 'Nebyla zadána platná URL adresa.')]
     public $imageUrl;
     public $imageCredits;
     #[Validate('nullable')]
-    // TODO: imageUrl se má validovat jako url nebo jako absolutní url (/image/zerotin.jpg)
-    //#[Validate('url', message: 'Nebyla zadána platná URL adresa.')]
+    #[Validate('url', message: 'Nebyla zadána platná URL adresa.')]
     public $outsideImageUrl;
     public $outsideImageCredits;
     public $web;
@@ -242,7 +240,7 @@ class OrganForm extends Form
         // aby se zobrazil nějaký obrázek v miniatuře, použijeme pro image_url první z obrázků ve photos
         if (!isset($this->organ->image_url) && isset($photoFilename1)) {
             $path = $this->organ->getImageStoragePath();
-            $imageUrl = "/storage/$path/" . basename($photoFilename1);
+            $imageUrl = url("/storage/$path/" . basename($photoFilename1));
             $this->organ->image_url = $imageUrl;
             $this->organ->save();
         }

@@ -126,7 +126,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $pattern = storage_path("app/public/$path") . '/*.*';
         foreach (File::glob($pattern) as $filename) {
             $imageUrl = "/storage/$path/" . basename($filename);
-            $images[] = [$imageUrl, null];
+            // kontrola duplicity, protože první nahraný obrázek ve storage se automaticky propisuje do image_url
+            if (url($imageUrl) !== url($this->organ->image_url)) {
+                $images[] = [$imageUrl, null];
+            }
         }
 
         return $images;
@@ -628,7 +631,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
 
         @if (count($this->images) > 1)
-            <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />
+            <x-organomania.gallery-carousel :images="$this->images" class="my-4" />
         @endif
     </div>
     
