@@ -762,7 +762,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         </span>
                     </div>
                         
-                    <div class="position-relative">
+                    <div class="position-relative" style="clear: both">
                         <div wire:loading.block wire:target="suggestRegistration, describeDisposition" wire:loading.class="opacity-75" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
                             <x-organomania.spinner class="align-items-center h-100" :margin="false" />
                         </div>

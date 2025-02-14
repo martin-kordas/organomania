@@ -229,7 +229,8 @@ class OrganForm extends Form
         $photoFilename1 = null;
         foreach ($this->photos as $photo) {
             $path = 'public/' . $this->organ->getImageStoragePath();
-            $photoFilename1 ??= $photo->store(path: $path);
+            $filename = $photo->store(path: $path);
+            $photoFilename1 ??= $filename;
         }
         foreach ($this->recordings as $recording) {
             $path = 'public/' . $this->organ->getRecordingStoragePath();
