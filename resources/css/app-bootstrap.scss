@@ -615,6 +615,10 @@ div.side-buttons {
 .worship-songs {
     max-width: 1000px;
     
+    .my-pagination .text-muted {
+        display: none;
+    }
+    
     table.liturgical-days-table {
         tr.current > td {
             background: var(--bs-warning-bg-subtle);

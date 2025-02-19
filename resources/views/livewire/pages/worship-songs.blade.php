@@ -525,7 +525,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         @else
             <div>
-                {{ $this->liturgicalDays->links(data: ['scrollTo' => false]) }}
+                <div class="my-pagination">
+                    {{ $this->liturgicalDays->links(data: ['scrollTo' => false]) }}
+                </div>
                 
                 <div class="table-responsive">
                     <table class="liturgical-days-table table table-hover align-middle w-100 d-block d-md-table">
@@ -709,7 +711,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </table>
                 </div>
 
-                {{ $this->liturgicalDays->links(data: ['scrollTo' => '#results']) }}
+                <div class="my-pagination d-md-none">
+                    {{ $this->liturgicalDays->links(data: ['scrollTo' => '#results']) }}
+                </div>
             </div>
         @endif
     </div>
