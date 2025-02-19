@@ -205,6 +205,25 @@ div.side-buttons {
     line-height: 1.7;
 }
 
+.song-number {
+    display: inline-block;
+    width: 3.6em;
+}
+.song-select ~ .select2-container {
+    .select2-results__option {
+        clear: both;
+        overflow: auto;
+    }
+    
+    // vyšší roletka pro song-select
+    .select2-results {
+        height: 350px;
+        > ul {
+            max-height: 100% !important;
+        }
+    }
+}
+
 .organ-thumbnail-modal .modal-dialog {
     max-width: fit-content;
     margin-left: auto;
@@ -591,6 +610,48 @@ div.side-buttons {
 
 .registration-sets {
     max-width: 850px;
+}
+
+.worship-songs {
+    max-width: 1000px;
+    
+    table.liturgical-days-table {
+        tr.current > td {
+            background: var(--bs-warning-bg-subtle);
+        }
+        
+        @media screen and (max-width: 767px) {
+            > tbody {
+                border-top: none !important;
+            }
+            td {
+                border-bottom: 0;
+            }
+            td.time {
+                font-size: 0.875em;
+                font-style: italic;
+            }
+            .song-name {
+                font-size: 0.875em;
+            }
+            .song-name-container {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+        @media screen and (min-width: 768px) {
+            tbody {
+                display: table-row-group !important;
+            }
+            .date {
+                font-size: 0.875em;
+            }
+            .time {
+                width: 3.6em;
+            }
+        }
+    }
 }
 
 .registration-set-show {

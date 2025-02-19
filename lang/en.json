@@ -542,7 +542,7 @@
     "Vložit do dispozice": "Copy to disposition",
     "Přečtená dispozice": "Recognized disposition",
     "Přečtení dispozice z fotografie": "Reading disposition from photos",
-    "při editaci varhan automaticky sepíše varhanní dispozici na základě zadaných fotografií hracího stolu": "when editing the organ, it automatically writes organ disposition based on the entered photos of organ console",
+    "během přidávání vlastních varhan do Organomanie umožní automaticky sepsat varhanní dispozici na základě nahraných fotografií hracího stolu": "when creating custom organs in Organomania, it automatically writes organ disposition based on the entered photos of organ console",
     "Obrázek č.": "Image no.",
     "Přidat obrázky": "Add images",
     "Přidat nahrávky": "Add recordings",
@@ -555,5 +555,7 @@
     "Dokumentace": "Documentation",
     "Externí materiály": "External materials",
     "Zobrazit na mapě": "Show in map",
-    "přidat varhanáře": "create organ builder"
+    "přidat varhanáře": "create organ builder",
+    "Písně při bohoslužbě": "Worship songs",
+    "Zobrazit písně": "Show songs"
 }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -110,6 +111,8 @@ class OrganForm extends Form
             $validator->after(function (Validator $validator) {
                 $this->checkCategories($validator);
             });
+            
+            if ($validator->fails()) throw new ValidationException($validator);
         });
     }
     

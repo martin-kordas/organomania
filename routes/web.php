@@ -6,6 +6,7 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\AboutOrganController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\QrController;
+use App\Http\Controllers\OrganController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\WelcomeController;
 
@@ -82,6 +83,10 @@ Volt::route('organs/{organSlug}', 'pages.organ-show')
     ->name('organs.show');
 Route::get('export/organs', [ExportController::class, 'exportOrgans'])
     ->name('organs.export');
+Volt::route('organs/{organSlug}/songs', 'pages.worship-songs')
+    ->name('organs.worship-songs');
+Route::get('organs/{organ}/disposition/pdf', [OrganController::class, 'exportDispositionAsPdf'])
+    ->name('organs.disposition.pdf');
 
 Volt::route('organ-builders', 'pages.organ-builders')
     ->name('organ-builders.index');

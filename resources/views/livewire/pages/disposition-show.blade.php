@@ -513,6 +513,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return "$dispositionText - {$this->disposition->name}";
     }
 
+    // TODO: exporty nejde stáhnout jako Content-Disposition: inline (ani přes parametry $headers či $disposition)
+    //  - soubor tedy není možné otevřít v prohlížeči - vždy se musí uložit na disk
+    //  - příčinou je patrně Livewire - response vůbec neobsahuje hlavičku Content-Disposition
+    //  - řešením je samostatná routa pro export (jako u OrganController::exportDispositionAsPdf())
     public function exportAsPdf()
     {
         return response()

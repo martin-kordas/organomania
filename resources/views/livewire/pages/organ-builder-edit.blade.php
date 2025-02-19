@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -56,6 +57,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 }
                 $this->checkCategories($validator);
             });
+
+            if ($validator->fails()) throw new ValidationException($validator);
         });
     }
 
@@ -120,15 +123,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function save()
     {
-        // většina povinných údajů, kde vznikají chyby, jsou v horní části stránky
-        $this->js('scrollToTop()');
-
         if ($this->form->isWorkshop) {
             $this->form->firstName = $this->form->lastName = null;
         }
         else $this->form->workshopName = null;
 
-        $this->form->validate();
+        try {
+            $this->form->validate();
+        }
+        catch (\Exception $ex) {
+            // většina povinných údajů, kde vznikají chyby, jsou v horní části stránky
+            $this->js('scrollToTop()');
+            throw $ex;
+        }
+
         $exists = $this->organBuilder->exists;
         $data = Helpers::arrayKeysSnake($this->form->except(['categories']));
         if (!$this->isOrganBuilderPublic()) $this->organBuilder->user_id = Auth::id();
@@ -415,7 +423,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         title="{{ __('Smazat') }}"
         buttonLabel="{{ __('Smazat') }}"
         buttonColor="danger"
-        onclick="$wire.delete()"
+        onclick="$wire.deletes()"
     >
         {{ __('Opravdu chcete varhanáře smazat?') }}
     </x-organomania.modals.confirm-modal>

@@ -143,13 +143,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function save()
     {
-        // většina povinných údajů, kde vznikají chyby, jsou v horní části stránky
-        $this->js('scrollToTop()');
-
         $params = [];
         // při vkládání nových varhan není jasná jejich pozice v rámci seznamu varhan - přehlednější je tedy tabulkové zobrazení
         if (!$this->organ->exists) $params['viewType'] = 'table';
-        $this->form->save();
+
+        try {
+            $this->form->save();
+        }
+        catch (\Exception $ex) {
+            // většina povinných údajů, kde vznikají chyby, jsou v horní části stránky
+            $this->js('scrollToTop()');
+            throw $ex;
+        }
+
         $this->form->organ->refresh();
         session()->flash('status-success', __('Varhany byly úspěšně uloženy.'));
         if (isset($this->previousUrl) && $this->organ->exists) $this->redirect($this->previousUrl, navigate: true);

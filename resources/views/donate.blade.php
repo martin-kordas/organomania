@@ -80,7 +80,7 @@
         </p>
         <ul>
             <li>
-                <strong>{{ __('Přečtení dispozice z fotografie') }}</strong> &ndash; {{ __('při editaci varhan automaticky sepíše varhanní dispozici na základě zadaných fotografií hracího stolu') }}
+                <strong>{{ __('Přečtení dispozice z fotografie') }}</strong> &ndash; {{ __('během přidávání vlastních varhan do Organomanie umožní automaticky sepsat varhanní dispozici na základě nahraných fotografií hracího stolu') }}
             </li>
             <li>
                 <strong>{{ __('Registrace') }}</strong> &ndash; {{ __('naregistruje na varhanách zadanou skladbu (výsledné rejstříky přímo zvýrazní v dispozici)') }}

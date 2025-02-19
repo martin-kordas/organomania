@@ -5,7 +5,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
-use Illuminate\Support\Facades\Route;
+use Livewire\Attributes\Url;
 use App\Enums\RegisterCategory;
 use App\Models\RegisterName;
 use App\Traits\HasAccordion;
@@ -20,7 +20,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function rendering(View $view): void
     {
         $title = $this->registerName->name;
-        $title .= " - ";
+        $title .= " – ";
         $title .= __('varhanní rejstřík');
         $view->title($title);
     }

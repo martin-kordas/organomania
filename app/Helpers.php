@@ -174,6 +174,12 @@ class Helpers
         return $date->translatedFormat($format);
     }
     
+    static function formatTime(string $time, bool $seconds = true)
+    {
+        $outputFormat = $seconds ? 'H:i.s' : 'H:i';
+        return Carbon::createFromFormat('H:i:s', $time)->format($outputFormat);
+    }
+    
     static function formatNumber(float $number, int $style = NumberFormatter::DECIMAL, ?int $decimals = null)
     {
         $formatter = app(NumberFormatter::class, ['style' => $style]);
@@ -213,8 +219,10 @@ class Helpers
             $params['perPage'] = 300;
         }
         if (isset($lang)) $params['lang'] = $lang;
+        
         $query = http_build_query($params);
-        return "$url?$query";
+        if ($query) $query = "?$query";
+        return $url . $query;
     }
     
     static function getDistance(float $latitude1, float $longitude1, float $latitude2, float $longitude2): float

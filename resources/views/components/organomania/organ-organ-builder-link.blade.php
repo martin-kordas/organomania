@@ -1,21 +1,38 @@
-@props(['organ', 'showIcon' => true])
+@props(['organ', 'showIcon' => true, 'signed' => false])
 
-@can('view', $organ)
+@use(Illuminate\Support\Facades\Gate)
+@use(Illuminate\Support\Facades\URL)
+
+@php
+    $canView = Gate::allows('view', $organ);
+    if ($showLink = $canView || $signed) {
+        if ($canView) $href = route('organs.show', $organ->slug, absolute: false);
+        else $href = URL::signedRoute('organs.show', $organ->slug, absolute: false);
+    }
+@endphp
+
+@if ($showLink)
     <a
         class="link-primary icon-link icon-link-hover align-items-start text-decoration-none"
-        href="{{ route('organs.show', $organ->slug) }}"
+        href="{{ $href }}"
         wire:navigate
     >
-@endcan
+@endif
         
 @if ($showIcon)
     <i class="bi bi-music-note-list"></i>
 @endif
-{{ $organ->organBuilder?->name ?? __('neznámý varhanář') }}
-        
-@can('view', $organ)
+
+<span>
+    {{ $organ->organBuilder?->name ?? __('neznámý varhanář') }}
+    @if ($organ && !$organ->isPublic())
+        <i class="bi bi-lock text-warning"></i>
+    @endif
+</span>
+    
+@if ($showLink)
     </a>
-@endcan
+@endif
 
 @if ($organ->year_built)
     <span class="text-secondary">({{ $organ->year_built }})</span>

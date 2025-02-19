@@ -75,7 +75,7 @@ $organistHighlightedCount = Organist::getHighlightedCount();
             <x-organomania.header />
             
             <main class="container">
-                @if (!request()->routeIs(['welcome', 'donate']))
+                @if (config('custom.show_donate_alert') && !request()->routeIs(['welcome', 'donate']))
                     <div class="text-center px-2 d-print-none">
                         <x-organomania.alert class="d-inline-block" icon="piggy-bank" color="info">
                             <a class="fw-bold link-primary link-underline-opacity-50" href="{{ route('donate') }}" wire:navigate>{{ __('Podpořte Organomanii') }}</a> <br class="d-sm-none" />{{ __('a získejte') }} <a class="link-primary link-underline-opacity-25" href="{{ route('donate') }}#ai">{{ __('zajímavé nové funkce') }}.</a>

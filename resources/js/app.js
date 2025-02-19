@@ -133,10 +133,136 @@ window.refreshSelect2 = function () {
     $('.pitch-select').on('select2:close', function () {
         $('.multiplier input').focus()
     })
+
+    initSelect2Songs()
+}
+
+function initSelect2Songs() {
+    let formatStateSong = function (state, frequency = true, link = false, endPadding = false) {
+        if (!state.id || !state.element) return state.text
+        var dataset = state.element.dataset
+        let purposeStr = ''
+        if (dataset.purpose) {
+            let letter = dataset.purpose[0]
+            let numbers = dataset.purpose.substring(1)
+            purposeStr = `&nbsp;<small>${letter}<sub>${numbers}</sub></small>`
+        }
+        let songName = state.text
+        if (link) songName = `<a class="song-link link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover" href="${getKancionalUrl(dataset.number)}" target="_blank">${songName}</a>`
+        
+        let countClass = dataset.worshipSongsCount > 0 ? 'fw-bold' : ''
+        let monthCountClass = dataset.worshipSongsMonthCount > 0 ? 'fw-bold' : ''
+        
+        // TODO: lokalizace
+        return $(`
+            <span class="d-sm-flex align-items-center column-gap-2">
+                <span class="song-number badge" style="color: ${dataset.color}; background: ${dataset.background}">${dataset.number}</span>
+                <span>
+                    ${songName}
+                    <span ${endPadding ? 'd-none d-sm-inline' : ''}>${purposeStr}</span>
+                </span>
+                ${frequency ? `
+                    <small class="float-end float-sm-none ms-auto text-nowrap ps-1 ${endPadding ? 'd-none d-sm-inline pe-3' : ''}">
+                        <span class="${countClass}">${dataset.worshipSongsCount}</span>&times;
+                        |
+                        čtvrtletí: <span class="${monthCountClass}">${dataset.worshipSongsMonthCount}</span>&times;
+                    </small>
+                ` : ``}
+            </span>
+        `)
+    }
+    
+    let getOptionSortString = function (option) {
+        return $(option.element).data('sortString')
+    }
+    let restartSelect2 = function (select) {
+        $(select).select2('destroy')
+        initSelect2Songs()
+        // zajistí synchronizaci s Livewire daty - písně se odešlou ve správném pořadí
+        $(select).trigger('change')
+        initSongLinkHandler(select)       // kvůli .trigger('change') nutné volat znovu
+    }
+    let initSongLinkHandler = function (select) {
+        $(select).next().find('.song-link').on('mousedown click', function (e) {
+            e.stopPropagation()
+        })
+    }
+    let matchTerm = function (term, child) {
+        return child.text.toUpperCase().replace(',', '').indexOf(term) > -1
+            || $(child.element).data('number').toString().startsWith(term)
+    }
+    
+    $('.select2-songs').each(function() {
+        let frequencyInSelection = $(this).is('[data-frequency-in-selection]')
+        let multiple = $(this).is('[multiple]')
+        let endPadding = !multiple
+        
+        $(this).select2({
+            theme: "bootstrap-5",
+            // https://stackoverflow.com/a/71552114/14967413
+            dropdownParent: $(this).parent(),
+            templateSelection: (state) => formatStateSong(state, frequencyInSelection, true, endPadding),
+            templateResult: formatStateSong,
+            // https://select2.org/searching#matching-grouped-options
+            matcher: function (params, data) {
+                if ($.trim(params.term) === '') {
+                    return data;
+                }
+                var term = params.term.toUpperCase().trim().replace(',', '').replace(/\s+/, ' ')
+                
+                // procházená položka není optgroup
+                //  - může jít také o položku s písní - pokud se vyřadí z výběru, zařadí se na konec roletky mimo optgroup
+                if (typeof data.children === 'undefined') {
+                    if (data.text !== '') {
+                        if (matchTerm(term, data)) return data
+                    }
+                    return null;
+                }
+
+                // procházená položka je optgroup
+                var filteredChildren = [];
+                $.each(data.children, function (idx, child) {
+                    // case sensitive hledání podle názvu písně kdekoli ve slově, nebo podle čísla písně
+                    if (matchTerm(term, child)) filteredChildren.push(child);
+                });
+
+                if (filteredChildren.length) {
+                    var modifiedData = $.extend({}, data, true);
+                    modifiedData.children = filteredChildren;
+                    return modifiedData;
+                }
+
+                return null;
+            },
+            // https://stackoverflow.com/a/28764371/14967413 - uchování pořadí položek v roletce navzdory hackům v select2:select
+            sorter: data => data.sort(
+                (a, b) => getOptionSortString(a).localeCompare(getOptionSortString(b))
+            ),
+        }).on("select2:select", function (e) {
+            // HACK: pořadí položek odpovídající pořadí výběru uživatelem - https://stackoverflow.com/a/31436848/14967413
+            //  - jsou-li optgroup, duplikují se položky v roletce, proto volání destroy a opětovný init
+            //  - TODO: hack způsobuje, že po přerenderování (např. po odeslání formuláře, kdy vyznikne chyba validace nebo po změně filtrSongId) se ztratí obsah songId
+            //    - navíc: když je chyba a vybraná píseň zmizí, tak po dalším uložení hodnota songId zůstává (i při prázdném selectu se uloží píseň)
+            //    - je to kvůli změně pořadí <option> - neprovede-li se .detach() a .append(), problém nevzniká
+            //    - řešení tohoto problému zřejmě neexistuje (možná v HTML renderovat <option> pořadí odpovídajícím změněnému pořadí v prohlížeči)
+            if (multiple) {
+                let elem = $(e.params.data.element)
+                elem.detach()
+                $(this).append(elem)
+                restartSelect2(this)
+            }
+        })
+        
+        initSongLinkHandler(this)
+    })
+}
+
+window.getKancionalUrl = function (number) {
+    return `https://kancional.cz/${number}`
 }
 
 window.refreshSelect2Sync = function (wire) {
-    $(wire.$el).find('.select2:not(#page.sframe *), .select2-register-names, .select2-pitch').on('change', function () {
+    $(wire.$el).find('.select2:not(#page.sframe *), .select2-register-names, .select2-songs, .select2-pitch').on('change', function () {
         var data = $(this).select2('val');
         // https://livewire.laravel.com/docs/properties#manipulating-properties
         var name = $(this).attr('wire:model.live') || $(this).attr('wire:model.change');
@@ -157,10 +283,20 @@ window.refreshSelect2Sync = function (wire) {
     });
 }
 
+window.refreshSelect2SyncForComponent = function (componentName) {
+    var wire = Livewire.getByName(componentName)[0]
+    if (wire) refreshSelect2Sync(wire)
+    else console.error('select2-sync-needed: wire not found');
+}
+
 function refreshBootstrap() {
     // https://getbootstrap.com/docs/5.3/components/tooltips/#enable-tooltips
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerEl, { trigger : 'hover' }))
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => { 
+        // bez tohoto volání by po aktualizaci HTML ukazoval tooltip původní verzi textu
+        bootstrap.Tooltip.getInstance(tooltipTriggerEl)?.dispose();
+        bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerEl, { trigger : 'hover' })}
+    )
     
     // https://getbootstrap.com/docs/5.3/components/popovers/#enable-popovers
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
@@ -551,9 +687,7 @@ if (typeof Livewire !== typeof undefined) {
             })
             Livewire.on('select2-sync-needed', ({ componentName }) => {
                 setTimeout(() => {
-                    var wire = Livewire.getByName(componentName)[0]
-                    if (wire) refreshSelect2Sync(wire)
-                    else console.error('select2-sync-needed: wire not found');
+                    refreshSelect2SyncForComponent(componentName)
                 })
             })
             Livewire.on('select2-open', ({ selector }) => {

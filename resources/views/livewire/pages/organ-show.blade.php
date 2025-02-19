@@ -8,7 +8,6 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Enums\DispositionLanguage;
 use App\Enums\OrganCategory;
 use App\Enums\Region;
@@ -51,6 +50,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     const
         SESSION_KEY_SHOW_MAP = 'organs.show.show-map',
+        SESSION_KEY_SHOW_WORSHIP_SONGS = 'organs.show.show-worship-songs',
         SESSION_KEY_SHOW_DISPOSITION = 'organs.show.show-disposition',
         SESSION_KEY_SHOW_SIMILAR_ORGANS = 'organs.show.show-similar-organs',
         SESSION_KEY_SHOW_LITERATURE = 'organs.show.show-literature';
@@ -74,7 +74,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         $this->signed ??= request()->hasValidSignature(false);
         // nepoužíváme klasický route model binding, protože potřebujeme ručně odebrat OwnedEntityScope
-        //  - musí to fungovat i Livewire AJAX requestech
+        //  - musí to fungovat i v Livewire AJAX requestech
         $this->organ = $repository->getBySlug($this->organSlug, $this->signed);
 
         $this->organ->load([
@@ -211,30 +211,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $disposition = $this->suggestRegistrationDisposition ?? $this->organ->disposition;
         return $this->dispositionFormatter->format($disposition, links: true);
-    }
-
-    public function exportDispositionAsPdf()
-    {
-        $disposition = $this->organ->disposition;
-        // "podrobnosti viz zdroj" v dispozici odřízneme
-        $pos = mb_strrpos($disposition, '---');
-        if ($pos !== false) $disposition = mb_substr($disposition, 0, $pos);
-        $disposition = $this->dispositionFormatter->format($disposition);
-
-        $filename = __('Disposition_1') . " - {$this->organ->municipality}, {$this->organ->place}.pdf";
-
-        return response()
-            ->streamDownload(
-                function () use ($disposition) {
-                    $pdf = Pdf::loadView('components.organomania.pdf.disposition-textual', [
-                        'organ' => $this->organ,
-                        'disposition' => $disposition,
-                    ]);
-                    echo $pdf->stream();
-                },
-                name: $filename,
-                headers: ['Content-Type' => 'application/pdf'],
-            );
     }
 
     #[Computed]
@@ -742,16 +718,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         </span>
                         
                         <span class="float-end position-relative">
-                            <button
-                                type="button"
+                            <a
                                 class="btn btn-sm px-1"
                                 data-bs-toggle="tooltip"
                                 data-bs-title="{{ __('Exportovat dispozici do PDF') }}"
-                                wire:click="exportDispositionAsPdf"
+                                href="{{ route('organs.disposition.pdf', $organ->slug) }}"
                                 style="font-size: 115%"
                             >
                                 <i class="bi-file-pdf"></i>
-                            </button>
+                            </a>
                             <button
                                 type="button"
                                 class="btn btn-sm px-1"
@@ -774,6 +749,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endisset
             </x-organomania.accordion-item>
         @endif
+      
+        @can('viewWorshipSongs', $organ)
+            <x-organomania.accordion-item
+                id="accordion-worship-songs"
+                class="d-print-none"
+                title="{{ __('Písně při bohoslužbě') }}"
+                :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_WORSHIP_SONGS)"
+                onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_WORSHIP_SONGS }}')"
+            >
+                <div class="text-center">
+                    <a href="{{ route('organs.worship-songs', $organ->slug) }}" type="button" class="btn btn-primary" wire:navigate>
+                        {{ __('Zobrazit písně') }}
+                    </a>
+                </div>
+            </x-organomania.accordion-item>
+        @endcan
 
         @if ($organ->latitude > 0)
             <x-organomania.accordion-item
