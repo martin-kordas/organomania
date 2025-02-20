@@ -26,7 +26,7 @@
 <span>
     {{ $organ->organBuilder?->name ?? __('neznámý varhanář') }}
     @if ($organ && !$organ->isPublic())
-        <i class="bi bi-lock text-warning"></i>
+        <i class="bi bi-lock text-warning d-print-none"></i>
     @endif
 </span>
     

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Organ;
+use App\Models\Scopes\OwnedEntityScope;
 use App\Services\DispositionTextualFormatter;
 
 class OrganController extends Controller
@@ -33,6 +35,13 @@ class OrganController extends Controller
                 disposition: 'inline',
                 headers: ['Content-Type' => 'application/pdf'],
             );
+    }
+    
+    public function redirectToDolniLhotaSongs()
+    {
+        $organ = Organ::withoutGlobalScope(OwnedEntityScope::class)->findOrFail(4506);
+        $url = url(URL::signedRoute('organs.worship-songs', $organ->slug, absolute: false));
+        return redirect($url);
     }
     
 }

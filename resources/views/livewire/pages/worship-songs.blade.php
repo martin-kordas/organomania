@@ -25,12 +25,16 @@ use App\Models\LiturgicalDay;
 use App\Models\Organ;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Models\Song;
+use App\Models\User;
 use App\Models\WorshipSong;
 use App\Repositories\OrganRepository;
 use App\Traits\ConvertEmptyStringsToNull;
 
 // TODO: nápady na vylepšení
 //  - po uložení písně přesměrovat na stránku, kde je uložená (jsou-li ale zapnuty filtry, nemusí být na žádné stránce)
+//  - zobrazovat svátek na daném datumu i ve formuláři zápisu písně
+//  - songIds: ordinaria by se mohla ve výběru roletky řadit vždy na začátek
+//    (ale: select2 už se zde tolik hackuje, že to raději nechat být)
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
 
@@ -55,7 +59,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     #[Session]
     #[Url(history: true)]
-    public bool $showLiturgicalCelebrations = true;
+    public bool $showLiturgicalCelebrations = false;
+    #[Session]
+    #[Url(history: true)]
+    public bool $showSongNames = false;
+
+    #[Session]
+    public array $usedTimes = [];
 
     public ?LiturgicalCelebration $liturgicalCelebration = null;
 
@@ -64,7 +74,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Locked]
     public bool $signed;
 
-    private ?int $savedWorshipSongId = null;
+    private array $savedWorshipSongIds = [];
 
     const PER_PAGE = 7;
 
@@ -93,7 +103,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         $this->form->date = now()->format('Y-m-d');
 
-        if (request('page') === null) $this->setDefaultPage();
+        if (request('page') === null) $this->setDefaultPage(redirect: true);
     }
 
     public function rendering(View $view): void
@@ -101,27 +111,35 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $view->title($this->getTitle());
     }
 
-    private function setDefaultPage()
+    public function setDefaultPage(bool $redirect = false)
     {
         // jsou-li zobrazeny jen zapsané dny, dnešek se hledá obtízně
         if ($this->filterNonEmptyDays || $this->filterSongId) return;
 
+        $page = null;
         // výchozí je strana s dnešním dnem
         if ($this->filterSundays) {
-            $maxDate = LiturgicalDay::getMaxDateSunday();
-            $diff = $this->today->diffInDays($maxDate);
-            if ($diff > 0) {
-                $page = 1 + intdiv(floor($diff / 7), static::PER_PAGE);
-                $this->setPage($page);
-            }
+            $minDate = LiturgicalDay::getMinDateSunday();
+            $diff = $minDate->diffInDays($this->today);
+            if ($diff > 0) $page = 1 + intdiv(floor($diff / 7), static::PER_PAGE);
         }
         else {
-            $maxDate = LiturgicalDay::getMaxDate();
-            $diff = $this->today->diffInDays($maxDate);
-            if ($diff > 0) {
-                $page = 1 + intdiv($diff, static::PER_PAGE);
-                $this->setPage($page);
+            $minDate = LiturgicalDay::getMinDate();
+            $diff = $minDate->diffInDays($this->today);
+            if ($diff > 0) $page = 1 + intdiv($diff, static::PER_PAGE);
+        }
+
+        if (isset($page)) {
+            // standardně stačí použít $this->setPage(), ale v takovém případě se parametr page nepropisuje do URL
+            //  - TODO: nefunguje správně tlačítko Zpět (alespoň je page v URL a neztratí se při obnovení stránky
+            if ($redirect && !$this->signed) {
+                $this->redirectRoute(
+                    'organs.worship-songs',
+                    ['organSlug' => $this->organ->slug, 'page' => $page],
+                    navigate: true,
+                );
             }
+            else $this->setPage($page);
         }
     }
 
@@ -203,8 +221,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return today();
     }
 
-    #[Computed]
-    public function liturgicalDays()
+    private function getLiturgicalDaysQuery()
     {
         return LiturgicalDay::where('date', '<=', LiturgicalDay::getMaxDisplayedDate())
             ->with([
@@ -225,7 +242,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ->when($this->filterSundays, function (Builder $query) {
                 $query->whereRaw('WEEKDAY(date) = 6');
             })
-            ->orderBy('date', 'desc')
+            ->orderBy('date');
+    }
+
+    #[Computed]
+    public function liturgicalDays()
+    {
+        return $this->getLiturgicalDaysQuery()
             ->paginate(static::PER_PAGE);
     }
 
@@ -244,6 +267,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $this->worshipSongsGroups->contains(function (Collection $worshipSongsGroups) {
             return $worshipSongsGroups->isNotEmpty() && $worshipSongsGroups->keys()->all() !== [''];
         });
+    }
+
+    private function getUserName(?User $user)
+    {
+        return trim($user?->name ?? __('nepřihlášený uživatel'));
     }
 
     private function getWorshipSongsUsers(Collection $worshipSongs)
@@ -282,13 +310,28 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function getWorshipSongInfo(WorshipSong $worshipSong)
     {
-        $info = trim($worshipSong->user->name ?? __('anonymní uživatel'));
+        $info = $this->getUserName($worshipSong->user);
         if (isset($worshipSong->updated_at)) {
             $info .= " (";
             $info .= Helpers::formatDate($worshipSong->updated_at) . ' v ' . Helpers::formatTime($worshipSong->updated_at->format('H:i:s'));
             $info .= ")";
         }
         return $info;
+    }
+
+    private function writeUsedTime($time)
+    {
+        $usedTimes = collect($this->usedTimes);
+        $time = $this->form->time;
+
+        if ($time) {
+            if (mb_strlen($time) === 5) $time .= ':00';
+            if (!$usedTimes->contains($time)) {
+                $usedTimes[] = $time;
+                if ($usedTimes->count() > 3) $usedTimes->shift();
+                $this->usedTimes = $usedTimes->all();
+            }
+        }
     }
 
     public function add($liturgicalDayId = null)
@@ -314,7 +357,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function save()
     {
         $this->form->validate();
-        //dd($this->form->getErrorBag());
 
         DB::transaction(function () {
             foreach ($this->form->songIds as $songId) {
@@ -325,10 +367,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $worshipSong->organ()->associate($this->organ);
                 $worshipSong->user()->associate(Auth::user());
                 $worshipSong->save();
-                $this->savedWorshipSongId = $worshipSong->id;
+                $this->savedWorshipSongIds[] = $worshipSong->id;
             }
         });
         
+        $this->writeUsedTime($this->form->time);
         $toastId = count($this->form->songIds) > 1 ? 'savedMany' : 'saved';
         $this->js("showToast('$toastId')");
         $this->cancel();
@@ -348,6 +391,56 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->liturgicalCelebration = LiturgicalCelebration::findOrFail($liturgicalCelebrationId);
     }
 
+    public function exportAsCsv()
+    {
+        $filename = __('Písně při bohoslužbě') . ' – ' . "{$this->organ->municipality}, {$this->organ->place}";
+
+        $rows = [];
+        $liturgicalDays = $this->getLiturgicalDaysQuery()->get();
+
+        foreach ($liturgicalDays as $liturgicalDay) {
+            $liturgy = $liturgicalDay->liturgicalCelebrations->pluck('name')->implode(', ');
+            $rowDay = [
+                $liturgicalDay->date->format('d. m. Y'),
+                $liturgicalDay->date->minDayName,
+                $liturgy,
+            ];
+
+            if ($liturgicalDay->worshipSongs->isEmpty()) $rows[] = $rowDay;
+            else foreach ($liturgicalDay->worshipSongs as $worshipSong) {
+                $rows[] = [
+                    ...$rowDay,
+                    $worshipSong->song->number,
+                    $worshipSong->song->name,
+                    $this->getUserName($worshipSong->user),
+                    Helpers::formatDate($worshipSong->updated_at) . ' v ' . Helpers::formatTime($worshipSong->updated_at->format('H:i:s')),
+                ];
+            }
+        }
+
+        return response()
+            ->streamDownload(
+                function () use ($rows) {
+                    $header = [
+                        __('Datum'),
+                        __('Den'),
+                        __('Liturgie'),
+                        __('Píseň'),
+                        __('Název písně'),
+                        __('Píseň zapsal'),
+                        __('Ďatum a čas zápisu'),
+                    ];
+                    $rows = [
+                        $header,
+                        ...$rows,
+                    ];
+                    echo Helpers::array2Csv($rows, ';');
+                },
+                name: "$filename.csv",
+                headers: ['Content-Type' => 'text/csv']
+            );
+    }
+
 }; ?>
 
 <div class="worship-songs container">
@@ -360,7 +453,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             {{ __('Písně při bohoslužbě') }}
         </a>
         @if (!$this->organ->isPublic())
-            <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
+            <i class="bi-lock text-warning d-print-none" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
         @endif
     </h3>
     <h4>{{ $organ->municipality }}, {{ $organ->place }}</h4>
@@ -370,7 +463,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <x-organomania.organ-organ-builder-link :$organ :$signed />
     </div>
     
-    <div class="text-center">
+    <div class="text-center d-print-none">
         <div class="small text-start text-body-secondary mb-4 alert alert-light py-2 px-2 d-inline-block">
             <ul class="ps-3 mb-0">
                 <li>{{ __('Evidujte si přehledně písně zpívané při bohoslužbách.') }}</li>
@@ -389,11 +482,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
 
     @if ($this->isEdit)
-        <div class="card mx-auto bg-light" style="max-width: 775px">
+        <div class="card mx-auto bg-light d-print-none" style="max-width: 775px">
             <div class="card-body">
                 <h4 class="card-title">{{ __('Zapsat píseň') }}</h4>
 
-                <form class="row g-3 mt-sm-1 align-items-end" wire:submit="save">
+                <form class="row g-3 mt-sm-1 align-items-start" wire:submit="save">
                     <div class="col-12 col-sm-6">
                         <label for="date" class="form-label">{{ __('Datum') }}</label>
                         <input id="date" class="form-control @error('form.date') is-invalid @enderror" type="date" wire:model="form.date" />
@@ -404,10 +497,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
                     <div class="col-12 col-sm-6">
                         <label for="time" class="form-label">{{ __('Čas bohoslužby') }} <span class="form-text text-body-secondary">({{ __('nepovinné') }})</span></label>
-                        <input id="time" class="form-control @error('form.time') is-invalid @enderror" type="time" wire:model="form.time" />
+                        <input id="time" class="form-control @error('form.time') is-invalid @enderror" type="time" wire:model="form.time" step="600" />
                         @error('form.time')
                             <div id="timeFeedback" class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        <div class="form-text">
+                            {{ __('např.') }}
+                            @foreach (array_reverse($usedTimes) as $time)
+                                <a class="text-decoration-none" href="#" onclick="return setTime({{ Js::from(str($time)->substr(0, 5)) }})">{{ Helpers::formatTime($time, seconds: false) }}</a>,
+                            @endforeach
+                            <a class="text-decoration-none" href="#" onclick="return setTime('')">{{ __('nevyplněno') }}</a>
+                        </div>
                     </div>
 
                     <div class="col-12">
@@ -415,9 +515,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <x-organomania.selects.song-select :songGroups="$this->songGroups" id="songId" model="form.songIds" placeholder="{{ __('Zvolte písně') }}" multiple />
                         <div class="form-text">
                             {{ __('Zvolte písně v pořadí, v jakém se hrály.') }}
-                            {{ __('S výběrem písní poradí') }} <a href="https://www.duchovnihudba.cz/wp-content/uploads/2022/10/Direka%CC%81r%CC%8C-pro-varhani%CC%81ky.pdf" target="_blank">{{ __('Direktář pro varhaníky') }}</a>.
+                            {{ __('S výběrem písní poradí např.') }} <a href="https://www.duchovnihudba.cz/wp-content/uploads/2022/10/Direka%CC%81r%CC%8C-pro-varhani%CC%81ky.pdf" target="_blank">{{ __('Direktář pro varhaníky') }}</a>.
                         </div>
-                        <div class="form-text" style="columns: 11em">
+                        <div class="form-text mt-2" style="columns: 11em">
                             <div><a class="text-decoration-none" href="#" onclick="return addSong({{ Song::SONG_ID_502 }})">502: Ordinarium Olejník</a></div>
                             <div><a class="text-decoration-none" href="#" onclick="return addSong({{ Song::SONG_ID_503 }})">503: Ordinarium Bříza</a></div>
                             <div><a class="text-decoration-none" href="#" onclick="return addSong({{ Song::SONG_ID_504 }})">504: Ordinarium Eben</a></div>
@@ -463,7 +563,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         </div>
     @else
-        <div class="text-center">
+        <div class="text-center d-print-none">
             <button type="button" class="btn btn-primary" wire:click="add">
                 <span wire:loading.remove wire:target="add()">
                     <i class="bi-plus-lg"></i>
@@ -477,28 +577,35 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
     @endif
         
-    <div class="row mt-3 mb-3 g-3 align-items-center">
-        <div class="col-12 col-lg-8 col-xl-6">
+    <div class="row mt-3 mb-3 g-3 align-items-center d-print-none">
+        <div class="col-12 col-xl-6">
             <x-organomania.selects.song-select :songGroups="$this->songGroups" model="filterSongId" placeholder="{{ __('Hledat píseň') }}" allowClear live frequency-in-selection />
         </div>
-        <div class="col-12 col-lg-4 col-xl-6">
-            <div class="row">
-                <div class="col-12 col-sm-auto">
+        <div class="col-12 col-xl-6">
+            <div class="row" style="max-width: 450px;">
+                <div class="col-12 col-sm-5">
                     <div class="form-check form-switch">
                         <label for="filterSundays">{{ __('Jen neděle') }}</label>
                         <input id="filterSundays" class="form-check-input" type="checkbox" role="switch" wire:model.change="filterSundays" />
                     </div>
                 </div>
-                <div class="col-12 col-sm-auto">
+                <div class="col-12 col-sm-5 order-sm-4">
                     <div class="form-check form-switch">
                         <label for="filterNonEmptyDays">{{ __('Jen zapsané dny') }}</label>
                         <input id="filterNonEmptyDays" class="form-check-input" type="checkbox" role="switch" wire:model.change="filterNonEmptyDays" />
                     </div>
                 </div>
-                <div class="col-12 col-sm-auto">
+                <div class="w-100 d-none d-md-block order-sm-3"></div>
+                <div class="col-12 col-sm-5 order-sm-2">
                     <div class="form-check form-switch">
                         <label for="showLiturgicalCelebrations">{{ __('Názvy svátků') }}</label>
                         <input id="showLiturgicalCelebrations" class="form-check-input" type="checkbox" role="switch" wire:model.change="showLiturgicalCelebrations" />
+                    </div>
+                </div>
+                <div class="col-12 col-sm-5 order-sm-5">
+                    <div class="form-check form-switch">
+                        <label for="showSongNames">{{ __('Názvy písní') }}</label>
+                        <input id="showSongNames" class="form-check-input" type="checkbox" role="switch" wire:model.change="showSongNames" />
                     </div>
                 </div>
             </div>
@@ -508,7 +615,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div id="results" class="position-relative">
         <div
             wire:loading.block
-            wire:target="filterSongId, filterSundays, filterNonEmptyDays, showLiturgicalCelebrations, gotoPage, previousPage, nextPage"
+            wire:target="filterSongId, filterSundays, filterNonEmptyDays, showLiturgicalCelebrations, showSongNames, gotoPage, previousPage, nextPage, setDefaultPage"
             @class(['position-absolute', 'text-center', 'w-100', 'h-100', 'start-0', 'opacity-75', 'bg-white', 'z-1'])
             @style(['padding-top: 4.1em' => $this->liturgicalDays->isNotEmpty()])
         >
@@ -525,20 +632,32 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         @else
             <div>
-                <div class="my-pagination">
+                
+                <div class="my-pagination d-print-none">
+                    @if (!$this->filterNonEmptyDays && !$this->filterSongId)
+                        <button type="button" class="btn btn-outline-primary float-end float-sm-start d-sm-none d-md-inline-block" wire:click="setDefaultPage">{{ __('Dnes') }}</button>
+                    @endif
                     {{ $this->liturgicalDays->links(data: ['scrollTo' => false]) }}
                 </div>
+                
+                @if (!$showLiturgicalCelebrations)
+                    <div class="small text-body-secondary mb-2 mb-md-0 d-print-none">{{ __('Podrobnosti o liturgickém kalendáři zobrazíte kliknutím na barevný kroužek.') }}</div>
+                @endif
                 
                 <div class="table-responsive">
                     <table class="liturgical-days-table table table-hover align-middle w-100 d-block d-md-table">
                         <thead>
                             <tr class="d-none d-md-table-row">
                                 <th>{{ __('Den') }} <i class="bi-sort-numeric-down-alt"></i></th>
+                                @if ($this->showTimes)
+                                    <th class="time p-2 px-0">
+                                        {{ __('Čas') }}
+                                    </th>
+                                @endif
                                 <th>
-                                    <div class="d-flex pe-2">
-                                        {{ __('Písně') }}
-                                    </div>
+                                    {{ __('Písně') }}
                                 </th>
+                                <td class="d-block d-md-none"></td>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -569,7 +688,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                 </span>
                                             @endif
                                         </span>
-                                        <div class="d-md-none float-end">
+                                        <div class="d-md-none d-print-none float-end">
                                             <button
                                                 type="button"
                                                 class="btn btn-sm btn-primary p-1 py-0 p-md-2 py-md-1"
@@ -608,7 +727,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                             </div>
                                         @endif
                                     </td>
-                                    <td @class(['songs', 'pt-0', 'pt-md-2', 'd-block', 'd-md-table-cell', 'd-none' => $worshipSongsGroups->isEmpty()])>
+                                    <td @class(['songs', 'pt-0', 'pt-md-2', 'd-block', 'd-md-table-cell', 'd-none' => $worshipSongsGroups->isEmpty()]) colspan="2">
                                         @if ($worshipSongsGroups->isNotEmpty())
                                             @php $showEmptyTime = $worshipSongsGroups->keys()->all() !== [''] @endphp
                                             <table class="table table-borderless mb-0 d-block d-md-table">
@@ -616,7 +735,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                     @foreach ($worshipSongsGroups as $time => $worshipSongsGroup)
                                                         <tr class="d-block d-md-table-row w-100" wire:key="{{ $time }}">
                                                             @if ($this->showTimes)
-                                                                <td @class(['time', 'bg-transparent', 'd-block', 'd-md-table-cell', 'p-md-2', 'ps-md-0', 'p-0', 'pt-2' => !$loop->first])>
+                                                                <td @class(['time', 'bg-transparent', 'd-block', 'd-md-table-cell', 'p-md-2', 'px-md-0', 'p-0', 'pt-2' => !$loop->first])>
                                                                     @if ($time)
                                                                         {{ Helpers::formatTime($time, seconds: false) }}
                                                                     @elseif ($showEmptyTime)
@@ -627,60 +746,73 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                             <td class="bg-transparent d-block d-md-table-cell p-0 p-md-2">
                                                                 @foreach ($worshipSongsGroup as $worshipSong)
                                                                     @php $category = $worshipSong->song->category @endphp
-                                                                    <div class="d-flex align-items-center column-gap-2" wire:key="{{ $worshipSong->id }}">
-                                                                        <span class="song-number badge" style="color: {{ $category->getColor() }}; background: {{ $category->getBackground() }}">
+                                                                    @if (!$showSongNames)
+                                                                        <a
+                                                                            class="song-number badge text-decoration-none"
+                                                                            style="color: {{ $category->getColor() }}; background: {{ $category->getBackground() }}"
+                                                                            href="{{ $worshipSong->song->kancionalUrl }}"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-bs-title="{{ $worshipSong->song->name }}"
+                                                                            target="_blank"
+                                                                        >
                                                                             {{ $worshipSong->song->number }}
-                                                                        </span>
-                                                                        <span class="song-name-container flex-shrink-1">
-                                                                            <x-organomania.soft-underline-link
-                                                                                @class(['song-name', 'mark' => $this->filterSongId == $worshipSong->song->id, 'mark' => $this->savedWorshipSongId === $worshipSong->id])
-                                                                                href="{{ $worshipSong->song->kancionalUrl }}"
-                                                                                target="_blank"
-                                                                                title="{{ __('Zobrazit píseň v Kancionálu') }}"
-                                                                            >
-                                                                                {{ $worshipSong->song->name }}
-                                                                            </x-organomania.soft-underline-link>
-                                                                            @isset($worshipSong->song->accompanimentUrl)
-                                                                                <x-organomania.soft-underline-link class="small" href="{{ $worshipSong->song->accompanimentUrl }}" target="_blank" title="{{ __('Stáhnout varhanní doprovod') }}">
-                                                                                    (dopr.)
+                                                                        </a>
+                                                                    @else
+                                                                        <div class="d-flex align-items-center column-gap-2" wire:key="{{ $worshipSong->id }}">
+                                                                            <span class="song-number badge" style="color: {{ $category->getColor() }}; background: {{ $category->getBackground() }}">
+                                                                                {{ $worshipSong->song->number }}
+                                                                            </span>
+                                                                            <span class="song-name-container flex-shrink-1">
+                                                                                <x-organomania.soft-underline-link
+                                                                                    @class(['song-name', 'mark' => $this->filterSongId == $worshipSong->song->id, 'mark' => in_array($worshipSong->id, $this->savedWorshipSongIds)])
+                                                                                    href="{{ $worshipSong->song->kancionalUrl }}"
+                                                                                    target="_blank"
+                                                                                    title="{{ __('Zobrazit píseň v Kancionálu') }}"
+                                                                                >
+                                                                                    {{ $worshipSong->song->name }}
                                                                                 </x-organomania.soft-underline-link>
-                                                                            @endisset
-                                                                            @isset($worshipSong->song->purposeFormatted)
-                                                                                &nbsp;
-                                                                                <small title="{{ __('liturgické určení písně') }}">
-                                                                                    {!! $worshipSong->song->purposeFormatted !!}
-                                                                                </small>
-                                                                            @endisset
-                                                                        </span>
+                                                                                @isset($worshipSong->song->accompanimentUrl)
+                                                                                    <x-organomania.soft-underline-link class="small d-print-none" href="{{ $worshipSong->song->accompanimentUrl }}" target="_blank" title="{{ __('Stáhnout varhanní doprovod') }}">
+                                                                                        ({{ __('varh.') }})
+                                                                                    </x-organomania.soft-underline-link>
+                                                                                @endisset
+                                                                                @isset($worshipSong->song->purposeFormatted)
+                                                                                    &nbsp;
+                                                                                    <small title="{{ __('liturgické určení písně') }}">
+                                                                                        {!! $worshipSong->song->purposeFormatted !!}
+                                                                                    </small>
+                                                                                @endisset
+                                                                            </span>
 
-                                                                        @can('delete', $worshipSong)
-                                                                            <span class="ps-2 ms-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Smazat') }}">
-                                                                                <button
-                                                                                    class="btn btn-sm btn-outline-danger p-1 py-0"
-                                                                                    type="button"
-                                                                                    data-worship-song-id="{{ $worshipSong->id }}"
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#confirmDeleteWorshipSongModal"
-                                                                                    @disabled($isEdit)
-                                                                                >
-                                                                                    <i class="bi bi-trash"></i>
-                                                                                </button>
-                                                                            </span>
-                                                                        @else
-                                                                            <span class="ps-2 ms-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit podrobnosti') }}">
-                                                                                <a
-                                                                                    class="btn btn-sm p-1 py-0 text-primary"
-                                                                                    href="#"
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#worshipSongInfoModal"s
-                                                                                    data-info="{{ $this->getWorshipSongInfo($worshipSong) }}"
-                                                                                    onclick="$('#worshipSongInfo').text(this.dataset.info)"
-                                                                                >
-                                                                                    <i class="bi bi-question-circle"></i>
-                                                                                </a>
-                                                                            </span>
-                                                                        @endcan
-                                                                    </div>
+                                                                            @can('delete', $worshipSong)
+                                                                                <span class="ps-2 ms-auto d-print-none" data-bs-toggle="tooltip" data-bs-title="{{ __('Smazat') }}">
+                                                                                    <button
+                                                                                        class="btn btn-sm btn-outline-danger p-1 py-0"
+                                                                                        type="button"
+                                                                                        data-worship-song-id="{{ $worshipSong->id }}"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#confirmDeleteWorshipSongModal"
+                                                                                        @disabled($isEdit)
+                                                                                    >
+                                                                                        <i class="bi bi-trash"></i>
+                                                                                    </button>
+                                                                                </span>
+                                                                            @else
+                                                                                <span class="ps-2 ms-auto d-print-none" data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit podrobnosti') }}">
+                                                                                    <a
+                                                                                        class="btn btn-sm p-1 py-0 text-primary"
+                                                                                        href="#"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#worshipSongInfoModal"
+                                                                                        data-info="{{ $this->getWorshipSongInfo($worshipSong) }}"
+                                                                                        onclick="worshipSongInfoOnclik(this)"
+                                                                                    >
+                                                                                        <i class="bi bi-question-circle"></i>
+                                                                                    </a>
+                                                                                </span>
+                                                                            @endcan
+                                                                        </div>
+                                                                    @endif
                                                                 @endforeach
                                                             </td>
                                                         </tr>
@@ -690,7 +822,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                         @else
                                             {{-- vloženo kvůli zarovnání se zbylými řádky --}}
                                             @if ($this->showTimes)
-                                                <div class="d-inline-block time p-2 ps-0">
+                                                <div class="d-inline-block time p-2 px-0">
                                                     &nbsp;
                                                 </div>
                                             @endif
@@ -700,7 +832,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                         @endif
                                     </td>
                                     <td @class(['d-block', 'd-md-none', 'border-bottom', 'p-0', 'border-0', 'border-tertiary' => !$lastInWeek, 'border-dark' => $lastInWeek])></td>
-                                    <td class="add d-none d-md-table-cell pt-0 pt-md-2 text-end">
+                                    <td class="add d-none d-md-table-cell pt-0 pt-md-2 text-end d-print-none">
                                         <button type="button" class="btn btn-sm btn-primary p-1 py-0 p-md-2 py-md-1" wire:click="add({{ $liturgicalDay->id }})" data-bs-toggle="tooltip" data-bs-title="{{ __('Zapsat píseň pro tento den') }}" @disabled($isEdit)>
                                             <i class="bi bi-plus-lg"></i>
                                         </button>
@@ -711,15 +843,24 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </table>
                 </div>
 
-                <div class="my-pagination d-md-none">
+                <div class="my-pagination d-md-none d-print-none">
                     {{ $this->liturgicalDays->links(data: ['scrollTo' => '#results']) }}
                 </div>
             </div>
         @endif
     </div>
     
-    <div class="text-end mt-3">
-        <a @class(['btn', 'btn-sm', 'btn-secondary', 'me-1', 'disabled' => $isEdit]) href="{{ route('organs.show', $this->organ->slug) }}" wire:navigate @disabled($isEdit)>
+    <div class="mt-3 d-print-none hstack">
+        <button type="submit" @class(['btn', 'btn-sm', 'btn-outline-secondary']) onclick="window.print()">
+            <i class="bi-printer"></i> <span class="d-none d-sm-inline">{{ __('Tisk') }}</span>
+        </button>
+        @if ($this->liturgicalDays->isNotEmpty())
+            <button type="button" @class(['btn', 'btn-sm', 'btn-outline-secondary', 'ms-1']) wire:click="exportAsCsv">
+                <i class="bi-filetype-csv"></i> {{ __('Export do CSV') }}</span>
+            </button>
+        @endif
+        
+        <a @class(['btn', 'btn-sm', 'btn-secondary', 'ms-auto', 'me-1', 'disabled' => $isEdit]) href="{{ route('organs.show', $this->organ->slug) }}" wire:navigate @disabled($isEdit)>
             <i class="bi-arrow-return-left"></i> {{ __('Zpět') }}
         </a>
         <a class="btn btn-sm btn-outline-primary"  href="#" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $this->getShareUrl() }}">
@@ -727,7 +868,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </a>
     </div>
     
-    <x-organomania.modals.share-modal :hintAppend="__('Sdílením seznamu písní sdílíte i varhany, ke kterým se seznam vztahuje. Každý, kdo obdrží odkaz, může písně i zapisovat.')" />
+    <x-organomania.modals.share-modal :hintAnonymousUser="isset($organ->user_id)" :hintAppend="__('Sdílením seznamu písní sdílíte i varhany, ke kterým se seznam vztahuje. Každý, kdo obdrží odkaz, může písně i zapisovat.')" />
     <x-organomania.modals.liturgical-celebration-modal :$liturgicalCelebration />
         
     <div class="modal fade" id="worshipSongInfoModal" tabindex="-1" data-focus="false" aria-labelledby="worshipSongInfoLabel" aria-hidden="true">
@@ -772,6 +913,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </x-organomania.toast>
 </div>
 
+@push('styles')
+    <style>
+        @media print {
+            @page {
+                size: portrait;
+                margin: 0.5cm;
+            }
+        }
+    </style>
+@endpush
 
 @script
 <script>
@@ -784,6 +935,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         let songIds = $('#songId').val()
         $('#songId').val([...songIds, songId])
         $('#songId').trigger('change')
+        return false
+    }
+        
+    window.worshipSongInfoOnclik = function (elem) {
+        $('#worshipSongInfo').text(elem.dataset.info)
+        setTimeout(removeTooltips)
+    }
+        
+    window.setTime = function (time) {
+        $wire.form.time = time
         return false
     }
 </script>

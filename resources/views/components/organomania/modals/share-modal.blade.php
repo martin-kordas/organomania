@@ -1,4 +1,4 @@
-@props(['hintAppend' => null, 'id' => 'shareModal'])
+@props(['hintAnonymousUser' => true, 'hintAppend' => null, 'id' => 'shareModal'])
 
 <div>
     <div class="share-modal modal fade" id="{{ $id }}" tabindex="-1" data-focus="false" aria-labelledby="{{ "{$id}Label" }}" aria-hidden="true">
@@ -19,7 +19,9 @@
                         </a>
                     </div>
                     <div class="form-text">
-                        {{ __('Na odkaz může přistoupit i nepřihlášený uživatel.') }}
+                        @if ($hintAnonymousUser)
+                            {{ __('Na odkaz může přistoupit i nepřihlášený uživatel.') }}
+                        @endif
                         @isset($hintAppend) {{ $hintAppend }} @endisset
                     </div>
                     <div class="text-center mt-3">

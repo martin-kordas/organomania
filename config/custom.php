@@ -8,6 +8,6 @@ return [
     
     'hide_current_organ_builders_importance' => true,
     
-    'show_donate_alert' => false,
+    'show_donate_alert' => true,
     
 ];

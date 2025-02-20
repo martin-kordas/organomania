@@ -120,6 +120,19 @@ class LiturgicalDay extends Model
         return $date;
     }
     
+    public static function getMinDateSunday()
+    {
+        static $date;
+        if (!isset($date)) {
+            $date = static
+                ::orderBy('date')
+                ->whereRaw('WEEKDAY(date) = 6')
+                ->first()
+                ?->date;
+        }
+        return $date;
+    }
+    
     public static function getToday()
     {
         static $day;

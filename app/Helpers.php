@@ -197,10 +197,10 @@ class Helpers
         return $number . $separator . $currency;
     }
     
-    static function array2Csv(array $data)
+    static function array2Csv(array $data, string $columnSeparator = ',')
     {
         $rowsStr = array_map(
-            fn($row) => implode(',', $row),
+            fn($row) => implode($columnSeparator, $row),
             $data
         );
         return implode("\n", $rowsStr);

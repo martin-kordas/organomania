@@ -93,7 +93,7 @@ $organistHighlightedCount = Organist::getHighlightedCount();
                 
                 {{ $slot }}
               
-                <div id="fbPage" @class(['text-center', 'mt-3' => !request()->routeIs('welcome'), 'mb-0'])>
+                <div id="fbPage" @class(['text-center', 'mt-3' => !request()->routeIs('welcome'), 'mb-0', 'd-print-none'])>
                     <div class="fb-page" data-href="https://www.facebook.com/organomania.varhany/" data-tabs="" data-width="500" data-height="70" data-small-header="{{ !request()->routeIs('welcome') }}" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="{{ request()->routeIs('welcome') }}">
                         <blockquote cite="https://www.facebook.com/organomania.varhany/" class="fb-xfbml-parse-ignore" style="height: 130px">
                             <a href="https://www.facebook.com/organomania.varhany/">

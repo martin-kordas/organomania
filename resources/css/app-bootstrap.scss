@@ -208,6 +208,10 @@ div.side-buttons {
 .song-number {
     display: inline-block;
     width: 3.6em;
+    min-width: 3.6em;
+    
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
 }
 .song-select ~ .select2-container {
     .select2-results__option {
@@ -624,7 +628,7 @@ div.side-buttons {
             background: var(--bs-warning-bg-subtle);
         }
         
-        @media screen and (max-width: 767px) {
+        @media (max-width: 767px) {
             > tbody {
                 border-top: none !important;
             }
@@ -644,7 +648,7 @@ div.side-buttons {
                 text-overflow: ellipsis;
             }
         }
-        @media screen and (min-width: 768px) {
+        @media (min-width: 768px) {
             tbody {
                 display: table-row-group !important;
             }
@@ -652,8 +656,20 @@ div.side-buttons {
                 font-size: 0.875em;
             }
             .time {
-                width: 3.6em;
+                width: 3em;
             }
+        }
+    }
+    
+    @media print {
+        table.liturgical-days-table {
+            td {
+                background: white !important;
+            }
+        }
+        a:not(.song-number) {
+            color: black !important;
+            text-decoration: none;
         }
     }
 }
