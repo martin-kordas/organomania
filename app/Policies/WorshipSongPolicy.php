@@ -43,9 +43,14 @@ class WorshipSongPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Model $worshipSong): bool
+    public function delete(?User $user, Model $worshipSong, array $allowedIds = []): bool
     {
-        return $worshipSong->user_id === $user->id;
+        if (in_array($worshipSong->id, $allowedIds)) return true;
+        
+        if (isset($user)) {
+            return $worshipSong->user_id === $user->id || $worshipSong->organ?->user_id === $user->id;
+        }
+        return false;
     }
 
     /**

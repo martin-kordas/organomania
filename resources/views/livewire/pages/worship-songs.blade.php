@@ -66,6 +66,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     #[Session]
     public array $usedTimes = [];
+    #[Session]
+    public array $sessionSavedWorshipSongIds = [];
 
     public ?LiturgicalCelebration $liturgicalCelebration = null;
 
@@ -202,6 +204,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         ->whereRaw('date BETWEEN ? - INTERVAL 3 MONTH AND ?', [$today, $today]);
                     if ($this->filterSundays) $query->whereRaw('WEEKDAY(date) = 6');
                 },
+                'worshipSongs as worship_songs_all_count' => function (Builder $query) {
+                    $query
+                        ->where('organ_id', $this->organ->id);
+                    if ($this->filterSundays) $query->whereRaw('WEEKDAY(date) = 6');
+                },
             ])
             ->get()
             ->groupBy(
@@ -211,6 +218,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $song = $songs->first();
                 if ($preferredSongCategory && $song->category === $preferredSongCategory) return 0;
                 return $songs->first()->number;
+            });
+    }
+
+    #[Computed]
+    public function songGroupsForFilter()
+    {
+        // pro filtr zobrazíme pouze písně, které jsou v nějakém dni zapsány
+        return $this->songGroups
+            ->map(function (Collection $songs) {
+                return $songs->filter(function (Song $song) {
+                    return $song->worship_songs_all_count > 0;
+                });
+            })
+            ->filter(function (Collection $songs) {
+                return $songs->isNotEmpty();
             });
     }
 
@@ -269,6 +291,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         });
     }
 
+    #[Computed]
+    public function showWorshipSongsInfo()
+    {
+        return Auth::user() && Auth::user()->id === $this->organ->user_id;
+    }
+
     private function getUserName(?User $user)
     {
         return trim($user?->name ?? __('nepřihlášený uživatel'));
@@ -301,7 +329,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 // ordinaria vždy zobrazit jako první
                 $category = $worshipSong->song->category;
                 if ($category === KancionalSongCategory::Ordinaries) return -1;
-                return $category->value;
+                return $worshipSong->id;
             });
         });
 
@@ -368,6 +396,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $worshipSong->user()->associate(Auth::user());
                 $worshipSong->save();
                 $this->savedWorshipSongIds[] = $worshipSong->id;
+                
+                if (Auth::guest()) {
+                    if (count($this->sessionSavedWorshipSongIds) > 30) array_shift($this->sessionSavedWorshipSongIds);
+                    $this->sessionSavedWorshipSongIds[] = $worshipSong->id;
+                }
             }
         });
         
@@ -380,7 +413,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function delete($worshipSongId)
     {
         $worshipSong = WorshipSong::findOrFail($worshipSongId);
-        Gate::authorize('delete', $worshipSong);
+        Gate::authorize('delete', [$worshipSong, $this->sessionSavedWorshipSongIds]);
         $worshipSong->delete();
         $this->js('showToast("deleted")');
     }
@@ -576,10 +609,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </button>
         </div>
     @endif
-        
+    
     <div class="row mt-3 mb-3 g-3 align-items-center d-print-none">
         <div class="col-12 col-xl-6">
-            <x-organomania.selects.song-select :songGroups="$this->songGroups" model="filterSongId" placeholder="{{ __('Hledat píseň') }}" allowClear live frequency-in-selection />
+            <x-organomania.selects.song-select :songGroups="$this->songGroupsForFilter" model="filterSongId" placeholder="{{ __('Hledat píseň') }}" allowClear live frequency-in-selection />
         </div>
         <div class="col-12 col-xl-6">
             <div class="row" style="max-width: 450px;">
@@ -737,7 +770,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                             @if ($this->showTimes)
                                                                 <td @class(['time', 'bg-transparent', 'd-block', 'd-md-table-cell', 'p-md-2', 'px-md-0', 'p-0', 'pt-2' => !$loop->first])>
                                                                     @if ($time)
-                                                                        {{ Helpers::formatTime($time, seconds: false) }}
+                                                                        <i class="bi bi-clock d-md-none"></i> {{ Helpers::formatTime($time, seconds: false) }}
                                                                     @elseif ($showEmptyTime)
                                                                         <span class="fst-italic d-md-none">[{{ __('neznámý čas') }}]</span>
                                                                     @endif
@@ -784,7 +817,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                                                 @endisset
                                                                             </span>
 
-                                                                            @can('delete', $worshipSong)
+                                                                            @can('delete', [$worshipSong, $this->sessionSavedWorshipSongIds])
                                                                                 <span class="ps-2 ms-auto d-print-none" data-bs-toggle="tooltip" data-bs-title="{{ __('Smazat') }}">
                                                                                     <button
                                                                                         class="btn btn-sm btn-outline-danger p-1 py-0"
@@ -792,12 +825,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                                                         data-worship-song-id="{{ $worshipSong->id }}"
                                                                                         data-bs-toggle="modal"
                                                                                         data-bs-target="#confirmDeleteWorshipSongModal"
+                                                                                        data-info="{{ $this->getWorshipSongInfo($worshipSong) }}"
+                                                                                        onclick="deleteWorshipSongOnclick(this)"
                                                                                         @disabled($isEdit)
                                                                                     >
                                                                                         <i class="bi bi-trash"></i>
                                                                                     </button>
                                                                                 </span>
-                                                                            @else
+                                                                            @elseif ($this->showWorshipSongsInfo)
                                                                                 <span class="ps-2 ms-auto d-print-none" data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit podrobnosti') }}">
                                                                                     <a
                                                                                         class="btn btn-sm p-1 py-0 text-primary"
@@ -898,6 +933,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         onclick="deleteWorshipSong()"
     >
         {{ __('Opravdu chcete zapsanou píseň smazat?') }}
+        
+        @if ($this->showWorshipSongsInfo)
+            <div class="mt-3">
+                <span class="text-body-secondary">{{ __('Píseň zapsal/a') }}:</span>
+                <br />
+                <span id="deleteWorshipSongInfo"></span>
+            </div>
+        @endif
     </x-organomania.modals.confirm-modal>
         
     <x-organomania.toast toastId="saved">
@@ -940,6 +983,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         
     window.worshipSongInfoOnclik = function (elem) {
         $('#worshipSongInfo').text(elem.dataset.info)
+        setTimeout(removeTooltips)
+    }
+        
+    window.deleteWorshipSongOnclick = function (elem) {
+        $('#deleteWorshipSongInfo').text(elem.dataset.info)
         setTimeout(removeTooltips)
     }
         

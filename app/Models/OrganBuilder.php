@@ -28,7 +28,10 @@ use App\Traits\Viewable;
 class OrganBuilder extends Model
 {
     use HasFactory, SoftDeletes, Searchable, Sluggable;
-    use OwnedEntity, Viewable;
+    use Viewable;
+    use OwnedEntity {
+        OwnedEntity::scopeWithUniqueSlugConstraints insteadof Sluggable;
+    }
     
     const
         ORGAN_BUILDER_ID_RIEGER = 1,

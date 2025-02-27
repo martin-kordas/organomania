@@ -15,7 +15,9 @@ use App\Traits\OwnedEntity;
 class RegistrationSet extends Model
 {
     use HasFactory, SoftDeletes, Sluggable;
-    use OwnedEntity;
+    use OwnedEntity {
+        OwnedEntity::scopeWithUniqueSlugConstraints insteadof Sluggable;
+    }
     
     protected static function booted(): void
     {

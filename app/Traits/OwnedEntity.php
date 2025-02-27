@@ -3,9 +3,11 @@
 namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
+use App\Models\Scopes\OwnedEntityScope;
 
 trait OwnedEntity
 {
@@ -44,6 +46,13 @@ trait OwnedEntity
         if (!Gate::allows('view', $this)) $relativeUrl = URL::signedRoute($route, $this->slug, absolute: false);
         else $relativeUrl = route($route, $this->slug, absolute: false);
         return url($relativeUrl);
+    }
+    
+    // přizpůsobení sluggable: konflikty slugů se mají hledat napříč všemi záznamy
+    public function scopeWithUniqueSlugConstraints(Builder $query, Model $model, string $attribute, array $config, string $slug): Builder
+    {
+        $query->withoutGlobalScope(OwnedEntityScope::class);
+        return $query;
     }
     
 }

@@ -29,7 +29,10 @@ use App\Helpers;
 class Organ extends Model
 {
     use HasFactory, SoftDeletes, Searchable, Sluggable;
-    use OwnedEntity, Viewable;
+    use Viewable;
+    use OwnedEntity {
+        OwnedEntity::scopeWithUniqueSlugConstraints insteadof Sluggable;
+    }
     
     const
         ORGAN_ID_OLOMOUC_KATEDRALA_SV_VACLAVA = 55,

@@ -19,7 +19,10 @@ use App\Traits\Viewable;
 class Disposition extends Model
 {
     use HasFactory, SoftDeletes, Sluggable;
-    use OwnedEntity, Viewable;
+    use Viewable;
+    use OwnedEntity {
+        OwnedEntity::scopeWithUniqueSlugConstraints insteadof Sluggable;
+    }
     
     protected $guarded = [];
     
