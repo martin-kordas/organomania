@@ -39,7 +39,7 @@ class OrganForm extends Form
     #[Validate('required', message: 'Kraj musí být vyplněn.')]
     public $regionId;
     #[Validate('required', message: 'Význam musí být vyplněn.')]
-    public $importance;
+    public $importance = 1;
     public $organBuilderId;
     public $yearBuilt;
     public $stopsCount;
@@ -164,7 +164,7 @@ class OrganForm extends Form
                 }
             }
         }
-        if ($periodCategoriesCount <= 0) {
+        if ($this->public && $periodCategoriesCount <= 0) {
             $validator->errors()->add('categories', 'Je nutné zadat alespoň 1 kategorii období.');
         }
     }

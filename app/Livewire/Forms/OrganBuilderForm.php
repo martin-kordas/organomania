@@ -29,7 +29,7 @@ class OrganBuilderForm extends Form
     public $categories = [];
     public $activePeriod;
     #[Validate('required', message: 'Rok začátku působení musí být vyplněn.')]
-    public $activeFromYear;
+    public $activeFromYear = 9999;
     #[Validate('required', message: 'Obec musí být vyplněna.')]
     public $municipality;
     #[Validate('required', message: 'Zeměpisná šířka musí být vyplněna.')]
@@ -42,7 +42,7 @@ class OrganBuilderForm extends Form
     public $web;
     public $workshopMembers;
     #[Validate('required', message: 'Význam musí být vyplněn.')]
-    public $importance;
+    public $importance = 1;
     public $perex;
     public $description;
     public $literature;

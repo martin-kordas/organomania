@@ -120,6 +120,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         $this->form->setOrgan($this->organ);
         $this->previousUrl = request()->headers->get('referer');
+
+        // zobrazení chybových hlášek již na začátku kvůli přehledu,které údaje jsou povinné
+        if (!$this->organ->exists) $this->form->validate();
     }
 
     public function delete()
@@ -420,7 +423,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <h5 class="mt-1 mb-0">{{ __('Kategorizace') }}</h5>
                 
                 <div class="col-md-6">
-                    <label for="categories" class="form-label">{{ __('Kategorie') }}</label>
+                    <label for="categories" class="form-label">
+                        {{ __('Kategorie') }}
+                        @if ($public) <span class="text-danger">*</span> @endif
+                    </label>
                     <x-organomania.selects.organ-category-select
                         id="categories"
                         model="form.categories"
@@ -433,7 +439,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
                 
                 <div class="col-md-6">
-                    <label for="name" class="form-label">{{ __('Význam') }} <span class="text-secondary">({{ __('od 1 do 10') }})</span></label>
+                    <label for="name" class="form-label">{{ __('Význam') }} <span class="text-secondary">({{ __('od 1 do 10') }})</span> <span class="text-danger">*</span></label>
                     <div class="hstack gap-3">
                         <input class="form-control w-auto flex-grow-1 @error('form.importance') is-invalid @enderror" type="number" id="name" placeholder="4" min="1" max="10" wire:model.live.number="form.importance" aria-describedby="importanceFeedback">
                         <x-organomania.stars :count="$this->getStarsCount()" />
@@ -444,21 +450,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
                 
                 <div class="col-md-3">
-                    <label for="regionId" class="form-label @error("form.regionId") is-invalid @enderror">{{ __('Kraj') }}</label>
+                    <label for="regionId" class="form-label @error("form.regionId") is-invalid @enderror">{{ __('Kraj') }} <span class="text-danger">*</span></label>
                     <x-organomania.selects.region-select :regions="$this->regions" id="regionId" model="form.regionId" />
                     @error('form.regionId')
                         <div id="regionIdFeedback" class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="col-md-3">
-                    <label for="latitude" class="form-label @error("form.latitude") is-invalid @enderror">{{ __('Zeměpisná šířka') }}</label>
+                    <label for="latitude" class="form-label @error("form.latitude") is-invalid @enderror">{{ __('Zeměpisná šířka') }} <span class="text-danger">*</span></label>
                     <input class="form-control" id="latitude" min="-90" max="90" type="number" step="0.0000001" wire:model="form.latitude" placeholder="40,1234567">
                     @error('form.latitude')
                         <div id="latitudeFeedback" class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="col-md-3">
-                    <label for="longitude" class="form-label @error("form.longitude") is-invalid @enderror">{{ __('Zeměpisná délka') }}</label>
+                    <label for="longitude" class="form-label @error("form.longitude") is-invalid @enderror">{{ __('Zeměpisná délka') }} <span class="text-danger">*</span></label>
                     <input class="form-control" id="longitude" type="number" min="-180" max="180" step="0.0000001" wire:model="form.longitude" placeholder="20,1234567">
                     @error('form.longitude')
                         <div id="longitudeFeedback" class="invalid-feedback">{{ $message }}</div>
@@ -482,7 +488,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 
                 <div>
                     <div class="d-flex align-items-end mb-2">
-                        <label for="disposition" class="form-label me-auto mb-0">{{ __('Disposition_1') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                        <label for="disposition" class="form-label me-auto mb-0">{{ __('Disposition_1') }}</label>
                         <button
                             type="button"
                             class="btn btn-sm btn-outline-secondary"
@@ -504,11 +510,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </span>
                 </div>
                 <div>
-                    <label for="description" class="form-label">{{ __('Popis') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                    <label for="description" class="form-label">{{ __('Popis') }}</label>
                     <textarea rows="8" class="form-control" id="description" wire:model="form.description" placeholder="{{ __('Podrobnější popis varhan, který se vypíše v detailním zobrazení.') }}"></textarea>
                 </div>
                 <div>
-                    <label for="perex" class="form-label">{{ __('Perex') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                    <label for="perex" class="form-label">{{ __('Perex') }}</label>
                     <textarea rows="3" class="form-control" id="perex" wire:model="form.perex" placeholder="{{ __('Krátká jednovětá charakteristika varhan, která se vypíše v rámečku s miniaturou.') }}"></textarea>
                 </div>
             </div>
@@ -584,7 +590,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @if ($this->form->isOrganPublic())
                     <div>
                         <label for="outsideImageUrl" class="form-label">
-                            {{ __('URL obrázku') }} &ndash; {{ __('exteriér') }} <span class="text-secondary">({{ __('nepovinné') }})</span>
+                            {{ __('URL obrázku') }} &ndash; {{ __('exteriér') }}
                         </label>
                         <input class="form-control @error('form.outsideImageUrl') is-invalid @enderror" id="outsideImageUrl" wire:model="form.outsideImageUrl" aria-describedby="outsideImageUrlFeedback">
                         @error('form.outsideImageUrl')
@@ -596,7 +602,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </div>
                     <div>
                         <label for="outsideImageCredits" class="form-label">
-                            {{ __('Licence obrázku') }} &ndash; {{ __('exteriér') }} <span class="text-secondary">({{ __('nepovinné') }})</span>
+                            {{ __('Licence obrázku') }} &ndash; {{ __('exteriér') }}
                         </label>
                         <input class="form-control @error('form.outsideImageCredits') is-invalid @enderror" id="outsideImageCredits" wire:model="form.outsideImageCredits" aria-describedby="outsideImageCreditsFeedback">
                         @error('form.outsideImageCredits')
@@ -605,7 +611,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </div>
                 @endif
                 <div>
-                    <label for="web" class="form-label">{{ __('Web') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                    <label for="web" class="form-label">{{ __('Web') }}</label>
                     <textarea rows="2" class="form-control @error('form.webArray.*') is-invalid @enderror" id="web" wire:model="form.web" aria-describedby="webFeedback"></textarea>
                     @error('form.webArray.*')
                         <div id="webFeedback" class="invalid-feedback">{{ $errors->first('form.webArray.*') }}</div>
@@ -615,7 +621,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </div>
                 </div>
                 <div>
-                    <label for="literature" class="form-label">{{ __('Literatura') }} <span class="text-secondary">({{ __('nepovinné') }})</span></label>
+                    <label for="literature" class="form-label">{{ __('Literatura') }}</label>
                     <textarea rows="3" class="form-control" id="literature" wire:model="form.literature"></textarea>
                     <div class="form-text">
                         {{ __('Každá publikace se uvede na samostatném řádku.') }}

@@ -58,6 +58,8 @@ Route::view('about', 'about')
     ->name('about');
 Route::view('donate', 'donate')
     ->name('donate');
+Route::view('songs-info', 'worship-songs-info')
+    ->name('worship-songs-info');
 Route::view('links', 'links')
     ->name('links');
 Route::get('about-organ', AboutOrganController::class)

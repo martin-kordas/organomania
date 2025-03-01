@@ -12,7 +12,7 @@ trait Viewable
     public function viewed()
     {
         $user = Auth::user();
-        if (!$user?->isAdmin() && Auth::user()?->id !== User::USER_ID_MARTIN_KORDAS && !Helpers::isCrawler()) {
+        if (!$user?->isAdmin() && $user?->id !== User::USER_ID_MARTIN_KORDAS && !Helpers::isCrawler()) {
             if (!method_exists($this, 'isPublic') || $this->isPublic()) {
                 $this->views++;
                 $this->viewed_at = now();

@@ -645,29 +645,31 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <td>{{ $organBuilder->active_period }}</td>
         </tr>
         @endif
-        <tr>
-            <th>
-                {{ __('Kategorie') }}
-                @php $nonCustomCategoryIds = $organBuilder->organBuilderCategories->pluck('id') @endphp
-                @if ($nonCustomCategoryIds->isNotEmpty())
-                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}" onclick="setTimeout(removeTooltips);">
-                        <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#categoriesModal" @click="highlightCategoriesInModal(@json($nonCustomCategoryIds))">
-                            <i class="bi bi-question-circle"></i>
-                        </a>
-                    </span>
-                @endif
-            </th>
-            <td>
-                @foreach ($this->categoryGroups as $group)
-                    @foreach ($group as $category)
-                        <x-organomania.category-badge :category="$category" />
-                    @endforeach
-                    @if (!$loop->last)
-                        <br />
+        @php $nonCustomCategoryIds = $organBuilder->organBuilderCategories->pluck('id') @endphp
+        @if ($nonCustomCategoryIds->isNotEmpty() || !empty($this->categoryGroups))
+            <tr>
+                <th>
+                    {{ __('Kategorie') }}
+                    @if ($nonCustomCategoryIds->isNotEmpty())
+                        <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}" onclick="setTimeout(removeTooltips);">
+                            <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#categoriesModal" @click="highlightCategoriesInModal(@json($nonCustomCategoryIds))">
+                                <i class="bi bi-question-circle"></i>
+                            </a>
+                        </span>
                     @endif
-                @endforeach
-            </td>
-        </tr>
+                </th>
+                <td>
+                    @foreach ($this->categoryGroups as $group)
+                        @foreach ($group as $category)
+                            <x-organomania.category-badge :category="$category" />
+                        @endforeach
+                        @if (!$loop->last)
+                            <br />
+                        @endif
+                    @endforeach
+                </td>
+            </tr>
+        @endif
         @if (!$organBuilder->shouldHideImportance())
         <tr>
             <th>

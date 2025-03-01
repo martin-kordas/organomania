@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('song_id')->constrained()->onDelete('restrict');
             $table->date('date');
             $table->time('time')->nullable();
+            $table->string('organist_name', length: 100)->nullable();
             $table->foreignId('user_id')->constrained()->nullable();
             $table->timestamps();
             $table->softDeletes();

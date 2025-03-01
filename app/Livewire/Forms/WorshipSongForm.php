@@ -29,6 +29,10 @@ class WorshipSongForm extends Form
     ])]
     public $songIds = [];
     
+    #[Session]
+    #[Validate('required', message: 'Jméno varhaníka musí být vyplněno.')]
+    public $organistName;
+    
     public function boot()
     {
         $this->withValidator(function (Validator $validator) {

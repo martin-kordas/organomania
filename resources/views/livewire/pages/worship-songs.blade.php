@@ -294,7 +294,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     public function showWorshipSongsInfo()
     {
-        return Auth::user() && Auth::user()->id === $this->organ->user_id;
+        return Auth::user() && (!isset($this->organ->user_id) || $this->organ->user_id === Auth::user()->id);
     }
 
     private function getUserName(?User $user)
@@ -336,6 +336,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $groups;
     }
 
+    private function getWorshipSongGroupOrganistNames(Collection $worshipSongGroup)
+    {
+        return $worshipSongGroup->pluck('organist_name')->filter()->unique()->sort();
+    }
+
     private function getWorshipSongInfo(WorshipSong $worshipSong)
     {
         $info = $this->getUserName($worshipSong->user);
@@ -368,6 +373,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->form->resetValidation();
         $this->isEdit = true;
 
+        $this->form->organistName ??= Auth::user()?->name;
+        
         if (isset($liturgicalDayId)) {
             $liturgicalDay = LiturgicalDay::findOrFail($liturgicalDayId);
             $this->form->date = $liturgicalDay->date->format('Y-m-d');
@@ -447,6 +454,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     $worshipSong->song->name,
                     $this->getUserName($worshipSong->user),
                     Helpers::formatDate($worshipSong->updated_at) . ' v ' . Helpers::formatTime($worshipSong->updated_at->format('H:i:s')),
+                    $worshipSong->organist_name,
                 ];
             }
         }
@@ -460,8 +468,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         __('Liturgie'),
                         __('Píseň'),
                         __('Název písně'),
-                        __('Píseň zapsal'),
+                        __('Píseň zapsal uživatel'),
                         __('Ďatum a čas zápisu'),
+                        __('Jméno varhaníka'),
                     ];
                     $rows = [
                         $header,
@@ -567,6 +576,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             <div>M<sub>4</sub>: přijímání</div>
                             <div>M<sub>5</sub>: díky po přijímání</div>
                         </div>
+                    </div>
+                  
+                    <div class="col-12">
+                        <label for="organistName" class="form-label">{{ __('Jméno varhaníka') }}</label>
+                        <input id="organistName" class="form-control @error('form.organistName') is-invalid @enderror" autocomplete="on" wire:model="form.organistName" placeholder="{{ __('např. Jan Novák') }}" />
+                        @error('form.organistName')
+                            <div id="organistName" class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        @if ($username = Auth::user()?->name)
+                            <div class="form-text">
+                                {{ __('např.') }}
+                                <a class="text-decoration-none" href="#" onclick="return setOrganistName({{ Js::from($username) }})">{{ $username }}</a>
+                            </div>
+                        @endif
                     </div>
                 </form>
 
@@ -811,7 +834,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                                                 @endisset
                                                                                 @isset($worshipSong->song->purposeFormatted)
                                                                                     &nbsp;
-                                                                                    <small title="{{ __('liturgické určení písně') }}">
+                                                                                    <small title="{{ __('Liturgické určení písně') }}">
                                                                                         {!! $worshipSong->song->purposeFormatted !!}
                                                                                     </small>
                                                                                 @endisset
@@ -826,6 +849,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                                                         data-bs-toggle="modal"
                                                                                         data-bs-target="#confirmDeleteWorshipSongModal"
                                                                                         data-info="{{ $this->getWorshipSongInfo($worshipSong) }}"
+                                                                                        data-organist-name="{{ $worshipSong->organist_name }}"
                                                                                         onclick="deleteWorshipSongOnclick(this)"
                                                                                         @disabled($isEdit)
                                                                                     >
@@ -840,6 +864,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                                                         data-bs-toggle="modal"
                                                                                         data-bs-target="#worshipSongInfoModal"
                                                                                         data-info="{{ $this->getWorshipSongInfo($worshipSong) }}"
+                                                                                        data-organist-name="{{ $worshipSong->organist_name }}"
                                                                                         onclick="worshipSongInfoOnclik(this)"
                                                                                     >
                                                                                         <i class="bi bi-question-circle"></i>
@@ -849,6 +874,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                                         </div>
                                                                     @endif
                                                                 @endforeach
+                                                                
+                                                                @php $organistNames = $this->getWorshipSongGroupOrganistNames($worshipSongsGroup) @endphp
+                                                                @if ($organistNames->isNotEmpty())
+                                                                    <div class="mt-1 fst-italic small">
+                                                                        @foreach ($organistNames as $organistName)
+                                                                            <span title="{{ __('Jméno varhaníka') }}">
+                                                                                <i class="bi bi-person-fill"></i> {{ $organistName }}@if (!$loop->last), @endif
+                                                                            </span>
+                                                                        @endforeach
+                                                                    </div>
+                                                                @endif
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -914,9 +950,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
                 </div>
                 <div class="modal-body">
-                    <span class="text-body-secondary">{{ __('Píseň zapsal/a') }}:</span>
-                    <br />
-                    <span id="worshipSongInfo"></span>
+                    <div>
+                        <span class="text-body-secondary">{{ __('Píseň zapsal uživatel') }}:</span>
+                        <br />
+                        <span id="worshipSongInfo"></span>
+                    </div>
+                    
+                    <div class="mt-2">
+                        <span class="text-body-secondary">{{ __('Jméno varhaníka') }}:</span>
+                        <br />
+                        <span id="worshipSongInfoOrganistName"></span>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Zavřít') }}</button>
@@ -936,9 +980,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         
         @if ($this->showWorshipSongsInfo)
             <div class="mt-3">
-                <span class="text-body-secondary">{{ __('Píseň zapsal/a') }}:</span>
-                <br />
-                <span id="deleteWorshipSongInfo"></span>
+                <div>
+                    <span class="text-body-secondary">{{ __('Píseň zapsal uživatel') }}:</span>
+                    <br />
+                    <span id="deleteWorshipSongInfo"></span>
+                </div>
+
+                <div class="mt-2">
+                    <span class="text-body-secondary">{{ __('Jméno varhaníka') }}:</span>
+                    <br />
+                    <span id="deleteWorshipSongInfoOrganistName"></span>
+                </div>
             </div>
         @endif
     </x-organomania.modals.confirm-modal>
@@ -982,17 +1034,31 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
         
     window.worshipSongInfoOnclik = function (elem) {
+        let organistName = elem.dataset.organistName;
+        if (!organistName) organistName = 'neuvedeno';
+        
         $('#worshipSongInfo').text(elem.dataset.info)
+        $('#worshipSongInfoOrganistName').text(organistName)
         setTimeout(removeTooltips)
     }
         
     window.deleteWorshipSongOnclick = function (elem) {
+        let organistName = elem.dataset.organistName;
+        if (!organistName) organistName = 'neuvedeno';
+    
         $('#deleteWorshipSongInfo').text(elem.dataset.info)
+        $('#deleteWorshipSongInfoOrganistName').text(organistName)
         setTimeout(removeTooltips)
     }
         
     window.setTime = function (time) {
         $wire.form.time = time
+        return false
+    }
+        
+    window.setOrganistName = function (name) {
+        $wire.form.organistName = name
+        $('#organistName').focus()
         return false
     }
 </script>

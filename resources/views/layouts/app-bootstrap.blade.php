@@ -139,6 +139,9 @@ $organistHighlightedCount = Organist::getHighlightedCount();
                                         </span>
                                     @endif
                                 </x-organomania.footer-nav-item>
+                                <x-organomania.footer-nav-item href="{{ route('worship-songs-info') }}" wire:navigate>
+                                    {{ __('Písně') }}
+                                </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('links') }}" wire:navigate>
                                     {{ __('Odkazy') }}
                                 </x-organomania.footer-nav-item>
