@@ -5,14 +5,14 @@
 @use(App\Models\OrganBuilder)
 @use(App\Models\RegisterName)
 
-<x-app-bootstrap-layout>
+<x-app-bootstrap-layout title="{{ __('O varhanách') }}">
     @push('meta')
         <meta name="description" content="{{ __('Poznejte varhany jako hudební nástroj, který se po zvukové i konstrukční stránce neustále vyvíjí. Prohlédněte si nejvýznamnější varhany a varhanáře jednotlivých stylových období.') }}">
     @endpush
     
     <div class="about-organ container">
         <div class="row gy-3">
-            <h2 class="d-lg-none mb-0">O varhanách</h2>
+            <h2 class="d-lg-none mb-0">{{ __('O varhanách') }}</h2>
             <div class="col-12 col-lg-4 col-xl-3">
                 <nav id="content" class="h-100 flex-column align-items-stretch pe-lg-4 border-end">
                     <nav class="nav nav-pills flex-nowrap flex-column">
@@ -873,7 +873,7 @@
         function initNavigation() {
             // při kliknutí položku menu odrolovat kousek zpět, aby nadpis nepřekrývala hlavička stránky
             let offset = 75
-            $('.nav-link').on('click', function (e) {
+            $('#content .nav-link').on('click', function (e) {
                 e.preventDefault()
                 let href = $(e.target).attr('href')
                 $(href)[0].scrollIntoView({ behavior: 'instant' })

@@ -22,7 +22,7 @@ class ImportKancionalSongs extends Command
     protected $description = 'Inserts songs into songs table';
     
     // https://kancional.cz/ke-stazeni
-    //  - ručně doplněna: ordinaria
+    //  - ručně doplněna: ordinaria aj. (viz níže)
     //  - odmazáno: 505 Eucharistie, 067a-c, 140
     const DATA = <<<EOL
         065 Litanie k nejsvětějšímu Srdci Ježíšovu
@@ -330,6 +330,8 @@ class ImportKancionalSongs extends Command
         583 Ordinarium J. Olejníka III.
         584 Staroslověnské ordinarium J. Olejníka
         585 Ordinarium missa de angelis
+        219 Jdou zástupy věrných (Adéste, fidéles)
+        708A Ježíši, tebe hledám
         EOL;
     
     /**

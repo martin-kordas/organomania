@@ -617,12 +617,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
     </div>
     
-    <div class="text-center mt-3">
-        <x-organomania.info-alert class="d-inline-block mb-1">
-            {!! __('O stylovém vývoji našeho varhanářství více') !!}
-            <a class="link-primary text-decoration-none" href="{{ route('about-organ') }}" wire:navigate>{{ __('zde') }}</a>.
-        </x-organomania.info-alert>
-    </div>
+    @if ($organBuilder->isPublic())
+        <div class="text-center mt-3">
+            <x-organomania.info-alert class="d-inline-block mb-1">
+                {!! __('O stylovém vývoji našeho varhanářství více') !!}
+                <a class="link-primary text-decoration-none" href="{{ route('about-organ') }}" wire:navigate>{{ __('zde') }}</a>.
+            </x-organomania.info-alert>
+        </div>
+    @endif
     
     <table class="table mb-2">
         @if (isset($organBuilder->place_of_birth))

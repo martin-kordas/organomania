@@ -762,6 +762,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <a href="{{ route('organs.worship-songs', $organ->slug) }}" type="button" class="btn btn-primary" wire:navigate>
                         {{ __('Zobrazit písně') }}
                     </a>
+                    @if (!$organ->isPublic() && ($lastWorshipSong = $organ->getLastWorshipSong()))
+                        <div class="small text-body-secondary mt-1">
+                            {{ __('Poslední zápis:') }}
+                            {{ $lastWorshipSong->date->dayName }} {{ Helpers::formatDate($lastWorshipSong->date) }}
+                        </div>
+                    @endif
                 </div>
             </x-organomania.accordion-item>
         @endcan

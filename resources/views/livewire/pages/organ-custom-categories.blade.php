@@ -246,7 +246,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 </a>
                             </td>
                             <td class="button-icon">
-                                <span data-bs-toggle="tooltip" data-bs-title="Sdílet">
+                                <span data-bs-toggle="tooltip" data-bs-title="{{ __('Sdílet') }}">
                                     <button type="button" class="btn btn-sm btn-outline-secondary z-1" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $this->getShareUrl($category) }}">
                                         <i class="bi-share"></i>
                                     </button>

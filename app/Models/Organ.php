@@ -161,6 +161,16 @@ class Organ extends Model
         return $this->hasMany(Disposition::class)->orderBy('name');
     }
     
+    public function worshipSongs()
+    {
+        return $this->hasMany(WorshipSong::class);
+    }
+    
+    public function getLastWorshipSong()
+    {
+        return $this->worshipSongs()->orderBy('date', 'desc')->first();
+    }
+    
     public function getThumbnailImage()
     {
         if (isset($this->image_url))

@@ -1,4 +1,4 @@
-<x-app-bootstrap-layout>
+<x-app-bootstrap-layout title="{{ __('O webu') }}">
     @push('meta')
         <meta name="description" content="{{ __('Zjistěte, jak web Organomania vznikl, jakým způsobem jsou vybírány varhany a varhanáři zařazení do katalogu a jaký je význam u nich u uváděných údajů.') }}">
     @endpush

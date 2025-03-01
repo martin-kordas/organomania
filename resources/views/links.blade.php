@@ -1,4 +1,4 @@
-<x-app-bootstrap-layout>
+<x-app-bootstrap-layout title="{{ __('Odkazy') }}">
     @push('meta')
         <meta name="description" content="{{ __('Zajímavé webové odkazy a literatura o varhanách v České republice a o varhanách obecně.') }}">
     @endpush

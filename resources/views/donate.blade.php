@@ -5,7 +5,7 @@
     $donations = Donation::orderBy('date', 'desc')->get();
 @endphp
 
-<x-app-bootstrap-layout>
+<x-app-bootstrap-layout title="{{ __('Podpořte web') }}">
     <div class="about container">        
         <h3>{{ __('Podpořte web') }}</h3>
         

@@ -615,7 +615,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <x-organomania.selects.song-select :songGroups="$this->songGroupsForFilter" model="filterSongId" placeholder="{{ __('Hledat píseň') }}" allowClear live frequency-in-selection />
         </div>
         <div class="col-12 col-xl-6">
-            <div class="row" style="max-width: 450px;">
+            <div class="row" style="max-width: 500px;">
                 <div class="col-12 col-sm-5">
                     <div class="form-check form-switch">
                         <label for="filterSundays">{{ __('Jen neděle') }}</label>
@@ -629,15 +629,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </div>
                 </div>
                 <div class="w-100 d-none d-md-block order-sm-3"></div>
-                <div class="col-12 col-sm-5 order-sm-2">
+                <div class="col-12 col-sm-7 order-sm-2">
                     <div class="form-check form-switch">
                         <label for="showLiturgicalCelebrations">{{ __('Názvy svátků') }}</label>
                         <input id="showLiturgicalCelebrations" class="form-check-input" type="checkbox" role="switch" wire:model.change="showLiturgicalCelebrations" />
                     </div>
                 </div>
-                <div class="col-12 col-sm-5 order-sm-5">
+                <div class="col-12 col-sm-7 order-sm-5">
                     <div class="form-check form-switch">
-                        <label for="showSongNames">{{ __('Názvy písní') }}</label>
+                        <label for="showSongNames">{{ __('Názvy písní') }}, {{ __('mazání písní') }}</label>
                         <input id="showSongNames" class="form-check-input" type="checkbox" role="switch" wire:model.change="showSongNames" />
                     </div>
                 </div>

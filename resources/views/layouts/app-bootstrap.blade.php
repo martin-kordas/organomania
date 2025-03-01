@@ -1,3 +1,5 @@
+@props(['title' => null])
+
 @php
 use Illuminate\Support\Facades\App;
 use App\Helpers;
