@@ -1,6 +1,6 @@
 <x-app-bootstrap-layout title="{{ __('Písně při bohoslužbě') }}">
     @push('meta')
-        <meta name="description" content="{{ __('TODO') }}">
+        <meta name="description" content="{{ __('Přehledná online evidence kancionálových písní zpívaných na bohoslužbách. Statistiky písní, liturgický kalendář, přihlašování varhaníků, snadný tisk a export.') }}">
     @endpush
     
     <div class="about container">
