@@ -138,7 +138,7 @@
                     <div>
                         <div class="fs-2">{{ $number++ }}.</div>
                         <h3 class="fs-5 text-body-emphasis lh-base">Přidejte do Organomanie varhany Vašeho kostela</h3>
-                        <a href="{{ route('organs.create') }}" class="btn btn-primary">
+                        <a href="{{ route('organs.create-simple') }}" class="btn btn-primary" wire:navigate>
                             Přidat varhany
                         </a>
                     </div>

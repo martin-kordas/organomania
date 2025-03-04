@@ -19,6 +19,8 @@ Route::middleware(["auth"])->group(function () {
     
     Volt::route('organs/create', 'pages.organ-edit')
         ->name('organs.create');
+    Volt::route('organs/create-simple', 'pages.organ-create-simple')
+        ->name('organs.create-simple');
     Volt::route('organs/{organ}/edit', 'pages.organ-edit')
         ->name('organs.edit')
         ->whereNumber('organ');
