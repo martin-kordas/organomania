@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -54,6 +55,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->organ->latitude = $this->organ->longitude = 1;
         $this->organ->importance = 1;
         $this->organ->concert_hall = 0;
+        $this->organ->user_id = Auth::user()->id;
         $this->organ->save();
 
         $message = __('Varhany byly úspěšně uloženy.') . ' ' . __('Chcete-li doplnit podrobnější údaje o varhanách, klikněte na tlačítko Upravit ve spodní části stránky.');

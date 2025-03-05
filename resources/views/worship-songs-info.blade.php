@@ -66,7 +66,7 @@
             <div class="col-md-7 order-md-2">
                 <h2 class="featurette-heading fw-normal lh-1">Plánování</h2>
                 <p class="lead">Rozplánujte si výběr písní a ordinarií na několik týdnů dopředu. U každé bohoslužby je uvedeno jméno varhaníka, takže plánovat lze i varhanické služby.</p>
-                <p class="lead" style="font-size: 95%">Není-li varhaník na bohoslužbu předem určený, nechejte varhaníky, ať se sami na termíny bohoslužeb zapíšou. S předstihem stačí na daný termín zapsat libovolnou 1 píseň (např. ordinarium), zbylé písně lze doplnit dodatečně.</p>
+                <p class="lead" style="font-size: 95%">Není-li varhaník na bohoslužbu předem určený, nechejte varhaníky, ať se sami na termíny bohoslužeb zapíšou. S předstihem stačí, když si varhaník na daný termín zapíše libovolnou 1 píseň (např. ordinarium), zbylé písně lze doplnit dodatečně.</p>
             </div>
             <div class="col-md-5 text-center order-md-1">
                 <a href="/images/worship-songs5.png" target="_blank">
