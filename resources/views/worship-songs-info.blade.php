@@ -143,12 +143,24 @@
                         </a>
                     </div>
                 </div>
+                @if (!Auth::user())
+                    <div class="w-100"></div>
+                @endif
                 <div class="col-auto d-flex align-items-start">
                     <div>
                         <div class="fs-2">{{ $number++ }}.</div>
-                        <h3 class="fs-5 text-body-emphasis lh-base">V detailu varhan klikněte na Zobrazit písně</h3>
+                        <h3 class="fs-5 text-body-emphasis lh-base">V detailu varhan klikněte na Zobrazit písně a začněte zapisovat</h3>
                         <a href="/images/worship-songs9.png" target="_blank">
                             <img class="rounded shadow" src="/images/worship-songs9.png" style="max-width: 100%; max-height: 300px" />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-auto d-flex align-items-start">
+                    <div>
+                        <div class="fs-2">{{ $number++ }}.</div>
+                        <h3 class="fs-5 text-body-emphasis lh-base">Na hlavní straně najdete evidence písní, kam jste zapisovali naposled</h3>
+                        <a href="/images/worship-songs9.png" target="_blank">
+                            <img class="rounded shadow" src="/images/worship-songs10.png" style="max-width: 100%; max-height: 300px" />
                         </a>
                     </div>
                 </div>

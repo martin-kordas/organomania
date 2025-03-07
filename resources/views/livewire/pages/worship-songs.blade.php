@@ -491,7 +491,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     @endpush
     
     <h3>
-        <a href="{{ $this->getSelfUrl() }}" class="text-decoration-none" wire:navigate>
+        <a href="{{ route('worship-songs-info') }}" class="text-decoration-none" target="_blank">
             {{ __('Písně při bohoslužbě') }}
         </a>
         @if (!$this->organ->isPublic())
@@ -514,8 +514,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <li>
                     {{ __('Nasdílejte evidenci svým kolegům a zapisujte písně společně.') }}
                     <div class="mt-1">
-                        <a class="btn btn-sm btn-outline-primary"  href="#" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $this->getShareUrl() }}">
+                        <a class="btn btn-sm btn-outline-primary" href="#" data-bs-toggle="modal" data-bs-target="#shareModal" data-share-url="{{ $this->getShareUrl() }}">
                             <i class="bi-share"></i> {{ __('Sdílet') }}
+                        </a>
+                        <a class="btn btn-sm btn-outline-secondary ms-1" href="{{ route('worship-songs-info') }}" target="_blank">
+                            <i class="bi bi-question-circle"></i>
+                            {{ __('Další informace') }}
                         </a>
                     </div>
                 </li>

@@ -1,7 +1,9 @@
 @props(['organOfDay'])
 
 @php
+    use Illuminate\Support\Facades\Auth;
     use Carbon\Carbon;
+    use App\Helpers;
 @endphp
 
 <x-app-bootstrap-layout>
@@ -9,6 +11,7 @@
         $runtimeStats = $component->runtimeStats;
         $lastUpdate = $runtimeStats->getLastUpdate();
         $description = __('Organomania vám atraktivním způsobem představí varhany v&nbsp;České&nbsp;republice, a&nbsp;to jako součást kulturního dědictví, jako technickou památku, i&nbsp;jako živý hudební nástroj.');
+        $lastWorshipSongsOrgans = Auth::user()?->getLastWorshipSongsOrgans(limit: 5) ?? collect();
     @endphp
   
     @push('meta')
@@ -28,6 +31,48 @@
             <livewire:search id="welcomeSearch" placeholder="{{__('Hledejte varhany, varhanáře, varhanní rejstříky...') }}" />
             <div class="form-text text-center">{{ __('např. Kladruby, Rieger-Kloss, Flétna trubicová') }}</div>
         </div>
+      
+        @if ($lastWorshipSongsOrgans->isNotEmpty())
+            <div class="border border-secondary-subtle rounded p-2 mb-4 mb-md-5 mx-auto" style="max-width: 600px; background: #fdfdfd">
+                <h3 class="text-center fs-5 mb-1">
+                    {{ __('Moje písně při bohoslužbě') }}
+                </h3>
+
+                <table class="last-worhip-songs-organs table align-middle table-hover table-sm small mb-2" style="background: transparent">
+                    <thead>
+                        <tr>
+                            <th>{{ __('Varhany') }}</th>
+                            <th class="text-end text-nowrap">{{ __('Editováno') }} <i class="bi bi-sort-numeric-down-alt"></i></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($lastWorshipSongsOrgans as $organ)
+                            <tr>
+                                <td>
+                                    @if (!$organ->isPublic())
+                                        <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
+                                    @endif
+                                    <a class="link-dark link-underline-opacity-25 link-underline-opacity-50-hover" href="{{ $organ->getViewWorshipSongsUrl() }}" wire:navigate>
+                                        {{ $organ->municipality }}, {{ $organ->place }}
+                                    </a>
+                                </td>
+                                <td class="text-end text-nowrap">{{ Helpers::formatDate($organ->lastEditedWorshipSong->created_at, monthNumber: true) }}</td>
+                                <td class="text-end">
+                                    <a class="btn btn-sm btn-primary" href="{{ $organ->getViewWorshipSongsUrl() }}" wire:navigate data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit') }}">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                
+                <div class="text-center small">
+                    <a class="text-decoration-none" href="{{ route('organs.create-simple') }}" wire:navigate>{{ __('Založit evidenci písní pro další varhany') }}</a>
+                </div>
+            </div>
+        @endif
         
         @isset($organOfDay)
             <div class="row justify-content-center mb-4 mb-md-5">

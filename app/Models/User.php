@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Scopes\OwnedEntityScope;
 
 class User extends Authenticatable
 {
@@ -52,6 +54,25 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return (bool)$this->admin;
+    }
+    
+    public function getLastWorshipSongsOrgans(?int $limit = null)
+    {
+        $organs = Organ::withoutGlobalScope(OwnedEntityScope::class)
+            ->with([
+                'lastEditedWorshipSong' => fn (HasOne $query)
+                    => $query->where('user_id', $this->id)
+            ])
+            ->whereHas('lastEditedWorshipSong', fn (Builder $query)
+                => $query->where('user_id', $this->id)
+            )
+            ->select(['id', 'municipality', 'place', 'slug', 'user_id'])
+            ->get()
+            ->sortByDesc('lastEditedWorshipSong.created_at');
+        
+        // TODO: výkon - limit až na úrovni PHP
+        if ($limit) $organs = $organs->slice(0, $limit);
+        return $organs;
     }
     
 }

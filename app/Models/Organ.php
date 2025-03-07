@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Laravel\Scout\Searchable;
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Attributes\SearchUsingPrefix;
@@ -166,6 +168,11 @@ class Organ extends Model
         return $this->hasMany(WorshipSong::class);
     }
     
+    public function lastEditedWorshipSong()
+    {
+        return $this->hasOne(WorshipSong::class)->latest();
+    }
+    
     public function getLastWorshipSong()
     {
         return $this->worshipSongs()->orderBy('date', 'desc')->first();
@@ -175,6 +182,14 @@ class Organ extends Model
     {
         if (isset($this->image_url))
             return ['image_url' => $this->image_url, 'image_credits' => $this->image_credits];
+    }
+    
+    public function getViewWorshipSongsUrl()
+    {
+        $route = 'organs.worship-songs';
+        if (!Gate::allows('viewWorshipSongs', $this)) $relativeUrl = URL::signedRoute($route, $this->slug, absolute: false);
+        else $relativeUrl = route($route, $this->slug, absolute: false);
+        return url($relativeUrl);
     }
     
     public function shortPlace(): Attribute

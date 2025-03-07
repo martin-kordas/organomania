@@ -40,7 +40,7 @@ trait OwnedEntity
         return url($relativeUrl);
     }
     
-    private function getViewUrl()
+    public function getViewUrl()
     {
         $route = $this->getShowRoute();
         if (!Gate::allows('view', $this)) $relativeUrl = URL::signedRoute($route, $this->slug, absolute: false);

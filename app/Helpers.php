@@ -167,11 +167,17 @@ class Helpers
         return $nf->format($num);
     }
     
-    static function formatDate(Carbon $date)
+    static function formatDate(Carbon $date, bool $monthNumber = false)
     {
-        // Carbon zřejmě neumí automaticky změnit formát podle locale
-        $format = app()->getLocale() === 'en' ? 'jS F Y' : 'j. F Y';
-        return $date->translatedFormat($format);
+        if ($monthNumber) {
+            $format = app()->getLocale() === 'en' ? 'd/m/Y' : 'j. n. Y';
+            return $date->format($format);
+        }
+        else {
+            // Carbon zřejmě neumí automaticky změnit formát podle locale
+            $format = app()->getLocale() === 'en' ? 'jS F Y' : 'j. F Y';
+            return $date->translatedFormat($format);
+        }
     }
     
     static function formatTime(string $time, bool $seconds = true)

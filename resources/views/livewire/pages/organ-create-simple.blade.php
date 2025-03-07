@@ -113,7 +113,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         </div>
     
-        <div class="hstack">
+        <div class="text-end">
             <a class="btn btn-sm btn-secondary" href="{{ url()->previous() }}"><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>&nbsp;
             <button type="submit" class="btn btn-sm btn-primary">
                 <span wire:loading.remove wire:target="save">

@@ -356,6 +356,14 @@ div.side-buttons {
         border-color: var(--header-footer-border-color) !important;
         transition: background 0.25s;
     }
+    
+    .last-worhip-songs-organs {
+        th, td {
+            padding-top: 0.15rem;
+            padding-bottom: 0.15rem;
+            background: transparent;
+        }
+    }
 }
     
 
