@@ -14,7 +14,7 @@
                     Vyzkoušet demo
                     &nbsp;<i class="bi bi-arrow-right"></i>
                 </a>
-                <button class="btn btn-outline-secondary btn px-4 rounded-pill" type="button" onclick="scrollToElement('#startUse')">
+                <button class="btn btn-secondary btn px-4 rounded-pill" type="button" onclick="scrollToElement('#startUse')">
                     Začít používat
                 </button>
             </div>
@@ -159,7 +159,7 @@
                     <div>
                         <div class="fs-2">{{ $number++ }}.</div>
                         <h3 class="fs-5 text-body-emphasis lh-base">Na hlavní straně najdete evidence písní, kam jste zapisovali naposled</h3>
-                        <a href="/images/worship-songs9.png" target="_blank">
+                        <a href="/images/worship-songs10.png" target="_blank">
                             <img class="rounded shadow" src="/images/worship-songs10.png" style="max-width: 100%; max-height: 300px" />
                         </a>
                     </div>

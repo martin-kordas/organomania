@@ -367,4 +367,42 @@ class VarhanyNetService
         return "Údaje byly importovány z webu www.varhany.net (stav ke dni $dateFormat).";
     }
     
+    public function scrapeDisposition(int $id)
+    {
+        $url = static::URL.'/disp_vypis.php';
+        $response = $this->client->get($url, ['id' => $id]);
+        $body = $this->getResponseBody($response);
+        $crawler = new Crawler($body);
+        
+        $heading = $crawler->filter('font[size=3]')->first();
+        $municipality = $this->trim($heading->filter('b')->first()->text());
+        $place = str($heading->innerText())->replaceStart(', ', '');
+        $place = $this->trim($place);
+        
+        $headingText = $heading->text();
+        $matches = [];
+        if (!preg_match('/, ([^,]+)$/', $headingText, $matches)) throw new RuntimeException('Nebyl nalezen rok dispozice.');
+        $year = $this->trim($matches[1]);
+        if ($year === '-') $year = null;
+        
+        $disposition = $crawler->filter('.dispozice_tabulka')->html();
+        $disposition = str($disposition)
+            ->replace('<b> <font color="#000066" size="2"> ', "**")
+            ->replace('<br></font></b>', "**<br>")
+            ->replace('</b>', "**")
+            ->replace('<br>', "\n")
+            // TODO: doplnění odřádkování před úvodní popis dispozice (např. rok atd.) - obvykle se nachází před ztučnělým názvem manuálu
+            //  - např. http://www.varhany.net/disp_vypis.php?id=1002
+            ->replaceMatches('/(\S)\*\*(\S)/', "\$1\n**\$2")
+            ->replace('´', "'")
+            ->stripTags()
+            ->explode("\n")
+            ->map(
+                fn ($row) => $this->trim($row)
+            )
+            ->implode("\n");
+        
+        return compact('municipality', 'place', 'year', 'disposition');
+    }
+    
 }

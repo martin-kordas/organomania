@@ -3,12 +3,14 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\OrganBuilderTimelineItem;
 use App\Models\OrganRebuild;
 use App\Models\Scopes\OwnedEntityScope;
+use App\Models\User;
 use App\Services\VarhanyNetService;
 
 class ScrapeVarhanyNet extends Command
@@ -35,6 +37,7 @@ class ScrapeVarhanyNet extends Command
      * Execute the console command.
      * 
      * poslední ID varhan: 5739 (2025-02-08)
+     * poslední ID dispozice: 1164 (2025-03-08)
      * ID varhanářů: nejsou souvislá, proto chybějící varhanáře nelze snadno scrapovat
      *  - chybějící varhanáři, kteří nebyli importování s žádnými varhanami, existují (např. id 138746)
      */
@@ -48,16 +51,25 @@ class ScrapeVarhanyNet extends Command
         if ($startId <= 0 || $endId <= 0) $this->fail('Zadaná ID jsou v nesprávném tvaru.');
         
         $type = $this->option('type');
-        if (!in_array($type, ['organ', 'organBuilder'])) $this->fail('Neplatná volba "type".');
         
         for ($id = $startId; $id <= $endId; $id++) {
-            if ($type === 'organBuilder') {
-                if ($this->getOrganBuilder($id)) continue;
-                $this->createOrganBuilder($id);
-            }
-            else {
-                if ($this->getOrgan($id)) continue;
-                $this->createOrgan($id);
+            switch ($type) {
+                case 'organ':
+                    if ($this->getOrgan($id)) continue 2;
+                    $this->createOrgan($id);
+                    break;
+                
+                case 'organBuilder':
+                    if ($this->getOrganBuilder($id)) continue 2;
+                    $this->createOrganBuilder($id);
+                    break;
+                
+                case 'disposition':
+                    $this->handleDisposition($id);
+                    break;
+                
+                default:
+                    $this->fail('Neplatná volba "type".');
             }
             
             if ($id !== $endId) sleep(static::DELAY);
@@ -144,5 +156,32 @@ class ScrapeVarhanyNet extends Command
     {
         return $this->getOrganBuilder($varhanyNetOrganBuilderId)
             ?? $this->createOrganBuilder($varhanyNetOrganBuilderId);
+    }
+    
+    private function handleDisposition(int $varhanyNetDispositionId)
+    {
+        $scraped = $this->service->scrapeDisposition($varhanyNetDispositionId);
+        
+        $organ = Organ::withoutGlobalScope(OwnedEntityScope::class)
+            ->where('municipality', $scraped['municipality'])
+            ->where('place', $scraped['place'])
+            ->where(function (Builder $query) {
+                $query
+                    ->whereNull('user_id')
+                    ->orWhere('user_id', User::USER_ID_MARTIN_KORDAS);
+            })
+            ->first();
+            
+        if (!$organ) $this->error("Varhany podle lokality uvedené v dispozici nebyly nalezeny (varhanyNetDispositionId: $varhanyNetDispositionId).");
+        elseif (!$organ->isPublic()) {
+            $organ->disposition ??= '';
+            if ($organ->disposition !== '') $organ->disposition .= "\n\n___\n";
+            if (isset($scraped['year'])) $organ->disposition .= "*Dispozice pro stav varhan v r. {$scraped['year']}*:\n\n";
+            else $organ->disposition .= "Dispozice z neznámého roku:\n\n";
+            $organ->disposition .= $scraped['disposition'];
+            $organ->save();
+            
+            $this->info("Úspěšně zpracována dispozice $varhanyNetDispositionId (organId: {$organ->id}).");
+        }
     }
 }
