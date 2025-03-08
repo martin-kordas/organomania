@@ -391,9 +391,11 @@ class VarhanyNetService
             ->replace('<br></font></b>', "**<br>")
             ->replace('</b>', "**")
             ->replace('<br>', "\n")
-            // TODO: doplnění odřádkování před úvodní popis dispozice (např. rok atd.) - obvykle se nachází před ztučnělým názvem manuálu
+            // doplnění odřádkování před úvodní popis dispozice (např. rok atd.) - obvykle se nachází před ztučnělým názvem manuálu
             //  - např. http://www.varhany.net/disp_vypis.php?id=1002
             ->replaceMatches('/(\S)\*\*(\S)/', "\$1\n**\$2")
+            // odstranění nadbytečného odřádkování za ztučnělým názvem manuálu 
+            ->replace("**\n\n", "**\n")
             ->replace('´', "'")
             ->stripTags()
             ->explode("\n")
