@@ -1,4 +1,4 @@
-@props(['organBuilders', 'model' => 'organBuilderId', 'id' => null, 'select2' => true, 'allowClear' => false])
+@props(['organBuilders', 'model' => 'organBuilderId', 'id' => null, 'select2' => true, 'allowClear' => false, 'small' => false])
 
 @php
     $id ??= $model;
@@ -6,7 +6,7 @@
 
 <select
     id="{{ $id }}"
-    class="form-select @if ($select2) select2 @endif @error($model) is-invalid @enderror"
+    class="form-select @if ($select2) select2 @endif @error($model) is-invalid @enderror @if ($small) form-select-sm @endif"
     aria-label="{{ __('Filtr varhanářů') }}"
     wire:model="{{ $model }}"
     data-placeholder="{{ __('Zvolte varhanáře') }}&hellip;"

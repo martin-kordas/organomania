@@ -72,6 +72,7 @@ trait EntityPage
     private ?string $gateLike;
     private string $entityPageViewComponent;
     private string $entityClass;
+    private string $entityNamePluralNominativ;
     private string $entityNamePluralAkuzativ;
     private string $filtersModalAutofocus;
     private array $filters = [];
@@ -125,7 +126,13 @@ trait EntityPage
         $jsViewType = in_array($this->viewType, ['map', 'timeline', 'chart']);
         $reloaded = false;
         
-        if (in_array($property, [...$this->getFilters(), 'perPage'])) {
+        // pokud se odmazává z multiselectu, $property je ve tvaru "$filter.$index"
+        $filterPropertiesDot = array_map(
+            fn ($filter) => "$filter.",
+            $this->getFilters(),
+        );
+        
+        if (in_array($property, [...$this->getFilters(), 'perPage']) || str($property)->startsWith($filterPropertiesDot)) {
             $this->dispatch('filtering-changed');
             
             // Google mapa má z tech. důvodů nastaveno wire:replace, při aktualizaci zobrazených varhan tedy musíme přenačíst celou stranu

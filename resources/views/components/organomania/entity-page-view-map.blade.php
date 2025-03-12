@@ -2,6 +2,7 @@
 
 @php
     use App\Repositories\OrganRepository;
+    use App\Repositories\OrganBuilderRepository;
 
     // ošetření konfliktních souřadnic - posuneme je náhodné jiné místo
     $usedCoords = [];
@@ -22,6 +23,14 @@
 <p class="text-secondary text-center">
     <small>
         {{ __('Klikněte na bod na mapě pro zobrazení podrobností.') }}
+        @if (in_array($this->repository::class, [OrganRepository::class, OrganBuilderRepository::class]))
+            <br class="d-none d-sm-inline" />
+            @if ($this->repository::class === OrganBuilderRepository::class)
+                {{ __('Tmavší bod značí staršího varhanáře.') }}
+            @else
+                {{ __('Tmavší bod značí starší varhany.') }}
+            @endif
+        @endif
     </small>
 </p>
 
@@ -40,13 +49,22 @@
                 @php
                     $latitude = $this->filterNearLatitude ? (float)$this->filterNearLatitude : null;
                     $longitude = $this->filterNearLongitude ? (float)$this->filterNearLongitude : null;
+                    $nearCoordinate = $organ->latitude === $this->filterNearLatitude && $organ->longitude === $this->filterNearLongitude;
+
+                    $lightness = $this->getMapMarkerLightness($organ);
                 @endphp
+        
                 <gmp-advanced-marker
                     position="{{ $organ->latitude }},{{ $organ->longitude }}"
                     data-map-info="{{ $organ->getMapInfo($latitude, $longitude) }}"
                     data-organ-id="{{ $organ->id }}"
-                    @if ($organ->latitude === $this->filterNearLatitude && $organ->longitude === $this->filterNearLongitude)
+                    data-label="{{ $this->getMapMarkerLabel($organ) }}"
+                    data-background="blue"
+                    data-lightness="{{ $lightness }}"
+                    @if ($nearCoordinate)
                         data-near-coordinate
+                    @else
+                        style="--marker-background-lightness: {{ $lightness }}%"
                     @endif
                 ></gmp-advanced-marker>
             @endforeach

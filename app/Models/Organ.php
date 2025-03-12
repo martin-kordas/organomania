@@ -241,6 +241,26 @@ class Organ extends Model
         return "$count $stops";
     }
     
+    /**
+     * @return int      číslo v rozsahu 0-100 reprezentující rok postavení varhan v poměru k varhanám s nejdřívějším a nejpozdějším rokem postavení
+     */
+    public function getRelativeYearBuilt()
+    {
+        static $yearBuiltMin, $yearBuiltMax;
+        
+        if (isset($this->year_built)) {
+            $yearBuiltMin ??= static::orderBy('year_built')->first()?->year_built ?? false;
+            $yearBuiltMax ??= static::orderBy('year_built', 'desc')->first()?->year_built ?? false;
+
+            if ($yearBuiltMin && $yearBuiltMax) {
+                $yearMax = $yearBuiltMax - $yearBuiltMin;
+                $relativeYearBuilt = ($this->year_built - $yearBuiltMin) / $yearMax;
+                return round($relativeYearBuilt * 100);
+            }
+        }
+        return 100;
+    }
+    
     // place, municipality je rovněž nutné hledat fulltextově, jinak by text nebyl nalezen, pokud hledaný výraz obsahuje pouze část textu
     //  - např. "Praha Jakuba" by nic nenašlo, protože by se hledal celý výskyt "Praha Jakuba"
     #[SearchUsingFullText(['place', 'municipality', 'description', 'perex'])]

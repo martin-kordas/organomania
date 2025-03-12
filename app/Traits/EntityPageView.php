@@ -315,4 +315,20 @@ trait EntityPageView
         return $organ->my_likes_count > 0;
     }
     
+    private function getMapMarkerLightness(Model $entity)
+    {
+        return 56;      // odpovídá výchozí barvě Google map
+    }
+    
+    // stanovujeme minimální jas barvy pozadí markeru, aby na něm šel vidět černý text
+    private function getMaxMarkerLightnessWithMinBoundary($lightness, $minLightness = 45)
+    {
+        return round($minLightness + (100 - $minLightness) * $lightness / 100);
+    }
+    
+    private function getMapMarkerLabel()
+    {
+        return '';
+    }
+    
 }

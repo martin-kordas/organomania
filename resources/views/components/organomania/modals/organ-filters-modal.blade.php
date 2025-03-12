@@ -13,7 +13,7 @@
 @endphp
 
 <div class="modal fade" id="filtersModal" tabindex="-1" data-focus="false" aria-labelledby="filtersModalLabel" aria-hidden="true" @keydown.enter="onEnter" data-autofocus="{{ $this->filtersModalAutofocus }}">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
         <form class="filters-form modal-content" onsubmit="return false">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="filtersModalLabel">{{ __('Filtry') }}</h1>
@@ -23,26 +23,33 @@
                 @if (in_array($entityClass, [Festival::class, Competition::class]))
                     <div class="mb-3">
                         <label class="form-label" for="filterNameLocality">{{ __('Název, lokalita') }}</label>
-                        <input id="filterNameLocality" class="form-control" type="search" wire:model="filterNameLocality" minlength="3" />
+                        <input id="filterNameLocality" class="form-control form-control-sm" type="search" wire:model="filterNameLocality" minlength="3" />
                     </div>
                 @elseif ($entityClass === Organ::class)
                     <div class="mb-3">
                         <label class="form-label" for="filterLocality">{{ __('Lokalita') }}</label>
-                        <input class="form-control" type="search" id="filterLocality" wire:model="filterLocality" minlength="3" placeholder="{{ __('Zadejte obec nebo název kostela') }}" />
+                        <input class="form-control form-control-sm" type="search" id="filterLocality" wire:model="filterLocality" minlength="3" placeholder="{{ __('Zadejte obec nebo název kostela') }}" />
                     </div>
                 @elseif ($entityClass === OrganBuilder::class)
                     <div class="mb-3">
                         <label class="form-label" for="filterName">{{ __('Jméno') }}, {{ __('název dílny') }}</label>
-                        <input class="form-control" type="search" id="filterName" wire:model="filterName" minlength="3" />
+                        <input class="form-control form-control-sm" type="search" id="filterName" wire:model="filterName" minlength="3" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="filterMunicipality">{{ __('Lokalita') }}</label>
-                        <input class="form-control" type="search" id="filterMunicipality" wire:model="filterMunicipality" minlength="3" placeholder="{{ __('Zadejte obec') }}" />
+                        <input class="form-control form-control-sm" type="search" id="filterMunicipality" wire:model="filterMunicipality" minlength="3" placeholder="{{ __('Zadejte obec') }}" />
                     </div>
                 @endif
+              
+                <div class="mb-3">
+                    <label class="form-label" for="filterRegion">{{ __('Kraj') }}</label>
+                    <x-organomania.selects.region-select :regions="$regions" id="filterRegion" model="filterRegionId" :allowClear="true" small />
+                </div>
                 
                 @if ($this->isCategorizable)
-                    <div class="mb-3">
+                
+                    <hr class="mt-4" />
+                    <div>
                         <label class="form-label" for="filterCategories">{{ __('Kategorie') }}</label>
                         <x-organomania.selects.organ-category-select
                             model="filterCategories"
@@ -51,32 +58,38 @@
                             :customCategoriesGroups="$organCustomCategoriesGroups"
                             :allowClear="true"
                             :alwaysShowCustomCategories="$isCustomCategoryOrgans"
+                            small
                         />
+                    </div>
+                    <div class="form-text mb-3">
+                        {{ __('Při zadání více kategorií se hledají :entityName patřící do všech těchto kategorií.', ['entityName' => $this->entityNamePluralNominativ]) }}
                     </div>
                 @endif
                 
                 @if ($entityClass === Organ::class)
                     <div class="mb-3">
                         <label class="form-label" for="filterOrganBuilderId">{{ __('Varhanář') }}</label>
-                        <x-organomania.selects.organ-builder-select model="filterOrganBuilderId" :organBuilders="$organBuilders" :allowClear="true" />
+                        <x-organomania.selects.organ-builder-select model="filterOrganBuilderId" :organBuilders="$organBuilders" :allowClear="true" small />
                         <div class="form-text">{{ __('Filtr hledá i mezi varhanáři, kteří provedli přestavbu varhan.') }}</div>
                     </div>
                 @endif
-                <div class="mb-3">
-                    <label class="form-label" for="filterRegion">{{ __('Kraj') }}</label>
-                    <x-organomania.selects.region-select :regions="$regions" id="filterRegion" model="filterRegionId" :allowClear="true" />
-                </div>
                 @if ($entityClass !== Competition::class)
                     <div class="mb-3">
                         <label class="form-label" for="filterImportance">{{ __('Význam') }} >= <span class="text-secondary">({{ __('od') }} 1 {{ __('do') }} {{ $this->maxImportance }})</span></label>
-                        <input class="form-control" type="number" min="1" max="{{ $this->maxImportance }}" id="filterImportance" wire:model.number="filterImportance" />
+                        <input class="form-control form-control-sm" type="number" min="1" max="{{ $this->maxImportance }}" id="filterImportance" wire:model.number="filterImportance" />
                     </div>
                 @endif
                 
                 @if ($entityClass === Organ::class)
+                    <hr class="mt-4" />
+                    
+                    <div class="mb-3">
+                        <label class="form-label" for="filterManualsCount">{{ __('Počet manuálů') }}</label>
+                        <x-organomania.selects.manuals-count-select model="filterManualsCount" :allowClear="true" small />
+                    </div>
                     <div class="mb-3">
                         <label class="form-label" for="filterDisposition">{{ __('Dispozice') }}</label>
-                        <input class="form-control" type="search" id="filterDisposition" wire:model="filterDisposition" minlength="3" placeholder="{{ __('Zadejte název rejstříku nebo pomocného zařízení') }}" />
+                        <input class="form-control form-control-sm" type="search" id="filterDisposition" wire:model="filterDisposition" minlength="3" placeholder="{{ __('Zadejte název rejstříku nebo pomocného zařízení') }}" />
                         <div class="form-text">{!! __('Název rejstříku musí být zadán přesně, jak je uveden v dispozici (např. <em>Prinzipal</em> namísto <em>Principál</em>), stačí však i počáteční písmena (např. <em>Prin</em>).') !!} {{ __('Lze uvést více hledaných tvarů současně.') }}</div>
                     </div>
                     <div class="form-check form-switch">

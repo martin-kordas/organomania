@@ -52,6 +52,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->gateLike = 'likeOrganBuilders';
         $this->entityPageViewComponent = 'organ-builders-view';
         $this->entityClass = OrganBuilder::class;
+        $this->entityNamePluralNominativ = __('varhanáři');
         $this->entityNamePluralAkuzativ = __('varhanáře');
         $this->filtersModalAutofocus = '#filterName';
         $this->filters[] = 'filterName';

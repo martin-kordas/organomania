@@ -558,5 +558,8 @@
     "přidat varhanáře": "create organ builder",
     "Písně při bohoslužbě": "Worship songs",
     "Zobrazit písně": "Show songs",
-    "Písně": "Songs"
+    "Písně": "Songs",
+    "varhanáři": "organ builders",
+    "Při zadání více kategorií se hledají :entityName patřící do všech těchto kategorií.": "When multiple categories are entered, only :entityName belonging to all these categories will be shown.",
+    "Tmavší bod značí starší varhany.": "Darker point means older organ."
 }

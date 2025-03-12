@@ -93,6 +93,7 @@ class ScrapeVarhanyNet extends Command
         }
         else $renovationOrganBuilder = null;
         
+        // TODO: některé přestavby se z neznámého důvodu uložily duplicitně (odmazáno ručně) (organ_id: 275, 1435)
         $rebuilds = $scraped['rebuilds']->map(function ($rebuild) {
             $organBuilder = $this->resolveOrganBuilder($rebuild['varhanyNetOrganBuilderId']);
             

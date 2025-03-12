@@ -18,6 +18,7 @@ use App\Models\Organ;
 use App\Models\OrganLike;
 use App\Models\OrganCustomCategory as OrganCustomCategoryModel;
 use App\Models\Scopes\OwnedEntityScope;
+use App\Helpers;
 use App\Http\Resources\OrganCollection;
 use App\Repositories\OrganRepository;
 use App\Traits\EntityPageView;
@@ -31,6 +32,8 @@ new class extends Component {
     public $filterLocality;
     #[Reactive]
     public $filterDisposition;
+    #[Reactive]
+    public $filterManualsCount;
     #[Reactive]
     public $filterOrganBuilderId;
     #[Reactive]
@@ -74,6 +77,7 @@ new class extends Component {
         $filters = $this->getFiltersArray();
         if ($this->filterLocality) $filters['locality'] = $this->filterLocality;
         if ($this->filterDisposition) $filters['disposition'] = $this->filterDisposition;
+        if ($this->filterManualsCount) $filters['manualsCount'] = $this->filterManualsCount;
         if ($this->filterOrganBuilderId) $filters['organBuilderId'] = $this->filterOrganBuilderId;
         if ($this->filterConcertHall) $filters['concertHall'] = $this->filterConcertHall;
         if ($this->filterForeignOrganBuilder) $filters['foreignOrganBuilder'] = $this->filterForeignOrganBuilder;
@@ -132,6 +136,17 @@ new class extends Component {
     private function getMapMarkerTitle(Model $entity): string
     {
         return "{$entity->municipality}, {$entity->place}";
+    }
+
+    private function getMapMarkerLightness(Organ $entity)
+    {
+        $lightness = $entity->getRelativeYearBuilt();
+        return $this->getMaxMarkerLightnessWithMinBoundary($lightness);
+    }
+
+    private function getMapMarkerLabel(Organ $entity)
+    {
+        return Helpers::formatRomanNumeral($entity->manuals_count);
     }
 
     #[Computed]

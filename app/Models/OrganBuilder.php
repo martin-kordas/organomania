@@ -215,6 +215,25 @@ class OrganBuilder extends Model
             return ['image_url' => $this->image_url, 'image_credits' => $this->image_credits];
     }
     
+    /**
+     * @return int      číslo v rozsahu 0-100 reprezentující rok varhanáře v poměru k varhanářům s nejdřívějším a nejpozdějším rokem
+     */
+    public function getRelativeActiveFromYear()
+    {
+        static $yearMin, $yearMax;
+
+        $yearMin ??= static::orderBy('active_from_year')->first()?->active_from_year ?? false;
+        $yearMax ??= static::orderBy('active_from_year', 'desc')->first()?->active_from_year ?? false;
+
+        if ($yearMin && $yearMax) {
+            $yearMax1 = $yearMax - $yearMin;
+            $relativeYear = ($this->active_from_year - $yearMin) / $yearMax1;
+            return round($relativeYear * 100);
+        }
+        
+        return 100;
+    }
+    
     // first_name, last_name je rovněž nutné hledat fulltextově, jinak by současně zadané celé jméno (např. "Emanuel Petr") nenašlo nic
     #[SearchUsingFullText(['first_name', 'last_name', 'description', 'perex'])]
     public function toSearchableArray(): array

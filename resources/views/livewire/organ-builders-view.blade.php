@@ -317,6 +317,12 @@ new class extends Component {
     {
         return "$entity->name ($entity->municipality)";
     }
+
+    private function getMapMarkerLightness(OrganBuilder $entity)
+    {
+        $lightness = $entity->getRelativeActiveFromYear();
+        return $this->getMaxMarkerLightnessWithMinBoundary($lightness);
+    }
     
 }; ?>
 

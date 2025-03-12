@@ -340,10 +340,15 @@ window.initGoogleMap = function ($wire) {
                 infoWindow.close()
             })
             
+            let background;
             if ($(marker).is('[data-near-coordinate]')) {
-                let pin = new google.maps.marker.PinElement({ background: 'yellow' })
-                marker.appendChild(pin.element)
+                background = 'yellow'
             }
+            else {
+                background = `hsl(5, 81%, ${marker.dataset.lightness}%)`
+            }
+            let pin = new google.maps.marker.PinElement({ background })
+            marker.appendChild(pin.element)
         });
         
         if ($(map).is('[data-use-map-clusters]')) {

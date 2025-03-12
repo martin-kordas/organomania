@@ -201,6 +201,25 @@ div.side-buttons {
     }
 }
 
+/* - text do markerů se vkládá pomocí labelů: https://developers.google.com/maps/documentation/javascript/examples/marker-labels */
+/* - u advanced markerů to zatím nefunguje, proto používáme CSS: https://issuetracker.google.com/issues/330384265?pli=1 */
+gmp-advanced-marker:not([data-label='']) {
+    &::before {
+        content: attr(data-label);
+        top: 5px;
+        right: 6px;
+        position: absolute;
+        background: hsl(5, 81%, var(--marker-background-lightness));
+        width: 14px;
+        text-align: center;
+        font-family: var(--bs-body-font-family);
+        font-size: 1.3em;
+    }
+    &[data-near-coordinate]::before {
+        background: yellow;
+    }
+}
+
 .items-list {
     line-height: 1.7;
 }

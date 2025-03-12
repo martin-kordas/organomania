@@ -40,7 +40,8 @@ class OrganRepository extends AbstractRepository
         if (!empty($withCount)) $query->withCount($withCount);
         
         foreach ($filters as $field => $value) {
-            $value = trim($value);
+            if (is_array($value)) $value = array_map(trim(...), $value);
+            else $value = trim($value);
             
             switch ($field) {
                 case 'locality':
@@ -52,6 +53,23 @@ class OrganRepository extends AbstractRepository
                         $this->filterLike($query, $field, $value);
                         $query->orWhereFulltext($field, $value);
                     });
+                    
+                    //  - fulltextové hledání zabraňuje nalezení přesného výskytu (např. pro "Kryt jemný" najde i dispozice, kde je jen "Kryt")
+                    //  - dispozice s přesným výskytem proto řadíme přednostně, fulltextové shody řadíme dle míry shody
+                    //  - uživatelsky nastavené řazení je tím potlačeno, ale aplikuje se jako dodatečné kritérium
+                    $query->selectRaw('disposition LIKE ? AS disposition_filter_like', ["%$value%"]);
+                    $query->orderByRaw('disposition_filter_like DESC');
+                    $query->orderByRaw('
+                        IF(
+                            disposition_filter_like,
+                            0,
+                            MATCH(disposition) AGAINST (? IN NATURAL LANGUAGE MODE)
+                        ) DESC
+                    ', [$value]);
+                    break;
+                
+                case 'manualsCount':
+                    $query->whereIn('manuals_count', $value);
                     break;
                 
                 case 'organBuilderId':

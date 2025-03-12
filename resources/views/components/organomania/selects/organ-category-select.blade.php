@@ -1,7 +1,7 @@
 @props([
     'categoriesGroups', 'customCategoriesGroups', 'placeholder',
     'counts' => true, 'alwaysShowCustomCategories' => false,
-    'model' => 'categoryId', 'id' => null, 'allowClear' => false, 'live' => false
+    'model' => 'categoryId', 'id' => null, 'allowClear' => false, 'live' => false, 'small' => false
 ])
 
 @php
@@ -15,7 +15,7 @@
 
 <select
     id="{{ $id }}"
-    class="organ-category-select form-select select2 @error($model) is-invalid @enderror"
+    class="organ-category-select form-select select2 @error($model) is-invalid @enderror @if ($small) form-select-sm @endif"
     wire:{{ $modelAttribute }}="{{ $model }}"
     data-placeholder="{{ $placeholder }}"
     @if ($allowClear) data-allow-clear="true" @endif

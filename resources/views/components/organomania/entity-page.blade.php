@@ -277,6 +277,7 @@
             :filterNearLatitude="$this->filterNearLatitude" :filterNearLongitude="$this->filterNearLongitude" :filterNearDistance="$this->filterNearDistance"
             :filterLocality="$this->filterLocality ?? null"
             :filterDisposition="$this->filterDisposition ?? null"
+            :filterManualsCount="$this->filterManualsCount ?? null"
             :filterOrganBuilderId="$this->filterOrganBuilderId ?? null"
             :filterConcertHall="$this->filterConcertHall ?? null"
             :filterForeignOrganBuilder="$this->filterForeignOrganBuilder ?? null"

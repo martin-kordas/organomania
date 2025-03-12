@@ -1,4 +1,4 @@
-@props(['regions', 'model' => 'regionId', 'id' => null, 'allowClear' => false])
+@props(['regions', 'model' => 'regionId', 'id' => null, 'allowClear' => false, 'small' => false])
 
 @php
     $id ??= $model;
@@ -6,7 +6,7 @@
 
 <select
     id="{{ $id }}"
-    class="form-select select2"
+    class="form-select select2 @if ($small) form-select-sm @endif"
     wire:model="{{ $model }}"
     data-placeholder="{{ __('Zvolte kraj') }}..."
     @if ($allowClear) data-allow-clear="true" @endif

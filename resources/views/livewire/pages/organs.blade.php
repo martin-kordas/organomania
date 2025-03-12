@@ -31,6 +31,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Url(keep: true)]
     public $filterDisposition;
     #[Url(keep: true)]
+    public $filterManualsCount;
+    #[Url(keep: true)]
     public $filterOrganBuilderId;
     #[Url(keep: true)]
     public $filterConcertHall;
@@ -75,10 +77,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->gateLike = 'likeOrgans';
         $this->entityPageViewComponent = 'organs-view';
         $this->entityClass = Organ::class;
+        $this->entityNamePluralNominativ = __('varhany');
         $this->entityNamePluralAkuzativ = __('varhany');
         $this->filtersModalAutofocus = '#filterLocality';
         $this->filters[] = 'filterLocality';
         $this->filters[] = 'filterDisposition';
+        $this->filters[] = 'filterManualsCount';
         $this->filters[] = 'filterOrganBuilderId';
         $this->filters[] = 'filterConcertHall';
         $this->filters[] = 'filterForeignOrganBuilder';
