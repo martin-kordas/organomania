@@ -222,8 +222,9 @@ class OrganBuilder extends Model
     {
         static $yearMin, $yearMax;
 
-        $yearMin ??= static::orderBy('active_from_year')->first()?->active_from_year ?? false;
-        $yearMax ??= static::orderBy('active_from_year', 'desc')->first()?->active_from_year ?? false;
+        $yearMin ??= static::min('active_from_year') ?? false;
+        $yearMax ??= static::max('active_from_year') ?? false;
+        $yearMax = min($yearMax, today()->year);    // v importovaných datech je i 9999
 
         if ($yearMin && $yearMax) {
             $yearMax1 = $yearMax - $yearMin;

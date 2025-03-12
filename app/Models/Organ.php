@@ -249,8 +249,8 @@ class Organ extends Model
         static $yearBuiltMin, $yearBuiltMax;
         
         if (isset($this->year_built)) {
-            $yearBuiltMin ??= static::orderBy('year_built')->first()?->year_built ?? false;
-            $yearBuiltMax ??= static::orderBy('year_built', 'desc')->first()?->year_built ?? false;
+            $yearBuiltMin ??= static::min('year_built') ?? false;
+            $yearBuiltMax ??= static::max('year_built') ?? false;
 
             if ($yearBuiltMin && $yearBuiltMax) {
                 $yearMax = $yearBuiltMax - $yearBuiltMin;

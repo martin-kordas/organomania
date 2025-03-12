@@ -146,7 +146,7 @@ new class extends Component {
 
     private function getMapMarkerLabel(Organ $entity)
     {
-        return Helpers::formatRomanNumeral($entity->manuals_count);
+        return isset($entity->manuals_count) ? Helpers::formatRomanNumeral($entity->manuals_count) : '?';
     }
 
     #[Computed]
