@@ -1,5 +1,11 @@
 <div class="container align-center ps-0">
-    @if ($this->organs->isEmpty())
+    @if ($this->mapTooManyItems)
+        <div class="alert alert-secondary text-center" role="alert">
+            {!! __('Mapu není možné zobrazit, protože obsahuje <strong>příliš mnoho položek</strong>.') !!}
+            <br />
+            {!! __('Pro snížení počtu položek prosím <strong>použijte libovolný filtr</strong>.') !!}
+        </div>
+    @elseif ($this->organs->isEmpty())
         <div class="alert alert-secondary text-center" role="alert">
             {{ $this->noResultsMessage }}
         </div>

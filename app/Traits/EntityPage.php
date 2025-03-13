@@ -75,6 +75,7 @@ trait EntityPage
     private string $entityNamePluralNominativ;
     private string $entityNamePluralAkuzativ;
     private string $filtersModalAutofocus;
+    private bool $filtersModalScrollable = false;
     private array $filters = [];
     private array $commonFilters = [
         'filterId', 'filterCategories', 'filterRegionId', 'filterImportance', 'filterFavorite', 'filterPrivate',

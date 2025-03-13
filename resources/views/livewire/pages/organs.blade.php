@@ -79,6 +79,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->entityClass = Organ::class;
         $this->entityNamePluralNominativ = __('varhany');
         $this->entityNamePluralAkuzativ = __('varhany');
+        $this->filtersModalScrollable = true;
         $this->filtersModalAutofocus = '#filterLocality';
         $this->filters[] = 'filterLocality';
         $this->filters[] = 'filterDisposition';

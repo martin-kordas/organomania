@@ -61,17 +61,22 @@ new class extends Component {
     }
 
     #[Computed]
-    public function organs()
+    public function filters()
     {
         $filters = $this->getFiltersArray();
         if ($this->filterNameLocality && mb_strlen($this->filterNameLocality) >= 3) $filters['nameLocality'] = $this->filterNameLocality;
+        return $filters;
+    }
 
+    #[Computed]
+    public function organs()
+    {
         // v mapě klasické řazení nehraje roli; důležitější záznamy nutné zobrazit jako první, aby je nepřekryly méně důležité
         if ($this->viewType === 'map') $sorts = ['importance' => 'asc'];
         else $sorts = [$this->sortColumn => $this->sortDirection];
 
         $query = $this->repository->getFestivalsQuery(
-            $filters, $sorts
+            $this->filters, $sorts
         );
         if ($this->id) $query->where('id', $this->id);
 

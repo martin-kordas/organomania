@@ -59,15 +59,20 @@ new class extends Component {
     }
 
     #[Computed]
-    public function organs()
+    public function filters()
     {
         $filters = $this->getFiltersArray();
         if ($this->filterNameLocality && mb_strlen($this->filterNameLocality) >= 3) $filters['nameLocality'] = $this->filterNameLocality;
+        return $filters;
+    }
 
+    #[Computed]
+    public function organs()
+    {
         $sorts = [$this->sortColumn => $this->sortDirection];
 
         $query = $this->repository->getCompetitionsQuery(
-            $filters, $sorts
+            $this->filters, $sorts
         );
         if ($this->id) $query->where('id', $this->id);
 

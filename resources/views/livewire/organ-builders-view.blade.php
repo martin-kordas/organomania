@@ -74,12 +74,17 @@ new class extends Component {
     }
 
     #[Computed]
-    public function organs()
+    public function filters()
     {
         $filters = $this->getFiltersArray();
         if ($this->filterName) $filters['name'] = $this->filterName;
         if ($this->filterMunicipality) $filters['municipality'] = $this->filterMunicipality;
+        return $filters;
+    }
 
+    #[Computed]
+    public function organs()
+    {
         if ($this->viewType === 'map') $sorts = ['importance' => 'asc'];
         else $sorts = [$this->sortColumn => $this->sortDirection];
 
@@ -91,7 +96,7 @@ new class extends Component {
         ];
 
         $query = $this->repository->getOrganBuildersQuery(
-            $filters, $sorts,
+            $this->filters, $sorts,
             withCount: $withCount
         );
 

@@ -13,7 +13,7 @@
 @endphp
 
 <div class="modal fade" id="filtersModal" tabindex="-1" data-focus="false" aria-labelledby="filtersModalLabel" aria-hidden="true" @keydown.enter="onEnter" data-autofocus="{{ $this->filtersModalAutofocus }}">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div @class(['modal-dialog', 'modal-dialog-scrollable' => $this->filtersModalScrollable])>
         <form class="filters-form modal-content" onsubmit="return false">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="filtersModalLabel">{{ __('Filtry') }}</h1>

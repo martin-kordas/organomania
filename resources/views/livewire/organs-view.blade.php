@@ -18,6 +18,7 @@ use App\Models\Organ;
 use App\Models\OrganLike;
 use App\Models\OrganCustomCategory as OrganCustomCategoryModel;
 use App\Models\Scopes\OwnedEntityScope;
+use App\Models\User;
 use App\Helpers;
 use App\Http\Resources\OrganCollection;
 use App\Repositories\OrganRepository;
@@ -68,11 +69,16 @@ new class extends Component {
         $this->unlikedMessage = __('Varhany byly odebrány z oblíbených.');
         $this->mapId = 'organomania-organs-view';
         $this->thumbnailComponent = 'organomania.organ-thumbnail';
+        $this->mapTooManyItems
+            = Auth::user()?->id === User::USER_ID_MARTIN_KORDAS
+            && $this->viewType === 'map'
+            && empty($this->filters);
+
         $this->bootCommon($repository);
     }
 
     #[Computed]
-    public function organs()
+    public function filters()
     {
         $filters = $this->getFiltersArray();
         if ($this->filterLocality) $filters['locality'] = $this->filterLocality;
@@ -82,7 +88,12 @@ new class extends Component {
         if ($this->filterConcertHall) $filters['concertHall'] = $this->filterConcertHall;
         if ($this->filterForeignOrganBuilder) $filters['foreignOrganBuilder'] = $this->filterForeignOrganBuilder;
         if ($this->filterHasDisposition) $filters['hasDisposition'] = $this->filterHasDisposition;
+        return $filters;
+    }
 
+    #[Computed]
+    public function organs()
+    {
         if ($this->viewType === 'map') $sorts = ['importance' => 'asc'];
         else $sorts = [$this->sortColumn => $this->sortDirection];
 
@@ -102,7 +113,7 @@ new class extends Component {
         ];
 
         $query = $this->repository->getOrgansQuery(
-            $filters, $sorts,
+            $this->filters, $sorts,
             with: $with, withCount: $withCount
         );
 
@@ -111,6 +122,10 @@ new class extends Component {
         }
         // optimalizace: při zobrazení thumbnailu stačí načíst jen dané varhany (celá mapa se nepřekresluje)
         if (isset($this->thumbnailOrganId)) $query->where('id', $this->thumbnailOrganId);
+
+        if ($this->mapTooManyItems) {
+            $query->whereRaw('FALSE');
+        }
 
         if ($this->shouldPaginate) return $query->paginate($this->perPage);
         return $query->get();

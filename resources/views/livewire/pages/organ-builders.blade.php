@@ -55,6 +55,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->entityClass = OrganBuilder::class;
         $this->entityNamePluralNominativ = __('varhanáři');
         $this->entityNamePluralAkuzativ = __('varhanáře');
+        $this->filtersModalScrollable = true;
         $this->filtersModalAutofocus = '#filterName';
         $this->filters[] = 'filterName';
         $this->filters[] = 'filterMunicipality';
