@@ -82,6 +82,10 @@ class OrganBuilderRepository extends AbstractRepository
                     $this->orderBy($query, $field, $direction);
                     break;
                 
+                case 'organs_count':
+                    $query->orderByRaw("organs_count + organ_rebuilds_count $direction");
+                    break;
+                
                 default:
                     $this->orderBy($query, $field, $direction);
             }

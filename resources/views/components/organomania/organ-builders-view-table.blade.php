@@ -35,7 +35,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('active_from_year')" />
                     <th>{{ __('Kategorie') }}</th>
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('importance')" />
-                    <th colspan="2">&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('organs_count')" />
                 </tr>
             </thead>
             <tbody class="table-group-divider">
