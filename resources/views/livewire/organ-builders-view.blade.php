@@ -180,15 +180,18 @@ new class extends Component {
             }
         }
         foreach ($organBuilder->organRebuilds as $rebuild) {
-            $items[] = [
-                'entityType' => 'organ',
-                'entityId' => $rebuild->organ->id,
-                'type' => 'point',
-                'name' => "{$rebuild->organ->municipality}, {$rebuild->organ->place}",
-                'details' => $rebuild->year_built,
-                'start' => "{$rebuild->year_built}-01-01",
-                'url' => route('organs.show', $rebuild->organ->slug),
-            ];
+            // přestavované varhany mohou být cizího uživatele, pak se vůbec nenačtou
+            if (isset($rebuild->organ)) {
+                $items[] = [
+                    'entityType' => 'organ',
+                    'entityId' => $rebuild->organ->id,
+                    'type' => 'point',
+                    'name' => "{$rebuild->organ->municipality}, {$rebuild->organ->place}",
+                    'details' => $rebuild->year_built,
+                    'start' => "{$rebuild->year_built}-01-01",
+                    'url' => route('organs.show', $rebuild->organ->slug),
+                ];
+            }
         }
         return $items;
     }
