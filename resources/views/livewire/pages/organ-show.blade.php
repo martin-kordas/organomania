@@ -660,15 +660,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         </h5>
                     @endif
                         
-                    <x-organomania.info-alert class="mb-2">
-                        <span class="d-none d-sm-inline">
-                            {!! __('Jednotlivé rejstříky jsou popsány v') !!} <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" target="_blank">{{ __('Encyklopedii rejstříků') }}</a>.
-                        </span>
-                        <span class="d-sm-none">
-                            {!! __('Rejstříky jsou popsány v') !!} <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" target="_blank">{{ __('Encyklopedii') }}</a>.
-                        </span>
-                    </x-organomania.info-alert>
-                        
                     <div class="mb-3 lh-lg">
                         <span class="position-relative" style="top: 2px">
                             {{ __('AI') }}
@@ -748,6 +739,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         </div>
                         <div @class(['markdown', 'accordion-disposition', 'm-auto' => $organ->getDispositionColumnsCount() > 1]) style="column-count: {{ $organ->getDispositionColumnsCount() }}">{!! $this->disposition !!}</div>
                     </div>
+                    
+                    <x-organomania.info-alert class="mt-3 mb-1">
+                        <span class="d-none d-sm-inline">
+                            {!! __('Jednotlivé rejstříky jsou popsány v') !!} <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" target="_blank">{{ __('Encyklopedii rejstříků') }}</a>.
+                        </span>
+                        <span class="d-sm-none">
+                            {!! __('Rejstříky jsou popsány v') !!} <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" target="_blank">{{ __('Encyklopedii') }}</a>.
+                        </span>
+                    </x-organomania.info-alert>
                 @endisset
             </x-organomania.accordion-item>
         @endif

@@ -724,7 +724,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
         @if ($this->organs->isNotEmpty())
             <x-organomania.tr-responsive title="{{ __('Významné varhany') }}">
-                <div class="text-break items-list">
+                <div class="text-break items-list" style="max-height: 350px; overflow-y: scroll">
                     @foreach ($this->organs as ['isRebuild' => $isRebuild, 'organ' => $organ, 'year' => $year])
                             <x-organomania.organ-link :organ="$organ" :isRebuild="$isRebuild" :year="$year" :showSizeInfo="true" />
                             @if (!$loop->last) <br /> @endif
