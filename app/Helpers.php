@@ -163,7 +163,8 @@ class Helpers
     
     static function formatRomanNumeral(int $num)
     {
-        static $nf = new \NumberFormatter('@numbers=roman', \NumberFormatter::DECIMAL);
+        $locale = app()->getLocale();
+        static $nf = new \NumberFormatter("$locale@numbers=roman", \NumberFormatter::DECIMAL);
         return $nf->format($num);
     }
     
