@@ -103,7 +103,7 @@ enum OrganCategory: int implements Category
         ],
         self::WindchestUnit->value       => [
             'name' => 'Vzdušnice unit',
-            'description' => 'Úsporná konstrukce varhan, při níž se jedna řada píšťal používá pro několik rejstříků současně.'
+            'description' => 'Úsporná konstrukce varhan, při níž se jedna řada píšťal používá pro několik rejstříků současně'
         ],
     ];
     

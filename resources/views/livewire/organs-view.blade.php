@@ -72,7 +72,8 @@ new class extends Component {
         $this->mapTooManyItems
             = Auth::user()?->id === User::USER_ID_MARTIN_KORDAS
             && $this->viewType === 'map'
-            && empty($this->filters);
+            && empty($this->filters)
+            && empty($this->filterCategories);
 
         $this->bootCommon($repository);
     }

@@ -74,12 +74,14 @@ class AbstractRepository
     
     protected function filterNear(Builder $query, float $latitude, float $longitude, float $nearDistance)
     {
-        $query->whereRaw('
+        $tbl = $query->getModel()->getTable();
+        
+        $query->whereRaw("
             ST_DISTANCE_SPHERE(
-                POINT(longitude, latitude),
+                POINT($tbl.longitude, $tbl.latitude),
                 POINT(?, ?)
             ) <= ?
-        ', [$longitude, $latitude, $nearDistance * 1000]);
+        ", [$longitude, $latitude, $nearDistance * 1000]);
     }
     
     protected function getCategoriesHelp(
