@@ -11,7 +11,7 @@ class Quiz
     
     private Collection $questions;
     
-    const QUESTION_COUNT = 3;
+    const QUESTION_COUNT = 12;
     
     public function __construct(
         private QuestionFactory $questionFactory,

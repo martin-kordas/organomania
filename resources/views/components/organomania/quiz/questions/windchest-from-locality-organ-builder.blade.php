@@ -12,7 +12,7 @@
         {{ __($organ->organBuilder->is_workshop ? 'postavila varhanářská dílna' : 'postavil varhanář') }}
         <strong>{{ $organ->organBuilder->standardName }}</strong>.
         
-        <br class="d-none d-sm-inline" />
+        <br class="d-none d-sm-inline mb-2" />
         
         {!! __('Jakou mají varhany <span class="text-decoration-underline">vzdušnici</span>?') !!}
     @else

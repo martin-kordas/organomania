@@ -28,13 +28,13 @@ class QuestionFactory
     private int $answersCount;
     
     const QUESTION_TYPES = [
-        /*OrganBuilderFromLocalityManualsCountQuestion::class, OrganBuilderFromLocalityYearRenovatedQuestion::class,
+        OrganBuilderFromLocalityManualsCountQuestion::class, OrganBuilderFromLocalityYearRenovatedQuestion::class,
         OrganFromCaseImageQuestion::class, OrganBuilderFromDescriptionQuestion::class, ManualsCountFromLocalityOrganBuilderQuestion::class,
         PeriodCategoryFromLocationOrganBuilderQuestion::class, OrganBuilderFromFestivalOrganLocalityQuestion::class,
         OrganBuilderFromYearBuiltDispositionQuestion::class, ActionFromLocalityOrganBuilderQuestion::class, WindchestFromLocalityOrganBuilderQuestion::class,
         OrganBuilderFromLocalityYearBuiltQuestion::class, OrganBuilderFromLocalityRebuildYearBuilt::class, OrganBuilderFromLocalitiesQuestion::class,
-        MunicipalityFromOrganBuilderQuestion::class, OrganBuilderFromActivePeriodMunicipalityQuestion::class, OrganFromOutsideImageQuestion::class,*/
-        OrganFromOutsideImageQuestion::class,
+        MunicipalityFromOrganBuilderQuestion::class, OrganBuilderFromActivePeriodMunicipalityQuestion::class, OrganFromOutsideImageQuestion::class,
+        //OrganFromOutsideImageQuestion::class,
     ];
     
     public function __construct(

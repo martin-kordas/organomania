@@ -445,7 +445,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="d-flex gap-2 align-items-center flex-wrap">
                     @if ($this->question->isAnswered())
                         <button class="btn btn-primary" type="button" wire:click="next">
-                            <i class="bi bi-arrow-right"></i> {{ __('Další') }} <span class="d-none d-sm-inline">{{ __('otázka') }}</span>
+                            <i class="bi bi-arrow-right"></i>
+                            @if ($this->isFinish($step + 1))
+                                {{ __('Dokončit') }} <span class="d-none d-sm-inline">{{ __('kvíz') }}</span>
+                            @else
+                                {{ __('Další') }} <span class="d-none d-sm-inline">{{ __('otázka') }}</span>
+                            @endif
                         </button>
                     @else
                         <button class="btn btn-primary" type="button" wire:click="answer">
