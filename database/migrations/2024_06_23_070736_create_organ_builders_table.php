@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('first_name', length: 100)->nullable();
             $table->string('last_name', length: 100)->nullable();
             $table->string('short_name', length: 100)->nullable();
+            $table->string('short_name', length: 100)->nullable();
+            $table->string('name_base_words', length: 200)->nullable();
             $table->string('place_of_birth', length: 50)->nullable();
             $table->string('place_of_death', length: 50)->nullable();
             $table->string('active_period', length: 50)->nullable();

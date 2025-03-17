@@ -6,11 +6,15 @@ enum QuizDifficultyLevel: int
 {
     
     case Easy = 1;
-    case Advanced = 2;
+    case Medium = 2;
+    case Advanced = 3;
     
     const DATA = [
         self::Easy->value => [
             'name' => 'Jednoduchá',
+        ],
+        self::Medium->value => [
+            'name' => 'Střední',
         ],
         self::Advanced->value => [
             'name' => 'Pokročilá',

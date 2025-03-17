@@ -82,7 +82,8 @@ class Organ extends Model
         ORGAN_ID_MOST = 45,
         ORGAN_ID_BOZKOV = 169,
         ORGAN_ID_KRNOV_KOSTEL_SV_DUCHA = 35,
-        ORGAN_ID_LUDGEROVICE = 3;
+        ORGAN_ID_LUDGEROVICE = 3,
+        ORGAN_ID_PRAHA_EMAUZY = 85;
     
     protected $guarded = [];
     

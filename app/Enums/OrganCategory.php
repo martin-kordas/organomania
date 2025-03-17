@@ -136,6 +136,20 @@ enum OrganCategory: int implements Category
         ]);
     }
     
+    public function isActionCategory()
+    {
+        return in_array($this, [
+            static::ActionMechanical, static::ActionPneumatical, static::ActionElectrical, static::ActionBarker,
+        ]);
+    }
+    
+    public function isWindchestCategory()
+    {
+        return in_array($this, [
+            static::WindchestSchleif, static::WindchestKegel, static::WindchestMembran, static::WindchestUnit,
+        ]);
+    }
+    
     public function isExtraordinaryCategory()
     {
         return in_array($this, [

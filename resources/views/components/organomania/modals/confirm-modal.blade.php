@@ -1,4 +1,4 @@
-@props(['title', 'onclick', 'buttonLabel', 'buttonColor' => 'primary', 'id' => 'confirmModal'])
+@props(['title', 'onclick', 'buttonLabel' => __('Ano'), 'buttonColor' => 'primary', 'id' => 'confirmModal', 'icon' => 'trash'])
 
 <div class="modal fade confirm-modal" id="{{ $id }}" tabindex="-1" aria-labelledby="{{ "{$id}Label" }}" aria-hidden="true">
     <div class="modal-dialog">
@@ -12,7 +12,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Zavřít') }}</button>
-                <button type="button" class="btn btn-{{ $buttonColor }} delete-btn" @click="{{ $onclick }}" data-bs-dismiss="modal"><i class="bi-trash"></i> {{ $buttonLabel }}</button>
+                <button type="button" class="btn btn-{{ $buttonColor }} delete-btn" @click="{{ $onclick }}" data-bs-dismiss="modal">
+                    @if ($icon)
+                        <i class="bi-{{ $icon }}"></i>
+                    @endif
+                    {{ $buttonLabel }}
+                </button>
             </div>
         </div>
     </div>

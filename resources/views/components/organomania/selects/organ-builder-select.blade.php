@@ -1,4 +1,4 @@
-@props(['organBuilders', 'model' => 'organBuilderId', 'id' => null, 'select2' => true, 'allowClear' => false, 'small' => false])
+@props(['organBuilders', 'model' => 'organBuilderId', 'id' => null, 'select2' => true, 'allowClear' => false, 'small' => false, 'disabled' => false, 'showActivePeriod' => true])
 
 @php
     $id ??= $model;
@@ -11,13 +11,14 @@
     wire:model="{{ $model }}"
     data-placeholder="{{ __('Zvolte varhanáře') }}&hellip;"
     @if ($allowClear) data-allow-clear="true" @endif
+    @disabled($disabled)
     aria-describedby="{{ "{$id}Feedback" }}"
 >
     <option></option>
     @foreach ($organBuilders as $organBuilder)
         <option wire:key="{{ $organBuilder->id }}" value="{{ $organBuilder->id }}">
             {{ $organBuilder->name }}
-            @if ($organBuilder->active_period)
+            @if ($showActivePeriod && $organBuilder->active_period)
                 ({{ $organBuilder->active_period }})
             @endif
         </option>

@@ -1,4 +1,4 @@
-@props(['model' => 'difficultyLevel', 'id' => null, 'select2' => true, 'allowClear' => false, 'small' => false])
+@props(['model' => 'difficultyLevel', 'id' => null, 'select2' => false, 'allowClear' => false, 'small' => false])
 
 @use(App\Enums\QuizDifficultyLevel)
 

@@ -10,6 +10,7 @@ class DispositionTextualFormatter
 {
     
     const APPENDIX_DELIMITER = '////';
+    const CREDITS_DELIMITER = '---';
     
     private DispositionLanguage $dispositionLanguage;
     
@@ -24,8 +25,16 @@ class DispositionTextualFormatter
         $this->dispositionLanguage = $dispositionLanguage;
     }
     
-    public function format(?string $disposition, bool $links = false)
+    public function format(?string $disposition, bool $links = false, bool $credits = true)
     {
+        // volitelné odstranění kreditů
+        if (!$credits) {
+            $pos = str($disposition)->position(static::CREDITS_DELIMITER);
+            if ($pos !== false) {
+                $disposition = str($disposition)->substr(0, $pos);
+            }
+        }
+        
         $disposition = str($this->markdownConvertor->convert($disposition))->trim();
         
         // zarovnání stopových výšek doprava
@@ -54,6 +63,7 @@ class DispositionTextualFormatter
                 ->replace(static::APPENDIX_DELIMITER, '<small>')
                 ->append('</small>');
         }
+        
         return $disposition;
     }
     

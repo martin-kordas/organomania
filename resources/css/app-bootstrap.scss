@@ -247,6 +247,17 @@ gmp-advanced-marker:not([data-label='']) {
     }
 }
 
+.accordion-disposition {
+    column-width: 15em;
+    column-gap: 1.5em;
+    max-width: fit-content;
+    orphans: 4;
+
+    @media screen and (max-width: 767px) {
+        max-width: 22em;
+    }
+}
+
 .organ-thumbnail-modal .modal-dialog {
     max-width: fit-content;
     margin-left: auto;
@@ -465,18 +476,6 @@ gmp-advanced-marker:not([data-label='']) {
             & {
                 width: auto;
             }
-        }
-    }
-    
-    
-    .accordion-disposition {
-        column-width: 15em;
-        column-gap: 1.5em;
-        max-width: fit-content;
-        orphans: 4;
-        
-        @media screen and (max-width: 767px) {
-            max-width: 22em;
         }
     }
     
@@ -780,6 +779,6 @@ gmp-advanced-marker:not([data-label='']) {
     }
 }
 
-.quiz {
+.quiz, .quiz-charts {
     max-width: 850px;
 }

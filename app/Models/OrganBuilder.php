@@ -183,16 +183,32 @@ class OrganBuilder extends Model
         $query->whereNotNull('region_id');
     }
     
+    // NOVÁK, Jan
     public function name(): Attribute
     {
         return Attribute::make(
             get: function (mixed $_value, array $attributes) {
                 if ($attributes['is_workshop']) return $attributes['workshop_name'];
                 else {
+                    // nepřevádíme na velká písmena, protože jde obvykle o importované varhanáře, kde je v příjmení uloženo i křestní jméno
                     if (!isset($attributes['first_name'])) return $attributes['last_name'];
                     
                     $lastName = mb_strtoupper($attributes['last_name']);
                     return "$lastName, {$attributes['first_name']}";
+                }
+            }
+        );
+    }
+    
+    // Jan Novák
+    public function standardName(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                if ($attributes['is_workshop']) return $attributes['workshop_name'];
+                else {
+                    if (!isset($attributes['first_name'])) return $attributes['last_name'];
+                    return "{$attributes["first_name"]} {$attributes["last_name"]}";
                 }
             }
         );
@@ -205,6 +221,16 @@ class OrganBuilder extends Model
                 if (isset($attributes['short_name'])) return $attributes['short_name'];
                 elseif ($attributes['is_workshop']) return $attributes['workshop_name'];
                 else return $attributes['last_name'];
+            }
+        );
+    }
+    
+    public function typeName(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                $type = $attributes['is_workshop'] ? 'varhanářská dílna' : 'varhanář';
+                return __($type);
             }
         );
     }
