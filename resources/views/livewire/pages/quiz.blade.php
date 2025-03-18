@@ -80,10 +80,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         // nejsou-li v odpovědích entity stejného typu jako Question::questionedEntity, zobrazíme ještě dodatečný odkaz na podrobnosti o ::questionedEntity
         return
             $this->question->isAnswered()
-            && (
-                !$this->question->hasAnswers
-                || !$this->question->hasAnswerSameEntityType()
-            );
+            && !$this->question->hasAnswerSameEntityType();
     }
 
     #[Computed]

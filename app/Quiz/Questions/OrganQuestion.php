@@ -17,7 +17,7 @@ abstract class OrganQuestion extends Question
     
     protected const array EXCLUDED_ENTITY_IDS = [
         // nezahrnovat varhany, kterou jsou ve veřejených spíše omylem/dočasně
-        4496, 123, 124,
+        4496, 123, 124, 12,
         // neexistující varhany
         Organ::ORGAN_ID_PRAHA_EMAUZY,
         // problematické - 2 varhanáři

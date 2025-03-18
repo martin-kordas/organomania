@@ -27,7 +27,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $difficultyLevelValue = request('difficultyLevel');
         if ($difficultyLevelValue) $difficultyLevel = QuizDifficultyLevel::tryFrom($difficultyLevelValue);
-        return $difficultyLevel ?? QuizDifficultyLevel::Easy;
+        return $difficultyLevel ?? QuizDifficultyLevel::Advanced;
         
     }
 
