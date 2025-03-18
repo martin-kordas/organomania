@@ -28,7 +28,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $difficultyLevelValue = request('difficultyLevel');
         if ($difficultyLevelValue) $difficultyLevel = QuizDifficultyLevel::tryFrom($difficultyLevelValue);
         return $difficultyLevel ?? QuizDifficultyLevel::Advanced;
-        
     }
 
     public function rendering(View $view): void
@@ -41,6 +40,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         // TODO: lepší by bylo načíst pro každého uživatele s jménem jen 1 výsledek (a pro anonymní negroupovat)
         return QuizResult::query()
             ->where('difficulty_level', $difficultyLevel->value)
+            ->where('score', '>', 0)
             ->orderBy('score', 'desc')
             ->orderBy('created_at', 'desc')
             ->take(20)
@@ -108,7 +108,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
     
     <div class="mt-4">
-        <a class="btn btn-sm btn-secondary" href="{{ route('quiz') }}">
+        <a class="btn btn-sm btn-secondary" href="{{ route('quiz') }}" wire:navigate>
             <i class="bi bi-arrow-return-left"></i> {{ __('Zpět') }}
         </a>
     </div>

@@ -30,7 +30,7 @@ class OrganBuilderFromDescriptionQuestion extends OrganBuilderQuestion
         foreach ($baseWords as $word) {
             $word1 = preg_quote($word, '/');
             $description = preg_replace(
-                '/\b' . $word1 . '\S*/i', $placeholder,
+                '/\b' . $word1 . '\S*/iu', $placeholder,
                 $description
             );
         }

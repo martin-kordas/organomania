@@ -253,7 +253,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     
     <h3 class="mb-3">{{ $this->title }}</h3>
     
-    <form class="mb-4">
+    <form class="mb-4 position-relative">
+        <div wire:loading.block wire:loading.class="opacity-75" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
+            <x-organomania.spinner class="align-items-center h-100" :margin="false" />
+        </div>
         @if ($this->isStart())
             @if (!Auth::check())
                 <x-organomania.info-alert class="d-inline-block">
