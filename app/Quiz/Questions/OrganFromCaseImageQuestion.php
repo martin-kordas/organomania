@@ -13,7 +13,7 @@ class OrganFromCaseImageQuestion extends OrganQuestion
     
     protected bool $applyScopeForAnswers = false;
     
-    const int FREQUENCY = 7;
+    const int FREQUENCY = 15;
     
     public function showOrganBuilders()
     {

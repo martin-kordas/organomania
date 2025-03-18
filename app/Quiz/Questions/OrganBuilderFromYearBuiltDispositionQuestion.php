@@ -16,7 +16,7 @@ class OrganBuilderFromYearBuiltDispositionQuestion extends OrganQuestion
     
     protected static ?QuizDifficultyLevel $withoutAnswersFromDifficulty = null;
     
-    const int FREQUENCY = 4;
+    const int FREQUENCY = 7;
     
     protected function scope(Builder $query)
     {

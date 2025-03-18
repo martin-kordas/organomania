@@ -48,7 +48,7 @@ abstract class Question
     //  - při pokusu o přečtení vlastnosti prohlížeč hlásí přerušení spojení
     public protected(set) string $selectTemplate;
     
-    // podtřídy mohou definovat nižší frekvence výskytu pro otázky méně obvyklé nebo otázky s menším počtem možných instancí
+    // podtřídy mohou definovat odlišné frekvence výskytu (např. pro otázky méně obvyklé nebo otázky s menším počtem možných instancí)
     const int FREQUENCY = 5;
     
     protected bool $applyScopeForAnswers = true;

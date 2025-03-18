@@ -11,7 +11,7 @@ class OrganBuilderFromDescriptionQuestion extends OrganBuilderQuestion
     
     protected bool $applyScopeForAnswers = false;
     
-    const int FREQUENCY = 6;
+    const int FREQUENCY = 10;
     
     protected function scope(Builder $query)
     {
