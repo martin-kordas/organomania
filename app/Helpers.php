@@ -187,6 +187,13 @@ class Helpers
         return Carbon::createFromFormat('H:i:s', $time)->format($outputFormat);
     }
     
+    static function formatDateTime(Carbon $date, bool $monthNumber = false, bool $seconds = true)
+    {
+        $dateStr = static::formatDate($date, $monthNumber);
+        $timeStr = static::formatTime($date->format('H:i:s'), $seconds);
+        return "$dateStr $timeStr";
+    }
+    
     static function formatNumber(float $number, int $style = NumberFormatter::DECIMAL, ?int $decimals = null)
     {
         $formatter = app(NumberFormatter::class, ['style' => $style]);

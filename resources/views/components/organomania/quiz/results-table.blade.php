@@ -1,22 +1,53 @@
-@props(['quizResults', 'showName' => true])
+@props(['quizResults', 'showName' => true, 'showTime' => false, 'highlightFirst' => false, 'sortByName' => false])
 
 @use(App\Helpers)
 @use(Illuminate\Support\Facades\Auth)
 
-<table class="table table-sm table-hover w-auto" style="min-width: 250px">
+<table class="table table-sm table-hover w-auto" style="min-width: min(275px, 100%)">
     <tr>
         @if ($showName)
             <th>{{ __('Uživatel') }}</th>
         @endif
-        <th class="text-end">{{ __('Datum') }}</th>
-        <th class="text-end">{{ __('Skóre') }}</th>
+        <th class="text-end">
+            {{ __('Datum') }}
+            @if ($showTime)
+                {{ __('a čas') }}
+            @endif
+            @if ($sortByName)
+                <i class="bi-sort-numeric-down-alt"></i>
+            @endif
+        </th>
+        <th class="text-end">
+            {{ __('Skóre') }}
+            @if (!$sortByName)
+                <i class="bi-sort-numeric-down-alt"></i>
+            @endif
+        </th>
     </tr>
     @foreach ($quizResults as $quizResult)
-        <tr @class(['table-warning' => $quizResult->user_id === Auth::user()?->id])>
+        @php
+            $highlight = (
+                $showName && $quizResult->user_id === Auth::user()?->id
+                || $highlightFirst && $loop->first
+            );
+        @endphp
+        <tr @class(['table-warning' => $highlight])>
             @if ($showName)
-                <td>{{ $quizResult->name ?? '('.__('anonymní').')' }}</td>
+                <td>
+                    @if (!isset($quizResult->name))
+                        <span class="text-body-secondary">{{ __('anonymní') }}</span>
+                    @else
+                        {{ $quizResult->name }}
+                    @endif
+                </td>
             @endif
-            <td class="text-end">{{ Helpers::formatDate($quizResult->created_at, true) }}</td>
+            <td class="text-end">
+                @if ($showTime)
+                    {{ Helpers::formatDateTime($quizResult->created_at, monthNumber: true, seconds: false) }}
+                @else
+                    {{ Helpers::formatDate($quizResult->created_at, monthNumber: true) }}
+                @endif
+            </td>
             <td class="text-end">
                 <span class="badge text-bg-info">{{ $quizResult->score }}</span>
             </td>

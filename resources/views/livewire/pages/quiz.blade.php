@@ -69,6 +69,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
+    private function difficultyLevelEnum()
+    {
+        return QuizDifficultyLevel::from($this->difficultyLevel);
+    }
+
+    #[Computed]
     private function showDetails()
     {
         // nejsou-li v odpovědích entity stejného typu jako Question::questionedEntity, zobrazíme ještě dodatečný odkaz na podrobnosti o ::questionedEntity
@@ -85,8 +91,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         return QuizResult::query()
             ->where('user_id', Auth::user()->id)
+            ->where('difficulty_level', $this->difficultyLevel)
             ->orderBy('created_at', 'desc')
-            ->take(8)
+            ->take(10)
             ->get();
     }
 
@@ -95,9 +102,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         return QuizResult::query()
             ->where('user_id', Auth::user()->id)
+            ->where('difficulty_level', $this->difficultyLevel)
             ->orderBy('score', 'desc')
             ->take(1)
             ->first();
+    }
+
+    #[Computed]
+    private function averageScore()
+    {
+        return QuizResult::query()
+            ->where('user_id', Auth::user()->id)
+            ->where('difficulty_level', $this->difficultyLevel)
+            ->avg('score');
     }
 
     public function rendering(View $view): void
@@ -130,9 +147,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function start()
     {
-        $difficultyLevel = QuizDifficultyLevel::from($this->difficultyLevel);
         $answerFactory = new AnswerFactory();
-        $questionFactory = new QuestionFactory($difficultyLevel, $answerFactory);
+        $questionFactory = new QuestionFactory($this->difficultyLevelEnum, $answerFactory);
         $this->quiz = new Quiz($questionFactory);
         $this->addQuestion();
 
@@ -213,7 +229,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         new QuizResult([
             'name' => $this->name,
-            'difficulty_level' => QuizDifficultyLevel::from($this->difficultyLevel),
+            'difficulty_level' => $this->difficultyLevelEnum,
             'score' => $this->score,
             'user_id' => Auth::user()?->id,
         ])->save();
@@ -235,7 +251,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 <div class="quiz container">
   
     @push('meta')
-        <meta name="description" content="{{ 'xx' /* TODO */ }}">
+        <meta name="description" content="{{ __('Prověřte své znalosti o významných varhanách a varhanářích pomocí všestranného kvízu s 3 úrovněmi obtížnosti. Porovnejte své skóre s ostatními.') }}">
     @endpush
     
     <h3 class="mb-3">{{ $this->title }}</h3>
@@ -285,7 +301,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <button class="btn btn-primary" type="button" wire:click="start">
                         <i class="bi bi-play"></i> {{ __('Spustit kvíz') }}
                     </button>
-                    <a class="btn btn-outline-secondary float-end" href="{{ route('quiz.charts') }}" type="button">
+                    <a class="btn btn-outline-secondary float-end" href="{{ route('quiz.results') }}" type="button">
                         <i class="bi bi-bar-chart"></i> {{ __('Žebříčky') }}
                     </a>
                 </div>
@@ -307,14 +323,23 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
 
                 @if (Auth::check() && $this->quizResults->isNotEmpty())
-                    <h4>{{ __('Historie výsledků') }}</h4>
-                    <x-organomania.quiz.results-table :quizResults="$this->quizResults" :showName="false" />
-                    @if ($this->bestQuizResult)
-                        {{ __('Nejlepší skóre') }}: <span class="badge text-bg-info">{{ $this->bestQuizResult->score }}</span> ({{ Helpers::formatDate($this->bestQuizResult->created_at, true) }})
-                    @endif
+                    <h4>{{ __('Historie výsledků') }} &ndash; {{ str($this->difficultyLevelEnum->getName())->lower() }} {{ __('obtížnost') }}</h4>
+                    <div class="mb-2 lh-lg">
+                        @if ($this->bestQuizResult)
+                            <div>
+                                {{ __('Nejlepší skóre') }}: <span class="badge text-bg-info">{{ $this->bestQuizResult->score }}</span> ({{ Helpers::formatDate($this->bestQuizResult->created_at, true) }})
+                            </div>
+                        @endif
+                        @isset ($this->averageScore)
+                            <div>
+                                {{ __('Průměrné skóre') }}: <span class="badge text-bg-info">{{ Helpers::formatNumber($this->averageScore, decimals: 1) }}</span>
+                            </div>
+                        @endisset
+                    </div>
+                    <x-organomania.quiz.results-table :quizResults="$this->quizResults" :showName="false" showTime highlightFirst sortByName />
                 @endif
                 <div class="mt-3">
-                    <a href="{{ route('quiz.charts') }}" class="btn btn-outline-secondary" type="button">
+                    <a href="{{ route('quiz.results') }}" class="btn btn-outline-secondary" type="button">
                         <i class="bi bi-bar-chart"></i> {{ __('Žebříčky') }}
                     </a>
                 </div>

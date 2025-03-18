@@ -20,6 +20,8 @@ abstract class OrganQuestion extends Question
         4496, 123, 124,
         // neexistující varhany
         Organ::ORGAN_ID_PRAHA_EMAUZY,
+        // problematické - 2 varhanáři
+        Organ::ORGAN_ID_KOLIN_KOSTEL_SV_BARTOLOMEJE,
     ];
     
     public static function getEntities(): Collection

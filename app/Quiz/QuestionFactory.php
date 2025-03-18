@@ -34,7 +34,7 @@ class QuestionFactory
         OrganBuilderFromYearBuiltDispositionQuestion::class, ActionFromLocalityOrganBuilderQuestion::class, WindchestFromLocalityOrganBuilderQuestion::class,
         OrganBuilderFromLocalityYearBuiltQuestion::class, OrganBuilderFromLocalityRebuildYearBuilt::class, OrganBuilderFromLocalitiesQuestion::class,
         MunicipalityFromOrganBuilderQuestion::class, OrganBuilderFromActivePeriodMunicipalityQuestion::class, OrganFromOutsideImageQuestion::class,
-        //OrganFromOutsideImageQuestion::class,
+        //OrganBuilderFromDescriptionQuestion::class,
     ];
     
     public function __construct(

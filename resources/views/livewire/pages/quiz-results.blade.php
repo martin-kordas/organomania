@@ -5,6 +5,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use App\Enums\QuizDifficultyLevel;
+use App\Helpers;
 use App\Models\QuizResult;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
@@ -12,7 +13,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     public function title()
     {
-        return __('Varhanní kvíz – žebříčky');
+        return __('Varhanní kvíz') . ' – ' . __('žebříčky');
     }
 
     #[Computed]
@@ -33,8 +34,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ->where('difficulty_level', $difficultyLevel->value)
             ->orderBy('score', 'desc')
             ->orderBy('created_at', 'desc')
-            ->take(10)
+            ->take(20)
             ->get();
+    }
+
+    private function getAverageScore(QuizDifficultyLevel $difficultyLevel)
+    {
+        return QuizResult::query()
+            ->where('difficulty_level', $difficultyLevel->value)
+            ->avg('score');
     }
 
 }; ?>
@@ -42,12 +50,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 <div class="quiz-charts container">
   
     @push('meta')
-        <meta name="description" content="{{ 'xx' /* TODO */ }}">
+        <meta name="description" content="{{ __('Zjistěte, kdo dosáhl nejlepšího skóre ve varhanním kvízu.') }}">
     @endpush
     
     <h3>{{ $this->title }}</h3>
     
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-tabs mt-3" role="tablist">
         @foreach ($this->difficultyLevels as $difficultyLevel)
             <li class="nav-item" role="presentation">
                 <button
@@ -74,13 +82,25 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 aria-labelledby="difficultyLevelContent{{ $difficultyLevel->value }}"
                 tabindex="0"
             >
-                @php $quizResults = $this->getQuizResults($difficultyLevel) @endphp
+                @php
+                    $quizResults = $this->getQuizResults($difficultyLevel);
+                    $averageScore = $this->getAverageScore($difficultyLevel);
+                @endphp
                 @if ($quizResults->isEmpty())
-                    <span class="text-body-secondary">{{ __('zatím žádné výsledky') }}</span>
+                    <div class="text-body-secondary text-center">{{ __('zatím žádné výsledky') }}</div>
                 @else
+                    <div class="mb-1">
+                        {{ __('Průměrné skóre') }}: <span class="badge text-bg-info">{{ Helpers::formatNumber($averageScore, decimals: 1) }}</span>
+                    </div>
                     <x-organomania.quiz.results-table :quizResults="$this->getQuizResults($difficultyLevel)" />
                 @endif
             </div>
         @endforeach
+    </div>
+    
+    <div class="mt-4">
+        <a class="btn btn-sm btn-secondary" href="{{ route('quiz') }}">
+            <i class="bi bi-arrow-return-left"></i> {{ __('Zpět') }}
+        </a>
     </div>
 </div>

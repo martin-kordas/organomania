@@ -131,8 +131,8 @@ Volt::route('organists', 'pages.organists')
     ->name('organists.index');
 Volt::route('quiz', 'pages.quiz')
     ->name('quiz');
-Volt::route('quiz-charts', 'pages.quiz-charts')
-    ->name('quiz.charts');
+Volt::route('quiz/results', 'pages.quiz-results')
+    ->name('quiz.results');
 
 Route::get('organ-custom-categories/{id}/organs', function ($id) {
     $params = ['filterCategories' => ["custom-$id"], 'viewType' => 'table'];
