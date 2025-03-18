@@ -298,7 +298,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <button class="btn btn-primary" type="button" wire:click="start">
                         <i class="bi bi-play"></i> {{ __('Spustit kvíz') }}
                     </button>
-                    <a class="btn btn-outline-secondary float-end" href="{{ route('quiz.results') }}" type="button">
+                    <a class="btn btn-outline-secondary float-end" href="{{ route('quiz.results') }}" type="button" wire:navigate>
                         <i class="bi bi-bar-chart"></i> {{ __('Žebříčky') }}
                     </a>
                 </div>
@@ -336,7 +336,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <x-organomania.quiz.results-table :quizResults="$this->quizResults" :showName="false" showTime highlightFirst sortByName />
                 @endif
                 <div class="mt-3">
-                    <a href="{{ route('quiz.results', ['difficultyLevel' => $this->difficultyLevel]) }}" class="btn btn-outline-secondary" type="button">
+                    <a href="{{ route('quiz.results', ['difficultyLevel' => $this->difficultyLevel]) }}" class="btn btn-outline-secondary" type="button" wire:navigate>
                         <i class="bi bi-bar-chart"></i> {{ __('Žebříčky') }}
                     </a>
                 </div>
