@@ -22,6 +22,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return array_reverse(QuizDifficultyLevel::cases());
     }
 
+    #[Computed]
+    public function defaultDifficultyLevel()
+    {
+        $difficultyLevelValue = request('difficultyLevel');
+        if ($difficultyLevelValue) $difficultyLevel = QuizDifficultyLevel::tryFrom($difficultyLevelValue);
+        return $difficultyLevel ?? QuizDifficultyLevel::Easy;
+        
+    }
+
     public function rendering(View $view): void
     {
         $view->title($this->title);
@@ -59,7 +68,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @foreach ($this->difficultyLevels as $difficultyLevel)
             <li class="nav-item" role="presentation">
                 <button
-                    @class(['nav-link', 'active' => $loop->first])
+                    @class(['nav-link', 'active' => $difficultyLevel === $this->defaultDifficultyLevel])
                     id="difficultyLevelTab{{ $difficultyLevel->value }}"
                     data-bs-toggle="tab"
                     data-bs-target="#difficultyLevelContent{{ $difficultyLevel->value }}"
@@ -76,7 +85,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div class="tab-content mt-2">
         @foreach ($this->difficultyLevels as $difficultyLevel)
             <div
-                @class(['tab-pane', 'fade', 'show' => $loop->first, 'active' => $loop->first])
+                @class(['tab-pane', 'fade', 'show' => $difficultyLevel === $this->defaultDifficultyLevel, 'active' => $difficultyLevel === $this->defaultDifficultyLevel])
                 id="difficultyLevelContent{{ $difficultyLevel->value }}"
                 role="tabpanel"
                 aria-labelledby="difficultyLevelContent{{ $difficultyLevel->value }}"

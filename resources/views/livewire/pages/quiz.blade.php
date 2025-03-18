@@ -339,7 +339,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <x-organomania.quiz.results-table :quizResults="$this->quizResults" :showName="false" showTime highlightFirst sortByName />
                 @endif
                 <div class="mt-3">
-                    <a href="{{ route('quiz.results') }}" class="btn btn-outline-secondary" type="button">
+                    <a href="{{ route('quiz.results', ['difficultyLevel' => $this->difficultyLevel]) }}" class="btn btn-outline-secondary" type="button">
                         <i class="bi bi-bar-chart"></i> {{ __('Žebříčky') }}
                     </a>
                 </div>
