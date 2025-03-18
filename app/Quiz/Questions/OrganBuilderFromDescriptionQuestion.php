@@ -30,7 +30,7 @@ class OrganBuilderFromDescriptionQuestion extends OrganBuilderQuestion
         foreach ($baseWords as $word) {
             $word1 = preg_quote($word, '/');
             $description = preg_replace(
-                '/\b' . $word1 . '\S*/', $placeholder,
+                '/\b' . $word1 . '\S*/i', $placeholder,
                 $description
             );
         }
@@ -39,6 +39,7 @@ class OrganBuilderFromDescriptionQuestion extends OrganBuilderQuestion
         $description = $markdownConvertor->convert($description);
         
         $description = str_replace('//placeholder//', '<span class="placeholder col-1"></span>', $description);
+        $description = str_replace('*', '', $description);  // pozůstatky po markdownu
         
         return trim($description);
     }
