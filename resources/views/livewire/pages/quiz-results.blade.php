@@ -108,7 +108,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
     
     <div class="mt-4">
-        <a class="btn btn-sm btn-secondary" href="{{ route('quiz') }}" wire:navigate>
+        <a class="btn btn-secondary" href="{{ route('quiz') }}" wire:navigate>
             <i class="bi bi-arrow-return-left"></i> {{ __('Zpět') }}
         </a>
     </div>

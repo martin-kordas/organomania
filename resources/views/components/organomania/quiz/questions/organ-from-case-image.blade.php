@@ -12,6 +12,6 @@
         class="rounded border"
         src="{{ $organ->image_url }}"
         @isset($organ->image_credits) title="{{ __('Licence obrázku') }}: {{ $organ->image_credits }}" @endisset
-        style="width: auto; max-width: min(100%, 500px)"
+        style="width: auto; max-width: min(100%, 400px)"
     />
 </x-organomania.quiz.questions.question>

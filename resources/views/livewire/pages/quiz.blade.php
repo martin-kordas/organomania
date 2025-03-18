@@ -13,7 +13,7 @@ use App\Models\OrganBuilder;
 use App\Models\QuizResult;
 use App\Quiz\AnswerFactory;
 use App\Quiz\QuestionFactory;
-use App\Quiz\Questions\OrganFromCaseImageQuestion;
+use App\Quiz\Questions\OrganQuestion;
 use App\Quiz\Questions\Question;
 use App\Quiz\Quiz;
 use App\Traits\ConvertEmptyStringsToNull;
@@ -376,7 +376,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                         @disabled($this->question->isAnswered())
                                     >
                                     <label class="form-check-label" for="answer{{ $index }}">
-                                        <x-dynamic-component :component="$answer->template" :answer="$answer" />
+                                        <x-dynamic-component :component="$answer->template" :answer="$answer" :answeredQuestion="$this->question->isAnswered()" />
                                     </label>
                                     @if ($loop->last)
                                         @error('answerIndex')
@@ -416,7 +416,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         @php
                             $entities = $this->question::getEntities();
                             $correctAnswer = $this->question->correctAnswer;
-                            $showOrganBuilders = $this->question instanceof OrganFromCaseImageQuestion && $this->question->showOrganBuilders();
+                            $showOrganBuilder = $this->question->isAnswered() || $this->question instanceof OrganQuestion && $this->question->showOrganBuilders();
                         @endphp
                         {{-- atributy organs, organBuilders aj. nejde zvýjimkovat (použití @if působí chyby), proto uvádíme vždy všechny atributy --}}
                         <div wire:key="{{ $this->question->selectTemplate }}">
@@ -430,7 +430,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 :organBuilders="$entities"
                                 :categories="$entities"
                                 :items="$entities"
-                                :showOrganBuilder="$showOrganBuilders"
+                                :showOrganBuilder="$showOrganBuilder"
                                 :showActivePeriod="false"
                             />
                         </div>
@@ -443,7 +443,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     <i class="bi bi-x-lg px-1 text-bg-danger rounded-pill"></i>
                                     {{ __('Správná odpověď je') }}:
                                     <div class="d-inline-block fw-bold">
-                                        <x-dynamic-component :component="$correctAnswer->template" :answer="$correctAnswer" />
+                                        <x-dynamic-component :component="$correctAnswer->template" :answer="$correctAnswer" :answeredQuestion="$this->question->isAnswered()" />
                                     </div>
                                 @endif
 

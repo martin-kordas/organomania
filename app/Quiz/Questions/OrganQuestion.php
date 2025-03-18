@@ -24,6 +24,11 @@ abstract class OrganQuestion extends Question
         Organ::ORGAN_ID_KOLIN_KOSTEL_SV_BARTOLOMEJE,
     ];
     
+    public function showOrganBuilders()
+    {
+        return $this->isAnswered();
+    }
+    
     public static function getEntities(): Collection
     {
         return Organ::public()

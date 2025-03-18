@@ -2,8 +2,6 @@
 
 namespace App\Quiz\Questions;
 
-use App\Quiz\Answers\Answer;
-use App\Enums\QuizDifficultyLevel;
 use Illuminate\Database\Eloquent\Builder;
 
 class OrganFromCaseImageQuestion extends OrganQuestion
@@ -14,19 +12,6 @@ class OrganFromCaseImageQuestion extends OrganQuestion
     protected bool $applyScopeForAnswers = false;
     
     const int FREQUENCY = 15;
-    
-    public function showOrganBuilders()
-    {
-        return $this->difficultyLevel->value <= QuizDifficultyLevel::Easy->value;
-    }
-    
-    protected function createAnswer(mixed $answerContent): Answer
-    {
-        return $this->answerFactory->createAnswer(
-            $answerContent, $this->answerType,
-            $this->showOrganBuilders()
-        );
-    }
     
     protected function scope(Builder $query)
     {

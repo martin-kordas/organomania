@@ -169,7 +169,7 @@ abstract class Question
         ?string $entityClass = null,
         ?Model $correctAnswerEntity = null,
         callable|false|null $scope = null,
-        array $excludedEntityIds = [],
+        array $excludedEntityIds = null,
     ): Collection
     {
         $entityClass ??= static::$entityClass;
@@ -212,7 +212,7 @@ abstract class Question
         ?string $entityClass = null,
         ?int $minImportance = null,
         ?callable $scope = null,
-        array $excludedEntityIds = [],
+        array $excludedEntityIds = null,
     ): ?Model
     {
         return static::getRandomEntities(
@@ -225,7 +225,7 @@ abstract class Question
         ?string $entityClass = null,
         ?int $minImportance = null,
         ?callable $scope = null,
-        array $excludedEntityIds = [],
+        array $excludedEntityIds = null,
     ): Collection
     {
         $entityClass ??= static::$entityClass;
