@@ -68,7 +68,7 @@ class Quiz
     public function getOrganBuilders()
     {
         return $this->getEntities(OrganBuilder::class)->filter(
-            // zahraniční varhanáři se nezobrazují v hromadných výpisech
+            // zahraniční varhanáři by se nezobrazili v hromadných výpisech
             fn (OrganBuilder $organBuilder) => isset($organBuilder->region_id)
         );
     }

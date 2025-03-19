@@ -6,6 +6,7 @@ use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Session;
 use App\Enums\QuizDifficultyLevel;
 use App\Helpers;
@@ -34,6 +35,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public ?int $answerId = null;
 
     private ?Quiz $quiz;
+
+    #[Locked]
+    public bool $finished = false;
 
     const SESSION_KEY_QUIZ = 'quiz.quiz';
 
@@ -156,6 +160,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function new()
     {
         $this->deleteQuestionAnswers();
+        $this->finished = false;
         $this->step = 0;
     }
 
@@ -184,7 +189,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         $nextStep = $this->step + 1;
         if ($this->isFinish($nextStep)) {
-            $this->saveResults();
+            if (!$this->finished) {
+                $this->saveResults();
+                $this->finished = true;
+            }
         }
         else {
             if ($this->quiz->hasQuestion($nextStep - 1)) {
@@ -259,7 +267,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     
     <h3 class="mb-3">{{ $this->title }}</h3>
     
-    <form class="mb-4 position-relative">
+    <form class="mb-4 position-relative" @if ($this->isStart()) wire:submit="start" @endif>
         <div wire:loading.block wire:loading.class="opacity-75" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
             <x-organomania.spinner class="align-items-center h-100" :margin="false" />
         </div>
@@ -347,11 +355,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
 
                 <div class="mb-4 gap-2 d-flex">
-                    <button class="btn btn-outline-secondary" type="button" wire:click="back">
-                        <i class="bi bi-arrow-left"></i> {{ __('Předchozí') }} <span class="d-none d-sm-inline">{{ __('otázka') }}</span>
-                    </button>
                     <button class="btn btn-primary" type="button" wire:click="new">
                         <i class="bi bi-arrow-clockwise"></i> {{ __('Nový kvíz') }}
+                    </button>
+                    <button class="btn btn-outline-secondary" type="button" wire:click="back">
+                        <i class="bi bi-arrow-left"></i> {{ __('Předchozí') }} <span class="d-none d-sm-inline">{{ __('otázka') }}</span>
                     </button>
                 </div>
 
