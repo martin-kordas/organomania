@@ -84,6 +84,12 @@ class AbstractRepository
         ", [$longitude, $latitude, $nearDistance * 1000]);
     }
     
+    protected function trimFilterValue($value)
+    {
+        if (is_array($value)) return array_map(trim(...), $value);
+        else return trim($value);
+    }
+    
     protected function getCategoriesHelp(
         Model $model,
         $withCount,

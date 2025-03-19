@@ -35,7 +35,7 @@ class OrganBuilderRepository extends AbstractRepository
         if (!empty($withCount)) $query->withCount($withCount);
         
         foreach ($filters as $field => $value) {
-            $value = trim($value);
+            $value = $this->trimFilterValue($value);
             
             switch ($field) {
                 case 'name':

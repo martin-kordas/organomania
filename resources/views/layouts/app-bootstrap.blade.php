@@ -129,6 +129,9 @@ $organistHighlightedCount = Organist::getHighlightedCount();
                                 <x-organomania.footer-nav-item href="{{ route('about-organ') }}" wire:navigate>
                                     {{ __('O varhanách') }}
                                 </x-organomania.footer-nav-item>
+                                <x-organomania.footer-nav-item href="{{ route('quiz') }}" wire:navigate>
+                                    {{ __('Kvíz') }}
+                                </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('organists.index') }}" wire:navigate>
                                     {{ __('Varhaníci') }}
                                     @if ($organistHighlightedCount > 0)

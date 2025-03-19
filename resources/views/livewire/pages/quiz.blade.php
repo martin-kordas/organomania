@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
@@ -243,6 +244,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         else $this->answerId = $question->selectedAnswerId;
     }
 
+    private function getEntitiesIds(Collection $entities)
+    {
+        return $entities->pluck('id')->toArray();
+    }
+
 }; ?>
 
 <div class="quiz container">
@@ -311,6 +317,33 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div>
                 <div class="fs-5 mb-3">
                     {{ __('Výsledné skóre') }}: <span class="badge text-bg-info">{{ $this->score }}</span>
+                </div>
+              
+                <div class="mb-4">
+                    <h5>{{ __('Shrnutí obsahu kvízu') }}</h5>
+                    @php
+                        $organs = $this->quiz->getOrgans();
+                        $organBuilders = $this->quiz->getOrganBuilders();
+                        $festivals = $this->quiz->getFestivals();
+                    @endphp
+                    @if ($organs->isNotEmpty())
+                        <a class="btn btn-sm btn-outline-secondary me-1" href="{{ route('organs.index', ['filterId' => $this->getEntitiesIds($organs)]) }}" target="_blank">
+                            <i class="bi bi-music-note-list"></i> {{ __('Varhany') }}
+                            <span class="badge text-bg-secondary rounded-pill">{{ $organs->count() }}</span>
+                        </a>
+                    @endif
+                    @if ($organBuilders->isNotEmpty())
+                        <a class="btn btn-sm btn-outline-secondary me-1" href="{{ route('organ-builders.index', ['filterId' => $this->getEntitiesIds($organBuilders)]) }}" target="_blank">
+                            <i class="bi bi-person-circle"></i> {{ __('Varhanáři') }}
+                            <span class="badge text-bg-secondary rounded-pill">{{ $organBuilders->count() }}</span>
+                        </a>
+                    @endif
+                    @if ($festivals->isNotEmpty())
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('festivals.index', ['filterId' => $this->getEntitiesIds($festivals)]) }}" target="_blank">
+                            <i class="bi bi-calendar-date"></i> {{ __('Festivaly') }}
+                            <span class="badge text-bg-secondary rounded-pill">{{ $festivals->count() }}</span>
+                        </a>
+                    @endif
                 </div>
 
                 <div class="mb-4 gap-2 d-flex">

@@ -40,8 +40,7 @@ class OrganRepository extends AbstractRepository
         if (!empty($withCount)) $query->withCount($withCount);
         
         foreach ($filters as $field => $value) {
-            if (is_array($value)) $value = array_map(trim(...), $value);
-            else $value = trim($value);
+            $value = $this->trimFilterValue($value);
             
             switch ($field) {
                 case 'locality':

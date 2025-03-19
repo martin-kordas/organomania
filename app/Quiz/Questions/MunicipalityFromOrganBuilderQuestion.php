@@ -3,7 +3,7 @@
 namespace App\Quiz\Questions;
 
 use App\Enums\QuizDifficultyLevel;
-use App\Models\Organ;
+use App\Models\OrganBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use LogicException;
@@ -31,7 +31,7 @@ class MunicipalityFromOrganBuilderQuestion extends OrganBuilderQuestion
     {
         $correctMunicipality = $this->correctAnswer->answerContent;
         
-        return Organ::query()
+        return OrganBuilder::query()
             ->where('municipality', '!=', $correctMunicipality)
             ->groupBy('municipality')
             ->select('municipality')
