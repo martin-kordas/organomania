@@ -345,4 +345,18 @@ class Organ extends Model
         return "organ-recordings/{$this->id}";
     }
     
+    public function getMetaDescription(): ?string
+    {
+        if (isset($this->perex)) return $this->perex;
+        
+        if (isset($this->description)) {
+            return str($this->description)
+                ->replace('*', '')
+                ->replaceMatches('/\s+/u', ' ')
+                ->limit(200);
+        }
+        
+        return null;
+    }
+    
 }

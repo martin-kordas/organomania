@@ -199,6 +199,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $this->repository->getSimilarOrgans($this->organ);
     }
 
+    #[Computed]
+    public function metaDescription()
+    {
+        if (app()->getLocale() === 'cs') {
+            return $this->organ->getMetaDescription();
+        }
+    }
+
     private function getDispositionUrl(Disposition $disposition)
     {
         $fn = !Gate::allows('view', $disposition) ? URL::signedRoute(...) : route(...);
@@ -315,6 +323,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 }; ?>
 
 <div class="organ-show container">
+    @isset($this->metaDescription)
+        @push('meta')
+            <meta name="description" content="{{ $this->metaDescription }}">
+        @endpush
+    @endisset
+    
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
             <h3 class="fs-2 mb-3 lh-sm fw-normal" @if (Auth::user()?->admin) title="ID: {{ $organ->id }}" @endif>

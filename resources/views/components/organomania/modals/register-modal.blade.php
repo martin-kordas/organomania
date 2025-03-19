@@ -26,12 +26,12 @@
             <div class="modal-header">
                 <div class="w-100" wire:loading.remove wire:target="setRegisterName">
                     @isset($register)
-                        <h1 class="modal-title fs-5" id="registerModalLabel">
+                        <h2 class="modal-title fs-5" id="registerModalLabel">
                             {{ $registerName->name }}
                             @if (!$registerName->hide_language)
                                 <span class="text-body-secondary">({{ $registerName->language }})</span>
                             @endif
-                        </h1>
+                        </h2>
                         <div @style(['columns: 2' => $registerNames->count() > 3])>
                             @foreach ($registerNames as $registerName1)
                                 {{ $registerName1->name }}
@@ -44,9 +44,9 @@
                     @endisset
                 </div>
                 <div wire:loading.block wire:target="setRegisterName" class="w-100">
-                    <h1 class="card-title placeholder-glow">
+                    <h2 class="card-title placeholder-glow">
                       <span class="placeholder col-6"></span>
-                    </h1>
+                    </h2>
                 </div>
                 <button type="button" class="btn-close align-self-start" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             </div>

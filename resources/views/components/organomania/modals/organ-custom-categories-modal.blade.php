@@ -5,7 +5,7 @@
         <div class="modal-content">
             <form wire:submit="saveOrganCustomCategories">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="customCategoriesModalLabel">{{ __('Vlastní kategorie') }}</h1>
+                    <h2 class="modal-title fs-5" id="customCategoriesModalLabel">{{ __('Vlastní kategorie') }}</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
                 </div>
                 <div wire:loading.block>

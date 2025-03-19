@@ -7,9 +7,9 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="dispositionOcrLabel">
+                    <h2 class="modal-title fs-5" id="dispositionOcrLabel">
                         <i class="bi bi-magic"></i> {{ __('Přečíst dispozici z fotografie') }}
-                    </h1>
+                    </h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
                 </div>
 

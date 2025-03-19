@@ -67,10 +67,24 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         if (!empty($this->images)) return $this->images[0];
     }
+
+    #[Computed]
+    public function metaDescription()
+    {
+        if (app()->getLocale() === 'cs') {
+            if (isset($this->competition->perex)) return str($this->competition->perex)->replace('*', '')->replaceMatches('/\s+/u', ' ')->limit(200);
+        }
+    }
     
 }; ?>
 
 <div class="organ-builder-show container">  
+    @isset($this->metaDescription)
+        @push('meta')
+            <meta name="description" content="{{ $this->metaDescription }}">
+        @endpush
+    @endisset
+    
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
             <h3 class="fs-2" @if (Auth::user()?->admin) title="ID: {{ $competition->id }}" @endif>

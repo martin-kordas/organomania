@@ -123,6 +123,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
+    public function metaDescription()
+    {
+        if (app()->getLocale() === 'cs') {
+            if (isset($this->organBuilder->perex)) return $this->organBuilder->perex;
+            if (isset($this->organBuilder->description)) return str($this->organBuilder->description)->replace('*', '')->replaceMatches('/\s+/u', ' ')->limit(200);
+        }
+    }
+
+    #[Computed]
     public function images()
     {
         $images = [];
@@ -573,6 +582,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 }; ?>
 
 <div class="organ-builder-show container">
+    @isset($this->metaDescription)
+        @push('meta')
+            <meta name="description" content="{{ $this->metaDescription }}">
+        @endpush
+    @endisset
+    
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
             <h3 class="fs-2" @if (Auth::user()?->admin) title="ID: {{ $organBuilder->id }}" @endif>

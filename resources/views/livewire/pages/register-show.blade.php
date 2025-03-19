@@ -63,11 +63,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
 <div class="register-show container">
     
-    <h1 class="fs-3">
+    <h2 class="fs-3">
         <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" wire:navigate>
             {{ __('Encyklopedie rejstříků') }}
         </a>
-    </h1>
+    </h2>
     
     <h2 class="modal-title fs-5" id="registerModalLabel" @if (Auth::user()?->admin) title="registers.id: {{ $registerName->register_id }} {{ "\n" }}register_names.id: {{ $registerName->id }}" @endif>
         {{ $registerName->name }}

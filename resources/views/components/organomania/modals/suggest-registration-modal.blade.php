@@ -6,9 +6,9 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <form class="modal-content" onsubmit="return suggestRegistrationModal.suggestRegistration()">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="suggestRegistrationModalLabel">
+                <h2 class="modal-title fs-5" id="suggestRegistrationModalLabel">
                      <i class="bi bi-magic"></i> {{ __('Naregistrovat pomocí AI') }}
-                </h1>
+                </h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             </div>
 

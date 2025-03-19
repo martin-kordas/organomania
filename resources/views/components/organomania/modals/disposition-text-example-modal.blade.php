@@ -4,7 +4,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="importTextExampleModalLabel">{{ __('Příklad dispozice') }}</h1>
+                <h2 class="modal-title fs-5" id="importTextExampleModalLabel">{{ __('Příklad dispozice') }}</h2>
                 <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#importDispositionFromTextModal" aria-label="{{ __('Zavřít') }}"></button>
             </div>
             <div class="modal-body" style="white-space: pre">{{ DispositionParser::DISPOSITION_TEXT_EXAMPLE }}</div>

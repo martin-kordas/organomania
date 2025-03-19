@@ -9,19 +9,19 @@
                 <div class="w-100" wire:loading.remove wire:target="setLiturgicalCelebration">
                     @isset($liturgicalCelebration)
                         <div class="small">{{ Helpers::formatDate($liturgicalCelebration->liturgicalDay->date) }}</div>
-                        <h1 class="modal-title fs-5" id="liturgicalCelebrationModalLabel"  @if (Auth::user()?->admin) title="ID: {{ $liturgicalCelebration->id }}" @endif>
+                        <h2 class="modal-title fs-5" id="liturgicalCelebrationModalLabel"  @if (Auth::user()?->admin) title="ID: {{ $liturgicalCelebration->id }}" @endif>
                             <i class="bi bi-{{ $liturgicalCelebration->getIcon() }}" style="color: {{ $liturgicalCelebration->getIconColor() }}"></i>
                             {{ $liturgicalCelebration->name }}
-                        </h1>
+                        </h2>
                         @if (!in_array($liturgicalCelebration->rank, ['neděle', 'ferie']))
                             <div class="text-body-secondary">{{ $liturgicalCelebration->rank }}</div>
                         @endif
                     @endisset
                 </div>
                 <div wire:loading.block wire:target="setLiturgicalCelebration" class="w-100">
-                    <h1 class="card-title placeholder-glow">
+                    <h2 class="card-title placeholder-glow">
                       <span class="placeholder col-6"></span>
-                    </h1>
+                    </h2>
                 </div>
                 <button type="button" class="btn-close align-self-start" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             </div>

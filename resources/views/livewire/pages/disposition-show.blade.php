@@ -265,6 +265,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $filters;
     }
 
+    #[Computed]
+    public function metaDescription()
+    {
+        if (app()->getLocale() === 'cs') {
+            return $this->disposition->organ?->getMetaDescription();
+        }
+    }
+
     public function getDispositionRegisterName(DispositionRegister $dispositionRegister, $translate = false)
     {
         if ($this->translationLanguage && $translate) {
@@ -618,6 +626,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 }; ?>
 
 <div class="disposition-show container print-backgrounds">
+    @isset($this->metaDescription)
+        @push('meta')
+            <meta name="description" content="{{ $this->metaDescription }}">
+        @endpush
+    @endisset
+    
     @if (session('status-disposition-show'))
         <div class="alert alert-success">
             <i class="bi-check-circle-fill"></i> {{ session('status-disposition-show') }}
