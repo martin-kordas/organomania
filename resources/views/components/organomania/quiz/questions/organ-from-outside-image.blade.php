@@ -14,7 +14,7 @@
 @endphp
 
 <x-organomania.quiz.questions.question>
-    <div class="mb-3">{!! __('Podle obrázku určete <span class="text-decoration-underline">lokalitu kostela</span> se zajímavými varhanami') !!}:</div>
+    <div class="mb-3">{!! __('Podle obrázku určete <span class="text-decoration-underline">lokalitu kostela</span> (budovy) se zajímavými varhanami') !!}:</div>
     
     <img
         wire:replace

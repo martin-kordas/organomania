@@ -160,6 +160,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function new()
     {
         $this->deleteQuestionAnswers();
+        $this->resetValidation();
         $this->finished = false;
         $this->step = 0;
     }
@@ -395,6 +396,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <div class="fs-5 d-flex gap-1 align-items-end lh-sm">
                         <span>{{ __('Skóre') }}:</span> <span class="badge text-bg-info">{{ $this->score }}</span>
                     </div>
+                </div>
+                
+                <div class="progress" role="progressbar" aria-valuenow="{{ $this->step }}" aria-valuemin="0" aria-valuemax="{{ Quiz::QUESTION_COUNT }}" style="height: 15px">
+                    <div class="progress-bar bg-info" style="width: {{ $this->step / Quiz::QUESTION_COUNT * 100 }}%"></div>
                 </div>
 
                 <div class="my-3">

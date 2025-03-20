@@ -4,15 +4,16 @@ namespace App\Quiz\Traits;
 
 use App\Models\OrganBuilder;
 use App\Quiz\Questions\OrganBuilderQuestion;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 trait HasOrganBuilderAnswers
 {
     
-    public static function getEntities(): Collection
+    public static function getEntitiesQuery(): Builder
     {
         // otázka se ptá na varhany, ale odpovědí jsou varhanáři
-        return OrganBuilderQuestion::getEntities();
+        return OrganBuilderQuestion::getEntitiesQuery();
     }
     
     protected function generateAnswers(): Collection

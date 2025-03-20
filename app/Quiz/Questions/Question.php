@@ -55,7 +55,7 @@ abstract class Question
     
     abstract public function getQuestionedEntityLink(): string;
     
-    abstract public static function getEntities(): Collection;
+    abstract public static function getEntitiesQuery(): Builder;
     
     public static QuizDifficultyLevel $minDifficultyLevel = QuizDifficultyLevel::Easy;
     
@@ -237,10 +237,17 @@ abstract class Question
         if (!empty($excludedEntityIds)) $query->whereNotIn('id', $excludedEntityIds);
         if (isset($scope)) $scope($query);
         
+        //$query->whereIn('id', [1, 2, 3, 4]);
+        
         return $query
             ->inRandomOrder()
             ->take($limit)
             ->get();
+    }
+    
+    public static function getEntities(): Collection
+    {
+        return static::getEntitiesQuery()->get();
     }
     
 }

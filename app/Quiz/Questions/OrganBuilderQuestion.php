@@ -3,7 +3,7 @@
 namespace App\Quiz\Questions;
 
 use App\Models\OrganBuilder;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 abstract class OrganBuilderQuestion extends Question
 {
@@ -14,11 +14,10 @@ abstract class OrganBuilderQuestion extends Question
     
     public protected(set) string $selectTemplate = 'organomania.selects.organ-builder-select';
     
-    public static function getEntities(): Collection
+    public static function getEntitiesQuery(): Builder
     {
         return OrganBuilder::public()
-            ->orderByName()
-            ->get();
+            ->orderByName();
     }
     
     public function getQuestionedEntityLink(): string

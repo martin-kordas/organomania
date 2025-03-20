@@ -4,7 +4,7 @@ namespace App\Quiz\Questions;
 
 use App\Enums\QuizDifficultyLevel;
 use App\Models\Festival;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 abstract class FestivalQuestion extends Question
 {
@@ -15,9 +15,9 @@ abstract class FestivalQuestion extends Question
     
     public protected(set) string $selectTemplate = 'organomania.selects.festival-select';   // zatím neexistuje
     
-    public static function getEntities(): Collection
+    public static function getEntitiesQuery(): Builder
     {
-        return Festival::orderBy('name')->get();
+        return Festival::orderBy('name');
     }
     
     public function getQuestionedEntityLink(): string

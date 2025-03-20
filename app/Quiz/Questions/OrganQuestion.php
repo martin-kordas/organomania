@@ -4,7 +4,6 @@ namespace App\Quiz\Questions;
 
 use App\Models\Organ;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 
 abstract class OrganQuestion extends Question
 {
@@ -22,6 +21,8 @@ abstract class OrganQuestion extends Question
         Organ::ORGAN_ID_PRAHA_EMAUZY,
         // problematické - 2 varhanáři
         Organ::ORGAN_ID_KOLIN_KOSTEL_SV_BARTOLOMEJE,
+        // dosud nepostavené varhany
+        Organ::ORGAN_ID_PRAHA_KATEDRALA_SV_VITA_ZAPADNI_KRUCHTA,
     ];
     
     public function showOrganBuilders()
@@ -29,15 +30,14 @@ abstract class OrganQuestion extends Question
         return $this->isAnswered();
     }
     
-    public static function getEntities(): Collection
+    public static function getEntitiesQuery(): Builder
     {
         return Organ::public()
             ->when(!empty(static::EXCLUDED_ENTITY_IDS), function (Builder $query) {
                 $query->whereNotIn('id', static::EXCLUDED_ENTITY_IDS);
             })
             ->orderBy('municipality')
-            ->orderBy('place')
-            ->get();
+            ->orderBy('place');
     }
     
     public function getQuestionedEntityLink(): string

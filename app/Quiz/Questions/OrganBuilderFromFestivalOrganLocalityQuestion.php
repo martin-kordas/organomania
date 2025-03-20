@@ -23,7 +23,9 @@ class OrganBuilderFromFestivalOrganLocalityQuestion extends FestivalQuestion
     
     protected function scope(Builder $query)
     {
-        $query->whereHas('organ.organBuilder');
+        $query
+            ->whereHas('organ.organBuilder')
+            ->whereDoesntHave('organ.organBuilder.organRebuilds');
     }
     
 }
