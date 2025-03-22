@@ -243,6 +243,10 @@ class Helpers
             if ($lang === 'cs') $url = str($url)->replace('/organ-builders/', '/varhanari/');
             elseif ($lang === 'en') $url = str($url)->replace('/varhanari/', '/organ-builders/');
         }
+        elseif (request()->routeIs(['about-organ', 'about-organ-cs'])) {
+            if ($lang === 'cs') $url = str($url)->replace('/about-organ', '/o-varhanach');
+            elseif ($lang === 'en') $url = str($url)->replace('/o-varhanach', '/about-organ');
+        }
         
         $query = http_build_query($params);
         if ($query) $query = "?$query";

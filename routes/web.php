@@ -66,6 +66,8 @@ Route::view('links', 'links')
     ->name('links');
 Route::get('about-organ', AboutOrganController::class)
     ->name('about-organ');
+Route::get('o-varhanach', AboutOrganController::class)
+    ->name('about-organ-cs');
 
 Route::get('sitemap.xml', SitemapController::class);
 Route::get('qr', QrController::class);
