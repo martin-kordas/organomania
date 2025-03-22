@@ -252,6 +252,12 @@ trait EntityPageView
         return $this->repository->getCustomCategories();
     }
     
+    #[Computed]
+    public function hasDistance()
+    {
+        return $this->organs->first()?->distance !== null;
+    }
+    
     public function saveOrganCustomCategories()
     {
         Gate::authorize($this->gateUseCustomCategories);
@@ -319,6 +325,15 @@ trait EntityPageView
     private function getMapMarkerLightness(Model $entity)
     {
         return 56;      // odpovídá výchozí barvě Google map
+    }
+    
+    public function isFilterNearCenter(Model $entity)
+    {
+        return 
+            $this->filterNearLatitude
+            && $this->filterNearLongitude
+            && $this->filterNearLatitude === $entity->latitude
+            && $this->filterNearLongitude === $entity->longitude;
     }
     
     // stanovujeme minimální jas barvy pozadí markeru, aby na něm šel vidět černý text

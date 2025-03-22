@@ -29,7 +29,7 @@ class ManualsCountFromLocalityOrganBuilderQuestion extends OrganQuestion
     {
         $correctManualsCount = $this->correctAnswer->answerContent;
         
-        return static::getEntities()
+        return $this->getEntities()
             ->diff([$correctManualsCount])
             ->shuffle()
             ->take($this->answersCount - 1)
@@ -38,7 +38,7 @@ class ManualsCountFromLocalityOrganBuilderQuestion extends OrganQuestion
             ->map($this->createAnswer(...));
     }
     
-    public static function getEntities(): Collection
+    public function getEntities(): Collection
     {
         return collect()->range(1, 5)->keyBy(
             fn ($count) => $count

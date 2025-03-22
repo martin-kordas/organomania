@@ -460,7 +460,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     {{-- b) výběr z roletky všech entit --}}
                     @else
                         @php
-                            $entities = $this->question::getEntities();
+                            $entities = $this->question->getEntities();
                             $correctAnswer = $this->question->correctAnswer;
                             $showOrganBuilder = $this->question->isAnswered() || $this->question instanceof OrganQuestion && $this->question->showOrganBuilders();
                         @endphp

@@ -178,6 +178,11 @@ class OrganBuilder extends Model
         $query->orderBy($raw, $sortDirection);
     }
     
+    public function isInland()
+    {
+        return isset($this->region_id);
+    }
+    
     public function scopeInland(Builder $query): void
     {
         $query->whereNotNull('region_id');

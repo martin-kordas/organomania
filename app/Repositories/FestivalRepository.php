@@ -25,7 +25,7 @@ class FestivalRepository extends AbstractRepository
         $with = self::FESTIVALS_WITH, $withCount = self::FESTIVALS_WITH_COUNT
     ): Builder
     {
-        $query = Festival::query();
+        $query = Festival::query()->select('*');
 
         $importanceExpr = '
             CASE
@@ -37,6 +37,7 @@ class FestivalRepository extends AbstractRepository
         
         if (!empty($with)) $query->with($with);
         if (!empty($withCount)) $query->withCount($withCount);
+        $filterNear = false;
         
         foreach ($filters as $field => $value) {
             $value = $this->trimFilterValue($value);
@@ -53,6 +54,15 @@ class FestivalRepository extends AbstractRepository
                 
                 case 'importance':
                     $query->whereRaw("$importanceExpr = ?", [$value]);
+                    break;
+                
+                case 'nearLongitude':
+                case 'nearLatitude':
+                case 'nearDistance':
+                    if ($field === 'nearLongitude' && isset($filters['nearLatitude'], $filters['nearDistance'])) {
+                        $this->filterNear($query, $filters['nearLatitude'], $filters['nearLongitude'], $filters['nearDistance']);
+                        $filterNear = true;
+                    }
                     break;
                 
                 default:
@@ -88,6 +98,12 @@ class FestivalRepository extends AbstractRepository
                 case 'importance':
                     $expr = "$importanceExpr $directionSql";
                     $query->orderByRaw($expr);
+                    break;
+                
+                case 'distance':
+                    if ($filterNear) {
+                        $this->orderBy($query, $field, $direction);
+                    }
                     break;
                 
                 default:

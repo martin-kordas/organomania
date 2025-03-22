@@ -14,7 +14,7 @@
     $label = __($sortOption['shortLabel'] ?? $sortOption['label']);
 @endphp
 
-<th {{ $attributes->class(['position-sticky' => $sticky, 'start-0' => $sticky]) }}>
+<th {{ $attributes->class(['text-nowrap', 'position-sticky' => $sticky, 'start-0' => $sticky]) }}>
     <a
         href="#"
         class="link-primary link-underline-opacity-50 link-underline-opacity-75-hover"
@@ -22,7 +22,7 @@
         {{-- Bootstrap title nefunguje správně, protože se mění text stejného tooltipu --}}
         title="{{ __("Seřadit podle sloupce :column $newDirectionText", ['column' => __($sortOption['label'])]) }}"
     >
-        {{ $label }}
+        <span class="text-wrap">{{ $label }}</span>
     </a>
     @if ($icon)
         <i class="{{ $icon }}"></i>

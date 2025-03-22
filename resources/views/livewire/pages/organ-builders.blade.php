@@ -28,6 +28,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     const SORT_OPTIONS = [
         ['column' => 'name', 'label' => 'Varhanář/dílna', 'type' => 'alpha'],
         ['column' => 'municipality', 'label' => 'Lokalita', 'type' => 'alpha'],
+        ['column' => 'distance', 'label' => 'Vzdálenost', 'shortLabel' => 'Vzdál.', 'type' => 'numeric'],
         ['column' => 'active_from_year', 'label' => 'Období', 'type' => 'numeric'],
         ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric'],
         ['column' => 'organs_count', 'label' => 'Počet varhan', 'type' => 'numeric', 'shortLabel' => 'Varhany'],

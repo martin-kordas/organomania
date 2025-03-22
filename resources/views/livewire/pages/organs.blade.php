@@ -48,13 +48,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private bool $showFilterHasDisposition = true;
 
     const SORT_OPTIONS = [
-        ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric'],
+        ['column' => 'municipality', 'label' => 'Obec', 'type' => 'alpha'],
+        ['column' => 'distance', 'label' => 'Vzdálenost', 'shortLabel' => 'Vzdál.', 'type' => 'numeric'],
         ['column' => 'organ_builder', 'label' => 'Varhanář', 'type' => 'numeric'],
         ['column' => 'year_built', 'label' => 'Rok', 'type' => 'numeric'],
         ['column' => 'manuals_count', 'label' => 'Počet manuálů', 'shortLabel' => 'Man.', 'type' => 'numeric'],
         ['column' => 'stops_count', 'label' => 'Počet rejstříků', 'shortLabel' => 'Rejstříky', 'type' => 'numeric'],
         ['column' => 'original_stops_count', 'label' => 'Rejstříků původně', 'shortLabel' => 'Rejstříků původně', 'type' => 'numeric'],
-        ['column' => 'municipality', 'label' => 'Obec', 'type' => 'alpha'],
+        ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric'],
     ];
 
     public function boot(OrganRepository $repository, Organ $model, OrganCategoryModel $categoryModel)

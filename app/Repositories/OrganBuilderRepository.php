@@ -29,10 +29,11 @@ class OrganBuilderRepository extends AbstractRepository
         $with = self::ORGAN_BUILDERS_WITH, $withCount = self::ORGAN_BUILDERS_WITH_COUNT
     ): Builder
     {
-        $query = OrganBuilder::query()->inland();
+        $query = OrganBuilder::query()->select('*')->inland();
 
         if (!empty($with)) $query->with($with);
         if (!empty($withCount)) $query->withCount($withCount);
+        $filterNear = false;
         
         foreach ($filters as $field => $value) {
             $value = $this->trimFilterValue($value);
@@ -64,6 +65,15 @@ class OrganBuilderRepository extends AbstractRepository
                     $this->filterEntityQuery($query, $field, $value);
                     break;
                 
+                case 'nearLongitude':
+                case 'nearLatitude':
+                case 'nearDistance':
+                    if ($field === 'nearLongitude' && isset($filters['nearLatitude'], $filters['nearDistance'])) {
+                        $this->filterNear($query, $filters['nearLatitude'], $filters['nearLongitude'], $filters['nearDistance']);
+                        $filterNear = true;
+                    }
+                    break;
+                
                 default:
                     throw new \LogicException;
             }
@@ -84,6 +94,12 @@ class OrganBuilderRepository extends AbstractRepository
                 
                 case 'organs_count':
                     $query->orderByRaw("organs_count + organ_rebuilds_count $direction");
+                    break;
+                
+                case 'distance':
+                    if ($filterNear) {
+                        $this->orderBy($query, $field, $direction);
+                    }
                     break;
                 
                 default:

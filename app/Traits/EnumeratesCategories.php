@@ -15,6 +15,12 @@ trait EnumeratesCategories
         return $this->getData()['name'];
     }
     
+    public function getShortName(): string
+    {
+        $data = $this->getData();
+        return $data['shortName'] ?? $data['name'];
+    }
+    
     public function getDescription(): ?string
     {
         $description = $this->getData()['description'] ?? null;

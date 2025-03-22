@@ -54,6 +54,8 @@ new class extends Component {
     
     public function boot(OrganRepository $repository)
     {
+        $this->bootCommon($repository);
+
         $this->categoriesRelation = 'organCategories';
         $this->customCategoriesRelation = 'organCustomCategories';
         $this->exportFilename = 'organs.json';
@@ -74,8 +76,6 @@ new class extends Component {
             && $this->viewType === 'map'
             && empty($this->filters)
             && empty($this->filterCategories);
-
-        $this->bootCommon($repository);
     }
 
     #[Computed]
@@ -89,6 +89,18 @@ new class extends Component {
         if ($this->filterConcertHall) $filters['concertHall'] = $this->filterConcertHall;
         if ($this->filterForeignOrganBuilder) $filters['foreignOrganBuilder'] = $this->filterForeignOrganBuilder;
         if ($this->filterHasDisposition) $filters['hasDisposition'] = $this->filterHasDisposition;
+
+        //  - pokud filtrujeme varhan podle vzdálenosti, obvykle je nearLatitude nastavena na vysoké číslo, které zahrne všechny varhany
+        //  - pro účet Martin Kordas s velkým množstvím varhan zobrazíme na mapě z výkonnostních důvodů jen varhany v okruhu 25 km
+        if (
+            Auth::id() === User::USER_ID_MARTIN_KORDAS
+            && $this->repository instanceof OrganRepository
+            && $this->viewType === 'map'
+            && isset($filters['nearLatitude'])
+        ) {
+            $filters['nearDistance'] = 25;
+        }
+
         return $filters;
     }
 

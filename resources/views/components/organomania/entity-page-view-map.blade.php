@@ -49,7 +49,7 @@
                 @php
                     $latitude = $this->filterNearLatitude ? (float)$this->filterNearLatitude : null;
                     $longitude = $this->filterNearLongitude ? (float)$this->filterNearLongitude : null;
-                    $nearCoordinate = $organ->latitude === $this->filterNearLatitude && $organ->longitude === $this->filterNearLongitude;
+                    $nearCoordinate = $this->isFilterNearCenter($organ);
 
                     $lightness = $this->getMapMarkerLightness($organ);
                 @endphp

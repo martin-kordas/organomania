@@ -26,7 +26,7 @@ trait HasOrganCategoryAnswers
         $correctCategory = $this->correctAnswer->answerContent;
         $categories = OrganCategory::cases();
         
-        return static::getEntities()
+        return $this->getEntities()
             ->reject(
                 fn (OrganCategory $category) => $category === $correctCategory
             )
@@ -46,7 +46,7 @@ trait HasOrganCategoryAnswers
         throw new LogicException('Metoda musí být přepsána v podtřídě.');
     }
     
-    public static function getEntities(): Collection
+    public function getEntities(): Collection
     {
         return collect(OrganCategory::cases())->filter(
             static::isRelevantCategory(...)

@@ -14,10 +14,16 @@
         if ($isRebuild) $yearBuiltStr .= ', ' . __('přestavba');
         $details[] = $yearBuiltStr;
     }
+    $regularName = $name ?? $organBuilder->name ?? null;
 @endphp
 
 <span>
-    {{ $name ?? $organBuilder->name ?? $placeholder }}
+    @isset($regularName)
+        {{ $name ?? $organBuilder->name }}
+    @else
+        <span class="text-body-secondary">{{ $placeholder }}</span>
+    @endisset
+
     @if ($organBuilder && !$organBuilder->isPublic())
         <i class="bi bi-lock text-warning"></i>
     @endif

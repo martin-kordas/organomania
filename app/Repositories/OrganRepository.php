@@ -34,10 +34,11 @@ class OrganRepository extends AbstractRepository
         $with = self::ORGANS_WITH, $withCount = self::ORGANS_WITH_COUNT
     ): Builder
     {
-        $query = Organ::query();
+        $query = Organ::query()->select('*');
 
         if (!empty($with)) $query->with($with);
         if (!empty($withCount)) $query->withCount($withCount);
+        $filterNear = false;
         
         foreach ($filters as $field => $value) {
             $value = $this->trimFilterValue($value);
@@ -113,6 +114,7 @@ class OrganRepository extends AbstractRepository
                 case 'nearDistance':
                     if ($field === 'nearLongitude' && isset($filters['nearLatitude'], $filters['nearDistance'])) {
                         $this->filterNear($query, $filters['nearLatitude'], $filters['nearLongitude'], $filters['nearDistance']);
+                        $filterNear = true;
                     }
                     break;
                 
@@ -143,6 +145,12 @@ class OrganRepository extends AbstractRepository
                 case 'manuals_count':
                     $this->orderBy($query, $field, $direction);
                     $this->orderBy($query, 'stops_count', $direction);
+                    break;
+                
+                case 'distance':
+                    if ($filterNear) {
+                        $this->orderBy($query, $field, $direction);
+                    }
                     break;
                 
                 default:

@@ -41,6 +41,7 @@ enum OrganBuilderCategory: int implements Category
         ],
         self::NeobaroqueUniversal->value => [
             'name' => 'Neobarokní a univerzální',
+            'shortName' => 'Neobarokní/univerzální',
             'description' => 'Novodobé nástroje čerpající z tradic barokního varhanářství a stylově nevyhraněné nástroje',
         ],
         self::FactoryProduction->value => [

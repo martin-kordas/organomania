@@ -16,7 +16,7 @@ class PeriodCategoryFromLocationOrganBuilderQuestion extends OrganQuestion
     
     protected function scope(Builder $query)
     {
-        $categoryIds = static::getEntities()->pluck('value');
+        $categoryIds = $this->getEntities()->pluck('value');
         
         $query
             ->whereDoesntHave('organRebuilds')

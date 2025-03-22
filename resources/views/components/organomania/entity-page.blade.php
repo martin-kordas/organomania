@@ -53,20 +53,34 @@
                                 <br />{{ __('Seřazení') }}
                             </span>
                             <br />
-                            <span class="badge text-bg-primary text-wrap">{{ $this->getSortLabel() }}</span>
+                            <span class="badge text-bg-primary text-wrap text-break">{{ $this->getSortLabel() }}</span>
                             <br />
                         </a>
 
                         <ul class="dropdown-menu shadow-sm sort-dropdown">
                             @foreach (static::SORT_OPTIONS as $sortOption)
                                 <li>
-                                    <a href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'asc')]) wire:click="sort('{{ $sortOption['column'] }}', 'asc')">
+                                    <a
+                                        href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'asc')])
+                                        @if ($sortOption['column'] === 'distance')
+                                            @click="sortByDistance($wire, 'asc')"
+                                        @else
+                                            wire:click="sort('{{ $sortOption['column'] }}', 'asc')"
+                                        @endif
+                                    >
                                         {{ __($sortOption['label']) }} ({{ __('vzestupně') }})
                                         <i class="float-end bi-sort-{{ $sortOption['type'] }}-up"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'desc')]) wire:click="sort('{{ $sortOption['column'] }}', 'desc')">
+                                    <a
+                                        href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'desc')])
+                                        @if ($sortOption['column'] === 'distance')
+                                            @click="sortByDistance($wire, 'desc')"
+                                        @else
+                                            wire:click="sort('{{ $sortOption['column'] }}', 'desc')"
+                                        @endif
+                                    >
                                         {{ __($sortOption['label']) }} ({{ __('sestupně') }})
                                         <i class="float-end bi-sort-{{ $sortOption['type'] }}-down-alt"></i>
                                     </a>
@@ -202,7 +216,7 @@
             </div>
         </div>
       
-        @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && !in_array($this->viewType, ['map', 'timeline', 'chart']))
+        @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && !$this->filterNearLatitude && !in_array($this->viewType, ['map', 'timeline', 'chart']))
         @php($showOrganInfoHint = $this->entityClass === Organ::class && !in_array($this->viewType, ['chart']))
         @php($showSortImportaceHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && !in_array($this->viewType, ['map', 'timeline']))
         @php($showSortActiveFromYearHint = $this->entityClass === OrganBuilder::class && $this->sortColumn !== 'active_from_year' && !in_array($this->viewType, ['map', 'timeline']))
@@ -219,7 +233,7 @@
                     <div class="text-center">
                         <x-organomania.info-alert class="d-inline-block mb-1">
                             {{ __('Objevte :entityName', ['entityName' => $this->entityNamePluralAkuzativ]) }}
-                            <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#filtersModal" @click="useRegionFilter()">{{ __('ve vašem kraji') }}</a>.
+                            <a class="link-primary text-decoration-none" href="#" @click="sortByDistance($wire)">{{ __('ve vašem okolí') }}</a>.
                         </x-organomania.info-alert>
                     </div>
                 @endif
@@ -308,6 +322,14 @@
             <x-organomania.modals.categories-modal :categoriesGroups="$this->organCategoriesGroups" :categoryClass="$this->categoryClass" />
         @endif
     </div>
+        
+    <x-organomania.toast toastId="sortByDistanceRunning">
+        {{ __('Počkejte prosím, probíhá Vaší zjišťování polohy') }}&hellip;
+    </x-organomania.toast>
+    <x-organomania.toast toastId="sortByDistanceError" color="danger">
+        {{ __('Automatické zjištění Vaší polohy se nezdařilo.') }}
+        {{ __('Zvolte prosím alespoň kraj, kde se nacházíte.') }}
+    </x-organomania.toast>
 </div>
 
 @script
@@ -316,7 +338,38 @@
         setTimeout(
             () => $('#filterRegion').select2('open'),
             500
-        );
+        )
+    }
+        
+    window.sortByDistance = function ($wire, direction = 'asc') {
+        let handleError = function (errorToastId) {
+            if (errorToastId) showToast(errorToastId)
+            openModal('#filtersModal')
+            useRegionFilter()
+        }
+            
+        let sort = function () {
+            $wire.sort('distance', direction)
+        }
+        
+        let getPositionSuccess = function ({ coords }) {
+            $wire.filterNearLatitude = coords.latitude
+            $wire.filterNearLongitude = coords.longitude
+            $wire.filterNearDistance = 1000000
+            sort()
+        }
+            
+        let getPositionError = () => handleError('sortByDistanceError')
+        
+        // souřadnice již v komponentě existují, není nutné provádět geolokaci
+        if ($wire.filterNearLatitude) sort();
+        else if (!navigator.geolocation) handleError()
+        else {
+            showToast('sortByDistanceRunning')
+            navigator.geolocation.getCurrentPosition(
+                getPositionSuccess, getPositionError
+            )
+        }
     }
 </script>
 @endscript

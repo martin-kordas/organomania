@@ -382,7 +382,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             @endif
                         @endforeach
                     @else
-                        {{ __('neznámý') }}
+                        <span class="text-body-secondary">{{ __('neznámý') }}</span>
                     @endif
                 </div>
             </td>
@@ -766,7 +766,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.accordion-item>
         @endif
       
-        @can('viewWorshipSongs', $organ)
+        @if (Gate::allows('viewWorshipSongs', $organ) && !$organ->concert_hall)
             <x-organomania.accordion-item
                 id="accordion-worship-songs"
                 class="d-print-none"
@@ -786,7 +786,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @endif
                 </div>
             </x-organomania.accordion-item>
-        @endcan
+        @endif
 
         @if ($organ->latitude > 0)
             <x-organomania.accordion-item

@@ -632,7 +632,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
     </div>
     
-    @if ($organBuilder->isPublic())
+    @if ($organBuilder->isPublic() && $organBuilder->isInland())
         <div class="text-center mt-3">
             <x-organomania.info-alert class="d-inline-block mb-1">
                 {!! __('O stylovém vývoji našeho varhanářství více') !!}

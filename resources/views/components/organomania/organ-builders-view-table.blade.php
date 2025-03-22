@@ -6,6 +6,7 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 use App\Models\OrganBuilder;
+use App\Helpers;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
     
@@ -31,6 +32,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <th>&nbsp;</th>
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('name')" :sticky="true" />
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('municipality')" />
+                    @if ($this->hasDistance)
+                        <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('distance')" />
+                    @endif
                     <th>{{ __('Kraj') }}</th>
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('active_from_year')" />
                     <th>{{ __('Kategorie') }}</th>
@@ -55,13 +59,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             </a>
                         </td>
                         <td>{{ $organBuilder->municipality }}</td>
+                        @if ($this->hasDistance)
+                            <td class="text-end">
+                                @if (!$this->isFilterNearCenter($organBuilder))
+                                    {{ Helpers::formatNumber($organBuilder->distance / 1000, decimals: 1) }}&nbsp;<span class="text-body-secondary">km</span>
+                                    <i class="bi bi-arrow-up d-inline-block text-info" style="transform: rotate({{ $organBuilder->angle }}deg)"></i>
+                                @endif
+                            </td>
+                        @endif
                         <td data-bs-toggle="tooltip" data-bs-title="{{ $organBuilder->region->name }}">
                             <img width="70" class="region me-1" src="{{ Vite::asset("resources/images/regions/{$organBuilder->region_id}.png") }}" />
                         </td>
                         <td>{{ $organBuilder->active_period }}</td>
                         <td>
                             @foreach ($organBuilder->getGeneralCategories() as $category)
-                                <x-organomania.category-badge :category="$category->getEnum()" />
+                                <x-organomania.category-badge :category="$category->getEnum()" shortName />
                             @endforeach
                         </td>
                         <td>

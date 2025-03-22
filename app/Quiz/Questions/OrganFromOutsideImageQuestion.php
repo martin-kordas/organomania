@@ -34,17 +34,25 @@ class OrganFromOutsideImageQuestion extends OrganQuestion
         );
     }
     
+    public function getEntities(): Collection
+    {
+        // v selectu varhan zobrazit jen dotazované varhany bez dalších varhan na stejných souřadnicích
+        return static::getEntitiesQuery()
+            ->where(function (Builder $query) {
+                $query
+                    ->where('id', $this->questionedEntity->id)
+                    ->orWhere($this->answerScope(...));
+            })
+            ->get();
+    }
+    
     protected function answerScope(Builder $query)
     {
-        // v odpovědích nesmí být nástroje umístěné na stejném místě
-        //  - takové nástroje mají obvykle place stejné, liší se jen závorkou (např. "(boční kůr)")
-        //  - alternativně lze shodu místa určit pomocí souřadnic (ale nejprve by bylo nutné zkontrolovat, zda jsou souřadnice opravdu blízko u sebe)
-        //  - TODO: stejné scope by mělo být použito pro ::getEntitiesQuery(), ale metoda by se musela nejprve převést na nestatickou
+        // vyřadit z odpovědí nástroje umístěné na stejném místě jako dotazovaný nástroj, aby nebylo více správných odpovědí
         $query->whereNot(function (Builder $query) {
-            $place = str($this->questionedEntity->place)->replaceMatches('/, .+$/', '');
             $query
-                ->where('municipality', $this->questionedEntity->municipality)
-                ->whereLike('place', "$place%");
+                ->where('latitude', $this->questionedEntity->latitude)
+                ->where('longitude', $this->questionedEntity->longitude);
         });
     }
     

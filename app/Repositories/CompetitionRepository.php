@@ -25,7 +25,7 @@ class CompetitionRepository extends AbstractRepository
         $with = self::COMPETITIONS_WITH, $withCount = self::COMPETITIONS_WITH_COUNT
     ): Builder
     {
-        $query = Competition::query();
+        $query = Competition::query()->select('*');
 
         if (!empty($with)) $query->with($with);
         if (!empty($withCount)) $query->withCount($withCount);

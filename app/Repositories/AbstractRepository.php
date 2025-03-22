@@ -38,17 +38,21 @@ class AbstractRepository
     // filtry společné pro různé entity
     protected function filterEntityQuery(Builder $query, $field, $value)
     {
+        // kvůli joinům může nastávat konflikt názvů sloupců, proto uvádíme i tabulku
+        //  - např. v organs se někdy joinuje organ_builders
+        $tbl = $query->getModel()->getTable();
+        
         switch ($field) {
             case 'id':
                 $this->filter($query, 'id', $value);
                 break;
             
             case 'regionId':
-                $this->filter($query, 'region_id', $value);
+                $query->where("$tbl.region_id", $value);
                 break;
 
             case 'importance':
-                $query->where('importance', '>=', $value * 2 - 1);
+                $query->where("$tbl.importance", '>=', $value * 2 - 1);
                 break;
 
             case 'isFavorite':
@@ -58,8 +62,8 @@ class AbstractRepository
                 break;
 
             case 'isPrivate':
-                if ($value) $query->whereNotNull('user_id');
-                else $query->whereNull('user_id');
+                if ($value) $query->whereNotNull("$tbl.user_id");
+                else $query->whereNull("$tbl.user_id");
                 break;
                     
             default:
@@ -76,12 +80,20 @@ class AbstractRepository
     {
         $tbl = $query->getModel()->getTable();
         
-        $query->whereRaw("
+        $query->selectRaw("
             ST_DISTANCE_SPHERE(
                 POINT($tbl.longitude, $tbl.latitude),
                 POINT(?, ?)
-            ) <= ?
-        ", [$longitude, $latitude, $nearDistance * 1000]);
+            ) AS distance
+        ", [$longitude, $latitude]);
+        
+        $query->selectRaw("
+            DEGREES(
+                ATAN2($tbl.longitude - ?, $tbl.latitude - ?)
+            ) AS angle
+        ", [$longitude, $latitude]);
+        
+        $query->having('distance', '<=', $nearDistance * 1000);
     }
     
     protected function trimFilterValue($value)

@@ -1,3 +1,5 @@
+@props(['shortName' => false])
+
 <a
     href="{{ $category->getItemsUrl() }}"
     @if ($newTab) target="_blank" @else wire:navigate @endif
@@ -11,6 +13,6 @@
     @if (!$slot->isEmpty())
         {{ $slot }}
     @else
-        {{ __($category->getName()) }}
+        {{ __($shortName ? $category->getShortName() : $category->getName()) }}
     @endif
 </a>

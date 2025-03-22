@@ -237,7 +237,7 @@ abstract class Question
         if (!empty($excludedEntityIds)) $query->whereNotIn('id', $excludedEntityIds);
         if (isset($scope)) $scope($query);
         
-        //$query->whereIn('id', [1, 2, 3, 4]);
+        //$query->whereIn('id', [37, 38, 1]);
         
         return $query
             ->inRandomOrder()
@@ -245,7 +245,7 @@ abstract class Question
             ->get();
     }
     
-    public static function getEntities(): Collection
+    public function getEntities(): Collection
     {
         return static::getEntitiesQuery()->get();
     }

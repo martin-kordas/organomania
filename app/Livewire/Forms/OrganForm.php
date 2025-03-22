@@ -164,7 +164,7 @@ class OrganForm extends Form
                 }
             }
         }
-        if ($this->public && $periodCategoriesCount <= 0) {
+        if ($this->isOrganPublic() && $periodCategoriesCount <= 0) {
             $validator->errors()->add('categories', 'Je nutné zadat alespoň 1 kategorii období.');
         }
     }

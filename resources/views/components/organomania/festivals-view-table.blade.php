@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use App\Models\Festival;
 use App\Helpers;
 
+// TODO: proč je to Livewire komponenta? organs-view-table není
 new #[Layout('layouts.app-bootstrap')] class extends Component {
     
     use WithPagination;
@@ -32,6 +33,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('name')" :sticky="true" />
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('locality')" />
                     <th>{{ __('Místo konání') }}</th>
+                    @if ($this->hasDistance)
+                        <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('distance')" />
+                    @endif
                     <th>{{ __('Kraj') }}</th>
                     <th>{{ __('Varhany') }}</th>
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('starting_month')" />
@@ -54,6 +58,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <td>
                             {{ $festival->place }}
                         </td>
+                        @if ($this->hasDistance)
+                            <td class="text-end">
+                                @if (!$this->isFilterNearCenter($festival))
+                                    {{ Helpers::formatNumber($festival->distance / 1000, decimals: 1) }}&nbsp;<span class="text-body-secondary">km</span>
+                                    <i class="bi bi-arrow-up d-inline-block text-info" style="transform: rotate({{ $festival->angle }}deg)"></i>
+                                @endif
+                            </td>
+                        @endif
                         <td>
                             @isset($festival->region_id)
                                 <span data-bs-toggle="tooltip" data-bs-title="{{ $festival->region->name }}">

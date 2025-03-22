@@ -57,19 +57,23 @@ enum OrganCategory: int implements Category
         ],
         self::NeobaroqueUniversal->value => [
             'name' => 'Neobarokní a univerzální',
+            'shortName' => 'Neobarokní/univerzální',
             'description' => 'Novodobé nástroje, které se vracejí ke zvukovým ideálům barokních varhan, nebo jsou stylově nevyhraněné a umožňují tak hru skladeb všech období',
         ],
         
         self::Oldest->value => [
             'name' => 'Mimořádně starobylé',
+            'shortName' => 'Starobylé',
             'description' => 'Varhany patřící mezi nejstarší na našem území',
         ],
         self::Biggest->value => [
             'name' => 'Mimořádně velké',
+            'shortName' => 'Velké',
             'description' => 'Varhany patřící v době svého vzniku k největším',
         ],
         self::ValuableCase->value => [
             'name' => 'Mimořádně cenná skříň',
+            'shortName' => 'Cenná skříň',
             'description' => 'Varhany postavené do výtvarně nebo konstrukčně cenné skříně',
         ],
         

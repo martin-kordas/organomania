@@ -1,5 +1,7 @@
 @props(['organs'])
 
+@use(App\Helpers)
+
 <div class="table-responsive">
     <table class="table table-hover table-sm align-middle">
         <thead>
@@ -7,6 +9,9 @@
                 <th>&nbsp;</th>
                 <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('municipality')" :sticky="true" />
                 <th>{{ __('Místo') }}</th>
+                @if ($this->hasDistance)
+                    <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('distance')" />
+                @endif
                 <th>{{ __('Kraj') }}</th>
                 <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('organ_builder')" />
                 <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('year_built')" />
@@ -37,6 +42,14 @@
                             {{ $organ->place }}
                         </a>
                     </td>
+                    @if ($this->hasDistance)
+                        <td class="text-end">
+                            @if (!$this->isFilterNearCenter($organ))
+                                {{ Helpers::formatNumber($organ->distance / 1000, decimals: 1) }}&nbsp;<span class="text-body-secondary">km</span>
+                                <i class="bi bi-arrow-up d-inline-block text-info" style="transform: rotate({{ $organ->angle }}deg)"></i>
+                            @endif
+                        </td>
+                    @endif
                     <td data-bs-toggle="tooltip" data-bs-title="{{ $organ->region->name }}">
                         <img width="70" class="region me-1" src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
                     </td>
@@ -47,12 +60,16 @@
                         @endif
                     </td>
                     <td class="text-end">{{ $organ->year_built }}</td>
-                    <td class="text-end">{{ $organ->manuals_count }}</td>
+                    <td class="text-end">
+                        @isset($organ->manuals_count)
+                            {{ Helpers::formatRomanNumeral($organ->manuals_count) }}
+                        @endisset
+                    </td>
                     <td class="text-end">{{ $organ->stops_count }}</td>
                     <td>
                         @foreach ($organ->organCategories as $category)
                             @if (!$category->getEnum()->isPeriodCategory() && !$category->getEnum()->isTechnicalCategory())
-                                <x-organomania.category-badge :category="$category->getEnum()" />
+                                <x-organomania.category-badge :category="$category->getEnum()" shortName />
                             @endif
                         @endforeach
                     </td>

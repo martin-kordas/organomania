@@ -309,6 +309,10 @@ window.removeTooltips = function () {
     $('.dropdown-menu').removeClass('show')
 }
 
+window.openModal = function (selector) {
+    new bootstrap.Modal($(selector)[0]).show()
+}
+
 function showThumbnailOrgan($wire, organId) {
     new bootstrap.Modal($('#organThumbnail')[0]).show()
     $wire.setThumbnailOrgan(organId)

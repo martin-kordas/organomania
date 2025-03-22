@@ -75,13 +75,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             $category = OrganBuilderCategory::tryFrom((int)$categoryId);
             if ($category !== null && $category->isPeriodCategory()) {
                 $periodCategoriesCount++;
-                if ($periodCategoriesCount >= 2) {
-                    $validator->errors()->add('categories', 'Lze zadat nejvýše 1 kategorii období.');
-                    break;
-                }
             }
         }
-        if ($this->public && $periodCategoriesCount <= 0) {
+        if ($this->isOrganBuilderPublic() && $periodCategoriesCount <= 0) {
             $validator->errors()->add('categories', 'Je nutné zadat alespoň 1 kategorii období.');
         }
     }
