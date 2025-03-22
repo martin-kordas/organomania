@@ -87,6 +87,8 @@ Route::get('organs/dolni-lhota-songs', [OrganController::class, 'redirectToDolni
     ->name('demo-songs');
 Volt::route('organs/{organSlug}', 'pages.organ-show')
     ->name('organs.show');
+Volt::route('varhany/{organSlug}', 'pages.organ-show')
+    ->name('organs.show-cs');
 Route::get('export/organs', [ExportController::class, 'exportOrgans'])
     ->name('organs.export');
 Volt::route('organs/{organSlug}/songs', 'pages.worship-songs')
@@ -100,6 +102,8 @@ Volt::route('custom-category-organ-builders', 'pages.organ-builders')
     ->name('organ-builders.custom-category-organ-builders.index');
 Volt::route('organ-builders/{organBuilder}', 'pages.organ-builder-show')
     ->name('organ-builders.show');
+Volt::route('varhanari/{organBuilder}', 'pages.organ-builder-show')
+    ->name('organ-builders.show-cs');
 Route::get('export/organ-builders', [ExportController::class, 'exportOrganBuilders'])
     ->name('organ-builders.export');
 

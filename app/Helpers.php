@@ -234,6 +234,16 @@ class Helpers
         }
         if (isset($lang)) $params['lang'] = $lang;
         
+        // HACK: lokalizované routy
+        if (request()->routeIs(['organs.show', 'organs.show-cs'])) {
+            if ($lang === 'cs') $url = str($url)->replace('/organs/', '/varhany/');
+            elseif ($lang === 'en') $url = str($url)->replace('/varhany/', '/organs/');
+        }
+        elseif (request()->routeIs(['organ-builders.show', 'organ-builders.show-cs'])) {
+            if ($lang === 'cs') $url = str($url)->replace('/organ-builders/', '/varhanari/');
+            elseif ($lang === 'en') $url = str($url)->replace('/varhanari/', '/organ-builders/');
+        }
+        
         $query = http_build_query($params);
         if ($query) $query = "?$query";
         return $url . $query;
