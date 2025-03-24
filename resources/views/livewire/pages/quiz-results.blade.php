@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
@@ -9,6 +11,8 @@ use App\Helpers;
 use App\Models\QuizResult;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
+
+    public bool $userResults = false;
 
     #[Computed]
     public function title()
@@ -37,10 +41,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function getQuizResults(QuizDifficultyLevel $difficultyLevel)
     {
+        $userId = Auth::id();
+
         // TODO: lepší by bylo načíst pro každého uživatele s jménem jen 1 výsledek (a pro anonymní negroupovat)
         return QuizResult::query()
             ->where('difficulty_level', $difficultyLevel->value)
             ->where('score', '>', 0)
+            ->when($this->userResults && $userId, function (Builder $query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
             ->orderBy('score', 'desc')
             ->orderBy('created_at', 'desc')
             ->take(20)
@@ -49,8 +58,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function getAverageScore(QuizDifficultyLevel $difficultyLevel)
     {
+        $userId = Auth::id();
+
         return QuizResult::query()
             ->where('difficulty_level', $difficultyLevel->value)
+            ->when($this->userResults && $userId, function (Builder $query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
             ->avg('score');
     }
 
@@ -64,6 +78,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     
     <h3>{{ $this->title }}</h3>
     
+    @if (Auth::check())
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="userResults" wire:model.live="userResults">
+            <label class="form-check-label" for="userResults">{{ __('Jen moje výsledky') }}</label>
+        </div>
+    @endif
+    
     <ul class="nav nav-tabs mt-3" role="tablist">
         @foreach ($this->difficultyLevels as $difficultyLevel)
             <li class="nav-item" role="presentation">
@@ -76,6 +97,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     role="tab"
                     aria-controls="difficultyLevelContent{{ $difficultyLevel->value }}"
                     aria-selected="true"
+                    wire:ignore.self
                 >
                     {{ $difficultyLevel->getName() }} {{ __('obtížnost') }}
                 </button>
@@ -90,6 +112,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 role="tabpanel"
                 aria-labelledby="difficultyLevelContent{{ $difficultyLevel->value }}"
                 tabindex="0"
+                wire:ignore.self
             >
                 @php
                     $quizResults = $this->getQuizResults($difficultyLevel);

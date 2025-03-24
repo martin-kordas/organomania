@@ -107,24 +107,9 @@
         
         <h2 class="text-center fs-3 mb-3">{{ __('Kam dál?') }}</h2>
         
-        <div class="row g-4 align-items-stretch mb-3">
-            <div class="organ col-lg-4 mx-auto" style="cursor: pointer;" data-target-url="{{ route('about-organ') }}" onclick="location.href = this.dataset.targetUrl">
-                <div class="position-relative p-2 border border-tertiary rounded h-100 w-100">
-                    <div class="d-flex">
-                        <h5 class="me-2 mb-0 mt-0 me-auto align-self-center">
-                            <i class="bi bi-file-text"></i>
-                            {{ __('O varhanách') }}
-                        </h5>
-                        <p class="mb-0">
-                            <a class="btn btn-sm btn-secondary" href="{{ route('about-organ') }}" wire:navigate>{{ __('Zobrazit') }} »</a>
-                        </p>
-                    </div>
-                    <small>
-                        {{ __('Varhany a jejich stylový vývoj v českých zemích.') }}
-                    </small>
-                </div>
-            </div>
-        </div>
+        <x-organomania.welcome-card-small title="{{ __('O varhanách') }}" url="{{ route('about-organ') }}" icon="file-text">
+            {{ __('Varhany a jejich stylový vývoj v českých zemích.') }}
+        </x-organomania.welcome-card-small>
         
         <div class="row text-center g-4 align-items-stretch">
             <x-organomania.welcome-card
@@ -183,6 +168,10 @@
                 </x-slot:footer>
             </x-organomania.welcome-card>
         </div>
+        
+        <x-organomania.welcome-card-small title="{{ __('Varhanní kvíz') }}" url="{{ route('quiz') }}" icon="patch-question">
+            {{ __('Prověřte a poměřte své znalosti o varhanách.') }}
+        </x-organomania.welcome-card-small>
         
         <div class="py-3 px-1 mt-4 pb-2 mx-auto text-center">
             <p class="fs-5 text-body-secondary">

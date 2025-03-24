@@ -266,7 +266,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <meta name="description" content="{{ __('Prověřte své znalosti o významných varhanách a varhanářích pomocí všestranného kvízu s 3 úrovněmi obtížnosti. Porovnejte své skóre s ostatními.') }}">
     @endpush
     
-    <h3 class="mb-3">{{ $this->title }}</h3>
+    <h3 class="mb-3">
+        <i class="bi bi-patch-question"></i>
+        {{ $this->title }}
+    </h3>
     
     <form class="mb-4 position-relative" @if ($this->isStart()) wire:submit="start" @endif>
         <div wire:loading.block wire:loading.class="opacity-75" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
