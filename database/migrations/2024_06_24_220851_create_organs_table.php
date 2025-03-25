@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('slug', length: 500);
             $table->string('place', length: 500);
             $table->string('municipality', length: 50);
+            $table->string('location_base_words', length: 200)->nullable();
             $table->double('latitude');
             $table->double('longitude');
             $table->foreignId('region_id')->constrained();

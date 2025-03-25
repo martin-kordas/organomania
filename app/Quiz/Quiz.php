@@ -57,7 +57,7 @@ class Quiz
             fn (mixed $answerContent) => $answerContent instanceof $entityClass
         );
         
-        return collect([...$questionEntities, ...$answerEntities])->unique();
+        return collect([...$questionEntities, ...$answerEntities])->unique('id');
     }
     
     public function getOrgans()

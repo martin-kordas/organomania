@@ -44,7 +44,7 @@ class MunicipalityFromOrganBuilderQuestion extends OrganBuilderQuestion
             ->map($this->createAnswer(...));
     }
     
-    public static function getEntities(): Collection
+    public function getEntities(): Collection
     {
         throw new LogicException('Neimplementováno.');
     }

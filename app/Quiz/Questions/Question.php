@@ -6,6 +6,7 @@ use App\Enums\QuizDifficultyLevel;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Quiz\AnswerFactory;
 use App\Quiz\Answers\Answer;
+use App\Services\MarkdownConvertorService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -62,6 +63,7 @@ abstract class Question
     protected static ?QuizDifficultyLevel $withoutAnswersFromDifficulty = QuizDifficultyLevel::Advanced;
     
     protected const array EXCLUDED_ENTITY_IDS = [];
+    protected const array INCLUDED_ENTITY_IDS = [];
     
     public function __construct(
         protected QuizDifficultyLevel $difficultyLevel,
@@ -75,6 +77,7 @@ abstract class Question
             minImportance: $this->minImportance,
             scope: $this->scope(...),
             excludedEntityIds: static::EXCLUDED_ENTITY_IDS,
+            includedEntityIds: static::INCLUDED_ENTITY_IDS,
         ) ?? throw new RuntimeException('Pro otázku nebyla nalezena žádná entita.');
         
         $this->correctAnswer = $this->getCorrectAnswer();
@@ -170,6 +173,7 @@ abstract class Question
         ?Model $correctAnswerEntity = null,
         callable|false|null $scope = null,
         array $excludedEntityIds = null,
+        array $includedEntityIds = null,
     ): Collection
     {
         $entityClass ??= static::$entityClass;
@@ -179,6 +183,7 @@ abstract class Question
         //  - v takovém případě nemá smysl aplikovat výchozí scope a další parametry
         if ($entityClass === static::$entityClass) {
             $correctAnswerEntity ??= $this->questionedEntity;
+            // INCLUDED_ENTITY_IDS ve výchozím stavu nezahrnujeme, příliš by omezily množinu záznamů
             $excludedEntityIds ??= static::EXCLUDED_ENTITY_IDS;
             if ($this->applyScopeForAnswers) {
                 $scope ??= $this->scope(...);
@@ -198,6 +203,7 @@ abstract class Question
             },
             minImportance: $this->minImportance,
             excludedEntityIds: $excludedEntityIds,
+            includedEntityIds: $includedEntityIds,
         );
         if ($answers->count() < $limit) throw new RuntimeException('Nepodařilo se získat entity pro požadovaný počet odpovědí.');
             
@@ -213,10 +219,12 @@ abstract class Question
         ?int $minImportance = null,
         ?callable $scope = null,
         array $excludedEntityIds = null,
+        array $includedEntityIds = null,
     ): ?Model
     {
         return static::getRandomEntities(
-            1, $entityClass, $minImportance, $scope, $excludedEntityIds
+            1, $entityClass, $minImportance, $scope,
+            $excludedEntityIds, $includedEntityIds
         )->first();
     }
     
@@ -226,6 +234,7 @@ abstract class Question
         ?int $minImportance = null,
         ?callable $scope = null,
         array $excludedEntityIds = null,
+        array $includedEntityIds = null,
     ): Collection
     {
         $entityClass ??= static::$entityClass;
@@ -235,6 +244,7 @@ abstract class Question
         if (method_exists($model, 'scopePublic')) $query->public();
         if (isset($minImportance)) $query->where('importance', '>=', $minImportance);
         if (!empty($excludedEntityIds)) $query->whereNotIn('id', $excludedEntityIds);
+        if (!empty($includedEntityIds)) $query->whereIn('id', $includedEntityIds);
         if (isset($scope)) $scope($query);
         
         //$query->whereIn('id', [37, 38, 1]);
@@ -248,6 +258,32 @@ abstract class Question
     public function getEntities(): Collection
     {
         return static::getEntitiesQuery()->get();
+    }
+    
+    protected function getObfuscatedDescription($description, $baseWords = null)
+    {
+        if (isset($baseWords)) {
+            // výskyty jména varhanáře nahradíme za placeholder
+            $baseWords = explode(',', $baseWords);
+            $placeholder = '//placeholder//';
+            foreach ($baseWords as $word) {
+                $word1 = preg_quote($word, '/');
+                $description = preg_replace(
+                    '/\b' . $word1 . '\S*/iu', $placeholder,
+                    $description
+                );
+            }
+        }
+        
+        $markdownConvertor = app(MarkdownConvertorService::class);
+        $description = $markdownConvertor->convert($description);
+        
+        if (isset($baseWords)) {
+            $description = str_replace('//placeholder//', '<span class="placeholder col-1"></span>', $description);
+            $description = str_replace('*', '', $description);  // pozůstatky po markdownu
+        }
+        
+        return trim($description);
     }
     
 }

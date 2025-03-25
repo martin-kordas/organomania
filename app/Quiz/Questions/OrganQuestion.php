@@ -33,6 +33,7 @@ abstract class OrganQuestion extends Question
     public static function getEntitiesQuery(): Builder
     {
         return Organ::public()
+            // INCLUDED_ENTITY_IDS záměrně nezohledňujeme (výrazně by to zúžilo množinu odpovědí)
             ->when(!empty(static::EXCLUDED_ENTITY_IDS), function (Builder $query) {
                 $query->whereNotIn('id', static::EXCLUDED_ENTITY_IDS);
             })

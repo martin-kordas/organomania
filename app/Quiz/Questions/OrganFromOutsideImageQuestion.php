@@ -14,7 +14,7 @@ class OrganFromOutsideImageQuestion extends OrganQuestion
     
     protected bool $applyScopeForAnswers = false;
     
-    const int FREQUENCY = 12;
+    const int FREQUENCY = 11;
     
     protected function scope(Builder $query)
     {
