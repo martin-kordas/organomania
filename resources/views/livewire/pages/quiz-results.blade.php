@@ -39,17 +39,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $view->title($this->title);
     }
 
-    private function getQuizResults(QuizDifficultyLevel $difficultyLevel)
+    private function getBaseQuery(QuizDifficultyLevel $difficultyLevel)
     {
         $userId = Auth::id();
 
-        // TODO: lepší by bylo načíst pro každého uživatele s jménem jen 1 výsledek (a pro anonymní negroupovat)
         return QuizResult::query()
             ->where('difficulty_level', $difficultyLevel->value)
-            ->where('score', '>', 0)
             ->when($this->userResults && $userId, function (Builder $query) use ($userId) {
                 $query->where('user_id', $userId);
-            })
+            });
+    }
+
+    private function getQuizResults(QuizDifficultyLevel $difficultyLevel)
+    {
+        // TODO: lepší by bylo načíst pro každého uživatele s jménem jen 1 výsledek (a pro anonymní negroupovat)
+        return $this->getBaseQuery($difficultyLevel)
+            ->where('score', '>', 0)
             ->orderBy('score', 'desc')
             ->orderBy('created_at', 'desc')
             ->take(20)
@@ -58,14 +63,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function getAverageScore(QuizDifficultyLevel $difficultyLevel)
     {
-        $userId = Auth::id();
+        return $this->getBaseQuery($difficultyLevel)->avg('score');
+    }
 
-        return QuizResult::query()
-            ->where('difficulty_level', $difficultyLevel->value)
-            ->when($this->userResults && $userId, function (Builder $query) use ($userId) {
-                $query->where('user_id', $userId);
-            })
-            ->avg('score');
+    private function getQuizCount(QuizDifficultyLevel $difficultyLevel)
+    {
+        return $this->getBaseQuery($difficultyLevel)->count();
     }
 
 }; ?>
@@ -121,6 +124,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @if ($quizResults->isEmpty())
                     <div class="text-body-secondary text-center">{{ __('zatím žádné výsledky') }}</div>
                 @else
+                    <div class="mb-1">
+                        {{ __('Celkem kvízů') }}: <span class="badge text-bg-secondary">{{ $this->getQuizCount($difficultyLevel) }}</span>
+                    </div>
                     <div class="mb-1">
                         {{ __('Průměrné skóre') }}: <span class="badge text-bg-info">{{ Helpers::formatNumber($averageScore, decimals: 1) }}</span>
                     </div>
