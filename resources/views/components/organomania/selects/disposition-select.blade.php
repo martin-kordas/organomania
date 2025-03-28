@@ -17,6 +17,9 @@
         @if (!isset($excludeDispositionId) || $disposition->id !== $excludeDispositionId)
             <option wire:key="{{ $id }}_{{ $disposition->id }}" value="{{ $disposition->id }}">
                 {{ $disposition->name }}
+                @if (!$disposition->isPublic())
+                    &#128274;
+                @endif
             </option>
         @endif
     @endforeach

@@ -121,7 +121,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->form->setOrgan($this->organ);
         $this->previousUrl = request()->headers->get('referer');
 
-        // zobrazení chybových hlášek již na začátku kvůli přehledu,které údaje jsou povinné
+        // zobrazení chybových hlášek již na začátku kvůli přehledu, které údaje jsou povinné
         if (!$this->organ->exists) $this->form->validate();
     }
 

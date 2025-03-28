@@ -15,6 +15,8 @@ use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Computed;
 use App\Models\Like;
 use App\Repositories\AbstractRepository;
+use App\Repositories\OrganRepository;
+use App\Repositories\OrganBuilderRepository;
 use App\Models\Scopes\OwnedEntityScope;
 
 trait EntityPageView
@@ -227,6 +229,21 @@ trait EntityPageView
         if ($this->filterNearLatitude) $filters['nearLatitude'] = (float)$this->filterNearLatitude;
         if ($this->filterNearLongitude) $filters['nearLongitude'] = (float)$this->filterNearLongitude;
         if ($this->filterNearDistance) $filters['nearDistance'] = (float)$this->filterNearDistance;
+        
+        // nastavení $filters['nearDistance']
+        //  - pokud filtrujeme varhan podle vzdálenosti, obvykle je nearDistance nastavena na vysoké číslo, které zahrne všechny varhany
+        //  - na mapě však chceme zobrazit jen varhany v okolí aktuální polohy (tím také opticky vynikne, kde aktuální poloha vlastně je)
+        //  - nastavení nearDistance je také žádoucí pro účet Martin Kordas s velkým množstvím varhan, aby se mapa nepřetížila zobrazením všech varhan v db.
+        //    (mapTooManyItems tomu nezabrání protože $this->filters nejsou prázdné)
+        if (
+            $this->viewType === 'map'
+            && isset($filters['nearLatitude'])
+            && in_array($this->repository::class, [OrganRepository::class, OrganBuilderRepository::class])
+        ) {
+            $filters['nearDistance'] = 25;
+        }
+
+        
         return $filters;
     }
 

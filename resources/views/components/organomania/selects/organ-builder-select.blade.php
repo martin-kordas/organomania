@@ -21,6 +21,9 @@
             @if ($showActivePeriod && $organBuilder->active_period)
                 ({{ $organBuilder->active_period }})
             @endif
+            @if (!$organBuilder->isPublic())
+                &#128274;
+            @endif
         </option>
     @endforeach
 </select>

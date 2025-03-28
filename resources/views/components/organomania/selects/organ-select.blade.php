@@ -21,6 +21,9 @@
             @if ($showOrganBuilder && $organ->organBuilder)
                 ({{ $organ->organBuilder->name }}@if ($organ->year_built), {{$organ->year_built }}@endif)
             @endif
+            @if (!$organ->isPublic())
+                &#128274;
+            @endif
         </option>
     @endforeach
 </select>
