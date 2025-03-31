@@ -3,6 +3,10 @@
 @use(App\Helpers)
 @use(Illuminate\Support\Facades\Auth)
 
+@php
+    $userId = Auth::user()?->id;
+@endphp
+
 <table class="table table-sm table-hover w-auto" style="min-width: min(275px, 100%)">
     <tr>
         @if ($showName)
@@ -27,7 +31,7 @@
     @foreach ($quizResults as $quizResult)
         @php
             $highlight = (
-                $showName && $quizResult->user_id === Auth::user()?->id
+                $showName && $userId && $quizResult->user_id === $userId
                 || $highlightFirst && $loop->first
             );
         @endphp

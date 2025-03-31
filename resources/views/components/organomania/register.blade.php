@@ -29,8 +29,7 @@
         60 => [59],
         61 => [22],
         63 => [62],
-        66 => [67],
-        67 => [66],
+        66 => [67], 67 => [66],
         74 => [38],
         75 => [21],
         76 => [3],
@@ -138,7 +137,11 @@
         </div>
     @endif
     @if ($dispositions->isNotEmpty())<div class="mt-2 small">
-            {{ __('Příklady v dispozicích') }}
+            @if ($pitch)
+                {{ __('Další příklady v dispozicích') }}
+            @else
+                {{ __('Příklady v dispozicích') }}
+            @endif
             <div class="items-list">
                 @foreach ($dispositions as $disposition)
                     <x-organomania.disposition-link

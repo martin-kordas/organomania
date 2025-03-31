@@ -17,6 +17,7 @@
             <i class="bi bi-lock text-warning"></i>
         @endif
 
+        {{-- velikost varhan nejde vypsat ve formátu III/46, protože dispozice nemá jasný počet manuálů (manuál může být jen sada spojek atd.) --}}
         @if ($disposition->real_disposition_registers_count > 0)
             <span class="text-secondary">
                 ({{ $disposition->real_disposition_registers_count }} {{ $disposition->getDeclinedRealDispositionRegisters() }})
