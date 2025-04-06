@@ -56,9 +56,14 @@ class UpdateOrganists extends Command
 
         $organist->subscribers_count = $this->youtube->getChannelSubscriberCount($organist->channel_id);
         $organist->videos_count = $this->youtube->getChannelVideoCount($organist->channel_id);
-        $organist->last_video_date = $lastVideoDate?->format('Y-m-d');
-        $organist->last_video_name = $lastVideo?->getTitle();
-        $organist->last_video_id = $lastVideo?->getResourceId()?->getVideoId();
+        
+        //  - pokud se uložené video liší od posledního videa v kanálu, které je však již staršího data, uložené video posledním videem NEPŘEPÍŠEME
+        //  - patrně jde totiž o případ RUČNĚ PŘEPSANÉHO VIDEA (poslední video v kanálu bylo obsahově irelevantní, proto bylo v db. ručně přepsáno starším relevantním)
+        if (!isset($organist->last_video_id) || $lastVideoDate && $lastVideoDate >= today()->subDay()) {
+            $organist->last_video_date = $lastVideoDate?->format('Y-m-d');
+            $organist->last_video_name = $lastVideo?->getTitle();
+            $organist->last_video_id = $lastVideo?->getResourceId()?->getVideoId();
+        }
 
         if (!isset($organist->avatar_url) || !$organist->localAvatarExists() || $organist->updated_at < now()->subDays(30)) {
             $organist->avatar_url = $this->youtube->getChannelAvatarUrl($organist->channel_id);
