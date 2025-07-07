@@ -14,7 +14,7 @@
     use Carbon\Carbon;
 @endphp
 
-<div class="modal fade" id="filtersModal" tabindex="-1" data-focus="false" aria-labelledby="filtersModalLabel" aria-hidden="true" @keydown.enter="onEnter" data-autofocus="{{ $this->filtersModalAutofocus }}">
+<div class="modal fade" id="filtersModal" tabindex="-1" data-focus="false" aria-labelledby="filtersModalLabel" aria-hidden="true" @keydown.enter="onEnter" data-autofocus="{{ $this->filtersModalAutofocus }}" wire:ignore.self>
     <div @class(['modal-dialog', 'modal-dialog-scrollable' => $this->filtersModalScrollable])>
         <form class="filters-form modal-content" onsubmit="return false">
             <div class="modal-header">
@@ -171,7 +171,10 @@
     }
     
     window.setFilterMonth = function (month) {
-        $('#filterMonth').val(month).trigger('change')
+        // TODO: filtr se ihned aplikuje, ačkoli chceme jen přenastavit hodnotu selectu
+        //  - příčinou je možná refreshSelect2Sync(), ale neznám důvod
+        //  - $('#filterMonth').val(month).trigger('change') rovněž nefunguje dobře
+        $wire.filterMonth = month
         return false
     }
         

@@ -66,9 +66,11 @@ class FestivalRepository extends AbstractRepository
                     break;
                     
                 case 'month':
-                    $query
-                        ->whereNull('starting_month')
-                        ->orWhereRaw('? BETWEEN starting_month AND ending_month', [$value]);
+                    $query->where(function (Builder $query) use ($value) {
+                        $query
+                            ->whereNull('starting_month')
+                            ->orWhereRaw('? BETWEEN starting_month AND ending_month', [$value]);
+                    });
                     break;
                 
                 default:
@@ -81,24 +83,28 @@ class FestivalRepository extends AbstractRepository
             $directionSql = $direction === 'desc' ? 'DESC' : 'ASC';
             
             switch ($field) {
-                // řazení festivalů:
-                //  - začínající v aktuálním nebo příštím měsíci
-                //  - běžící po celý rok
-                //  - začínající v dalších měsících
+                // řazení festivalů podle období konání
                 case 'starting_month':
                     $currentMonth = (int)date('n');
                     $expr = "
-                        IF(
-                            starting_month IS NULL,
-                            1.5,
-                            IF(
+                        CASE
+                            -- 1) aktuálně probíhající, řazené dle měsíce začátku
+                            -- - TODO: nefunguje pro festivaly probíhající na přelomu roku (např. v měsících listopad-únor)
+                            WHEN ? BETWEEN starting_month AND ending_month THEN starting_month
+                            -- 2) probíhající v příštím měsíci
+                            WHEN starting_month - ? = 1 THEN 10
+                            -- 3) probíhající po celý rok
+                            WHEN starting_month IS NULL THEN 20
+                            -- 4) zbylé, řazené dle měsíce začátku
+                            ELSE 20 + IF(
                                 starting_month >= ?,
                                 starting_month - ?,
                                 starting_month - ? + 12
                             )
-                        ) $directionSql
+                        END $directionSql
                     ";
-                    $query->orderByRaw($expr, [$currentMonth, $currentMonth, $currentMonth]);
+                    $bindings = array_fill(0, 5, $currentMonth);
+                    $query->orderByRaw($expr, $bindings);
                     break;
                 
                 case 'importance':
