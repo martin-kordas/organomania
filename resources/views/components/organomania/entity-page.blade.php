@@ -6,6 +6,7 @@
     use App\Models\Festival;
     use App\Models\Competition;
     use App\Helpers;
+    use Carbon\Carbon;
     use Illuminate\Support\Facades\Auth;
 @endphp
 
@@ -222,11 +223,12 @@
         @php($showSortActiveFromYearHint = $this->entityClass === OrganBuilder::class && $this->sortColumn !== 'active_from_year' && !in_array($this->viewType, ['map', 'timeline']))
         @php($showOrganImportanceHint = $this->entityClass === Organ::class && $this->viewType === 'map' && $this->activeFiltersCount <= 0)
         @php($showOrganBuilderImportanceHint = $this->entityClass === OrganBuilder::class && $this->viewType === 'timeline' && $this->activeFiltersCount <= 0)
+        @php($showFestivalsMonthHint = $this->entityClass === Festival::class && $this->viewType === 'map')
         @php($showCompetitionsWarning = $this->entityClass === Competition::class)
         
         @if (
             $showFilterRegionHint || $showOrganInfoHint || $showOrganImportanceHint || $showOrganBuilderImportanceHint
-            || $showSortImportaceHint || $showSortActiveFromYearHint || $showCompetitionsWarning
+            || $showSortImportaceHint || $showSortActiveFromYearHint || $showFestivalsMonthHint || $showCompetitionsWarning
         )
             <div class="mb-2">
                 @if ($showFilterRegionHint)
@@ -274,6 +276,16 @@
                     </div>
                 @endif
 
+                @if ($showFestivalsMonthHint)
+                    <?php $currentMonth = Carbon::now()->month; // syntaxe @php zde působí chybu ?>
+                    <div class="text-center">
+                        <x-organomania.info-alert class="d-inline-block mb-1">
+                            {{ __('Zobrazte si jen') }}
+                            <a class="link-primary text-decoration-none" href="#" onclick="return setFilterMonth({{ Js::from($currentMonth) }})">{!! __('aktuální festivaly') !!}</a>.
+                        </x-organomania.info-alert>
+                    </div>
+                @endif
+
                 @if ($showCompetitionsWarning) 
                     <div class="text-center">
                         <x-organomania.warning-alert class="d-inline-block mb-1">
@@ -299,6 +311,7 @@
             :filterName="$this->filterName ?? null"
             :filterMunicipality="$this->filterMunicipality ?? null"
             :filterNameLocality="$this->filterNameLocality ?? null"
+            :filterMonth="$this->filterMonth ?? null"
             :selectedTimelineEntityType="request()->query('selectedTimelineEntityType')" :selectedTimelineEntityId="request()->query('selectedTimelineEntityId')"
             :id="$this->id ?? null"
             :sortColumn="$this->sortColumn" :sortDirection="$this->sortDirection" :perPage="$this->perPage"
@@ -339,6 +352,11 @@
             () => $('#filterRegion').select2('open'),
             500
         )
+    }
+    
+    window.setFilterMonth = function (month) {
+        $wire.set('filterMonth', month)
+        return false
     }
         
     window.sortByDistance = function ($wire, direction = 'asc') {

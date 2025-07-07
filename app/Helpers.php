@@ -13,6 +13,7 @@ use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Location\Coordinate;
 use Location\Distance\Vincenty;
 use Carbon\Carbon;
+use Carbon\Translator as CarbonTranslator;
 
 class Helpers
 {
@@ -192,6 +193,19 @@ class Helpers
         $dateStr = static::formatDate($date, $monthNumber);
         $timeStr = static::formatTime($date->format('H:i:s'), $seconds);
         return "$dateStr $timeStr";
+    }
+    
+    static function getMonths()
+    {
+        $locale = $locale = app()->getLocale();
+        $translator = CarbonTranslator::get($locale);
+        $months = $translator->getMessages()[$locale]['months_standalone'];
+        
+        $months2 = [];
+        foreach ($months as $i => $month) {
+            $months2[$i + 1] = $month;
+        }
+        return $months2;
     }
     
     static function formatNumber(float $number, int $style = NumberFormatter::DECIMAL, ?int $decimals = null)

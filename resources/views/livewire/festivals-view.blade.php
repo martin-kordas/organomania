@@ -26,6 +26,8 @@ new class extends Component {
     
     #[Reactive]
     public $filterNameLocality;
+    #[Reactive]
+    public $filterMonth;
 
     #[Reactive]
     public $id;
@@ -65,6 +67,7 @@ new class extends Component {
     {
         $filters = $this->getFiltersArray();
         if ($this->filterNameLocality && mb_strlen($this->filterNameLocality) >= 3) $filters['nameLocality'] = $this->filterNameLocality;
+        if ($this->filterMonth) $filters['month'] = $this->filterMonth;
         return $filters;
     }
 

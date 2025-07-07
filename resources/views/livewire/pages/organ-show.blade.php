@@ -20,6 +20,7 @@ use App\Services\AI\DescribeDispositionAI;
 use App\Services\AI\SuggestRegistrationAI;
 use App\Models\Disposition;
 use App\Models\Organ;
+use App\Models\OrganBuilder;
 use App\Models\RegisterName;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Traits\HasRegisterModal;
@@ -244,6 +245,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             88 => [166],
             166 => [88],
             46 => [58],
+            19 => [4555],
+            4555 => [19],
+            121 => [4599],
+            4599 => [121],
             default => []
         };
         return collect($relatedOrganIds)->map(
@@ -366,6 +371,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     
     <table class="table mb-2">
         <tr>
+            {{-- HACK --}}
+            @if ($organ->organBuilder?->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
             <th>{{ __('Varhanář') }}</th>
             <td>
                 <div class="items-list">
@@ -386,6 +393,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @endif
                 </div>
             </td>
+            @endif
         </tr>
         @if ($organ->year_built)
             <tr>
@@ -809,6 +817,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             @if (!$loop->last) | @endif
                         </a>
                     @endForeach
+                    <a class="icon-link icon-link-hover float-end ms-2" href="{{ Helpers::getMapUrl($organ->latitude, $organ->longitude) }}" target="_blank">
+                        <i class="bi bi-box-arrow-up-right"></i>
+                        {{ __("Mapy.cz") }}
+                    </a>
                 </div>
             </x-organomania.accordion-item>
         @endif

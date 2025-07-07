@@ -36,6 +36,7 @@
 
 <div class="container entity-page-map">
     <gmp-map
+        id="entity-page-view-map"
         center="49.815148,15.565384"
         zoom="7.8"
         map-id="{{ $this->mapId }}"
@@ -77,5 +78,12 @@
 @script
 <script>
     initGoogleMap($wire)
+    
+    // TODO: převést do initGoogleMap
+    // TODO: na localhostu vzniká chyba
+    const mapElement = document.querySelector('#entity-page-view-map')
+    // Wait for the map to be ready
+    await customElements.whenDefined('gmp-map')
+    mapElement.innerMap.setOptions({ scaleControl: true })
 </script>
 @endscript

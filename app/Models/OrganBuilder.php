@@ -76,6 +76,9 @@ class OrganBuilder extends Model
         ORGAN_BUILDER_ID_JIRI_SPANEL = 74,
         ORGAN_BUILDER_ID_ORGANA = 52;
     
+    // HACK: pokud varhanáře není čas vložit, přiřadíme varhany k tomuto varhanáři (varhanář se nezobrazí a zmíníme ho alespoň v popisu varan)
+    const ORGAN_BUILDER_ID_NOT_INSERTED = 501;
+    
     protected $guarded = [];
     
     protected $attributes = [

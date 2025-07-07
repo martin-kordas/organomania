@@ -6,10 +6,12 @@
 ])
 
 @php
+    use App\Helpers;
     use App\Models\Organ;
     use App\Models\OrganBuilder;
     use App\Models\Festival;
     use App\Models\Competition;
+    use Carbon\Carbon;
 @endphp
 
 <div class="modal fade" id="filtersModal" tabindex="-1" data-focus="false" aria-labelledby="filtersModalLabel" aria-hidden="true" @keydown.enter="onEnter" data-autofocus="{{ $this->filtersModalAutofocus }}">
@@ -71,6 +73,18 @@
                         <label class="form-label" for="filterOrganBuilderId">{{ __('Varhanář') }}</label>
                         <x-organomania.selects.organ-builder-select model="filterOrganBuilderId" :organBuilders="$organBuilders" :allowClear="true" small />
                         <div class="form-text">{{ __('Filtr hledá i mezi varhanáři, kteří provedli přestavbu varhan.') }}</div>
+                    </div>
+                @elseif ($entityClass === Festival::class)
+                    @php $currentMonth = Carbon::now()->month @endphp
+                    <div class="mb-3">
+                        <label class="form-label" for="filterOrganBuilderId">{{ __('Měsíc konání') }}</label>
+                        <x-organomania.selects.month-select model="filterMonth" :allowClear="true" small />
+                        <div class="form-text">
+                            {{ __('např.') }}
+                            <a class="text-decoration-none" href="#" onclick="return setFilterMonth({{ Js::from($currentMonth) }})">
+                                {{ Helpers::getMonths()[$currentMonth] }}
+                            </a>
+                        </div>
                     </div>
                 @endif
                 @if ($entityClass !== Competition::class)
@@ -154,6 +168,11 @@
     window.onEnter = function (e) {
         let isSelect2 = $(e.target).closest('.select2-container').length > 0
         if (!isSelect2) $('#filterButton').click()
+    }
+    
+    window.setFilterMonth = function (month) {
+        $('#filterMonth').val(month).trigger('change')
+        return false
     }
         
     $(() => {

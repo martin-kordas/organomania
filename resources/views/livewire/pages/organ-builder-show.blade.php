@@ -258,12 +258,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ],
             50 => [
                 [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Suchdol_evang._kostel_varhany.JPG/640px-Suchdol_evang._kostel_varhany.JPG',
-                    'Qasinka, Public domain, via Wikimedia Commons',
-                    'Suchdol nad Odrou, evangelický kostel',
-                    '1905, II/18'
-                ],
-                [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Kostel_sv._M%C3%A1%C5%99%C3%AD_Magdal%C3%A9ny_v_D%C4%9Btmarovic%C3%ADch%2C_kruchta_s_varhany._Noc_kostel%C5%AF_20150529.jpg/640px-Kostel_sv._M%C3%A1%C5%99%C3%AD_Magdal%C3%A9ny_v_D%C4%9Btmarovic%C3%ADch%2C_kruchta_s_varhany._Noc_kostel%C5%AF_20150529.jpg',
                     'Ikcur, CC BY-SA 4.0, via Wikimedia Commons',
                     'Dětmarovice, kostel sv. Maří Magdalény',
@@ -292,12 +286,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ],
             72 => [
                 [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Z%C3%A1mek_Ho%C5%A1%C5%A5%C3%A1lkovy_kaple.jpg/640px-Z%C3%A1mek_Ho%C5%A1%C5%A5%C3%A1lkovy_kaple.jpg',
-                    'Pavel L., CC BY-SA 4.0, via Wikimedia Commons',
-                    'Hošťálkovy, kaple Narození Panny Marie',
-                    '1780, I/9'
-                ],
-                [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Kru%C5%BEberk_varhany.jpg/640px-Kru%C5%BEberk_varhany.jpg',
                     'Ladin, CC BY-SA 4.0, via Wikimedia Commons',
                     'Kružberk, kostel sv. Petra a Pavla',
@@ -316,14 +304,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'Dominik Matus, CC BY-SA 4.0, via Wikimedia Commons',
                     'Brno, bazilika Nanebevzetí Panny Marie (Staré Brno)',
                     '1876, dochována jen skříň'
-                ]
-            ],
-            33 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Interi%C3%A9r_kostela_svat%C3%A9ho_Linharta%2C_n%C3%A1ves%2C_C%C3%ADtov%2C_okr._M%C4%9Bln%C3%ADk%2C_St%C5%99edo%C4%8Desk%C3%BD_kraj_03.jpg/640px-Interi%C3%A9r_kostela_svat%C3%A9ho_Linharta%2C_n%C3%A1ves%2C_C%C3%ADtov%2C_okr._M%C4%9Bln%C3%ADk%2C_St%C5%99edo%C4%8Desk%C3%BD_kraj_03.jpg',
-                    'Horakvlado, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Cítov, kostel sv. Linharta',
-                    '1877, II/13'
                 ]
             ],
             44 => [
@@ -739,7 +719,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
         @if ($this->organs->isNotEmpty())
             <x-organomania.tr-responsive title="{{ __('Významné varhany') }}">
-                <div class="text-break items-list" style="max-height: 350px; overflow-y: scroll">
+                <div class="text-break items-list" style="max-height: 350px; overflow-y: auto">
                     @foreach ($this->organs as ['isRebuild' => $isRebuild, 'organ' => $organ, 'year' => $year])
                             <x-organomania.organ-link :organ="$organ" :isRebuild="$isRebuild" :year="$year" :showSizeInfo="true" />
                             @if (!$loop->last) <br /> @endif

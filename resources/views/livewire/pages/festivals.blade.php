@@ -19,6 +19,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     #[Url(keep: true)]
     public $filterNameLocality;
+    #[Url(keep: true)]
+    public $filterMonth;
 
     #[Url(keep: true)]
     public $id;
@@ -60,6 +62,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->entityNamePluralAkuzativ = __('festivaly');
         $this->filtersModalAutofocus = '#filterNameLocality';
         $this->filters[] = 'filterNameLocality';
+        $this->filters[] = 'filterMonth';
         $this->title = __('Festivaly varhanní hudby');
     }
 

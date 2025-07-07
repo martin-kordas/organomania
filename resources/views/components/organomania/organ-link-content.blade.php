@@ -1,8 +1,12 @@
 @props(['organ', 'name' => null, 'size' => null, 'year' => null, 'yearBuilt' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'isRebuild' => false, 'isRenovation' => false])
 
+@use(App\Models\OrganBuilder)
+
 @php
     $details = [];
-    if ($showOrganBuilder && isset($organ->organBuilder)) $details[] = $organ->organBuilder->shortName;
+    if ($showOrganBuilder && isset($organ->organBuilder) && $organ->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) {
+        $details[] = $organ->organBuilder->shortName;
+    }
     if ($year) $details[] = $year;
     if ($isRebuild) $details[] = __('přestavba');
     elseif ($isRenovation) {

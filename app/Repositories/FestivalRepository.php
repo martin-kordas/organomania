@@ -64,6 +64,12 @@ class FestivalRepository extends AbstractRepository
                         $filterNear = true;
                     }
                     break;
+                    
+                case 'month':
+                    $query
+                        ->whereNull('starting_month')
+                        ->orWhereRaw('? BETWEEN starting_month AND ending_month', [$value]);
+                    break;
                 
                 default:
                     throw new \LogicException;

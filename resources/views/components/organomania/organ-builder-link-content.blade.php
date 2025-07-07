@@ -1,5 +1,7 @@
 @props(['organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'placeholder' => __('neznámý varhanář')])
 
+@use(App\Models\OrganBuilder)
+
 @php
     $details = [];
     if ($showActivePeriod || $showMunicipality) {
@@ -18,11 +20,13 @@
 @endphp
 
 <span>
-    @isset($regularName)
-        {{ $name ?? $organBuilder->name }}
-    @else
-        <span class="text-body-secondary">{{ $placeholder }}</span>
-    @endisset
+    @if ($organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
+        @isset($regularName)
+            {{ $name ?? $organBuilder->name }}
+        @else
+            <span class="text-body-secondary">{{ $placeholder }}</span>
+        @endisset
+    @endif
 
     @if ($organBuilder && !$organBuilder->isPublic())
         <i class="bi bi-lock text-warning"></i>
