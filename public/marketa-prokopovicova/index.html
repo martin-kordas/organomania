@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markéta Prokopovičová - koncertní varhanice / Concert Organist</title>
+    <title>Markéta Kordasová (Prokopovičová) - koncertní varhanice / Concert Organist</title>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Google tag (gtag.js) -->
@@ -164,6 +164,23 @@
             columns: 24em;
             column-gap: 2em;
         }
+        .scroll-to-top {
+            border-radius: 5px;
+            color: white;
+            position: fixed;
+            display: inline-block;
+            width: 2.5em;
+            height: 2.5em;
+            bottom: 10px;
+            right: 10px;
+            background: #6c3b18;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+        }
+        .scroll-to-top span {
+            font-size: 1.35em;
+        }
         @media (max-width: 1200px) {
             .header-nav {
                 background-position-y: -50px;
@@ -218,7 +235,7 @@
 
         @media (max-width: 480px) {
             header h1 {
-                font-size: 2.5rem;
+                font-size: 2.9rem;
             }
             .header-nav {
                 background-position-x: -270px;
@@ -238,6 +255,24 @@
                 el.style.display = el.getAttribute('data-lang') === lang ? 'block' : 'none';
             });
         }
+        
+        function scrollToAnchor(event) {
+            event.preventDefault();
+            const targetId = event.currentTarget.getAttribute('href').substring(1)
+            const targetElement = document.getElementById(targetId)
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' })
+            }
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            })
+            return false
+        }
     </script>
 </head>
 <body>
@@ -247,7 +282,7 @@
                 <h1>
                     Markéta
                     <br class="name-break" />
-                    Prokopovičová
+                    Kordasová
                 </h1>
                 <p class="subtitle" data-lang="cs">koncertní varhanice</p>
                 <p class="subtitle" data-lang="en">Concert Organist</p>
@@ -259,18 +294,18 @@
         </header>
 
         <nav>
-            <a href="#biography" data-lang="cs">Životopis</a>
-            <a href="#biography" data-lang="en">Biography</a>
-            <a href="#reviews" data-lang="cs">Koncerty</a>
-            <a href="#reviews" data-lang="en">Concerts</a>
-            <a href="#repertoire" data-lang="cs">Repertoár</a>
-            <a href="#repertoire" data-lang="en">Repertoire</a>
-            <a href="#recordings" data-lang="cs">Nahrávky</a>
-            <a href="#recordings" data-lang="en">Recordings</a>
-            <a href="#gallery" data-lang="cs">Galerie</a>
-            <a href="#gallery" data-lang="en">Gallery</a>
-            <a href="#contact" data-lang="cs">Kontakt</a>
-            <a href="#contact" data-lang="en">Contact</a>
+            <a href="#biography" onclick="scrollToAnchor(event)" data-lang="cs">Životopis</a>
+            <a href="#biography" onclick="scrollToAnchor(event)" data-lang="en">Biography</a>
+            <a href="#reviews" onclick="scrollToAnchor(event)" data-lang="cs">Koncerty</a>
+            <a href="#reviews" onclick="scrollToAnchor(event)" data-lang="en">Concerts</a>
+            <a href="#repertoire" onclick="scrollToAnchor(event)" data-lang="cs">Repertoár</a>
+            <a href="#repertoire" onclick="scrollToAnchor(event)" data-lang="en">Repertoire</a>
+            <a href="#recordings" onclick="scrollToAnchor(event)" data-lang="cs">Nahrávky</a>
+            <a href="#recordings" onclick="scrollToAnchor(event)" data-lang="en">Recordings</a>
+            <a href="#gallery" onclick="scrollToAnchor(event)" data-lang="cs">Galerie</a>
+            <a href="#gallery" onclick="scrollToAnchor(event)" data-lang="en">Gallery</a>
+            <a href="#contact" onclick="scrollToAnchor(event)" data-lang="cs">Kontakt</a>
+            <a href="#contact" onclick="scrollToAnchor(event)" data-lang="en">Contact</a>
         </nav>
     </div>
 
@@ -279,10 +314,17 @@
             <h2 data-lang="cs">Životopis</h2>
             <h2 data-lang="en">Biography</h2>
             <p data-lang="cs" class="mb-0">
-              <strong>Markéta Prokopovičová</strong> (*1989) pochází z Olomouce, kde se také začala věnovat hře na varhany na ZUŠ Žerotín pod vedením Vladimíra Sobotky. Hru na varhany pak dále studovala ve třídě Petra Rajnohy a Hany Ryšavé na Konzervatoři Evangelické akademie v Olomouci, kterou absolvovala v roce 2015. Následně pokračovala ve studiu varhan na Janáčkově akademii múzických umění v Brně, kde v roce 2022 úspěšně dokončila magisterské studium. Zúčastnila se několika celostátních i mezinárodních varhanních soutěží: soutěže žáků základních uměleckých škol Organum Regium Pardubice 2006–2008 (3. místo v kategorii Juniori, čestné uznání v kategorii Virtuosi), Mezinárodní interpretační soutěže Pražského jara 2013 a Mezinárodní varhanní soutěže Petra Ebena v Opavě 2016. Své interpretační schopnosti dále pravidelně prohlubuje aktivní účastí na mistrovských kurzech vedených významnými osobnostmi, jako jsou J. P. Knijff, E. Wiersinga, T. Jellema, B. Klapprott, O. Latry, M. Schmeding, H.-O. Ericsson či W. Zerer. Markéta Prokopovičová koncertně vystupuje jak v ČR, tak i v zahraničí (Německo) a kromě toho se věnuje také činnosti pedagogické &ndash; vede varhanní třídu na ZUŠ Uničov a vyučuje klavír na ZUŠ Žerotín. Posluchače oslovuje i prostřednictvím internetu &ndash; její kanál na síti Youtube je s téměř 1,5 tisíci odběrateli nejsledovanějším kanálem koncertního varhaníka u nás.
+              <strong>Markéta Kordasová</strong> (roz. Prokopovičová, *1989), pochází z Olomouce, kde se také začala věnovat hře na varhany na ZUŠ Žerotín pod vedením Vladimíra Sobotky. Hru na varhany pak dále studovala ve třídě Petra Rajnohy a Hany Ryšavé na Konzervatoři Evangelické akademie v Olomouci, kterou absolvovala v roce 2015. Následně pokračovala ve studiu varhan na Janáčkově akademii múzických umění v Brně, kde v roce 2022 úspěšně dokončila magisterské studium. Zúčastnila se několika celostátních i mezinárodních varhanních soutěží: soutěže žáků základních uměleckých škol Organum Regium Pardubice 2006–2008 (3. místo v kategorii Juniori, čestné uznání v kategorii Virtuosi), Mezinárodní interpretační soutěže Pražského jara 2013 a Mezinárodní varhanní soutěže Petra Ebena v Opavě 2016. Své interpretační schopnosti dále pravidelně prohlubuje aktivní účastí na mistrovských kurzech vedených významnými osobnostmi, jako jsou J. P. Knijff, E. Wiersinga, T. Jellema, B. Klapprott, O. Latry, M. Schmeding, H.-O. Ericsson či W. Zerer.
             </p>
             <p data-lang="en" class="mb-0">
-                <strong>Markéta Prokopovičová</strong> (*1989) comes from Olomouc, where she also began to play the organ at the Žerotín Music School under the guidance of Vladimír Sobotka. She then studied organ playing in the class of Petr Rajnoha and Hana Ryšavá at the Conservatory of the Evangelical Academy in Olomouc, where she graduated in 2015. She subsequently continued her organ studies at the Janáček Academy of Performing Arts in Brno, where she successfully completed her master's degree in 2022. She participated in several national and international organ competitions: the competition of students of elementary art schools Organum Regium Pardubice 2006–2008 (3rd place in the Junior category, honorable mention in the Virtuosi category), the International Interpretation Competition of the Prague Spring 2013 and the International Petr Eben Organ Competition in Opava 2016. She regularly deepens her interpretative skills by actively participating in master classes led by prominent personalities such as J. P. Knijff, E. Wiersinga, T. Jellema, B. Klapprott, O. Latry, M. Schmeding, H.-O. Ericsson and W. Zerer. Markéta Prokopovičová performs in concerts both in the Czech Republic and abroad (Germany) and is also engaged in teaching &ndash; she leads an organ class at the Uničov primary music school and teaches piano at the Žerotín primary music school. She also addresses listeners via the Internet &ndash; her YouTube channel, with almost 1.5 thousand subscribers, is the most watched concert organist channel in Czech Republic.
+                <strong>Markéta Kordasová</strong> (née Prokopovičová, *1989) comes from Olomouc, where she also began to play the organ at the Žerotín Music School under the guidance of Vladimír Sobotka. She then studied organ playing in the class of Petr Rajnoha and Hana Ryšavá at the Conservatory of the Evangelical Academy in Olomouc, where she graduated in 2015. She subsequently continued her organ studies at the Janáček Academy of Performing Arts in Brno, where she successfully completed her master's degree in 2022. She participated in several national and international organ competitions: the competition of students of elementary art schools Organum Regium Pardubice 2006–2008 (3rd place in the Junior category, honorable mention in the Virtuosi category), the International Interpretation Competition of the Prague Spring 2013 and the International Petr Eben Organ Competition in Opava 2016. She regularly deepens her interpretative skills by actively participating in master classes led by prominent personalities such as J. P. Knijff, E. Wiersinga, T. Jellema, B. Klapprott, O. Latry, M. Schmeding, H.-O. Ericsson and W. Zerer.
+            </p>
+            <p data-lang="en" class="mb-0">
+                Markéta Kordasová performs in concerts both in the Czech Republic and abroad (Germany) and is also engaged in teaching &ndash; she leads an organ class at the Uničov primary music school and teaches piano at the Žerotín primary music school. She also addresses listeners via the Internet &ndash; her YouTube channel, with almost 1.5 thousand subscribers, is the most watched concert organist channel in Czech Republic.
+            </p>
+            
+            <p data-lang="cs" class="mb-0">
+                  Markéta Kordasová koncertně vystupuje jak v ČR, tak i v zahraničí (Německo) a kromě toho se věnuje také činnosti pedagogické &ndash; vede varhanní třídu na ZUŠ Uničov a vyučuje klavír na ZUŠ Žerotín. Posluchače oslovuje i prostřednictvím internetu &ndash; její kanál na síti Youtube je s téměř 1,5 tisíci odběrateli nejsledovanějším kanálem koncertního varhaníka u nás.
             </p>
         </section>
       
@@ -332,7 +374,7 @@
                         <a href="/recenze-offenbach.pdf" target="_blank">Mit Liebe zum Detail: Konzertreihe „Historische Orgellandschaft RheinMain“ in der Marienkirche eröffnet</a> (2018, Offenbach Post)
                     </li>
                     <li>
-                        <a href="https://bumibahagia.com/2017/04/10/marketa-prokopovicova-johann-sebastian-bach-praeludium-und-fuge-in-es-dur/" target="_blank">Markéta Prokopovičová / Johann Sebastian Bach / Praeludium und Fuge in Es – Dur (2017)</a>
+                        <a href="https://bumibahagia.com/2017/04/10/marketa-prokopovicova-johann-sebastian-bach-praeludium-und-fuge-in-es-dur/" target="_blank">Markéta Kordasová / Johann Sebastian Bach / Praeludium und Fuge in Es – Dur (2017)</a>
                     </li>
                 </ul>
             </div>
@@ -377,7 +419,7 @@
                         <a href="/recenze-offenbach.pdf" target="_blank">Mit Liebe zum Detail: Konzertreihe „Historische Orgellandschaft RheinMain“ in der Marienkirche eröffnet</a> (2018, Offenbach Post)
                     </li>
                     <li>
-                        <a href="https://bumibahagia.com/2017/04/10/marketa-prokopovicova-johann-sebastian-bach-praeludium-und-fuge-in-es-dur/" target="_blank">Markéta Prokopovičová / Johann Sebastian Bach / Praeludium und Fuge in Es – Dur (2017)</a>
+                        <a href="https://bumibahagia.com/2017/04/10/marketa-prokopovicova-johann-sebastian-bach-praeludium-und-fuge-in-es-dur/" target="_blank">Markéta Kordasová / Johann Sebastian Bach / Praeludium und Fuge in Es – Dur (2017)</a>
                     </li>
                 </ul>
             </div>
@@ -385,14 +427,13 @@
       
         <hr>
 
-        
         <section id="repertoire" class="repertoire">
             <h2 data-lang="cs">Repertoár</h2>
             <h2 data-lang="en">Repertoire</h2>
             
             <div data-lang="cs"> 
                 <p>
-                    Mezi nejoblíbenější Markétiny skladatele patří samozřejmě Johann Sebastian Bach, dále skladatelé francouzského romantismu, Felix Mendelssohn-Bartholdy a vybraná soudobá hudba.
+                    Mezi nejoblíbenější Markétiny skladatele patří samozřejmě velikán varhanní hudby Johann Sebastian Bach, dále skladatelé francouzského romantismu, Felix Mendelssohn-Bartholdy a vybraná soudobá hudba.
                 </p>
 
                 <h3>Výběr z repertoáru</h3>
@@ -613,12 +654,10 @@
                     </ul>
                 </div>
             </div>
-
-            <hr>
         </section>
         
+        <hr>
         
-
         <section id="recordings" class="recordings">
             <h2 data-lang="cs">Nahrávky</h2>
             <h2 data-lang="en">Recordings</h2>
@@ -645,20 +684,51 @@
             <h2 data-lang="en">Gallery</h2>
             <div>
                 <a href="/foto1.jpg" target="_blank">
-                    <img src="/foto1.jpg" alt="Portrét Markéty Prokopovičové">
+                    <img src="/foto1.jpg" alt="Portrét Markéty Kordasové">
                 </a>
                 <a href="/foto6.jpg" target="_blank">
-                    <img src="/foto6.jpg" alt="Markéta Prokopovičová u varhan">
+                    <img src="/foto6.jpg" alt="Markéta Kordasová u varhan">
                 </a>
                 <a href="/foto4.jpg" target="_blank">
-                    <img src="/foto4.jpg" alt="Markéta Prokopovičová na koncertě">
+                    <img src="/foto4.jpg" alt="Markéta Kordasová na koncertě">
                 </a>
                 <a href="/foto7.jpg" target="_blank">
-                    <img src="/foto7.jpg" alt="Markéta Prokopovičová u varhan">
+                    <img src="/foto7.jpg" alt="Markéta Kordasová u varhan">
                 </a>
                 <a href="/foto5.jpg" target="_blank">
-                    <img src="/foto5.jpg" alt="Markéta Prokopovičová u varhan">
+                    <img src="/foto5.jpg" alt="Markéta Kordasová u varhan">
                 </a>
+            </div>
+        </section>
+      
+        <hr>
+        
+        <section id="gallery" class="gallery">
+            <div data-lang="cs">
+                <h2>Autorské texty</h2>
+                <ul>
+                    <li>
+                        <a href="/prace-durufle-suita.pdf" target="_blank">Maurice Duruflé: Suita, op. 5</a>
+                        (bakalářská práce)
+                    </li>
+                    <li>
+                        <a href="/prace-varhanni-ucebnice.pdf" target="_blank">Varhanní učebnice využívané při výuce na moravských základních uměleckých školách</a>
+                        (diplomová práce)
+                    </li>
+                </ul>
+            </div>
+            <div data-lang="en">
+                <h2>Texts</h2>
+                <ul>
+                    <li>
+                        <a href="/prace-durufle-suita.pdf" target="_blank">Maurice Duruflé: Suite, op. 5</a>
+                        (Bachelor's thesis)
+                    </li>
+                    <li>
+                        <a href="/prace-varhanni-ucebnice.pdf" target="_blank">Organ textbooks used in teaching at Moravian elementary art schools</a>
+                        (Master's thesis)
+                    </li>
+                </ul>
             </div>
         </section>
       
@@ -681,7 +751,13 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Markéta Prokopovičová</p>
+        <p>&copy; 2025 Markéta Kordasová</p>
     </footer>
+    
+    <a class="scroll-to-top" href="#" onclick="return scrollToTop()">
+        <span>
+            &#11014;
+        </span>
+    </a>
 </body>
 </html>

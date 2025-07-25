@@ -14,10 +14,10 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Computed;
 use App\Models\Like;
+use App\Models\Scopes\OwnedEntityScope;
 use App\Repositories\AbstractRepository;
 use App\Repositories\OrganRepository;
 use App\Repositories\OrganBuilderRepository;
-use App\Models\Scopes\OwnedEntityScope;
 
 trait EntityPageView
 {

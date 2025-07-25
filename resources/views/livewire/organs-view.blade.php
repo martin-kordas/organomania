@@ -14,6 +14,7 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Reactive;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Locked;
+use App\Enums\OrganCategory;
 use App\Models\Organ;
 use App\Models\OrganLike;
 use App\Models\OrganCustomCategory as OrganCustomCategoryModel;
@@ -37,6 +38,10 @@ new class extends Component {
     public $filterManualsCount;
     #[Reactive]
     public $filterOrganBuilderId;
+    #[Reactive]
+    public $filterpreservedCase;
+    #[Reactive]
+    public $filterpreservedOrgan;
     #[Reactive]
     public $filterConcertHall;
     #[Reactive]
@@ -86,6 +91,8 @@ new class extends Component {
         if ($this->filterDisposition) $filters['disposition'] = $this->filterDisposition;
         if ($this->filterManualsCount) $filters['manualsCount'] = $this->filterManualsCount;
         if ($this->filterOrganBuilderId) $filters['organBuilderId'] = $this->filterOrganBuilderId;
+        if ($this->filterpreservedCase) $filters['preservedCase'] = $this->filterpreservedCase;
+        if ($this->filterpreservedOrgan) $filters['preservedOrgan'] = $this->filterpreservedOrgan;
         if ($this->filterConcertHall) $filters['concertHall'] = $this->filterConcertHall;
         if ($this->filterForeignOrganBuilder) $filters['foreignOrganBuilder'] = $this->filterForeignOrganBuilder;
         if ($this->filterHasDisposition) $filters['hasDisposition'] = $this->filterHasDisposition;
@@ -120,6 +127,11 @@ new class extends Component {
 
         if ($this->filterCategories) {
             $this->filterCategories($query, $this->filterCategories);
+        }
+        // varhany z knihy Barokní varhanářství načítáme jen, když je zvolena daná kategorie
+        //  - filtr podle sloupce baroque namísto kategorie je kvůli optimalizaci
+        if (!$this->filterCategories || !in_array(OrganCategory::FromBookBaroqueOrganBuilding->value, $this->filterCategories)) {
+            $query->where('baroque', '0');
         }
         // optimalizace: při zobrazení thumbnailu stačí načíst jen dané varhany (celá mapa se nepřekresluje)
         if (isset($this->thumbnailOrganId)) $query->where('id', $this->thumbnailOrganId);

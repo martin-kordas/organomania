@@ -34,7 +34,7 @@ class SuggestRegistrationAI extends DispositionAI
         EOL;
         
         $chat1 = [
-            'model' => 'gpt-4o',
+            'model' => 'gpt-4.1',
             'temperature' => 1,
             'messages' => [
                 ['role' => 'system', 'content' => $systemContent],

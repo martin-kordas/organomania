@@ -18,6 +18,7 @@ enum OrganCategory: int implements Category
     case BuiltFrom1945To1989 = 3;
     case BuiltFrom1990 = 4;
     case FromBookMostImportantOrgans = 21;
+    case FromBookBaroqueOrganBuilding = 22;
     
     case Renaissance = 5;
     case Baroque = 6;
@@ -65,6 +66,11 @@ enum OrganCategory: int implements Category
             'name' => 'Z knihy Nejvýznamnější varhany v ČR',
             'shortName' => 'Z knihy Nejvýznamnější varhany',
             'description' => 'Nástroje zařazené v knize Nejvýznamnější varhany České republiky (Štěpán Svoboda, Jiří Krátký, CPress, 2019)',
+        ],
+        self::FromBookBaroqueOrganBuilding->value => [
+            'name' => 'Z knihy Barokní varhanářství na Moravě',
+            'shortName' => 'Z knihy Barokní varhanářství na Moravě',
+            'description' => 'Nástroje zařazené v knize Barokní varhanářství na Moravě - 2. díl, varhany (Jiří Sehnal)',
         ],
         
         self::Oldest->value => [
@@ -136,7 +142,7 @@ enum OrganCategory: int implements Category
         return in_array($this, [
             static::BuiltTo1799, static::BuiltFrom1800To1859, static::BuiltFrom1860To1944, static::BuiltFrom1945To1989, static::BuiltFrom1990,
             // HACK: nejde o kategorii období - řadíme ji sem, protože chceme, aby se zobrazila jen v detailu (stejně jako kategorie období)
-            static::FromBookMostImportantOrgans,
+            static::FromBookMostImportantOrgans, static::FromBookBaroqueOrganBuilding,
         ]);
     }
     

@@ -93,7 +93,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $title = "{$this->organ->municipality}, {$this->organ->place}";
+        $title = '';
+        if ($this->organ->baroque) $title .= 'Barokní varhanářství na Moravě - ';
+        $title .= "{$this->organ->municipality}, {$this->organ->place}";
         $title .= ' - ' . __('varhany');
         $view->title($title);
     }
@@ -337,13 +339,24 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
             <h3 class="fs-2 mb-3 lh-sm fw-normal" @if (Auth::user()?->admin) title="ID: {{ $organ->id }}" @endif>
-                {{ $organ->municipality }}
-                <br />
-                <span class="fs-4">{{ $organ->place }}</span>
+                <span>
+                    <span @class(['not-preserved' => !$organ->preserved_case])>
+                    {{ $organ->municipality }}
+                    </span>
+                    <br />
+                    <span @class(['fs-4', 'not-preserved' => !$organ->preserved_case])>
+                        {{ $organ->place }}
+                        @if (!$organ->preserved_organ)
+                            <span class="text-body-secondary fw-normal">
+                                ({{ $organ->preserved_case ? __('dochována jen skříň') : __('nedochováno') }})
+                            </span>
+                        @endif
+                    </span>
+                </span>
                 @if (!$organ->isPublic())
                     <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
                 @endif
-                @if ($organ->region->id !== Region::Praha->value)
+                @if ($organ->region && $organ->region->id !== Region::Praha->value)
                     <br />
                     <small class="text-secondary position-relative" style="font-size: var(--bs-body-font-size); top: -4px;">
                         {{ $organ->region->name }}
@@ -364,7 +377,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </a>
                     @break
                 @endforeach
-                <img width="100" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => !empty($this->images)]) src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
+                @isset($organ->region_id)
+                    <img width="100" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => !empty($this->images)]) src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
+                @endisset
             </div>
         </div>
     </div>
@@ -379,7 +394,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @if ($organ->organBuilder)
                         @php $showYearBuilt = $organ->organRebuilds->isNotEmpty(); @endphp
                         <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$showYearBuilt ? $organ->year_built : null" :signed="$this->signed" />
-                        @if (!$showYearBuilt && !$organ->organBuilder->is_workshop && isset($organ->organBuilder->active_period))
+                        @if (!$showYearBuilt && !$organ->organBuilder->is_workshop && isset($organ->organBuilder->active_period) && $organ->organBuilder->active_period != '–')
                             <span class="text-body-secondary">({{ $organ->organBuilder->active_period }})</span>
                         @endif
                         @foreach ($organ->organRebuilds as $rebuild)

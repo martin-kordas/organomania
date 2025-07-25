@@ -199,7 +199,8 @@ class Helpers
     {
         $locale = $locale = app()->getLocale();
         $translator = CarbonTranslator::get($locale);
-        $months = $translator->getMessages()[$locale]['months_standalone'];
+        $monthsAll = $translator->getMessages()[$locale];
+        $months = $monthsAll['months_standalone'] ?? $monthsAll['months'];
         
         $months2 = [];
         foreach ($months as $i => $month) {

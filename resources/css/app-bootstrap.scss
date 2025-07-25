@@ -31,6 +31,10 @@ img.logo {
 .pre-line {
     white-space: pre-line;
 }
+.not-preserved {
+    text-decoration: line-through;
+    text-decoration-color: rgba(33, 37, 41, 0.25) !important;
+}
 
 html, body {
     height: 100%;

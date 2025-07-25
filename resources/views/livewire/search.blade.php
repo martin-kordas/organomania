@@ -58,7 +58,7 @@ new class extends Component {
                     ->leftJoin('organ_builders', 'organs.organ_builder_id', 'organ_builders.id')
                     ->select([
                         'organs.id', 'organs.slug', 'organs.place', 'organs.municipality', 'organs.importance', 'organs.organ_builder_id',
-                        'organs.year_built', 'organs.user_id',
+                        'organs.year_built', 'organs.baroque', 'organs.user_id',
                     ])
                     ->selectRaw('
                         IFNULL(organs.municipality, "") LIKE ?
@@ -103,7 +103,7 @@ new class extends Component {
                         'id', 'slug',
                         'is_workshop', 'workshop_name', 'first_name', 'last_name',
                         'active_period', 'municipality', 'importance',
-                        'user_id',
+                        'baroque', 'user_id',
                     ])
                     ->selectRaw('
                         IFNULL(workshop_name, "") LIKE ?
@@ -185,6 +185,9 @@ new class extends Component {
                                         @if (!$organ->isPublic())
                                             <i class="bi-lock text-warning"></i>
                                         @endif
+                                        @if ($organ->baroque)
+                                            <span class="badge text-bg-light text-wrap">{{ __('Barokní varhanářství na Moravě') }}</span>
+                                        @endif
                                         <br />
                                         <small class="hstack text-secondary">
                                             <span>
@@ -212,6 +215,9 @@ new class extends Component {
                                         {!! $this->highlight($organBuilder->name) !!}
                                         @if (!$organBuilder->isPublic()) 
                                             <i class="bi-lock text-warning"></i>
+                                        @endif
+                                        @if ($organBuilder->baroque)
+                                            <span class="badge text-bg-light text-wrap">{{ __('Barokní varhanářství na Moravě') }}</span>
                                         @endif
                                         @if ($organBuilder->active_period)
                                             <span class="text-secondary">({{ $organBuilder->active_period }})</span>

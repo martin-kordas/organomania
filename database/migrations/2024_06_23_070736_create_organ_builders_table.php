@@ -37,6 +37,7 @@ return new class extends Migration
             $table->text('perex')->nullable();
             $table->text('description')->nullable();
             $table->text('literature')->nullable();
+            $table->integer('baroque')->default(0)->comment("From book Baroque organ-building in Moravia");
             $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
             $table->softDeletes();

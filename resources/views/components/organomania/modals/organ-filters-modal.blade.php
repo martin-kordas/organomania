@@ -106,20 +106,30 @@
                         <input class="form-control form-control-sm" type="search" id="filterDisposition" wire:model="filterDisposition" minlength="3" placeholder="{{ __('Zadejte název rejstříku nebo pomocného zařízení') }}" />
                         <div class="form-text">{!! __('Název rejstříku musí být zadán přesně, jak je uveden v dispozici (např. <em>Prinzipal</em> namísto <em>Principál</em>), stačí však i počáteční písmena (např. <em>Prin</em>).') !!} {{ __('Lze uvést více hledaných tvarů současně.') }}</div>
                     </div>
-                    <div class="form-check form-switch">
-                        <label class="form-check-label" for="filterConcertHall">{{ __('Jen varhany v koncertních síních') }}</label>
-                        <input class="form-check-input" type="checkbox" role="switch" id="filterConcertHall" wire:model="filterConcertHall">
-                    </div>
-                    <div class="form-check form-switch">
-                        <label class="form-check-label" for="filterForeignOrganBuilder">{{ __('Jen varhany postavené zahraničním varhanářem') }}</label>
-                        <input class="form-check-input" type="checkbox" role="switch" id="filterForeignOrganBuilder" wire:model="filterForeignOrganBuilder">
-                    </div>
-                    @if ($this->showFilterHasDisposition)
+                    <div class="mb-3">
                         <div class="form-check form-switch">
-                            <label class="form-check-label" for="filterHasDisposition">{{ __('Jen varhany s uvedenou dispozicí') }}</label>
-                            <input class="form-check-input" type="checkbox" role="switch" id="filterHasDisposition" wire:model="filterHasDisposition">
+                            <label class="form-check-label" for="filterpreservedCase">{{ __('Jen dochované (alespoň skříň)') }}</label>
+                            <input class="form-check-input" type="checkbox" role="switch" id="filterpreservedCase" wire:model="filterpreservedCase">
                         </div>
-                    @endif
+                        <div class="form-check form-switch">
+                            <label class="form-check-label" for="filterpreservedOrgan">{{ __('Jen dochované (včetně stroje)') }}</label>
+                            <input class="form-check-input" type="checkbox" role="switch" id="filterpreservedOrgan" wire:model="filterpreservedOrgan">
+                        </div>
+                        <div class="form-check form-switch">
+                            <label class="form-check-label" for="filterConcertHall">{{ __('Jen varhany v koncertních síních') }}</label>
+                            <input class="form-check-input" type="checkbox" role="switch" id="filterConcertHall" wire:model="filterConcertHall">
+                        </div>
+                        <div class="form-check form-switch">
+                            <label class="form-check-label" for="filterForeignOrganBuilder">{{ __('Jen varhany postavené zahraničním varhanářem') }}</label>
+                            <input class="form-check-input" type="checkbox" role="switch" id="filterForeignOrganBuilder" wire:model="filterForeignOrganBuilder">
+                        </div>
+                        @if ($this->showFilterHasDisposition)
+                            <div class="form-check form-switch">
+                                <label class="form-check-label" for="filterHasDisposition">{{ __('Jen varhany s uvedenou dispozicí') }}</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="filterHasDisposition" wire:model="filterHasDisposition">
+                            </div>
+                        @endif
+                    </div>
                 @endif
                 
                 @if ($this->isLikeable)

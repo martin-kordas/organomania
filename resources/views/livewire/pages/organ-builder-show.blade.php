@@ -39,7 +39,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->showActivePeriodInHeading
             = isset($this->organBuilder->active_period)
             && !$this->organBuilder->is_workshop
-            && $this->organBuilder->active_period !== 'současnost';
+            && !in_array($this->organBuilder->active_period, ['současnost', '–']);
     }
 
     public function mount()
@@ -52,7 +52,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $title = $this->organBuilder->name;
+        $title = '';
+        if ($this->organBuilder->baroque) $title .= 'Barokní varhanářství na Moravě - ';
+        $title .= $this->organBuilder->name;
         // alternativy: varhanářská výroba, výroba varhan
         $type = __($this->organBuilder->is_workshop ? 'varhanářství' : 'varhanář');
         $title .= " - $type";
@@ -221,6 +223,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'Regerman, CC BY-SA 4.0, via Wikimedia Commons',
                     'Planá, kostel sv. Anny',
                     '1730, II/15'
+                ]
+            ],
+            22 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Jablonec_nad_Nisou_-_kostel_Dr._Farsk%C3%A9ho_12.jpg/960px-Jablonec_nad_Nisou_-_kostel_Dr._Farsk%C3%A9ho_12.jpg',
+                    'Dominik Matus, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Jablonec nad Nisou, husitský kostel',
+                    '1940, III/34'
                 ]
             ],
             9 => [

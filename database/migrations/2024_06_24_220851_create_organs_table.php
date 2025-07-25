@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('location_base_words', length: 200)->nullable();
             $table->double('latitude');
             $table->double('longitude');
-            $table->foreignId('region_id')->constrained();
+            $table->foreignId('region_id')->nullable()->constrained();
             $table->integer('importance')->comment("1 (lowest) to 10 (greatest)");
             $table->foreignId('organ_builder_id')->nullable()->constrained();
             $table->integer('year_built')->nullable();
@@ -30,6 +30,8 @@ return new class extends Migration
             $table->integer('original_stops_count')->nullable();
             $table->integer('original_manuals_count')->nullable();
             $table->integer('concert_hall')->default(0);
+            $table->integer('preserved_organ')->default(1);
+            $table->integer('preserved_case')->default(1);
             $table->string('image_url', length: 500)->nullable();
             $table->string('image_credits', length: 500)->nullable();
             $table->string('outside_image_url', length: 500)->nullable();
@@ -42,6 +44,7 @@ return new class extends Migration
             $table->text('literature')->nullable();
             $table->text('discography')->nullable();
             $table->text('disposition')->nullable();
+            $table->integer('baroque')->default(0)->comment("From book Baroque organ-building in Moravia");
             $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
             $table->softDeletes();

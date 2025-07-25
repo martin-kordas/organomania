@@ -1,5 +1,7 @@
 @props(['organ' => null, 'modal' => false, 'showOrgansTimeline' => false])
 
+@use(App\Enums\OrganCategory)
+@use(App\Enums\OrganBuilderCategory)
 @use(App\Models\OrganBuilder)
 
 @php
@@ -68,7 +70,8 @@
                         @php $categoryExists = true; @endphp
                     @endforeach
                     @foreach ($organ->{$this->categoriesRelation} as $category)
-                        @if (!$category->getEnum()->isPeriodCategory())
+                        @php $showCategory = !$category->getEnum()->isPeriodCategory() || in_array($category->getEnum(), [OrganCategory::FromBookBaroqueOrganBuilding, OrganBuilderCategory::FromBookBaroqueOrganBuilding]); @endphp
+                        @if ($showCategory)
                             <x-organomania.category-badge :category="$category->getEnum()" wire:key="category-{{ $category->id }}" />
                             @php $categoryExists = true; @endphp
                         @endif

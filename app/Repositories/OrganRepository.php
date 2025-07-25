@@ -82,6 +82,8 @@ class OrganRepository extends AbstractRepository
                     });
                     break;
                 
+                case 'preservedCase':
+                case 'preservedOrgan':
                 case 'concertHall':
                     $column = str($field)->snake();
                     $query->where($column, $value ? 1 : 0);
@@ -253,6 +255,7 @@ class OrganRepository extends AbstractRepository
                 $query->whereIn('id', $categoryIds);
             }, '=', $categoryIds->count())
             ->whereDoesntHave('organRebuilds')
+            ->where('baroque', 0)
             ->public()
             ->inRandomOrder()
             ->take(10)

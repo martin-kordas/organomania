@@ -1,0 +1,2882 @@
+[
+    {
+        "id": 1,
+        "place": "Olomouc",
+        "municipality": "kaple sv. Anny",
+        "organ_builder": "Johann Wóckerl",
+        "year_built": 1655,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": null
+    },
+    {
+        "id": 2,
+        "place": "Polná",
+        "municipality": "kostel Nanebevzetí Panny Marie – křestní kaple",
+        "organ_builder": "Jan Effnert",
+        "year_built": 1656,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Copula major 4'\nPrincipal 4'\nCopula minor 4'\nOctava 2'\nQuinta 1 1/3'\nSedecima 1'\nCimbal 1/2' + 1/3' repetuje po oktávách\nTremulant"
+    },
+    {
+        "id": 3,
+        "place": "Olomouc",
+        "municipality": "katedrála sv. Václava",
+        "organ_builder": "Johann Wóckerl",
+        "year_built": 1658,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Copel von Holtz 8'\nPrincipal 4'\nCopel Fletta von Holtz 4'\nQuint 3'\nSuperoctav 2'\nRausch Quinte\nSubbass 16' (C–H)"
+    },
+    {
+        "id": 4,
+        "place": "Telč",
+        "municipality": "jezuitský kostel Jména Ježíš",
+        "organ_builder": "Jan Nytcž",
+        "year_built": 1664,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copel 8'\nPrincipal 4'\nCopel 4'\nOctava 2'\nSuper Octava 1'\nMixtura 1/2'"
+    },
+    {
+        "id": 5,
+        "place": "Znojmo-Louka",
+        "municipality": "premonstrátský konventní kostel sv. Václava",
+        "organ_builder": "Nikolaus Christeindl a Bernhard Wollers",
+        "year_built": 1675,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Groß Coppel 8'\nPrincipal 4'\nKlein Coppel 4'\nGroß Quint 3'\nOctava 2'\nQuintaminor 1/3'\nDoppelte Zimbel"
+    },
+    {
+        "id": 6,
+        "place": "Letovice",
+        "municipality": "kaple v zámku",
+        "organ_builder": "Matouš Pavel Roskoš",
+        "year_built": 1676,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Kopula maior 8'\nKopula minor 4'\nPrincipál 2'\nOktáva 1'\nMixtura 2x 2/3 + 1/2"
+    },
+    {
+        "id": 7,
+        "place": "Znojmo",
+        "municipality": "dominikánský kostel sv. Kříže",
+        "organ_builder": "Matouš Pavel Roskoš",
+        "year_built": 1680,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Copula in dem Thon 8 schue\nPrincipall von 4 schue\nFletta im Thon 4 schue\nQuinta 2 schue\nSuper Octau 1'\nMixtura 4x\nOctau mit demfueß 3 schue\nUnter Subbass in Mensur 16 schue"
+    },
+    {
+        "id": 8,
+        "place": "Náměšť nad Oslavou",
+        "municipality": "kaple sv. Václava ve Státním zámku",
+        "organ_builder": "Matouš Pavel Roskoš",
+        "year_built": 1691,
+        "manuals_count": null,
+        "stops_count": null,
+        "disposition": null
+    },
+    {
+        "id": 9,
+        "place": "Bořetín u Strmilova",
+        "municipality": "kaple",
+        "organ_builder": "Matouš Pavel Roskoš",
+        "year_built": 1705,
+        "manuals_count": 1,
+        "stops_count": 4,
+        "disposition": "Kopula 8'\nKopula 4'\nFlote 2'\nOktáva 1'"
+    },
+    {
+        "id": 10,
+        "place": "Lysice",
+        "municipality": "kaple Panny Marie ve Státním zámku",
+        "organ_builder": "Matouš Pavel Roskoš",
+        "year_built": 1706,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Kopula 8'\nKopula 4'\nPrincipál 2'\nOktáva 1'\nMixtura 1' 2x"
+    },
+    {
+        "id": 11,
+        "place": "Telč",
+        "municipality": "kaple Všech svatých v zámku",
+        "organ_builder": null,
+        "year_built": 1710,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copl maior 8'\nCopl minor 4'\nPrincipal 2'\nQuinta 1 1/3'\nOctava 1'\nMixtur 1/2' 2x"
+    },
+    {
+        "id": 12,
+        "place": "Jiříkov",
+        "municipality": "kostel sv. archanděla Michaela",
+        "organ_builder": "Jan Bohumír Halbich st.",
+        "year_built": 1713,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Flett Maj. 8' gedeckt von holtz\nQuinta Deda 8'\nPrincipal 4' von Zin\nQuinta 3' von Metall\nOctava 2' von Metall\nMixtur 1' 3fach von Metall"
+    },
+    {
+        "id": 13,
+        "place": "Těchanov",
+        "municipality": "kaple sv. Františka Xaverského",
+        "organ_builder": "Jan Bohumír Halbich st.",
+        "year_built": 1712,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Copula maior 8'\nCopula minor 4'\nPrincipal 2' von Metall\nQuinta 1 1/2' von Metall\nSedecima 1' von Metall"
+    },
+    {
+        "id": 14,
+        "place": "Olomouc",
+        "municipality": "kostel sv. Mořice",
+        "organ_builder": "Antonín Jiří Schack",
+        "year_built": 1716,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Flaut major 8'\nFlaut minor 4'\nPrincipal 1'\nSuperoctava 2'\nQuint 1/3'\nMixtura 1' 1x"
+    },
+    {
+        "id": 15,
+        "place": "Kuželov",
+        "municipality": "kostel Nejsv. Trojice",
+        "organ_builder": null,
+        "year_built": 1718,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Gedeckt 8'\nGedeckt 4'\nPrincipal 4'\nQuinte 1 1/3'\nOctave 2'\nMixtur 1/2' 3x"
+    },
+    {
+        "id": 16,
+        "place": "Vranov nad Dyjí",
+        "municipality": "kaple ve Státním zámku",
+        "organ_builder": "Václav nebo Ignác Florián Casparid (pravděpodobně)",
+        "year_built": 1720,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Fortuna 8' (Copula maior 8')\nPrincipal 4'\nFloete 4' (pův. Kvinta 2 2/3')\nCupppila 4' (Copula minor 4')\nOctav 2'\nQuinta 1 1/3'\nSuperoktáva 1'\nMixtura 1/2' 3x"
+    },
+    {
+        "id": 17,
+        "place": "Lajen",
+        "municipality": "kostel sv. Kateřiny",
+        "organ_builder": "Antonín Richter",
+        "year_built": 1722,
+        "manuals_count": 1,
+        "stops_count": 3,
+        "disposition": "Copula 4'\nPrincipal 2'\nQuint 1 1/2'"
+    },
+    {
+        "id": 18,
+        "place": "Velké Losiny",
+        "municipality": "kaple Panny Marie ve Státním zámku",
+        "organ_builder": null,
+        "year_built": 1723,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Kopula 8'\nKopula 4'\nPrincipál 2'\nKvinta 1 1/3'\nKvinta šustivá 1' 2x (rep. na c1, c2)"
+    },
+    {
+        "id": 19,
+        "place": "Olomouc",
+        "municipality": "kostel sv. Petra",
+        "organ_builder": "Josef Emanuel Heintzler",
+        "year_built": 1723,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Flöt Major 8'\nFlöt Minor 4'\nPrincipal 2'\nOctava 1'\nNassata 3'\nMixtura 2x"
+    },
+    {
+        "id": 20,
+        "place": "Olomouc",
+        "municipality": "kostel sv. Mořice",
+        "organ_builder": "neznámý",
+        "year_built": 1727,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": null
+    },
+    {
+        "id": 21,
+        "place": "Vyškov",
+        "municipality": "špitální kaple sv. Anny",
+        "organ_builder": "Antonín Richter nebo Jan David Sieber (pravděpodobně)",
+        "year_built": 1730,
+        "manuals_count": 1,
+        "stops_count": 4,
+        "disposition": "Copula 8'\nCopula 4' (pův. Oktáva 2?)\nPrincipál 4'\nOctava 2' (pův. dvouřadý hlas 1 1/3' + 1')"
+    },
+    {
+        "id": 22,
+        "place": "Drahotuše",
+        "municipality": "hřbitovní kaple sv. Anny",
+        "organ_builder": "Kristián Křižanovský (možná)",
+        "year_built": 1737,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copula maior 8'\nCopula minor 4'\nPrincipál 2'\nQuinta 1 1/3'\nOctava 1'\nMixtura ?"
+    },
+    {
+        "id": 23,
+        "place": "Tovačov",
+        "municipality": "kaple Navštívení Panny Marie v zámku",
+        "organ_builder": "neznámý",
+        "year_built": 1740,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Copula maior 8'\nPrincipal 4'\nCopula minor 4'\nOctava 2'\nSuperoctava 1'"
+    },
+    {
+        "id": 24,
+        "place": "Tasov",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": "neznámý",
+        "year_built": 1740,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Kopula major 8'\nKopula minor 4'\nPrincipál 2'\nKvinta 1 1/3'\nOktáva 1'"
+    },
+    {
+        "id": 25,
+        "place": "Náměšť nad Oslavou",
+        "municipality": "kaple sv. Anny",
+        "organ_builder": "Anton Preisinger",
+        "year_built": 1745,
+        "manuals_count": 1,
+        "stops_count": 4,
+        "disposition": "Copula 8'\nCopula 4'\nPrincipal 2'\nKvintal 1/3"
+    },
+    {
+        "id": 26,
+        "place": "Hradiště sv. Hipolyta",
+        "municipality": "kostel sv. Antonína",
+        "organ_builder": "neznámý",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 4,
+        "disposition": "Copula 8'\nCopula 4'\nPrincipál 2'\nSuper oktáva 1'"
+    },
+    {
+        "id": 27,
+        "place": "Kvasíce",
+        "municipality": "filiální kostel Nanebevzetí Panny Marie",
+        "organ_builder": "neznámý",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Flauta maior 8'\nFlauta minor 4'\nOctava 2'\nQuinta 1 1/3'\nOctava 1'"
+    },
+    {
+        "id": 28,
+        "place": "Litovaný",
+        "municipality": "kaple sv. Pia X.",
+        "organ_builder": "Antonín Richter (pravděpodobně)",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Copula maior 8'\nCopula minor 4'\nPrincipál 2'\nKvintal 1/3'\nOktáva 1'"
+    },
+    {
+        "id": 29,
+        "place": "Raduň",
+        "municipality": "státní zámek",
+        "organ_builder": "neznámý",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 3,
+        "disposition": "Copula maior 8'\nCopula minor 4'\nPrincipál 2'"
+    },
+    {
+        "id": 30,
+        "place": "Tečovice",
+        "municipality": "kostel sv. Jakuba Většího",
+        "organ_builder": "neznámý",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Salicionál 8' (nepůvodní)\nKopula 8'\nKopula 4'\nKvinta 1 1/3'\nPrincipál 2'"
+    },
+    {
+        "id": 31,
+        "place": "Borotín",
+        "municipality": "kaple v zámku",
+        "organ_builder": "Jan Výmola st. nebo František Ignác Sieber",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Kopula 8'\nKopula 4'\nPrincipál 2'\nKvinta 1 1/3'\nOktáva 1'\nSuperoktáva 1/2'"
+    },
+    {
+        "id": 32,
+        "place": "Kunštát",
+        "municipality": "kaple sv. Josefa v zámku",
+        "organ_builder": "Jan Výmola nebo František Ignác Sieber",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Kopula 8'\nKopula 4'\nNachthorn 4'\nPrincipal 2'\nOctav 2'\nSuperoctav 1'"
+    },
+    {
+        "id": 33,
+        "place": "Olomouc",
+        "municipality": "katedrála sv. Václava",
+        "organ_builder": "neznámý",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 4,
+        "disposition": "Kopula 8'\nKopula 4'\nPrincipál 2'\nKvinta 1 1/3'"
+    },
+    {
+        "id": 34,
+        "place": "Nová Ves u Čermné na Moravě",
+        "municipality": "kaple sv. Antonína Paduánského",
+        "organ_builder": "neznámý",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Flote major 8'\nFlote minor 4'\nPrincipal 4'\nOktava 2'\nOktava 1'"
+    },
+    {
+        "id": 35,
+        "place": "Žďár nad Sázavou",
+        "municipality": "klášter cisterciáků",
+        "organ_builder": "Jan Výmola",
+        "year_built": 1754,
+        "manuals_count": 1,
+        "stops_count": 4,
+        "disposition": "Kryt 8'\nKryt 4'\nPrincipál 2'\nOktáva 1'"
+    },
+    {
+        "id": 36,
+        "place": "Rovečné",
+        "municipality": "kostel sv. Martina",
+        "organ_builder": "Martin Schmidt",
+        "year_built": 1760,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copula maior 8'\nCopula minor 4'\nPrincipal 4'\nOctava 2'\nQuinta 1 1/3'\nMixtura 2x (1/2 + 1/3)"
+    },
+    {
+        "id": 37,
+        "place": "Krásné",
+        "municipality": "kostel sv. Václava",
+        "organ_builder": "Jan Výmola st.",
+        "year_built": 1760,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Kopula 8'\nKopula 4'\nPrincipál 2'\nKvintal 1/3'\nOktáva 1'\nKvinta šustivá 1/3' + 1/2'"
+    },
+    {
+        "id": 38,
+        "place": "Chornice",
+        "municipality": "kostel sv. Vavřince",
+        "organ_builder": "František Ignác Sieber (pravděpodobně)",
+        "year_built": 1767,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Copula maior 8'\nCopula minor 4'\nFugara 4' (neoznačeno)\nPrincipal 2'\nQuindecima 1 1/3' (bez píšťal)\nSedecima 1' (bez píšťal)"
+    },
+    {
+        "id": 39,
+        "place": "Veselí nad Moravou",
+        "municipality": "hřbitovní kostel Panny Marie",
+        "organ_builder": "neznámý",
+        "year_built": 1770,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Copula maior 8'\nCopula minor 4'\nPrincipál 2'\nKvinta 1 1/3'\nOktáva 1'"
+    },
+    {
+        "id": 40,
+        "place": "Pustiměř",
+        "municipality": "kaple sv. Anny",
+        "organ_builder": "Jan Výmola (pravděpodobně)",
+        "year_built": 1770,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Copula maior 8'\nCopula minor 4'\nPrincipál 2'\nQuinta 1 1/3'\nOctava 1'"
+    },
+    {
+        "id": 41,
+        "place": "Vizovice",
+        "municipality": "kostel Panny Marie Dobré rady v zámku",
+        "organ_builder": "neznámý",
+        "year_built": 1777,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Flauta maior 8'\nFlauta amabile 4'\nFlauta minor 4'\nPrincipál 2'\nKvinta 1 1/3'\nOktáva 1'"
+    },
+    {
+        "id": 42,
+        "place": "Maršíkov",
+        "municipality": "dřevěný kostel sv. Michala archanděla",
+        "organ_builder": "Kašpar Welzel ml.",
+        "year_built": 1771,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copula maior 8'\nCopula minor 4'\nPrincipal 2'\nQuinta 1 1/3'\nOctava 1'\nMixtura 1/3 2x"
+    },
+    {
+        "id": 43,
+        "place": "Nová Říše",
+        "municipality": "kaple sv. Anny v konventním kostele",
+        "organ_builder": "neznámý",
+        "year_built": 1773,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copula maior 8'\nCopula minor 4'\nPrincipal 2'\nQuinta 1 1/3'\nOctava 1'\nMixtura ?"
+    },
+    {
+        "id": 44,
+        "place": "Pernštejn",
+        "municipality": "hradní kaple sv. Pavla",
+        "organ_builder": "Jan Výmola",
+        "year_built": 1776,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Flaut maior 8'\nFlaut minor 4'\nPrincipal 2'\nQuinta 1 1/3'\nOctava 1'\nKvinta šustivá 1/2' + 1/6'"
+    },
+    {
+        "id": 45,
+        "place": "Lančov",
+        "municipality": "kostel sv. Maří Magdaleny",
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1778,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Manuál:\nKopula maior 8'\nKopula minor 4'\nPrincipal 2'\nKvinta 1 1/3'\nSuperoktáva 1'\nPedál:\nPrincipálbas 8'\nOktávbas 4'"
+    },
+    {
+        "id": 46,
+        "place": "Jaroslavice",
+        "municipality": "kaple Panny Marie v zámku",
+        "organ_builder": "neznámý",
+        "year_built": 1780,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Copel major 8'\nPrincipal 4'\nCopel minor 8'\nFugara 4'\nOctav 2'\nQuint 1 1/3'\nSedecima 1'\nMixtur 1'"
+    },
+    {
+        "id": 47,
+        "place": "Velké Meziříčí",
+        "municipality": "kaple Neposkvrněného Početí Panny Marie v zámku",
+        "organ_builder": "neznámý",
+        "year_built": 1780,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copula maior 8'\nCopula minor 4'\nPrincipal 2'\nOctava 1'\nKvinta šustivá 2/3' + 1/2'"
+    },
+    {
+        "id": 48,
+        "place": "Janoušov",
+        "municipality": "kaple sv. Anny",
+        "organ_builder": "neznámý",
+        "year_built": 1782,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Kopula 8'\nKopula 4'\nPrincipál 2'\nOktáva 1'\n? (rejstřík neznámý)"
+    },
+    {
+        "id": 49,
+        "place": "Weinsteig (Dolní Rakousko)",
+        "municipality": "kostel neznámý",
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1781,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Bordun 8'\nFlóte 4'\nPrincipal 4'\nQuint 1 1/3'\nOktav 2'\nMixtur 1' + 2/3'"
+    },
+    {
+        "id": 50,
+        "place": "Březník",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Mikuláš Pavel František Sieber",
+        "year_built": 1785,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Coppell Major 8'\nCoppell minor 4'\nPrincipal 4'\nFlauta 4'\nQuinta 3'\nOctava 2'\nMixtura 1 1/3' 3x"
+    },
+    {
+        "id": 51,
+        "place": "Přibice",
+        "municipality": "kostel sv. Jana Křtitele",
+        "organ_builder": "Mikuláš Pavel František Sieber",
+        "year_built": 1790,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copl Minor 8' gedeckt von Holz\nFlauta 4' offen von Holz\nPrincipal 2'\nQuinta 1 1/2'\nOctava 1'\nMixtura 3x"
+    },
+    {
+        "id": 52,
+        "place": "Smolín",
+        "municipality": "kaple sv. Cyrila a Metoděje",
+        "organ_builder": "Josef Silberbauer nebo Ignác Reinold (snad)",
+        "year_built": 1790,
+        "manuals_count": 1,
+        "stops_count": 5,
+        "disposition": "Kopula major 8'\nKopula minor 4'\nPrincipál 2'\nSuperoktáva 1'\nCimbál 2x (snad 2/3' + 1/2')"
+    },
+    {
+        "id": 53,
+        "place": "Mikulov",
+        "municipality": "kaple sv. Šebestiána",
+        "organ_builder": "neznámý",
+        "year_built": 1790,
+        "manuals_count": 1,
+        "stops_count": 4,
+        "disposition": "Copel 4' dřevo, kryt\nPrincipal 2'\nOctave 1'\nMixtur 1' 2x"
+    },
+    {
+        "id": 54,
+        "place": "Horní Újezd",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": "David Josef Výmola",
+        "year_built": 1792,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copel Major 8'\nCopel Minor 4'\nPrincipal 2'\nQuint 1 1/2'\nOctava 1'\nMixtur 1' 2x"
+    },
+    {
+        "id": 55,
+        "place": "Ostravice",
+        "municipality": "kostel Nejsv. Trojice",
+        "organ_builder": "František Horčička ml.",
+        "year_built": 1799,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Prinzipal 8'\nFlaut Major 8'\nFlet minor 4'\nTuba cuspidata 4' von Zinn (C–F Holz)\nQuinta 3'\nSuper octaf 2'\nMixtura 2x"
+    },
+    {
+        "id": 56,
+        "place": "Jemnice",
+        "municipality": "kostel sv. Víta",
+        "organ_builder": "Josef Hofmann (postavil), Ignác Reinold (oprava)",
+        "year_built": 1824,
+        "manuals_count": 1,
+        "stops_count": 3,
+        "disposition": "Copula 8' (dřevo, kryt)\nFlétna 4' (dřevo, otevřená)\nPrincipál 2'"
+    },
+    {
+        "id": 57,
+        "place": "Albrechtice",
+        "municipality": "kostel neznámý",
+        "organ_builder": "Josef Šebestián Staudinger",
+        "year_built": 1804,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Flautmaior 8'\nFlaut minor 4'\nPrinzipal 4'\nOctava 2'\nQuinta 1 1/2'\nMixtura 1' 3x"
+    },
+    {
+        "id": 58,
+        "place": "Vítochov",
+        "municipality": "kostel sv. Michala",
+        "organ_builder": "Antonín Polák",
+        "year_built": 1810,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copel major (8')\nCopel minor (4')\nPrincipal (4')\nQuinta (2 2/3')\nOctav (2')\nMixtura (1 1/3')"
+    },
+    {
+        "id": 59,
+        "place": "Litovel",
+        "municipality": "kostel sv. Marka",
+        "organ_builder": "Pavel Viertel",
+        "year_built": 1631,
+        "manuals_count": 1,
+        "stops_count": 16,
+        "disposition": "Grobe verdekte Fleten (8 ')\nPrincipal (4 ' nebo 8 '?')\nKleine verdekte Fleten (4 ')\nOctava (4')\nSedecima (2 ')\nQuinta (1 1/3 ')\nMixtur (1 '?')\nUntersetzter Bass (16')\nPrincipal Bass (8')\nSedecima (4')\nQuinta (2 2/3 ')\nPauernfleten (2')\nPosaunen (16 ' nebo 8 '?')\nTremulant\nZimbal (1/2 '?')"
+    },
+    {
+        "id": 60,
+        "place": "Rýmařov",
+        "municipality": "kostel sv. archanděla Michaela",
+        "organ_builder": null,
+        "year_built": 1650,
+        "manuals_count": 1,
+        "stops_count": 15,
+        "disposition": "Principal (8 '?')\nGroß fleut (8 ')\nOctava (4'?')\nKlein fleut (4 '?')\nNassadern (2 2/3 '?')\nSuper Octava (2 '?')\nQuint (1 1/3 '?')\nMixtur (1 '?')\nZimbeln (1/2 '?')\nKrumbhörner\nSubbass (16'?')\nOctava (8'7)\nSuper Octava (4'?')\nFleut (2'?')\nZimbalen\nPosaunen"
+    },
+    {
+        "id": 61,
+        "place": "Telč",
+        "municipality": "jezuitský kostel Nejsv. Jména Ježíš",
+        "organ_builder": "Nikolaus Christeindl a Bernhard Wollers",
+        "year_built": 1670,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Fin grosse Fleten 8 \" von Holtz\nEin grosse Copl von Holtz 8 '\nPrincipal von Zünn 4 '\nEin offene Octava 8 ' von Holtz\nEin kleine Copl 4 ' von Holtz\nEin Super Octava 2 ' von Zunn\nEin Quindecima 1 1/2 ' von Zúnn\nEin toppelte Zienbl oder Mixtur von Zúnn (1')\nEin getackter Sub Bass 16 ' von Holtz"
+    },
+    {
+        "id": 62,
+        "place": "Znojmo-Louka",
+        "municipality": "bývalý premonstrátský konventní kostel sv. Václava",
+        "organ_builder": "Nikolaus Christeindl a Bernhard Wollers",
+        "year_built": 1677,
+        "manuals_count": 2,
+        "stops_count": 20,
+        "disposition": "Principal 8'\nQuintadena 8'\nPleten 8'\nCoppel maior 8 '\nOctava 4'\nSalicional 4 '\nCopel 8°\nPrincipal 4'\nFlote 4‘\nCoppel minor 4 '\nQuinta maior 3'\nSuper octava 2 '\nQuindecima 1 1/2 \"\nSedecima 1'\nMixtur 3 fach\nQuinta 2 2/3’\nOctav 2‘\nCymbel 11/3'"
+    },
+    {
+        "id": 63,
+        "place": "Velké Meziříčí",
+        "municipality": "kostel sv. Mikuláše",
+        "organ_builder": "Jan David Sieber",
+        "year_built": 1693,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Coplmaior 8‘\nPrincipal od Czynu 4 ‘\nQuinta 3'\nOctava 2 '\nQuindecima 1 1/2 ‘\nSuperoctava 1'\nMixtura 1 ‘\nPrzykryty Subbassy 16'\nOctava Bassus od držewa 8 \""
+    },
+    {
+        "id": 64,
+        "place": "Odry",
+        "municipality": "kostel sv. Bartoloměje",
+        "organ_builder": "Jakub Antonín Casparides",
+        "year_built": 1694,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Fletl maior (8 )\nPrincipal 4 ‘\nFletl minor (4 ')\nQuinta maior (2 2/3 )\nOctava 2 '\nMixtur 1 1/3’ 2x\nSubbassus (16 )\nPrincipal (8 )\nSuper Octava (4 )"
+    },
+    {
+        "id": 65,
+        "place": "Sněžné",
+        "municipality": "kostel sv. Kříže",
+        "organ_builder": "Abraham Stark z Lokte",
+        "year_built": 1696,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Salicionál 8’\nOktáva 2'\nCopula 8\nKvinta 1 1/3 ‘\nPrincipál 4'\nKvinta 2 2/3 ‘\nSubbass 16\nOktávbas 8‘\nSedecima 1 ‘\nMixtura 2/3 ‘ 3x s tercií"
+    },
+    {
+        "id": 66,
+        "place": "Brno",
+        "municipality": "jezuitský kostel Nanebevzetí Panny Marie",
+        "organ_builder": null,
+        "year_built": 1700,
+        "manuals_count": 1,
+        "stops_count": 12,
+        "disposition": "Salicinale (8')\nCopula Major (8)\nPrincipale (4')\nFlettna seu Copula Minor (4 ')\nOctava (2 )\nQuinta (1 1/3 )\n(Superoctava 1')\nMixtura aut potius forte Cimb. (1/2')\nSubbas tectum (16')\nOctava aperta (8 ')\nSuperoctava (4 )"
+    },
+    {
+        "id": 67,
+        "place": "Bystřice nad Pernštejnem",
+        "municipality": "kostel sv. Vavřince",
+        "organ_builder": "Matouš Pavel Roskoš",
+        "year_built": 1702,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "velkej Kopl (8)\nPrincipal na 4 střevíce\nmalej Kopl (4)\non něho (Principalu) octava 2 '\nod octavy Quinta (2 2/3 ')\nod Quinty Sedecima (1')\nod Sedecimy Quinta minor (1 1/3 ')\non nípak tuplovaná mixtura (1' + 1/3 ')\nSubbas (16')\ndruhá mutace principální otevřená (Octavbas 8 ')"
+    },
+    {
+        "id": 68,
+        "place": "Strážnice",
+        "municipality": "piaristický kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Jakub Antonín Casparides",
+        "year_built": 1707,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Fleth major (8)\nPrincipal 4'\nFleth minor (4)\nQuinta major (2 2/3')\nOctava 2'\nMixtura duplex (1 1/3'+ 1')\nSubbassus (16')\nPrincipal aus Holtz (8 ')"
+    },
+    {
+        "id": 69,
+        "place": "Horní Město",
+        "municipality": "kostel sv. Marie Magdaleny",
+        "organ_builder": "Jan Bohumír Halbich st. a ml.",
+        "year_built": 1712,
+        "manuals_count": 1,
+        "stops_count": 12,
+        "disposition": "Principal 8 ' von Zinn so a heraussen von 8 Fuss Thon\nPrincipal von Metall 8 ' so ins halbe Clavier versetzt wird (= Bifara)\nQuintadena halb von Metall von untersten C angefangen, die andere Hälfte von Holtz offen von 8 'fuss thon\nPortunal Flöte von Holtz offen (8 ')\nOctava von Metall von 4 fuss thon\nQuinta von Metall von 3fuss thon\nSuper Octava von Metall von 2 fuss thon\nQuinta decima von Metall von 1 1/2 fuss thon\nMixtura die grösste Pfeiffe von 1 fuss thon und alle von Metall so vierfach versetzt seyn\nCymbl von Metall 3 fach versetzt, in allen Oktaven repetirt\nPedál\nSubbass von Holtz offen von 16 fuss thon\nOctav Bass von Holtz offen von 8 fuss thon"
+    },
+    {
+        "id": 70,
+        "place": "Rajnochovice",
+        "municipality": "kostel Narození Panny Marie",
+        "organ_builder": "Jiří Schack",
+        "year_built": 1717,
+        "manuals_count": 1,
+        "stops_count": 14,
+        "disposition": "Manuál\nPurtonal gleich einem schwachen Principal starck von Bass aus Holtz 8'\nCornomuto in gleichen 8'\nCopula maior von Holtz 8'\nPrincipal ins Gesicht von grob Zühn 4'\nFugara ein sehr lieblicher Stimm von gemischter materi 4'\nCopula minor von Holtz 4'\nQuinta major von dergleichen materi 3\nSuper octaua 4'\nQuinta decima 1 1/2'\nMixtura 4fach (1 ')\nPedál\nSup Bass gedeckter aus Holtz starck von Bass 16'\nPar Ton von Holtz 8'\nPrincipal Bass aus Holtz 4'\nSuper octaua 2'"
+    },
+    {
+        "id": 71,
+        "place": "Křetín",
+        "municipality": "kostel sv. Jeronyma",
+        "organ_builder": "Josef Hubička",
+        "year_built": 1719,
+        "manuals_count": 1,
+        "stops_count": 13,
+        "disposition": "Principal major 8'\nPiffara 8'\nPortunal 8'\nCopula major 8'\nPrincipal minor 4'\nCopula minor 4'\nSub Bass (16')\nQuinta major 3'\nPrincipal Bass (8')\nSuper Octava 2'\nOctava Bass (4')\nQuinta minor 1 1/2'\nMixtura 1 1/2' (?)"
+    },
+    {
+        "id": 72,
+        "place": "Svatý Kopeček",
+        "municipality": "kostel Navštívení Panny Marie",
+        "organ_builder": "Jan David Sieber",
+        "year_built": 1723,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Copula 8\nOctava 2’\nPrincipál 4'\nQuinta 1 1/3'\nCopula 4 '\nMixtura 4 fach 1' (s tercií)\nSubbass 16'\nOctavbass 8'"
+    },
+    {
+        "id": 73,
+        "place": "Lechovice",
+        "municipality": "poutní kostel Navštívení Panny Marie",
+        "organ_builder": "Antonín Richter",
+        "year_built": 1725,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Copula 8'\nPrincipal!'\nCopula 4'\nNasat 2 2/3'\nOctava 2'\nQuinta 1 1/3'\nSuperoctava 1'\nMixtura 1' 4x\nOctava 2'\nSubbass 16'\nOctavbass 8'"
+    },
+    {
+        "id": 74,
+        "place": "Rajhrad",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": "Antonín Richter",
+        "year_built": 1726,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Copel major von Holtz 8'\nPrincipal von Zün 4'\nFlett minor von holtz 4'\nNassat von Materi 3'\nOctav von Materi 2'\nQuint von Materi 1 1/2'\nSedecima dtto 1'\nMixtur 3x\nSub Bass gedeckt (16')\nOctav Bass offen (8')"
+    },
+    {
+        "id": 75,
+        "place": "Brno",
+        "municipality": "loretánská kaple při minoritském kostele sv. Janů",
+        "organ_builder": "Antonín Richter",
+        "year_built": 1726,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Flauta maior 8'\nPrincipal 4'\nFlauta minor 4'\nNassat 2 2/3'\nOktáva 2°\nKvinta 1 1/3'\nSuperoctav 1'\nMixtura 1' 3x\nSubbas 16'\nOktávbas 8'"
+    },
+    {
+        "id": 76,
+        "place": "Jihlava",
+        "municipality": "kaple Panny Marie Bolestné v kostele sv. Jakuba",
+        "organ_builder": "Václav Pantoček",
+        "year_built": 1727,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Copl Major 8'\nPrincipál 4'\nCopl Major 4'\nOctava 2'\nQuinta 1 1/2'\nSuper Octava 1'\nMixtura 3x 1/2'\nSubbass 16'\nOctav Bass 8'"
+    },
+    {
+        "id": 77,
+        "place": "Telč",
+        "municipality": "kostel Matky Boží",
+        "organ_builder": "Václav Pantoček",
+        "year_built": 1728,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Copula maior 8°\nPrincipal 4‘\nCopula minor 4‘\nQuinta 2 2/3‘\nOctava 2°\nQuindecima 1 1/3‘\nSuperoctava 1‘\nMixtura 1/2‘ + 1/3‘\nSubbass 16‘\nOctavbass 8‘"
+    },
+    {
+        "id": 78,
+        "place": "Valtice",
+        "municipality": "kaple Narození Páně v zámku",
+        "organ_builder": "Lothar Franz Walther",
+        "year_built": 1729,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Copula major 8‘\nPrincipal 4'\nFlauto 4'\nOctava 2'\nQuinta 1 1/3'\nMixtura 1'\nSubbass 16'\nOctavbass 8'"
+    },
+    {
+        "id": 79,
+        "place": "Bojkovice",
+        "municipality": "kostel sv. Vavřince",
+        "organ_builder": "Antonín Richter",
+        "year_built": 1732,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Principál 8\"\nKvintadena 8'\nBourdon 8°\nOktáva 4‘\nKopula 4'\nKvinta 2 2/3‘\nSuperoktáva 2°\nKvintdecima 1 1/3‘\nMixtura 1' 3x\nSubbas 16'\nOktávbas 8'"
+    },
+    {
+        "id": 80,
+        "place": "Jaroměřice nad Rokytnou",
+        "municipality": "kostel sv. Markéty",
+        "organ_builder": "Václav Pantoček",
+        "year_built": 1734,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copl Major 8‘\nPrincipal 4'\nCopl minor 4'\nSubpass 16‘\nOctav-pass 8'\nQuinta 3'\nOctava 2‘\nMixtura 1'"
+    },
+    {
+        "id": 81,
+        "place": "Olomouc",
+        "municipality": "kostel sv. Mořice",
+        "organ_builder": "Josef Emanuel Heintzler",
+        "year_built": 1735,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Flöt major Holtz\nPrincipal 4'\nVox Angelica 4' Zinn\nFugara 4' z cínu\nFlöt minor 4' Holtz\nNassat 3'\nOctav 2'\nSedecima 1'\nMixtur 3x\nBordun Bass 16'\nOctav Bass 8'"
+    },
+    {
+        "id": 82,
+        "place": "Klášterní Hradisko",
+        "municipality": "kaple sv. Štěpána",
+        "organ_builder": "Václav Thiel",
+        "year_built": 1740,
+        "manuals_count": 1,
+        "stops_count": 13,
+        "disposition": "Flaut major 8°\nPrinzipal 4'\nFlaute minor 4‘\nFugara 4‘\nNassard 2 2/3‘\nOktave 2‘\nQuinte 1 1/3'\nMixtur 4x\nSubbass 16'\nOktavbass 8'\nViola 4'\nOctav 4'\nSuperoctav 2'\nMixtur 3x 1'"
+    },
+    {
+        "id": 83,
+        "place": "Heiligenkreuz",
+        "municipality": "konventní kostel cisterciáckého kláštera",
+        "organ_builder": "Jan Výmola",
+        "year_built": 1746,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Principal 8'\nCopula 8'\nOktav 4'\nFugara 4'\nKvinta 2 2/3'\nMixtura 1 1/3'"
+    },
+    {
+        "id": 84,
+        "place": "Stronsdorf",
+        "municipality": "farní kostel",
+        "organ_builder": "Jan Výmola",
+        "year_built": 1749,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Principals'\nFugara 4\nQuintadena 8'\nNassata 4'\nPortunbass 16'\nOctavbass 8'"
+    },
+    {
+        "id": 85,
+        "place": "Jevišovice",
+        "municipality": "kostel sv. Josefa",
+        "organ_builder": "Antonín Richter",
+        "year_built": 1749,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Salicional 8‘\nCopula maior 8°\nPrincipal 4'\nCopula minor 4‘\nQuinta 2 2/3’\nOctava 2°\nQuinta 1 1/3'\nMixtura 1'\nSubbas 16\nOctavbas 8'\nGamba 8'"
+    },
+    {
+        "id": 86,
+        "place": "Hradiště u Znojma",
+        "municipality": "kaple sv. Hypolita",
+        "organ_builder": null,
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Kopl maior 8'\nPrincipal 4'\nFugara 4‘\nKopl minor 4'\nNassata 2 2/3‘\nOctava 2'\nQuindecima 1 1/3'\nSedecima 1'\nSubbas 16\nOctavbas 8"
+    },
+    {
+        "id": 87,
+        "place": "Boskovice",
+        "municipality": "dominikánský kostel",
+        "organ_builder": null,
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Principal 8°\nPifara 8'\nSalicional 8'\nCopl maior 8'\nCopl minor 4'\nOctava 4'\nFugara 4'\nQuinta 3'\nSuperoctava 2'\nRauschquint 2x (1 1/3 + 1)\nMixtura 5x (1')\nSubbass 16\nOctavbass 7'"
+    },
+    {
+        "id": 88,
+        "place": "Krnov",
+        "municipality": "hřbitovní kostel sv. Kříže",
+        "organ_builder": "Václav Thiel",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Flauto major 8‘\nPrincipál 4'\nFlauto minor 4‘\nQuinta 2 2/3’\nOctava 2‘\nQuinta 1 1/3'\nSedecima 1'\nMixtur 2/3' + 1/2'\nSubbas 16'\nOctavbas 8'"
+    },
+    {
+        "id": 89,
+        "place": "Vřesovice",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": null,
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Copula (8')\nPrincipal (4')\nFletna (4')\nNasal (2 2/3')\nQuinta (1 1/3')\nMixtura (1')\nPrincipalbass (8')\nSubbass (16')\nOctav (2')"
+    },
+    {
+        "id": 90,
+        "place": "Brno",
+        "municipality": "kostel sv. Jakuba, postranní kůr nad sakristií",
+        "organ_builder": null,
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 14,
+        "disposition": "Im Manual\nPrincipal 8'\nSalecinal 8'\nCopel Maj 8'\nOctava 4'\nFugara 4'\nCopel Min. 4'\nSuper Oct. 2'\nQuindec. 1 1/3'\nSedec. 1'\nMixtur\nQuinta 2 2/3'\nNassata 2 2/3'\n\nIm Pedal\nPordun-Bass 16'\nOctav-Bass 8'\nCornet-Bass 4'"
+    },
+    {
+        "id": 91,
+        "place": "Klentnice",
+        "municipality": "kostel sv. Jiří",
+        "organ_builder": "Adam König nebo Jan Weninger",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Manuál\nKopula 8°\nPrincipál 4'\nSalicionál (Fugara?) 4'\nKovový, krytý hlas (Nasard?) 4'\nKopula 4'\nOktáva 2°\nSuperoktáva 1'\nMixtura 3x\n\nPedál\nSubbas 16'\nOktávbas 8'"
+    },
+    {
+        "id": 92,
+        "place": "Sedlec u Mikulova",
+        "municipality": "kostel sv. Víta",
+        "organ_builder": "Ignác Florián Casparida (prospekt)",
+        "year_built": 1750,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Manuál\nCopula 8'\nPrincipál 4'\nKopula 4'\nQuinta 1 1/3'\nRauschquinte 1 1/3' + 1'\n\nPedál\nSubbas 16'\nOktávbas 8'"
+    },
+    {
+        "id": 93,
+        "place": "Pouzdřany",
+        "municipality": "kostel sv. Mikuláše",
+        "organ_builder": "František Ignác Sieber",
+        "year_built": 1754,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Manuál\nSalicional 8'\nKvintadena 8'\nFlöte 4'\nOctava 2'\nPrincipál 4'\n\nPedál\nSubbas 16'\nOktávbas 8'\nKryt 8'\nMixtura 1 1/3' 4x"
+    },
+    {
+        "id": 94,
+        "place": "Břeclav",
+        "municipality": "kostel sv. Václava",
+        "organ_builder": "Jan Bittner",
+        "year_built": 1756,
+        "manuals_count": 1,
+        "stops_count": 13,
+        "disposition": "Manuál\nFlauto 8'\nFlaut Vox humana 8'\nPrincipal 4'\nFlauta 4'\nNasat 2'\n\nPedál\nSubbass 16'\n8va Bass 8'\nSuper 8va 4'\n8va 2'\n5ta 3'\n16ena 1'\nMixtura 3x"
+    },
+    {
+        "id": 95,
+        "place": "Cizkrajov",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": null,
+        "year_built": 1758,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Manuál\nCopula major 8'\nPrincipal 4'\nFlote 4'\nQuint 2 2/3'\nOctava 2°\nSuperoctava 1'\nMixtur (původně 3x)\n\nPedál\nViol 8'\nOktáv 4'"
+    },
+    {
+        "id": 96,
+        "place": "Tršice",
+        "municipality": "kostel Narození Panny Marie",
+        "organ_builder": "František Horčička st.",
+        "year_built": 1759,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Manuál\nHumillima 8'\nFlautna major 8'\nPrincipal 4'\nFlautna minor 4'\nQuinta von zin 3'\nSuper Octava von zin 2'\nMixtur von zin 2'\n\nPedál\nSubbass 16'\nOctav bass 8'"
+    },
+    {
+        "id": 97,
+        "place": "Ruda u Horního Města",
+        "municipality": "kostel Panny Marie Sněžné",
+        "organ_builder": "Jan Jiří Schwarz",
+        "year_built": 1762,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Manuál\nPrincipal 8'\nSalicionál 8'\nPortunal 8'\nCopula 8'\nOctav 4'\nRauschquint 2x\nMixtura 3x\n\nPedál\nSubbas 16'\nOctavbass 8'"
+    },
+    {
+        "id": 98,
+        "place": "Nová Hradečná",
+        "municipality": "kostel sv. Vavřince",
+        "organ_builder": null,
+        "year_built": 1765,
+        "manuals_count": 1,
+        "stops_count": 13,
+        "disposition": "Manuál\nPrincipál 8'\nSalicionál 8'\nQuintadena 8'\nFlétna maior 8'\nSpitzflote 4'\nQuinta 2 2/3'\nOctava 2'\nMixtura 1' 4x\n\nPedál\nSubbas 16' (otevřený)\nSubbas 16' (krytý)\nOctavbas 8'\nOctavbas 4'"
+    },
+    {
+        "id": 99,
+        "place": "Petřvald",
+        "municipality": "kostel sv. Mikuláše",
+        "organ_builder": null,
+        "year_built": 1767,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Manuál\nQuinta dena 8'\nFlaut Major 8'\nPrincipal 4'\nFlaut Minor 4'\nQuinta 3'\nSuperoctava 2'\nSesquialtera 1 1/2'\nMixtura 3x\n\nPedál\nSupbas 16'\nOctav 8'"
+    },
+    {
+        "id": 100,
+        "place": "Židlochovice",
+        "municipality": "kaple Povýšení sv. Kříže v zámku",
+        "organ_builder": "Jan Výmola (pravděpodobně)",
+        "year_built": 1768,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Manuál\nKopula 8'\nFugara 4'\nKopula 4'\nPrincipál 4'\nOktáva 2'\nNassat 2 2/3'\nKvinta 1 1/3'\nMixtura 1'3x (s tercií)\n\nPedál\nSubbas 16' (dřevo, kryt)\nOktávbas 8' (dřevo, kryt)"
+    },
+    {
+        "id": 101,
+        "place": "Karlovice u Bruntálu",
+        "municipality": "kostel sv. Jana Nep.",
+        "organ_builder": null,
+        "year_built": 1768,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Manuál\nPrincipal 8'\nBourdonflöte 8'\nSalicional 8'\nOctave 4'\nFlauto minor 4'\nOctave 2'\nMixtur\n\nPedál\nSubbas 16'\nOctavbass 8'\nViolon 8'"
+    },
+    {
+        "id": 102,
+        "place": "Weikertschlag",
+        "municipality": null,
+        "organ_builder": "Ignác Florián Casparides",
+        "year_built": 1769,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Manuál\nPrincipal 8' (nový, zinek)\nGamba 8' (původně Quinta 2 2/3')\nPrincipal 4'\nGedackt 4'\nOktave 2'\nMixtur 1 1/3' 3x\n\nPedál\nSubbass 16'\nOctavbass 8'"
+    },
+    {
+        "id": 103,
+        "place": "Napajedla",
+        "municipality": "kostel sv. Bartoloměje",
+        "organ_builder": null,
+        "year_built": 1770,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Manuál\nFlauta major 8'\nQuintadena 8'\nPrincipal 4'\nSalicional 4'\nFlauta minor 4'\nQuinta 2 2/3'\nOctava 2'\nMixtura 3x (1 1/3')\n\nPedál\nSubbass 16'\nPrincipalbas 8'"
+    },
+    {
+        "id": 104,
+        "place": "Mysločovice",
+        "municipality": "kostel Nejsv. Trojice",
+        "organ_builder": null,
+        "year_built": 1770,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Manuál\nPrincipal 8'\nSalicional 8'\nPortunál 8'\nFlauta 4'\nOktava 4'\nQuinta 2 2/3'\nOktava 2'\nMixtura 1 1/3' 3x\n\nPedál\nSubbas 16'\nOktavbas 8"
+    },
+    {
+        "id": 105,
+        "place": "Libina",
+        "municipality": "kostel sv. Jiří",
+        "organ_builder": null,
+        "year_built": 1770,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Manuál\nFlauta maior 8'\nPrincipál 4'\nFlauta minor 4'\nGamba 4' (původně Kvinta 2 2/3')\nOctava 2'\nKvinta šustivál 1/3' + 1'\n\nPedál\nOktávbas 8'\nSuperoktávbas 4'"
+    },
+    {
+        "id": 106,
+        "place": "Vysoká",
+        "municipality": "kostel sv. Urbana",
+        "organ_builder": "Gottfried Wilhelm Scheffler",
+        "year_built": 1770,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Manuál\nFlaut von Holtz 8'\nFugara von Holtz 8'\nPrincipal 4'\nFlaut 4' von Holtz\n\nPedál\nSubbas 16' Holtz gedeckt\nPrincipal Bass 8' Holtz offen\nQuinta 3' von Metal\nOctava 2'\nSecíma 1' von Metal\nMixtur 3fach Cgc"
+    },
+    {
+        "id": 107,
+        "place": "Bystřice nad Pernštejnem",
+        "municipality": "hřbitovní kostel Nejsv. Trojice",
+        "organ_builder": "František Ignác Sieber (snad)",
+        "year_built": 1770,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Manuál\nGamba 8'\nKopula 8'\nKopula 4'\nOctáva 2'\nMixtura 1' + 2/3' + 1/2'\n\nPedál\nSubbas 16'"
+    },
+    {
+        "id": 108,
+        "place": "Slavíkovice",
+        "municipality": "kostel sv. Kateřiny",
+        "organ_builder": "Jan Komorník",
+        "year_built": 1774,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Manuál\nSalicionál 8'\nCopula maior 8'\nPrincipál 4'\nCopula minor 4'\nOktáva 2'\nKvinta 1 1/3'\nMixtura 1 1/3' 3x\n\nPedál\nViolon 8'\nPrincipálbas 4'\nBasson 8'"
+    },
+    {
+        "id": 109,
+        "place": "Sádek u Poličky",
+        "municipality": "kostel",
+        "organ_builder": "Jan Výmola st.",
+        "year_built": 1775,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Manuál\nCopula 8'\nKopula 4'\nSalicional nebo Quintadena 8'\nQuinta 2 2/3'\nPrincipál 4'\nFugara nebo Flétna špičatá 4'\nSuperoktáva 2'\nMixtura 4x\n\nPedál\nSubbas 16'\nOktávbas 8'\nSuperoktávbas 4'"
+    },
+    {
+        "id": 110,
+        "place": "Tištín",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": null,
+        "year_built": 1776,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Manuál\nPrincipal 8' (C-G dřevo)\nPortunal 8' dřevo\nJubal Flöte 4' (C-H dřevo)\nOktava 4'\nMinor 4'\nOktava 2'\nMixtura 1 1/3' 3x\n\nPedál\nSubbass 16'\nOktavbas 8'\nViolinbas 4'"
+    },
+    {
+        "id": 111,
+        "place": "Tvrdkov",
+        "municipality": "kostel sv. Antonína Paduánského",
+        "organ_builder": "Josef Šebestián Staudinger",
+        "year_built": 1777,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Manuál\nFlauto major 8'\nPrincipal 4'\nFlauto minor 4'\nQuinte 3'\nOctave 2°\nMixtur 1' (3x?)\n\nPedál\nSubbass 16'\nOctavbass 8'"
+    },
+    {
+        "id": 112,
+        "place": "Želetice",
+        "municipality": "kostel sv. Jakuba Většího",
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1778,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Manuál\nCopula major 8'\nPrincipál 4' (C-A dřevo)\nCopula minor 4'\nOktáva 2'\nKvinta 1 1/3' rep. na cis2\nSuperoktáva 1'\n\nPedál\nOktávbas 8'"
+    },
+    {
+        "id": 113,
+        "place": "Smržice",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": "Karel Welzel",
+        "year_built": 1778,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Manuál\nCopia Major 8'\nPrincipal 4'\nFugara 4'\nCopia Minor 4'\nSuper Octav 2'\nQuinta 1 1/2'\nMixtura 1'2x\n\nPedál\nPrincipal Bass 8' dřevo, otevř.\nOctava Paß 4' dřevo, otevř."
+    },
+    {
+        "id": 114,
+        "place": "Netín",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Jan Komorník",
+        "year_built": 1779,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Manuál\nCopel Major 8' Holz gedeckt\nPrincipal 4' von Zinn offen\nCopel Minor 4' von Holz gedeckt\nQuinta 3'\nOctav 2'\nMixtura 1'2x\n\nPedál\nSubbass 16' von Holz gedeckt\nOctavbass 8' von Holz offen\nPrincipal 4' von Zinn offen"
+    },
+    {
+        "id": 115,
+        "place": "Bačkovice",
+        "municipality": "kaple sv. Cyrila a Metoděje",
+        "organ_builder": "Josef Silberbauer (?)",
+        "year_built": 1780,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Manuál\nKopula 8'\nPrincipál 4'\nKopula 4'\nOctava 2'\nQuinta 1 1/3'\nMixtura 1' (původně 3x)\n\nPedál\nSubbas 16' dřevo, kryt\nOktávbas 8' dřevo, otevř."
+    },
+    {
+        "id": 116,
+        "place": "Hošťálkovy",
+        "municipality": "kaple Narození Panny Marie v zámku",
+        "organ_builder": "Josef Šebestián Staudinger (?)",
+        "year_built": 1780,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Manuál\nFlauta 8' (dřevo, kryt)\nPrincipal 4'\nFlauta 4' (dřevo, kryt)\nQuinte 2 2/3' (chybí)\nOctava 2'\nQuinte 1 1/3'\nMixtura 1' 3x\n\nPedál\nSubbass 16'\nOctavbass 8'"
+    },
+    {
+        "id": 117,
+        "place": "Nové Sady",
+        "municipality": "kostel sv. Oldřicha",
+        "organ_builder": null,
+        "year_built": 1790,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Manuál\nKryt 8'\nPrincipál 4'\nFlétna 4' dřevo, kryt\nOctava 2'\nKvintal 1/3'\nMixtura 1' (v roce 1979 nebyla)\n\nPedál\nOktávbas 8'\nOktávbas 4'"
+    },
+    {
+        "id": 118,
+        "place": "Klimkovice",
+        "municipality": "kostel sv. Kateřiny",
+        "organ_builder": "Josef Šebestián Staudinger",
+        "year_built": 1792,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Manuál\nFlautamajor 8' von Holz\nViola de gamba 8' ab c gem. Materie\nPrincipal 4' von guten Zinn\nFlautravier 4' von Holz\nFlauta minor 4' von Holz\nQuinta 3' gem. Materie\nOctava 2' dtto\nMixtura 1 1/2' 4x dtto\n\nPedál\nSubbass 16' Holz\nOctavbass 8' dtto\nQuinta 6' dtto\nPrincipal 4' von Zinn"
+    },
+    {
+        "id": 119,
+        "place": "Ameis",
+        "municipality": null,
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1795,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Manuál\nFlote 8° (dřevo, kryt)\nPrinzipal 4'\nSmykavýhlas 8' (místo Kopuly 4')\nQuint 2 2/3'\nOctav 2'\nMixtur 1 1/3' 3x\n\nPedál\nSubbass 8'\nOctavbass 4'"
+    },
+    {
+        "id": 120,
+        "place": "Lipovec",
+        "municipality": "kostel Narození Panny Marie",
+        "organ_builder": "František Umlauf",
+        "year_built": 1796,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Copelmajor 8 ‘\nPrincipal 4 ' aus guten Zinn\nCopelminor 4'\nOctav (2 ')\nQuint (1 1/3 )\nMixtura 3x (1 )\nOctavbas (8' )"
+    },
+    {
+        "id": 121,
+        "place": "Příbor",
+        "municipality": "piaristický kostel sv. Valentina",
+        "organ_builder": "Josef Šebestián Staudinger",
+        "year_built": 1798,
+        "manuals_count": 1,
+        "stops_count": 12,
+        "disposition": "Principal 8 '\nViola gamba 8 ' kov\nPortunal 8 ‘ dřevo\nOctav 4'\nFlautraver (4 ) dřevo\nQuinta 3 '\nOctav 2'\nMixtur 1 1/2 4x\nRauschquinta 2x\nSubbass 16'\nOctav Bass 8'\nQuintabass 6'\nSuperoctav 4'"
+    },
+    {
+        "id": 122,
+        "place": "Kunštát",
+        "municipality": "hřbitovní kaple Svatého Ducha",
+        "organ_builder": "Jiří Španěl",
+        "year_built": 1799,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Copel Major 8 '\nCopel Minor 4‘\nQuinta Dena 8'\nPrincipal 2 ‘\nNassatta (2 2/3 ') (Clarinetto 8’)\nRauschquinte 3fach (1 1/3 )\nPedalpass 8' offen"
+    },
+    {
+        "id": 123,
+        "place": "Zelená Hora u Žďáru nad Sázavou",
+        "municipality": "kostel sv. Jana Nepomuckého",
+        "organ_builder": "Pavel Horák",
+        "year_built": 1799,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Principál 8' (D-F dřevo)\nFlauta maior 8' nová\nOctava 4°\nFlauta minor 4‘ (nahoře kov)\nQuinta 2 2/3°\nSuperoctava 2‘\nQuindecima 1 1/3\nMixtura 4x 1 ‘\nSubbas 16\nOktávbas 8'"
+    },
+    {
+        "id": 124,
+        "place": "Zvole nad Pernštejnem",
+        "municipality": "kostel sv. Václava",
+        "organ_builder": "nejmenovaný králický varhanář",
+        "year_built": 1799,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Copula maior 8 ‘ kov, kryt\nPrincipál 4'\nCopula minor 4' dřevo, kryt\nOctava 2'\nQuinta 1 1/3°\nOctava 1' (repetuje od c2)\nMixtura 3x (1 V)\nSubbas 16'\nViolon 8'\nPrincipalbas 4’ (dřevo)"
+    },
+    {
+        "id": 125,
+        "place": "Pravice",
+        "municipality": "kaple Nejsv. Trojice",
+        "organ_builder": "Josef Silberbauer nebo Ignác Reinold",
+        "year_built": 1800,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Kopula 8\nPrincipál!'\nKopula 4'\nSalicionál 4 ' (původně Kvinta 1 1/3 )\nOctava 2'\nMixtura 1' + 2/3' (původně 3x 1 1/3')\nPrincipálbas 8’\nChorálbas4'"
+    },
+    {
+        "id": 126,
+        "place": "Velká Morava",
+        "municipality": "kostel sv. Aloise",
+        "organ_builder": "Karel Welzel",
+        "year_built": 1802,
+        "manuals_count": 1,
+        "stops_count": 14,
+        "disposition": "Principal 8 ' (CDEFG Holtz)\nOctava 4 ' von zynn\nQuinta 3 ' von zynn\nSuper octava 2 ' von zünn\nRausch Quinta 1 1/2 ' von zünn\nMixtura 1'5x von zünn\nSub Paß 16' Holtz gedeckt\nOctav Baß 8' Holtz offen\nPrincipal Paß 4 ' von Zünn\nFlaut maior 8 ' von Holtz\nPrincipal 4' von Zinn\nFlaut minor 4 ' von Holtz\nQuinta 4'(!) von Zinn\nOctav 2' von Zinn\nMixtur 3* (1 1/3 z)"
+    },
+    {
+        "id": 127,
+        "place": "Jelení",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Ferdinand Winter",
+        "year_built": 1803,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Flaut Major 8'\nPrincipal4'\nVioleta4'\nFlaut Minor 4 z\nQuinta3'\nOctava2'\nMixtura 1'4x\nSubbass 16'\nOctavbass 8 ' dřevo otevř."
+    },
+    {
+        "id": 128,
+        "place": "Uherčice",
+        "municipality": "kostel sv. Jana Křtitele",
+        "organ_builder": "František Josef Klaudius Staudinger",
+        "year_built": 1804,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Flaut major 8'\nPrincipal 4' (C-F dřevo)\nFlaut Minor 4'\nOctava 2'\nQuinta 1 1/3 '\nMixtur 3 fach (1')\nOctavbass 8' dřevo\nSuperoctavbass 4 ' dřevo"
+    },
+    {
+        "id": 129,
+        "place": "Dalečín",
+        "municipality": "kostel sv. Jakuba",
+        "organ_builder": "Jiří Španěl",
+        "year_built": 1807,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Flaut major (8')\nFlauta minor (4')\nPrinzipal 4 ' (C-F dfevo)\nQuinta 2'(= 2 2/3 ')\nOctava 2 '\nMixtura 2fach (1 1/3 ')\nSubbass 16 ' (dřevo, kryt)\nOctavbass 8 ' (dřevo, kryt)"
+    },
+    {
+        "id": 130,
+        "place": "Suchdol u Prostějova",
+        "municipality": "kostel Navštívení Panny Marie",
+        "organ_builder": "František Harbich",
+        "year_built": 1810,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Viola da gamba 8 ‘ (C-c1 dřevo)\nFlaut major 8 ‘\nPrincipal 4'\nFlaut minor 4 ‘\nQuinta 3’\nOctave 2'\nMixtura 1 1/2'4*\nSubbaß 16\nViolinbaß 8’\nSuper Octavbaß 4 '"
+    },
+    {
+        "id": 131,
+        "place": "Dyjákovičky",
+        "municipality": "kostel sv. Víta",
+        "organ_builder": "Ignác Reinold",
+        "year_built": 1812,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Flaut Major 8 '\nPrincipal 4 ‘\nFlaut Minor 4 '\nOctav 2 '\nQuint 1 1/2 '\nMixtur 3 fach (1')\nSub Paß 16 ' dřevo, kryt\nPrincipal Pass 8 ‘ dtto\nViolon Pass 8 ' dtto"
+    },
+    {
+        "id": 132,
+        "place": "Uherčice",
+        "municipality": "kostel sv. Jana Křtitele",
+        "organ_builder": "František Harbich",
+        "year_built": 1814,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Flaut major 8 ‘ von Holtz gedeckt\nPrincipal 4 ' C-F von Holtz, die übrigen von Zinn\nFlaut amabilis 4 ‘ von Holtz offen\nOctava 2 ' gemischte Materie\nQuint minor 1 1/2 ' gemischte Materie\nMixtura 3fach 1 ‘ gemischte Materie\nOctav Bass 8 ' von Holtz offen\nSuper octav Bass 4' von Holtz offen"
+    },
+    {
+        "id": 133,
+        "place": "Líšeň",
+        "municipality": "kostel sv. Jiljí",
+        "organ_builder": "František Harbich",
+        "year_built": 1817,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Flaut Major 8'\nPrincipal 8 ' von feinem Zinn\nFlaut Minor 4 ‘ Holz gedeckt\nQünta 2 2/3 ‘\nSuper Octav 2 '\nMixtur 1'3*\nOctav Baß 8 ' Holz gedeckt\nViolin Baß 4' dtto"
+    },
+    {
+        "id": 134,
+        "place": "Nové Mesto nad Váhom",
+        "municipality": "evangelický kostel",
+        "organ_builder": "František Harbich",
+        "year_built": 1819,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Prinzipal 8 , C-H drevo\nFlot Major 8'\nOctava 4'\nFlöt Minor 4‘\nQuint Mayor 3 ‘\nSuper Oktav 2 ‘\nMixtur 1‘4x\nSubbas 16’\nOctav Bass 8°\nTremula"
+    },
+    {
+        "id": 135,
+        "place": "Horní Studénky",
+        "municipality": "kostel sv. Leonarda",
+        "organ_builder": "Jan Kuttler",
+        "year_built": 1821,
+        "manuals_count": 1,
+        "stops_count": 13,
+        "disposition": "Portunal 8° (dřevo, kryt, od c otevř.)\nFlauta Major 8'\nGamba 8‘ (C-H dřevo)\nPrincipal 4'\nFlauta minor 4'\nQuint 3 ‘\nSuperoctav 2°\nSedecima 1‘\nRauschquint 1 1/2\nMixtur 1'4x\nSubbass 16 ‘ (dřevo, kryt)\nPrincipal Baß (dřevo, otevř.)\nOctav Bass 4' (dřevo, otevř.)"
+    },
+    {
+        "id": 136,
+        "place": "Milonice",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": "František Harbich",
+        "year_built": 1823,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Copula maior 8'\nPrincipal 4'\nSalicional 8' (pův. Copula minor 4')\nQuinta 2 2/3'\nOctava 2'\nMixtura 1' 3*\nSubbas 16'\nOctavbas 8'"
+    },
+    {
+        "id": 137,
+        "place": "Albrechtice u Rýmařova",
+        "municipality": "kostel Nejsv. Trojice",
+        "organ_builder": "Josef Šebestián Staudinger",
+        "year_built": 1824,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Flaut maior 8 ' (dřevo)\nPrincipal4' (C, D, dřevo)\nFlaut minor 4 ' (dřevo)\nOctava 2'\nQiinda (!) 1 1/3'\nMixtur 1'3fach"
+    },
+    {
+        "id": 138,
+        "place": "Kostelec u Holešova",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": "František Harbich",
+        "year_built": 1825,
+        "manuals_count": 1,
+        "stops_count": 6,
+        "disposition": "Flaut Major 8 ' Holz gedeckt\nPrincipal 4 ' von feinem Zinn\nFlaut minor 4 ' Holz gedeckt\nOctava 2 '\nQúnt (!) minor 1 1/2'\nMuxtur (!) 1'2x\nOctava Bass 8 ' Holz offen\nOctava Bass 4' dtto"
+    },
+    {
+        "id": 139,
+        "place": "Těšetice",
+        "municipality": "kostel Nejsv. Trojice",
+        "organ_builder": "Ignác Reinold nebo Benedikt Latzl",
+        "year_built": 1825,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Copula major 8 '\nPrincipal 4'\nCopula minor 4'\nQuint 3 '\nOktav 2'\nMixtur 3* 1 1/3'\nPrincipal Bass 8 ' dřevo otevř.\nViolonBass4' dřevo otevř."
+    },
+    {
+        "id": 140,
+        "place": "Mladoňov",
+        "municipality": "kostel sv. Mikuláše",
+        "organ_builder": "Ignác Welzel",
+        "year_built": 1826,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Quintadena 8'\nFlauta major 8'\nPrincipal 4'\nFlauta minor 4'\nSuperoctav 2'\nQuinta 1 1/2'\nSedecima 1'\nMixtura 1'\nSubbass 16'\nViolonbass 8'\nPrincipalbass 4'"
+    },
+    {
+        "id": 141,
+        "place": "Kirchstetten (Dolní Rakousko)",
+        "municipality": "kostel Sv. Ducha",
+        "organ_builder": "Ignác Reinold",
+        "year_built": 1826,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Copel 8’ (drevo, kryt)\nPrincipal 4\nFlote 4 (drevo, kryt)\nQuint 3'\nOctav 2’\nMixtur 1‘ 3x\nViolonbas 8'\nOctavbafil'"
+    },
+    {
+        "id": 142,
+        "place": "Bohdalice",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "František Harbich",
+        "year_built": 1827,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Principal 8' C-F dřevo\nSalicional 8°\nQuintadena 8' C-H dřevo\nPortunal 8' dřevo\nFlaut Major 8'\nSubbass 16 ‘ otevřený\nOctavbass 8° otevřený\nOctava 4'\nFugara 4'\nQuinta 3 ‘\nMixtura 5x"
+    },
+    {
+        "id": 143,
+        "place": "Zlámanka",
+        "municipality": "kostel sv. Jiří",
+        "organ_builder": "Jan Nepomuk Ignác Staudinger",
+        "year_built": 1827,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Flaut Maior 8 ' von Fichten Holz\nPrincipal 4 z von Zinn\nFlaut Minor 4 ' von Fichten Holz\nQuinta 3 ' von Metall\nOctava 2 ‘ von Metall\nMixtura 1 ‘ 3 fach dtto\nSuppass16 ' von Fichten Holz\nOctavpass 8' dtto"
+    },
+    {
+        "id": 144,
+        "place": "Senica",
+        "municipality": "evangelický kostel",
+        "organ_builder": "František Harbich",
+        "year_built": 1829,
+        "manuals_count": 1,
+        "stops_count": 12,
+        "disposition": "Principal 8° (prospekt nový)\nSalicional 8’ (nepůvodní)\nGamba 8 ‘ (původně Quinta 2 2/3 )\nBordun 8/\nOctava 4‘\nFugara 4° (nepůvodní)\nPortunal 4‘ (trychtýřovitý)\nOctava 2’\nMixtura 1 1/3'3x (původně 5x)\nSubbass 16\nViolonbas 8'\nViolon 4"
+    },
+    {
+        "id": 145,
+        "place": "Domašov",
+        "municipality": "kostel sv. Vavřince",
+        "organ_builder": "František Svítil st.",
+        "year_built": 1830,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Gamba 8°\nBasson Flote 8 ‘ dřevo, otevř.\nPrincipal 4'\nFlauta amabilis 4/ dřevo, otevř.\nOctava 2°\nQuinta minor 1 1/3 ‘\nOctava minor 1 ‘\nMixtura 1'3*\nSuper Bass 16 ‘ (dřevo, kryt)\nViolon Bass 8° dtto\nOctav Bass 4’ dtto"
+    },
+    {
+        "id": 146,
+        "place": "Pavlov u Loštic",
+        "municipality": "kaple",
+        "organ_builder": null,
+        "year_built": 1831,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Gemshorn 8’ (kónický)\nFlaut major 8' (nová)\nPrincipal 4'\nFlote 4’ (dřevo, otevř.)\nKvinta 2 2/3 ‘\nOktáva 2'\nMixtura 1 1/3+11\nSubbass 16\nOctavbass 8 ‘"
+    },
+    {
+        "id": 147,
+        "place": "Svratka",
+        "municipality": "farní kostel",
+        "organ_builder": "Josef Strniště",
+        "year_built": 1832,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Quintacion 8‘ (!) C-H dřevo\nFlauta major 8° dřevo\nPrincipál 4 ‘ celý v prospektu\nFlauta 4’ dřevo\nOctava 2°\nQuinta 1 1/2°\nSuperoctva 1'\nMixtura 3x\nPrincipalbas 8‘ dřevo\nOktavbas 4 ‘ dřevo"
+    },
+    {
+        "id": 148,
+        "place": "Mühlbach (Dolní Rakousko)",
+        "municipality": null,
+        "organ_builder": "Ignác Reinold",
+        "year_built": 1835,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Gedackt 8'\nGamba 8’ (původně Quint 2 2/3°)\nPrinzipal 4'\nFlöte 4°\nOctav 2’\nMixtur 23x\nSubbass 16 ‘ (nový)\nViolonbass 8' (nový)\nOctavbass 8‘\nCello 8° (původně Octavbass 4')"
+    },
+    {
+        "id": 149,
+        "place": "Výšovice",
+        "municipality": "kostel sv. Vavřince",
+        "organ_builder": "František Harbich",
+        "year_built": 1835,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Bourdon 16 ‘ (nový hlas)\nPrincipál 8°\nSalicinál 8‘\nGamba 8‘ (místo Kvitny 2 2/3°)\nPortunál 8° (drevo, kryt)\nOktáva 4‘\nFlaut minor 4'\nSuboktáva 2'\nMixtura 5x 1 1/3’\nSubbas 16'\nViolonbas 8'\nKvintbas 5 1/3"
+    },
+    {
+        "id": 150,
+        "place": "Bordovice u Frenštátu",
+        "municipality": "kaple",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1836,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Flaut major 8'\nSalizional 8' (C-H z Flaut major)\nPrinzipal 4'\nFlaut minor 4'\nQuinta 2 2/3'\nOctava 2'\nMixtura 1 1/3'3x\nSubbass 16'\nOctav Bass 8'"
+    },
+    {
+        "id": 151,
+        "place": "Přítluky",
+        "municipality": "kostel sv. Markéty",
+        "organ_builder": "František Harbich",
+        "year_built": 1837,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Flöte 8'\nPrincipal 4'\nFlöte 4' (Gamba 8 ')\nSuperoctava 2\" (Salicional 8' )\nQuint 1 1/3 '\nMixtur 1 1/3 ' (2 ' + 1 1/3 9\nSubbass 16'\nViolonbass 8'"
+    },
+    {
+        "id": 152,
+        "place": "Kujavy",
+        "municipality": "kostel sv. Michaela archanděla",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1838,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Prinzipal 8' (CDEF drevo)\nViola da gamba 8'\nPortunal 8' (drevo)\nOctav 4'\nFlaut minor 4\"\nFlaut traver 4' (dřevo, otevř.)\nQuint 2 2/3'\nSuper Octav 2'\nMixtur 4x (dnes jen 3*) 11/3\nSubbass 16'\nOctav Bass 8'\nSuper Octav 4 '"
+    },
+    {
+        "id": 153,
+        "place": "Hošťálková",
+        "municipality": "kostel Povýšení svätého Kříže",
+        "organ_builder": "Antonín Hanačík",
+        "year_built": 1840,
+        "manuals_count": 2,
+        "stops_count": 11,
+        "disposition": "Flaut major 8 ‘\tSuperoctava 2°\nPrincipal 4\tQuintal 1/3'\nFlaut minor 4’\tMixtura 2x\nSubbass 16'\nOctavbass 8'"
+    },
+    {
+        "id": 154,
+        "place": "Lískovec u Frýdku",
+        "municipality": "kostel sv. Šimona a Judy",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1842,
+        "manuals_count": 1,
+        "stops_count": 7,
+        "disposition": "Flaut maior 8'\nPrinzipal 4'\nFlaut minor 4'\nQuint 2 2/3'\nMixtur 3x (2'7)\nSubbass 16'\nPrinzipal Bass 8'"
+    },
+    {
+        "id": 155,
+        "place": "Brankovice",
+        "municipality": "kostel sv. Mikuláše",
+        "organ_builder": "Antonín Hanačík",
+        "year_built": 1842,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Portunal 8'\nFlaut Major 8 '\nPrincipal 4 '\nFlaut Minor 4 '\nQuinta major 3 ' (Gamba 8 ')\nOctav 2'\nQuinta Minor 1 1/2 '\nMixtura 1‘3x\nSubbass 16'\nOctavbass 8'"
+    },
+    {
+        "id": 156,
+        "place": "Bernartice nad Odrou",
+        "municipality": "kostel Navštívení Panny Marie",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1843,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Flaut maior 8'\nSalizional 8'\nPrinzipal 4\nFlaut minor 4'\nQuinta 2 2/3\nOctav 2’\nMixtur 3x\nSubbass 16 '\nPrinzipal Bass 8‘"
+    },
+    {
+        "id": 157,
+        "place": "Bítov",
+        "municipality": "kaple Nanebevzetí Panny Marie na hradě Bítově",
+        "organ_builder": "Christoph Erler",
+        "year_built": 1845,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Coppel 8°(dřevo kryt)\nGamba 8 ‘ (nepůvodní hlas, asi místo Kvinty 2 2/3 )\nGemshorn 8° (C-H dřevo, dále kov, kónický)\nPrinzipal 4‘\nFlauta 4‘ (dřevo, kryt)\nOctava 2'\nMixtura 1 1/3°3x\nHarmonika 8°\nPrinzipalbass 8°\nOctavbass 4 ‘\nFagott 16"
+    },
+    {
+        "id": 158,
+        "place": "Rychvald u Karviné",
+        "municipality": "kostel sv. Anny",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1845,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Flaut maior 8‘\nFlaut amabilis 8'\nPrinzipal 4‘\nFugara 4‘\nFlauto dolce 4‘\nQuint 2 2/3'\nOctav 2’\nMixtur 3x (1 1/3')\nSubbass 16\nPrinzipalbass 8'"
+    },
+    {
+        "id": 159,
+        "place": "Charváty",
+        "municipality": "kostel sv. Jana Křtitele",
+        "organ_builder": "Christoph Erler",
+        "year_built": 1845,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Principal 8' von Zinn\nGemshorn 8° von Zinn\nCoppel 8' dřevo, kryt\nOctav 4 ‘ von Zinn\nViola 4’ Metall\nSpitzfloet 4‘ Zinn\nQuinta 3' Metall\nOctav 2° Zinn\nMixtur 1 1/2'3x Zinn\nSubbass 16' dřevo, kryt\nOctavbass 8 ' dřevo, kryt\nPrincipaloctav 4' von feinem Zinn im Prospect"
+    },
+    {
+        "id": 160,
+        "place": "Karviná",
+        "municipality": "kostel sv. Petra z Alkantary",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1847,
+        "manuals_count": 1,
+        "stops_count": 11,
+        "disposition": "Prinzipal 8' (C-G drevo)\nViola da Gamba 8'\nFlaut maior 8'\nOctav 4'\nFugara 4'\nFlauto dolce 4'\nQuint 2 2/3'\nSuperoctav 2'\nMixtur 3'\nSubbass 16'\nPrinzipalbass 8"
+    },
+    {
+        "id": 161,
+        "place": "Nížkovice",
+        "municipality": "kostel sv. Kunhuty",
+        "organ_builder": "František Svítil st.",
+        "year_built": 1847,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Portunal 8 ’ (?)\nPrincipal 4\nFlauta minor 4 ’ (dnes Gamba 8 )\nQuinta maior 2 2/3 ’ (dnes Salicional 8°)\nOktava 2’\nQuinta minor 1 1/3°\nMixtur 1 ’ 3x (dnes 1 řada)\nSubbas 16\nOctavbas 8'\nSuperoctavbas 4 ’ (dnes chybí)"
+    },
+    {
+        "id": 162,
+        "place": "Troubsko",
+        "municipality": "kostel Nanebevzetí P. Marie",
+        "organ_builder": "František Harbich",
+        "year_built": 1847,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Principál 8' (původně 4')\nSalicionál 8° (původně Kopula minor 4°)\nGamba 8' (původně Kvinta 2 2/3 )\nKopula major 8°\nOktáva 4\"\nSuperoktáva 2°\nMixtura 1 1/3’ 3x\nSubbas16'\nOktávbas 8 '\nSuperoktávbas 4' (?)"
+    },
+    {
+        "id": 163,
+        "place": "Rudíkov",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": "František Svítil st.",
+        "year_built": 1848,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Bassonfloete 8°\nPrincipal 4Z\nFlauta 4\nQuinta 2 2/3' (dnes Gamba 8°)\nOctava 2 '\nQuinta 1 1/3 (dnes Aeolina 8 )\nMixtura 1 3x\nSuperbas 16 '\nViolonbas 8'\nOctavbas 4'"
+    },
+    {
+        "id": 164,
+        "place": "Komňa",
+        "municipality": "kostel sv. Jakuba Většího",
+        "organ_builder": "Antonín Hanačík st.",
+        "year_built": 1848,
+        "manuals_count": 1,
+        "stops_count": 10,
+        "disposition": "Portunál 8' (drevo, otevr.)\nKopula 8° (Bordun 8)\nPrincipál 4'\nKopula 4 (dnes Gamba 8°)\nQuinta 2 2/3 ‘ (dnes Salicionál 8 ')\nOktáva 2’\nKvinta 1 1/3’\nSubbas 16\nOktávbas 8‘ (kov, nový hlas)\nMixtura 1 ‘ 3x (rep. na c1 a c2)"
+    },
+    {
+        "id": 165,
+        "place": "Urbanov",
+        "municipality": "kostel sv. Jana Křtitele",
+        "organ_builder": "František Svítil st.",
+        "year_built": 1849,
+        "manuals_count": 1,
+        "stops_count": 8,
+        "disposition": "Flétna 8’\nPrincipal 4\nFlauta amabilis 4’\nOktáva 2\nKvinta 1 1/3\nMixtura (dnes Gamba 8°)\nSubbas 16'\nViolon 8'"
+    },
+    {
+        "id": 166,
+        "place": "Holešov",
+        "municipality": "kostel sv. Anny bývalého kláštera trinitářů",
+        "organ_builder": null,
+        "year_built": null,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Principál 8' (C-H z Octavbassu 8 )\nFlaut major 8‘\nGedeckt 4‘\nSub Octav 2 ‘\nQuint 1 1/3'\nMixtur 1' 2x\nSubbass 16'\nOctavbass 8'"
+    },
+    {
+        "id": 167,
+        "place": "Mniší",
+        "municipality": "kostel sv. Maří Magdaleny",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1850,
+        "manuals_count": 1,
+        "stops_count": 9,
+        "disposition": "Flaut maior 8 ‘\nSalizional 8\nPrinzipal 4‘\nFlaut minor 4’\nQuint 2 2/3\nOctav 2 ‘\nMixtur 3x (1 1/3 )\nSubbass 16'\nOctav Bass 8'"
+    },
+    {
+        "id": 168,
+        "place": "Opava",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": null,
+        "year_built": 1670,
+        "manuals_count": 2,
+        "stops_count": 26,
+        "disposition": "Subbass von Holtz 16 '\nPrincipal aus zihn 8 '\nQuinta dena aus gemischter materi 8 ‘\ngroße flet aus Holtz 8 '\nQuint aus zin 6'\nOctav aus zin 4 ‘\nkleine flet aus zin 4 '\nQuint aus zin 3 '\nSuper Octav 2 ‘\nWallflete aus Holtz 2'\nMixtur 4 fach\nCymbal (3x ?)\n... (a další rejstříky podle hlavního stroje, Rückpositivu a pedálu)"
+    },
+    {
+        "id": 169,
+        "place": "Brno",
+        "municipality": "kostel sv. Tomáše",
+        "organ_builder": "Matouš Roskoš",
+        "year_built": 1679,
+        "manuals_count": 2,
+        "stops_count": 22,
+        "disposition": "Principale 8 pedum\nSalecinale 8 pedum\nCoppel 8 pedum\nQuinta major 6 '\nCoppel 4 pedum\nPrincipale 4 pedum\nFlet 2 pedum\nQuinta 3 pedum\nOctava 4 pedum\nNocturnus 4 pedum\nQuinta minor 3 pedum\nSuperoctava 2 pedum\nMixtura 4plex\nCymbalum 3plex\nSubbass 16 pedum\nalter Subbass 8 pedum\nBordon 6 pedum\nPrincipal bass 8 pedum\nQuinta 6 pedum\nOctava 4 pedum\nMixtura 3plex"
+    },
+    {
+        "id": 170,
+        "place": "Brno",
+        "municipality": "kostel sv. Jakuba",
+        "organ_builder": "Jakub Ryšák a Ondřej Beck",
+        "year_built": 1693,
+        "manuals_count": 2,
+        "stops_count": 26,
+        "disposition": "Manuál\n1) Ein Sub-bass von 16 Fuss von Holtz (krytý?)\n2) Ein Principal ins Gesicht vom klaren Zinn von 8 Schuh\n3) Ein Salecinal von 8 Fuss von Materi, das ist von Zinn mit bley vermischt\n...\n7) Eine 6fachige mixtur von materi"
+    },
+    {
+        "id": 171,
+        "place": "Zdar nad Sázavou",
+        "municipality": "kostel sv. Prokopa",
+        "organ_builder": "Jan David Sieber",
+        "year_built": 1695,
+        "manuals_count": 2,
+        "stops_count": 20,
+        "disposition": "In Manuali\nPrincipal z G k wideni z Czeynu 8'\nSalicional z Materie 8'\n...\nOctava Bassus od drzewa 8'"
+    },
+    {
+        "id": 172,
+        "place": "Olomouc",
+        "municipality": "katedrála sv. Václava",
+        "organ_builder": "Theodor Agadoni",
+        "year_built": 1701,
+        "manuals_count": 2,
+        "stops_count": 26,
+        "disposition": "In großen Manual\nPrincipal 8'\nPiffara 8'\n...\nMixtur 6fach"
+    },
+    {
+        "id": 173,
+        "place": "Opava",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Ignác Ryšák",
+        "year_built": 1708,
+        "manuals_count": 2,
+        "stops_count": 23,
+        "disposition": "Hlavní stroj\nSub-Bass 16\nPrincipal 8'\nQuitadena 8'\nHoltzern Principal 8’\nFlaut Major 8 ‘\nQuinta 6 Octava 4’ Spielflote 4/ Flaut minor 4/ Quinta 3’\nSuper Octav 2'\nVal Floet 2\nMixtura 8x\nPositiv\nFloet Major (8 )\nPrincipal (4 )\nQuintadena (4 )\nSpielflot (4 )\nFloet Minor 4 ‘\nQuinta (2 2/3 ‘?)\nOctava (2 )\nMixtura\nPedál\nPrincipal von Zinn 16 ‘\nViolon-Bass 16 ‘\nSub-Bass 16'\nOctav Principal 8 '\nOctava 8°\nPosaune 16"
+    },
+    {
+        "id": 174,
+        "place": "Polná",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Jan David Sieber",
+        "year_built": 1708,
+        "manuals_count": 2,
+        "stops_count": 30,
+        "disposition": "Hlavní stroj\nBourdonflöte 16\nPrincipal 8\nSalicional 8°\nGamba 8‘\nQuinta dena 8°\nQuinta major 6'\nOctava 4‘\nFugara 4‘\nSpitzflöte 4\nNachthorn 4‘\nQuinta minor 3'\nSuperoctava 2’\nSedecima 1‘\nRausch-Quinta 1 1/3’ 2x\nMixtura 1 1/3 ‘ 5x (s tercif)\nCymbel 13x\nPedál\nSubbass 16 ' dřevo, otevř.\nSubbass 16 ‘ dřevo, kryt\nOctavbass 8 ' cín\nQuintbass 6‘ dřevo\nSuperoctavbass 4' cín\nSchnarrbass 16 ‘ ozv. dřevo\nTrompetbass 8° ozv. cín\nPositiv\nCopula 8' dřevo\nPrincipal 4‘\nCopula minor 4 ‘\nNassat quinte 3 ‘\nOctava 2'\nQuinta 1 1/3'\nSuperoctava 1 '\nMixtura 1'4x"
+    },
+    {
+        "id": 175,
+        "place": "Krnov",
+        "municipality": "kostel sv. Martina",
+        "organ_builder": "Anton Theodor Agadoni",
+        "year_built": 1710,
+        "manuals_count": 2,
+        "stops_count": 20,
+        "disposition": "Manual\nPrincipal 8'\nPortunal 8 ‘\nQuintadena 8°\nOctave 4'\nFloet Sorduen 4'\nQuinta 3'\nSuper Octava 2°\nQuindecima 1 1/3'\nSedecima 1 ‘\nMixtura 3x\nPiffara\nUnter-Clavier\nFloet Major 8'\nFloet Minor 4 ‘\nCornu Mutuni 4’\nPedal\nGrand Bass 16 ‘\nBourdon 8'\nOctava 4‘\nMixtur 4x"
+    },
+    {
+        "id": 176,
+        "place": "Zdar nad Sázavou",
+        "municipality": "Zámek - kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Jan David Sieber (přisuzováno)",
+        "year_built": null,
+        "manuals_count": 2,
+        "stops_count": 23,
+        "disposition": "Hlavní stroj\nPrincipál 8\nSalicionál 8 ‘\nKvintadena 8°\nOktáva 4'\nFugara 4'\nKvinta major 2 2/3 ‘\nNassaton 2 2/3’\nSuperoktáva 2‘\nRauschquinta 1 1/3 ' + 1'\nMixtura 1 ‘ 6-5x\nPositiv\nCopula major 8\nOktáva 4'\nCopula minor 4‘\nMixtura 2+1 1/3\nPedál\nSubbas16\nOktávbas 8'\nKvinta 5 1/3 ‘\nSuperoktáva 4'"
+    },
+    {
+        "id": 177,
+        "place": "Brno",
+        "municipality": "kostel sv. Michala",
+        "organ_builder": "Jan David Sieber",
+        "year_built": 1716,
+        "manuals_count": 2,
+        "stops_count": 21,
+        "disposition": "Hlavní stroj\nPrinzipal 8 ‘\nSalicional 8‘\nQuintadena 8‘\nBourdonflóte 8‘\nOktave 4‘\nFugara 4'\nFlote 4’\nOktave 2‘\nQuinte 2 2/3°\nOktave 1 ‘\nRauschquint 1 1/3 2x\nMixtur 6x\nPositiv\nCoppel Major 8 ‘\nPrinzipal 4 1\nMinor 4‘\nOktave 2‘\nQuinte 1 1/3°\nMixtur 3x\nPedál\nPrinzipalbaB 16'\nSubbaB 16 ‘\nOktavbaB 8\"\nCornettbaB 3x"
+    },
+    {
+        "id": 178,
+        "place": "Radešínská Svratka",
+        "municipality": "kostel sv. Václava",
+        "organ_builder": "Jan David Sieber",
+        "year_built": 1720,
+        "manuals_count": 2,
+        "stops_count": 19,
+        "disposition": "Hlavní stroj\nFlauta 8°\nGamba 8’\nPrincipál 4’\nSalicionál 4’\nOktáva 2'\nFlautina 2°\nOktáva 1’\nMixtura 1 1/3 ‘\nPositiv\nKopula maior 8°\nKvintadena 4‘\nKopula minor 4'\nOktáva 2°\nKvinta 1 1/3 ‘\nOktáva 1 ‘\nPedál\nSubbas 16\nViolonbas 8°\nOctavbas 4‘"
+    },
+    {
+        "id": 179,
+        "place": "Opava",
+        "municipality": "jezuitský kostel sv. Jiří",
+        "organ_builder": "Václav Thiel a Kristina Ryšáková",
+        "year_built": 1720,
+        "manuals_count": 2,
+        "stops_count": 22,
+        "disposition": "Manuál\nPrincipal 8 ' von Metali\nQuintadena 8'\nFlett major 8 ' von Holtz\nOctava 4'\nSpitz Flett 4'\nFlett minor 4 ' von Holtz\nQuinta 3'\nSuper octava 2 ‘\nQuindecima 1 1/2 ‘\nMixtur 5fach\nPositiv\nFlett Major 8 ' von Holtz\nPrincipal 4 ' von Metall\nFlett minor 4 ' von Holtz\nQuinta 3'\nOctava 2'\nMixtur 3fach\nPedál\nBass 16 ' offen von Holtz\nBass 16 ' zugedeckt von Holtz\nPrincipal 8 ‘ von Metall\nOctava 8 ' von Holtz\nSuperoctava 4 ' von Metall"
+    },
+    {
+        "id": 180,
+        "place": "Dačice",
+        "municipality": "františkánský kostel sv. Antonína",
+        "organ_builder": "Václav Pantoček",
+        "year_built": 1720,
+        "manuals_count": 2,
+        "stops_count": 21,
+        "disposition": "Manuál\nPrincipal z čistyho cínu 8 střevíců\nBasson odevřenej ze dřeva 8 dtto\nOctava 4'\nQuinta 3 '\nSuperoctava 2 '\nQuindecima 1 1/2'\nMixtura třikrát tuplovaná 1 '\nCymbal třikrát tuplovanej 1/2'\nPositiv\nCopl Major 8'\nPrincipal z čistyho činu 4 '\nCopl Minor 4'\nOctava 2 '\nQuindecima 1 1/2'\nSedecima 1'\nPedál\nBass zavřenej 16'\nSubbass zavřenej 8'\nPortunal otevřenej 8'\nOctava odevřena 4'"
+    },
+    {
+        "id": 181,
+        "place": "Svatý Kopeček",
+        "municipality": "kostel Navštívení Panny Marie",
+        "organ_builder": "Antonín Richter",
+        "year_built": 1724,
+        "manuals_count": 2,
+        "stops_count": 25,
+        "disposition": "Hlavní stroj\nPrinzipal 8 ‘\nSalizionale 8°\nQuintatön 8 ‘\nFlauta maior 8°\nOctav 4 ‘\nFlaut minor 4'\nQuint 3 ‘\nSuperoctav 2‘\nMixtur 5fach 1 1/2°\nScharfmixtur 4fach 1/2\"\nPositiv\nCoppel maior 8'\nPrinzipal 4'\nSpitzflöt 4\nCoppel minor 4’\nOctav 2'\nQuint 1 1/2°\nMixtur 4fach 1\"\nPedál\nMajorbass 16 ‘\nSubbass 16\nPrinzipalbass 8°\nBass minor\nQuintbass 6'\nOctavbass 4'\nMixtur 4fach 2'\nFagott 8 ‘"
+    },
+    {
+        "id": 182,
+        "place": "Telč",
+        "municipality": "kostel sv. Jakuba",
+        "organ_builder": "Václav Pantoček",
+        "year_built": 1725,
+        "manuals_count": 2,
+        "stops_count": 22,
+        "disposition": "Hlavní stroj\nPrincipal 8\nSalecinal 8‘\nBason 8'\nQvinta major 6°\nOctava 4'\nFugara 4‘\nQuinta 3'\nSuperoctava 2'\nQuindecima 1 1/2\nMixtura 3x 1 ‘\nCimbal 3x 1/2'\nHorní stroj\nCopl major 8°\nPrincipal 4’\nCopl minor 4'\nFletna 4'\nSuperoctava 4 '\nQuinta 3'\nOctava 2'\nQuindecima 1 1/2°\nPedál\nSub Bass 16‘\nOctav Bass 8°\nQvint Bass 6\""
+    },
+    {
+        "id": 183,
+        "place": "Jaroměřice nad Rokytnou",
+        "municipality": "kostel sv. Markéty",
+        "organ_builder": "Václav Pantoček",
+        "year_built": 1728,
+        "manuals_count": 2,
+        "stops_count": 18,
+        "disposition": "Manual Major\nPrincipal 8 '\nOctava 4 '\nQuinta 3 '\nSuper Octava 2 '\nQuindecima 1 1/2 '\nSedecima 1 '\nMixtura 4fach 1 '\nCymbal 4fach 6\"\n\nManual Minor\nCopl Major von Holtz 8 '\nPrincipal 4 '\nCopl Minor 4 ' von Holtz\nOctava 2 ‘\nQuinta 1 1/2'\nMixtura 3fach 1 '\n\nPedal\nSub Bass von Holtz zugemachter 16 '\nPortunal von Holtz offener 8 '\nQuinta Bass dtto 6'\nOctav Bass dtto 4'"
+    },
+    {
+        "id": 184,
+        "place": "Olomouc",
+        "municipality": "jezuitský kostel Panny Marie Sněžné",
+        "organ_builder": "Jan Bohumír Halbich ml.",
+        "year_built": 1730,
+        "manuals_count": 2,
+        "stops_count": 24,
+        "disposition": "Manual I (In dem Manuali)\nPrincipal 8 '\nSalicional 8 '\nViola de gamba 8 ‘\nQuintadena 8'\nOctava 4'\nFlauta 4 '\nQuinta 3'\nSuperoctava 2 '\nSesquialtera (2 2/3 ' + 1 3/5 )\nRauschquinta 1 1/2 ‘ mit 1 '\nMixtura 6fach\nCimbal 4fach\n\nManual II (In Positivo)\nCopl major 8 '\nPrincipal 4 ‘\nFugara 4'\nCopl minor 4 ‘\nSuperoctava 2 ‘\nQuinta 1 1/2 '\nMixtura (1 ) 3fach\n\nPedal (In Pedali)\nPrincipal Bass 16 '\nSub Bass 16'\nOktävbas 8'\nQuinta Bass 6 ‘\nSuperoctava 4 '\nCornet Bass 4 fach (8 )"
+    },
+    {
+        "id": 185,
+        "place": "Brno",
+        "municipality": "minoritský kostel sv. Janů",
+        "organ_builder": "Antonín Richter",
+        "year_built": 1732,
+        "manuals_count": 2,
+        "stops_count": 35,
+        "disposition": "Hlavní stroj 2001\nPrincipál 8\nPortunal 8’\nPiffera 8\nQuintadena 8°\nOktáva 4’\nFletPrinzipal 4\nQuinta 2 2/3'\nNassaton 2 2/3 '\nSuperoctava 2'\nQuindecima\nSedecima 1'\nRauschquinta 1 1/3 ' 3-2x\nMixtura 1' 5*\n\nPositiv 2001\nCopula maior 8'\nPrinzipal 4'\nCopula minor 4'\nOctava 2'\nQuindecima 1 1/3 '\nMixtur 1°3x\n\nPedál 2001\nPrinzipalbass offen 16'\nSubbass 16'\nPrinzipal 8 '\nChoralbass 4'\nMixtur 2 2/3 ' 3x"
+    },
+    {
+        "id": 186,
+        "place": "Jihlava",
+        "municipality": "kostel sv. Ignáce",
+        "organ_builder": "Tomáš Schwarz",
+        "year_built": 1732,
+        "manuals_count": 2,
+        "stops_count": 20,
+        "disposition": "Hlavní stroj\nPrincipál 8°\nSalicionál 8'\nQuintadena 8°\nOktáva 4'\nFugara 4'\nFlétna 4°\nQuinta 2 2/3’\nSuperoctava 2‘\nQuintadecima 1 1/3\nSedecima 1 ‘\nMixtura 1 ‘ 5*\n\nPositiv\nCopula major 8'\nPrincipál 4‘\nCopula minor 4 ‘\nOktáva 2'\nQuinta 1 1/3°\nMixtura 13x\n\nPedál\nViolonbas 16 '\nSubbas 16 ‘\nPrincipálbas 8°\nOktávbas 4‘\nSuperoctava 4'"
+    },
+    {
+        "id": 187,
+        "place": "Štěpánov u Olomouce",
+        "municipality": "kostel sv. Vavřince",
+        "organ_builder": "Jan Bohumír Halbich ml.",
+        "year_built": 1732,
+        "manuals_count": 2,
+        "stops_count": 17,
+        "disposition": "Hlavní stroj - II. manuál\nPrincipál 8 ‘\nFlétna špičatá 8'\nOktáva 4/\nKvinta 2 2/3\nSuperoktáva 2'\nMixtura 2x 1 1/3 ‘\nKvinta šumivá 2x 2/3 ‘\n\nPositiv - I. manuál\nKvintadena 8°\nFlauta 8°\nKopula 4)\nKopula 8'\nPrincipál 2°\nFlauta minor 4’\nKvinta 1 1/3 \nKopula minor 4'\nSedecima 1\n\nPedál\nSubbas 16’\nPrincipálbas 8’\nOktávbas 8 ‘\n4 '"
+    },
+    {
+        "id": 188,
+        "place": "Rajhrad",
+        "municipality": "klášter sv. Petra a Pavla",
+        "organ_builder": "Antonín Richter",
+        "year_built": 1733,
+        "manuals_count": 2,
+        "stops_count": 20,
+        "disposition": "Hlavní stroj\nPrincipal 8 ‘\nBiffera 8'\nSolicional 8 ‘\nQuinta Dena 8'\nOctava 4'\nFugara 4'\nQuinta 3'\nSuper octav 2 ‘\nQuint Dec. 1 1/2 '\nMixtur 5x\n\nPositiv\nCopel major 8 '\nPrincipal 4 '\nCopel minor 4 '\nNasata 3'\nOctav 2'\nSpitzfleth 4'\nNacht horn 4 '\nRauschquint 1 1/2 '\n\nPedál\nOffener Supas von holtz 16 '\nPortun Paß von holtz 16 '\noctav Pass von holtz 8 '\nsuper octav von ziln 4 '"
+    },
+    {
+        "id": 189,
+        "place": "Mohelnice",
+        "municipality": "kostel sv. Tomáše z Canterbury",
+        "organ_builder": "Johann Michael Roder nebo Michael Engler",
+        "year_built": 1734,
+        "manuals_count": 2,
+        "stops_count": 22,
+        "disposition": "Hlavní stroj\nPrincipál 8'\nGamba 8‘\nSalizional 8°\nQuintatön 8'\nOctava 4\nNachthorn 4\nQuint et Super-Octav 3 + 2 ‘\nMixtur 1 1/2° 4 chör\nCimbel 1/2'4 chör\n\nPositiv\nGemshorn 8'\nFlaut major 8'\nPrincipal 4'\nFugara 4'\n\nPedál\nGeneralbaß 16 '\nSubbaß 16 '\nPrinzipalbaß 8'\nPrinzipal 4'\nFlaut minor 4'\nSuper-Octav 2'\nMixtur 1/2'3 chör\nCornet 2 2/3 '+ 2'"
+    },
+    {
+        "id": 190,
+        "place": "Havlíčkův Brod",
+        "municipality": "bývalý augustiniánský kostel Svaté Rodiny",
+        "organ_builder": "Antonín Richter",
+        "year_built": 1737,
+        "manuals_count": 2,
+        "stops_count": 12,
+        "disposition": "Hlavní stroj\nPrincipál 8'\n\nPositiv\nFlétna (8 )\nCopula maj. 8'\nOctava 4‘\nFlauta amabilis 4 ‘\nCopula minor 4‘\nQuinta (2 2/3 )\nSuperoctava (2 )\nQuinta (1 1/3 )\nMixtur 5x\nCopula 4\nPrincipál (2'7)\n\nPedál\nSubbass 16 ‘\nOctavbass 8 '"
+    },
+    {
+        "id": 191,
+        "place": "Brtnice",
+        "municipality": "kostel sv. Juliány v zámku",
+        "organ_builder": "Bedřich Semrád (?)",
+        "year_built": 1740,
+        "manuals_count": 2,
+        "stops_count": 18,
+        "disposition": "Hlavní stroj\nCopula maior 8'\nGamba 8'\nPrincipál 4'\nFlauta 4'\nQuinta 2 2/3’\nSuperoktáva 2‘\nMixtura 1 1/3’ 3x\n\nPositiv\nCopula maior 8 ‘\nCopula minor 4‘\nPrincipál 2 '\nOktáva 1\n\nPedál\nSubbas 16'\nOktávbas8 '\nOktáva 4'"
+    },
+    {
+        "id": 192,
+        "place": "Brno",
+        "municipality": "jezuitský kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Tomáš Schwarz",
+        "year_built": 1743,
+        "manuals_count": 2,
+        "stops_count": 25,
+        "disposition": "Manuale majus organi\nPrincipale 8'\nSalicionale 12 '\nPortunale ordinarium ex ligno\nCopula major ordinaria ex ligno\nOctava 4'\nFugara 4'\nQuinta 6' vel 1 '\nSuperoctava 2 '\nSedecima 1 '\n\nManuale minus organi seu Ruck-Positiv\nPortunale ordinarium ex ligno\nFletna major ex ligno\nPrincipale 4 '\nFlettna minor ex ligno\nQuinta vel 3° vel 4 '\nOctava 2 ‘\nMixtura quadruplex\nSesquialtera 2 ‘\nMixtura 6 tuplex\n\nPedale\nSubbas apertum 16'\nQuinta 12' vel 6'\nSubbas tectum 8' vel 16'\nSuperoctava 4'\nOctava aperta 8 '"
+    },
+    {
+        "id": 193,
+        "place": "Uničov",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Michael Roeder",
+        "year_built": 1745,
+        "manuals_count": 2,
+        "stops_count": 23,
+        "disposition": "Hlavní stroj\nPrincipal 8’\nMezzo Principal 8‘ (c1-c3)\nQuintadena 8 '\nUnda maris 8’\nOctav 4 ‘ Quint 3 ‘ Super Octav 2' Quint minor 1 1/2 Mixtur 1 1/2'4x Cymbalo 1' (1/2 ?) 3x\nPositiv\nSalicional 8'\nPortunal 8'\nCoppel major 8'\nPrincipal 4'\nCoppel minor 4' Octav 2' Quint 1 1/2' Mixtur 1 3x\nPedál\nMajorbass 16' otevřený\nSubbass 16'\nOctavbass 8'\nBasso minor (Superoctav) 4'\nDiscantbass (Mixtur) 2'3x"
+    },
+    {
+        "id": 194,
+        "place": "Velehrad",
+        "municipality": "kostel Nanebevzetí Panny Marie a sv. Cyrila a Metoděje",
+        "organ_builder": "Antonín Richter s Františkem Ignácem Siebrem",
+        "year_built": 1747,
+        "manuals_count": 2,
+        "stops_count": 28,
+        "disposition": "Levé křídlo\nPrincipale 8 '\nSalicionale 8 '\nCopla major 8 '\nOctava 4'\nFugara 4 '\nCopla minor 4 '\nQuinta 2 2/3 '\nOctava 2 '\nQuindecima 1 1/3 ‘\nSedecima 1 '\nMixtura\nPravé křídlo\nPrincipale 8 '\nPifara 8'\nGamba 8'\nQuintadena 8'\nOctava 4'\nSpitz Flet 4 '\nNachthorn 4'\nQuinta 2 2/3'\nSuper Octava 2 '\nQuintadecima 1 1/3'\nSesqui altera 2 2/3 '+ 1 3/5 '\nMixtura\nPedál\nPrincipal Bass 16 'nebo 8 ' kov\nSub Bass 16 ' dřevo\nBurdun 16 ' dřevo\nOctav Bass 8 ' dřevo\nQuint-Bass Maj. 5 1/3 ' kov\nSuper Octav Bass 4 ' kov\nQuint-Bass Min. 2 2/3 ' kov\nFagot 8 ' kov"
+    },
+    {
+        "id": 195,
+        "place": "Valtice",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Johann Hencke",
+        "year_built": 1750,
+        "manuals_count": 2,
+        "stops_count": 20,
+        "disposition": "Hlavní stroj\nPrincipal 8°\nSalicional 8°\nCoppel 8\nOctav 4\nSpitz Fleten 4'\nFleten gedeckt 4' dřevo\nQuint 3\nSuper Octav 2'\nSedecima 1' (rep. na co, c2)\nMixtur 2 ‘(!) 4x (rep. na c1, c2)\nPositiv\nCopel 8 '\nPrincipal 4‘\nPleten 4' dřevo, kryt\nOctav 2’\nQuinta 1 1/2'\nPedál\nContrabass 16 ' otevř.\nSubbass 16'\nOctavbass 8'\nQuintbass 6'\nOctavbass 4' kov"
+    },
+    {
+        "id": 196,
+        "place": "Kopřivná",
+        "municipality": "kostel Nejsvětější Trojice",
+        "organ_builder": "Kašpar Welzel st.",
+        "year_built": 1750,
+        "manuals_count": 2,
+        "stops_count": 27,
+        "disposition": "Hlavní stroj\nPrinzipal 8 '\nSalicional 8 '\nCopula maior 8'\nOctava 4'\nGemshorn 4’\nCopula minor 4°\nQuint maior 3'\nSuperoctav 2 ‘\nQuint minor 1 1/2°\nSedecima 1’\nMixtur 4fach\nPositiv\nCopula maior 8°\nPrinzipal 4'\nCopula minor 4’\nQuinta 2 2/3 ‘\nOctav 2°\nMixtur 2fach\nPedál\nSubbass 16 '\nPrincipalbass 8'\nOctavbass 8‘\nCornet 4fach\nKryt 8 ‘\nOctava 4 ‘\nDolce 4/\nQuinta 2 2/3°\nOctava 2°\nRauschquint 2 fach\nSubbas 16\nOctavbass 8°\nPrincipalbass 4‘\nCello 8‘"
+    },
+    {
+        "id": 197,
+        "place": "Křenov",
+        "municipality": "kostel sv. Jana Křtitele",
+        "organ_builder": "neznámý (snad brněnský stavitel)",
+        "year_built": 1750,
+        "manuals_count": 2,
+        "stops_count": 17,
+        "disposition": "Hlavní stroj\nPrincipal 8'\nOctava 4‘\nQuinte 2 2/3\nOctava 2\"\nRauschquinta 1 1/3'\nMixtura 1 1/3'4x\nPositiv\nGeigenprinzipal 8'\nSalizional 8 ‘\nQuintatön 8\nGedeckt 8 ‘\nFugara 4'\nPedál\nSubbass 16\nOctavbass 8 '\nOctavbass 4'"
+    },
+    {
+        "id": 198,
+        "place": "Jindřichov ve Slezsku",
+        "municipality": "kostel sv. Mikuláše",
+        "organ_builder": "Šebestián Staudinger",
+        "year_built": 1751,
+        "manuals_count": 2,
+        "stops_count": 16,
+        "disposition": "Hlavní stroj\nPrincipal 8 ‘\nPortunal 8 '\nOctava 4'\nFugara 4 '\nZadní positiv\nFlaut Major 8'\nFlaut Minor 4 '\nPrincipal 2'\nFlauta vers. 4 '\nQuinta 3'\nOctava 2 '\nMixtur 1 ‘\nPedál\nSub Baß 16\nOctava Baß 8 \nSuper Octava Baß 4'"
+    },
+    {
+        "id": 199,
+        "place": "Sobotín",
+        "municipality": "kostel sv. Vavřince",
+        "organ_builder": "Kašpar Welzel st.",
+        "year_built": 1752,
+        "manuals_count": 2,
+        "stops_count": 15,
+        "disposition": "Manual\nQuinta Dena 8\nBortunal 8 '\nPrincipal 4 ‘\nPositiv\nViola de Gamba 8 '\nFlauta major 8 '\nFlauta minor 4 '\nQuinta 3\nSuper octav 2 '\nRausch quinta 1 1/2 '\nPedál\nSub Bass 16 '\nPrincipal Bass 8 '"
+    },
+    {
+        "id": 200,
+        "place": "Budišov nad Budišovkou",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Jan Jiří Schwarz",
+        "year_built": 1757,
+        "manuals_count": 2,
+        "stops_count": 18,
+        "disposition": "Hlavní stroj\nPrincipal 8 '\nGamba 8'\nQuinta Den 8'\nOffene Flaut 8 '\nOctava 4'\nQuinta 3\nSuperoctava 2\nMixtura 4x 1 1/2\nPositiv\nFlaut Maior 8\nPrinzipal 4\"\nFugara 4'\nFlaut Minor 4'\nPedál\nSub Pass 16 '\nPrincipal Pass 8 '\nQuinta Pass 6'\nSuperoctava 4 '"
+    },
+    {
+        "id": 201,
+        "place": "Kdousov",
+        "municipality": "kostel sv. Linharta",
+        "organ_builder": "Ignác Florián Casparides",
+        "year_built": 1757,
+        "manuals_count": 2,
+        "stops_count": 18,
+        "disposition": "Hlavní stroj\nFlétna 8 ‘\nKvintadena 8'\nPrincipál 4'\nFugara 4'\nFlétna 4‘\nKvinta 2 2/3'\nOktáva 2'\nKvinta 1 1/3 ‘\nMixtura 1/2 ‘ 4x\nPositiv\nKopula 8 ‘\nKopula 4\nPrincipál 2°\nPedál\nSubbas 16 ‘\nOktávbas 8 '\nSuperoktávbas 4'\nOktáva 1 ‘"
+    },
+    {
+        "id": 202,
+        "place": "Kostelec na Hané",
+        "municipality": "kostel sv. Jakuba Většího",
+        "organ_builder": "Jan Jiří Schwarz",
+        "year_built": 1759,
+        "manuals_count": 2,
+        "stops_count": 20,
+        "disposition": "Manuál\nPrincipal 8 '\nSalecinal8'\nQuinta dena gedeckt 8 ‘\nOctava 4'\nQuinta 3'\nSuper octava 2 '\nMixtur 4fach 1 1/3 '\nPositiv\nFlaut Major 8'\nFlaut Minor 4 ‘\nTriuna oder Fugara 4 '\nPrincipal 2 ‘\nPedál\nBordun Bass 16 ‘\nPrincipal Bass 8 '\nQuint Bass 6 '\nOctav Bass 4 '"
+    },
+    {
+        "id": 203,
+        "place": "Doubravník",
+        "municipality": "kostel Povýšení sv. Kříže",
+        "organ_builder": "Jan Výmola",
+        "year_built": 1760,
+        "manuals_count": 2,
+        "stops_count": 17,
+        "disposition": "Hlavní stroj\nPrincipal 8°\nBifera 8'\nSalicional 8'\nQuintadena 8°\nBordunal 8° (dřevo, otevř.)\n\nPositiv\nOktava 4‘\nFugara 4'\nQuinta 2 2/3 ‘\nSuperoctava 2'\nMixtura 1 1/3'4-5x\n\nPedál\nCopula maior 8'\nPrincipal 4'\nCopula minor 4'\nSubbass 16 ‘\nOktavbass 8'\nViolonbass 4'\nOctava 2'\nCornet 3* (4' + 2 2/3 ‘+2)"
+    },
+    {
+        "id": 204,
+        "place": "Hustopeče",
+        "municipality": "kostel sv. Václava",
+        "organ_builder": "pravděpodobně brněnský varhanář",
+        "year_built": 1760,
+        "manuals_count": 2,
+        "stops_count": 17,
+        "disposition": "Hlavní stroj\nPrincipal 8 ‘\nSalecinal 8 '\nFlaut in 8 ‘\nOctava in 4'\nFugara in 4'\nQuinta in 2 2/3 '\nSupper Octav in 2 '\nQuint Decima in 1 1/3 '\nMüxtur in 1 fuß\n\nPositiv\nCopel Major in 8 ‘\nPrestans in 4 ‘\nCopel Minor in 4 ‘\nOctavlein in 2 '\nFlaut Minor in 4 '\nSedecimain 1'\n\nPedál\nSubbass in 16'\nOctav Bass in 8 ‘\nViolin Bass in 4 '"
+    },
+    {
+        "id": 205,
+        "place": "Sloup",
+        "municipality": "kostel Panny Marie bolestné",
+        "organ_builder": "František Ignác Sieber",
+        "year_built": 1762,
+        "manuals_count": 2,
+        "stops_count": 18,
+        "disposition": "Manuál\nPrincipál 8' (starý)\nSalicionál 8° (nový)\nGamba 8° (kónická, stará)\nKopula maior 8°\nOctava 4’ (stará)\nFugara 4 ‘ (kónická, stará)\nQuinta major 2 2/3 ‘\nSuperoctava 2°\nMixtura 4x 1’\n\nPositiv (celý nový)\nPrincipál houslový 8°\nGamba 8°\nAeolina 8’\nFlauta doublex 8°\nNassat 2 2/3’\n\nPedál\nSubbass 16 ‘ (dřevo, otevř.)\nPrincipálbas 8 ‘ (kov v prosp.)\nOktávbas 8 ‘ (dřevo)\nQuintbas 5 1/3 ‘ (kov?)"
+    },
+    {
+        "id": 206,
+        "place": "Brno - Jevišovice",
+        "municipality": "Moravské zemské muzeum, depozitář ve Starém zámku",
+        "organ_builder": "Jan Výmola",
+        "year_built": 1763,
+        "manuals_count": 2,
+        "stops_count": 17,
+        "disposition": "Hlavní stroj\nPrinzipal 8'\nBifara 8 '\nSalizionale 8'\nQuintadena 8'\nOctav 4\"\nQuinte 2 2/3‘\nSuperoctav 2'\nRauschquinte 1 1/3' nebo Sesquialtera 2x\nMixtur! 1/3 3x\nPositiv\nCopula major 8'\nPrinzipal 4'\nCopula minor 4'\nPedál\nSubbass 16'\nOctavbas 8'\nSuperoctavbass 4 '"
+    },
+    {
+        "id": 207,
+        "place": "Městečko Trnávka",
+        "municipality": "kostel sv. Jakuba Většího",
+        "organ_builder": "Jan Jiří Schwarz",
+        "year_built": 1763,
+        "manuals_count": 2,
+        "stops_count": 18,
+        "disposition": "Manuál\nPrincipal 8'\nUndamaris 8 '\nQuinta Daena 8'\nOctav 4'\nFucare 4 '\nQuinta 3 '\nSuper octav 2 '\nMixtura 4fach 1 1/2 '\nPositiv\nFlaut Major 8 ' (dřevo, kryt)\nPrincipal 4\nFlaut Mino 4 ' (dřevo, kryt)\nOctav 2'\nPedál\nGedeckter bas 16'(drevo)\nOffener bas 8 ' (drevo)\nQuint bas 6'\nSuper octav bas 4 ' (cín)"
+    },
+    {
+        "id": 208,
+        "place": "Mikulov",
+        "municipality": "piaristický kostel sv. Jana Křtitele",
+        "organ_builder": "Jan Výmola (pravděpodobně)",
+        "year_built": 1763,
+        "manuals_count": 2,
+        "stops_count": 23,
+        "disposition": "Hlavní stroj\nPrincipal 8 ‘\nSpitzflöte 8'\nQuintadena 8'\nFlöte 8'\nFugara 4'\nFlöte 4'\nQuint major 2 2/3 '\nSuper Octav 2'\nQuint 1 1/2'\nMixtur 1 1/2'\nPositiv\nFlöte 8'\nCopula 4'\nPrincipal 2'\nPedál\nSubbas16'\nViolonbas 8\nOctavbas 4 '"
+    },
+    {
+        "id": 209,
+        "place": "Nová Říše",
+        "municipality": "kostel kláštera premonstrátů sv. Petra a Pavla",
+        "organ_builder": "Ignác Florián Casparides",
+        "year_built": 1763,
+        "manuals_count": 3,
+        "stops_count": 38,
+        "disposition": "Hlavní stroj\nPrincipal 8 '\nSalicinal 8 '\nGamba 8 '\nDulcian 8 '\nFuganal 8 '\nBordun Flaut 8 '\nOctava 4 '\nFlaut 4 ‘\nQuinta 3 '\nSuper Octav 2 '\nQuint Decima 1 1/2 '\nSesquialtera 2fach\nMixtura 5fach\nPositiv\nCoppel maj. 8 '\nPrincipal 4 '\nFugara 4 '\nCoppel min. 4 '\nNasat 3 '\nOctava 2 '\nPedál\nPordun Bass 16 '\nPrincipal Bass 8 '\nOctav Bass 8 '\nSuper Octav Bass 4 '"
+    },
+    {
+        "id": 210,
+        "place": "Nová Říše",
+        "municipality": "kostel kláštera premonstrátů sv. Petra a Pavla",
+        "organ_builder": "Ignác Florián Casparides",
+        "year_built": 1763,
+        "manuals_count": 3,
+        "stops_count": 35,
+        "disposition": "Hlavni stroj\nPrincipal 8 '\nFugara 8'\nDulcian 8'\nQuintadena 8 '\nPordun Flaut 8 '\nOctava 4'\nNacht hören 4 '\nSpitz flet 4 '\nQuinta 3 '\nSuper Octav 4 '\nQuint Decima 1 1/2 '\nSedecima 1'\nMixur 6 fach\nCimbel 2 fach\nPositiv\nCoppel 8'\nPrincipal 4 '\nSalicet 4'\nFlauten 4'\nOctava 2'\nQuint 1 1/2 '\nMixtur 3fach\nPedál\nPordun Bass 16'\nPrincipal Bass 8 '\nOctava Bass 4 '\nCornet Bass 4' 2 fach"
+    },
+    {
+        "id": 211,
+        "place": "Nová Říše",
+        "municipality": "kostel kláštera premonstrátů sv. Petra a Pavla",
+        "organ_builder": "Ignác Florián Casparides",
+        "year_built": 1763,
+        "manuals_count": 3,
+        "stops_count": 34,
+        "disposition": "Hlavní stroj\nPrincipal 8 '\nPifera 8'\nSalicional 8'\nFugara 8'\nFeld Flaut 8 '\nOctava 4'\nFlauten 4 '\nQuinta 3'\nSuper Octav 2 '\nQuint Decima 1 1/2 ‘\nMixtura 4fach\nPositiv\nCoppel 8 '\nPrincipal 4 '\nFuganal 4 '\nFlauta 4'\nOctava 2'\nMixtur 2fach\nRauschquint 2fach\nPedál\nSub Bass 16'\nPrincipal Bass 8 '\nQuint Bass 6 '\nOctava Bass 4 '\nMixtur Bass 2fach"
+    },
+    {
+        "id": 212,
+        "place": "Nová Říše",
+        "municipality": "premonstrátský konventní kostel sv. Petra a Pavla",
+        "organ_builder": "Bedřich Semrád",
+        "year_built": 1765,
+        "manuals_count": 2,
+        "stops_count": 27,
+        "disposition": "Hlavní stroj\nPrincipál 8'\nSalicionál 8'\nFlétna 8'\nOktáva 4\"\nFugara 4'\nKvinta 2 2/3\"\nSuperoktáva 2'\nKvinta 1 1/3'\nSedecima 1'\nMixtura major 1'4x\nMixtura minor 1/2' 2x\nPositiv\nKopula 8'\nPrincipál 4'\nKopula 4'\nKvinta 2 2/3'\nOktáva 2'\nKvinta 1 1/3'\nSuperoktáva 1'\nMixtura 2/3'3x\nPedál\nPrincipálbas 16'\nOktávbas 8'\nKvintbas 5 1/3'"
+    },
+    {
+        "id": 213,
+        "place": "Šenov",
+        "municipality": "kostel sv. Martina",
+        "organ_builder": "Josef Šebestián Staudinger",
+        "year_built": 1765,
+        "manuals_count": 2,
+        "stops_count": 17,
+        "disposition": "Manuál\nPrincipal 8 '\nViola de Gamba 8 '\nQuintadena 8 '\nPortunal 8 \"\nOctav 4'\nQuint 3 '\nOctav 2 '\nMixtur 1'4fach\nPositiv\nFlaut Major 8'\nPrincipal 4 '\nFlaut Minor 4 '\nPedál\nOffener Subbass 16 '\nOctav Bass 8 '\nSuper Octav Bass 4 '"
+    },
+    {
+        "id": 214,
+        "place": "Fulnek",
+        "municipality": "kostel Nejsv. Trojice",
+        "organ_builder": "Jan Jiří Schwarz",
+        "year_built": 1766,
+        "manuals_count": 2,
+        "stops_count": 22,
+        "disposition": "Hlavní stroj\nPrincipál 8'\nSalicionál 8'\nQuintaton 8'\nOctav 4'\nFlauta amabile 4'\nQuint 2 2/3'\nSuperoctav 2'\nMixtur 5*\nPositiv\nFlautmaior 8'\nFlautminor 4'\nPrincipál 4'\nTriuna 4'\nOctav 2'\nPedál\nSubbas 16'\nBourdon 16'\nPrincipalbas 8'\nOktavbas 8'\nOktáv 4'"
+    },
+    {
+        "id": 215,
+        "place": "Gros Harras",
+        "municipality": "farní kostel",
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1766,
+        "manuals_count": 2,
+        "stops_count": 20,
+        "disposition": "Hlavní stroj\nPrinzipal 8' (C-F dřevo)\nFlöte 8' (dřevo, otevř.)\nWaldflöte 8' (dřevo, kryt)\nOktave 4\"\nQuinta 2 2/3\nSuperoctav 2‘\nMixtur 3x 1’\nPositiv\nCopula maior 8'\nFlauta 4' (dřevo, kryt)\nFugara 4‘\nPrinzipal 2‘\nPedál\nSubbass 16\nPrinzipalbass 8° (dřevo)\nCornetbass 4’ (dřevo, 1 řada)"
+    },
+    {
+        "id": 216,
+        "place": "Jevíčko",
+        "municipality": "bývalý augustiniánský kostel Nanebevzetí Panny Marie",
+        "organ_builder": "František Ignác Sieber",
+        "year_built": 1766,
+        "manuals_count": 2,
+        "stops_count": 20,
+        "disposition": "Hlavní stroj\nPrincipal von feinem Zinn 8'\nUnda maris von Holtz 8 '\nGamba oder Salecinal von Metall 8 '\nOctava von Metall 4 '\nFugara von Metall 4 '\nSpitz flet von von Metall 4 '\nQuinta major von Metall 3 '\nSuper Octava von Metall 2 '\nQuintdecima von Metall 1 1/3 '\nMixtura von Metall 4x (1 ')\nPositiv (In das Tischl)\nCopul Major von Holtz 8 ‘\nCopul minor von Holtz 4 '\nNasata von Metall 3 '\nPedal\nSubbass von Holtz offen 16\nOctav Bass von Holtz 8 '\nSuper Octava von Metall 4"
+    },
+    {
+        "id": 217,
+        "place": "Hranice na Moravě",
+        "municipality": "kostel Stětí sv. Jana Křtitele",
+        "organ_builder": "Jan Výmola",
+        "year_built": 1767,
+        "manuals_count": 2,
+        "stops_count": 22,
+        "disposition": "Hlavní stroj\nPrincipal 8 ‘\nSalicional 8‘\nFlote 8°\nOktava 4 '\nQuinta 2 2/3’\nOktava 2‘\nQuinta 1 1/3'\nCornett 3-4x\nMixtura 1 1/3' 4x\nPositiv\nCopula 8'\nPrincipal 4'\nFugara 4'\nCopula 4'\nOktava 2'\nMixtura 1 1/3'\nPedál\nSubbas16'\nPrincipal 8'\nOktavbas 8'\nPrestant 4'"
+    },
+    {
+        "id": 218,
+        "place": "Dolní Kounice",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": "František Ignác Sieber",
+        "year_built": 1768,
+        "manuals_count": 2,
+        "stops_count": 17,
+        "disposition": "Hlavni Stroj\nPortunflöte 8 ' Holz offen\nFlautmajor 8 ‘ Holz gedeckt\nPrinzipal 4 \" von Zinn\nSpitzflöte 4 dtto\nQuint 3' dtto\nOctav 2’ dtto\nSuperoctav 1' dtto\nMixtur 1 ‘ 3fach dtto\nPositiv\nCopelmajor 8 ‘ Holz gedeckt\nCopelminor4' dtto\nPrinzipalbaß 8' Holz offen\nPrinzipal 2 \" von Zinn\nPedál\nSubbaß 16 ' Holz gedeckt"
+    },
+    {
+        "id": 219,
+        "place": "Dub nad Moravou",
+        "municipality": "kostel Očišťování Panny Marie",
+        "organ_builder": "Jan Výmola",
+        "year_built": 1768,
+        "manuals_count": 2,
+        "stops_count": 30,
+        "disposition": "Hlavní stroj\nPrincipál 8\"\nBifara 8\"\nSalicionál 8\"\nSpitzflöte 8\"\nQuintaten 8\"\nFlauto major 8\"\nOctav 4\"\nWaldflöte 4\"\nSpitzflöte 4\"\nQuinte 2 2/3\"\nSuperoktav 2\"\nQuint 1 1/3 ‘\nSexta 1 3/5°\nMixtur 2'\nCimbal 1\nPositiv\nFlauta major 8 \"\nFlauta 8\" (otevřená)\nPrincipal 4'\nFugara4\"\nFlauta minor 4\" (otevř., kov)\nSuperoktav 2'\nCornett4\"\nMixtur 1 1/3\"\nFagot 8\"\nPedál\nPrincipálbas 16\"\nSubbas 16\"\nBordunbas 16'\nPrincipálbas 8\"\nOctavbas8'"
+    },
+    {
+        "id": 220,
+        "place": "Velké Losiny",
+        "municipality": "kostel sv. Jana Křtitele",
+        "organ_builder": "Jan Jiří Schwarz a František Schwarz",
+        "year_built": 1768,
+        "manuals_count": 2,
+        "stops_count": 24,
+        "disposition": "Hlavní stroj\nPrincipal 8\"\nSalicionál 8\" (C-A dřevo)\nBurdon 8\" (dřevo, otevř.)\nViolin 8\" (dřevo, smyk)\nOctav 4\"\nGemshorn 4\" (kónický)\nOctav 2\"\nQuint 2 2/3\"\nOctav 2\"\nRauschquint 11/3 \" (původně 3x)\nPositiv\nGedeckt 8\" (dřevo, kryt)\nPrincipal 4\"\nGedeckt 8\" (dřevo, kryt)\nFlauto 4\" (dřevo kryt, užší)\nPedál\nSubbas16\"\nPrincipalbas 8 \" (cín)\nOctavbas8\"\nOctavbas 4\" (cín)"
+    },
+    {
+        "id": 221,
+        "place": "Šumperk",
+        "municipality": "kostel sv. Jana Křtitele",
+        "organ_builder": null,
+        "year_built": 1768,
+        "manuals_count": 2,
+        "stops_count": 22,
+        "disposition": "Hlavní stroj\nPrincipál 8'\nFlaut major 8'\nOctav 4‘\nQuintadena 4‘\nFlóte amabilis 4'\nFlaut minor 4 ‘\nSuper Octav 2°\nSedecima 1 ‘\nRausch Quint 11/3'\nMixtura 3x 1’\nPositiv\nFlaut major 8 ‘\nPrincipál 4'\nFlaut minor 4'\nOctav 2‘\nPedál\nSubbas 16 ‘\nPrincipál 8 ‘\nOctavbas 8'\nViolon bas 8'"
+    },
+    {
+        "id": 222,
+        "place": "Bystřice nad Pernštejnem",
+        "municipality": "kostel sv. Vavřince",
+        "organ_builder": "František Ignác Sieber",
+        "year_built": 1769,
+        "manuals_count": 2,
+        "stops_count": 25,
+        "disposition": "Manuál\nPrincipal von gutten Zühn 8 '\nBifera aus Metall 2 '\nSallicina 8 '\nQuintadena 8 '\nOffener Flaut von Holtz 8 ‘\nOctava von Metall 4 '\nFugara von Metall 4 ‘\nQuinta von Metall 3 '\nSuper Octava von Metall 2 ‘\nMixtura 5fach 1 '\nPositiv\nCopel Major von Holtz 8 ‘\nPrincipal von gutten Zühn 4 ‘\nCopel minor von Holtz 4 '\nOctava von Metall 2 '\nRausch Quint von Metall 2fach 1 1/2 '\nPedál\nBorden Sub Baß von Holtz 16 '\nPrincipal Baß von Zühn 8 ‘\nOctav Baß von Holtz 8 '"
+    },
+    {
+        "id": 223,
+        "place": "Malá Morava",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Karel nebo Kašpar Welzel ml.",
+        "year_built": 1769,
+        "manuals_count": 2,
+        "stops_count": 24,
+        "disposition": "Hlavní stroj\nPrincipal 8 ‘\nPortunal 8°\nSalicionál 8°\nQuintatön 8°\nFlauto amabile 8°\nFlauto 4'\nQuinta 2 2/3 ‘\nSuperoctav 2‘\nRauschquint 1 1/3 ' + 1 '\nMixtura 13-4x\nPositiv\nCopula major 8‘\nPrincipal 4‘\nCopula minor 4‘\nQuinta 2 2/3'\nRauschquinte 1 1/3+1’\nPedál\nSubbass 16\nPrincipalbass 8°\nOctavbass 8°\nSuperoctavbass 4\nRauschbass 2'"
+    },
+    {
+        "id": 224,
+        "place": "Mikulov",
+        "municipality": "kolegiátní kostel sv. Václava",
+        "organ_builder": "Jan Výmola st. (pravděpodobně)",
+        "year_built": 1770,
+        "manuals_count": 2,
+        "stops_count": 25,
+        "disposition": "Manuál\nPrincipal 8 '\nViola de gamba 8 '\nBoridon 8'\nQuintadena 8'\nOctava 4'\nNachthorn 4'\nQuinta 3 '\nSuper octav 2'\nFlashioneth 1'\nMixtura 4fach\nPositiv\nGedackt/Cop. Major 8 '\nSalitional 4 '\nFletna dolc./Cop. Minor 4 '\nPrincip./Octav 2 '\nBlockflöte 2'\nQuinta 1 l/2'\nScharffes 1'\nPedál\nPrincipal Bass 16 '\nViolon Bass 8'\nOctav Bass 4'\nFagot Bass 2 ‘"
+    },
+    {
+        "id": 225,
+        "place": "Mikulov",
+        "municipality": "kolegiátní kostel sv. Václava",
+        "organ_builder": "Jan Výmola st. (pravděpodobně)",
+        "year_built": 1770,
+        "manuals_count": 2,
+        "stops_count": 22,
+        "disposition": "Manuál\nPrincipal 8 '\nSolitinale 8 '\nGroß Gedacht/Cop. Major 8'\nOctava 4 '\nQuintadena 4'\nQuinta 3'\nSuperoctava 2'\nSpitzflote 2'\nSifflautal 1'\nMixtura 4fach\nPositiv\nCoppl Major 8 '\nCoppl Minor 4'\nPrincipal 2 '\nHohl flote 2'\nQuinta 1 1/2'\nScharffes 1'\nPedál\nSub Bass 16 '\nPrincipal Bass 8 '\nOctava 4'"
+    },
+    {
+        "id": 226,
+        "place": "Mikulov",
+        "municipality": "kolegiátní kostel sv. Václava",
+        "organ_builder": "Jan Výmola st. (pravděpodobně)",
+        "year_built": 1770,
+        "manuals_count": 2,
+        "stops_count": 23,
+        "disposition": "Horní manuál\nPrincipal 8 '\nViola di Gamba 8 '\nFletna Major 8 '\nOctava 4 '\nFugara 4 '\nQuinta major 3 '\nSuper Octava 2 '\nQuinta Decima 1 1/2 '\nMixtura 1'4fach mit Repetition\nDolní manuál\nCopula Major 8 '\nPrincipal 4 '\nOctava 2 '\nMixtura 3fach (1 '?)\nPedál\nSub Bass offen 16 '\nSub Bass gedeckt 16 '\nOctava 8 '\nQuinta 6'\n"
+    },
+    {
+        "id": 227,
+        "place": "Mikulov",
+        "municipality": "kolegiátní kostel sv. Václava",
+        "organ_builder": "Jan Výmola st. (pravděpodobně)",
+        "year_built": 1770,
+        "manuals_count": 2,
+        "stops_count": 22,
+        "disposition": "Manuál\nPrincipal 8 '\nSalicinale 8'\nFletna Major 8 '\nOctava 4'\nQuintadena 4'\nCopula Minor 4 '\nOctava 4'\nQuinta 3 '\nSuperoctav 2 '\nMixtur 4fach 2 '\nPositiv\nCopula Major 8 '\nCopula minor 4'\nOctava/Principal 2 '\nQuinta 1 1/2 '\nMixtur 3fach 1 1/2 '\nPedál\nSub Bass Offen 16'\nSub Bass gedeckt 16 '\nOctava 8 '\n"
+    },
+    {
+        "id": 228,
+        "place": "Mikulov",
+        "municipality": "kolegiátní kostel sv. Václava",
+        "organ_builder": "Jan Výmola st.",
+        "year_built": 1771,
+        "manuals_count": 2,
+        "stops_count": 24,
+        "disposition": "Hlavní stroj\nPrincipal 8’\nSalicional 8'\nFlote 8'\nOktava 4'\nGamba 4'\nQuintaden 4‘\nQuinta 2 2/3'\nOktava 2'\nQuinta 1 1/3 ‘\nMixtura 2/3 ‘ 4x\nPositiv\nCopula maior 8 ‘\nPrincipal 4'\nCopula minor 4'\nOktava 2’\nMixtura 1 1/3' 2x\nPedál\nSubbas 16'\nPrincipalbas 8'\nOctavbas 4'\nCornett 2 2/3 ' 2*"
+    },
+    {
+        "id": 229,
+        "place": "Opava",
+        "municipality": "dominikánský kostel sv. Václava",
+        "organ_builder": "Friedrich Wilhelm Scheffler",
+        "year_built": 1771,
+        "manuals_count": 2,
+        "stops_count": 29,
+        "disposition": "Manuál\nBordon Flaut 16 '\nPrincipal 8 '\nSalicet 8 '\nGamba 8'\nGemshorn 8 '\nFlaut alamande 8 '\nOctava 4 '\nTertia 3 '\nSuper octava 2 '\nQuinta 1 1/2 '\nMixtura 4 '\nZadní positiv\nQuintadena 8 '\nFlaut Major 8 '\nPrincipal 4 '\nSpiel Flaut 4 '\nFlaut Travier 4 '\nOctava 2 '\nMixtura 3fach\nPedál\nViolon Bass 16 '\nSubbass 26 '\nPrincipal 8 '\nSalicet 8 '\nOctaven Bass 4 '\nPosaune 16'"
+    },
+    {
+        "id": 230,
+        "place": "Střílky",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "František Ignác Sieber",
+        "year_built": 1771,
+        "manuals_count": 2,
+        "stops_count": 17,
+        "disposition": "Hlavní stroj\nPrincipal 8'\nKryt 8 '\nOctava 4'\nSpitzflet 4'\nQuinta 2 2/3'\nOctava 2'\nMixtura 3x 1 1/3'\nPositiv\nCopel major 8'\nCopel minor 4'\nPrincipal 2'\nRauschquint (1 1/3' + 1 ')\nPedál\nSubbas16'\nOctavbas 8'\nSuperoctavbas 4'"
+    },
+    {
+        "id": 231,
+        "place": "Vratěnín",
+        "municipality": "kostel sv. Jakuba Většího",
+        "organ_builder": "Florián Ignác Casparides a Josef Silberbauer",
+        "year_built": 1773,
+        "manuals_count": 2,
+        "stops_count": 19,
+        "disposition": "Hlavní stroj\nFlétna 8'\nPrincipál 4'\nFlétna 4'\nQuinta 2 2/3'\nOktáva 2'\nQuindecirna 1 1/3'\nMixtura 4x (1' ?)\nPositiv\nCopula 8'\nCopula 4'\nPrincipál 2'\nOktáva 1'\nPedál\nSubbas16'\nOktávbas 8 '\nViolon 4'"
+    },
+    {
+        "id": 232,
+        "place": "Slatinice",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Jan Haas",
+        "year_built": 1774,
+        "manuals_count": 2,
+        "stops_count": 26,
+        "disposition": "Hlavni Stroj\nPrincipal 8'\nQuintadena 8 '\nFlaut amabilis 8 '\nPrincipaloctav 4 ‘\nTriuna 4'\nFlautraver 4 '\nQuint 3 '\nSuperoctav 2 '\nMixtur 4fach (1 1/3 ')\nCymbel 2fach\nPositiv\nKoppel major 8 '\nPrincipal 4'\nKoppel minor 4 '\nOctava 2 '\nQuint 1 1/2 '\nMixtur 3fach\nPedál\nSubbass 16'\nPrincipal 8'\nViolon Baß 8 ‘\nQuintadena Baß 8 '\nPortun Baß 4 '"
+    },
+    {
+        "id": 233,
+        "place": "Unterretzbach",
+        "municipality": "kostel (Dolní Rakousko)",
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1776,
+        "manuals_count": 2,
+        "stops_count": 19,
+        "disposition": "Hlavní stroj\nPrincipal 8'\nBordun 8'\nOktav 4'\nFugara 4'\nQuinta Dena 4'\nQuint 2 2/3 ‘\nOktav 2‘\nMixtur 4x\nOktav 1'\nTremulant\nPositiv\nCoplmajor 8 '\nCoplminor 4'\nPrincipal 2'\nPedál\nSubbaß 16\nPrincipalbaß 8'\nOktavbaß 4'"
+    },
+    {
+        "id": 234,
+        "place": "Vranov u Brna",
+        "municipality": "poutní kostel Narození Panny Marie",
+        "organ_builder": "Jan Výmola",
+        "year_built": 1776,
+        "manuals_count": 2,
+        "stops_count": 24,
+        "disposition": "Hlavni Stroj\nPrinzipal 8'\nCopula maior 8'\nOctav 4'\nCopula minor 4'\nQuint 3'\nSuperoctav 2'\nKleinquint 1 1/2'\nSedecima 1'\nMixtura 1' 4x\nPositiv\nFlauta 8'\nSalicional 8'\nFlauta dulciana 4'\nPrinzipal 2'\nMixtura 1 1/3' 3x\nPedál\nSubbaß 16'\nPrinzipalbaß 8\nOctavbaß 8'\nCornett 4'"
+    },
+    {
+        "id": 235,
+        "place": "Vranov nad Dyjí",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1778,
+        "manuals_count": 2,
+        "stops_count": 20,
+        "disposition": "Hlavni stroj\nQuintadena 8‘\nFlétna 8'\nPrincipál 4‘\nFlétna špičatá 4‘\nKvinta 2 2/3 ‘\nOktáva 2°\nKvinta 1 1/3 ‘ repet.\nMixtura 1 ‘ 3x\nPositiv\nKopula 8'\nPrincipál 4'\nKopula 4'\nOktáva 2°\nPedál\nSubbas 16\nPrincipálbas 8\nViolonbas 4'"
+    },
+    {
+        "id": 236,
+        "place": "Bruntál",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Josef Šebestián Staudinger",
+        "year_built": 1779,
+        "manuals_count": 3,
+        "stops_count": 22,
+        "disposition": "Manual\nPrincipal a 8 ' von feinem Zinn\nViola de Gamba a 8 ' von gemischten Metall\nQuinta dena 8'\nBourdunal a 8 ' von Holtz\nOctava a 4 ' von gemischten Metall\nSpitz-flaut a 4 ' von Holtz\nQuinta a 3 ' von gemischten Metall\nOctava2'\nMixtur a 1 1/2'4fach\nPositiv\nFlauta major a 8 ' von Holtz\nPrincipal a 4 ' von feinem Zinn\nFlautravers a 4 ' von Holtz\nOctava a 2 ' von gemischten Metall\nQuindecima a 1 1/2 '\nPedál\nSub-Bass offen a 16 ' von Holtz\nSub-Bass gedekt a 16 ' von Holtz\nPrincipal oder Octav-Bass a 8 ' von Holtz\nSuper-Octav-Bass a 4 ' von gemischten Metall"
+    },
+    {
+        "id": 237,
+        "place": "Vysoké Žibřidovice",
+        "municipality": "kostel sv. Leonarda",
+        "organ_builder": "Karel Welzel",
+        "year_built": 1779,
+        "manuals_count": 3,
+        "stops_count": 22,
+        "disposition": "Manual\nPrincipal 8 '\nSollicinal 8\nGamba 8'\nFlauta Major 8 '\nOctava 4 '\nSuper octava 2 '\nRausch Quinta 1 1/2 '\nMixtura 4fach 1'\nPositiv\nFlauta major 8 '\nPrincipal 4'\nFlauta minor 4 '\nSuper Octav 2 '\nQuinta 1 1/2 '\nSedecima 1'\nPedál\nSub Baß 16 '\nOctav Baß 8 '\nPrincipal Baß 4 '"
+    },
+    {
+        "id": 238,
+        "place": "Opava",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "František Horčička ml.",
+        "year_built": 1780,
+        "manuals_count": 3,
+        "stops_count": 33,
+        "disposition": "Manual\nPrincipal 8 '\nWallflaut 8 '\nViola Gamba 8'\nQuinta dena 8'\nFlautravers 8 '\nOctav 4 '\nBifara 4'\nTuba cuspidata 4'\nTuba nocturna 4'\nQuint 3'\nSuperoctav 2'\nMixtur 7*2'\nRausch Quint 3x\nCimbal 4x\nCornet 4'\nPositiv\nSalicional 8 '\nFlaut major 8 '\nPrincipal 4 '\nFugara 4'\nFlaut minor 4 '\nQuint 3 '\nOctav 2'\nRauschquint 2x\nMixtura 3x\nPedál\nPrincipal 16 '\nViolen Bass 16 '\nBordon 16'\nPrincipal 8 '\nGamba 8'\nOctav 8 '\nGemshorn 8 '\nQuint 6'\nSuperoctav 4 '\nMixtur 3x"
+    },
+    {
+        "id": 239,
+        "place": "Drnholec",
+        "municipality": "kostel Nejsvětější Trojice",
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1780,
+        "manuals_count": 3,
+        "stops_count": 25,
+        "disposition": "Manual\nPrincipal 8 '\nUn-Damares 8'\nGämshorn 8 '\nPordun 8°\nOctav 4\nQuintaton 4‘\nFlote 4'\nQuinta 3 ‘\nSuper Octav\nRepien Mix. 2' + 1 1/3‘+1’\nMixtur 2 fach 1 + 2/3’\nPositiv\nCopel 8°\nPrincipal 4 '\nFugara 4'\nCopel 4 ‘\nOctaua 2 ‘\nSuper Octaua 1 ‘\nPedál\nPordun Bass 16 ‘\nBass et Bass 16 ‘\nPrincipal 8’\nOctau Bass 8‘\nPrincipal 4 ‘"
+    },
+    {
+        "id": 240,
+        "place": "Mikulov",
+        "municipality": "Loreta",
+        "organ_builder": "Jan Výmola st.",
+        "year_built": 1780,
+        "manuals_count": 3,
+        "stops_count": 23,
+        "disposition": "Manual\nPardunal fleten 8 '\nPrincipal 4 ‘\nSalicinale octav oder figura 4 '\nFlauten amabile 4 '\nQuinta 3 '\nOctava 2 ‘\nQuinta minor 1 1/2 '\nMixtura 4fach 1 ‘\nPositiv\nCopida major 8 ‘\nCopula minor 4 '\nPrincipal 2 '\nMixtura 2fach 1'\nPedál\nSub Bass 16 ‘\nPrincipal Bass 8 ‘\nViolon Bass 4 '"
+    },
+    {
+        "id": 241,
+        "place": "Merkersdorf",
+        "municipality": null,
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1780,
+        "manuals_count": 3,
+        "stops_count": 11,
+        "disposition": "Manual\nPrinzipal 8'\nBordun 8'\nSpitzflöte 4'\nQuinte 2 2/3'\nOktave 2 '\nMixtur 1'3*\nPositiv\nCopula maior 8'\nCopula minor 4'\nPrinzipal 2'\nOktave 1'\nPedál\nSubbass 16'\nViolonbass 8'"
+    },
+    {
+        "id": 242,
+        "place": "Švábenice",
+        "municipality": "kostel sv. Michaela archanděla",
+        "organ_builder": "Josef Šebestián Staudinger",
+        "year_built": 1781,
+        "manuals_count": 3,
+        "stops_count": 21,
+        "disposition": "Manual\nPrincipál 8'\nViola di gamba 8'\nPortunál 8°\nOktáva 4'\nFlétna 4'\nDolce 4’\nKvinta 2 2/3 ‘\nSuperoktáva 2'\nMixtura 5x\nPositiv\nKvintadena 8'\nFlétna maior 8°\nPrincipál 4’\nFlétna 4'\nOktáva 2'\nPedál\nSubbas 16\nPrincipalbas 8'\nOktávbas 8 ‘\nOktávbas 4’"
+    },
+    {
+        "id": 243,
+        "place": "Dyje",
+        "municipality": "kostel sv. Jana Nep.",
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1782,
+        "manuals_count": 3,
+        "stops_count": 22,
+        "disposition": "Manual\nPrinzipal 8'\nSallicinal 8 '\nPortun Flauten 8 '\nOctav 4'\nFugara 4'\nQuinta 3 ‘\nSuper Octav 2 '\nMixtura 1 1/2 4x\nPositiv\nCupel Major 8 ‘\nPrincipal 4 '\nCupel Minor 4 '\nOctav 2'\nQuinta 1 1/2'\nPedál\nPrinzipal Bass 16 '\nOctav Bass 8 '\nSchnur Bass 8 '\nOctav Bass 4 '"
+    },
+    {
+        "id": 244,
+        "place": "Hrušovany nad Jevišovkou",
+        "municipality": "kostel sv. Štěpána",
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1786,
+        "manuals_count": 3,
+        "stops_count": 23,
+        "disposition": "Manual\nPrincipals'\nPortunal 8'\nGedackt 8'\nOctava 4\nSpitzflute 4'\nHohlflute 4'\nQuinta 2 2/3°\nSuperoctava 2'\nMixturl 1/3' 3x\nCimbel 1/2' 1x\nPositiv\nPrincipal 4'\nFugara 4'\nMinor fl. 4'\nOctava 2 '\nSuperoctava 1'\nPedál\nSubbass 16'\nPrincipalbass 8'\nOctavbass 8'\nCornet 4'3x"
+    },
+    {
+        "id": 245,
+        "place": "Roschitz",
+        "municipality": null,
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1787,
+        "manuals_count": 3,
+        "stops_count": 15,
+        "disposition": "Manual\nPrincipal 8 '\nBourdon 8'\nOktav 4 '\nDulciana 4'\nQuint 2 2/3'\nOktav 2'\nMixtura 1 1/3'3x\nCymbel 1'2x\nPositiv\nCopula 8'\nPrincipal 4'\nFlote 4'\nOktav 2'\nPedál\nSubbas 16'\nViolon 8'\nOktavbass 4'"
+    },
+    {
+        "id": 246,
+        "place": "Frenštát pod Radhoštěm",
+        "municipality": "kostel sv. Martina",
+        "organ_builder": "Mikuláš František Sieber",
+        "year_built": 1789,
+        "manuals_count": 3,
+        "stops_count": 17,
+        "disposition": "Manuál\nQuintadena 8 ' von Zinn\nUnda maris 8 ' von Holz\nPrincipal 4 ' von feinem Zinn\nBriuna 4 ' von Zinn\nQuinta 3 ' von Zinn\nOctava 2 ' von Zinn\nMixtura 1 1/2 ' 4fach\nPositiv\nFlet major 8 ' von Holz\nFlet minor 4 ' von Holz\nPrincipal 2 ' von Zinn\nQuinta 1 1/2 ' von Zinn\nPedál\nEin gedeckter Baß 16 ' Holz\nViolin Bass 8 ' Holz\nQuint Bass 6 ' Holz\nOctav Bass 4 ' Holz"
+    },
+    {
+        "id": 247,
+        "place": "Moravský Karlov",
+        "municipality": "kostel sv. Josefa Kalasanského",
+        "organ_builder": "Josef Karel Welzel",
+        "year_built": 1795,
+        "manuals_count": 3,
+        "stops_count": 21,
+        "disposition": "Hlavní stroj\nPrincipal maj. 8'\nSalicionál 8'\nQuintadena 8'\nPrincipal min. 4\"\nSuperoktáva 2'\nRauschquinte 1 1/3+1’\nMixtura (1 ) 3-4x\nPositiv\nFlauta major 8'\nFlauta minor 4'\nPrincipál 2'\nQuinta 2 2/3'\nMixtura (?) dnes jen 1 1/3 '\nPedál\nSubbas 16'\nOktávbas 8'\nPrincipálbas 4'\nSuperoktávbas 2'"
+    },
+    {
+        "id": 248,
+        "place": "Svitavy",
+        "municipality": "kostel Navštívení Panny Marie",
+        "organ_builder": "Pavel František Horák",
+        "year_built": 1795,
+        "manuals_count": 2,
+        "stops_count": 24,
+        "disposition": "In Manuali\nQuinta Dena Major 16 '\nPrincipale 8 '\nSallicionale oder Viola di Gamba 8'\nQuinta Dena 8'\nOctava 4 ‘\nQuinta 3 '\nSuper Octava 2 '\nRausch Quinta 2fach (1 1/3 ‘+ 1 )\nMixtura 6fach (1 )\nCembalo 4fach\nIn Positivo\nCopula Major 8 '\nPrincipale 4'\nSpitz-flotte 4 '\nCopula Minor 4 '\nOctava 2 '\nQuindecima 1 1/2 z\nMixtura 4fach (1 )\nIn Pedali\nSubbas apertus 16 ‘\nPrincipale 8 ‘\nPortunale 8 ‘\nQuinta 6 '\nSuper Octava 4 '\nMixtura 6x (2 2/3 ')"
+    },
+    {
+        "id": 249,
+        "place": "Svitavy",
+        "municipality": "kostel Navštívení Panny Marie",
+        "organ_builder": "Pavel František Horák",
+        "year_built": 1795,
+        "manuals_count": 2,
+        "stops_count": 18,
+        "disposition": "In Manuali\nPrincipal 8 '\nQuinta Dena 8 '\nOctava 4\nQuinta 4 ' (!)\nSuper Octava 4 ' (!)\nRausch quinta 4fach (1 1/3 ')\nMixtur 6fach (1 ')\nIn Positivo\nCopida Major 8 '\nPrincipal 4 '\nSpitz flotte 4 '\nCopula minor 4 '\nIn Pedali\nSubbas apertus 16 '\nPrincipal 8 '\nSuper Octav 4 ‘"
+    },
+    {
+        "id": 250,
+        "place": "Svitavy",
+        "municipality": "kostel Navštívení Panny Marie",
+        "organ_builder": "Jan Výmola",
+        "year_built": 1795,
+        "manuals_count": 2,
+        "stops_count": 21,
+        "disposition": "Ins Manual\n1) Principal von feinen Zinn\n2) Viola Gamba 8 ‘\n3) Quinta Töna von Mettal 8 '\n4) Pordun Flöt von Holtz 8 '\n5) Octav von Mettal 8 '\n6) Spizflöt von Mettal 4 '\n7) Quint von Mettal 3 '\n8) Super Octav von Mettal 2 ‘\n9) Terz aus 2 ‘ C von Mettal 1 1/5'\n10) Mixtur 5fach von Mettal\nIns Positiv\n11) Copl von holtz gedackt 8'\n12) Principal von feinen Zinn 4 '\n13) Dulciana von Mettal 4 '\n14) flöte von holtz gedacht 4 '\n15) Octav von Mettal 2'\n16) Mixtur von Metall 3fach\nIns Pedal\n17) Sub Pass von holtz offen 16 '\n18) Principal von feinen Zinn 8'\n19) Octav Pass von holtz offen 8 '\n20) Cornet von Mettal 4fach\n21) Pombart Bas von holtz 16 '"
+    },
+    {
+        "id": 251,
+        "place": "Svitavy",
+        "municipality": "kostel Navštívení Panny Marie",
+        "organ_builder": "Jan Výmola",
+        "year_built": 1795,
+        "manuals_count": 2,
+        "stops_count": 20,
+        "disposition": "Hlavní stroj\nQuinta dena Major 16 '\nPrincipal 16 ' (správně 8')\nSalicinal 8 '\nOctava 2 '\nOctav 6 (správně 4)\nMixtura 4fach\nQuinta 4 ' (správně 3 ')\nSuper Octav 3 ' (správně 2 )\nRausch Quint 4fach\nMixtura 6fach\nCembalo 4fach\nPositiv\nCopula Major 8 '\nPrincipal 4 '\nCopula Minor 4'\nPedál\nSubbass apertus 16 '\nPrincipal 8 '\nPortunal 8 '\nSuper Octav 4 '"
+    },
+    {
+        "id": 252,
+        "place": "Svitavy",
+        "municipality": "kostel Navštívení Panny Marie",
+        "organ_builder": "Josef Šebestián Staudinger",
+        "year_built": 1795,
+        "manuals_count": 2,
+        "stops_count": 24,
+        "disposition": "Hlavní stroj\nPrincipal 8 ' von Zinn\nViola di gamba 8 ' von Metal\nQuinta Dena 8 ' von Metal\nPortunal 8 ' von Holtz\nOctava 4 ' von Metal\nFugara 4 ' von Metal\nFlauto Minor 4 ' von Holtz\nQuinta 3 ' von Metal\nSuper Octava 2 ' von Metal\nRauschquint 2fach von Zinn\nMixtura 1 1/2'5fach von Zinn\nPositiv\nWald Flaut 8 ' von Holtz\nPrincipal 4 ' von Zinn\nFlaut Traverso 4 ' von Holtz\n"
+    },
+    {
+        "id": 253,
+        "place": "Kunštát",
+        "municipality": "kostel sv. Stanislava",
+        "organ_builder": "Jiří Španěl",
+        "year_built": 1797,
+        "manuals_count": 3,
+        "stops_count": 18,
+        "disposition": "Manuál\nPortunal 8 '\nSalicional (8 ')\nPrincipal 4 '\nQuinta Dena (4 ')\nOctav 2'\nRauschquinte 2fach (1 1/3'+ 1')\nMixtura\nPositiv\nCopel major (8')\nCopel minor (4 ')\nPrincipal 2 '\nPedál\nSubpas 16'\nPrincipals'\nNassata (2 2/3')\nOctav4'"
+    },
+    {
+        "id": 254,
+        "place": "Příbor",
+        "municipality": "kostel sv. Valentina při piaristické koleji",
+        "organ_builder": "Josef Šebestián Staudinger",
+        "year_built": 1799,
+        "manuals_count": 3,
+        "stops_count": 19,
+        "disposition": "Hlavní stroj\nPrincipal 8°\nSalicional 8’ (C-H dřevo)\nGamba 8' (C-H z Portunálu)\nPortunal 8° (dřevo)\nOktáva 4 '\nFlauta 4' (dřevo)\nKvinta 2 2/3 ‘\nOktáva 2'\nMixtural 1/3 4x\nPositiv\nKryt 8 '\nFlauta 4'\nPrincipal 2°\nQuinta 1 1/3’\nPedál\nSubbass 16'\nViolonbass 8'\nKvintbass 5 1/3 ‘\nOktavbas 4’"
+    },
+    {
+        "id": 255,
+        "place": "Strachotice",
+        "municipality": "kostel sv. Jiří",
+        "organ_builder": "Josef Silberbauer",
+        "year_built": 1802,
+        "manuals_count": 3,
+        "stops_count": 17,
+        "disposition": "Hlavní stroj\nGedeckt 8'\nPrinzipal 4'\nGedeckt 4'\nQuinte 2 2/3'\nSuperoctav 2'\nMixtur 3* 1/3'\nPositiv\nGedeckt 8'\nGedeckt 4'\nPrinzipal 2'\nPedál\nSubbass 16'\nOctavbass 4'\nPrinzipal 4'"
+    },
+    {
+        "id": 256,
+        "place": "Valašské Klobouky",
+        "municipality": "kostel Nalezení sv. Kříže",
+        "organ_builder": "Valentin Arnold",
+        "year_built": 1802,
+        "manuals_count": 3,
+        "stops_count": 18,
+        "disposition": "Hlavní stroj\nPrincipál 8'\nSalicionál 8'\nFlétna 8'\nFlauta major 8'\nFlauta minor 4'\nOktáva 4'\nQuinta 2 2/3'\nOktáva 2'\nMixtura 3* (1 1/3 ')\nPositiv\nFlauta major 8'\nPrincipál 4'\nFlauta minor 4'\nOktáva 2'\nPedál\nSubbas16'\nOktávbas 8'\nKvinta 5 1/3'"
+    },
+    {
+        "id": 257,
+        "place": "Staré Hobzí",
+        "municipality": "kostel Nanebevzetí Panny",
+        "organ_builder": null,
+        "year_built": 1807,
+        "manuals_count": 3,
+        "stops_count": 14,
+        "disposition": "Manuál\nViola 8 ' offen von Holz\nPrincipal 4 ' von Zinn\nFleten 4' von Holz\nQuint Major 3' von Zinn\nOctav 2' von Zinn\nQuindecima 1 1/2 ' von Zinn\nSuperoctava 1' von Zinn\nMixtur 4 fach von Zinn\nPositiv\nCopl Major 8' Holz\nCopl Minor 4' Holz\nPrincipal 2 ' von Zinn\nPedál\nSupaß 16' von Holz\nOctav Pass 8 ' von Holz\nQuint 6' von Holz"
+    },
+    {
+        "id": 258,
+        "place": "Kralice na Hané",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Antonín Hanačík",
+        "year_built": 1812,
+        "manuals_count": 3,
+        "stops_count": 18,
+        "disposition": "Manuál\nPrincipal 8 ‘\nCopel Major 8 '\nOctav 4'\nFugara 4 ‘\nCopel Minor 4 '\nQuint 2 2/3 '\nOctav 2'\nQuint 1 1/2 ‘\nSupper Octav 1 ‘\n4fache Mixtur\nPositiv\nFlautotraverso 8'\nPrincipal 4 '\nFlaut minor 4 '\nOctav 2'\nPedál\nSubbass 16 ‘\nPrincipal Bass 8 ‘\nQuint 6'\nSupper Octava 4 ‘"
+    },
+    {
+        "id": 259,
+        "place": "Kralice na Hané",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "František Harbich",
+        "year_built": 1814,
+        "manuals_count": 3,
+        "stops_count": 19,
+        "disposition": "Manuál\nPrincipals'\nViola de Gamba 8 '\nPortunal 8'\nOctav 4'\nFlaut Minor 4 '\nQuint Major 3 '\nSuper Octav 2 '\nMixtur 1 1/3 ' 5fach\nPositiv\nFlaut major 8 '\nPrincipal 4'\nFlaut amabilis 4'\nPedál\nSubbass 16 ‘\nViol Bass 8 '\nQuint Bass 6'\nSuper Octava Bass 4 '"
+    },
+    {
+        "id": 260,
+        "place": "Krnov",
+        "municipality": "kostel sv. Martina",
+        "organ_builder": "Josef Ignác Welzel",
+        "year_built": 1815,
+        "manuals_count": null,
+        "stops_count": null,
+        "disposition": "Hlavní stroj\nPrincipal 8’ (C-E dřevo)\nPiffera 8 (jen 1815)\nSalicional 8‘ (C-H dřevo)\nViola di Gamba 8‘ (C-H dřevo)\nQuinta dena 8° (dřevo, kryt)\nOctava major 4‘\nQuinta 3 ‘\nOctava 2'\nQuinta dulcis 1 1/3'\nRippiu 2x 1 ' (jen 1815)\nMixtura 5x 3/4 ' (!)\nCimbal 4x 1/2' (jen 1815)\nPedál\nSuppass offen 16' (dřevo)\nSuppass gedeckt 16' (dřevo)\nPrincipal 8 ' (CDE dřevo, od F cín v prospektu)\nPortunalpass offen 8' (dřevo)\nViolon Baß offen 8' (dřevo)"
+    },
+    {
+        "id": 261,
+        "place": "Ostrava",
+        "municipality": "kostel sv. Václava",
+        "organ_builder": "František Finkler",
+        "year_built": 1815,
+        "manuals_count": null,
+        "stops_count": null,
+        "disposition": "Hlavní stroj\nPrincipals'\nViola Gamba 8 ' (C-A Holz)\nQuintadena 8 ' (Zinn, gedeckt)\nUndamaris 8 ' (Holz, offen)\nMajor Flöte 8 ' (Holz, gedeckt)\nOctav 4'\nFugara 4 '\nSpitzflöte 4'\nFlauta amabilis 4 ' (Holz, gedeckt)\nQuinta 3 '\nSuper Octav 2 '\nMixtur 3x 2 '\nPositiv\nMajor 8 ' (Holz gedeckt)\nPrincipal 4 ' (C-F Holz)\nAmabilis 4' (Holz, gedeckt)\nOctav 2 '\nPedál\nViolon 16 ' Holz, offen nur 4 P.\n? 16'offen\nPrincipal Bass 8 ' (C-D Holz)\nOctava Bass 8 ' (Holz, offen)\nQuinta 6' (Holz)"
+    },
+    {
+        "id": 262,
+        "place": "Náklo",
+        "municipality": "kostel sv. Jiří",
+        "organ_builder": "Michal Oranský",
+        "year_built": 1824,
+        "manuals_count": null,
+        "stops_count": null,
+        "disposition": "Hlavni stroj\nPrincipal 8'\nPortunal 8'\nSpitzflöte 8'\nOktav 4'\nFugara 4'\nQuint 2 2/3'\nSuperoktav 2'\nRauschquint 1 1/3' 2x\nMixtur (1') 3-4x\nPositiv\nFlötmaj.8'\nPrincipal 4'\nFlötmin.4'\nOktav2'\nQuinte 1 2/5'(!)\nPedál\nSubbas 16'\nViolonbas 16'\nOktavbas 8'\nSuperoktavbas 4'"
+    },
+    {
+        "id": 263,
+        "place": "Zlín",
+        "municipality": "kostel sv. Filipa a Jakuba",
+        "organ_builder": null,
+        "year_built": 1830,
+        "manuals_count": null,
+        "stops_count": 18,
+        "disposition": "Hlavni Stroj\nPrinzipal Major (8')\nSalicional (8')\nQuinta Duna (8')\nPrinzipal Minor (4')\nOctava (2')\nQuinta Minor 1 1/3'\nMixtur (1')\nPositiv\nFlaut Majore (8')\nPrincipal (4')\nFlaut minor (4')\nFlaut amabilis (4')\nPedál\nSubbass (16')\nViolonbass (8')\nQuintbass (5 1/3')\nOctava (2')\nPrinzipalbass (4\")"
+    },
+    {
+        "id": 264,
+        "place": "Nové Hvězdlice",
+        "municipality": "kostel sv. Jakuba Většího",
+        "organ_builder": "František Harbich",
+        "year_built": 1833,
+        "manuals_count": null,
+        "stops_count": null,
+        "disposition": "Hlavní stroj\nFlöte 16'\nPrincipal 8'\nSalicional 8'\nPositiv\nFlote 8'\nPrincipal 4'\nFlote 4’\nBordunflbte 8'\nOktave 4'\nPlote 4'\nQuinta 2 2/3'\nSuperoktave 2'\nMixtura 1 1/3'5x\nPedál\nSubbas 16\nPrincipalbas 8’\nViolonbas 8'\nQuinte 5 1/3’"
+    },
+    {
+        "id": 265,
+        "place": "Frýdek-Místek",
+        "municipality": "kostel sv. Jana Křtitele",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1834,
+        "manuals_count": null,
+        "stops_count": null,
+        "disposition": "Manuál\nPrinzipal 8'\nViola de gamba 8'\nOctav 4'\nFugara 4'\nFlauttraver 4'\nQuinta 2 2/3'\nOctav 2'\nMixtur 4x\nPositiv\nFlaut maior 8'\nPrinzipal 4'\nFlaut minor 4'\nOctava 2'\nPedál\nSubbass 16'\nOctav Bass 8'\nFlaut maior 8'\nSuper Octav 4"
+    },
+    {
+        "id": 266,
+        "place": "Cholina",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "František Minář",
+        "year_built": 1834,
+        "manuals_count": null,
+        "stops_count": 18,
+        "disposition": "Manuál\nQuintadeni von Zinn 8 '\nGamba 8 '\nFugara 8 '\nPrincipal 4 '\nPrincipal Octav 2 '\nSupper Octav 1 ‘\nRauschquint 2 fach 1 1/2 '\nMixtur 4 fach 1 '\nPositiv\nFlauta major 8 ‘\nFlauta minor 4 ‘\nPrincipal 2 ‘\nPrincipal Octav 1 '\nPedál\nSupbass 16 ‘\nOktav Bass 8 ‘\nPrincipal Bass 4 ‘\nQuinta 2 2/3 '"
+    },
+    {
+        "id": 267,
+        "place": "Olešnice",
+        "municipality": "kostel sv. Leopolda",
+        "organ_builder": "Josef Strniště",
+        "year_built": 1836,
+        "manuals_count": null,
+        "stops_count": null,
+        "disposition": "Hlavní stroj\nPrincipal 8'\nSalicional 8'\nBourdon 8'\nOctava 4'\nCopula minor 4'\nQuinta 2 2/3'\nSuperoctava 2'\nRauschquinta\nMixtura 3x\nPositiv\nCopula maior 8'\nPrincipal 4'\nFlétna 4'\nOctava 2'\nQuinta 1 1/3'\nMixtura 2x\nPedál\nSubbas 16'\nOctavbass 8'\nViolon 8'"
+    },
+    {
+        "id": 268,
+        "place": "Bystřice pod Hostýnem",
+        "municipality": "kostel sv. Jiljí",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1840,
+        "manuals_count": null,
+        "stops_count": null,
+        "disposition": "Manuál\nPrinzipal 8'\nSpitzflöt nebo Gamba 8'\nQuintadena 8'\nPortunal 8'\nOctav 4'\nFugara 4'\nQuint 2 2/3'\nSuper Octav 2'\nQuint-Octav 1 1/3'\nMixtur 4x (1')\nPositiv\nFlaut maior 8'\nPrinzipal 4'\nFlaut minor 4'\nOctav 2'\nPedál\nOffener Bass 16'\nSubbass 16'\nPrinzipal 8'\nQuint Bass 5 1/3 '\nFagot 8'"
+    },
+    {
+        "id": 269,
+        "place": "Batelov",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": "František Svítil st.",
+        "year_built": 1840,
+        "manuals_count": null,
+        "stops_count": null,
+        "disposition": "Manuál\nPrincipal 8 ‘\nBasson Floete 8 ‘\nOktava 4 ‘\nFlauta amabilis 4 ‘\nQuinta 3 ‘\nSuper Oktava 2°\nQuinta 16°\nMixtura 1 ‘ 4x\nPositiv\nCopula major 8 ‘\nCopula minor 4 ‘\nPrincipal 2°\nMixtura 1 ‘ 2x\nPedál\nSuper Bass 16 ‘\nViolon Bass 8'\nQuinta Bass 6'\nOctav Bass 4‘"
+    },
+    {
+        "id": 270,
+        "place": "Třešť",
+        "municipality": "filiální kostel sv. Kateřiny",
+        "organ_builder": "František Pohan",
+        "year_built": 1841,
+        "manuals_count": 2,
+        "stops_count": 14,
+        "disposition": "Hlavní stroj:\nFlauta 8' dřevo, kryt\nBourdon 8' dřevo, kryt\nPrincipal 4\nQuinta 3'\nOctava 2'\nPositiv:\nBourdon 8'\nFlauta 4' dřevo, otevř.\nPrincipal 2'\nQuinta 1 1/3'\nMixtura 4x (1 1/3 ')\nPedál:\nSubbas 16'\nOctavbas 8'\nSuperoctavbas 4'"
+    },
+    {
+        "id": 271,
+        "place": "Želetava",
+        "municipality": "kostel sv. archanděla Michaela",
+        "organ_builder": "František Svítil st.",
+        "year_built": 1842,
+        "manuals_count": 2,
+        "stops_count": 14,
+        "disposition": "Hlavní stroj:\nBasson floete 8'\nPrincipal 4'\nFlauta 4'\nOctava 2'\nQuinta 1 1/3'\nMixural ‘3x\nPositiv:\nCopula major 8 '\nSubbas 16'\nCopula minor 4 '\nViolon 8 '\nPrincipal 2'\nOctavbas 4'\nQuinta 11/3'"
+    },
+    {
+        "id": 272,
+        "place": "Měřín",
+        "municipality": "kostel sv. Jana Křtitele",
+        "organ_builder": "František Svítil st.",
+        "year_built": 1843,
+        "manuals_count": 2,
+        "stops_count": 13,
+        "disposition": "Hlavni stroj:\nBasfleta 8'\nPrincipal 4'\nFlauta amabilis 4'\nQuinta 2 2/3'\nOctava 2'\nQuinta 1 1/3'\nMixtura 1'\nPositiv:\nCopula maior 8'\nCopula minor 4 '\nPrincipal 2'\nOctava 1'\nPedál:\nSuperbas 16\nViolonbas\nOctavbas 4 '"
+    },
+    {
+        "id": 273,
+        "place": "Šenov",
+        "municipality": "kostel sv. Martina",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1844,
+        "manuals_count": 2,
+        "stops_count": 14,
+        "disposition": "Hlavní stroj:\nPrinzipal 8° (C-A dřevo)\nFlaut maior 8'\nOctav 4'\nFlauto dolce 4'\nQuint 2 2/3 ‘\nSuper Octav 2'\nMixtur 3x\nPositiv:\nLieblicher Gedeckt 8°\nPrinzipal 4‘ (C-F dřevo)\nFlaut minor 4'\nPedál:\nSubbass 16'\nOctav Bass 8'\nSuperoctav 4 ‘"
+    },
+    {
+        "id": 274,
+        "place": "Kelč",
+        "municipality": "kostel sv. Petra a Pavla",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1845,
+        "manuals_count": 2,
+        "stops_count": 21,
+        "disposition": "Hlavní stroj:\nBordun 16\nPrinzipal 8°\nGemshorn 8 ‘\nHohlflöte 8'\nOctav 4'\nFugara 4'\nQuint 2 2/3°\nSuper Octav 2‘\nMixtur 4x 1 1/3'\nCornet 3x (c1, g’, e2)\nPositiv:\nFlaut maior 8'\nPrinzipal 4'\nFlaut minor 4'\nOctav 2'\nQuinta 1 1/3'\nPedál:\nPrinzipalbass 16'\nViolon 16\nSubbass 16'\nPrinzipal 8'\nOctavbass 8'\nOctav 4'"
+    },
+    {
+        "id": 275,
+        "place": "Kroměříž",
+        "municipality": "kolegiátní kostel sv. Mořice",
+        "organ_builder": "Jakob Deutschmann",
+        "year_built": 1845,
+        "manuals_count": 2,
+        "stops_count": 34,
+        "disposition": "Im Manual:\nBordon 16'\nPrincipal 8'\nWaldflöte 8'\nSalicional 8'\nGamba 8'\nSpitzflöte 8'\nQuintatön 8'\nOctav 4'\nSpitzflöte 4'\nQuint 3'\nSuperoctav 2'\nMixtur vierfach\nCornet dreifach\nIm Positiv:\nFlaut amabile 8'\nCopula 8'\nPrincipal 4'\nFugara 4'\nDulciana 4'\nOctav 2'\nMixtur dreifach\nMelodicon 8'\nIm Pedal:\nContra Bass 16'\nPrincipal Bass 16'\nViolon Bass 32'\nSub Bass 16'\nQuint 12'\nOctav Bass 8'\nPosaun Bass 16'"
+    },
+    {
+        "id": 276,
+        "place": "Opatov",
+        "municipality": "kostel sv. Bartoloměje",
+        "organ_builder": "František Svítil st.",
+        "year_built": 1846,
+        "manuals_count": 2,
+        "stops_count": 16,
+        "disposition": "Hlavní stroj:\nPrincipal major 8'\nSalicional 8'\nBasson floete 8'\nOctava 4‘\nFlauta amabilis 4'\nQuinta 2 2/3'\nSuperoctava 2'\nMixtur 1‘ 3x\nPositiv:\nCopula maior 8'\nPrincipal minor 4'\nCopula minor 4’\nOctava 4‘\nPedál:\nSuperbas 16 ‘\nViolonbas 8°\nQuintbas 5 1/3\nOctavbas 4‘"
+    },
+    {
+        "id": 277,
+        "place": "Předín",
+        "municipality": "kostel sv. Václava",
+        "organ_builder": "František Svítil st.",
+        "year_built": 1848,
+        "manuals_count": 2,
+        "stops_count": 14,
+        "disposition": "Hlavní stroj:\nBasson Floete 8°\nPrincipál 4\"\nFlauta amabilis 4\"\nQuinta 2 2/3'\nOctava 2°\nQuinta 1 1/3'\nMixtur 3x 1'\nPositiv:\nCopula maior 8'\nCopula minor 4'\nPrincipal 2'\nQuindecima 1 1/3'\nPedál:\nSuperbas 16 '\nOktávbas 8'\nViolonbas 8'"
+    },
+    {
+        "id": 278,
+        "place": "Svatý Hostýn",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Jan Neusser",
+        "year_built": 1848,
+        "manuals_count": 2,
+        "stops_count": 17,
+        "disposition": "Hlavní stroj:\nBordun 16'\nPrinzipal 8'\nGemshorn 8'\nOctav 4'\nFugara 4'\nQuinta 2 2/3'\nSuperoctav 2'\nMixtur 4x (1 1/3 ')\nCornet 3x\nPrinzipal 8 '\nPositiv:\nFlauta maior 8‘\nPrinzipal 4'\nViola 4'\nBlockflöt 2'\nPedál:\nPrinzipalbass 16'\nSubbass 16'\nOctavbass 8'\nSuperoctav 4'"
+    },
+    {
+        "id": 279,
+        "place": "Fryšták",
+        "municipality": "kostel sv. Mikuláše",
+        "organ_builder": "Josef Loyp",
+        "year_built": 1848,
+        "manuals_count": 2,
+        "stops_count": 15,
+        "disposition": "Hlavní stroj:\nPrincipál 8'\nKopelflöte 8'\nBourdon 8'\nOctava 4'\nGamba 8'\nNachthorn 4'\nSuperoctava 2'\nMixtura 3x (1 1/3 ')\nPositiv:\nWaldflöte 8'\nPrincipál 4'\nFlöte 4'\nOctava 2'\nPedál:\nPrincipalbass 16'\nSubbass 16'\nOctavbass 8'\nOctavbass 4'"
+    },
+    {
+        "id": 280,
+        "place": "Brno",
+        "municipality": "kostel sv. Jakuba",
+        "organ_builder": "František Svítil st.",
+        "year_built": 1862,
+        "manuals_count": 2,
+        "stops_count": 35,
+        "disposition": "Hlavní stroj:\nBordun 16', otevř., dřevo (C-H 8')\nPrincipal 8°\nSalicional 8'\nGamba 8°\nQuintadena 8°\nBasson Flöte 8' dřevo, otevř.\nQuinta major 6'\nOctava 4'\nFugara 4'\nFlauta amabilis 4‘ dřevo, otevř.\nQuinta minor 3'\nSuperoctava 2°\nRauschquinte 1 1/3' 3x\nMixtura 1' 5x\nPositiv:\nCopel major 8'\nPrincipal 4'\nDulciana 4'\nCopel minor 4'\nQuinta 3'\nOctava 2'\nQuinta minor 1 1/6'\nMixtura 1' 3x\nPedál:\nPrincipal 16' cín\nBordun Bass 16' dřevo, kryt\nSub Bass 16'\nPrincipal minus 8' cín\nViolon Bass 8' dřevo, otevř.\nQuinta Bass 6' dřevo, otevř.\nOctav Bass 4' cín\nCornet 2' 3x"
+    },
+    {
+        "id": 281,
+        "place": "Opava",
+        "municipality": "kostel Nanebevzetí Panny Marie",
+        "organ_builder": "Stanislav Bartodějský",
+        "year_built": 1620,
+        "manuals_count": 3,
+        "stops_count": 30,
+        "disposition": "Manual\nPrincipal (8 )\nGrosse Flet (8 ')\nQuintadena (8 )\nOctava (4 )\nOctav Flet (4')\nQuinta (3 ) nebo Sallicina (4')\nQuintecima (1 1/3')\nMixtura 5x (6x)\nCimbal 3X\nBas (16')\nRueckpositiv\nGrosse Flet (8 ) (überstimpte Flet)\nSalicina (8 ) místo Posaunu\nPrincipal (4 )\nFlet Octava (4 )\nOctava (2)\nQuinta (1 1/3 ') místo Spitzflet\nSedecima (1 ')\nMixtura 5x (3x)\nQuintatena (8'?)\nCimbal 2x\nBrustpositiv\nPrincipal (4 ' nebo 2 ')\nMixtur 3*\nCimbal 2*\nScharf\nPetal\nSubbas (16 )\nPrincipalbas (16 ' nebo 8 )\nBas pommert (16 ')\nOctava (8 'nebo 4')\nQuintecima (2 2/3 )\nMixtur 6x (8x)\nScharf 4x\nCimbal 4x\nPosaun (8 )"
+    },
+    {
+        "id": 282,
+        "place": "Brno",
+        "municipality": "kostel sv. Tomáše",
+        "organ_builder": "Jan David Sieber",
+        "year_built": 1700,
+        "manuals_count": 3,
+        "stops_count": 39,
+        "disposition": "Hlavní stroj\nPrincipal 8'\nSalicinal 8‘\nQuinta Dena 8'\nFlettna 8'\nOctava 4'\nFugara 4‘\nQuinta 3'\nOctave 2‘\nMixtur 4x\nQuinti 1/2'\nSedecima 1'\nMixtur 3x\nCornett 4x\nPositiv (v zábradlí)\nCopula 8'\nPrincipal 4/\nFlötten 4\nQuinta 3'\nOctava 1 ‘\nQuint 1 1/2\nSesquialtera 2x\nMixtur 5x\nRausch Quint\nBrust\nFlötten 4/\nOctav 2'\nQuinta 1 1/2’\nOctav 2°\nRegal 8\nCimbel 2x\nTertz\nSedecima 1'\nMixtur\nZimbel\nPedál\nSubbaß 16' otevř.\nPordun Baß 16\nOctava 8’\nTubal 8 ‘\nQuintbaß 6'\nOctav 4'\nBombardt 16'\nTrompetten 8"
+    },
+    {
+        "id": 283,
+        "place": "Svídnice",
+        "municipality": "kostel sv. Stanislava",
+        "organ_builder": "Jan David Sieber",
+        "year_built": 1705,
+        "manuals_count": 3,
+        "stops_count": 39,
+        "disposition": "Werk (II. manuál)\nBordim Flöte 16'\nPrincipal 8 '\nSalicinal 8 '\nFugara 8 '\nGamba 8'\nQuintadena 8'\nOctava 4'\nFeldflöt 4'\nNachthorn 4'\nQuinta 3 '\nSuper Octava 2 '\nQuindecima 1 1/2 '\nSedecima 1 1/2 '\nSesquialter 1 1/2 '\nMixtur 6x\nGimbel 3x\nRückpositiv (I. manuál)\nCopula Major 8'\nPrincipal 4 ‘\nCopula Minor 4'\nCopula Minor 4'\nOctava 2 '\nOctava 2 '\nTertia 3/4 '\nSedecima 1 ‘\nMixtura 3x\nPosaune 8 '\nBrust (III. manuál)\nCopula Major 8\nCopula Minor 4'\nNassat 4 '\nPrincipal 2 '\nOctava 1'\nRausch Quinte 1x\nCimbel 2x\nTremulant\nPedal\nBordun-Bass 32 '\nPrincipal 16'\nSub-Bass offen 16'\nSub-Bass geduckt 16'\nOctava 8'\nOctava 8'\nQuinta 8 z\nSuper Octava 4 '\nCornett 8 '\nPosaune 16'\nTrompet 8'"
+    },
+    {
+        "id": 284,
+        "place": "Vídeň",
+        "municipality": "kostel sv. Michala",
+        "organ_builder": "Jan David Sieber",
+        "year_built": 1714,
+        "manuals_count": 3,
+        "stops_count": 42,
+        "disposition": "Hlavní stroj\nBordun 16'\nPrincipal 8'\nGamba 8'\nSalicenal 8'\nBifflotten 8'\nPiffares 8'\nQvinta Dena 8'\nOctava 4'\nFugara 4'\nNachthorn 4'\nQvinta 3'\nOctav 2'\nFoldflote 2'\nQvint 1 1/2'\nSedecima 1'\nSesqvialtera 2 fach\nMixtura 6fach\nZimbl 4fach\nZadní positiv\nCopula 8'\nPrincipal 4'\nFlotten 4'\nNassat 3'\nOctav 2'\nQvint 1 1/2'\nSedecima 1'\nMixtur 5fach\nFagott 8'\nContinuo positiv\nCopula 8'\nFlotten 4'\nOctav 2'\nMixtur 3fach\nPrincipal 16'\nBardun 16'\nSubbas 16'\nOctava 8'\nTubal 8'\nPedál\nOctav 4'\nCornett 6fach\nBombardt 16'\nTrompetten 8"
+    },
+    {
+        "id": 285,
+        "place": "Olomouc",
+        "municipality": "kostel sv. Mořice",
+        "organ_builder": "Josef Emanuel Heintzler",
+        "year_built": 1729,
+        "manuals_count": 3,
+        "stops_count": 36,
+        "disposition": "I in denen 2 großen Werken (v hlavním a prsním stroji)\n1\tPrincipal von gutten Zinn 16 '\n2\tOctava 8'\n3\tQuinta 6'\n4\tSuper Octava 4'\n5\tQuindecima 3 '\n6\tSedecima 2 '\n7\tSesquialtera 3 ' und 2 ‘\n8\tet 9 Mixtur lOfach in 2 Register eingetheilt\n10\tCimbal 6 fach\n11\tSalicinal 8\n12\tFugara 4 ‘\n13\tQuinta tenens (in Thon 8 ) gedeckt 4 ‘\n14\tVox humana 8 ‘\n15\tGambs-Horn 8\n16\tNacht-Horn 4’\n17\tPiffara 2\n18\tGamba 8\n19\tDoux flötten (in Thon von 8 ) gedeckt 4 ‘\n\nII in dem Ruck- Positiv\n1\tPrincipal 8'\n2\tFlott Maior 8 '\n3\tFlott Minor 4'\n4\tOctava 4'\n5\tDiapente pileata od. Nasada 3 '\n6\tSuper-Octav 2 '\n7\tQuindecima 1 1/2'\n8\tSedecima 1'\n9\tMixtura 3 fach\n10\tSpitz-Rohr-Fldtte 4'\n\nIII in Pedal\n1\tGroßer Untersatz 32 '\n2\tSubbas - offen 16 '\n3\tPortun-Baß gedeckt von Holz 16 '\n4\tQuinta-Baß 12'\n5\tOctav-Bas 8 '\n6\tBomber-Bas 16 '\n7\tPosaun-Bas von Matery 8 '\n8\tCornet-Bas 6 fach\n9\tGlocken-Spiel"
+    },
+    {
+        "id": 286,
+        "place": "Olomouc",
+        "municipality": "kostel sv. Mořice",
+        "organ_builder": "Kryštof Zikmund Klembt",
+        "year_built": 1736,
+        "manuals_count": 3,
+        "stops_count": null,
+        "disposition": null
+    },
+    {
+        "id": 287,
+        "place": "Olomouc",
+        "municipality": "kostel sv. Mořice",
+        "organ_builder": "Michael Engler",
+        "year_built": 1737,
+        "manuals_count": 3,
+        "stops_count": null,
+        "disposition": "Haubt Werk\n1\tPrincipal von Zinn\t16'\n2\tOctava von Metal\t8'\n3\tSuper octava von Metal 4 '\n4\tQuinta von Metal 3 '\n5\tSedecima von Metal 2 '\n6\tMixtura von Metal 6 Chor\n7\tRohr Flaut Metal\t8 '\n8\tSalicet von Metal\t8'\n9\tGembs Horn Metal 8 '\n10\tBourdon Flaut 16 ' Holz\n\nUnter Clavier\n1\tFlaut Major von Metal\t8'\n2\tQuintadena\t8'\n3\tGamba von Metal\t8'\n4\tFugara\t8'\n5\tOctava\t4'\n6\tQuinta\t3'\n7\tSuper oct.\t2'\n8\tCimbal\t6 Chor\n9\tNacht Horn\t4'\n10\tUndamaris Holtz\t8'\n\nBrust Clavier\n1\tPrincipal von Zinn\n2\tOctava von Metal\n3\tNassad\t3'\n4\tSuper octava\t2'\n5\tSedecima\t1'\n6\tMixtura\n7\tFlaut major Holtz\n8\tFlaut minor Holtz\n9\tVox Humana\t8'\n10\tFlaut Allemand von A 8 '\n\nIm Pedal\n1\tGroßer Untersatz 32'\n2\tPrincipal Bass von Zin 16'\n3\tOffener Baß von Holtz 16'\n4\tSubbass Gedeckt von Holtz 16'\n5\tQuintaden Bass von Holtz 16'\n6\tOctaven Bass offen Holtz 8'\n7\tQuinta o(der) Gemshorn 6'\n8\tCornett Bass 6 chor\n9\tPosaunen Bass von Holtz 16'\n10\tTrombett von Metal 8'\nNB Glockenspiel in Pedal"
+    },
+    {
+        "id": 288,
+        "place": "Olomouc",
+        "municipality": "kostel sv. Mořice",
+        "organ_builder": "Michael Engler",
+        "year_built": 1745,
+        "manuals_count": 3,
+        "stops_count": 44,
+        "disposition": "I Haubt Manual von 13 Stimmen\n1\tPrincipal in Front von grossen C bis kleinen c, fein Zinn 16'\n2\tPrincipal auch in Front, fein Zinn\t8'\n3\tSalicet von Metall\t8'\n4\tGamba von Metall\t8 '\n5\tGämshorn von Metall\t8'\n6\tFlaut Major von Metall\t8 '\n7\tNacht-Horn von Metall\t8 '\n8\tOctava von Metall\t4'\n9\tQuinta von Metall\t3'\n10\tCimbal 2 Chor primi Toni\t2'\n11\tMixtura 6 Chor primi Toni\t2 '\n12\tBourdon-Flaut von Holtz\t16'\n13\tTrompet von Zinn\t8'\n\nII In der Brust 9 Stimmen\n1\tPrincipal in Front fein Zinn\t8'\n2\tFlaut Allemand von Metall\t8'\n3\tRohr-Flaut von Metall\t8'\n4\tQuinta dena von Metall\t8'\n5\tOctava von Metall\t4'\n6\tQuinta von Metall\t3'\n7\tSuper Octava\t2'\n8\tMixtura 4 Chor primi Toni\t1 1/2 '\n9\tVox humana von Zinn, ist Rohrwerk\t8'\n\nIII Im untern Clavier 9 Stimmen\n1\tPrincipal in Front, fein Zinn\t8 '\n2\tFlaut Amabile von Holtz\t8'\n3\tOctava von Metall\t4'\n4\tFlaut Minor von Metall\t4 '\n5\tSpitz Flaut von Metall\t3 '\n6\tSuper Octava\t2'\n7\tMixtura 4 Chor primi toni\t1 1/2 '\n8\tUnda maris von Holtz\t8 '\n9\tTrinuna von Metall\t4'\n\nIm Pedal 10 Stimmen\n1\tPrincipal in Front, fein Zinn von grossen C bis kleinen c\t16'\n2\tMajor-Bass von Holtz völlig durch von C bis kleinen c\t32 '\n3\tOffener Bass von Holtz\t16'\n4\tSub-Bass gedeckt von Holtz\t16'\n5\tQuintaden-Bass gedeckt von Holtz\t16 '\n6\tOctaven-Bass offen von Holtz\t8'\n7\tGämshorn-Quint von Metall\t6 '\n8\tMixtura 6 Chor Primi Toni\t4'\n9\tTromba Bass 1 Corpora von Holtz, Mundstuck 8'\n10\tPosaunen Bass [ von Messing\t16'\n\nV Cammer Thon Basse 3 Stimmen\n1\tSub Bass gedeckt von Holtz\t16'\n2\tQuintaden-Bass von Holtz\t16'\n3\tOctaven-Bass von Holtz\t8 '\n\nVI Neben-Register seynd folgende\nEine Copell zwey Manual - Clavier zu coppeln\nEine Copell alle drey Manual - Clavier zu coppeln\nEine Copell das Unter-Clavier in Chor und Cammer-Thon zu verwandeln\nNeuen Sperr-Ventile\nZwey Spiegel-Register\nEin Calcanten-Glöcklein"
+    }
+]

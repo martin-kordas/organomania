@@ -16,6 +16,7 @@ enum OrganBuilderCategory: int implements Category
     case BuiltFrom1860To1944 = 10;
     case BuiltFrom1945To1989 = 3;
     case BuiltFrom1990 = 4;
+    case FromBookBaroqueOrganBuilding = 11;
     
     case Baroque = 5;
     case Romantic = 6;
@@ -52,6 +53,11 @@ enum OrganBuilderCategory: int implements Category
             'name' => 'Restaurování',
             'description' => 'Restaurování vzácných historických nástrojů',
         ],
+        self::FromBookBaroqueOrganBuilding->value => [
+            'name' => 'Z knihy Barokní varhanářství na Moravě',
+            'shortName' => 'Z knihy Barokní varhanářství na Moravě',
+            'description' => 'Varhanáři zařazení v knize Barokní varhanářství na Moravě - 1. díl, varhanáři (Jiří Sehnal)',
+        ],
     ];
     
     public function getValue(): int
@@ -67,7 +73,9 @@ enum OrganBuilderCategory: int implements Category
     public function isPeriodCategory(): bool
     {
         return in_array($this, [
-            static::BuiltTo1799, static::BuiltFrom1800To1859, static::BuiltFrom1860To1944, static::BuiltFrom1945To1989, static::BuiltFrom1990
+            static::BuiltTo1799, static::BuiltFrom1800To1859, static::BuiltFrom1860To1944, static::BuiltFrom1945To1989, static::BuiltFrom1990,
+            // HACK: nejde o kategorii období - řadíme ji sem, protože chceme, aby se zobrazila jen v detailu (stejně jako kategorie období)
+            static::FromBookBaroqueOrganBuilding,
         ]);
     }
     

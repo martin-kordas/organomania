@@ -13,6 +13,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Reactive;
 use App\Http\Resources\OrganBuilderCollection;
+use App\Enums\OrganBuilderCategory;
 use App\Models\OrganBuilder;
 use App\Models\OrganBuilderTimelineItem;
 use App\Repositories\OrganBuilderRepository;
@@ -103,6 +104,12 @@ new class extends Component {
         if ($this->filterCategories) {
             $this->filterCategories($query, $this->filterCategories);
         }
+        // varhanáře z knihy Barokní varhanářství načítáme jen, když je zvolena daná kategorie
+        //  - filtr podle sloupce baroque namísto kategorie je kvůli optimalizaci
+        if (!$this->filterCategories || !in_array(OrganBuilderCategory::FromBookBaroqueOrganBuilding->value, $this->filterCategories)) {
+            $query->where('baroque', '0');
+        }
+
         // optimalizace: při zobrazení thumbnailu stačí načíst jen dané varhany (celá mapa se nepřekresluje)
         if (isset($this->thumbnailOrganId)) $query->where('id', $this->thumbnailOrganId);
 

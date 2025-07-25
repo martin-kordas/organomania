@@ -1,0 +1,3652 @@
+[
+    {
+        "id": 1,
+        "first_name": "Theodor Zikmund",
+        "last_name": "Agadoni",
+        "place_of_birth": "Halle n. Saalou",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 2,
+        "first_name": "František",
+        "last_name": "Apl",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Třešť"
+    },
+    {
+        "id": 3,
+        "first_name": "Jan",
+        "last_name": "Apltauer",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Rybníky"
+    },
+    {
+        "id": 4,
+        "first_name": "Valentin",
+        "last_name": "Arnold",
+        "place_of_birth": "Mohuč",
+        "place_of_death": "Trnava",
+        "year_of_birth": null,
+        "year_of_death": 1812,
+        "municipality": "Trnava"
+    },
+    {
+        "id": 5,
+        "first_name": "Vojtěch",
+        "last_name": "Bakalář",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 6,
+        "first_name": "Řehoř",
+        "last_name": "Bartodějský",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Opavsko"
+    },
+    {
+        "id": 7,
+        "first_name": "Stanislav",
+        "last_name": "Bartodějský",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Slezsko"
+    },
+    {
+        "id": 8,
+        "first_name": null,
+        "last_name": "Beck",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 9,
+        "first_name": "Hans",
+        "last_name": "Beck",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Znojmo"
+    },
+    {
+        "id": 10,
+        "first_name": "Jan Ignác",
+        "last_name": "Beck",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 11,
+        "first_name": "Ondřej",
+        "last_name": "Beck",
+        "place_of_birth": "Bavorov ve Slezsku",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": 1698,
+        "municipality": "Brno"
+    },
+    {
+        "id": 12,
+        "first_name": "Franz",
+        "last_name": "Berger",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 13,
+        "first_name": "František",
+        "last_name": "Berka",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Střížov"
+    },
+    {
+        "id": 14,
+        "first_name": "Jan",
+        "last_name": "Bittner",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Hustopeče"
+    },
+    {
+        "id": 15,
+        "first_name": "Peregrin",
+        "last_name": "Bittner",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Štíty"
+    },
+    {
+        "id": 16,
+        "first_name": "Konrád",
+        "last_name": "Blaschke",
+        "place_of_birth": "Šternberk",
+        "place_of_death": null,
+        "year_of_birth": 1818,
+        "year_of_death": null,
+        "municipality": "Šternberk"
+    },
+    {
+        "id": 17,
+        "first_name": "Jan",
+        "last_name": "Blasmayer",
+        "place_of_birth": null,
+        "place_of_death": "Olomouc",
+        "year_of_birth": 1819,
+        "year_of_death": 1878,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 18,
+        "first_name": "František",
+        "last_name": "Blaške",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Horní Štěpánov"
+    },
+    {
+        "id": 19,
+        "first_name": "Johann",
+        "last_name": "Bohack",
+        "place_of_birth": "Nechanice",
+        "place_of_death": "Vídeň",
+        "year_of_birth": 1755,
+        "year_of_death": 1805,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 20,
+        "first_name": "Michal",
+        "last_name": "Bohowicz",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Vrbovce"
+    },
+    {
+        "id": 21,
+        "first_name": "Hans",
+        "last_name": "Boltz",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Dolní Moravice"
+    },
+    {
+        "id": 22,
+        "first_name": "Filip",
+        "last_name": "Boužek",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 23,
+        "first_name": "Josef",
+        "last_name": "Brail",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 24,
+        "first_name": "Josef",
+        "last_name": "Brauner",
+        "place_of_birth": null,
+        "place_of_death": "Oskava",
+        "year_of_birth": null,
+        "year_of_death": 1864,
+        "municipality": "Oskava"
+    },
+    {
+        "id": 25,
+        "first_name": "Jan Jiří",
+        "last_name": "Braunisch",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Hlubčice"
+    },
+    {
+        "id": 26,
+        "first_name": null,
+        "last_name": "Brněnský varhanář",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 27,
+        "first_name": "Jan",
+        "last_name": "Bruckel",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Dolní Kounice"
+    },
+    {
+        "id": 28,
+        "first_name": "Wolfgang",
+        "last_name": "Brustmann",
+        "place_of_birth": "Losdorf",
+        "place_of_death": "Opava",
+        "year_of_birth": 1777,
+        "year_of_death": 1854,
+        "municipality": "Opava"
+    },
+    {
+        "id": 29,
+        "first_name": "Ignác Florián",
+        "last_name": "Casparides",
+        "place_of_birth": "Kroměříž",
+        "place_of_death": null,
+        "year_of_birth": 1700,
+        "year_of_death": null,
+        "municipality": "Znojmo"
+    },
+    {
+        "id": 30,
+        "first_name": "Jakub Antonín",
+        "last_name": "Casparides",
+        "place_of_birth": "Tišnov",
+        "place_of_death": "Kroměříž",
+        "year_of_birth": 1653,
+        "year_of_death": 1713,
+        "municipality": "Kroměříž"
+    },
+    {
+        "id": 31,
+        "first_name": "Jan Jiří Václav",
+        "last_name": "Casparides",
+        "place_of_birth": "Tišnov",
+        "place_of_death": "Pulkau",
+        "year_of_birth": 1670,
+        "year_of_death": 1735,
+        "municipality": "Pulkau"
+    },
+    {
+        "id": 32,
+        "first_name": "Hynek",
+        "last_name": "Císař",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Čechtice"
+    },
+    {
+        "id": 33,
+        "first_name": "Pavel",
+        "last_name": "Cruciger",
+        "place_of_birth": "Velká Bíteš",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Velká Bíteš"
+    },
+    {
+        "id": 34,
+        "first_name": "Bedřich",
+        "last_name": "Čápek",
+        "place_of_birth": "Letovice",
+        "place_of_death": "Praha",
+        "year_of_birth": 1850,
+        "year_of_death": 1910,
+        "municipality": "Polička"
+    },
+    {
+        "id": 35,
+        "first_name": "František",
+        "last_name": "Čejka",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Nové Město na Moravě"
+    },
+    {
+        "id": 36,
+        "first_name": "Josef",
+        "last_name": "Čejka",
+        "place_of_birth": "Jihlava",
+        "place_of_death": null,
+        "year_of_birth": 1781,
+        "year_of_death": null,
+        "municipality": "Žďár nad Sázavou"
+    },
+    {
+        "id": 37,
+        "first_name": "Jan",
+        "last_name": "Čermák",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Chrudim"
+    },
+    {
+        "id": 38,
+        "first_name": "Eduard",
+        "last_name": "Černoch",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 39,
+        "first_name": "Karel",
+        "last_name": "Češík",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 40,
+        "first_name": "Jakub",
+        "last_name": "Daron",
+        "place_of_birth": "Studénka",
+        "place_of_death": "Studénka",
+        "year_of_birth": 1806,
+        "year_of_death": 1853,
+        "municipality": "Studénka"
+    },
+    {
+        "id": 41,
+        "first_name": "Josef",
+        "last_name": "David",
+        "place_of_birth": null,
+        "place_of_death": "Pustějov",
+        "year_of_birth": 1761,
+        "year_of_death": 1836,
+        "municipality": "Pustějov"
+    },
+    {
+        "id": 42,
+        "first_name": "František Hypolit",
+        "last_name": "Denner",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Ústí nad Orlicí"
+    },
+    {
+        "id": 43,
+        "first_name": "Friedrich",
+        "last_name": "Deutschmann",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": 1757,
+        "year_of_death": 1826,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 44,
+        "first_name": "Jakob",
+        "last_name": "Deutschmann",
+        "place_of_birth": null,
+        "place_of_death": "Vídeň",
+        "year_of_birth": 1795,
+        "year_of_death": 1853,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 45,
+        "first_name": "Matěj",
+        "last_name": "Doleator",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Uničov"
+    },
+    {
+        "id": 46,
+        "first_name": "Jan",
+        "last_name": "Drábek",
+        "place_of_birth": "Borský Mikuláš",
+        "place_of_death": null,
+        "year_of_birth": 1838,
+        "year_of_death": 1919,
+        "municipality": "Borský Mikuláš"
+    },
+    {
+        "id": 47,
+        "first_name": "Mathes",
+        "last_name": "Domanský",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Přerov"
+    },
+    {
+        "id": 48,
+        "first_name": "Jan",
+        "last_name": "Dvorský",
+        "place_of_birth": "Poděbrady",
+        "place_of_death": null,
+        "year_of_birth": 1677,
+        "year_of_death": 1731,
+        "municipality": "Praha"
+    },
+    {
+        "id": 49,
+        "first_name": "Jan Kašpar",
+        "last_name": "Eckert",
+        "place_of_birth": "Kladsko",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 50,
+        "first_name": "Ignác",
+        "last_name": "Eckhart",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Opava"
+    },
+    {
+        "id": 51,
+        "first_name": "Johannes",
+        "last_name": "Effner",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Třebíč"
+    },
+    {
+        "id": 52,
+        "first_name": null,
+        "last_name": "Engelsberger Orgelbauer",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Andělská Hora"
+    },
+    {
+        "id": 53,
+        "first_name": "Gottlieb Benjamin",
+        "last_name": "Engler",
+        "place_of_birth": null,
+        "place_of_death": "Vratislav",
+        "year_of_birth": 1734,
+        "year_of_death": 1793,
+        "municipality": "Vratislav"
+    },
+    {
+        "id": 54,
+        "first_name": "Michael",
+        "last_name": "Engler",
+        "place_of_birth": "Vratislav",
+        "place_of_death": "Vratislav",
+        "year_of_birth": 1688,
+        "year_of_death": 1760,
+        "municipality": "Vratislav"
+    },
+    {
+        "id": 55,
+        "first_name": "Florián",
+        "last_name": "Englisch",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Hlubčice"
+    },
+    {
+        "id": 56,
+        "first_name": "Alois",
+        "last_name": "Erler",
+        "place_of_birth": "Vídeň",
+        "place_of_death": "Vídeň",
+        "year_of_birth": 1827,
+        "year_of_death": 1895,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 57,
+        "first_name": "Ferdinand",
+        "last_name": "Erler",
+        "place_of_birth": null,
+        "place_of_death": "Vídeň",
+        "year_of_birth": null,
+        "year_of_death": 1904,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 58,
+        "first_name": "Christoph",
+        "last_name": "Erler",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": 1783,
+        "year_of_death": 1854,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 59,
+        "first_name": "Antonín",
+        "last_name": "Finkler",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Javorník"
+    },
+    {
+        "id": 60,
+        "first_name": "František",
+        "last_name": "Finkler",
+        "place_of_birth": "Jánský Vrch",
+        "place_of_death": null,
+        "year_of_birth": 1783,
+        "year_of_death": null,
+        "municipality": "Ostrava"
+    },
+    {
+        "id": 61,
+        "first_name": "Jan",
+        "last_name": "Finkler",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Ostrava"
+    },
+    {
+        "id": 62,
+        "first_name": "Josef František Antonín Bedřich",
+        "last_name": "Finkler",
+        "place_of_birth": "Javorník ve Slezsku",
+        "place_of_death": null,
+        "year_of_birth": 1796,
+        "year_of_death": null,
+        "municipality": "Ostrava"
+    },
+    {
+        "id": 63,
+        "first_name": "Josef",
+        "last_name": "Frisa",
+        "place_of_birth": "Město Libavá",
+        "place_of_death": null,
+        "year_of_birth": 1812,
+        "year_of_death": null,
+        "municipality": "Moravská Třebová"
+    },
+    {
+        "id": 64,
+        "first_name": "František",
+        "last_name": "Gartner",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Tachov"
+    },
+    {
+        "id": 65,
+        "first_name": "Josef",
+        "last_name": "Gartner",
+        "place_of_birth": "Tachov",
+        "place_of_death": "Praha",
+        "year_of_birth": 1796,
+        "year_of_death": 1863,
+        "municipality": "Praha"
+    },
+    {
+        "id": 66,
+        "first_name": "Florián",
+        "last_name": "Geissler",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Údolná"
+    },
+    {
+        "id": 67,
+        "first_name": "Václav",
+        "last_name": "Goldhammer",
+        "place_of_birth": null,
+        "place_of_death": "Znojmo",
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Znojmo"
+    },
+    {
+        "id": 68,
+        "first_name": "Ignác",
+        "last_name": "Gottwald",
+        "place_of_birth": "Vlčice, okr. Šumperk",
+        "place_of_death": "Zwingendorf, Rakousko",
+        "year_of_birth": 1804,
+        "year_of_death": 1852,
+        "municipality": "Olšovec u Bzence"
+    },
+    {
+        "id": 69,
+        "first_name": "Matěj",
+        "last_name": "Gruber",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Uherské Hradiště"
+    },
+    {
+        "id": 70,
+        "first_name": "Jan Jiří",
+        "last_name": "Grünperger",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Západní Morava"
+    },
+    {
+        "id": 71,
+        "first_name": "Jan",
+        "last_name": "Haas",
+        "place_of_birth": "Polska Cerekiew, Slezsko",
+        "place_of_death": "Velká Bystřice",
+        "year_of_birth": 1722,
+        "year_of_death": 1806,
+        "municipality": "Velká Bystřice"
+    },
+    {
+        "id": 72,
+        "first_name": "Jan Bohumír",
+        "last_name": "Halbich",
+        "place_of_birth": "Horní Hedče u Králík",
+        "place_of_death": "Praha",
+        "year_of_birth": 1660,
+        "year_of_death": 1720,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 73,
+        "first_name": "Jan Bohumír",
+        "last_name": "Halbich",
+        "place_of_birth": "Horní Hedče u Králík",
+        "place_of_death": "Praha",
+        "year_of_birth": 1684,
+        "year_of_death": 1736,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 74,
+        "first_name": "Samuel",
+        "last_name": "Halbich",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": 1630,
+        "year_of_death": 1700,
+        "municipality": "Horní Hedče"
+    },
+    {
+        "id": 75,
+        "first_name": "Simon",
+        "last_name": "Halbich",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Horní Hedče"
+    },
+    {
+        "id": 76,
+        "first_name": "Antonín",
+        "last_name": "Hanačík",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": 1783,
+        "year_of_death": 1862,
+        "municipality": "Zlín"
+    },
+    {
+        "id": 77,
+        "first_name": "Antonín Daniel",
+        "last_name": "Hanačík",
+        "place_of_birth": "Zlín",
+        "place_of_death": "Zlín",
+        "year_of_birth": 1824,
+        "year_of_death": 1894,
+        "municipality": "Zlín"
+    },
+    {
+        "id": 78,
+        "first_name": "Bedřich František",
+        "last_name": "Hanačík",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": 1816,
+        "year_of_death": 1844,
+        "municipality": "Zlín"
+    },
+    {
+        "id": 79,
+        "first_name": "Ignác",
+        "last_name": "Hanačík",
+        "place_of_birth": null,
+        "place_of_death": "Zlín",
+        "year_of_birth": 1760,
+        "year_of_death": 1791,
+        "municipality": "Zlín"
+    },
+    {
+        "id": 80,
+        "first_name": "Mořic",
+        "last_name": "Hanačík",
+        "place_of_birth": "Zlín",
+        "place_of_death": "Spálov",
+        "year_of_birth": 1792,
+        "year_of_death": 1863,
+        "municipality": "Spálov"
+    },
+    {
+        "id": 81,
+        "first_name": "Amand",
+        "last_name": "Hanisch",
+        "place_of_birth": "Vrchní Orlice",
+        "place_of_death": null,
+        "year_of_birth": 1813,
+        "year_of_death": 1885,
+        "municipality": "Rychnov nad Kněžnou"
+    },
+    {
+        "id": 82,
+        "first_name": "Eduard",
+        "last_name": "Hanisch",
+        "place_of_birth": "Rokytnice v Orlických horách (?)",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Mohelnice"
+    },
+    {
+        "id": 83,
+        "first_name": "František",
+        "last_name": "Hanisch",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Rokytnice v Čechách"
+    },
+    {
+        "id": 84,
+        "first_name": "František Adolf",
+        "last_name": "Hanisch",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Rokytnice v Orlických horách"
+    },
+    {
+        "id": 85,
+        "first_name": "František",
+        "last_name": "Harbich",
+        "place_of_birth": "Valteřice u Vysokých Zibřidovic",
+        "place_of_death": "Brno",
+        "year_of_birth": 1780,
+        "year_of_death": 1862,
+        "municipality": "Brno"
+    },
+    {
+        "id": 86,
+        "first_name": null,
+        "last_name": "Hase",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Bavorov"
+    },
+    {
+        "id": 87,
+        "first_name": "Jan",
+        "last_name": "Hauke",
+        "place_of_birth": "Krásné Loučky",
+        "place_of_death": null,
+        "year_of_birth": 1824,
+        "year_of_death": null,
+        "municipality": "Český Těšín"
+    },
+    {
+        "id": 88,
+        "first_name": "Josef",
+        "last_name": "Hauke",
+        "place_of_birth": "Krásné Loučky",
+        "place_of_death": "Uherské Hradiště",
+        "year_of_birth": 1839,
+        "year_of_death": 1902,
+        "municipality": "Uherské Hradiště"
+    },
+    {
+        "id": 89,
+        "first_name": "Jan Kašpar",
+        "last_name": "Heger",
+        "place_of_birth": null,
+        "place_of_death": "Brno",
+        "year_of_birth": 1713,
+        "year_of_death": 1748,
+        "municipality": "Brno"
+    },
+    {
+        "id": 90,
+        "first_name": "Josef",
+        "last_name": "Heidenreich",
+        "place_of_birth": "Rešov",
+        "place_of_death": "Rešov",
+        "year_of_birth": 1781,
+        "year_of_death": 1826,
+        "municipality": "Český Těšín"
+    },
+    {
+        "id": 91,
+        "first_name": "Šimon",
+        "last_name": "Heidenreich",
+        "place_of_birth": null,
+        "place_of_death": "Olomouc",
+        "year_of_birth": null,
+        "year_of_death": 1628,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 92,
+        "first_name": "Michal",
+        "last_name": "Heintz",
+        "place_of_birth": null,
+        "place_of_death": "Olomouc",
+        "year_of_birth": null,
+        "year_of_death": 1619,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 93,
+        "first_name": "Josef Emanuel",
+        "last_name": "Heintzler",
+        "place_of_birth": "Ybbs an der Donau",
+        "place_of_death": "Olomouc",
+        "year_of_birth": 1691,
+        "year_of_death": 1736,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 94,
+        "first_name": "Stephan",
+        "last_name": "Helwig",
+        "place_of_birth": "Cinvald",
+        "place_of_death": "Vídeň",
+        "year_of_birth": 1734,
+        "year_of_death": 1812,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 95,
+        "first_name": "Johann",
+        "last_name": "Hencke",
+        "place_of_birth": "Geseke",
+        "place_of_death": "Vídeň",
+        "year_of_birth": 1697,
+        "year_of_death": 1766,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 96,
+        "first_name": "Josef",
+        "last_name": "Hentschl",
+        "place_of_birth": "Hrozová",
+        "place_of_death": "Olomouc",
+        "year_of_birth": null,
+        "year_of_death": 1722,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 97,
+        "first_name": "Jan",
+        "last_name": "Herden",
+        "place_of_birth": "Wilsdorf (Kladsko)",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Jihlava"
+    },
+    {
+        "id": 98,
+        "first_name": "Jan Jiří",
+        "last_name": "Herman",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Chrudim"
+    },
+    {
+        "id": 99,
+        "first_name": "Antonín",
+        "last_name": "Herrmann",
+        "place_of_birth": "Dolní Dobrouč",
+        "place_of_death": "Český Dub",
+        "year_of_birth": 1841,
+        "year_of_death": 1921,
+        "municipality": "Český Dub"
+    },
+    {
+        "id": 100,
+        "first_name": "Augustin",
+        "last_name": "Hermanský",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Odry"
+    },
+    {
+        "id": 101,
+        "first_name": "Carl",
+        "last_name": "Hesse",
+        "place_of_birth": "Terst",
+        "place_of_death": "Vídeň",
+        "year_of_birth": 1808,
+        "year_of_death": 1882,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 102,
+        "first_name": "Michal",
+        "last_name": "Heuntz",
+        "place_of_birth": null,
+        "place_of_death": "Olomouc",
+        "year_of_birth": null,
+        "year_of_death": 1619,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 103,
+        "first_name": "Pavel",
+        "last_name": "Heydrich",
+        "place_of_birth": null,
+        "place_of_death": "Králíky",
+        "year_of_birth": null,
+        "year_of_death": 1775,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 104,
+        "first_name": "Václav",
+        "last_name": "Hlinecký",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Dačice"
+    },
+    {
+        "id": 105,
+        "first_name": "Peter",
+        "last_name": "Hölzl",
+        "place_of_birth": "Králíky",
+        "place_of_death": "Garsten",
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Garsten"
+    },
+    {
+        "id": 106,
+        "first_name": "Alois",
+        "last_name": "Hörbiger",
+        "place_of_birth": "Tierbach",
+        "place_of_death": "Vršac",
+        "year_of_birth": 1810,
+        "year_of_death": 1872,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 107,
+        "first_name": "Josef",
+        "last_name": "Hofmann",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "jihozápadní Morava"
+    },
+    {
+        "id": 108,
+        "first_name": "Josef",
+        "last_name": "Holada",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Lipnice"
+    },
+    {
+        "id": 109,
+        "first_name": "František Pavel",
+        "last_name": "Horák",
+        "place_of_birth": "Kutná Hora",
+        "place_of_death": null,
+        "year_of_birth": 1723,
+        "year_of_death": 1822,
+        "municipality": "Kutná Hora"
+    },
+    {
+        "id": 110,
+        "first_name": "Ignác",
+        "last_name": "Horák",
+        "place_of_birth": "Kutná Hora",
+        "place_of_death": null,
+        "year_of_birth": 1764,
+        "year_of_death": null,
+        "municipality": "Kutná Hora"
+    },
+    {
+        "id": 111,
+        "first_name": "Josef",
+        "last_name": "Horák",
+        "place_of_birth": null,
+        "place_of_death": "Dačice",
+        "year_of_birth": 1728,
+        "year_of_death": 1789,
+        "municipality": "Dačice"
+    },
+    {
+        "id": 112,
+        "first_name": "Josef Petr",
+        "last_name": "Horák",
+        "place_of_birth": "Dačice",
+        "place_of_death": "Zwettl",
+        "year_of_birth": 1766,
+        "year_of_death": 1842,
+        "municipality": "Zwettl"
+    },
+    {
+        "id": 113,
+        "first_name": "Matěj Karel",
+        "last_name": "Horák",
+        "place_of_birth": "Kutná Hora",
+        "place_of_death": null,
+        "year_of_birth": 1758,
+        "year_of_death": 1811,
+        "municipality": "Kutná Hora"
+    },
+    {
+        "id": 114,
+        "first_name": "František",
+        "last_name": "Horčička",
+        "place_of_birth": "Jičín",
+        "place_of_death": null,
+        "year_of_birth": 1721,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 115,
+        "first_name": "František",
+        "last_name": "Horčička",
+        "place_of_birth": "Popovice",
+        "place_of_death": "Frýdek",
+        "year_of_birth": 1745,
+        "year_of_death": 1800,
+        "municipality": "Frýdek"
+    },
+    {
+        "id": 116,
+        "first_name": "Josef",
+        "last_name": "Hubert",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Trenčín"
+    },
+    {
+        "id": 117,
+        "first_name": "Jan",
+        "last_name": "Huvar",
+        "place_of_birth": "Albrechtičky",
+        "place_of_death": "Albrechtičky",
+        "year_of_birth": 1774,
+        "year_of_death": 1866,
+        "municipality": "Albrechtičky"
+    },
+    {
+        "id": 118,
+        "first_name": "Mikuláš",
+        "last_name": "Christeindl",
+        "place_of_birth": "České Budějovice",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "České Budějovice"
+    },
+    {
+        "id": 119,
+        "first_name": "Ondřej",
+        "last_name": "Jakl",
+        "place_of_birth": "Březová nad Svitavou",
+        "place_of_death": "Březová nad Svitavou",
+        "year_of_birth": 1803,
+        "year_of_death": 1857,
+        "municipality": "Březová nad Svitavou"
+    },
+    {
+        "id": 120,
+        "first_name": "František",
+        "last_name": "Jančík",
+        "place_of_birth": "Kouřim",
+        "place_of_death": null,
+        "year_of_birth": 1835,
+        "year_of_death": null,
+        "municipality": "Březová nad Svitavou"
+    },
+    {
+        "id": 121,
+        "first_name": "František",
+        "last_name": "Jentschke",
+        "place_of_birth": "Králíky",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Český Krumlov"
+    },
+    {
+        "id": 122,
+        "first_name": "Jan Václav",
+        "last_name": "Josefy",
+        "place_of_birth": "Kutná Hora",
+        "place_of_death": null,
+        "year_of_birth": 1778,
+        "year_of_death": null,
+        "municipality": "Kutná Hora"
+    },
+    {
+        "id": 123,
+        "first_name": "Claudius",
+        "last_name": "Kaps",
+        "place_of_birth": null,
+        "place_of_death": "Bělotín",
+        "year_of_birth": 1816,
+        "year_of_death": 1850,
+        "municipality": "severní Morava"
+    },
+    {
+        "id": 124,
+        "first_name": "Josef Desiderius",
+        "last_name": "Karais",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 125,
+        "first_name": "František",
+        "last_name": "Katzer",
+        "place_of_birth": "Králíky",
+        "place_of_death": "Králíky",
+        "year_of_birth": 1702,
+        "year_of_death": 1764,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 126,
+        "first_name": "Kryštof",
+        "last_name": "Khelitz",
+        "place_of_birth": "Tochau (Slezsko)",
+        "place_of_death": "Brno",
+        "year_of_birth": null,
+        "year_of_death": 1682,
+        "municipality": "Brno"
+    },
+    {
+        "id": 127,
+        "first_name": "Kryštof Zikmund",
+        "last_name": "Klembt",
+        "place_of_birth": null,
+        "place_of_death": "Kroměříž",
+        "year_of_birth": 1678,
+        "year_of_death": 1736,
+        "municipality": "Kroměříž"
+    },
+    {
+        "id": 128,
+        "first_name": null,
+        "last_name": "Klement",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 129,
+        "first_name": "Kryštof",
+        "last_name": "Kloss",
+        "place_of_birth": "Innsbruck",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 130,
+        "first_name": "Jan",
+        "last_name": "Klumper",
+        "place_of_birth": "Brno",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Vidnava"
+    },
+    {
+        "id": 131,
+        "first_name": "Ignaz",
+        "last_name": "Kober",
+        "place_of_birth": "Olomouc",
+        "place_of_death": "Vídeň",
+        "year_of_birth": 1756,
+        "year_of_death": 1813,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 132,
+        "first_name": "Adam",
+        "last_name": "König",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": 1755,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 133,
+        "first_name": "Georg",
+        "last_name": "Koch",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Sasko"
+    },
+    {
+        "id": 134,
+        "first_name": "Johann",
+        "last_name": "Koch",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Annaberg"
+    },
+    {
+        "id": 135,
+        "first_name": "Steffan",
+        "last_name": "Koch",
+        "place_of_birth": "Jáchymov",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": 1590,
+        "municipality": "Zwickau"
+    },
+    {
+        "id": 136,
+        "first_name": "František",
+        "last_name": "Kolb",
+        "place_of_birth": "Pekařov",
+        "place_of_death": "Pekařov",
+        "year_of_birth": 1843,
+        "year_of_death": 1922,
+        "municipality": "Pekařov"
+    },
+    {
+        "id": 137,
+        "first_name": "Filip",
+        "last_name": "Komínek",
+        "place_of_birth": "Brno",
+        "place_of_death": null,
+        "year_of_birth": 1831,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 138,
+        "first_name": "Jan",
+        "last_name": "Kommer",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 139,
+        "first_name": "Jan",
+        "last_name": "Komorník",
+        "place_of_birth": null,
+        "place_of_death": "Rouchovany",
+        "year_of_birth": 1736,
+        "year_of_death": 1799,
+        "municipality": "Rouchovany"
+    },
+    {
+        "id": 140,
+        "first_name": "Josef",
+        "last_name": "Komorník",
+        "place_of_birth": "Rouchovany",
+        "place_of_death": null,
+        "year_of_birth": 1773,
+        "year_of_death": null,
+        "municipality": "Košice"
+    },
+    {
+        "id": 141,
+        "first_name": "František",
+        "last_name": "Kopeček",
+        "place_of_birth": "Radkovice u Jemnice",
+        "place_of_death": null,
+        "year_of_birth": 1788,
+        "year_of_death": null,
+        "municipality": "Moravské Budějovice"
+    },
+    {
+        "id": 142,
+        "first_name": null,
+        "last_name": "Krakovský",
+        "place_of_birth": "Krakov",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Krakov"
+    },
+    {
+        "id": 143,
+        "first_name": null,
+        "last_name": "Kralický",
+        "place_of_birth": "Králíky",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 144,
+        "first_name": "Jan Antonín",
+        "last_name": "Krásný",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": 1670,
+        "year_of_death": null,
+        "municipality": "Praha"
+    },
+    {
+        "id": 145,
+        "first_name": "Čeněk",
+        "last_name": "Krejčí",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Morava"
+    },
+    {
+        "id": 146,
+        "first_name": "Johann Andreas",
+        "last_name": "Krenner",
+        "place_of_birth": "Leitenberg (Sasko)",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 147,
+        "first_name": "Otto",
+        "last_name": "Kretschmar",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Znojmo"
+    },
+    {
+        "id": 148,
+        "first_name": "Kristián",
+        "last_name": "Křižanovský",
+        "place_of_birth": null,
+        "place_of_death": "Valašské Meziříčí",
+        "year_of_birth": 1692,
+        "year_of_death": 1778,
+        "municipality": "Valašské Meziříčí"
+    },
+    {
+        "id": 149,
+        "first_name": "František",
+        "last_name": "Křížek",
+        "place_of_birth": "Bílkov u Dačic",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Bílkov u Dačic"
+    },
+    {
+        "id": 150,
+        "first_name": "Petr",
+        "last_name": "Kubeš",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Hostrkovice"
+    },
+    {
+        "id": 151,
+        "first_name": "Albert",
+        "last_name": "Kuttler",
+        "place_of_birth": "Nisa",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Horní Studénky"
+    },
+    {
+        "id": 152,
+        "first_name": "Jan",
+        "last_name": "Kuttler",
+        "place_of_birth": "Loosdorf (Dolní Rakousy)",
+        "place_of_death": null,
+        "year_of_birth": 1769,
+        "year_of_death": null,
+        "municipality": "Vidnava"
+    },
+    {
+        "id": 153,
+        "first_name": null,
+        "last_name": "Linhart",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 154,
+        "first_name": null,
+        "last_name": "Johannes",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Rakousko"
+    },
+    {
+        "id": 155,
+        "first_name": "Jan Václav",
+        "last_name": "Josefy",
+        "place_of_birth": "Kutná Hora",
+        "place_of_death": null,
+        "year_of_birth": 1778,
+        "year_of_death": null,
+        "municipality": "Kutná Hora"
+    },
+    {
+        "id": 156,
+        "first_name": "Claudius",
+        "last_name": "Kaps",
+        "place_of_birth": null,
+        "place_of_death": "Bělotín",
+        "year_of_birth": 1816,
+        "year_of_death": 1850,
+        "municipality": "severní Morava"
+    },
+    {
+        "id": 157,
+        "first_name": "Josef Desiderius",
+        "last_name": "Karais",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 158,
+        "first_name": "František",
+        "last_name": "Katzer",
+        "place_of_birth": "Králíky",
+        "place_of_death": "Králíky",
+        "year_of_birth": 1702,
+        "year_of_death": 1764,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 159,
+        "first_name": "Kryštof",
+        "last_name": "Khelitz",
+        "place_of_birth": "Tochau (Slezsko)",
+        "place_of_death": "Brno",
+        "year_of_birth": null,
+        "year_of_death": 1682,
+        "municipality": "Brno"
+    },
+    {
+        "id": 160,
+        "first_name": "Kryštof Zikmund",
+        "last_name": "Klembt",
+        "place_of_birth": null,
+        "place_of_death": "Kroměříž",
+        "year_of_birth": 1678,
+        "year_of_death": 1736,
+        "municipality": "Kroměříž"
+    },
+    {
+        "id": 161,
+        "first_name": "František",
+        "last_name": "Kopeček",
+        "place_of_birth": "Radkovicích u Jemnice",
+        "place_of_death": null,
+        "year_of_birth": 1788,
+        "year_of_death": null,
+        "municipality": "Moravských Budějovicích"
+    },
+    {
+        "id": 162,
+        "first_name": "Jan Antonín",
+        "last_name": "Krásný",
+        "place_of_birth": "Kvasicích nebo Krasic",
+        "place_of_death": null,
+        "year_of_birth": 1670,
+        "year_of_death": null,
+        "municipality": "Vídni"
+    },
+    {
+        "id": 163,
+        "first_name": "Čeněk",
+        "last_name": "Krejčí",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Moravě"
+    },
+    {
+        "id": 164,
+        "first_name": "Johann Andreas",
+        "last_name": "Krenner",
+        "place_of_birth": "Leitenbergu v Sasku",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 165,
+        "first_name": "Otto",
+        "last_name": "Kretschmar",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brně a ve Znojmě"
+    },
+    {
+        "id": 166,
+        "first_name": "Kristián",
+        "last_name": "Křižanovský",
+        "place_of_birth": null,
+        "place_of_death": "Valašském Meziříčí",
+        "year_of_birth": 1692,
+        "year_of_death": 1778,
+        "municipality": "Valašském Meziříčí"
+    },
+    {
+        "id": 167,
+        "first_name": "František",
+        "last_name": "Křížek",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Bílkově u Dačic"
+    },
+    {
+        "id": 168,
+        "first_name": "Petr",
+        "last_name": "Kubeš",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Hostrkovicích"
+    },
+    {
+        "id": 169,
+        "first_name": "Albert",
+        "last_name": "Kuttler",
+        "place_of_birth": "Nise",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "severní Moravě"
+    },
+    {
+        "id": 170,
+        "first_name": "Jan",
+        "last_name": "Kuttler",
+        "place_of_birth": "Loosdorfu",
+        "place_of_death": null,
+        "year_of_birth": 1769,
+        "year_of_death": null,
+        "municipality": "Brně a ve Vidnavě"
+    },
+    {
+        "id": 171,
+        "first_name": "Josef",
+        "last_name": "Kuttler",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Opavě"
+    },
+    {
+        "id": 172,
+        "first_name": "Karel",
+        "last_name": "Kuttler",
+        "place_of_birth": "Vidnavě",
+        "place_of_death": "Opavě",
+        "year_of_birth": 1797,
+        "year_of_death": 1876,
+        "municipality": "Vidnavě a v Opavě"
+    },
+    {
+        "id": 173,
+        "first_name": "Leopold Antonín Josef",
+        "last_name": "Kuttler",
+        "place_of_birth": "Vidnavě",
+        "place_of_death": "Vidnavě",
+        "year_of_birth": 1802,
+        "year_of_death": 1832,
+        "municipality": "Vidnavě"
+    },
+    {
+        "id": 174,
+        "first_name": "Jakub",
+        "last_name": "Lamač",
+        "place_of_birth": "Veselí nad Lužnicí",
+        "place_of_death": "Prostějově",
+        "year_of_birth": 1844,
+        "year_of_death": 1890,
+        "municipality": "Jihlavě"
+    },
+    {
+        "id": 175,
+        "first_name": "Jan",
+        "last_name": "Lamač",
+        "place_of_birth": "Veselí nad Lužnicí",
+        "place_of_death": "Untermais/Meran",
+        "year_of_birth": 1852,
+        "year_of_death": 1897,
+        "municipality": "Jihlavě"
+    },
+    {
+        "id": 176,
+        "first_name": "Vincenc",
+        "last_name": "Lang",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "severní Moravě"
+    },
+    {
+        "id": 177,
+        "first_name": "Benedikt",
+        "last_name": "Latzl",
+        "place_of_birth": "Prostějově",
+        "place_of_death": "Znojmě",
+        "year_of_birth": 1818,
+        "year_of_death": 1884,
+        "municipality": "Znojmě"
+    },
+    {
+        "id": 178,
+        "first_name": "František",
+        "last_name": "Lehnert",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Andělské Hoře"
+    },
+    {
+        "id": 179,
+        "first_name": "Johann Georg",
+        "last_name": "Lehnert",
+        "place_of_birth": "Řezná",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Opavě"
+    },
+    {
+        "id": 180,
+        "first_name": "Jan",
+        "last_name": "Leopold",
+        "place_of_birth": "Freywaldu v Braniborsku",
+        "place_of_death": null,
+        "year_of_birth": 1748,
+        "year_of_death": null,
+        "municipality": "Brně"
+    },
+    {
+        "id": 181,
+        "first_name": null,
+        "last_name": "LInhart",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 182,
+        "first_name": "A.",
+        "last_name": "Lobgesang",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Andělská Hora"
+    },
+    {
+        "id": 183,
+        "first_name": "Joseph",
+        "last_name": "Loyp",
+        "place_of_birth": "Vídeň",
+        "place_of_death": "Vídeň",
+        "year_of_birth": 1801,
+        "year_of_death": 1877,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 184,
+        "first_name": "Adolph Alexander",
+        "last_name": "Lummert",
+        "place_of_birth": "Vratislav",
+        "place_of_death": "Vratislav",
+        "year_of_birth": 1809,
+        "year_of_death": 1861,
+        "municipality": "Vratislav"
+    },
+    {
+        "id": 185,
+        "first_name": "Jiřík",
+        "last_name": "Lynhart",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Třebíč"
+    },
+    {
+        "id": 186,
+        "first_name": "Josef",
+        "last_name": "Maděr",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Hraničné Petrovice"
+    },
+    {
+        "id": 187,
+        "first_name": "Karel",
+        "last_name": "Machník",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Valašské Meziříčí"
+    },
+    {
+        "id": 188,
+        "first_name": "Antonín",
+        "last_name": "Mareš",
+        "place_of_birth": null,
+        "place_of_death": "Ústí nad Orlicí",
+        "year_of_birth": 1754,
+        "year_of_death": 1804,
+        "municipality": "Ústí nad Orlicí"
+    },
+    {
+        "id": 189,
+        "first_name": "František",
+        "last_name": "Maretka",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 190,
+        "first_name": "Lorenc",
+        "last_name": "Marschall",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Mikulov"
+    },
+    {
+        "id": 191,
+        "first_name": "Jan Jiří",
+        "last_name": "Mayer",
+        "place_of_birth": null,
+        "place_of_death": "Letovice",
+        "year_of_birth": 1734,
+        "year_of_death": 1794,
+        "municipality": "Letovice"
+    },
+    {
+        "id": 192,
+        "first_name": "Franz",
+        "last_name": "Meltzer",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Slezsko"
+    },
+    {
+        "id": 193,
+        "first_name": "Mates František",
+        "last_name": "Menšík",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Telč"
+    },
+    {
+        "id": 194,
+        "first_name": "Václav",
+        "last_name": "Merthal",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 195,
+        "first_name": "Franz",
+        "last_name": "Metall",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Horn"
+    },
+    {
+        "id": 196,
+        "first_name": "Mathias",
+        "last_name": "Metall",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Horn"
+    },
+    {
+        "id": 197,
+        "first_name": "Ferdinand",
+        "last_name": "Mikša",
+        "place_of_birth": "Brno",
+        "place_of_death": "Brno",
+        "year_of_birth": 1829,
+        "year_of_death": 1880,
+        "municipality": "Brno"
+    },
+    {
+        "id": 198,
+        "first_name": "František",
+        "last_name": "Mikša",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 199,
+        "first_name": "Sebald",
+        "last_name": "Milner",
+        "place_of_birth": "Norimberk",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 200,
+        "first_name": "František",
+        "last_name": "Minář",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": 1778,
+        "year_of_death": null,
+        "municipality": "Štíty"
+    },
+    {
+        "id": 201,
+        "first_name": "František",
+        "last_name": "Müller",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Nový Jičín"
+    },
+    {
+        "id": 202,
+        "first_name": "Moritz Robert",
+        "last_name": "Müller",
+        "place_of_birth": null,
+        "place_of_death": "Vratislav",
+        "year_of_birth": 1803,
+        "year_of_death": 1863,
+        "municipality": "Vratislav"
+    },
+    {
+        "id": 203,
+        "first_name": "Otto",
+        "last_name": "Müller",
+        "place_of_birth": null,
+        "place_of_death": "Vratislav",
+        "year_of_birth": null,
+        "year_of_death": 1865,
+        "municipality": "Vratislav"
+    },
+    {
+        "id": 204,
+        "first_name": "Samuel",
+        "last_name": "Nakielsky",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Hlučín"
+    },
+    {
+        "id": 205,
+        "first_name": "Jan",
+        "last_name": "Navrátil",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Mohelnice"
+    },
+    {
+        "id": 206,
+        "first_name": "Jan",
+        "last_name": "Nette",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 207,
+        "first_name": "Jan",
+        "last_name": "Neusser",
+        "place_of_birth": "Nový Jičín",
+        "place_of_death": "Nový Jičín",
+        "year_of_birth": 1807,
+        "year_of_death": 1878,
+        "municipality": "Nový Jičín"
+    },
+    {
+        "id": 208,
+        "first_name": "Karel Bor. Antonín",
+        "last_name": "Neusser",
+        "place_of_birth": "Nový Jičín",
+        "place_of_death": "Nový Jičín",
+        "year_of_birth": 1844,
+        "year_of_death": 1925,
+        "municipality": "Nový Jičín"
+    },
+    {
+        "id": 209,
+        "first_name": null,
+        "last_name": "Niclas",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 210,
+        "first_name": "František",
+        "last_name": "Nix",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Nová Říše"
+    },
+    {
+        "id": 211,
+        "first_name": "Ludvík",
+        "last_name": "Nix",
+        "place_of_birth": "Nová Říše",
+        "place_of_death": "Nová Říše",
+        "year_of_birth": 1849,
+        "year_of_death": 1905,
+        "municipality": "Nová Říše"
+    },
+    {
+        "id": 212,
+        "first_name": "Michal",
+        "last_name": "Notter",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": 1621,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 213,
+        "first_name": "Pavel",
+        "last_name": "Nymmerrichter",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 214,
+        "first_name": "Vavřinec",
+        "last_name": "Nymmerrichter",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 215,
+        "first_name": "Jan",
+        "last_name": "Nytcz",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Soběslav"
+    },
+    {
+        "id": 216,
+        "first_name": null,
+        "last_name": "Oberrauch",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Slavkov"
+    },
+    {
+        "id": 217,
+        "first_name": "Laszlaw",
+        "last_name": "Obeslavius",
+        "place_of_birth": "Příbor",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 218,
+        "first_name": "Ondřej",
+        "last_name": "Obeslavius",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 219,
+        "first_name": null,
+        "last_name": "Olomoucký varhanář",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 220,
+        "first_name": "Michal",
+        "last_name": "Oranský",
+        "place_of_birth": "Orozin",
+        "place_of_death": null,
+        "year_of_birth": 1761,
+        "year_of_death": 1854,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 221,
+        "first_name": "Vít",
+        "last_name": "Österreicher",
+        "place_of_birth": "Slavonice",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 222,
+        "first_name": "František",
+        "last_name": "Ostřihamský",
+        "place_of_birth": "Přibyslavice u Třebíče",
+        "place_of_death": null,
+        "year_of_birth": 1818,
+        "year_of_death": null,
+        "municipality": "západní Morava"
+    },
+    {
+        "id": 223,
+        "first_name": "Jan",
+        "last_name": "Pantoček",
+        "place_of_birth": null,
+        "place_of_death": "Dačice",
+        "year_of_birth": null,
+        "year_of_death": 1702,
+        "municipality": "Dačice"
+    },
+    {
+        "id": 224,
+        "first_name": "Šebestián",
+        "last_name": "Pantoček",
+        "place_of_birth": null,
+        "place_of_death": "Dačice",
+        "year_of_birth": 1701,
+        "year_of_death": 1751,
+        "municipality": "Dačice"
+    },
+    {
+        "id": 225,
+        "first_name": "Tobiáš",
+        "last_name": "Pantoček",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Želetava"
+    },
+    {
+        "id": 226,
+        "first_name": "Václav",
+        "last_name": "Pantoček",
+        "place_of_birth": "Doubravník",
+        "place_of_death": "Dačice",
+        "year_of_birth": 1681,
+        "year_of_death": 1746,
+        "municipality": "Dačice"
+    },
+    {
+        "id": 227,
+        "first_name": "Daniel",
+        "last_name": "Paur",
+        "place_of_birth": "Strassburg",
+        "place_of_death": "Vídeň",
+        "year_of_birth": null,
+        "year_of_death": 1667,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 228,
+        "first_name": "Tomáš",
+        "last_name": "Pazour",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Žďár nad Sázavou"
+    },
+    {
+        "id": 229,
+        "first_name": "Martin",
+        "last_name": "Pažický",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": 1752,
+        "year_of_death": 1834,
+        "municipality": "Rajec"
+    },
+    {
+        "id": 230,
+        "first_name": "Augustin",
+        "last_name": "Peter",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Nový Jičín"
+    },
+    {
+        "id": 231,
+        "first_name": "Philippus",
+        "last_name": "de Bruna",
+        "place_of_birth": null,
+        "place_of_death": "Brno",
+        "year_of_birth": null,
+        "year_of_death": 1398,
+        "municipality": "Brno"
+    },
+    {
+        "id": 232,
+        "first_name": "Hans",
+        "last_name": "Pilgram",
+        "place_of_birth": "Jihlava",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Jihlava"
+    },
+    {
+        "id": 233,
+        "first_name": "Jan",
+        "last_name": "Piskor",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Rožnov"
+    },
+    {
+        "id": 234,
+        "first_name": null,
+        "last_name": "Petrus",
+        "place_of_birth": null,
+        "place_of_death": "Olomouc",
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 235,
+        "first_name": "Zikmund",
+        "last_name": "Pistrich",
+        "place_of_birth": "Brno",
+        "place_of_death": null,
+        "year_of_birth": 1846,
+        "year_of_death": null,
+        "municipality": "Morava"
+    },
+    {
+        "id": 236,
+        "first_name": "František",
+        "last_name": "Pistrich",
+        "place_of_birth": "Vídeň",
+        "place_of_death": "Třebíč",
+        "year_of_birth": 1820,
+        "year_of_death": 1873,
+        "municipality": "Třebíč"
+    },
+    {
+        "id": 237,
+        "first_name": "František",
+        "last_name": "Pohan",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": 1846,
+        "municipality": "Golčův Jeníkov"
+    },
+    {
+        "id": 238,
+        "first_name": "Jan",
+        "last_name": "Pohan",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Třešť"
+    },
+    {
+        "id": 239,
+        "first_name": "Antonín",
+        "last_name": "Polák",
+        "place_of_birth": null,
+        "place_of_death": "Ivančice",
+        "year_of_birth": 1765,
+        "year_of_death": 1841,
+        "municipality": "Ivančice"
+    },
+    {
+        "id": 240,
+        "first_name": "Christian",
+        "last_name": "Porre",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Soběšovice"
+    },
+    {
+        "id": 241,
+        "first_name": "Josef",
+        "last_name": "Pospíšil",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Branišov"
+    },
+    {
+        "id": 242,
+        "first_name": "Jan",
+        "last_name": "Prasky",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 243,
+        "first_name": "Anton",
+        "last_name": "Preisinger",
+        "place_of_birth": "Hechenberg",
+        "place_of_death": "Freistadt",
+        "year_of_birth": 1710,
+        "year_of_death": 1751,
+        "municipality": "Freistadt"
+    },
+    {
+        "id": 244,
+        "first_name": "František",
+        "last_name": "Procházka",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Dolní Cerekev"
+    },
+    {
+        "id": 245,
+        "first_name": "František",
+        "last_name": "Purschke",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Mikulov"
+    },
+    {
+        "id": 246,
+        "first_name": "František",
+        "last_name": "Raška",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Horní Štěpánov"
+    },
+    {
+        "id": 247,
+        "first_name": "Kryštof",
+        "last_name": "Rechlitz",
+        "place_of_birth": null,
+        "place_of_death": "Brno",
+        "year_of_birth": null,
+        "year_of_death": 1677,
+        "municipality": "Brno"
+    },
+    {
+        "id": 248,
+        "first_name": "Ignaz",
+        "last_name": "Reinold",
+        "place_of_birth": "Wildschütz (Vlčice)",
+        "place_of_death": "Znojmo",
+        "year_of_birth": 1777,
+        "year_of_death": 1848,
+        "municipality": "Znojmo"
+    },
+    {
+        "id": 249,
+        "first_name": "Franz Hyppolit",
+        "last_name": "Renner",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Ústí nad Orlicí"
+    },
+    {
+        "id": 250,
+        "first_name": "František",
+        "last_name": "Rieder",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "jižní Morava"
+    },
+    {
+        "id": 251,
+        "first_name": "František",
+        "last_name": "Rieger",
+        "place_of_birth": "Sosnová u Krnova",
+        "place_of_death": "Krnov",
+        "year_of_birth": 1812,
+        "year_of_death": 1885,
+        "municipality": "Krnov"
+    },
+    {
+        "id": 252,
+        "first_name": "Jiří",
+        "last_name": "Riegerl",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Zdánicko"
+    },
+    {
+        "id": 253,
+        "first_name": "Antonín",
+        "last_name": "Richter",
+        "place_of_birth": "Linec",
+        "place_of_death": null,
+        "year_of_birth": 1688,
+        "year_of_death": 1765,
+        "municipality": "Brno"
+    },
+    {
+        "id": 254,
+        "first_name": "Florián",
+        "last_name": "Ritter",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 255,
+        "first_name": "Matěj Jiří",
+        "last_name": "Ritter",
+        "place_of_birth": null,
+        "place_of_death": "Olomouc",
+        "year_of_birth": null,
+        "year_of_death": 1600,
+        "municipality": "Brno"
+    },
+    {
+        "id": 256,
+        "first_name": "Michael",
+        "last_name": "Roeder",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Vratislav"
+    },
+    {
+        "id": 257,
+        "first_name": "Anton",
+        "last_name": "Römer",
+        "place_of_birth": "Brno",
+        "place_of_death": "Štýrský Hradec",
+        "year_of_birth": 1724,
+        "year_of_death": 1779,
+        "municipality": "Štýrský Hradec"
+    },
+    {
+        "id": 258,
+        "first_name": "Johann Andreas",
+        "last_name": "Römer",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": "before 1750",
+        "municipality": "Brno"
+    },
+    {
+        "id": 259,
+        "first_name": "Ambrosius",
+        "last_name": "Ronzoni",
+        "place_of_birth": "Milán",
+        "place_of_death": "Vyškov",
+        "year_of_birth": 1734,
+        "year_of_death": 1801,
+        "municipality": "Vyškov"
+    },
+    {
+        "id": 260,
+        "first_name": "Matouš Pavel",
+        "last_name": "Roskoš",
+        "place_of_birth": "Hlivice ve Slezsku",
+        "place_of_death": "Brno",
+        "year_of_birth": null,
+        "year_of_death": 1709,
+        "municipality": "Brno"
+    },
+    {
+        "id": 261,
+        "first_name": "Pavel",
+        "last_name": "Roskoš",
+        "place_of_birth": "Glógówek u Prudnika",
+        "place_of_death": "Brno",
+        "year_of_birth": null,
+        "year_of_death": 1677,
+        "municipality": "Brno"
+    },
+    {
+        "id": 262,
+        "first_name": "Pavel Petr",
+        "last_name": "Roskoš Rybníčky",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Lobodice"
+    },
+    {
+        "id": 263,
+        "first_name": "Pavel",
+        "last_name": "Rotgiser",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 264,
+        "first_name": "Vojtěch",
+        "last_name": "Rotter",
+        "place_of_birth": null,
+        "place_of_death": "Malešovice u Pohořelic",
+        "year_of_birth": 1763,
+        "year_of_death": 1807,
+        "municipality": "Hustopeče"
+    },
+    {
+        "id": 265,
+        "first_name": "Ferdinand Ignác",
+        "last_name": "Ryšák",
+        "place_of_birth": "Opava",
+        "place_of_death": "Opava",
+        "year_of_birth": 1716,
+        "year_of_death": 1762,
+        "municipality": "Opava"
+    },
+    {
+        "id": 266,
+        "first_name": "Ignác",
+        "last_name": "Ryšák",
+        "place_of_birth": "Opava",
+        "place_of_death": "Opava",
+        "year_of_birth": 1678,
+        "year_of_death": 1718,
+        "municipality": "Opava"
+    },
+    {
+        "id": 267,
+        "first_name": "Jakub",
+        "last_name": "Ryšák",
+        "place_of_birth": null,
+        "place_of_death": "Brno",
+        "year_of_birth": null,
+        "year_of_death": 1693,
+        "municipality": "Opava"
+    },
+    {
+        "id": 268,
+        "first_name": "Jan Jakub",
+        "last_name": "Ryšák",
+        "place_of_birth": "Opava",
+        "place_of_death": null,
+        "year_of_birth": 1703,
+        "year_of_death": null,
+        "municipality": "Nysa"
+    },
+    {
+        "id": 269,
+        "first_name": "Alois",
+        "last_name": "Rysl",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Pacov"
+    },
+    {
+        "id": 270,
+        "first_name": "Řehoř",
+        "last_name": "",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 271,
+        "first_name": "Jan",
+        "last_name": "Sainka",
+        "place_of_birth": "Doubravice nad Svitavou",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Doubravice nad Svitavou"
+    },
+    {
+        "id": 272,
+        "first_name": "Antonín",
+        "last_name": "Salinger",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Zdounky"
+    },
+    {
+        "id": 273,
+        "first_name": "Elias",
+        "last_name": "Salvianer",
+        "place_of_birth": "okolí Salzburku",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 274,
+        "first_name": "František",
+        "last_name": "Seibler",
+        "place_of_birth": "Vikýřovice nebo Vajglov",
+        "place_of_death": "Uničov",
+        "year_of_birth": 1811,
+        "year_of_death": 1884,
+        "municipality": "Uničov"
+    },
+    {
+        "id": 275,
+        "first_name": "Antonín",
+        "last_name": "Seidel",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Město Libavá"
+    },
+    {
+        "id": 276,
+        "first_name": "František",
+        "last_name": "Seidler",
+        "place_of_birth": null,
+        "place_of_death": "Město Libavá",
+        "year_of_birth": null,
+        "year_of_death": 1864,
+        "municipality": "Město Libavá"
+    },
+    {
+        "id": 277,
+        "first_name": "Bedřich",
+        "last_name": "Semrád",
+        "place_of_birth": "Nová Říše",
+        "place_of_death": "Sedlec u Prčic",
+        "year_of_birth": 1704,
+        "year_of_death": 1784,
+        "municipality": "Nová Říše"
+    },
+    {
+        "id": 278,
+        "first_name": "Joseph",
+        "last_name": "Seyberth",
+        "place_of_birth": "Uničov",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 279,
+        "first_name": "Antonín Jiří",
+        "last_name": "Schack",
+        "place_of_birth": "Valtice",
+        "place_of_death": "Olomouc",
+        "year_of_birth": null,
+        "year_of_death": 1719,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 280,
+        "first_name": null,
+        "last_name": "Scheffler",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Ratiboř"
+    },
+    {
+        "id": 281,
+        "first_name": "Friedrich Wilhelm",
+        "last_name": "Scheffler",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": 1780,
+        "municipality": "Břeh"
+    },
+    {
+        "id": 282,
+        "first_name": "Gottfried",
+        "last_name": "Scheffler",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Břeh"
+    },
+    {
+        "id": 283,
+        "first_name": "Christian Friedrich Wilhelm",
+        "last_name": "Scheffler",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Břeh"
+    },
+    {
+        "id": 284,
+        "first_name": "Hans",
+        "last_name": "Schiersleben",
+        "place_of_birth": "Asleben v Sasku",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 285,
+        "first_name": "František",
+        "last_name": "Schindler",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "střední Morava"
+    },
+    {
+        "id": 286,
+        "first_name": "Martin",
+        "last_name": "Schmidt",
+        "place_of_birth": null,
+        "place_of_death": "Březová nad Svitavou",
+        "year_of_birth": 1720,
+        "year_of_death": 1780,
+        "municipality": "Březová nad Svitavou"
+    },
+    {
+        "id": 287,
+        "first_name": null,
+        "last_name": "Schnabel",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Vidnava"
+    },
+    {
+        "id": 288,
+        "first_name": null,
+        "last_name": "Schneider",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Vratislav"
+    },
+    {
+        "id": 289,
+        "first_name": "Antonín Jiří",
+        "last_name": "Scholtz",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 290,
+        "first_name": "Zachariáš",
+        "last_name": "Scholz",
+        "place_of_birth": null,
+        "place_of_death": "Olomouc",
+        "year_of_birth": null,
+        "year_of_death": 1620,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 291,
+        "first_name": "Josef",
+        "last_name": "Schram",
+        "place_of_birth": "Kunín",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 292,
+        "first_name": "Josef",
+        "last_name": "Schramm",
+        "place_of_birth": "Valašské Meziříčí",
+        "place_of_death": "Valašské Meziříčí",
+        "year_of_birth": 1839,
+        "year_of_death": 1881,
+        "municipality": "Vsetín"
+    },
+    {
+        "id": 293,
+        "first_name": "Johann Georg",
+        "last_name": "Schugar",
+        "place_of_birth": null,
+        "place_of_death": "Vídeň",
+        "year_of_birth": null,
+        "year_of_death": 1769,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 294,
+        "first_name": "František",
+        "last_name": "Schwarz",
+        "place_of_birth": "Město Libavá",
+        "place_of_death": "Město Libavá",
+        "year_of_birth": 1739,
+        "year_of_death": 1793,
+        "municipality": "Město Libavá"
+    },
+    {
+        "id": 295,
+        "first_name": "Jan Jiří",
+        "last_name": "Schwarz",
+        "place_of_birth": "Město Libavá",
+        "place_of_death": "Město Libavá",
+        "year_of_birth": 1724,
+        "year_of_death": 1772,
+        "municipality": "Město Libavá"
+    },
+    {
+        "id": 296,
+        "first_name": "Kašpar",
+        "last_name": "Schwarz",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Uničov"
+    },
+    {
+        "id": 297,
+        "first_name": "Tomáš",
+        "last_name": "Schwarz",
+        "place_of_birth": "Heroltovice u Libavé",
+        "place_of_death": "Tuchoměřice",
+        "year_of_birth": 1695,
+        "year_of_death": 1754,
+        "municipality": "Brno"
+    },
+    {
+        "id": 298,
+        "first_name": "František Ignác",
+        "last_name": "Sieber",
+        "place_of_birth": "Brno",
+        "place_of_death": "Brno",
+        "year_of_birth": 1716,
+        "year_of_death": 1785,
+        "municipality": "Brno"
+    },
+    {
+        "id": 299,
+        "first_name": "Jan David",
+        "last_name": "Sieber",
+        "place_of_birth": "Česká Lípa",
+        "place_of_death": null,
+        "year_of_birth": 1670,
+        "year_of_death": 1723,
+        "municipality": "Brno"
+    },
+    {
+        "id": 300,
+        "first_name": "Mikuláš Pavel František",
+        "last_name": "Sieber",
+        "place_of_birth": "Brno",
+        "place_of_death": null,
+        "year_of_birth": 1758,
+        "year_of_death": 1791,
+        "municipality": "Brno"
+    },
+    {
+        "id": 301,
+        "first_name": "Josef",
+        "last_name": "Silberbauer",
+        "place_of_birth": "Dyjákovice",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Znojmo"
+    },
+    {
+        "id": 302,
+        "first_name": null,
+        "last_name": "Skalický",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Skalica"
+    },
+    {
+        "id": 303,
+        "first_name": "Jakub",
+        "last_name": "Skalka",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Heřmanov"
+    },
+    {
+        "id": 304,
+        "first_name": "Michal",
+        "last_name": "Slezák",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Bratislava"
+    },
+    {
+        "id": 305,
+        "first_name": "Wawrzyniec",
+        "last_name": "Smarzowski",
+        "place_of_birth": null,
+        "place_of_death": "Barwald",
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Frýdek"
+    },
+    {
+        "id": 306,
+        "first_name": "Jakub",
+        "last_name": "Soyka",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Hlučín"
+    },
+    {
+        "id": 307,
+        "first_name": "Stanislav",
+        "last_name": null,
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Ratiboř"
+    },
+    {
+        "id": 308,
+        "first_name": "Abraham",
+        "last_name": "Stark",
+        "place_of_birth": "Loket",
+        "place_of_death": "Loket",
+        "year_of_birth": 1659,
+        "year_of_death": 1709,
+        "municipality": "Loket"
+    },
+    {
+        "id": 309,
+        "first_name": "Antonín",
+        "last_name": "Staudinger",
+        "place_of_birth": "Fandek (Kladsko?)",
+        "place_of_death": "Fryštát",
+        "year_of_birth": null,
+        "year_of_death": 1804,
+        "municipality": "Opava"
+    },
+    {
+        "id": 310,
+        "first_name": "Fabián Šebestián Antonín",
+        "last_name": "Staudinger",
+        "place_of_birth": "Andělská Hora",
+        "place_of_death": null,
+        "year_of_birth": 1766,
+        "year_of_death": 1839,
+        "municipality": "Andělská Hora"
+    },
+    {
+        "id": 311,
+        "first_name": "František Josef Klaudius",
+        "last_name": "Staudinger",
+        "place_of_birth": "Andělská Hora",
+        "place_of_death": "Brno",
+        "year_of_birth": 1762,
+        "year_of_death": 1807,
+        "municipality": "Brno"
+    },
+    {
+        "id": 312,
+        "first_name": "Jan Nepomuk Ignác",
+        "last_name": "Staudinger",
+        "place_of_birth": "Andělská Hora",
+        "place_of_death": "Olomouc",
+        "year_of_birth": 1780,
+        "year_of_death": 1843,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 313,
+        "first_name": "Josef Šebestián",
+        "last_name": "Staudinger",
+        "place_of_birth": "Slezsko",
+        "place_of_death": "Andělská Hora",
+        "year_of_birth": 1729,
+        "year_of_death": 1809,
+        "municipality": "Andělská Hora"
+    },
+    {
+        "id": 314,
+        "first_name": "Šebestián",
+        "last_name": "Staudinger",
+        "place_of_birth": "Bodenheim",
+        "place_of_death": "Andělská Hora",
+        "year_of_birth": 1680,
+        "year_of_death": 1756,
+        "municipality": "Landek"
+    },
+    {
+        "id": 315,
+        "first_name": "Johann",
+        "last_name": "Steinhuber",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Znojmo"
+    },
+    {
+        "id": 316,
+        "first_name": "Georg Friedrich",
+        "last_name": "Steinmeyer",
+        "place_of_birth": "Walxheim",
+        "place_of_death": "Oettingen",
+        "year_of_birth": 1819,
+        "year_of_death": 1901,
+        "municipality": "Oettingen"
+    },
+    {
+        "id": 317,
+        "first_name": "Josef",
+        "last_name": "Stenzl",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 318,
+        "first_name": "Josef",
+        "last_name": "Sträussel",
+        "place_of_birth": "Szombathely",
+        "place_of_death": "Králíky",
+        "year_of_birth": 1732,
+        "year_of_death": 1776,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 319,
+        "first_name": "Josef Tadeáš",
+        "last_name": "Strniště",
+        "place_of_birth": "Svratka",
+        "place_of_death": "Svratka",
+        "year_of_birth": 1780,
+        "year_of_death": 1862,
+        "municipality": "Svratka"
+    },
+    {
+        "id": 320,
+        "first_name": "Franz",
+        "last_name": "Strommer",
+        "place_of_birth": "Hluk",
+        "place_of_death": "Vídeň",
+        "year_of_birth": 1846,
+        "year_of_death": 1912,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 321,
+        "first_name": "Antonín",
+        "last_name": "Tandler",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Město Libavá"
+    },
+    {
+        "id": 322,
+        "first_name": "Václav",
+        "last_name": "Thiel",
+        "place_of_birth": "Bruntál",
+        "place_of_death": "Opava",
+        "year_of_birth": null,
+        "year_of_death": 1763,
+        "municipality": "Opava"
+    },
+    {
+        "id": 323,
+        "first_name": "Peter",
+        "last_name": "Titz",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 324,
+        "first_name": null,
+        "last_name": "Toma",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 325,
+        "first_name": "Karel",
+        "last_name": "Toulec",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 326,
+        "first_name": "Karel",
+        "last_name": "Trautmann",
+        "place_of_birth": "Freiburg im Breisgau",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 327,
+        "first_name": "Karel Josef",
+        "last_name": "Trnka",
+        "place_of_birth": null,
+        "place_of_death": "Chrast",
+        "year_of_birth": 1800,
+        "year_of_death": 1876,
+        "municipality": "Chrast"
+    },
+    {
+        "id": 328,
+        "first_name": "Jeroným",
+        "last_name": "Trölscher",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 329,
+        "first_name": "Josef",
+        "last_name": "Trojan",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Stoky"
+    },
+    {
+        "id": 330,
+        "first_name": "Franz",
+        "last_name": "Ullmann",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 331,
+        "first_name": "Martin",
+        "last_name": "Umblauf",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 332,
+        "first_name": "František",
+        "last_name": "Umlauf",
+        "place_of_birth": "Králíky",
+        "place_of_death": "Králíky",
+        "year_of_birth": 1743,
+        "year_of_death": 1808,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 333,
+        "first_name": "Jan",
+        "last_name": "Ungemach",
+        "place_of_birth": "Wittenberg",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Vidnava"
+    },
+    {
+        "id": 334,
+        "first_name": "Josef",
+        "last_name": "Vašek",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Opava"
+    },
+    {
+        "id": 335,
+        "first_name": "Alois",
+        "last_name": "Veith",
+        "place_of_birth": "Köchendorf u Wansenu",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Vidnava"
+    },
+    {
+        "id": 336,
+        "first_name": "Pavel",
+        "last_name": "Viertel",
+        "place_of_birth": "Grabów (Polsko)",
+        "place_of_death": "Vyškov",
+        "year_of_birth": null,
+        "year_of_death": 1678,
+        "municipality": "Vyškov"
+    },
+    {
+        "id": 337,
+        "first_name": "Filip Josef",
+        "last_name": "Vogler",
+        "place_of_birth": "Valašské Meziříčí",
+        "place_of_death": "Uherský Brod",
+        "year_of_birth": 1756,
+        "year_of_death": 1806,
+        "municipality": "Uherský Brod"
+    },
+    {
+        "id": 338,
+        "first_name": "František",
+        "last_name": "Vogler",
+        "place_of_birth": "Valašské Meziříčí",
+        "place_of_death": null,
+        "year_of_birth": 1730,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 339,
+        "first_name": "Ignác",
+        "last_name": "Vogler",
+        "place_of_birth": "Brušperk",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Valašské Meziříčí"
+    },
+    {
+        "id": 340,
+        "first_name": "Ignác",
+        "last_name": "Vogler",
+        "place_of_birth": "Valašské Meziříčí",
+        "place_of_death": "Eger (Maďarsko)",
+        "year_of_birth": 1750,
+        "year_of_death": 1825,
+        "municipality": "Eger"
+    },
+    {
+        "id": 341,
+        "first_name": "Josef",
+        "last_name": "Vojta",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Rakvice"
+    },
+    {
+        "id": 342,
+        "first_name": "Bernard",
+        "last_name": "Voleník",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Zlín"
+    },
+    {
+        "id": 343,
+        "first_name": "Josef",
+        "last_name": "Votruba",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Počátky"
+    },
+    {
+        "id": 344,
+        "first_name": "David Josef",
+        "last_name": "Výmola",
+        "place_of_birth": "Brno",
+        "place_of_death": "Brno",
+        "year_of_birth": 1764,
+        "year_of_death": 1798,
+        "municipality": "Brno"
+    },
+    {
+        "id": 345,
+        "first_name": "Jakub",
+        "last_name": "Výmola",
+        "place_of_birth": "Ptení",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Ptení"
+    },
+    {
+        "id": 346,
+        "first_name": "Jan",
+        "last_name": "Výmola",
+        "place_of_birth": "Ptení",
+        "place_of_death": "Brno",
+        "year_of_birth": 1722,
+        "year_of_death": 1805,
+        "municipality": "Brno"
+    },
+    {
+        "id": 347,
+        "first_name": "Jan František Xaver Vincenc",
+        "last_name": "Výmola",
+        "place_of_birth": "Brno",
+        "place_of_death": "Vídeň",
+        "year_of_birth": 1754,
+        "year_of_death": 1800,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 348,
+        "first_name": "Jan",
+        "last_name": "Wagner",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Jevišovice"
+    },
+    {
+        "id": 349,
+        "first_name": "Lothar Franz",
+        "last_name": "Walter",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 350,
+        "first_name": "Adolf",
+        "last_name": "Weiss",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 351,
+        "first_name": "Jan",
+        "last_name": "Weiss",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Pyskovec"
+    },
+    {
+        "id": 352,
+        "first_name": "Josef Ignác",
+        "last_name": "Welzel",
+        "place_of_birth": "Králíky",
+        "place_of_death": "Králíky",
+        "year_of_birth": 1778,
+        "year_of_death": 1864,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 353,
+        "first_name": "Karel",
+        "last_name": "Welzel",
+        "place_of_birth": "Králíky",
+        "place_of_death": "Králíky",
+        "year_of_birth": 1743,
+        "year_of_death": 1809,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 354,
+        "first_name": "Kašpar",
+        "last_name": "Welzel",
+        "place_of_birth": "Králíky",
+        "place_of_death": "Králíky",
+        "year_of_birth": 1734,
+        "year_of_death": 1787,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 355,
+        "first_name": "Kašpar",
+        "last_name": "Welzel",
+        "place_of_birth": "Králíky",
+        "place_of_death": null,
+        "year_of_birth": 1700,
+        "year_of_death": null,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 356,
+        "first_name": "Jan Pavel",
+        "last_name": "Weninger",
+        "place_of_birth": "Salzburg",
+        "place_of_death": "Olomouc",
+        "year_of_birth": 1721,
+        "year_of_death": 1760,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 357,
+        "first_name": "Kristián",
+        "last_name": "Wieser",
+        "place_of_birth": "Potštát",
+        "place_of_death": "Kroměříž",
+        "year_of_birth": 1716,
+        "year_of_death": 1780,
+        "municipality": "Kroměříž"
+    },
+    {
+        "id": 358,
+        "first_name": "Ferdinand",
+        "last_name": "Winter",
+        "place_of_birth": null,
+        "place_of_death": "Králíky",
+        "year_of_birth": 1766,
+        "year_of_death": 1807,
+        "municipality": "Králíky"
+    },
+    {
+        "id": 359,
+        "first_name": "Johann",
+        "last_name": "Wöckerl",
+        "place_of_birth": null,
+        "place_of_death": "Vídeň",
+        "year_of_birth": null,
+        "year_of_death": 1660,
+        "municipality": "Vídeň"
+    },
+    {
+        "id": 360,
+        "first_name": "Bernhard",
+        "last_name": "Wollers",
+        "place_of_birth": "Brémy",
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": null
+    },
+    {
+        "id": 361,
+        "first_name": null,
+        "last_name": "Zacharias",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Olomouc"
+    },
+    {
+        "id": 362,
+        "first_name": "Petr",
+        "last_name": "Zeitzius",
+        "place_of_birth": "Jauer",
+        "place_of_death": "Frankenstein (Ząbkowice Śląskie)",
+        "year_of_birth": 1730,
+        "year_of_death": 1797,
+        "municipality": "Frankenstein"
+    },
+    {
+        "id": 363,
+        "first_name": "Vavřinec",
+        "last_name": "Zelinka",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Brno"
+    },
+    {
+        "id": 364,
+        "first_name": "Josef",
+        "last_name": "Zettler",
+        "place_of_birth": "Langenberg",
+        "place_of_death": "Ottobeuren",
+        "year_of_birth": 1709,
+        "year_of_death": 1762,
+        "municipality": "Ottobeuren"
+    },
+    {
+        "id": 365,
+        "first_name": "Jan",
+        "last_name": "Zverina",
+        "place_of_birth": null,
+        "place_of_death": null,
+        "year_of_birth": null,
+        "year_of_death": null,
+        "municipality": "Kostelní Vydří"
+    }
+]

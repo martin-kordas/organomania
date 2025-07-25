@@ -223,7 +223,7 @@
         @php($showSortActiveFromYearHint = $this->entityClass === OrganBuilder::class && $this->sortColumn !== 'active_from_year' && !in_array($this->viewType, ['map', 'timeline']))
         @php($showOrganImportanceHint = $this->entityClass === Organ::class && $this->viewType === 'map' && $this->activeFiltersCount <= 0)
         @php($showOrganBuilderImportanceHint = $this->entityClass === OrganBuilder::class && $this->viewType === 'timeline' && $this->activeFiltersCount <= 0)
-        @php($showFestivalsMonthHint = $this->entityClass === Festival::class && $this->viewType === 'map')
+        @php($showFestivalsMonthHint = $this->entityClass === Festival::class && $this->viewType === 'map' && $this->activeFiltersCount <= 0)
         @php($showCompetitionsWarning = $this->entityClass === Competition::class)
         
         @if (
@@ -306,6 +306,8 @@
             :filterManualsCount="$this->filterManualsCount ?? null"
             :filterOrganBuilderId="$this->filterOrganBuilderId ?? null"
             :filterConcertHall="$this->filterConcertHall ?? null"
+            :filterpreservedCase="$this->filterpreservedCase ?? null"
+            :filterpreservedOrgan="$this->filterpreservedOrgan ?? null"
             :filterForeignOrganBuilder="$this->filterForeignOrganBuilder ?? null"
             :filterHasDisposition="$this->filterHasDisposition ?? null"
             :filterName="$this->filterName ?? null"

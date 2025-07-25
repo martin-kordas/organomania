@@ -20,7 +20,7 @@
 @endphp
 
 <span>
-    @if ($organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
+    @if ($organBuilder?->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
         @isset($regularName)
             {{ $name ?? $organBuilder->name }}
         @else
