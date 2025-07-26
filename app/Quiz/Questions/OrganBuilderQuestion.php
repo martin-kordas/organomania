@@ -17,6 +17,7 @@ abstract class OrganBuilderQuestion extends Question
     public static function getEntitiesQuery(): Builder
     {
         return OrganBuilder::public()
+            ->where('baroque', 0)
             ->orderByName();
     }
     

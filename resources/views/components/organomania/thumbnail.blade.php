@@ -6,7 +6,8 @@
 
 @php
     if (isset($organ->perex)) $description = $organ->perex;
-    elseif (isset($organ->description)) {
+    // baroque položky obsahují nečtivé poznámky a neodstranitelné markdown odkazy
+    elseif (isset($organ->description) && !$organ->baroque) {
         $description = str($organ->description)
             ->replace('*', '')      // odstranění markdownu
             ->limit(215);

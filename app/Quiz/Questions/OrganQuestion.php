@@ -37,6 +37,7 @@ abstract class OrganQuestion extends Question
             ->when(!empty(static::EXCLUDED_ENTITY_IDS), function (Builder $query) {
                 $query->whereNotIn('id', static::EXCLUDED_ENTITY_IDS);
             })
+            ->where('baroque', 0)
             ->orderBy('municipality')
             ->orderBy('place');
     }

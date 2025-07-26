@@ -344,8 +344,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     {{ $organ->municipality }}
                     </span>
                     <br />
-                    <span @class(['fs-4', 'not-preserved' => !$organ->preserved_case])>
-                        {{ $organ->place }}
+                    <span class="fs-4">
+                        <span @class(['not-preserved' => !$organ->preserved_case])>{{ $organ->place }}</span>
                         @if (!$organ->preserved_organ)
                             <span class="text-body-secondary fw-normal">
                                 ({{ $organ->preserved_case ? __('dochována jen skříň') : __('nedochováno') }})
