@@ -517,7 +517,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <td>
                     <div class="items-list">
                         @foreach ($organ->festivals as $festival)
-                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" wire:navigate href="{{ route('festivals.show', [$festival->id]) }}">
+                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" wire:navigate href="{{ route('festivals.show', [$festival->slug]) }}">
                                 <i class="bi bi-calendar-date"></i>
                                 <span>
                                     {{ $festival->name }}
@@ -542,7 +542,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <td>
                     <div class="items-list">
                         @foreach ($organ->competitions as $competition)
-                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" wire:navigate href="{{ route('competitions.show', [$competition->id]) }}">
+                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" wire:navigate href="{{ route('competitions.show', [$competition->slug]) }}">
                                 <i class="bi bi-trophy"></i>
                                 <span>
                                     {{ $competition->name }}

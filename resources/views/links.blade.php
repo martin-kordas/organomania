@@ -121,6 +121,11 @@
                 Petra Novotná: Sochařská a řezbářská výzdoba barokních varhan v 18. století v Olomoucké arcidiecézi se zaměřením na děkanát Šumperk
                 <x-slot:description>{{ __('diplomová práce, která podrobně rozebírá naše barokní varhanářství, a to především po výtvarné stránce') }}</x-slot>
             </x-organomania.link-list-item>
+            
+            <x-organomania.link-list-item icon="book" url="https://bibliotekanauki.pl/journals/805/issues">
+                Folia Organologica
+                <x-slot:description>{{ __('odborný časopis o varhanách a varhanní hudbě s řadou příspěvků od českých autorů') }}</x-slot>
+            </x-organomania.link-list-item>
         </x-organomania.link-list>
         
         <h5 id="literatureGeneral" class="mt-3">{{ __('Varhany obecně') }}</h5>

@@ -29,7 +29,9 @@ class PeriodCategoryFromLocationOrganBuilderQuestion extends OrganQuestion
     
     protected static function isRelevantCategory(OrganCategory $category): bool
     {
-        return $category->isPeriodCategory();
+        return
+            $category->isPeriodCategory()
+            && !in_array($category, [OrganCategory::FromBookMostImportantOrgans, OrganCategory::FromBookBaroqueOrganBuilding]);
     }
     
 }
