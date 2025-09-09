@@ -196,6 +196,10 @@ div.side-buttons {
     .custom-link {
         /* Blade šablony nepočítají s white-space a obsahují odřádkování */
         white-space: normal;
+        .text-secondary {
+            font-weight: normal;
+            text-decoration: normal;
+        }
     }
     p {
         /* odstavce není potřeba oddělovat, protože už jsou odděleny díky white-space */
@@ -206,6 +210,20 @@ div.side-buttons {
     }
     hr {
         margin: 0;
+    }
+}
+.organ-show {
+    .markdown .custom-link {
+        &.organBuilder {
+            font-weight: bold;
+        }
+    }
+}
+.organ-builder-show {
+    .markdown .custom-link {
+        &.organ {
+            font-weight: bold;
+        }
     }
 }
 

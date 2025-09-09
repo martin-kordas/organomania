@@ -14,7 +14,7 @@
     
     $popoverDetails = [];
     if ($organ->organBuilder) $popoverDetails[] = $organ->organBuilder->shortName;
-    $popoverDetails[] = $year;
+    if ($year) $popoverDetails[] = $year;
 @endphp
 
 @can('view', $organ)

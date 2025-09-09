@@ -58,19 +58,31 @@ class MarkdownConvertorService
                 $entity = $model->firstWhere('slug', $slug);
                 if (!$entity) return $text;
                 
+                if (str_ends_with($text, '|nodetail')) {
+                    $noDetail = true;
+                    $text = mb_substr($text, 0, mb_strlen($text) - 9);
+                }
+                else $noDetail = false;
+                
                 $linkParams = match ($entityType) {
-                    'organ' => ['showSizeInfo' => true],
-                    'organBuilder' => ['showActivePeriod' => !$entity->is_workshop],
+                    'organ' => [
+                        'showSizeInfo' => !$noDetail,
+                        'year' => $noDetail ? false : null
+                    ],
+                    'organBuilder' => [
+                        'showActivePeriod' => !$noDetail && !$entity->is_workshop && $entity->active_period !== 'současnost'
+                    ],
                     'festival' => ['showDetails' => false],
                     'registerName' => ['showCategory' => false],
                     default => [],
                 };
-                $linkParams['name'] = $text;
+                // pracujeme již s převedeným markdownem, který znaky konvertoval na entity
+                $linkParams['name'] = html_entity_decode($text);
                 $linkParams['iconLink'] = false;
                 
                 $link = trim($entity->renderLink($linkParams));
                 // v markdownu je nastaveno white-space: pre-line, Blade šablony s tím nepočítají a obsahují odřádkování
-                $link = "<span class='custom-link'>$link</span>";
+                $link = "<span class='custom-link $entityType'>$link</span>";
                 return $link;
             },
             $markdown,
