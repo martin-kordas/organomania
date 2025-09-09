@@ -1,11 +1,12 @@
 @props(['organ', 'name' => null, 'size' => null, 'year' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'isRebuild' => false, 'isRenovation' => false, 'iconLink' => true, 'newTab' => false])
 
+@use(App\Services\MarkdownConvertorService)
+
 @php
     if (isset($organ->perex)) $description = $organ->perex;
     elseif (isset($organ->description)) {
-        $description = str($organ->description)
-            ->replace('*', '')      // odstranění markdownu
-            ->limit(200);
+        $description = app(MarkdownConvertorService::class)->stripMarkDown($organ->description);
+        $description = str($description)->limit(200);
     }
     else $description = null;
 

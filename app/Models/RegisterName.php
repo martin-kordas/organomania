@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Laravel\Scout\Searchable;
 use App\Helpers;
 use App\Enums\DispositionLanguage;
+use App\Traits\HasLinkComponent;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class RegisterName extends Model
 {
     use HasFactory, Searchable, Sluggable;
+    use HasLinkComponent;
     
     protected $guarded = [];
     
@@ -70,5 +72,10 @@ class RegisterName extends Model
                 'source' => ['name']
             ]
         ];
+    }
+    
+    public function getLinkComponent()
+    {
+        return 'components.organomania.register-name-link';
     }
 }

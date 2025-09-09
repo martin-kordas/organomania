@@ -11,6 +11,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use App\Observers\DispositionObserver;
 use App\Enums\DispositionLanguage;
 use App\Models\Scopes\OwnedEntityScope;
+use App\Traits\HasLinkComponent;
 use App\Traits\OwnedEntity;
 use App\Helpers;
 use App\Traits\Viewable;
@@ -19,6 +20,7 @@ use App\Traits\Viewable;
 class Disposition extends Model
 {
     use HasFactory, SoftDeletes, Sluggable;
+    use HasLinkComponent;
     use Viewable;
     use OwnedEntity {
         OwnedEntity::scopeWithUniqueSlugConstraints insteadof Sluggable;
@@ -266,6 +268,11 @@ class Disposition extends Model
                 'source' => ['private_prefix', 'name']
             ]
         ];
+    }
+    
+    public function getLinkComponent()
+    {
+        return 'components.disposition.disposition-link';
     }
     
 }

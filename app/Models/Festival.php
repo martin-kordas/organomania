@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 use App\Models\Region;
 use App\Models\Organ;
+use App\Traits\HasLinkComponent;
 use App\Traits\Viewable;
 
 class Festival extends Model
 {
     use HasFactory, SoftDeletes, Sluggable;
+    use HasLinkComponent;
     use Viewable;
     
     protected $fillable = ['organ_id'];
@@ -106,6 +108,11 @@ class Festival extends Model
         return view('components.organomania.map-info.festival', [
             'festival' => $this,
         ])->render();
+    }
+    
+    public function getLinkComponent()
+    {
+        return 'components.organomania.festival-link';
     }
     
 }

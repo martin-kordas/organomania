@@ -193,6 +193,10 @@ div.side-buttons {
     /* ve standardním Markdownu se newline nepřevádí na <br>, protože řešíme pomocí white-space  */
     white-space: pre-line;
     
+    .custom-link {
+        /* Blade šablony nepočítají s white-space a obsahují odřádkování */
+        white-space: normal;
+    }
     p {
         /* odstavce není potřeba oddělovat, protože už jsou odděleny díky white-space */
         margin-bottom: 0;

@@ -21,6 +21,7 @@ use App\Models\Organ;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Models\Like;
 use App\Enums\OrganBuilderCategory as OrganBuilderCategoryEnum;
+use App\Traits\HasLinkComponent;
 use App\Traits\OwnedEntity;
 use App\Traits\Viewable;
 
@@ -28,6 +29,7 @@ use App\Traits\Viewable;
 class OrganBuilder extends Model
 {
     use HasFactory, SoftDeletes, Searchable, Sluggable;
+    use HasLinkComponent;
     use Viewable;
     use OwnedEntity {
         OwnedEntity::scopeWithUniqueSlugConstraints insteadof Sluggable;
@@ -300,6 +302,11 @@ class OrganBuilder extends Model
         return view('components.organomania.map-info.organ-builder', [
             'organBuilder' => $this,
         ])->render();
+    }
+    
+    public function getLinkComponent()
+    {
+        return 'components.organomania.organ-builder-link';
     }
     
 }

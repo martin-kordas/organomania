@@ -1,5 +1,6 @@
 @use(Illuminate\Support\Facades\Gate)
 @use(Illuminate\Support\Facades\URL)
+@use(App\Services\MarkdownConvertorService)
 
 @props([
     'organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false,
@@ -11,10 +12,8 @@
 @php
     if (isset($organBuilder->perex)) $description = $organBuilder->perex;
     elseif (isset($organBuilder->description)) {
-        $description = str($organBuilder->description)
-            ->replace('*', '')      // odstranění markdownu
-            ->replaceMatches('/\s+/', ' ')
-            ->limit(200);
+        $description = app(MarkdownConvertorService::class)->stripMarkDown($organBuilder->description);
+        $description = str($description)->limit(200);
     }
     else $description = null;
 

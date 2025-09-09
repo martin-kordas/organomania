@@ -3,14 +3,14 @@
 @use(App\Enums\OrganCategory)
 @use(App\Enums\OrganBuilderCategory)
 @use(App\Models\OrganBuilder)
+@use(App\Services\MarkdownConvertorService)
 
 @php
     if (isset($organ->perex)) $description = $organ->perex;
     // baroque položky obsahují nečtivé poznámky a neodstranitelné markdown odkazy
     elseif (isset($organ->description) && !$organ->baroque) {
-        $description = str($organ->description)
-            ->replace('*', '')      // odstranění markdownu
-            ->limit(215);
+        $description = app(MarkdownConvertorService::class)->stripMarkDown($organ->description);
+        $description = str($description)->limit(215);
     }
     else $description = null;
 

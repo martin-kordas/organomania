@@ -517,17 +517,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <td>
                     <div class="items-list">
                         @foreach ($organ->festivals as $festival)
-                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" wire:navigate href="{{ route('festivals.show', [$festival->slug]) }}">
-                                <i class="bi bi-calendar-date"></i>
-                                <span>
-                                    {{ $festival->name }}
-                                    @if (isset($festival->locality) || isset($festival->frequency))
-                                        <span class="text-body-secondary">
-                                            ({{ collect([$festival->locality ?? null, $festival->frequency ?? null])->filter()->join(', ') }})
-                                        </span>
-                                    @endif
-                                </span>
-                            </a>
+                            <x-organomania.festival-link :$festival />
                             @if (!$loop->last) <br /> @endif
                         @endforeach
                     </div>
@@ -542,12 +532,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <td>
                     <div class="items-list">
                         @foreach ($organ->competitions as $competition)
-                            <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" wire:navigate href="{{ route('competitions.show', [$competition->slug]) }}">
-                                <i class="bi bi-trophy"></i>
-                                <span>
-                                    {{ $competition->name }}
-                                </span>
-                            </a>
+                            <x-organomania.competition-link :$competition />
                             @if (!$loop->last) <br /> @endif
                         @endforeach
                     </div>

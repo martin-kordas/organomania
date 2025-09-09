@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 use App\Models\Region;
 use App\Models\Organ;
+use App\Traits\HasLinkComponent;
 use App\Traits\Viewable;
 
 class Competition extends Model
 {
     use HasFactory, SoftDeletes, Sluggable;
+    use HasLinkComponent;
     use Viewable;
     
     public function casts()
@@ -87,6 +89,11 @@ class Competition extends Model
         return view('components.organomania.map-info.competition', [
             'competition' => $this,
         ])->render();
+    }
+    
+    public function getLinkComponent()
+    {
+        return 'components.organomania.competition-link';
     }
     
 }
