@@ -296,6 +296,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ],
             72 => [
                 [
+                    '/images/velke-heraltice.jpg',
+                    '',
+                    'Velké Heraltice, kostel Neposkvrněného početí Panny Marie',
+                    '1756, II/13'
+                ],
+                [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Kru%C5%BEberk_varhany.jpg/640px-Kru%C5%BEberk_varhany.jpg',
                     'Ladin, CC BY-SA 4.0, via Wikimedia Commons',
                     'Kružberk, kostel sv. Petra a Pavla',
@@ -484,8 +490,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ],
             105 => [
                 [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/KirchenschiffOssegg.jpg/640px-KirchenschiffOssegg.jpg',
-                    'SchiDD, CC BY-SA 3.0, via Wikimedia Commons',
+                    '/images/osek-feller.jpg',
+                    'Lukáš Dvořák',
                     'Osek u Duchcova, kostel Nanebevzetí P. Marie',
                     '1838, II/33, dochována jen skříň',
                 ],

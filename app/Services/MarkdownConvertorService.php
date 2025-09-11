@@ -79,6 +79,7 @@ class MarkdownConvertorService
                 // pracujeme již s převedeným markdownem, který znaky konvertoval na entity
                 $linkParams['name'] = html_entity_decode($text);
                 $linkParams['iconLink'] = false;
+                $linkParams['showDescription'] = !$noDetail;
                 
                 $link = trim($entity->renderLink($linkParams));
                 // v markdownu je nastaveno white-space: pre-line, Blade šablony s tím nepočítají a obsahují odřádkování

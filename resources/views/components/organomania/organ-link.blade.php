@@ -1,19 +1,26 @@
-@props(['organ', 'name' => null, 'size' => null, 'year' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'isRebuild' => false, 'isRenovation' => false, 'iconLink' => true, 'newTab' => false])
+@props([
+    'organ', 'name' => null, 'size' => null, 'year' => null,
+    'showOrganBuilder' => false, 'showSizeInfo' => false, 'showDescription' => true,
+    'isRebuild' => false, 'isRenovation' => false, 'iconLink' => true, 'newTab' => false,
+])
 
+@use(App\Models\OrganBuilder)
 @use(App\Services\MarkdownConvertorService)
 
 @php
-    if (isset($organ->perex)) $description = $organ->perex;
-    elseif (isset($organ->description)) {
-        $description = app(MarkdownConvertorService::class)->stripMarkDown($organ->description);
-        $description = str($description)->limit(200);
+    $description = null;
+    if ($showDescription) {
+        if (isset($organ->perex)) $description = $organ->perex;
+        elseif (isset($organ->description)) {
+            $description = app(MarkdownConvertorService::class)->stripMarkDown($organ->description);
+            $description = str($description)->limit(200);
+        }
     }
-    else $description = null;
 
     $year ??= $organ->year_built;
     
     $popoverDetails = [];
-    if ($organ->organBuilder) $popoverDetails[] = $organ->organBuilder->shortName;
+    if ($organ->organBuilder && $organ->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) $popoverDetails[] = $organ->organBuilder->shortName;
     if ($year) $popoverDetails[] = $year;
 @endphp
 
@@ -25,7 +32,7 @@
         @if ($description)
             data-bs-trigger="hover focus"
             data-bs-toggle="popover"
-            data-bs-title="{{ $organ->municipality }}, {{ $organ->place }}@isset($organ->year_built) ({{ implode(', ', $popoverDetails) }})@endisset"
+            data-bs-title="{{ $organ->municipality }}, {{ $organ->place }}@isset($organ->year_built){{ "\n" }}({{ implode(', ', $popoverDetails) }})@endisset"
             data-bs-content="{{ $description }}"
         @endif
     >

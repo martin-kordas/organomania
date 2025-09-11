@@ -4,18 +4,20 @@
 
 @props([
     'organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false,
-    'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showIcon' => true,
+    'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showIcon' => true, 'showDescription' => true,
     'placeholder' => __('neznámý varhanář'), 'iconLink' => true,
     'signed' => false,
 ])
 
 @php
-    if (isset($organBuilder->perex)) $description = $organBuilder->perex;
-    elseif (isset($organBuilder->description)) {
-        $description = app(MarkdownConvertorService::class)->stripMarkDown($organBuilder->description);
-        $description = str($description)->limit(200);
+    $description = null;
+    if ($showDescription) {
+        if (isset($organBuilder->perex)) $description = $organBuilder->perex;
+        elseif (isset($organBuilder->description)) {
+            $description = app(MarkdownConvertorService::class)->stripMarkDown($organBuilder->description);
+            $description = str($description)->limit(200);
+        }
     }
-    else $description = null;
 
     $canView = Gate::allows('view', $organBuilder);
     if ($showLink = $canView || $signed) {

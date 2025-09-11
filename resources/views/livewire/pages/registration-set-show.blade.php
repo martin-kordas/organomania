@@ -12,6 +12,7 @@ use App\Models\Disposition;
 use App\Models\RegistrationSet;
 use App\Models\Registration;
 use App\Models\Scopes\OwnedEntityScope;
+use App\Services\MarkdownConvertorService;
 use App\Traits\HasAccordion;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
@@ -27,8 +28,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Session]
     public $lastVisitedRegistrationId = null;
 
-    public function boot()
+    protected MarkdownConvertorService $markdownConvertor;
+
+    public function boot(MarkdownConvertorService $markdownConvertor)
     {
+        $this->markdownConvertor = $markdownConvertor;
+
         $removeOwnedEntityScope = fn(Builder $query) => $query->withoutGlobalScope(OwnedEntityScope::class);
         $signed = request()->hasValidSignature(false);
 
@@ -70,7 +75,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $description = $this->disposition->organ->perex ?? null;
         if (!isset($description)) {
             $description = $this->disposition->organ->description ?? null;
-            if (isset($description)) $description = str($description)->limit(270);
+            if (isset($description)) {
+                $description = $this->markdownConvertor->stripMarkDown($description);
+                $description = str($description)->limit(270);
+            }
         }
         return $description;
     }
