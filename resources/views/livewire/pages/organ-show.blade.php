@@ -63,6 +63,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         }
 
         $this->organ->viewed();
+        
+        if (!Helpers::isCrawler()) {
+            OrganRepository::logLastViewedOrgan($this->organ);
+        }
     }
 
     public function boot(OrganRepository $repository, MarkdownConvertorService $markdownConvertor, DispositionTextualFormatter $dispositionFormatter)
@@ -384,12 +388,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
     </div>
     
+    <style>
+      /* HACK */
+      .organ-builder .text-secondary, .organ-builder .text-body-secondary { font-weight: normal !important; }
+    </style>
     <table class="table mb-2">
         <tr>
             {{-- HACK --}}
             @if ($organ->organBuilder?->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
             <th>{{ __('Varhanář') }}</th>
-            <td>
+            <td class="organ-builder fw-bold">
                 <div class="items-list">
                     @if ($organ->organBuilder)
                         @php $showYearBuilt = $organ->organRebuilds->isNotEmpty(); @endphp

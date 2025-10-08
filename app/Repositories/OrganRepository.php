@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Enums\OrganCategory;
 use App\Models\Organ;
+use App\Models\OrganBuilder;
 use App\Models\OrganCustomCategory as OrganCustomCategoryModel;
 use App\Models\OrganCategory as OrganCategoryModel;
 use App\Models\Scopes\OwnedEntityScope;
@@ -28,6 +29,8 @@ class OrganRepository extends AbstractRepository
         CUSTOM_CATEGORIES_WITH_COUNT = ['organs'];
     
     protected const MODEL_CLASS = Organ::class;
+    
+    const SESSION_KEY_LAST_VIEWED_ORGANS = 'organs.repository.last-viewed-organs';
     
     public function getOrgansQuery(
         array $filters = [], array $sorts = [],
@@ -91,7 +94,9 @@ class OrganRepository extends AbstractRepository
                 
                 case 'foreignOrganBuilder':
                     $query->whereHas('organBuilder', function (Builder $query) {
-                        $query->whereNull('region_id');
+                        $query
+                            ->whereNull('region_id')
+                            ->where('id', '!=', OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED);
                     });
                     break;
                 
@@ -261,6 +266,23 @@ class OrganRepository extends AbstractRepository
             ->take(10)
             ->get()
             ->sortBy('year_built');
+    }
+    
+    public static function logLastViewedOrgan(Organ $organ)
+    {
+        $organIds = static::getLastViewedOrganIds()->toArray();
+        
+        $organIds = array_diff($organIds, [$organ->id]);
+        if (count($organIds) >= 6) array_pop($organIds);
+        array_unshift($organIds, $organ->id);
+        
+        session([static::SESSION_KEY_LAST_VIEWED_ORGANS => $organIds]);
+    }
+    
+    public static function getLastViewedOrganIds()
+    {
+        $organIds = session(static::SESSION_KEY_LAST_VIEWED_ORGANS, []);
+        return collect($organIds);
     }
     
 }

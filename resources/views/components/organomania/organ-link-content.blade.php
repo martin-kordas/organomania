@@ -11,6 +11,7 @@
     if ($isRebuild) $details[] = __('přestavba');
     elseif ($isRenovation) {
         $organInfo = $organ->organBuilder->shortName ?? __('neznámý varhanář');
+        if (!trim($organInfo)) $organInfo = __('postaveno');    // kvůli OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED
         if (isset($organ->year_built)) $organInfo .= " {$organ->year_built}";
         $details[] = $organInfo;
     }

@@ -195,10 +195,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ],
             4 => [
                 [
+                    '/images/brno-sv-tomas.jpg',
+                    'Jan Fejgl',
+                    'Brno, kostel sv. Tomáše',
+                    '1700, III/40, dochována jen skříň'
+                ],
+                [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Wien_-_Michaelerkirche%2C_Orgelempore.JPG/320px-Wien_-_Michaelerkirche%2C_Orgelempore.JPG',
                     '© C.Stadler/Bwag or © C.Stadler/Bwag; CC-BY-SA-4.0, via Wikimedia Commons',
                     'Vídeň, kostel sv. Michaela',
                     '1714, III/40'
+                ],
+                [
+                    '/images/holesov.jpg',
+                    'Jan Fejgl',
+                    'Holešov, kostel Nanebevzetí Panny Marie',
+                    'F. I. Sieber, 1760, II/18'
                 ]
             ],
             8 => [
@@ -207,22 +219,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'Vianney2, CC BY-SA 3.0, via Wikimedia Commons',
                     'Osek u Duchcova, kostel Nanebevzetí P. Marie',
                     'Wenzel Stark, 1715, I/11'
-                ]
-            ],
-            49 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Stolmir_kostel_varhany.JPG/517px-Stolmir_kostel_varhany.JPG',
-                    'Petr Vilgus, CC BY-SA 3.0, via Wikimedia Commons',
-                    'Štolmíř, kostel sv. Havla',
-                    '1688, I/10'
-                ]
-            ],
-            28 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Plana_Anna_Orgel_Burkhardt.jpg/640px-Plana_Anna_Orgel_Burkhardt.jpg',
-                    'Regerman, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Planá, kostel sv. Anny',
-                    '1730, II/15'
                 ]
             ],
             22 => [
@@ -300,6 +296,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     '',
                     'Velké Heraltice, kostel Neposkvrněného početí Panny Marie',
                     '1756, II/13'
+                ],
+                [
+                    '/images/zabreh.jpg',
+                    'www.varhany.org',
+                    'Zábřeh, kostel sv. Bartoloměje',
+                    '1772, II/24, dochována jen skříň'
                 ],
                 [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Kru%C5%BEberk_varhany.jpg/640px-Kru%C5%BEberk_varhany.jpg',
@@ -502,6 +504,36 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     '1848, II/23',
                 ],
             ],
+            66 => [
+                [
+                    '/images/rajnochovice.jpg',
+                    'Jan Fejgl',
+                    'Rajnochovice, kostel Narození Panny Marie',
+                    '1718, I/15, dochována jen skříň'
+                ]
+            ],
+            74 => [
+                [
+                    '/images/retova.jpg',
+                    'Martin Kordas',
+                    'Řetová, kostel sv. Máří Magdaleny',
+                    '1850, II/20'
+                ],
+                [
+                    '/images/skuhrov-nad-belou.jpg',
+                    'Martin Kordas',
+                    'Skuhrov nad Bělou, kostel sv. Jakuba Většího',
+                    '1835, II/12'
+                ]
+            ],
+            28 => [
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/St_Vitus_Cathedral_%E8%81%96%E7%B6%AD%E7%89%B9%E4%B8%BB%E6%95%99%E5%BA%A7%E5%A0%82_-_panoramio_%286%29.jpg/960px-St_Vitus_Cathedral_%E8%81%96%E7%B6%AD%E7%89%B9%E4%B8%BB%E6%95%99%E5%BA%A7%E5%A0%82_-_panoramio_%286%29.jpg',
+                    'lienyuan lee, CC BY 3.0, via Wikimedia Commons',
+                    'Praha, kostel Všech Svatých (dříve Kladruby)',
+                    '1726, II'
+                ]
+            ],
             default => []
         };
     }
@@ -602,7 +634,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <span class="text-secondary">({{ $this->municipalityCountry[1] }})</span>
                     @endisset
                     @if ($organBuilder->region && $organBuilder->region->id !== Region::Praha->value)
-                        <span class="text-secondary" style="font-size: var(--bs-body-font-size);">({{ $organBuilder->region->name }})</span>
+                        <span class="text-secondary">
+                            &nbsp;| &nbsp;<span style="font-size: var(--bs-body-font-size);">{{ $organBuilder->region->name }}</span>
+                        </span>
                     @endif
                 </small>
             </h3>

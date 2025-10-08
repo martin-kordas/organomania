@@ -136,7 +136,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 </td>
                                 <td>
                                     @isset($disposition->organ)
-                                        <x-organomania.organ-organ-builder-link :organ="$disposition->organ" :showIcon="false" />
+                                        <x-organomania.organ-organ-builder-link :organ="$disposition->organ" />
                                     @else
                                         &ndash;
                                     @endisset

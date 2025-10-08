@@ -332,15 +332,17 @@ window.initGoogleMap = function ($wire) {
             })
             const infoWindow = new google.maps.InfoWindow({
                 headerDisabled: true,
-                content: marker.dataset.mapInfo
+                content: marker.dataset.mapInfo,
+                pixelOffset: new google.maps.Size(0, -40)
             });
             marker.addEventListener('mouseover', function () {
                 infoWindow.open({
                     anchor: marker,
+                    shouldFocus: false,
                     map
                 })
             })
-            marker.addEventListener('mouseout', function () {
+            marker.addEventListener('mouseleave', function () {
                 infoWindow.close()
             })
             
