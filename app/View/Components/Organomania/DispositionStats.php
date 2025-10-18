@@ -9,6 +9,7 @@ use App\Models\Disposition;
 use App\Enums\RegisterCategory;
 use App\DispositionFilters\RegisterCategoryFilter;
 use App\DispositionFilters\NoRegisterCategoryFilter;
+use App\DispositionFilters\AliquotFilter;
 use App\DispositionFilters\PitchFilter;
 
 class DispositionStats extends Component
@@ -37,10 +38,12 @@ class DispositionStats extends Component
         if ($maxRegister = $this->disposition->getMaxPitchRegister()) {
             $groups[0][__('Nejvyšší poloha')] = $maxRegister->pitch->getLabel($this->disposition->language);
         }
-        foreach ([PitchFilter::TYPE_DEEP, PitchFilter::TYPE_ALIQUOT] as $type) {
+        foreach ([PitchFilter::TYPE_DEEP] as $type) {
             $filter = new PitchFilter($this->disposition, $type);
             $groups[0][$filter->name] = $filter->getFormattedCount();
         }
+        $filter = new AliquotFilter($this->disposition);
+        $groups[0][$filter->name] = $filter->getFormattedCount();
 
         $groups[1] = [];
         foreach (RegisterCategory::getMainCategories() as $category) {

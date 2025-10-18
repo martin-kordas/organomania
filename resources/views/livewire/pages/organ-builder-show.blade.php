@@ -14,6 +14,7 @@ use App\Models\OrganBuilder;
 use App\Models\OrganRebuild;
 use App\Enums\OrganBuilderCategory;
 use App\Enums\Region;
+use App\Repositories\OrganBuilderRepository;
 use App\Services\MarkdownConvertorService;
 use App\Traits\HasAccordion;
 
@@ -25,6 +26,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public OrganBuilder $organBuilder;
 
     protected MarkdownConvertorService $markdownConvertor;
+    
+    protected OrganBuilderRepository $repository;
 
     private $showActivePeriodInHeading;
 
@@ -32,9 +35,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         SESSION_KEY_SHOW_MAP = 'organ-builders.show.show-map',
         SESSION_KEY_SHOW_LITERATURE = 'organs.show.show-literature';
 
-    public function boot(MarkdownConvertorService $markdownConvertor)
+    public function boot(MarkdownConvertorService $markdownConvertor, OrganBuilderRepository $repository)
     {
         $this->markdownConvertor = $markdownConvertor;
+        $this->repository = $repository;
 
         $this->showActivePeriodInHeading
             = isset($this->organBuilder->active_period)
@@ -171,8 +175,25 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
             $images[] = [$imageUrl, $imageCredits, $content, true];
         }
+        
+        usort($images, $this->compareImages(...));
 
         return $images;
+    }
+    
+    private function compareImages(array $image1, array $image2)
+    {
+        $year1 = $this->getYearFromImageCaption($image1[2]) ?? 0;
+        $year2 = $this->getYearFromImageCaption($image2[2]) ?? 0;
+        return $year1 <=> $year2;
+        
+    }
+    
+    private function getYearFromImageCaption($caption)
+    {
+        $matches = [];
+        if (preg_match('/[0-9]{4}/', $caption, $matches)) return $matches[0];
+        return null;
     }
 
     #[Computed]
@@ -180,6 +201,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         return match ($this->organBuilder->id) {
             3 => [
+                [
+                    '/images/hranice.jpg',
+                    'Palickap, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Hranice, kostel Stětí sv. Jana Křtitele',
+                    '1767, II/20, dochována jen skříň'
+                ],
                 [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/St._Wenceslaus_Mikulov_organ.JPG/360px-St._Wenceslaus_Mikulov_organ.JPG',
                     'PetrS., CC BY-SA 4.0, via Wikimedia Commons',
@@ -205,6 +232,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     '© C.Stadler/Bwag or © C.Stadler/Bwag; CC-BY-SA-4.0, via Wikimedia Commons',
                     'Vídeň, kostel sv. Michaela',
                     '1714, III/40'
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Brno%2C_kostel_sv._Michala%2C_varhany.jpg/640px-Brno%2C_kostel_sv._Michala%2C_varhany.jpg',
+                    'PatrikPaprika, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Brno, kostel sv. Michala',
+                    '1716, II/26, dochována jen skříň'
                 ],
                 [
                     '/images/holesov.jpg',
@@ -256,10 +289,30 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     '1732, přestavěno'
                 ],
                 [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Rajhrad_Monastery_5884.JPG/960px-Rajhrad_Monastery_5884.JPG',
+                    'User:Karl Gruber, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Rajhrad, kostel sv. Petra a Pavla',
+                    '1733, II/22, dochována jen skříň'
+                ],
+                [
+                    '/images/olomouc-hradisko.jpg',
+                    '',
+                    'Olomouc, kaple sv. Štěpána (Klášterní Hradisko)',
+                    '1740, I/10, autorem Richter nebo F. I. Sieber'
+                ],
+                [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Velehrad_-_48448317417.jpg/640px-Velehrad_-_48448317417.jpg',
                     'liakada-web, CC BY 2.0, via Wikimedia Commons',
                     'Velehrad, bazilika Nanebevzetí P. Marie',
                     '1747, dochována jen skříň'
+                ],
+            ],
+            71 => [
+                [
+                    '/images/praha-sv-vorsila.jpg',
+                    'Jan Fejgl',
+                    'Praha, kostel sv. Voršily (Nové Město)',
+                    '1727, dochována jen skříň'
                 ],
             ],
             50 => [
@@ -388,6 +441,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ],
             6 => [
                 [
+                    '/images/luka.jpg',
+                    'Kristýna Kosíková',
+                    'Luka nad Jihlavou, kostel sv. Bartoloměje',
+                    '1845, II/14, dochována jen skříň'
+                ],
+                [
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/2021-10-24_Church_of_Saints_Philip_and_James_%28Lelekovice%29_interior_2.jpg/640px-2021-10-24_Church_of_Saints_Philip_and_James_%28Lelekovice%29_interior_2.jpg',
                     'Lasy, CC BY-SA 4.0, via Wikimedia Commons',
                     'Lelekovice, kostel sv. Filipa a Jakuba',
@@ -400,6 +459,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'Ben Skála, Benfoto, CC BY-SA 3.0, via Wikimedia Commons',
                     'Daňkovice, evangelický kostel',
                     '1810, I/7, později rozšířeno'
+                ],
+                [
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/2019_Interior_of_the_Cathedral_of_Saints_Peter_and_Paul_in_Brno_03.jpg/640px-2019_Interior_of_the_Cathedral_of_Saints_Peter_and_Paul_in_Brno_03.jpg',
+                    'Nxr-AT, CC BY-SA 4.0, via Wikimedia Commons',
+                    'Brno, katedrála sv. Petra a Pavla',
+                    '1829, II/28, dochována jen skříň'
                 ]
             ],
             62 => [
@@ -408,6 +473,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'Millenium187, CC BY-SA 3.0, via Wikimedia Commons',
                     'Brno, kostel sv. Tomáše',
                     null,
+                ]
+            ],
+            65 => [
+                [
+                    '/images/praha-karlov.jpg',
+                    'Jan Fejgl',
+                    'Praha, kostel Nanebevzetí Panny Marie a svatého Karla Velikého (Karlov)',
+                    '1734, II/16',
+                ],
+                [
+                    '/images/milicin.jpg',
+                    'Kristýna Kosíková',
+                    'Miličín, kostel Narození Panny Marie',
+                    '1755, II/16',
                 ]
             ],
             39 => [
@@ -473,6 +552,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'Krnov, evangelický kostel',
                     '1902, II/21',
                 ],
+                [
+                    '/images/zlin.jpg',
+                    'Jan Fejgl',
+                    'Zlín, kostel sv. Filipa a Jakuba',
+                    '1930, II/29',
+                ],
             ],
             68 => [
                 [
@@ -532,6 +617,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'lienyuan lee, CC BY 3.0, via Wikimedia Commons',
                     'Praha, kostel Všech Svatých (dříve Kladruby)',
                     '1726, II'
+                ]
+            ],
+            55 => [
+                [
+                    '/images/dolni-lanov.jpg',
+                    'Jan Fejgl',
+                    'Dolní Lánov, kostel sv. Jakuba',
+                    'Ignác Prediger, 1828, II/24'
                 ]
             ],
             default => []
@@ -806,7 +899,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
             </x-organomania.tr-responsive>
         @endif
-        @if ($this->relatedOrganBuilders->isNotEmpty())
+        
+        @php $center = $organBuilder->getCenter() @endphp
+        @if ($this->relatedOrganBuilders->isNotEmpty() || $center)
             <tr>
                 <th>{{ __('Související varhanáři') }}</th>
                 <td>
@@ -815,6 +910,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             <x-organomania.organ-builder-link :organBuilder="$relatedOrganBuilder" :showActivePeriod="true" />
                             @if (!$loop->last) <br /> @endif
                         @endforeach
+                        
+                        @if ($center)
+                            @if ($this->relatedOrganBuilders->isNotEmpty()) <br /> @endif
+                            <a
+                                class="align-items-start link-primary text-decoration-none icon-link icon-link-hover"
+                                href="{{ route('organ-builders.index', ['filterMunicipality' => $center]) }}"
+                                wire:navigate
+                            >
+                                <i class="bi bi-person-circle"></i>
+                                {{ $this->organBuilder->getCenterName() }}
+                            </a>
+                            @if ($organBuilderInCenterCount = $this->repository->getOrganBuilderInCenterCount($center))
+                                <span class="badge text-bg-secondary rounded-pill">{{ $organBuilderInCenterCount }}</span>
+                            @endif
+                        @endif
                     <div>
                 </td>
             </tr>

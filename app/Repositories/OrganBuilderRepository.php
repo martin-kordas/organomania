@@ -140,4 +140,12 @@ class OrganBuilderRepository extends AbstractRepository
         return $this->getCustomCategoriesHelp(new OrganBuilderCustomCategoryModel, $mainEntityRelation, $withCount, $allowIds);
     }
     
+    public function getOrganBuilderInCenterCount(string $center)
+    {
+        return OrganBuilder::where('municipality', $center)
+            ->public()
+            ->where('baroque', 0)
+            ->count();
+    }
+    
 }

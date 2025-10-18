@@ -8,14 +8,14 @@
             @endforeach
         </div>
     @endif
-    
+
     <div class="carousel-inner rounded">
         @foreach ($images as $key => [$src, $credits])
-            @php 
+            @php
                 $caption = $images[$key][2] ?? null;
                 $additional = $noAdditional || ($images[$key][3] ?? false);
             @endphp
-            <div @class(['carousel-item', 'active' => $loop->first]) data-bs-interval="8000">
+            <div @class(['carousel-item', 'active' => $loop->first]) data-bs-interval="8000" onclick="toggleGalleryExpand(event)">
                 <img src="{{ $src }}" class="d-block m-auto" alt="{{ __('Náhled') }}" @isset($credits) title="{{ __('Licence obrázku') }}: {{ $credits }}" @endisset />
                 @isset($caption)
                     <div @class(['carousel-caption', 'small', 'text-dark' => $additional, 'text-primary' => !$additional])>
@@ -25,7 +25,7 @@
             </div>
         @endforeach
     </div>
-    
+
     @if (count($images) > 1)
         <button class="carousel-control-prev" type="button" data-bs-target="#{{ $id }}" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -41,5 +41,10 @@
 <script>
     function toggleGalleryCaption(elem) {
         $(elem).toggleClass('collapsed')
+    }
+
+    function toggleGalleryExpand(event) {
+        let clickFromCaption = $(event.target).closest('.carousel-caption').length > 0;
+        if (!clickFromCaption) $(event.target).closest('.gallery-carousel').toggleClass('expanded')
     }
 </script>

@@ -81,6 +81,10 @@ class OrganBuilder extends Model
     // HACK: pokud varhanáře není čas vložit, přiřadíme varhany k tomuto varhanáři (varhanář se nezobrazí a zmíníme ho alespoň v popisu varan)
     const ORGAN_BUILDER_ID_NOT_INSERTED = 501;
     
+    const ORGAN_BUILDER_CENTERS = [
+      'Praha', 'Brno', 'Loket', 'Krnov', 'Kutná Hora', 'Opava', 'Znojmo', 
+    ];
+    
     protected $guarded = [];
     
     protected $attributes = [
@@ -307,6 +311,30 @@ class OrganBuilder extends Model
     public function getLinkComponent()
     {
         return 'components.organomania.organ-builder-link';
+    }
+    
+    public function getCenter()
+    {
+        // např. je-li municipality varhanáře 'Praha-Žižkov', vrátíme 'Praha'
+        foreach (static::ORGAN_BUILDER_CENTERS as $municipality) {
+            if (str_starts_with($this->municipality, $municipality)) {
+                return $municipality;
+            }
+        }
+    }
+    
+    public function getCenterName()
+    {
+        return match ($this->getCenter()) {
+            'Praha' => __('Varhanáři v Praze'),
+            'Brno' => __('Brněnská varhanářská škola'),
+            'Loket' => __('Loketská varhanářská škola'),
+            'Opava' => __('Varhanáři v Opavě'),
+            'Znojmo' => __('Varhanáři ve Znojmě'),
+            'Kutná hora' => __('Kutnohorské varhanářství'),
+            'Krnov' => __('Krnovské varhanářství'),
+            default => $this->municipality . __(' a varhanářství'),
+        };
     }
     
 }

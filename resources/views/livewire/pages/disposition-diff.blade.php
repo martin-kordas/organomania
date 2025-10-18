@@ -38,9 +38,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $diffs = [
             [42, 43],       // Brno, Petrov
-            [3, 4],         // Olomouc, sv. Mořic
+            [74, 75],       // Dub
             [9, 10],        // Olomouc, PMS
             [16, 17],       // Olomouc, Hejčín
+            [3, 4],         // Olomouc, sv. Mořic
+            [72, 73],       // Praha, sv. Tomáš
         ];
         return collect($diffs)->filter(
             fn($diff) => $diff != [$this->dispositionId1, $this->dispositionId2]
@@ -92,10 +94,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             case 9:
                 $text = $text->replaceLast("Superoctava 2'", "\nSuperoctava 2'");
                 break;
+                
             // Olomouc, sv. Mořic
             case 3:
                 $text = $text->replaceLast("Pedal", "Pedal (Altes Werk)");
                 break;
+                
             case 42:
                 $text = $text->replaceFirst("Bombardon 16'", "\nBombardon 16'");
                 $text = $text->replaceFirst("Fleta oktavová 4'", "\nFleta oktavová 4'");
@@ -105,6 +109,38 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
                 $text = $text->replaceFirst("Tercfleta 1 3/5'", "Tercfléta 1 3/5'");
                 $text = $text->replaceFirst("Cornet 3x 5 1/2'", "Cornet 3x 5 1/3'");
+                break;
+                
+            // Praha, sv. Tomáš
+            case 72:
+                $text = $text->replaceFirst("Mixtura 4× 2 2/3'", "\n\nMixtura 4× 2 2/3'");
+                break;
+                
+            // Dub
+            case 74:
+                $text = $text->replaceFirst("Principal 8'", "\nPrincipál 8'");
+                $text = $text->replaceFirst("Octav 4'", "Oktáva 4'");
+                $text = $text->replaceFirst("Spitzflöte 8'", "Flétna špičatá 8'");
+                $text = $text->replaceFirst("Spitzflöte 4'", "Flétna špičatá 4'");
+                $text = $text->replaceFirst("Quinte 2 2/3'", "Quinta 2 2/3'");
+                $text = $text->replaceFirst("Superoctav 2'", "Superoktava 2'");
+                $text = $text->replaceFirst("Mixtur 2'", "Mixtura 2'");
+                $text = $text->replaceFirst("Octavbas 8'", "Oktavbas 8'");
+                $text = $text->replaceFirst("Bordunbas 16'", "Bordonbass 16'");
+                $text = $text->replaceFirst("Subbas 16'", "Subbass 16'");
+                //$text = $text->replaceFirst("Flauta 8'", "Flétna 8'");
+                $text = $text->replaceFirst("Flauta major 8'", "Flétna major 8'");
+                $text = $text->replaceFirst("Flauta minor 4'", "Flétna minor 4'");
+                $text = $text->replaceFirst("Principal 4'", "\nPrincipál 4'");
+                $text = $text->replaceFirst("Waldflöte 4'", "Flétna lesní 4'");
+                $text = $text->replaceFirst("Mixtur 1 1/3'", "Mixtura 1 1/3'");
+                $text = $text->replaceFirst("Superoktav 2'", "Superoktava 2'");
+                break;
+            
+            case 75:
+                $text = $text->replaceFirst("Cornett 4×", "\nCornett 4× (sloučení Sexty a Cimbalu)");
+                $text = $text->replaceFirst("Cellobas 8'", "\nCellobas 8'");
+                //$text = $text->replaceFirst("Flétna 8'", "Flétna (major?) 8'");
                 break;
         }
 
@@ -123,10 +159,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 'lengthLimit' => 10_000,
                 'context' => Differ::CONTEXT_ALL,
             ];
+            if (in_array($this->disposition1->id, [740])) $detailLevel = 'char';
+            else $detailLevel = 'word';
             $rendererOptions = [
                 // diff po znacích v některých případech nefunguje (zvýrazní se řádek, ale ne jednotlivé znaky)
                 //  - zřejmě chyba algoritmu, při jiném uspořádání řádků funguje
-                'detailLevel' => 'char',
+                'detailLevel' => $detailLevel,
                 'lineNumbers' => false,
                 'language' => app()->getLocale() === 'en' ? 'eng' : 'cze',
                 'showHeader' => false,
@@ -136,171 +174,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             $result = DiffHelper::calculate(
                 $this->getDispositionForDiff($this->disposition1),
                 $this->getDispositionForDiff($this->disposition2),
-                $rendererName, $differOptions, $rendererOptions
-            );
-            $result1 = DiffHelper::calculate(
-                <<<EOL
-**I. manuál**
-Principal 16'
-Bourdun 16'
-Principal 8'
-Fleta dvojitá 8'
-Kryt hrubý 8'
-Gamba 8'
-Roh kamzíkový 8'
-Salicional 8'
-Oktava 4'
-Fleta dutá 4'
-Fleta rourová 4'
-Fugara 4'
-Mixtura 6x 5 1/3'
-Cornet 4x 4'
-Quinta šumivá 2 2/3'
-Cimbal 3x 2'
-
-Bombardon 16'
-Trompeta 8'
-Clairon 4'
-
-**II. manuál**
-Bourdun 16'
-Gamba 16'
-Principal 8'
-Fleta harmonická 8'
-Fleta jemná 8'
-Kryt 8'
-Fugara 8'
-Viola d'amour 8'
-Dolce 8'
-
-Fleta oktavová 4'
-Oktava 4'
-
-Doublet 2 2/3'
-
-Mixtura 5x 2 2/3'
-Trompeta 8'
-Clarinet 8'
-
-**III. manuál**
-Kryt jemný 16'
-Salicet 16'
-Principal fletový 8'
-Quintadena 8'
-Kryt líbezný 8'
-Fleta líbezná 8'
-Harmonika 8'
-Vox coelestis 8'
-Aeolina 8'
-Oktava 4'
-Fleta příčná 4'
-Violino 4'
-Flageolet 2 2/3'
-Pikola 2'
-Tercfléta 1 3/5'
-Progresse 4x 2 2/3'
-Oboe 8'
-
-**Pedál**
-Podstav 32'
-Principalbas 16'
-Violonbas 16'
-Subbas 16'
-Kryt tichý 16'
-Dolcebas 16'
-Quintbas 10 2/3'
-Oktavbas 8'
-Bourdunbas 8'
-Cello 8'
-
-Cornet 3x 5 1/3'
-Pozoun 16'
-Trompeta 8'
-Clairon 4'
-EOL,
-                <<<EOL
-**I. manuál**
-Principal 16'
-Bourdun 16'
-Principal 8'
-Flétna dvojitá 8'
-Kryt hrubý 8'
-Gamba 8'
-Roh kamzičí 8'
-Salicional 8'
-Kvinta 5 1/3'
-Oktava 4'
-Flétna dutá 4'
-Flétna rourková 4'
-Fugara 4'
-Oktava špičatá 2'
-Mixtura 6x 5 1/3'
-Cornet 3-5x 2 2/3'
-Kvinta šumivá 2x 2 2/3'
-Cimbal 2-3x 2'
-Akuta 4-6x 1 1/3'
-Bombard 16'
-Trompeta 8'
-Clairon 4'
-
-**II. manuál**
-Bourdun 16'
-Gamba 16'
-Principal 8'
-Flétna harmonická 8'
-Flétna jemná 8'
-Kryt 8'
-Fugara 8'
-Viola d´amour 8'
-Dolce 8'
-Unda maris 8'
-Flétna oktávová 4'
-Oktava 4'
-Dolkan 2'
-Doublet 2x 2 2/3'
-Tercseptima 1-2x 1 3/5'+1 1/7'
-Mixtura 3x 1 1/3'
-Trompeta 8'
-Clarinet 8'
-
-**III. manuál**
-Kryt jemný 16'
-Salicet 16'
-Principal flétnový 8'
-Kvintadena 8'
-Kryt líbezný 8'
-Flétna jemná 8'
-Harmonika 8'
-Vox coelestis 8'
-Aeolina 8'
-Oktava 4'
-Flétna příčná 4'
-Violino 4'
-Flageolet 2 2/3'
-Picola 2'
-Tercfléta 1 3/5'
-Progresse 3-4x 2 2/3'
-Scharf 3-4x 1 1/3'
-Oboe 8'
-
-**Pedál**
-Grand Bourdon 32'
-Principalbas 16'
-Violon 16'
-Subbas 16'
-Kryt tichý 16'
-Dolcebas 16'
-Kvintbas 10 2/3'
-Oktavbas 8'
-Bourdun 8'
-Violoncello 8'
-Oktavbas 4'
-Cornet 3x 5 1/3'
-Kontrafagot 32'
-Pozoun 16'
-Trompeta 8'
-Clairon 4'
-EOL,
                 $rendererName, $differOptions, $rendererOptions
             );
             // ztučnění názvu manuálu
@@ -422,18 +295,22 @@ EOL,
     </div>
     
     @if (!empty($this->exampleDiffs))
-        <div class="text-center text-body-secondary" style="font-size: 85%;">
+        <div class="text-body-secondary" style="font-size: 85%;">
             <br />
             {{ isset($this->diff) ? __('Další příklady porovnání') : __('Příklady porovnání') }}
+            
+            <ul>
             @foreach ($this->exampleDiffs as [$dispositionId1, $dispositionId2])
-                <div>
+                <li>
                     <a href="#" class="link-primary text-decoration-none" wire:click.prevent="setDiff({{ $dispositionId1 }}, {{ $dispositionId2 }})">
                         {{ Disposition::find($dispositionId1)->name }}
                         &LeftRightArrow;
+                        <br />
                         {{ Disposition::find($dispositionId2)->name }}
                     </a>
-                </div>
+                </li>
             @endforeach
+            </ul>
         </div>
     @endif
     

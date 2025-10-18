@@ -276,6 +276,7 @@ abstract class Question
         }
         
         $markdownConvertor = app(MarkdownConvertorService::class);
+        $markdownConvertor->setConvertCustomLinks(false);
         $description = $markdownConvertor->convert($description);
         
         if (isset($baseWords)) {

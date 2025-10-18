@@ -21,6 +21,11 @@
                 {{ __('Anatomie varhan') }}
                 <x-slot:description>{{ __('podrobný web o varhanách a jejich konstrukci') }}</x-slot>
             </x-organomania.link-list-item>
+            
+            <x-organomania.link-list-item icon="instagram" url="https://www.instagram.com/janfejgl.organist/">
+                Jan Fejgl &ndash; Instagram
+                <x-slot:description>{{ __('detailní fotografie a popisy zajímavých, převážně domácích nástrojů') }}</x-slot>
+            </x-organomania.link-list-item>
         </x-organomania.link-list>
 
         

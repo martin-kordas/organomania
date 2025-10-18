@@ -88,4 +88,15 @@ abstract class DispositionFilter
         return $str;
     }
     
+    protected function filterRegistersByOrFilters(array $filters)
+    {
+        $registers = collect();
+        foreach ($filters as $filter) {
+            $registers = $registers->merge(
+                $filter->filterRegisters()
+            );
+        }
+        return $registers->unique('id');
+    }
+    
 }

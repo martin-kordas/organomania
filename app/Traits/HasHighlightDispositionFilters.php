@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Livewire\Attributes\Computed;
 use App\Enums\RegisterCategory;
+use App\DispositionFilters\AliquotFilter;
 use App\DispositionFilters\RegisterCategoryFilter;
 use App\DispositionFilters\PlenoFilter;
 use App\DispositionFilters\PitchFilter;
@@ -28,7 +29,7 @@ trait HasHighlightDispositionFilters
         }
         $filters[] = new PlenoFilter($disposition);
         $filters[] = new PitchFilter($disposition, PitchFilter::TYPE_DEEP);
-        $filters[] = new PitchFilter($disposition, PitchFilter::TYPE_ALIQUOT);
+        $filters[] = new AliquotFilter($disposition);
 
         $filters = array_filter(
             $filters,

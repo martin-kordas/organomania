@@ -37,6 +37,9 @@ class UpdateOrganists extends Command
         
         Organist::orderBy('id')->get()->each(function (Organist $organist) use (&$okCount, &$errorCount) {
             try {
+                // nahrává většinou reely nesouvisející s varhanami
+                if ($organist->channel_username === '@tatianapernetova') return;
+                
                 $this->updateOrganist($organist);
                 $okCount++;
             }

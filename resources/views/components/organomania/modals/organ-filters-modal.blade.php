@@ -40,6 +40,12 @@
                     <div class="mb-3">
                         <label class="form-label" for="filterMunicipality">{{ __('Lokalita') }}</label>
                         <input class="form-control form-control-sm" type="search" id="filterMunicipality" wire:model="filterMunicipality" minlength="3" placeholder="{{ __('Zadejte obec') }}" />
+                        <div class="form-text">
+                            {{ __('např.') }}
+                            @foreach (array_slice(OrganBuilder::ORGAN_BUILDER_CENTERS, 0, 6) as $municipality)
+                                <a class="text-decoration-none" href="#" onclick="return setFilterMunicipality({{ Js::from($municipality) }})">{{ $municipality }}</a>@if (!$loop->last), @endif
+                            @endforeach
+                        </div>
                     </div>
                 @endif
               
@@ -185,6 +191,11 @@
         //  - příčinou je možná refreshSelect2Sync(), ale neznám důvod
         //  - $('#filterMonth').val(month).trigger('change') rovněž nefunguje dobře
         $wire.filterMonth = month
+        return false
+    }
+    
+    window.setFilterMunicipality = function (municipality) {
+        $wire.filterMunicipality = municipality
         return false
     }
         

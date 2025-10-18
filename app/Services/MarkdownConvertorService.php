@@ -17,6 +17,8 @@ class MarkdownConvertorService
 
     private ConverterInterface $converter;
     
+    private bool $convertCustomLinks = true;
+    
     const CUSTOM_LINK_REGEX = '/\{\{(organ|organBuilder|festival|competition|registerName)\}(.*?)\}\((.*?)\)/';
 
     private function getConverter()
@@ -47,6 +49,15 @@ class MarkdownConvertorService
             static::CUSTOM_LINK_REGEX,
             function ($res) {
                 [, $entityType, $text, $slug] = $res;
+                
+                if (str_ends_with($text, '|nodetail')) {
+                    $noDetail = true;
+                    $text = mb_substr($text, 0, mb_strlen($text) - 9);
+                }
+                else $noDetail = false;
+                
+                if (!$this->convertCustomLinks) return $text;
+              
                 $model = match ($entityType) {
                     'organ' => new Organ,
                     'organBuilder' => new OrganBuilder,
@@ -57,12 +68,6 @@ class MarkdownConvertorService
                 };
                 $entity = $model->firstWhere('slug', $slug);
                 if (!$entity) return $text;
-                
-                if (str_ends_with($text, '|nodetail')) {
-                    $noDetail = true;
-                    $text = mb_substr($text, 0, mb_strlen($text) - 9);
-                }
-                else $noDetail = false;
                 
                 $linkParams = match ($entityType) {
                     'organ' => [
@@ -101,12 +106,19 @@ class MarkdownConvertorService
     {
         return str($markdown)
             ->replace('*', '')
+            ->replace('|nodetail', '')
             ->replaceMatches('/\s+/', ' ')
             ->replaceMatches(static::CUSTOM_LINK_REGEX, function ($res) {
                 [, , $text] = $res;
                 return $text;
             })
             ->toString();
+    }
+    
+    public function setConvertCustomLinks(bool $convertCustomLinks)
+    {
+        $this->convertCustomLinks = $convertCustomLinks;
+        return $this;
     }
 
 }
