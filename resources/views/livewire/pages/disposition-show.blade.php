@@ -588,7 +588,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 function () {
                     echo collect($this->disposition->toStructuredArray())->toJson();
                 },
-                name: "{$this->exportFilename}json",
+                name: "{$this->exportFilename}.json",
                 headers: ['Content-Type' => 'application/json']
             );
     }
