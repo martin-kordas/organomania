@@ -305,6 +305,7 @@
             :filterDisposition="$this->filterDisposition ?? null"
             :filterManualsCount="$this->filterManualsCount ?? null"
             :filterOrganBuilderId="$this->filterOrganBuilderId ?? null"
+            :filterCaseOrganBuilderId="$this->filterCaseOrganBuilderId ?? null"
             :filterConcertHall="$this->filterConcertHall ?? null"
             :filterpreservedCase="$this->filterpreservedCase ?? null"
             :filterpreservedOrgan="$this->filterpreservedOrgan ?? null"

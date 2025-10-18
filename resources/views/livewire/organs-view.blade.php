@@ -39,6 +39,8 @@ new class extends Component {
     #[Reactive]
     public $filterOrganBuilderId;
     #[Reactive]
+    public $filterCaseOrganBuilderId;
+    #[Reactive]
     public $filterpreservedCase;
     #[Reactive]
     public $filterpreservedOrgan;
@@ -91,6 +93,7 @@ new class extends Component {
         if ($this->filterDisposition) $filters['disposition'] = $this->filterDisposition;
         if ($this->filterManualsCount) $filters['manualsCount'] = $this->filterManualsCount;
         if ($this->filterOrganBuilderId) $filters['organBuilderId'] = $this->filterOrganBuilderId;
+        if ($this->filterCaseOrganBuilderId) $filters['caseOrganBuilderId'] = $this->filterCaseOrganBuilderId;
         if ($this->filterpreservedCase) $filters['preservedCase'] = $this->filterpreservedCase;
         if ($this->filterpreservedOrgan) $filters['preservedOrgan'] = $this->filterpreservedOrgan;
         if ($this->filterConcertHall) $filters['concertHall'] = $this->filterConcertHall;

@@ -26,6 +26,7 @@ use App\Models\Scopes\OwnedEntityScope;
 use App\Traits\HasLinkComponent;
 use App\Traits\OwnedEntity;
 use App\Traits\Viewable;
+use App\Services\MarkdownConvertorService;
 use App\Helpers;
 
 #[ObservedBy([OrganObserver::class])]
@@ -113,6 +114,11 @@ class Organ extends Model
     public function renovationOrganBuilder()
     {
         return $this->belongsTo(OrganBuilder::class, 'renovation_organ_builder_id');
+    }
+    
+    public function caseOrganBuilder()
+    {
+        return $this->belongsTo(OrganBuilder::class, 'case_organ_builder_id');
     }
     
     public function organCategories()
@@ -352,10 +358,8 @@ class Organ extends Model
         if (isset($this->perex)) return $this->perex;
         
         if (isset($this->description)) {
-            return str($this->description)
-                ->replace('*', '')
-                ->replaceMatches('/\s+/u', ' ')
-                ->limit(200);
+            $description = app(MarkdownConvertorService::class)->stripMarkDown($this->description);
+            return str($description)->limit(200);
         }
         
         return null;

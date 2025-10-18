@@ -396,26 +396,46 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <tr>
             {{-- HACK --}}
             @if ($organ->organBuilder?->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
-            <th>{{ __('Varhanář') }}</th>
-            <td class="organ-builder fw-bold">
-                <div class="items-list">
-                    @if ($organ->organBuilder)
-                        @php $showYearBuilt = $organ->organRebuilds->isNotEmpty(); @endphp
-                        <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$showYearBuilt ? $organ->year_built : null" :signed="$this->signed" />
-                        @if (!$showYearBuilt && !$organ->organBuilder->is_workshop && isset($organ->organBuilder->active_period) && $organ->organBuilder->active_period != '–')
-                            <span class="text-body-secondary">({{ $organ->organBuilder->active_period }})</span>
-                        @endif
-                        @foreach ($organ->organRebuilds as $rebuild)
-                            @if ($rebuild->organBuilder)
-                                <br />
-                                <x-organomania.organ-builder-link :organBuilder="$rebuild->organBuilder" :yearBuilt="$rebuild->year_built" :isRebuild="true" />
+                <th>{{ __('Varhanář') }}</th>
+                <td class="organ-builder fw-bold">
+                    <div class="items-list">
+                        @if ($organ->organBuilder)
+                            {{-- je-li více údajů o (pře)stavbách, namísto roku narození/úmrtí varhanáře zobrazíme datum stavby --}}
+                            @php $showYearBuilt = $organ->organRebuilds->isNotEmpty() || isset($organ->caseOrganBuilder) || isset($organ->caseOrganBuilderName); @endphp
+                        
+                            <span class="fw-normal">
+                                @if (isset($organ->caseOrganBuilder))
+                                    <x-organomania.organ-builder-link :organBuilder="$organ->caseOrganBuilder" :yearBuilt="$organ->case_year_built" :isCaseBuilt="true" />
+                                    <br />
+                                @elseif (isset($organ->case_organ_builder_name))
+                                    <i class="bi bi-person-circle"></i>
+                                    @if ($organ->case_organ_builder_name === 'neznámý')
+                                        <span class="text-body-secondary">{{ __('neznámý') }}</span>
+                                    @else
+                                        {{ $organ->case_organ_builder_name }}
+                                    @endif
+                                    @php $details = []; if ($organ->case_year_built) $details[] = $organ->case_year_built; $details[] = __('varhanní skříň'); @endphp
+                                    <span class="text-secondary">({{ implode(', ', $details) }})</span>
+                                    <br />
+                                @endif
+                            </span>
+                                
+                            <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$showYearBuilt ? $organ->year_built : null" :signed="$this->signed" />
+                            @if (!$showYearBuilt && !$organ->organBuilder->is_workshop && isset($organ->organBuilder->active_period) && $organ->organBuilder->active_period != '–')
+                                <span class="text-secondary">({{ $organ->organBuilder->active_period }})</span>
                             @endif
-                        @endforeach
-                    @else
-                        <span class="text-body-secondary">{{ __('neznámý') }}</span>
-                    @endif
-                </div>
-            </td>
+                            
+                            @foreach ($organ->organRebuilds as $rebuild)
+                                @if ($rebuild->organBuilder)
+                                    <br />
+                                    <x-organomania.organ-builder-link :organBuilder="$rebuild->organBuilder" :yearBuilt="$rebuild->year_built" :isRebuild="true" />
+                                @endif
+                            @endforeach
+                        @else
+                            <span class="text-body-secondary">{{ __('neznámý') }}</span>
+                        @endif
+                    </div>
+                </td>
             @endif
         </tr>
         @if ($organ->year_built)

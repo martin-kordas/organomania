@@ -16,6 +16,7 @@ class User extends Authenticatable
     const USER_ID_ADMIN = 1;
     const USER_ID_KRASNI = 3;
     const USER_ID_MARTIN_KORDAS = 5;
+    const USER_ID_MARTIN_KORDAS_BAROKNI = 60;
     
     /**
      * The attributes that are mass assignable.

@@ -25,6 +25,9 @@ return new class extends Migration
             $table->integer('year_built')->nullable();
             $table->foreignId('renovation_organ_builder_id')->nullable()->constrained('organ_builders');
             $table->integer('year_renovated')->nullable();
+            $table->foreignId('case_organ_builder_id')->nullable()->constrained('organ_builders');
+            $table->string('case_organ_builder_name', length: 200)->nullable();
+            $table->integer('case_year_built')->nullable();
             $table->integer('stops_count')->nullable();
             $table->integer('manuals_count')->nullable();
             $table->integer('original_stops_count')->nullable();

@@ -1,4 +1,4 @@
-@props(['organ', 'name' => null, 'size' => null, 'year' => null, 'yearBuilt' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'isRebuild' => false, 'isRenovation' => false])
+@props(['organ', 'name' => null, 'size' => null, 'year' => null, 'yearBuilt' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'isRebuild' => false, 'isRenovation' => false, 'showIsHistoricalCase' => false])
 
 @use(App\Models\OrganBuilder)
 
@@ -9,6 +9,10 @@
     }
     if ($year) $details[] = $year;
     if ($isRebuild) $details[] = __('přestavba');
+    if ($showIsHistoricalCase) {
+        if (isset($organ->caseOrganBuilder) || isset($organ->case_organ_builder_name))
+            $details[] = __('historická skříň');
+    }
     elseif ($isRenovation) {
         $organInfo = $organ->organBuilder->shortName ?? __('neznámý varhanář');
         if (!trim($organInfo)) $organInfo = __('postaveno');    // kvůli OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED

@@ -133,7 +133,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         if (app()->getLocale() === 'cs') {
             if (isset($this->organBuilder->perex)) return $this->organBuilder->perex;
-            if (isset($this->organBuilder->description)) return str($this->organBuilder->description)->replace('*', '')->replaceMatches('/\s+/u', ' ')->limit(200);
+            if (isset($this->organBuilder->description)) {
+                $description = $this->markdownConvertor->stripMarkDown($this->organBuilder->description);
+                return str($description)->limit(200);
+            }
         }
     }
 
@@ -147,6 +150,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'organ' => $organ,
                     'showSizeInfo' => true,
                     'iconLink' => false,
+                    'showIsHistoricalCase' => true,
                 ])->render();
                 $images[] = [$organ->image_url, $organ->image_credits, $caption];
             }
@@ -244,14 +248,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'Jan Fejgl',
                     'Holešov, kostel Nanebevzetí Panny Marie',
                     'F. I. Sieber, 1760, II/18'
-                ]
-            ],
-            8 => [
-                [
-                    '/images/osek-choralni.jpg',
-                    'Vianney2, CC BY-SA 3.0, via Wikimedia Commons',
-                    'Osek u Duchcova, kostel Nanebevzetí P. Marie',
-                    'Wenzel Stark, 1715, I/11'
                 ]
             ],
             22 => [
@@ -598,6 +594,18 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 ]
             ],
             74 => [
+                [
+                    '/images/castolovice.jpg',
+                    'Martin Kordas',
+                    'Častolovice, kostel sv. Víta',
+                    'Jiří Španěl st., 1795, II/14'
+                ],
+                [
+                    '/images/lukavice.jpg',
+                    'Jan Fejgl',
+                    'Lukavice, Nanebevzetí P. Marie',
+                    'Jiří Španěl st., 1801, II/12'
+                ],
                 [
                     '/images/retova.jpg',
                     'Martin Kordas',

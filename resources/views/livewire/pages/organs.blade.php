@@ -35,6 +35,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Url(keep: true)]
     public $filterOrganBuilderId;
     #[Url(keep: true)]
+    public $filterCaseOrganBuilderId;
+    #[Url(keep: true)]
     public $filterpreservedCase;
     #[Url(keep: true)]
     public $filterpreservedOrgan;
@@ -90,6 +92,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->filters[] = 'filterDisposition';
         $this->filters[] = 'filterManualsCount';
         $this->filters[] = 'filterOrganBuilderId';
+        $this->filters[] = 'filterCaseOrganBuilderId';
         $this->filters[] = 'filterpreservedCase';
         $this->filters[] = 'filterpreservedOrgan';
         $this->filters[] = 'filterConcertHall';

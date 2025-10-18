@@ -1,5 +1,7 @@
 @props(['organBuilders', 'model' => 'organBuilderId', 'id' => null, 'select2' => true, 'allowClear' => false, 'small' => false, 'disabled' => false, 'showActivePeriod' => true])
 
+@use(App\Models\OrganBuilder)
+
 @php
     $id ??= $model;
 @endphp
@@ -16,15 +18,17 @@
 >
     <option></option>
     @foreach ($organBuilders as $organBuilder)
-        <option wire:key="{{ $organBuilder->id }}" value="{{ $organBuilder->id }}">
-            {{ $organBuilder->name }}
-            @if ($showActivePeriod && $organBuilder->active_period)
-                ({{ $organBuilder->active_period }})
-            @endif
-            @if (!$organBuilder->isPublic())
-                &#128274;
-            @endif
-        </option>
+        @if ($organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
+            <option wire:key="{{ $organBuilder->id }}" value="{{ $organBuilder->id }}">
+                {{ $organBuilder->name }}
+                @if ($showActivePeriod && $organBuilder->active_period)
+                    ({{ $organBuilder->active_period }})
+                @endif
+                @if (!$organBuilder->isPublic())
+                    &#128274;
+                @endif
+            </option>
+        @endif
     @endforeach
 </select>
 

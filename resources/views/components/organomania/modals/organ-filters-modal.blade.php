@@ -11,6 +11,7 @@
     use App\Models\OrganBuilder;
     use App\Models\Festival;
     use App\Models\Competition;
+    use App\Models\User;
     use Carbon\Carbon;
 @endphp
 
@@ -80,6 +81,10 @@
                         <x-organomania.selects.organ-builder-select model="filterOrganBuilderId" :organBuilders="$organBuilders" :allowClear="true" small />
                         <div class="form-text">{{ __('Filtr hledá i mezi varhanáři, kteří provedli přestavbu varhan.') }}</div>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="filterCaseOrganBuilderId">{{ __('Varhanář') }} ({{ __('autor skříně') }})</label>
+                        <x-organomania.selects.organ-builder-select model="filterCaseOrganBuilderId" :organBuilders="$organBuilders" :allowClear="true" small />
+                    </div>
                 @elseif ($entityClass === Festival::class)
                     @php $currentMonth = Carbon::now()->month @endphp
                     <div class="mb-3">
@@ -113,14 +118,16 @@
                         <div class="form-text">{!! __('Název rejstříku musí být zadán přesně, jak je uveden v dispozici (např. <em>Prinzipal</em> namísto <em>Principál</em>), stačí však i počáteční písmena (např. <em>Prin</em>).') !!} {{ __('Lze uvést více hledaných tvarů současně.') }}</div>
                     </div>
                     <div class="mb-3">
-                        <div class="form-check form-switch">
-                            <label class="form-check-label" for="filterpreservedCase">{{ __('Jen dochované (alespoň skříň)') }}</label>
-                            <input class="form-check-input" type="checkbox" role="switch" id="filterpreservedCase" wire:model="filterpreservedCase">
-                        </div>
-                        <div class="form-check form-switch">
-                            <label class="form-check-label" for="filterpreservedOrgan">{{ __('Jen dochované (včetně stroje)') }}</label>
-                            <input class="form-check-input" type="checkbox" role="switch" id="filterpreservedOrgan" wire:model="filterpreservedOrgan">
-                        </div>
+                        @if (Auth::user()?->id === User::USER_ID_MARTIN_KORDAS_BAROKNI)
+                            <div class="form-check form-switch">
+                                <label class="form-check-label" for="filterpreservedCase">{{ __('Jen dochované (alespoň skříň)') }}</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="filterpreservedCase" wire:model="filterpreservedCase">
+                            </div>
+                            <div class="form-check form-switch">
+                                <label class="form-check-label" for="filterpreservedOrgan">{{ __('Jen dochované (včetně stroje)') }}</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="filterpreservedOrgan" wire:model="filterpreservedOrgan">
+                            </div>
+                        @endif
                         <div class="form-check form-switch">
                             <label class="form-check-label" for="filterConcertHall">{{ __('Jen varhany v koncertních síních') }}</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="filterConcertHall" wire:model="filterConcertHall">

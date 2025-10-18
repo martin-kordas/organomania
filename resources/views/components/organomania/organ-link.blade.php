@@ -1,7 +1,7 @@
 @props([
     'organ', 'name' => null, 'size' => null, 'year' => null,
     'showOrganBuilder' => false, 'showSizeInfo' => false, 'showDescription' => true,
-    'isRebuild' => false, 'isRenovation' => false, 'iconLink' => true, 'newTab' => false,
+    'isRebuild' => false, 'isRenovation' => false, 'showIsHistoricalCase' => false, 'iconLink' => true, 'newTab' => false,
 ])
 
 @use(App\Models\OrganBuilder)
@@ -37,8 +37,8 @@
         @endif
     >
         <i class="bi bi-music-note-list"></i>
-        <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showSizeInfo :$isRebuild :$isRenovation />
+        <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showSizeInfo :$isRebuild :$isRenovation :$showIsHistoricalCase />
     </a>
 @else
-    <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showSizeInfo :$isRebuild :$isRenovation />
+    <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showSizeInfo :$isRebuild :$isRenovation :$showIsHistoricalCase />
 @endcan
