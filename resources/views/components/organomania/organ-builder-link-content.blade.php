@@ -1,4 +1,8 @@
-@props(['organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'isCaseBuilt' => false, 'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'placeholder' => __('neznámý varhanář')])
+@props([
+    'organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'isCaseBuilt' => false,
+    'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showOrganWerk' => false,
+    'placeholder' => __('neznámý varhanář')
+])
 
 @use(App\Models\OrganBuilder)
 
@@ -15,12 +19,14 @@
         $yearBuiltStr = $yearBuilt;
         if ($isRebuild) $yearBuiltStr .= ', ' . __('přestavba');
         elseif ($isCaseBuilt) $yearBuiltStr .= ', ' . __('varhanní skříň');
+        elseif ($showOrganWerk) $yearBuiltStr .= ', ' . __('varhanní stroj');
         $details[] = $yearBuiltStr;
     }
     // TODO: refactoring
     else {
         if ($isRebuild) $details[] =  __('přestavba');
         elseif ($isCaseBuilt) $details[] = __('varhanní skříň');
+        elseif ($showOrganWerk) $details[] = __('varhanní stroj');
     }
     $regularName = $name ?? $organBuilder->name ?? null;
 @endphp

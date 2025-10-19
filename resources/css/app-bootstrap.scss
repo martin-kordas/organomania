@@ -662,6 +662,16 @@ gmp-advanced-marker:not([data-label='']) {
 
 .disposition-diff {
     max-width: 850px;
+    
+    .select2-selection__rendered {
+        white-space: normal !important;
+    }
+    .select2-container .select2-selection--single {
+        height: 53px !important;
+    }
+    .select2-selection__arrow {
+        height: 52px !important;
+    }
 
     .diff-wrapper {
         font-family: inherit !important;

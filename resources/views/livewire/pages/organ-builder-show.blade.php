@@ -133,10 +133,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         if (app()->getLocale() === 'cs') {
             if (isset($this->organBuilder->perex)) return $this->organBuilder->perex;
-            if (isset($this->organBuilder->description)) {
-                $description = $this->markdownConvertor->stripMarkDown($this->organBuilder->description);
-                return str($description)->limit(200);
-            }
+            if (isset($this->organBuilder->description)) return str($this->organBuilder->description)->replace('*', '')->replaceMatches('/\s+/u', ' ')->limit(200);
         }
     }
 
@@ -150,7 +147,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'organ' => $organ,
                     'showSizeInfo' => true,
                     'iconLink' => false,
-                    'showIsHistoricalCase' => true,
                 ])->render();
                 $images[] = [$organ->image_url, $organ->image_credits, $caption];
             }
@@ -167,6 +163,24 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'iconLink' => false,
                     'year' => $year,
                     'isRenovation'=> true,
+                ])->render();
+                $images[] = [$organ->image_url, $organ->image_credits, $caption];
+            }
+        }
+        $organIds = $organIds->merge($this->organBuilder->renovatedOrgans->pluck('id'));
+
+        foreach ($this->organBuilder->caseOrgans as $organ) {
+            if (isset($organ->image_url, $organ->outside_image_url) && !$organIds->contains($organ->id)) {
+                $details = [];
+                if (isset($organ->case_year_built)) $details[] = $organ->case_year_built;
+                $details[] = __('dochována jen skříň');
+                $year = implode(", ", $details);
+
+                $caption = view('components.organomania.organ-link', [
+                    'organ' => $organ,
+                    'iconLink' => false,
+                    'year' => $year,
+                    'showDescription' => false,   // jde už o úplně jiné varhany, akduální varhanář postavil jen skříň
                 ])->render();
                 $images[] = [$organ->image_url, $organ->image_credits, $caption];
             }
@@ -190,7 +204,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $year1 = $this->getYearFromImageCaption($image1[2]) ?? 0;
         $year2 = $this->getYearFromImageCaption($image2[2]) ?? 0;
         return $year1 <=> $year2;
-        
     }
     
     private function getYearFromImageCaption($caption)

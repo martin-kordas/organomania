@@ -42,7 +42,7 @@
                     <br />
                 @endif
                 
-                <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" />
+                <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" :showOrganWerk="isset($organ->caseOrganBuilder) || isset($organ->case_organ_builder_name)" />
                 
                 @foreach ($organ->organRebuilds as $rebuild)
                     @if ($rebuild->organBuilder)

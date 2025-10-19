@@ -4,7 +4,7 @@
 
 @props([
     'organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'isCaseBuilt' => false,
-    'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showIcon' => true, 'showDescription' => true,
+    'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showIcon' => true, 'showDescription' => true, 'showOrganWerk' => false,
     'placeholder' => __('neznámý varhanář'), 'iconLink' => true,
     'signed' => false,
 ])
@@ -41,8 +41,8 @@
         @if ($showIcon)
             <i class="bi bi-person-circle"></i>
         @endif
-        <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$placeholder />
+        <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$showOrganWerk :$placeholder />
     </a>
 @else
-    <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$placeholder />
+    <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$showOrganWerk :$placeholder />
 @endif

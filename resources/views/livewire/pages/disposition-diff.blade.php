@@ -235,7 +235,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         </div>
         <div class="col-auto align-content-end text-center">
-            <button class="btn btn-sm btn-primary" wire:click="swap" data-bs-toggle="tooltip" data-bs-title="{{ __('Prohodit dispozice') }}">
+            <button class="btn btn-sm btn-primary position-relative" wire:click="swap" data-bs-toggle="tooltip" data-bs-title="{{ __('Prohodit dispozice') }}" style="bottom: 11px">
                 <i class="bi-arrow-left-right"></i>
             </button>
         </div>

@@ -134,6 +134,11 @@ class OrganBuilder extends Model
         return $this->hasMany(Organ::class, 'renovation_organ_builder_id')->orderBy('year_renovated');
     }
     
+    public function caseOrgans()
+    {
+        return $this->hasMany(Organ::class, 'case_organ_builder_id')->orderBy('case_year_built')->orderBy('id');
+    }
+    
     public function organBuilderCustomCategories()
     {
         return $this->belongsToMany(OrganBuilderCustomCategory::class)->withTimestamps()->orderBy('name');

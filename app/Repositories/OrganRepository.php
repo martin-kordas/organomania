@@ -205,7 +205,12 @@ class OrganRepository extends AbstractRepository
     public function getOrganOfDay()
     {
         return Organ::query()
-            ->where('importance', '>=', 5)
+            ->where(function (Builder $query) {
+                $query
+                    ->where('importance', '>=', 5)
+                    ->orWhereNotNull('outside_image_url');
+            })
+            ->where('importance', '>', 0)
             ->whereNotNull(['description', 'image_url'])
             ->public()
             ->inRandomOrder()

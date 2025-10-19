@@ -86,6 +86,7 @@ class MarkdownConvertorService
                 $linkParams['iconLink'] = false;
                 $linkParams['showDescription'] = !$noDetail;
                 
+                // nadbytečné mezery (např. před tečkou za odkazem) trimováním odstranit nelze - jde o více zanořených HTML elementů a Livewire direktivy v HTML komentářích
                 $link = trim($entity->renderLink($linkParams));
                 // v markdownu je nastaveno white-space: pre-line, Blade šablony s tím nepočítají a obsahují odřádkování
                 $link = "<span class='custom-link $entityType'>$link</span>";
