@@ -173,7 +173,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             if (isset($organ->image_url, $organ->outside_image_url) && !$organIds->contains($organ->id)) {
                 $details = [];
                 if (isset($organ->case_year_built)) $details[] = $organ->case_year_built;
-                $details[] = __('dochována jen skříň');
+                $details[] = __('dochována skříň');
                 $year = implode(", ", $details);
 
                 $caption = view('components.organomania.organ-link', [

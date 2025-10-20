@@ -30,13 +30,9 @@
                 @if (isset($organ->caseOrganBuilder))
                     <x-organomania.organ-builder-link :organBuilder="$organ->caseOrganBuilder" :yearBuilt="$organ->case_year_built" :isCaseBuilt="true" />
                     <br />
-                @elseif (isset($organ->case_organ_builder_name))
+                @elseif (isset($organ->case_organ_builder_name) && $organ->case_organ_builder_name !== 'neznámý')
                     <i class="bi bi-person-circle"></i>
-                    @if ($organ->case_organ_builder_name === 'neznámý')
-                        <span class="text-body-secondary">{{ __('neznámý') }}</span>
-                    @else
-                        {{ $organ->case_organ_builder_name }}
-                    @endif
+                    {{ $organ->case_organ_builder_name }}
                     @php $details = []; if ($organ->case_year_built) $details[] = $organ->case_year_built; $details[] = __('varhanní skříň'); @endphp
                     <span class="text-secondary">({{ implode(', ', $details) }})</span>
                     <br />
