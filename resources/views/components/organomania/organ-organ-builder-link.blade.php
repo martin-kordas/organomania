@@ -1,4 +1,4 @@
-@props(['organ', 'showIcon' => true, 'signed' => false])
+@props(['organ', 'showIcon' => true, 'iconLink' => true, 'signed' => false])
 
 @use(Illuminate\Support\Facades\Gate)
 @use(Illuminate\Support\Facades\URL)
@@ -13,6 +13,7 @@
 
 @if ($showLink)
     <a
+        {{ $attributes->class(['link-primary', 'align-items-start', 'text-decoration-none', 'icon-link' => $iconLink, 'icon-link-hover'=> $iconLink]) }}
         class="link-primary icon-link icon-link-hover align-items-start text-decoration-none"
         href="{{ $href }}"
         wire:navigate

@@ -1,4 +1,4 @@
-@props(['organ', 'name' => null, 'size' => null, 'year' => null, 'yearBuilt' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'isRebuild' => false, 'isRenovation' => false, 'showIsHistoricalCase' => false])
+@props(['organ', 'name' => null, 'size' => null, 'year' => null, 'yearBuilt' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'showShortPlace' => false, 'isRebuild' => false, 'isRenovation' => false, 'showIsHistoricalCase' => false])
 
 @use(App\Models\OrganBuilder)
 
@@ -30,7 +30,7 @@
     @isset($name)
         {{ $name }}
     @else
-        {{ $organ->municipality }}, {{ $organ->place }}
+        {{ $organ->municipality }}, {{ $showShortPlace ? $organ->shortPlace : $organ->place }}
     @endisset
 
     @if (!$organ->isPublic())

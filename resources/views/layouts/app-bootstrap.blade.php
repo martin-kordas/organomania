@@ -155,6 +155,7 @@ $organistHighlightedCount = Organist::getHighlightedCount();
                                     {{ __('Podpořte web') }}
                                 </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="mailto:{{ config('custom.app_admin_email') }}">
+                                    <i class="bi bi-envelope"></i>
                                     {{ __('Kontakt') }}
                                 </x-organomania.footer-nav-item>
                                 <li class="nav-item d-flex align-items-center">

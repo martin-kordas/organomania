@@ -277,6 +277,15 @@ class OrganRepository extends AbstractRepository
             ->sortBy('year_built');
     }
     
+    public function getOrganInMunicipalityCount(string $municipality)
+    {
+        return Organ::query()
+            ->where('municipality', $municipality)
+            ->where('baroque', 0)
+            ->public()
+            ->count();
+    }
+    
     public static function logLastViewedOrgan(Organ $organ)
     {
         $organIds = static::getLastViewedOrganIds()->toArray();

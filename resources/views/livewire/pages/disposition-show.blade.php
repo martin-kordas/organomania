@@ -701,8 +701,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             </div>
                             <div class="col-8 col-md-4 col-lg-auto d-print-none">
                                 <select id="diff" class="form-select form-select-sm" onchange="diffOnchange()" @if ($isEdit) disabled @endif>
+                                    <option>({{ __('zvolte dispozici') }})</option>
                                     @foreach ($disposition->sameOrganDispositions() as $disposition1)
-                                        <option>({{ __('zvolte dispozici') }})</option>
                                         <option value="{{ route('dispositions.diff', ['dispositionId1' => $disposition->id, 'dispositionId2' => $disposition1->id]) }}">
                                             {{ $disposition1->name }}
                                         </option>

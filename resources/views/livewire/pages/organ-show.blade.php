@@ -262,6 +262,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         );
     }
 
+    private function getOrganInMunicipalityGenitive()
+    {
+        return match ($this->organ->municipality) {
+            'Praha' => 'Praze',
+            'Brno' => 'Brně',
+            'Olomouc' => 'Olomouci',
+            'Opava' => 'Opavě',
+            'Ostrava' => 'Ostravě',
+            'Hradec Králové' => 'Hradci Králové',
+            default => null,
+        };
+    }
+
     #[Computed]
     private function timelineUrl()
     {
@@ -572,7 +585,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endif
-        @if ($this->relatedOrgans->isNotEmpty())
+        @php $organInMunicipalityGenitive = $this->getOrganInMunicipalityGenitive() @endphp
+        @if ($this->relatedOrgans->isNotEmpty() || $organInMunicipalityGenitive)
             <tr>
                 <th>{{ __('Související varhany') }}</th>
                 <td>
@@ -581,6 +595,21 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             <x-organomania.organ-link :organ="$relatedOrgan" :year="$relatedOrgan->year_built" :showOrganBuilder="true" />
                             @if (!$loop->last) <br /> @endif
                         @endforeach
+                            
+                        @if ($organInMunicipalityGenitive)
+                            @if ($this->relatedOrgans->isNotEmpty()) <br /> @endif
+                            <a
+                                class="align-items-start link-primary text-decoration-none icon-link icon-link-hover"
+                                href="{{ route('organs.index', ['filterLocality' => $this->organ->municipality]) }}"
+                                wire:navigate
+                            >
+                                <i class="bi bi-music-note-list"></i>
+                                {{ __('Varhany v') }} {{ $organInMunicipalityGenitive }}
+                            </a>
+                            @if ($organInMunicipalityCount = $this->repository->getOrganInMunicipalityCount($this->organ->municipality))
+                                <span class="badge text-bg-secondary rounded-pill">{{ $organInMunicipalityCount }}</span>
+                            @endif
+                        @endif
                     </div>
                 </td>
             </tr>

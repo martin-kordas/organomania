@@ -1,6 +1,7 @@
 @props(['organs'])
 
 @use(App\Helpers)
+@use(App\Models\OrganBuilder)
 
 <div class="table-responsive">
     <table class="table table-hover table-sm align-middle">
@@ -8,7 +9,7 @@
             <tr>
                 <th>&nbsp;</th>
                 <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('municipality')" :sticky="true" />
-                <th>{{ __('Místo') }}</th>
+                <th style="min-width: 9em;">{{ __('Místo') }}</th>
                 @if ($this->hasDistance)
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('distance')" />
                 @endif
@@ -37,8 +38,8 @@
                             {{ $organ->municipality }}
                         </a>
                     </td>
-                    <td class="fw-semibold">
-                        <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>{{ $organ->place }}</a>
+                    <td class="fw-semibold" style="min-width: 9em;">
+                        <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>{{ $organ->shortPlace }}</a>
                         @if (!$organ->preserved_organ)
                             <span class="text-body-secondary fw-normal">
                                 ({{ $organ->preserved_case ? __('dochována skříň') : __('nedochováno') }})
@@ -59,9 +60,11 @@
                         @endisset
                     </td>
                     <td>
-                        <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" placeholder="{{ __('neznámý') }}" :showIcon="false" />
-                        @if ($organ->organRebuilds->isNotEmpty())
-                            <span class="text-body-secondary">(přestavěno)</span>
+                        @if ($organ->organBuilder?->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
+                            <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" placeholder="{{ __('neznámý') }}" :iconLink="false" />
+                            @if ($organ->organRebuilds->isNotEmpty())
+                                <span class="text-body-secondary">(přestavěno)</span>
+                            @endif
                         @endif
                     </td>
                     <td class="text-end">{{ $organ->year_built }}</td>

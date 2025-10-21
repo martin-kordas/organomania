@@ -205,7 +205,7 @@ class Organ extends Model
     {
         return Attribute::make(
             get: function (mixed $_value, array $attributes) {
-                return str($attributes['place'])->chopStart([
+                return trim(str($attributes['place'])->chopStart([
                     'kostel',
                     'klášterní kostel',
                     'jezuitský kostel',
@@ -217,7 +217,8 @@ class Organ extends Model
                     'proboštský kostel',
                     'zámecká kaple',
                     'zámecký kostel',
-                ]);
+                    'katedrála',
+                ]));
             }
         );
     }
