@@ -83,7 +83,7 @@
             <x-organomania.link-list-item icon="camera-video" url="https://www.youtube.com/playlist?list=PL7vMTJUgGJKD5s697Q-1ZLoGLKUARVoKz">
                 <x-slot:source>{{ __('Youtube') }}</x-slot>
                 Tour of Stops &ndash; Filip Harant
-                <x-slot:description>{{ __('podrobná zvuková představení řady zajímavých historických varhan v českých zemích') }}</x-slot>
+                <x-slot:description>{{ __('podrobná zvuková představení řady zajímavých historických varhan v českých zemích a na Slovensku') }}</x-slot>
             </x-organomania.link-list-item>
         </x-organomania.link-list>
         

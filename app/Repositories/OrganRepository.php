@@ -208,7 +208,7 @@ class OrganRepository extends AbstractRepository
             ->where(function (Builder $query) {
                 $query
                     ->where('importance', '>=', 5)
-                    ->orWhereNotNull('outside_image_url');
+                    ->orWhereNotNull(['outside_image_url', 'disposition']);
             })
             ->where('importance', '>', 0)
             ->whereNotNull(['description', 'image_url'])

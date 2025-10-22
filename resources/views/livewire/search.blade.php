@@ -43,6 +43,22 @@ new class extends Component {
             $this->resultsOrganBuilders = $this->getOrganBuilders();
             $this->resultsRegisterNames = $this->getRegisterNames();
             $this->resultsCount = $this->resultsOrgans->count() + $this->resultsOrganBuilders->count() + $this->resultsRegisterNames->count();
+            
+            if ($this->resultsCount <= 0 && mb_strlen($this->sanitizedSearch) >= 4) {
+                $sanitizedSearch = $this->sanitizedSearch;
+                $maxDistance = mb_strlen($this->sanitizedSearch) <= 4 ? 1 : 2;
+                
+                if ($repairedSearch = $this->repairSearchWithOrgans($sanitizedSearch, $maxDistance)) {
+                    $this->sanitizedSearch = $repairedSearch;
+                    $this->resultsOrgans = $this->getOrgans();
+                    $this->resultsCount = $this->resultsOrgans->count();
+                }
+                if ($this->resultsCount <= 0 && $repairedSearch = $this->repairSearchWithOrganBuilders($sanitizedSearch, $maxDistance)) {
+                    $this->sanitizedSearch = $repairedSearch;
+                    $this->resultsOrganBuilders = $this->getOrganBuilders();
+                    $this->resultsCount = $this->resultsOrganBuilders->count();
+                }
+            }
         }
     }
 
@@ -139,12 +155,72 @@ new class extends Component {
                         AS highlighted
                     ', [$searchWildcard, $searchWildcard, $searchWildcard, $searchWildcard])
                     ->selectRaw(
-                        'MATCH(first_name, last_name, perex, description) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
+                        'MATCH(first_name, last_name, perex, description, workshop_members) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
                         [$this->sanitizedSearch]
                     );
             })
             ->get()
             ->append(['name']);
+    }
+    
+    private function repairSearchWithOrgans(string $search, int $maxDistance)
+    {
+        // TODO: zvážit cachování
+        $organs = Organ::query()
+            ->public()
+            ->groupBy('municipality')
+            ->orderByRaw('COUNT(id) DESC')
+            ->select(['municipality'])
+            ->get();
+          
+        $distance = INF;
+        $municipality = null;
+        foreach ($organs as $organ) {
+            $distance1 = $this->compareSearches($search, $organ->municipality);
+            
+            if ($distance1 <= $maxDistance && $distance1 < $distance) {
+                $municipality = $organ->municipality;
+            }
+        }
+        return $municipality;
+    }
+    
+    private function repairSearchWithOrganBuilders(string $search, int $maxDistance)
+    {
+        // TODO: zvážit cachování
+        $organBuilders = OrganBuilder::query()
+            ->public()
+            ->groupByRaw('IFNULL(last_name, workshop_name)')
+            ->orderByRaw('COUNT(id) DESC')
+            ->selectRaw('IFNULL(last_name, workshop_name) AS search_name')
+            ->get();
+          
+        $distance = INF;
+        $name = null;
+        foreach ($organBuilders as $organBuilder) {
+            $distance1 = $this->compareSearches($search, $organBuilder->search_name);
+            
+            if ($distance1 <= $maxDistance && $distance1 < $distance) {
+                $name = $organBuilder->search_name;
+            }
+        }
+        return $name;
+    }
+    
+    private function getSearchForComparison(string $search)
+    {
+        $search = mb_strtolower($search);
+        $search = Helpers::stripAccents($search);
+        return $search;
+    }
+    
+    private function compareSearches(string $search1, string $search2)
+    {
+        // porovnáváme jen zadanou část slova
+        $length = min(mb_strlen($search1), mb_strlen($search2));
+        $str1 = mb_substr($this->getSearchForComparison($search1), 0, $length);
+        $str2 = mb_substr($this->getSearchForComparison($search2), 0, $length);
+        return levenshtein($str1, $str2);
     }
 
     private function getRegisterNames()
