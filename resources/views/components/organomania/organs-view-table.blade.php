@@ -76,7 +76,7 @@
                     <td class="text-end">{{ $organ->stops_count }}</td>
                     <td>
                         @foreach ($organ->organCategories as $category)
-                            @if (!$category->getEnum()->isPeriodCategory() && !$category->getEnum()->isTechnicalCategory())
+                            @if (!$category->getEnum()->isPeriodCategory() && !$category->getEnum()->isCaseCategory() && !$category->getEnum()->isTechnicalCategory())
                                 <x-organomania.category-badge :category="$category->getEnum()" shortName />
                             @endif
                         @endforeach

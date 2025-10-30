@@ -1,6 +1,7 @@
 @props(['images', 'id' => 'galleryCarousel', 'noAdditional' => false])
 
-<div id="{{ $id }}" {{ $attributes->class(['gallery-carousel', 'carousel', 'slide', 'rounded', 'border']) }} data-bs-ride="carousel">
+{{-- touch vypnut, jinak by nešlo dotykem na galerii provést zoom --}}
+<div id="{{ $id }}" {{ $attributes->class(['gallery-carousel', 'carousel', 'slide', 'rounded', 'border']) }} data-bs-ride="carousel" data-bs-touch="false">
     @if (count($images) > 1)
         <div class="carousel-indicators">
             @foreach ($images as $image)
@@ -19,7 +20,7 @@
                 <img src="{{ $src }}" class="d-block m-auto" alt="{{ __('Náhled') }}" @isset($credits) title="{{ __('Licence obrázku') }}: {{ $credits }}" @endisset />
                 @isset($caption)
                     <div @class(['carousel-caption', 'small', 'text-dark' => $additional, 'text-primary' => !$additional])>
-                        <p class="bg-light rounded mb-1 p-1 fst-italic collapsed" style="opacity: 85%" onmousedown="toggleGalleryCaption(this)">{!! $caption !!}</p>
+                        <p class="bg-light d-inline-block rounded mb-1 py-1 px-2 fst-italic collapsed" style="opacity: 85%" onmousedown="toggleGalleryCaption(this)">{!! $caption !!}</p>
                     </div>
                 @endisset
             </div>

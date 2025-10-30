@@ -87,6 +87,8 @@ Volt::route('custom-category-organs', 'pages.organs')
     ->name('organs.custom-category-organs.index');
 Route::get('organs/dolni-lhota-songs', [OrganController::class, 'redirectToDolniLhotaSongs'])
     ->name('demo-songs');
+Volt::route('organs/cases', 'pages.cases')
+    ->name('organs.cases');
 Volt::route('organs/{organSlug}', 'pages.organ-show')
     ->name('organs.show');
 Volt::route('varhany/{organSlug}', 'pages.organ-show')

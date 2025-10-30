@@ -37,6 +37,17 @@ enum OrganCategory: int implements Category
     case WindchestKegel = 16;           // kuželková
     case WindchestMembran = 17;         // membránová
     case WindchestUnit = 20;            // unit
+
+    case CaseRenaissance = 23;
+    case CaseBaroque = 24;
+    case CaseRococo = 25;
+    case CaseClassicistic = 26;
+    case CaseEmpire = 27;
+    case CaseNeogothic = 28;
+    case CaseNeoromanesque = 29;
+    case CaseNeobaroque = 30;
+    case CaseArtNouveau = 31;
+    case CaseModern = 32;
     
     const DATA = [
         self::BuiltTo1799->value            => ['name' => 'do 1799'],
@@ -121,11 +132,51 @@ enum OrganCategory: int implements Category
             'name' => 'Vzdušnice unit',
             'description' => 'Úsporná konstrukce varhan, při níž se jedna řada píšťal používá pro několik rejstříků současně'
         ],
+
+        self::CaseRenaissance->value => [
+            'name' => 'Renesanční skříně',
+        ],
+        self::CaseBaroque->value => [
+            'name' => 'Barokní skříně',
+        ],
+        self::CaseRococo->value => [
+            'name' => 'Rokokové skříně',
+        ],
+        self::CaseClassicistic->value => [  
+            'name' => 'Klasicistní skříně',
+        ],
+        self::CaseEmpire->value => [  
+            'name' => 'Empírové skříně',
+        ],
+        self::CaseNeogothic->value => [
+            'name' => 'Neogotické skříně',
+        ],
+        self::CaseNeoromanesque->value => [
+            'name' => 'Neorománské skříně',
+        ],
+        self::CaseNeobaroque->value => [
+            'name' => 'Neobarokní skříně',
+        ],
+        self::CaseArtNouveau->value => [
+            'name' => 'Secesní skříně',
+        ],
+        self::CaseModern->value => [
+            'name' => 'Moderní skříně',
+        ],
     ];
     
     public function getValue(): int
     {
         return $this->value;
+    }
+
+    public function getOrderValue(): int
+    {
+        // srv. Organ::organCategories()
+        return match ($this) {
+            static::BuiltFrom1860To1944 => 2.5,
+            default => $this->value,
+        };
     }
     
     public function getColor(): string
@@ -148,10 +199,7 @@ enum OrganCategory: int implements Category
     
     public function isTechnicalCategory()
     {
-        return in_array($this, [
-            static::ActionMechanical, static::ActionPneumatical, static::ActionElectrical, static::ActionBarker,
-            static::WindchestSchleif, static::WindchestKegel, static::WindchestMembran, static::WindchestUnit,
-        ]);
+        return $this->isActionCategory() || $this->isWindchestCategory();
     }
     
     public function isActionCategory()
@@ -165,6 +213,14 @@ enum OrganCategory: int implements Category
     {
         return in_array($this, [
             static::WindchestSchleif, static::WindchestKegel, static::WindchestMembran, static::WindchestUnit,
+        ]);
+    }
+    
+    public function isCaseCategory()
+    {
+        return in_array($this, [
+            static::CaseRenaissance, static::CaseBaroque, static::CaseRococo, static::CaseClassicistic,
+            static::CaseNeogothic, static::CaseNeoromanesque, static::CaseNeobaroque, static::CaseArtNouveau, static::CaseModern
         ]);
     }
     
@@ -194,6 +250,7 @@ enum OrganCategory: int implements Category
             $group = match (true) {
                 $category->isPeriodCategory() => 'periodCategories',
                 $category->isTechnicalCategory() => 'technicalCategories',
+                $category->isCaseCategory() => 'caseCategories',
                 default => 'generalCategories'
             };
             $groups[$group][] = $category;
@@ -207,6 +264,7 @@ enum OrganCategory: int implements Category
             'periodCategories' => 'Kategorie podle období',
             'technicalCategories' => 'Kategorie podle stavby',
             'generalCategories' => 'Kategorie podle typu',
+            'caseCategories' => 'Kategorie podle stylu skříně',
             default => throw new \RuntimeException
         };
     }

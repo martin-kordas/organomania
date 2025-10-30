@@ -105,10 +105,12 @@ class AbstractRepository
     protected function getCategoriesHelp(
         Model $model,
         $withCount,
+        $allowIds = []
     )
     {
         $builder = $model->query();
         if (!empty($withCount)) $builder->withCount($withCount);
+        if (!empty($allowIds)) $builder->whereIn('id', $allowIds);
         return $builder->get();
     }
     

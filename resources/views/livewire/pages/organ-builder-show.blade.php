@@ -150,17 +150,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             if (isset($organ->image_url, $organ->outside_image_url)) {
                 $details = [];
                 if (isset($organ->year_built)) $details[] = $organ->year_built;
-                if (isset($organ->case_organ_builder_id) || isset($organ->case_organ_builder_name)) $details[] = __('skříň starší');
+                if (isset($organ->case_organ_builder_id) || isset($organ->case_organ_builder_name)) {
+                    $details[] = __('skříň starší');
+                    $shownInCases = false;
+                }
+                else $shownInCases = $organ->isPublic() && isset($organ->year_built);
                 $year = !empty($details) ? implode(', ', $details) : null;
 
                 $caption = view('components.organomania.organ-link', [
                     'organ' => $organ,
                     'showSizeInfo' => true,
+                    'showSizeInfoOriginal' => true,
                     'showShortPlace' => true,
                     'iconLink' => false,
                     'year' => $year,
                 ])->render();
-                $images[] = [$organ->image_url, $organ->image_credits, $caption];
+                $images[] = [$organ->image_url, $organ->image_credits, $caption, false, $shownInCases];
             }
         }
         $organIds = $this->organBuilder->organs->pluck('id');
@@ -187,7 +192,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         foreach ($this->organBuilder->caseOrgans as $organ) {
             if (isset($organ->image_url, $organ->outside_image_url) && !$organIds->contains($organ->id)) {
                 $details = [];
-                if (isset($organ->case_year_built)) $details[] = $organ->case_year_built;
+                if (isset($organ->case_year_built)) {
+                    $details[] = $organ->case_year_built;
+                    $shownInCases = $organ->isPublic();
+                }
+                else $shownInCases = false;
                 $details[] = __('dochována skříň');
                 $year = implode(", ", $details);
 
@@ -198,21 +207,40 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'showShortPlace' => true,
                     'showDescription' => false,   // jde už o úplně jiné varhany, akduální varhanář postavil jen skříň
                 ])->render();
-                $images[] = [$organ->image_url, $organ->image_credits, $caption];
+                $images[] = [$organ->image_url, $organ->image_credits, $caption, false, $shownInCases];
             }
         }
 
-        // 4) HACK: varhany varhanáře ručně doplněné v kódu (správně má být uloženo v db.)
-        foreach ($this->additionalImages as [$imageUrl, $imageCredits, $name, $details]) {
-            $content = e($name);
-            if (isset($details)) $content .= sprintf(" <span class='text-body-secondary'>(%s)</span>", e($details));
+        // 4) varhany varhanáře v dodatečných obrázcích
+        foreach ($this->organBuilder->additionalImages as $additionalImage) {
+            $content = '<i class="bi-music-note-list"></i> ';
+            $content .= e($additionalImage->name);
 
-            $images[] = [$imageUrl, $imageCredits, $content, true];
+            $details = [];
+            if (isset($additionalImage->organ_builder_name)) $details[] = $additionalImage->organ_builder_name;
+            if (isset($additionalImage->year_built)) $details[] = $additionalImage->year_built;
+            if (isset($additionalImage->details)) $details[] = $additionalImage->details;
+            if (!empty($details)) {
+                $detailsStr = implode(', ', $details);
+                $content .= sprintf(" <span class='text-body-secondary'>(%s)</span>", e($detailsStr));
+            }
+            $shownInCases = !$additionalImage->nonoriginal_case && !$additionalImage->organ_exists;
+
+            $images[] = [$additionalImage->image_url, $additionalImage->image_credits, $content, true, $shownInCases];
         }
         
         usort($images, $this->compareImages(...));
 
         return $images;
+    }
+
+    #[Computed]
+    public function imagesShownInCases()
+    {
+        return array_filter(
+            $this->images,
+            fn ($image) => ($image[4] ?? false) === true
+        );
     }
     
     private function compareImages(array $image1, array $image2)
@@ -227,369 +255,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $matches = [];
         if (preg_match('/[0-9]{4}/', $caption, $matches)) return $matches[0];
         return null;
-    }
-
-    #[Computed]
-    public function additionalImages()
-    {
-        return match ($this->organBuilder->id) {
-            3 => [
-                [
-                    '/images/hranice.jpg',
-                    'Palickap, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Hranice, Stětí sv. Jana Křtitele',
-                    '1767, II/20, dochována skříň'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/St._Wenceslaus_Mikulov_organ.JPG/360px-St._Wenceslaus_Mikulov_organ.JPG',
-                    'PetrS., CC BY-SA 4.0, via Wikimedia Commons',
-                    'Mikulov, sv. Václava',
-                    '1771, II/19'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/%C5%A0a%C5%A1t%C3%ADn_bazilika_41.jpg/640px-%C5%A0a%C5%A1t%C3%ADn_bazilika_41.jpg',
-                    'Ľuboš Repta, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Šaštín, Sedmibolestné Panny Marie',
-                    '1771, II/23, dochována skříň'
-                ],
-            ],
-            4 => [
-                [
-                    '/images/brno-sv-tomas.jpg',
-                    'Jan Fejgl',
-                    'Brno, sv. Tomáše',
-                    '1700, III/40, dochována skříň'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Wien_-_Michaelerkirche%2C_Orgelempore.JPG/320px-Wien_-_Michaelerkirche%2C_Orgelempore.JPG',
-                    '© C.Stadler/Bwag or © C.Stadler/Bwag; CC-BY-SA-4.0, via Wikimedia Commons',
-                    'Vídeň, sv. Michaela',
-                    '1714, III/40'
-                ],
-                [
-                    '/images/holesov.jpg',
-                    'Jan Fejgl',
-                    'Holešov, Nanebevzetí Panny Marie',
-                    'F. I. Sieber, 1760, II/18'
-                ]
-            ],
-            22 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Jablonec_nad_Nisou_-_kostel_Dr._Farsk%C3%A9ho_12.jpg/960px-Jablonec_nad_Nisou_-_kostel_Dr._Farsk%C3%A9ho_12.jpg',
-                    'Dominik Matus, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Jablonec nad Nisou, husitský kostel',
-                    '1940, III/34'
-                ]
-            ],
-            9 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/A_1989_489_z_20.02.1959_Ko%C5%9Bci%C3%B3%C5%82_parafialny_Wniebowzi%C4%99cia_NMP_%28d._klasztorny_NMP_%C5%81askawej%29_8.jpg/640px-A_1989_489_z_20.02.1959_Ko%C5%9Bci%C3%B3%C5%82_parafialny_Wniebowzi%C4%99cia_NMP_%28d._klasztorny_NMP_%C5%81askawej%29_8.jpg',
-                    'Fotonews, CC BY-SA 3.0 PL, via Wikimedia Commons',
-                    'Křešov, Nanebevzetí Panny Marie',
-                    '1736, III/53'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Breslau_St._Elizabeth_04.jpg/429px-Breslau_St._Elizabeth_04.jpg',
-                    'ErwinMeier, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Vratislav, sv. Alžběty',
-                    '1761, III/54, novodobá replika'
-                ],
-            ],
-            60 => [
-                [ 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG/640px-Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG',
-                    'Capkova Pavlina, CC BY-SA 3.0, via Wikimedia Commons',
-                    'Olomouc, Navštívení P. Marie (Svatý Kopeček)',
-                    '1724, dochována skříň'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Minorite_Brno_fc04.jpg/640px-Minorite_Brno_fc04.jpg',
-                    'Fczarnowski, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Brno, sv. Janů',
-                    '1732, přestavěno'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Rajhrad_Monastery_5884.JPG/960px-Rajhrad_Monastery_5884.JPG',
-                    'User:Karl Gruber, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Rajhrad, sv. Petra a Pavla',
-                    '1733, II/22, dochována skříň'
-                ],
-                [
-                    '/images/olomouc-hradisko.jpg',
-                    '',
-                    'Olomouc, sv. Štěpána (Klášterní Hradisko)',
-                    '1740, I/10, autorem Richter nebo F. I. Sieber'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Velehrad_-_48448317417.jpg/640px-Velehrad_-_48448317417.jpg',
-                    'liakada-web, CC BY 2.0, via Wikimedia Commons',
-                    'Velehrad, Nanebevzetí P. Marie',
-                    '1747, dochována skříň'
-                ],
-            ],
-            71 => [
-                [
-                    '/images/praha-sv-vorsila.jpg',
-                    'Jan Fejgl',
-                    'Praha, sv. Voršily (Nové Město)',
-                    '1727, dochována skříň'
-                ],
-            ],
-            50 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Kostel_sv._M%C3%A1%C5%99%C3%AD_Magdal%C3%A9ny_v_D%C4%9Btmarovic%C3%ADch%2C_kruchta_s_varhany._Noc_kostel%C5%AF_20150529.jpg/640px-Kostel_sv._M%C3%A1%C5%99%C3%AD_Magdal%C3%A9ny_v_D%C4%9Btmarovic%C3%ADch%2C_kruchta_s_varhany._Noc_kostel%C5%AF_20150529.jpg',
-                    'Ikcur, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Dětmarovice, sv. Maří Magdalény',
-                    '1871, II/18'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Varhany_z_roku_1885.jpg/512px-Varhany_z_roku_1885.jpg',
-                    'Tomáš Adamec, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Moravičany, sv. Jiří',
-                    '1885, II/17'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Kostel_Bo%C5%BEsk%C3%A9ho_srdce_P%C3%A1n%C4%9B_%28Bohum%C3%ADn%29_Interi%C3%A9r.jpg/640px-Kostel_Bo%C5%BEsk%C3%A9ho_srdce_P%C3%A1n%C4%9B_%28Bohum%C3%ADn%29_Interi%C3%A9r.jpg',
-                    'fotograf pro webovou stránku www.mesto-bohumin.cz, CC BY-SA 3.0, via Wikimedia Commons',
-                    'Bohumín, Božského srdce Páně',
-                    'K. Neusser, 1903?, II'
-                ],
-            ],
-            72 => [
-                [
-                    '/images/velke-heraltice.jpg',
-                    '',
-                    'Velké Heraltice, Neposkvrněného početí Panny Marie',
-                    '1756, II/13'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Kru%C5%BEberk_varhany.jpg/640px-Kru%C5%BEberk_varhany.jpg',
-                    'Ladin, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Kružberk, sv. Petra a Pavla',
-                    '1808, I/6'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Nov%C3%BD_Ji%C4%8D%C3%ADn_-_%C5%BDilina%2C_Kostel_sv._Mikul%C3%A1%C5%A1e%2C_Pohled_z_lodi_na_kruchtu.jpg/640px-Nov%C3%BD_Ji%C4%8D%C3%ADn_-_%C5%BDilina%2C_Kostel_sv._Mikul%C3%A1%C5%A1e%2C_Pohled_z_lodi_na_kruchtu.jpg',
-                    'Jakub Bartoň, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Nový Jičín, sv. Mikuláše (Žilina)',
-                    '1820, I/9'
-                ],
-            ],
-            44 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Lomnice_n._P._-_sv._Mikul%C3%A1%C5%A1_08.JPG/640px-Lomnice_n._P._-_sv._Mikul%C3%A1%C5%A1_08.JPG',
-                    'Hadonos, CC BY-SA 3.0, via Wikimedia Commons',
-                    'Lomnice nad Popelkou, sv. Mikuláše',
-                    '1882, II/20'
-                ]
-            ],
-            45 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Kostel_sv.Barbory_%C5%A0umperk-varhany.jpg/360px-Kostel_sv.Barbory_%C5%A0umperk-varhany.jpg',
-                    'Miroslava Fišerová, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Šumperk, sv. Barbory',
-                    '1904, I/8'
-                ]
-            ],
-            51 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Kostel_ve_Strahovsk%C3%A9m_kl%C3%A1%C5%A1te%C5%99e_FR02.jpg/640px-Kostel_ve_Strahovsk%C3%A9m_kl%C3%A1%C5%A1te%C5%99e_FR02.jpg',
-                    'Fried Marek, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Praha, Nanebevzetí Panny Marie (Strahov)',
-                    'dochována skříň'
-                ]
-            ],
-            69 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/GuentherZ_2013-07-15_0308_Vranov_nad_Dyj%C3%AD-Frain_an_der_Thaya_Pfarrkirche_Mari%C3%A4_Himmelfahrt.JPG/640px-GuentherZ_2013-07-15_0308_Vranov_nad_Dyj%C3%AD-Frain_an_der_Thaya_Pfarrkirche_Mari%C3%A4_Himmelfahrt.JPG',
-                    'GuentherZ, CC BY 3.0, via Wikimedia Commons',
-                    'Vranov nad Dyjí, Nanebevzetí Panny Marie',
-                    'II/15'
-                ]
-            ],
-            27 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Damn%C3%ADkov_%2822%29.jpg/320px-Damn%C3%ADkov_%2822%29.jpg',
-                    'Martina Bílá, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Damníkov, sv. Jana Křtitele',
-                    '1898, II/14'
-                ]
-            ],
-            76 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Kruchta_s_rokokov%C3%BDmi_varhanami_Horn%C3%AD_Brann%C3%A1.JPG/640px-Kruchta_s_rokokov%C3%BDmi_varhanami_Horn%C3%AD_Brann%C3%A1.JPG',
-                    'Bara.honlova, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Horní Branná, sv. Mikuláše',
-                    'A. Tauchmann, 1777'
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/%C3%9A%C5%A1t%C4%9Bk_kostel_sv._Petra_a_Pavla_interi%C3%A9r_varhany.jpg/640px-%C3%9A%C5%A1t%C4%9Bk_kostel_sv._Petra_a_Pavla_interi%C3%A9r_varhany.jpg',
-                    'VitVit, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Úštěk, sv. Petra a Pavla',
-                    'A. Tauchmann, 1802, dochována skříň'
-                ],
-            ],
-            6 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/2021-10-24_Church_of_Saints_Philip_and_James_%28Lelekovice%29_interior_2.jpg/640px-2021-10-24_Church_of_Saints_Philip_and_James_%28Lelekovice%29_interior_2.jpg',
-                    'Lasy, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Lelekovice, sv. Filipa a Jakuba',
-                    '1857, I/7'
-                ]
-            ],
-            37 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Da%C5%88kovice-kostel2013interi%C3%A9r.jpg/640px-Da%C5%88kovice-kostel2013interi%C3%A9r.jpg',
-                    'Ben Skála, Benfoto, CC BY-SA 3.0, via Wikimedia Commons',
-                    'Daňkovice, evangelický kostel',
-                    '1810, I/7, později rozšířeno'
-                ],
-            ],
-            62 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Brno_-_Kostel_sv._Tom%C3%A1%C5%A1e%2C_m%C3%ADstodr%C5%BEitelsk%C3%BD_pal%C3%A1c_a_alegorick%C3%A1_postava_spravedlnosti.jpg/640px-Brno_-_Kostel_sv._Tom%C3%A1%C5%A1e%2C_m%C3%ADstodr%C5%BEitelsk%C3%BD_pal%C3%A1c_a_alegorick%C3%A1_postava_spravedlnosti.jpg',
-                    'Millenium187, CC BY-SA 3.0, via Wikimedia Commons',
-                    'Brno, sv. Tomáše',
-                    null,
-                ]
-            ],
-            65 => [
-                [
-                    '/images/praha-karlov.jpg',
-                    'Jan Fejgl',
-                    'Praha, Nanebevzetí P. Marie a sv. Karla Velikého (Karlov)',
-                    '1734, II/16',
-                ],
-                [
-                    '/images/milicin.jpg',
-                    'Kristýna Kosíková',
-                    'Miličín, Narození P. Marie',
-                    '1755, II/16',
-                ]
-            ],
-            38 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Varhany_Rokytnice.JPG/640px-Varhany_Rokytnice.JPG',
-                    'Kmenicka, CC BY-SA 3.0, via Wikimedia Commons',
-                    'Rokytnice nad Jizerou, sv. Michala',
-                    '1760, dochována skříň',
-                ],
-                [
-                    '/images/malesov.jpg',
-                    null,
-                    'Malešov, sv. Václava',
-                    'II/13',
-                ],
-            ],
-            34 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Prag_Dom_St._Veit_10.jpg/435px-Prag_Dom_St._Veit_10.jpg',
-                    'ErwinMeier, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Praha, sv. Víta, horní varhany',
-                    'A. Gartner, 1765, dochována skříň',
-                ],
-            ],
-            46 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/F-Konojedy348.jpg/457px-F-Konojedy348.jpg',
-                    'M. Pröller, CC0, via Wikimedia Commons',
-                    'Konojedy, Nanebevzetí P. Marie, dnes ve Varnsdorfu',
-                    'F. Katzer, 1763, II/18',
-                ],
-            ],
-            1 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Varhanycerkostbrno.jpg/640px-Varhanycerkostbrno.jpg',
-                    'David Novák cs:Gothic2, CC BY 3.0, via Wikimedia Commons',
-                    'Brno, evangelický kostel J. A. Komenského',
-                    '1887, II/20',
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Krnov%2C_evangelick%C3%BD_kostel%2C_interi%C3%A9r_%28Archiv_%C4%8CCE%29_2.jpg/305px-Krnov%2C_evangelick%C3%BD_kostel%2C_interi%C3%A9r_%28Archiv_%C4%8CCE%29_2.jpg',
-                    'Evangelical Church of Czech Brethren archive, Ústřední archiv Českobratrské církve evangelické, CC BY-SA 4.0, via Wikimedia Commons',
-                    'Krnov, evangelický kostel',
-                    '1902, II/21',
-                ],
-                [
-                    '/images/zlin.jpg',
-                    'Jan Fejgl',
-                    'Zlín, sv. Filipa a Jakuba',
-                    '1930, II/29',
-                ],
-            ],
-            40 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Kostel_sv_Anton%C3%ADna_Praha_2012_4.jpg/471px-Kostel_sv_Anton%C3%ADna_Praha_2012_4.jpg',
-                    'Karelj, CC BY 3.0, via Wikimedia Commons',
-                    'Praha, sv. Antonína Paduánského (Holešovice)',
-                    '1913, III',
-                ],
-            ],
-            105 => [
-                [
-                    '/images/osek-feller.jpg',
-                    'Lukáš Dvořák',
-                    'Osek u Duchcova, Nanebevzetí P. Marie',
-                    '1838, II/33, dochována skříň',
-                ],
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/%C4%8Cesk%C3%A1_L%C3%ADpa%2C_kostel_V%C5%A1ech_svat%C3%BDch%2C_varhany_01.jpg/640px-%C4%8Cesk%C3%A1_L%C3%ADpa%2C_kostel_V%C5%A1ech_svat%C3%BDch%2C_varhany_01.jpg',
-                    'Daniel Baránek, CC BY-SA 3.0, via Wikimedia Commons',
-                    'Česká Lípa, Všech svatých',
-                    '1848, II/23',
-                ],
-            ],
-            66 => [
-                [
-                    '/images/rajnochovice.jpg',
-                    'Jan Fejgl',
-                    'Rajnochovice, Narození P. Marie',
-                    '1718, I/15, dochována skříň'
-                ]
-            ],
-            74 => [
-                [
-                    '/images/castolovice.jpg',
-                    'Martin Kordas',
-                    'Častolovice, sv. Víta',
-                    'Jiří Španěl st., 1795, II/14'
-                ],
-                [
-                    '/images/lukavice.jpg',
-                    'Jan Fejgl',
-                    'Lukavice, Nanebevzetí P. Marie',
-                    'Jiří Španěl st., 1801, II/12'
-                ],
-                [
-                    '/images/retova.jpg',
-                    'Martin Kordas',
-                    'Řetová, sv. Máří Magdaleny',
-                    '1850, II/20'
-                ],
-                [
-                    '/images/skuhrov-nad-belou.jpg',
-                    'Martin Kordas',
-                    'Skuhrov nad Bělou, sv. Jakuba Většího',
-                    '1835, II/12'
-                ]
-            ],
-            28 => [
-                [
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/St_Vitus_Cathedral_%E8%81%96%E7%B6%AD%E7%89%B9%E4%B8%BB%E6%95%99%E5%BA%A7%E5%A0%82_-_panoramio_%286%29.jpg/960px-St_Vitus_Cathedral_%E8%81%96%E7%B6%AD%E7%89%B9%E4%B8%BB%E6%95%99%E5%BA%A7%E5%A0%82_-_panoramio_%286%29.jpg',
-                    'lienyuan lee, CC BY 3.0, via Wikimedia Commons',
-                    'Praha, Všech Svatých (dříve Kladruby)',
-                    '1726, II'
-                ]
-            ],
-            55 => [
-                [
-                    '/images/dolni-lanov.jpg',
-                    'Jan Fejgl',
-                    'Dolní Lánov, sv. Jakuba',
-                    'Ignác Prediger, 1828, II/24'
-                ]
-            ],
-            default => []
-        };
     }
 
     #[Computed]
@@ -725,7 +390,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
     @endif
     
-    <table class="table mb-2">
+    <table class="table show-table mb-2">
         @if (isset($organBuilder->place_of_birth))
             <tr>
                 <th>{{ __('Místo narození') }}</th>
@@ -798,7 +463,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endisset
         @if (isset($this->workshop_members))
         <tr>
-            <th>{{ __('Členové dílny') }}</th>
+            <th>
+                @if ($this->organBuilder->is_workshop)
+                    {{ __('Členové dílny') }}
+                @else
+                    {{ __('Členové rodu') }}
+                @endif
+            </th>
             <td>
                 <span class="pre-line">{!! $this->workshop_members !!}</span>
                 @if (isset($organBuilder->region_id) && $organBuilder->timelineItems->count() > 0)
@@ -905,7 +576,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
 
         @if (count($this->images) > 0)
-            <x-organomania.gallery-carousel :images="$this->images" class="my-4" />
+            <div class="my-4">
+                <x-organomania.gallery-carousel :images="$this->images" />
+                @if (count($this->imagesShownInCases) > 1)
+                    <div class="text-center mt-2">
+                        <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.cases', ['filterOrganBuilders' => [$organBuilder->id]]) }}" wire:navigate>
+                            {{ __('Přehled skříní')}}
+                            <span class="badge text-bg-secondary rounded-pill">{{ count($this->imagesShownInCases) }}</span>
+                        </a>
+                    </div>
+                @endif
+            </div>
         @endif
     </div>
         

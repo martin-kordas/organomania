@@ -109,6 +109,11 @@
         
         <x-organomania.welcome-card-small title="{{ __('O varhanách') }}" url="{{ route('about-organ') }}" icon="file-text">
             {{ __('Varhany a jejich stylový vývoj v českých zemích.') }}
+            <br />
+            {{ __('Navštivte také') }}
+            <a class="link-primary text-decoration-none btn-outline-secondary" href="{{ route('organs.cases') }}" wire:navigate @click.stop>
+                {{ __('Přehled varhanních skříní') }}
+            </a>
         </x-organomania.welcome-card-small>
         
         <div class="row text-center g-4 align-items-stretch">

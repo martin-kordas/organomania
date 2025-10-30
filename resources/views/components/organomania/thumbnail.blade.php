@@ -71,7 +71,17 @@
                         @php $categoryExists = true; @endphp
                     @endforeach
                     @foreach ($organ->{$this->categoriesRelation} as $category)
-                        @php $showCategory = !$category->getEnum()->isPeriodCategory() || in_array($category->getEnum(), [OrganCategory::FromBookBaroqueOrganBuilding, OrganBuilderCategory::FromBookBaroqueOrganBuilding]); @endphp
+                        @php
+                            $showCategory = 
+                                (
+                                    !$category->getEnum()->isPeriodCategory()
+                                    || in_array($category->getEnum(), [OrganCategory::FromBookBaroqueOrganBuilding, OrganBuilderCategory::FromBookBaroqueOrganBuilding])
+                                ) 
+                                && !(
+                                    $category instanceof OrganCategory
+                                    && $category->getEnum()->isCaseCategory()
+                                );
+                        @endphp
                         @if ($showCategory)
                             <x-organomania.category-badge :category="$category->getEnum()" wire:key="category-{{ $category->id }}" />
                             @php $categoryExists = true; @endphp

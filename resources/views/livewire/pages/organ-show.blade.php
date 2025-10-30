@@ -405,7 +405,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
       /* HACK */
       .organ-builder .text-secondary, .organ-builder .text-body-secondary { font-weight: normal !important; }
     </style>
-    <table class="table mb-2">
+    <table class="table show-table mb-2">
         <tr>
             {{-- HACK --}}
             @if ($organ->organBuilder?->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
@@ -821,7 +821,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <div wire:loading.block wire:target="suggestRegistration, describeDisposition" wire:loading.class="opacity-75" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
                             <x-organomania.spinner class="align-items-center h-100" :margin="false" />
                         </div>
-                        <div @class(['markdown', 'accordion-disposition', 'm-auto' => $organ->getDispositionColumnsCount() > 1]) style="column-count: {{ $organ->getDispositionColumnsCount() }}">{!! $this->disposition !!}</div>
+                        @php $columnCount = $organ->getDispositionColumnsCount() @endphp
+                        <div
+                            @class(['markdown', 'accordion-disposition', "column-count-$columnCount", 'm-auto' => $organ->getDispositionColumnsCount() > 1])
+                            @style(["column-count: $columnCount"])
+                        >{!! $this->disposition !!}</div>
                     </div>
                     
                     <x-organomania.info-alert class="mt-3 mb-1">

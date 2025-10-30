@@ -25,6 +25,7 @@ new class extends Component {
     private Collection $resultsOrganBuilders;
     private Collection $resultsRegisterNames;
     private int $resultsCount = 0;
+    private bool $showOrganBuildersFirst = false;
     
     public function boot()
     {
@@ -46,7 +47,13 @@ new class extends Component {
             
             if ($this->resultsCount <= 0 && mb_strlen($this->sanitizedSearch) >= 4) {
                 $sanitizedSearch = $this->sanitizedSearch;
-                $maxDistance = mb_strlen($this->sanitizedSearch) <= 4 ? 1 : 2;
+                
+                $searchLength = mb_strlen($this->sanitizedSearch);
+                $maxDistance = match(true) {
+                    $searchLength >= 7 => 3,
+                    $searchLength >= 5 => 2,
+                    default => 1
+                };
                 
                 if ($repairedSearch = $this->repairSearchWithOrgans($sanitizedSearch, $maxDistance)) {
                     $this->sanitizedSearch = $repairedSearch;
@@ -55,10 +62,15 @@ new class extends Component {
                 }
                 if ($this->resultsCount <= 0 && $repairedSearch = $this->repairSearchWithOrganBuilders($sanitizedSearch, $maxDistance)) {
                     $this->sanitizedSearch = $repairedSearch;
+                    $this->resultsOrgans = $this->getOrgans();
                     $this->resultsOrganBuilders = $this->getOrganBuilders();
-                    $this->resultsCount = $this->resultsOrganBuilders->count();
+                    $this->resultsCount = $this->resultsOrgans->count() + $this->resultsOrganBuilders->count();
                 }
             }
+
+            $this->showOrganBuildersFirst = $this->resultsOrganBuilders->contains(
+                fn (OrganBuilder $organBuilder) => $organBuilder->exact_name_match
+            );
         }
     }
 
@@ -134,6 +146,8 @@ new class extends Component {
                 $searchWildcard = "%{$this->sanitizedSearch}%";
 
                 $builder
+                    ->leftJoin('organ_builder_additional_images', 'organ_builder_additional_images.organ_builder_id', 'organ_builders.id')
+                    ->groupBy('organ_builders.id')
                     // přednostně varhanáři, kde je nějaký výskyt hledaného výrazu v údajích v našeptávači (jméno, lokalita)
                     ->orderBy('highlighted', 'DESC')
                     // pokud je výskyt hledaného výrazu jen ve skrytých textech (description atd.), řadit podle míry shody
@@ -142,7 +156,7 @@ new class extends Component {
                     ->orderByName()
                     ->take(8)
                     ->select([
-                        'id', 'slug',
+                        'organ_builders.id', 'slug',
                         'is_workshop', 'workshop_name', 'first_name', 'last_name',
                         'active_period', 'municipality', 'importance',
                         'baroque', 'user_id',
@@ -157,7 +171,17 @@ new class extends Component {
                     ->selectRaw(
                         'MATCH(first_name, last_name, perex, description, workshop_members) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
                         [$this->sanitizedSearch]
-                    );
+                    )
+                    ->selectRaw('
+                        IFNULL(workshop_name, "") = ?
+                        OR IFNULL(last_name, "") = ?
+                        OR CONCAT(
+                            IFNULL(first_name, ""),
+                            " ",
+                            IFNULL(last_name, "")
+                        ) = ?
+                        AS exact_name_match
+                    ', [$this->sanitizedSearch, $this->sanitizedSearch, $this->sanitizedSearch]);
             })
             ->get()
             ->append(['name']);
@@ -179,6 +203,7 @@ new class extends Component {
             $distance1 = $this->compareSearches($search, $organ->municipality);
             
             if ($distance1 <= $maxDistance && $distance1 < $distance) {
+                $distance = $distance1;
                 $municipality = $organ->municipality;
             }
         }
@@ -201,6 +226,7 @@ new class extends Component {
             $distance1 = $this->compareSearches($search, $organBuilder->search_name);
             
             if ($distance1 <= $maxDistance && $distance1 < $distance) {
+                $distance = $distance1;
                 $name = $organBuilder->search_name;
             }
         }
@@ -217,9 +243,12 @@ new class extends Component {
     private function compareSearches(string $search1, string $search2)
     {
         // porovnáváme jen zadanou část slova
-        $length = min(mb_strlen($search1), mb_strlen($search2));
-        $str1 = mb_substr($this->getSearchForComparison($search1), 0, $length);
-        $str2 = mb_substr($this->getSearchForComparison($search2), 0, $length);
+        if (mb_strlen($search1) < mb_strlen($search2)) {
+            $search2 = mb_substr($search2, 0, mb_strlen($search1));
+        }
+        
+        $str1 = $this->getSearchForComparison($search1);
+        $str2 = $this->getSearchForComparison($search2);
         return levenshtein($str1, $str2);
     }
 
@@ -280,72 +309,16 @@ new class extends Component {
                 </div>
                 <div class="search-results card position-absolute shadow w-100 z-1" x-show="isTyped" x-cloak style="display: none;">
                     @if ($this->resultsCount > 0)
-                        @if ($this->resultsOrgans->isNotEmpty())
-                            <div class="card-header fw-bold">
-                                <i class="bi-music-note-list"></i> 
-                                @if ($this->showLastViewed)
-                                    {{ __('Poslední zobrazené varhany') }}
-                                @else
-                                    {{ __('Varhany') }}
-                                @endif
-                            </div>
-                            <div class="list-group list-group-flush">
-                                @foreach ($this->resultsOrgans as $organ)
-                                    <a class="list-group-item list-group-item-action" href="{{ route('organs.show', ['organSlug' => $organ->slug]) }}" wire:navigate>
-                                        @if ($this->showLastViewed)
-                                            <i class="bi-clock-history"></i>
-                                        @endif
-                                        {!! $this->highlight($organ->municipality) !!}, {!! $this->highlight($organ->place) !!}
-                                        @if (!$organ->isPublic())
-                                            <i class="bi-lock text-warning"></i>
-                                        @endif
-                                        @if ($organ->baroque)
-                                            <span class="badge text-bg-light text-wrap">{{ __('Barokní varhanářství na Moravě') }}</span>
-                                        @endif
-                                        <br />
-                                        <small class="hstack text-secondary">
-                                            <span>
-                                                {!! $this->highlight($organ->organBuilder?->name ?? __('neznámý varhanář')) !!}
-                                                @isset($organ->year_built)
-                                                    ({{ $organ->year_built }})
-                                                @endisset
-                                            </span>
-                                            @if (!$organ->shouldHideImportance())
-                                                <x-organomania.stars class="ms-auto" :count="round($organ->importance / 2)" />
-                                            @endif
-                                        </small>
-                                    </a>
-                                @endforeach
-                            </div>
+                        @if ($this->showOrganBuildersFirst && $this->resultsOrganBuilders->isNotEmpty())
+                            <x-organomania.search.organ-builders :organBuilders="$this->resultsOrganBuilders" />
                         @endif
 
-                        @if ($this->resultsOrganBuilders->isNotEmpty())
-                            <div class="card-header fw-bold">
-                                <i class="bi-person-circle"></i> {{ __('Varhanáři') }}
-                            </div>
-                            <div class="list-group list-group-flush">
-                                @foreach ($this->resultsOrganBuilders as $organBuilder)
-                                    <a class="list-group-item list-group-item-action" href="{{ route('organ-builders.show', ['organBuilder' => $organBuilder->slug]) }}" wire:navigate>
-                                        {!! $this->highlight($organBuilder->name) !!}
-                                        @if (!$organBuilder->isPublic()) 
-                                            <i class="bi-lock text-warning"></i>
-                                        @endif
-                                        @if ($organBuilder->baroque)
-                                            <span class="badge text-bg-light text-wrap">{{ __('Barokní varhanářství na Moravě') }}</span>
-                                        @endif
-                                        @if ($organBuilder->active_period)
-                                            <span class="text-secondary">({{ $organBuilder->active_period }})</span>
-                                            <br />
-                                            <small class="hstack text-secondary">
-                                                <span>{!! $this->highlight($organBuilder->municipality) !!}</span>
-                                                @if (!$organBuilder->shouldHideImportance())
-                                                    <x-organomania.stars class="ms-auto" :count="round($organBuilder->importance / 2)" />
-                                                @endif
-                                            </small>
-                                        @endif
-                                    </a>
-                                @endforeach
-                            </div>
+                        @if ($this->resultsOrgans->isNotEmpty())
+                            <x-organomania.search.organs :organs="$this->resultsOrgans" :showLastViewed="$this->showLastViewed" />
+                        @endif
+                        
+                        @if (!$this->showOrganBuildersFirst && $this->resultsOrganBuilders->isNotEmpty())
+                            <x-organomania.search.organ-builders :organBuilders="$this->resultsOrganBuilders" />
                         @endif
 
                         @if (!$this->showLastViewed)
@@ -360,29 +333,7 @@ new class extends Component {
                         @endif
 
                         @if ($this->resultsRegisterNames->isNotEmpty())
-                            <div class="card-header fw-bold">
-                                <i class="bi-record-circle"></i> {{ __('Rejstříky') }}
-                            </div>
-                            <div class="list-group list-group-flush">
-                                @foreach ($this->resultsRegisterNames as $registerName)
-                                    <a
-                                        class="list-group-item list-group-item-action d-flex column-gap-1 align-items-center"
-                                        href="{{ route('dispositions.registers.show', ['registerName' => $registerName->slug]) }}"
-                                        wire:navigate
-                                    >
-                                        <span class="me-auto">
-                                            {!! $this->highlight($registerName->name) !!}
-                                            @if (!$registerName->hide_language)
-                                                <span class="text-body-secondary">({{ $registerName->language }})</span>
-                                            @endif
-                                        </span>
-
-                                        <span class="badge text-bg-primary">
-                                            {{ $registerName->register->registerCategory->getName() }}
-                                        </span>
-                                    </a>
-                                @endforeach
-                            </div>
+                            <x-organomania.search.register-names :registerNames="$this->resultsRegisterNames" />
                         @endif
                     @else
                         @if (!$this->showLastViewed)

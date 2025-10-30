@@ -188,9 +188,10 @@ class OrganRepository extends AbstractRepository
     
     public function getCategories(
         $withCount = self::CATEGORIES_WITH_COUNT,
+        $allowIds = []
     )
     {
-        return $this->getCategoriesHelp(new OrganCategoryModel, $withCount);
+        return $this->getCategoriesHelp(new OrganCategoryModel, $withCount, $allowIds);
     }
     
     public function getCustomCategories(

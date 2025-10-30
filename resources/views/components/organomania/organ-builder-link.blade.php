@@ -5,7 +5,7 @@
 @props([
     'organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'isCaseBuilt' => false,
     'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showIcon' => true, 'showDescription' => true, 'showOrganWerk' => false,
-    'placeholder' => __('neznámý varhanář'), 'iconLink' => true,
+    'placeholder' => __('neznámý varhanář'), 'shortDetails' => false, 'iconLink' => true, 'newTab' => false,
     'signed' => false,
 ])
 
@@ -30,7 +30,7 @@
     <a
         {{ $attributes->class(['organ-builder-link', 'align-items-start', 'link-primary', 'text-decoration-none', 'icon-link' => $iconLink, 'icon-link-hover'=> $iconLink]) }}
         href="{{ url($href) }}"
-        wire:navigate
+        @if ($newTab) target="_blank" @else wire:navigate @endif
         @if ($description)
             data-bs-trigger="hover focus"
             data-bs-toggle="popover"
@@ -41,8 +41,8 @@
         @if ($showIcon)
             <i class="bi bi-person-circle"></i>
         @endif
-        <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$showOrganWerk :$placeholder />
+        <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$showOrganWerk :$shortDetails :$placeholder />
     </a>
 @else
-    <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$showOrganWerk :$placeholder />
+    <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$showOrganWerk :$shortDetails :$placeholder />
 @endif

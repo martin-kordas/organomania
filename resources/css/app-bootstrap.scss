@@ -183,6 +183,9 @@ div.side-buttons {
             overflow: hidden;
             white-space: nowrap;
         }
+        .carousel-caption > p {
+            display: block !important;
+        }
     }
 
     &.expanded {
@@ -266,6 +269,9 @@ gmp-advanced-marker:not([data-label='']) {
 .items-list {
     line-height: 1.7;
 }
+table.show-table th {
+    font-weight: 600;
+}
 
 .song-number {
     display: inline-block;
@@ -298,6 +304,11 @@ gmp-advanced-marker:not([data-label='']) {
 
     @media screen and (max-width: 767px) {
         max-width: 22em;
+    }
+    @media screen and (min-width: 768px) {
+        &.column-count-2 {
+            max-width: 35em;
+        }
     }
 }
 
@@ -797,6 +808,9 @@ gmp-advanced-marker:not([data-label='']) {
     .terms {
         max-width: 750px;
     }
+    ul {
+        overflow: hidden;
+    }
 }
 
 .organists {
@@ -829,6 +843,19 @@ gmp-advanced-marker:not([data-label='']) {
         .organist-stats {
             font-size: 85%;
         }
+    }
+}
+
+.cases {
+    .case-image {
+        max-height: 15em;
+        max-width: 100%;
+    }
+    .organ-builder-link .text-secondary {
+        font-size: 70%;
+    }
+    .radio-label {
+        width: 5.4em;
     }
 }
 

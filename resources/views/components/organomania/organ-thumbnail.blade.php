@@ -28,17 +28,17 @@
             </h5>
             <div class="mb-1">
                 @if (isset($organ->caseOrganBuilder))
-                    <x-organomania.organ-builder-link :organBuilder="$organ->caseOrganBuilder" :yearBuilt="$organ->case_year_built" :isCaseBuilt="true" />
+                    <x-organomania.organ-builder-link :organBuilder="$organ->caseOrganBuilder" :yearBuilt="$organ->case_year_built" :isCaseBuilt="true" :shortDetails="true" />
                     <br />
                 @elseif (isset($organ->case_organ_builder_name) && $organ->case_organ_builder_name !== 'neznámý')
                     <i class="bi bi-person-circle"></i>
                     {{ $organ->case_organ_builder_name }}
-                    @php $details = []; if ($organ->case_year_built) $details[] = $organ->case_year_built; $details[] = __('varhanní skříň'); @endphp
+                    @php $details = []; if ($organ->case_year_built) $details[] = $organ->case_year_built; $details[] = __('skříň'); @endphp
                     <span class="text-secondary">({{ implode(', ', $details) }})</span>
                     <br />
                 @endif
                 
-                <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" :showOrganWerk="isset($organ->caseOrganBuilder) || isset($organ->case_organ_builder_name)" />
+                <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" :showOrganWerk="$organ->hasCaseOrganBuilder()" :shortDetails="true" />
                 
                 @foreach ($organ->organRebuilds as $rebuild)
                     @if ($rebuild->organBuilder)

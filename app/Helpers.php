@@ -125,6 +125,19 @@ class Helpers
             $count <= 4 => $text2,
         };
     }
+
+    static function makeInitials(string $string): string
+    {
+        return str($string)
+            ->explode(' ')
+            ->map(function($word) { 
+                // slovo musí začínat velkým písmenem
+                return preg_match('/^\p{Lu}/u', $word)
+                    ? str($word)->substr(0, 1) . '.'
+                    : $word; 
+            })
+            ->join(' ');
+    }
     
     static function formatUrl($url)
     {

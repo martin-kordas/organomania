@@ -100,7 +100,18 @@
                         Barokní skříň umístěná na kůru tedy nutně neznamená, že se tam nachází i barokní varhany.
                         Také podoba samotného varhanního stroje může být výsledkem přestaveb, realizovaných postupně v různých časových obdobích.
                         Varhanním skříním se v textu věnujeme spíše okrajově.
-                        Můžete si nicméně zobrazit <a class="text-decoration-none" href="{{ route('organs.index', ['filterCategories' => [OrganCategory::ValuableCase]]) }}" target="_blank">přehled varhan s mimořádně cennou skříní</a>.
+                    </p>
+                    
+                    <p class="mb-0">
+                        Můžete si nicméně zobrazit:
+                        <ul>
+                            <li>
+                                <a class="text-decoration-none" href="{{ route('organs.index', ['filterCategories' => [OrganCategory::ValuableCase]]) }}" target="_blank">Varhany s kategorií „Mimořádně cenná skříň“</a>
+                            </li>
+                            <li>
+                                <a class="text-decoration-none" href="{{ route('organs.cases') }}" target="_blank">Varhanní skříně</a> &ndash; přehled dostupných fotografií varhanních skříní
+                            </li>
+                        </ul>
                     </p>
                     
                     <p>
@@ -223,6 +234,15 @@
                     </div>
 
                     <h5 id="baroqueBohemia">Barokní varhanářství v Čechách</h5>
+
+                    <div class="me-3 mb-3 float-md-start text-center mx-auto" style="width: 350px; max-width: 100%;" title="Licence obrázku: Ludek, CC BY-SA 3.0, via Wikimedia Commons">
+                        <img class="rounded mb-2 w-100" src="/images/praha-krizovnici.jpg" />
+                        <br />
+                        <em>
+                            <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KRIZOVNICI]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
+                            &ndash; příklad hracího stolu zabudovaného do varhanní skříně
+                        </em>
+                    </div>
 
                     <p>
                         Za vrchol barokního varhanářství u nás bývá považováno dílo zakladatele <strong>loketské</strong> varhanářské školy <x-organomania.organ-builder-link :iconLink="false" name="Abraháma STARKA" activePeriod="1659–1709" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_STARKOVE]" :showActivePeriod="true" />. K jeho nejslavnějším dochovaným nástrojům patří varhany v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PLASY]" name="kostele Nanebevzetí Panny Marie v Plasích" :showSizeInfo="true" /> a o něco menší varhany v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_ZLATA_KORUNA]" name="kostele Nanebevzetí Panny Marie ve Zlaté Koruně" :showSizeInfo="true" />.
@@ -626,11 +646,13 @@
                     
                     <div class="text-center mb-4 mx-auto"style="width: 550px; max-width: 100%;">
                         <div class="position-relative d-inline-block">
-                            <img class="rounded mb-2" src="/images/kutna-hora-svaty-jakub-stul.jpg" style="max-width: 100%;" />
+                            <img class="rounded mb-2" src="/images/liberec-nalezeni-sv-krize-stul.jpg" title="Licence obrázku: Jan Fejgl (2025)" style="max-width: 100%;" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_KUTNA_HORA_SV_JAKUB_VELKE_VARHANY]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
-                                &ndash; hrací stůl s řadou pomocných zařízení
+                                <i class="bi-music-note-list"></i>
+                                Liberec, kostel Nalezení sv. Kříže
+                                <span class="text-secondary">(Rieger, 1891, II/23)</span>
+                                &ndash; hrací stůl s řadou pomocných zařízení ve formě šlapek nad pedály
                             </em>
                         </div>
                     </div>

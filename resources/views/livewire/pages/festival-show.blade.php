@@ -105,7 +105,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
     </div>
     
-    <table class="table mb-2">
+    <table class="table show-table mb-2">
         @isset($festival->locality)
             <tr>
                 <th>{{ __('Obec') }}</th>

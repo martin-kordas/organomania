@@ -34,6 +34,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ['column' => 'distance', 'label' => 'Vzdálenost', 'shortLabel' => 'Vzdál.', 'type' => 'numeric'],
         ['column' => 'starting_month', 'label' => 'Období', 'type' => 'numeric'],
         ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric'],
+        ['column' => 'views', 'label' => 'Počet zobrazení', 'type' => 'numeric'],
     ];
 
     public function boot(FestivalRepository $repository, Festival $model)

@@ -1,5 +1,5 @@
 @props([
-    'categoriesGroups', 'customCategoriesGroups', 'placeholder',
+    'categoriesGroups', 'customCategoriesGroups' => [], 'placeholder',
     'counts' => true, 'alwaysShowCustomCategories' => false,
     'model' => 'categoryId', 'id' => null, 'allowClear' => false, 'live' => false, 'small' => false
 ])
@@ -11,6 +11,7 @@
     $id ??= $model;
     $modelAttribute = $live ? "model.live" : "model";
     $customCategoryExists = !empty(Arr::flatten($customCategoriesGroups));
+    $showOptgroups = count($categoriesGroups) > 1 || $customCategoryExists;
 @endphp
 
 <select
@@ -40,7 +41,9 @@
     @endif
 
     @foreach ($categoriesGroups as $group => $categories)
-        <optgroup wire:key="{{ $group }}" label="{{ __(OrganCategory::getGroupName($group)) }}">
+        @if ($showOptgroups)
+            <optgroup wire:key="{{ $group }}" label="{{ __(OrganCategory::getGroupName($group)) }}">
+        @endif
             @foreach ($categories as $category)
                 @php $organsCount = $counts ? $this->getOrganCategoryOrganCount($category) : null; @endphp
                 <option wire:key="{{ $category->getValue() }}" title="{{ __($category->getDescription()) }}" value="{{ $category->value }}">
@@ -50,7 +53,9 @@
                     @endif
                 </option>
             @endforeach
-        </optgroup>
+        @if ($showOptgroups)
+            </optgroup>
+        @endif
     @endforeach
 </select>
 

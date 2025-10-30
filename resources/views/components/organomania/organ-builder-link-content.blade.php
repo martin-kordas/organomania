@@ -1,12 +1,15 @@
 @props([
     'organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'isCaseBuilt' => false,
     'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showOrganWerk' => false,
-    'placeholder' => __('neznámý varhanář')
+    'placeholder' => __('neznámý varhanář'), 'shortDetails' => false,
 ])
 
 @use(App\Models\OrganBuilder)
 
 @php
+    $case = $shortDetails ? __('skříň') : __('varhanní skříň');
+    $werk = $shortDetails ? __('stroj') : __('varhanní stroj');
+
     $details = [];
     if ($showActivePeriod || $showMunicipality) {
         if ($showActivePeriod) $details[] = $activePeriod ?? $organBuilder->active_period;
@@ -18,15 +21,15 @@
     elseif ($yearBuilt) {
         $yearBuiltStr = $yearBuilt;
         if ($isRebuild) $yearBuiltStr .= ', ' . __('přestavba');
-        elseif ($isCaseBuilt) $yearBuiltStr .= ', ' . __('varhanní skříň');
-        elseif ($showOrganWerk) $yearBuiltStr .= ', ' . __('varhanní stroj');
+        elseif ($isCaseBuilt) $yearBuiltStr .= ', ' . $case;
+        elseif ($showOrganWerk) $yearBuiltStr .= ', ' . $werk;
         $details[] = $yearBuiltStr;
     }
     // TODO: refactoring
     else {
         if ($isRebuild) $details[] =  __('přestavba');
-        elseif ($isCaseBuilt) $details[] = __('varhanní skříň');
-        elseif ($showOrganWerk) $details[] = __('varhanní stroj');
+        elseif ($isCaseBuilt) $details[] = $case;
+        elseif ($showOrganWerk) $details[] = $werk;
     }
     $regularName = $name ?? $organBuilder->name ?? null;
 @endphp
@@ -44,7 +47,7 @@
         <i class="bi bi-lock text-warning"></i>
     @endif
     @if (!empty($details))
-        <span class="text-secondary">
+        <span class="text-secondary fw-normal">
             ({{ implode(', ', $details) }})
         </span>
     @endif

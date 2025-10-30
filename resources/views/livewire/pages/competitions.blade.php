@@ -29,6 +29,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ['column' => 'max_age', 'label' => 'Max. věk', 'type' => 'numeric'],
         ['column' => 'participation_fee', 'label' => 'Poplatek', 'type' => 'numeric'],
         ['column' => 'first_prize', 'label' => '1. cena', 'type' => 'numeric'],
+        ['column' => 'views', 'label' => 'Počet zobrazení', 'type' => 'numeric'],
     ];
 
     public function boot(CompetitionRepository $repository, Competition $model)

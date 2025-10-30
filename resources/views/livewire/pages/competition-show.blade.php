@@ -120,7 +120,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </x-organomania.warning-alert>
     </div>
     
-    <table class="table">
+    <table class="table show-table">
         @isset($competition->locality)
             <tr>
                 <th>{{ __('Obec') }}</th>

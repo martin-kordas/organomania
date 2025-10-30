@@ -8,22 +8,22 @@
 
         <x-organomania.link-list class="mt-3">
             <x-organomania.link-list-item url="http://www.varhany.net">
-                {{ __('Varhany a varhanáři v České republice (varhany.net)') }}
+                <span class="fw-semibold">{{ __('Varhany a varhanáři v České republice') }}</span> (varhany.net)
                 <x-slot:description>{{ __('detailní odborná databáze varhan v ČR') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item url="https://casopisvarhanik.cz/">
-                {{ __('Časopis Varhaník') }}
+                <span class="fw-semibold">{{ __('Časopis Varhaník') }}</span>
                 <x-slot:description>{{ __('časopis pro varhanickou praxi') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item url="http://www.anatomie-varhan.cz/">
-                {{ __('Anatomie varhan') }}
+                <span class="fw-semibold">{{ __('Anatomie varhan') }}</span>
                 <x-slot:description>{{ __('podrobný web o varhanách a jejich konstrukci') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="instagram" url="https://www.instagram.com/janfejgl.organist/">
-                Jan Fejgl &ndash; Instagram
+                <span class="fw-semibold">Jan Fejgl</span> (Instagram)
                 <x-slot:description>{{ __('detailní fotografie a popisy zajímavých, převážně domácích nástrojů') }}</x-slot>
             </x-organomania.link-list-item>
         </x-organomania.link-list>
@@ -34,55 +34,55 @@
         <x-organomania.link-list class="mt-3">
             <x-organomania.link-list-item icon="book" url="https://www.klasikaplus.cz/rubrika/serial/varhany-a-varhanici/">
                 <x-slot:source>{{ __('Klasika Plus') }}</x-slot>
-                {{ __('Varhany a varhaníci') }}
+                <span class="fw-semibold">{{ __('Varhany a varhaníci') }}</span>
                 <x-slot:description>{{ __('seriál článků nejen o významných varhanách v ČR') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="book" url="https://operaplus.cz/serialy/prazske-varhany/">
                 <x-slot:source>{{ __('Opera+') }}</x-slot>
-                {{ __('Pražské varhany') }}
+                <span class="fw-semibold">{{ __('Pražské varhany') }}</span>
                 <x-slot:description>{{ __('seriál článků o vybraných varhanách v Praze') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="volume-up" url="https://vltava.rozhlas.cz/prazske-varhany-odhalte-s-nami-tajemstvi-techto-kralovskych-hudebnich-nastroju-8390495">
                 <x-slot:source>{{ __('Český rozhlas') }}</x-slot>
-                {{ __('Pražské varhany') }}
+                <span class="fw-semibold">{{ __('Pražské varhany') }}</span>
                 <x-slot:description>{{ __('série krátkých audiopořadů o vybraných varhanách v Praze') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="volume-up" url="https://vltava.rozhlas.cz/drevo-a-cin-9052430">
                 <x-slot:source>{{ __('Český rozhlas') }}</x-slot>
-                {{ __('Dřevo a cín') }}
+                <span class="fw-semibold">{{ __('Dřevo a cín') }}</span>
                 <x-slot:description>{{ __('podcast o varhanách v Santiniho kostelích, prokládaný improvizačními ukázkami') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="volume-up" url="https://vltava.rozhlas.cz/znejici-poklady-varhany-moravskoslezskeho-kraje-ve-stare-hudbe-8884410">
                 <x-slot:source>{{ __('Český rozhlas') }}</x-slot>
-                {{ __('Znějící poklady. Varhany Moravskoslezského kraje ve staré hudbě') }}
+                <span class="fw-semibold">{{ __('Znějící poklady') }}</span> &ndash; {{ __('Varhany Moravskoslezského kraje ve staré hudbě') }}
                 <x-slot:description>{{ __('pořad o zajímavých historických i nově postavených varhanách, proložený řadou nahrávek') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="camera-video" url="https://www.ceskatelevize.cz/porady/15013853311-varhanni-nej">
                 <x-slot:source>{{ __('Česká televize') }}</x-slot>
-                {{ __('Varhanní nej') }}
+                <span class="fw-semibold">{{ __('Varhanní nej') }}</span>
                 <x-slot:description>{{ __('cyklus půlhodinových televizních pořadů o zajímavých varhanách v ČR') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="camera-video" url="https://www.youtube.com/playlist?list=PLHvFzMdel2Kgo7vhyFEORAMmQ2JV-G4mD">
                 <x-slot:source>{{ __('Youtube') }}</x-slot>
-                {{ __('Konference pro varhany') }}
+                <span class="fw-semibold">{{ __('Konference pro varhany') }}</span>
                 <x-slot:description>{{ __('záznam přednášek, které zazněly na konferencích pořádaných HAMU v Praze a spolkem PROVARHANY') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="camera-video" url="https://www.dltm.cz/dokumentarni-cyklus-putovani-za-varhanami-litomericke-dieceze2">
                 <x-slot:source>{{ __('Youtube') }}</x-slot>
-                {{ __('Putování za varhanami Litoměřické diecéze') }}
+                <span class="fw-semibold">{{ __('Putování za varhanami Litoměřické diecéze') }}</span>
                 <x-slot:description>{{ __('cyklus výpravných pořadů o zajímavých varhanách, uváděný organologem Litoměřické diecéze Radkem Rejškem') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="camera-video" url="https://www.youtube.com/playlist?list=PL7vMTJUgGJKD5s697Q-1ZLoGLKUARVoKz">
                 <x-slot:source>{{ __('Youtube') }}</x-slot>
-                Tour of Stops &ndash; Filip Harant
+                <span class="fw-semibold">Tour of Stops</span> (Filip Harant)
                 <x-slot:description>{{ __('podrobná zvuková představení řady zajímavých historických varhan v českých zemích a na Slovensku') }}</x-slot>
             </x-organomania.link-list-item>
         </x-organomania.link-list>
@@ -94,41 +94,45 @@
         
         <x-organomania.link-list class="mt-3">
             <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/recenze/nejvyznamnejsi-varhany-ceske-republiky-426600">
-                Štěpán Svoboda, Jiří Krátký: Nejvýznamnější varhany v České republice
+                Štěpán Svoboda, Jiří Krátký: <span class="fw-semibold">Nejvýznamnější varhany v České republice</span>
                 <x-slot:description>{{ __('kniha obsahuje medailony více než 110 vzácných varhan, doplněné bohatým obrazovým materiálem') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/knihy/historicke-varhany-v-cechach-199635">
-                Lubomír Tomší et al.: Historické varhany v Čechách
+                Lubomír Tomší et al.: <span class="fw-semibold">Historické varhany v Čechách</span>
                 <x-slot:description>{{ __('kniha dokumentující řadu historických varhan na území Čech') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="book" url="https://www.cbdb.cz/kniha-255158-barokni-varhanarstvi-na-morave-dil-1-varhanari">
-                Jiří Sehnal: Barokní varhanářství na Moravě - I. Varhanáři
+                Jiří Sehnal: <span class="fw-semibold">Barokní varhanářství na Moravě - I. Varhanáři</span>
                 <x-slot:description>{{ __('odborná publikace detailně mapující varhanářství na Moravě až do poloviny 19. století') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="book" url="https://www.cbdb.cz/kniha-255157-barokni-varhanarstvi-na-morave-dil-2-varhany">
-                Jiří Sehnal: Barokní varhanářství na Moravě - II. Varhany
+                Jiří Sehnal: <span class="fw-semibold">Barokní varhanářství na Moravě - II. Varhany</span>
                 <x-slot:description>{{ __('druhá část publikace věnující se konkrétním varhanám') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/knihy/varhany-kralovehradecke-dieceze-82780">
-                Václav Uhlíř: Varhany Královéhradecké diecéze
+                Václav Uhlíř: <span class="fw-semibold">Varhany Královéhradecké diecéze</span>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/knihy/varhany-a-jejich-osudy-81909">
-                Jan Tomíček: Varhany a jejich osudy
+                Jan Tomíček: <span class="fw-semibold">Varhany a jejich osudy</span>
                 <x-slot:description>{{ __('sbírka čtivých pojednání o vybraných domácích varhanách a varhanářích') }}</x-slot>
             </x-organomania.link-list-item>
           
+            <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/prehled-knihy/vytvarny-vyvoj-varhannich-skrini-v-cechach-397826">
+                Jiří Belis: <span class="fw-semibold">Výtvarný vývoj varhanních skříní v Čechách</span>
+            </x-organomania.link-list-item>
+          
             <x-organomania.link-list-item icon="book" url="https://theses.cz/id/ugwhfa/">
-                Petra Novotná: Sochařská a řezbářská výzdoba barokních varhan v 18. století v Olomoucké arcidiecézi se zaměřením na děkanát Šumperk
+                Petra Novotná: <span class="fw-semibold">Sochařská a řezbářská výzdoba barokních varhan</span> v 18. století v Olomoucké arcidiecézi se zaměřením na děkanát Šumperk
                 <x-slot:description>{{ __('diplomová práce, která podrobně rozebírá naše barokní varhanářství, a to především po výtvarné stránce') }}</x-slot>
             </x-organomania.link-list-item>
             
             <x-organomania.link-list-item icon="book" url="https://bibliotekanauki.pl/journals/805/issues">
-                Folia Organologica
+                <span class="fw-semibold">Folia Organologica</span>
                 <x-slot:description>{{ __('odborný časopis o varhanách a varhanní hudbě s řadou příspěvků od českých autorů') }}</x-slot>
             </x-organomania.link-list-item>
         </x-organomania.link-list>
@@ -137,11 +141,11 @@
         
         <x-organomania.link-list class="mt-3">
             <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/knihy/organ-v-kulture-dvoch-tisicroci-294751">
-                Ferdinand Klinda: Organ v kultúre dvoch tisícročí
+                Ferdinand Klinda: <span class="fw-semibold">Organ v kultúre dvoch tisícročí</span>
                 <x-slot:description>{{ __('výpravná publikace o historii varhan a varhanní hudby v jednotlivých zemích a o konstrukční stránce nástroje') }}</x-slot>
             </x-organomania.link-list-item>
             <x-organomania.link-list-item icon="book" url="https://www.baerenreiter.cz/cs/dilo/belsky-vratislav/4518-nauka-o-varhanach">
-                Vratislav Bělský: Nauka o varhanách
+                Vratislav Bělský: <span class="fw-semibold">Nauka o varhanách</span>
                 <x-slot:description>{{ __('osvědčená publikace o historii, stavbě a zvukové podstatě varhan') }}</x-slot>
             </x-organomania.link-list-item>
           

@@ -1,6 +1,6 @@
 @props([
     'organ', 'name' => null, 'size' => null, 'year' => null,
-    'showOrganBuilder' => false, 'showSizeInfo' => false, 'showDescription' => true, 'showShortPlace' => false,
+    'showOrganBuilder' => false, 'showSizeInfo' => false, 'showSizeInfoOriginal' => false, 'showDescription' => true, 'showShortPlace' => false,
     'isRebuild' => false, 'isRenovation' => false, 'showIsHistoricalCase' => false, 'iconLink' => true, 'newTab' => false,
 ])
 
@@ -37,8 +37,8 @@
         @endif
     >
         <i class="bi bi-music-note-list"></i>
-        <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showSizeInfo :$showShortPlace :$isRebuild :$isRenovation :$showIsHistoricalCase />
+        <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showSizeInfo :$showSizeInfoOriginal :$showShortPlace :$isRebuild :$isRenovation :$showIsHistoricalCase />
     </a>
 @else
-    <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showSizeInfo :$showShortPlace :$isRebuild :$isRenovation :$showIsHistoricalCase />
+    <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showSizeInfo :$showSizeInfoOriginal :$showShortPlace :$isRebuild :$isRenovation :$showIsHistoricalCase />
 @endcan

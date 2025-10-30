@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Laravel\Scout\Searchable;
 use Laravel\Scout\Attributes\SearchUsingFullText;
+use App\Helpers;
 use App\Observers\OrganBuilderObserver;
 use App\Models\OrganBuilderCustomCategory;
 use App\Models\Region;
@@ -139,6 +140,11 @@ class OrganBuilder extends Model
         return $this->hasMany(Organ::class, 'case_organ_builder_id')->orderBy('case_year_built')->orderBy('id');
     }
     
+    public function additionalImages()
+    {
+        return $this->hasMany(OrganBuilderAdditionalImage::class)->orderByRaw('IFNULL(year_built, 9999)')->orderBy('id');
+    }
+    
     public function organBuilderCustomCategories()
     {
         return $this->belongsToMany(OrganBuilderCustomCategory::class)->withTimestamps()->orderBy('name');
@@ -244,6 +250,20 @@ class OrganBuilder extends Model
         );
     }
     
+    public function initialName(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                if (isset($attributes['short_name'])) return $attributes['short_name'];
+                elseif ($attributes['is_workshop']) return $attributes['workshop_name'];
+                else {
+                    $firstName = Helpers::makeInitials($attributes['first_name']);
+                    return "$firstName {$attributes['last_name']}";
+                }
+            }
+        );
+    }
+    
     public function typeName(): Attribute
     {
         return Attribute::make(
@@ -290,6 +310,7 @@ class OrganBuilder extends Model
                 'municipality', 'description', 'perex', 'workshop_members',
             ])
             + [
+                'organ_builder_additional_images.name' => '',
                 // HACK: díky tomuto se sloupce hledají i ne-fulltextově (i u description výhodné, protože hledá i neúplná slova)
                 'organ_builders.first_name' => '',
                 'organ_builders.last_name' => '',

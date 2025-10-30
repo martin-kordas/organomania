@@ -1,4 +1,8 @@
-@props(['organ', 'name' => null, 'size' => null, 'year' => null, 'yearBuilt' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'showShortPlace' => false, 'isRebuild' => false, 'isRenovation' => false, 'showIsHistoricalCase' => false])
+@props([
+    'organ', 'name' => null, 'size' => null, 'year' => null,
+    'yearBuilt' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'showSizeInfoOriginal' => false, 'showShortPlace' => false,
+    'isRebuild' => false, 'isRenovation' => false, 'showIsHistoricalCase' => false,
+])
 
 @use(App\Models\OrganBuilder)
 
@@ -21,8 +25,17 @@
     }
     elseif ($showSizeInfo) {
         if (isset($size)) $details[] = $size;
-        elseif ($organ->organ_rebuilds_count <= 0 && ($sizeInfo = $organ->getSizeInfo()))
-            $details[] = $sizeInfo;
+        else {
+            $showRebuilt = false;
+            if ($organ->organ_rebuilds_count <= 0) $showSizeInfo1 = true;
+            elseif ($showSizeInfoOriginal && $organ->hasOriginalSizeInfo()) $showSizeInfo1 = $showRebuilt = true;
+            else $showSizeInfo1 = false;
+
+            if ($showSizeInfo1 && ($sizeInfo = $organ->getSizeInfo($showSizeInfoOriginal))) {
+                $details[] = $sizeInfo;
+                if ($showRebuilt) $details[] = __('přestavěno');
+            }
+        }
     }
 @endphp
 

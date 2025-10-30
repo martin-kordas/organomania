@@ -86,7 +86,8 @@ class Organ extends Model
         ORGAN_ID_BOZKOV = 169,
         ORGAN_ID_KRNOV_KOSTEL_SV_DUCHA = 35,
         ORGAN_ID_LUDGEROVICE = 3,
-        ORGAN_ID_PRAHA_EMAUZY = 85;
+        ORGAN_ID_PRAHA_EMAUZY = 85,
+        ORGAN_ID_PRAHA_KRIZOVNICI = 71;
     
     protected $guarded = [];
     
@@ -123,7 +124,7 @@ class Organ extends Model
     
     public function organCategories()
     {
-        
+        // srv. OrganCategory::getOrderValue()
         return $this
             ->belongsToMany(OrganCategory::class)
             ->withTimestamps()
@@ -331,6 +332,11 @@ class Organ extends Model
         }
         return null;
     }
+
+    public function hasOriginalSizeInfo(): bool
+    {
+        return isset($this->original_manuals_count) && isset($this->original_stops_count);
+    }
     
     public function getDispositionColumnsCount()
     {
@@ -364,6 +370,11 @@ class Organ extends Model
         }
         
         return null;
+    }
+    
+    public function hasCaseOrganBuilder(): bool
+    {
+        return isset($this->caseOrganBuilder) || isset($this->case_organ_builder_name);
     }
     
     public function getLinkComponent()

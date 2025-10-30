@@ -32,6 +32,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ['column' => 'active_from_year', 'label' => 'Období', 'type' => 'numeric'],
         ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric'],
         ['column' => 'organs_count', 'label' => 'Počet varhan', 'type' => 'numeric', 'shortLabel' => 'Varhany'],
+        ['column' => 'views', 'label' => 'Počet zobrazení', 'type' => 'numeric'],
     ];
 
     public function boot(OrganBuilderRepository $repository, OrganBuilder $model, OrganBuilderCategoryModel $categoryModel)
