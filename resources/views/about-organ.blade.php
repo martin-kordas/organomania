@@ -176,14 +176,16 @@
                             <small>(ve spodní části klaviatury je tón D na místě Fis a tón E na místě Gis, ve výsledku tedy chybí tóny Cis, Dis, Fis a Gis)</small>
                         </em>
                     </div>
-                    
-                    <div class="ms-md-3 mb-3 float-md-end text-center mx-auto" style="width: 290px; max-width: 100%;" title="Licence obrázku: Ludek, CC BY-SA 3.0, via Wikimedia Commons">
-                        <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Chram_sv_Mikulase_interier_varhany.jpg/360px-Chram_sv_Mikulase_interier_varhany.jpg" />
-                        <br />
-                        <em>
-                            Praha, kostel sv. Mikuláše (Malá Strana), levá empora <span class="text-body-secondary">(Schwarz, 1746, II/17)</span>
-                            &ndash; příklad samostatně stojícího hracího stolu
-                        </em>
+
+                    <div class="ms-md-3 mb-3 float-md-end text-center mx-auto" style="width: 290px; max-width: 100%;">
+                        <div class="position-relative d-inline-block" title="Licence obrázku: Ludek, CC BY-SA 3.0, via Wikimedia Commons">
+                            <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Chram_sv_Mikulase_interier_varhany.jpg/360px-Chram_sv_Mikulase_interier_varhany.jpg" />
+                            <br />
+                            <em>
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MIKULASE_LEVA_EMPORA]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
+                                &ndash; příklad samostatně stojícího hracího stolu
+                            </em>
+                        </div>
                     </div>
                     
                     <p>
@@ -235,13 +237,15 @@
 
                     <h5 id="baroqueBohemia">Barokní varhanářství v Čechách</h5>
 
-                    <div class="me-3 mb-3 float-md-start text-center mx-auto" style="width: 350px; max-width: 100%;" title="Licence obrázku: Ludek, CC BY-SA 3.0, via Wikimedia Commons">
-                        <img class="rounded mb-2 w-100" src="/images/praha-krizovnici.jpg" />
-                        <br />
-                        <em>
-                            <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KRIZOVNICI]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
-                            &ndash; příklad hracího stolu zabudovaného do varhanní skříně
-                        </em>
+                    <div class="me-3 mb-3 float-md-start text-center mx-auto" style="width: 350px; max-width: 100%;">
+                        <div class="position-relative d-inline-block" title="Licence obrázku: Lukáš Dvořák">
+                            <img class="rounded mb-2 w-100" src="/images/praha-krizovnici.jpg" />
+                            <br />
+                            <em>
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KRIZOVNICI]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
+                                &ndash; příklad hracího stolu zabudovaného do varhanní skříně
+                            </em>
+                        </div>
                     </div>
 
                     <p>

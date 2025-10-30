@@ -39,6 +39,11 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <x-organomania.sitemap-location :url="route('organs.cases')" />
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
         <x-organomania.sitemap-location :url="route('worship-songs-info')" />
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>

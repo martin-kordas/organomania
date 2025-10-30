@@ -49,6 +49,7 @@ class AboutOrganController extends Controller
             Organ::ORGAN_ID_ZDAR, Organ::ORGAN_ID_REPIN, Organ::ORGAN_ID_OLOMOUC_SVATY_KOPECEK_HLAVNI_KUR,
             Organ::ORGAN_ID_FILIPOV, Organ::ORGAN_ID_KUTNA_HORA_SV_JAKUB_VELKE_VARHANY, Organ::ORGAN_ID_MOST,
             Organ::ORGAN_ID_BOZKOV, Organ::ORGAN_ID_KRNOV_KOSTEL_SV_DUCHA, Organ::ORGAN_ID_PRAHA_KRIZOVNICI,
+            Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MIKULASE_LEVA_EMPORA,
         ])->keyBy('id');
     }
     

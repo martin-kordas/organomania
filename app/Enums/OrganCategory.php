@@ -45,9 +45,10 @@ enum OrganCategory: int implements Category
     case CaseEmpire = 27;
     case CaseNeogothic = 28;
     case CaseNeoromanesque = 29;
-    case CaseNeobaroque = 30;
-    case CaseArtNouveau = 31;
-    case CaseModern = 32;
+    case CaseNeorenaissance = 30;
+    case CaseNeobaroque = 31;
+    case CaseArtNouveau = 32;
+    case CaseModern = 33;
     
     const DATA = [
         self::BuiltTo1799->value            => ['name' => 'do 1799'],
@@ -153,6 +154,9 @@ enum OrganCategory: int implements Category
         ],
         self::CaseNeoromanesque->value => [
             'name' => 'Neorománské skříně',
+        ],
+        self::CaseNeorenaissance->value => [
+            'name' => 'Neorenesanční skříně',
         ],
         self::CaseNeobaroque->value => [
             'name' => 'Neobarokní skříně',
