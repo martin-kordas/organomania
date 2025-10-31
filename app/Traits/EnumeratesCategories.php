@@ -2,9 +2,13 @@
 
 namespace App\Traits;
 
+use LogicException;
+
 trait EnumeratesCategories
 {
     
+    abstract public function isPeriodCategory(): bool;
+
     private function getData()
     {
         return static::DATA[$this->value] ?? throw new \LogicException;
@@ -30,6 +34,13 @@ trait EnumeratesCategories
             return __('Období');
         }
         return null;
+    }
+
+    public function getPeriodRange(): array
+    {
+        if (!$this->isPeriodCategory()) throw new LogicException;
+
+        return $this->getData()['periodRange'];
     }
     
 }

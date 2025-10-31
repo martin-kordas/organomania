@@ -9,7 +9,7 @@ export default defineConfig({
                 'resources/css/app-bootstrap.scss',
                 'resources/js/app.js',
             ],
-            refresh: true,
+            refresh: false,
         }),
     ],
     css: {
@@ -21,6 +21,9 @@ export default defineConfig({
           /*'vis-timeline/standalone',*/
         ]
       }
+    },
+    server: {
+        hmr: false
     }
     /* na serveru odkomentováno */
     /*server: {

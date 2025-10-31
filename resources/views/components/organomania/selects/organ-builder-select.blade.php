@@ -18,7 +18,7 @@
     aria-describedby="{{ "{$id}Feedback" }}"
     @if ($multiple) multiple @endif
 >
-    {{-- při vymazání multiple selectu  křízkem se chybně vyplňuje prázdná option --}}
+    {{-- při vymazání multiple selectu křízkem se chybně vyplňuje prázdná option --}}
     @if (!$multiple)
         <option></option>
     @endif

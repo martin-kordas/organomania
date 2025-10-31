@@ -40,22 +40,16 @@ enum OrganCategory: int implements Category
 
     case CaseRenaissance = 23;
     case CaseBaroque = 24;
-    case CaseRococo = 25;
-    case CaseClassicistic = 26;
-    case CaseEmpire = 27;
-    case CaseNeogothic = 28;
-    case CaseNeoromanesque = 29;
-    case CaseNeorenaissance = 30;
-    case CaseNeobaroque = 31;
-    case CaseArtNouveau = 32;
-    case CaseModern = 33;
+    case CaseHistoricism = 25;
+    case CaseArtNouveau = 36;
+    case CaseModern = 27;
     
     const DATA = [
-        self::BuiltTo1799->value            => ['name' => 'do 1799'],
-        self::BuiltFrom1800To1859->value    => ['name' => '1800–1859'],
-        self::BuiltFrom1860To1944->value    => ['name' => '1860–1944'],
-        self::BuiltFrom1945To1989->value    => ['name' => '1945–1989'],
-        self::BuiltFrom1990->value          => ['name' => '1990–nyní'],
+        self::BuiltTo1799->value            => ['name' => 'do 1799', 'periodRange' => [null, 1799]],
+        self::BuiltFrom1800To1859->value    => ['name' => '1800–1859', 'periodRange' => [1800, 1859]],
+        self::BuiltFrom1860To1944->value    => ['name' => '1860–1944', 'periodRange' => [1860, 1944]],
+        self::BuiltFrom1945To1989->value    => ['name' => '1945–1989', 'periodRange' => [1945, 1989]],
+        self::BuiltFrom1990->value          => ['name' => '1990–nyní', 'periodRange' => [1990, null]],
         
         self::Renaissance->value => [
             'name' => 'Renesanční',
@@ -107,7 +101,7 @@ enum OrganCategory: int implements Category
         ],
         self::ActionPneumatical->value => [
             'name' => 'Pneumatická traktura',
-            'description' => 'Klávesy jsou s píšťalami propojeny hadičkami, kterými proudí vzduch',
+            'description' => 'Klávesy jsou s píšťalami propojeny trubičkami, kterými proudí vzduch',
         ],
         self::ActionElectrical->value => [
             'name' => 'Elektrická traktura',
@@ -138,31 +132,16 @@ enum OrganCategory: int implements Category
             'name' => 'Renesanční skříně',
         ],
         self::CaseBaroque->value => [
-            'name' => 'Barokní skříně',
+            'name' => 'Barokní, rokokové, klasicistní skříně',
+            'description' => 'Tradiční typ varhanních skříní, ze kterého varhanáři vychází až do poloviny 19. století'
         ],
-        self::CaseRococo->value => [
-            'name' => 'Rokokové skříně',
+        self::CaseHistoricism->value => [
+            'name' => 'Historizující skříně',
+            'description' => 'Skříně ispirované starými slohy, z nichž lze rozlišit neogotické, neorománské, neorenesanční nebo neobarokní'
         ],
-        self::CaseClassicistic->value => [  
-            'name' => 'Klasicistní skříně',
-        ],
-        self::CaseEmpire->value => [  
-            'name' => 'Empírové skříně',
-        ],
-        self::CaseNeogothic->value => [
-            'name' => 'Neogotické skříně',
-        ],
-        self::CaseNeoromanesque->value => [
-            'name' => 'Neorománské skříně',
-        ],
-        self::CaseNeorenaissance->value => [
-            'name' => 'Neorenesanční skříně',
-        ],
-        self::CaseNeobaroque->value => [
-            'name' => 'Neobarokní skříně',
-        ],
-        self::CaseArtNouveau->value => [
+        self::CaseArtNouveau->value => [  
             'name' => 'Secesní skříně',
+            'description' => 'Secesní sloh se ve varhanních skříních projevil spíše v ojedinělých případech',
         ],
         self::CaseModern->value => [
             'name' => 'Moderní skříně',
@@ -223,8 +202,7 @@ enum OrganCategory: int implements Category
     public function isCaseCategory()
     {
         return in_array($this, [
-            static::CaseRenaissance, static::CaseBaroque, static::CaseRococo, static::CaseClassicistic,
-            static::CaseNeogothic, static::CaseNeoromanesque, static::CaseNeobaroque, static::CaseArtNouveau, static::CaseModern
+            static::CaseRenaissance, static::CaseBaroque, static::CaseHistoricism, static::CaseArtNouveau, static::CaseModern,
         ]);
     }
     
@@ -278,6 +256,7 @@ enum OrganCategory: int implements Category
         $years = Arr::wrap($years);
         
         $categories = collect();
+        // TODO: mohlo by využívat periodRange (viz výše)
         foreach ($years as $year) {
             $category = match (true) {
                 $year <= 1799 => static::BuiltTo1799,

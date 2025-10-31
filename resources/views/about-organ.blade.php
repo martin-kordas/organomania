@@ -73,7 +73,7 @@
                     V České republice se podle odhadů nachází až 10 tisíc varhan.
                     Jsou situovány nejen v kostelích, nýbrž i v koncertních sálech nebo na hudebních školách.
                     Mnoho z nich naléhavě vyžaduje opravu.
-                    Další, nové nástroje se právě staví.
+                    Další nové nástroje se právě staví.
                 </p>
                 
                 <div class="text-center mb-4">
@@ -150,7 +150,7 @@
                         </div>
                     </div>
 
-                    <x-organomania.about-organ-h4 id="baroque" subtitle="zlatý věk varhan" :organBuilderCategory="OrganBuilderCategory::BuiltTo1799" :organCategory="OrganCategory::BuiltTo1799">
+                    <x-organomania.about-organ-h4 id="baroque" subtitle="zlatý věk varhan" :organBuilderCategory="OrganBuilderCategory::BuiltTo1799" :organCategory="OrganCategory::BuiltTo1799" :casePeriodCategory="OrganCategory::BuiltTo1799">
                         Barokní varhanářství
                     </x-organomania.about-organ-h4>
                     
@@ -202,7 +202,7 @@
                     </p>
                     
                     <p>
-                        Estetika barokních varhanních skříní prochází živým vývojem.
+                        Estetika barokních <a class="text-decoration-none" href="{{ route('organs.cases', ['filterPeriodCategories' => [OrganCategory::BuiltTo1799], 'groupBy' => 'periodCategory']) }}" wire:navigate>varhanních skříní</a> prochází živým vývojem.
                         Půdorysné linie skříní začínají být během 18. století zvlněné.
                         Na konci 18. století se často objevují rokokové vázy.
                     </p>
@@ -237,7 +237,7 @@
 
                     <h5 id="baroqueBohemia">Barokní varhanářství v Čechách</h5>
 
-                    <div class="me-3 mb-3 float-md-start text-center mx-auto" style="width: 350px; max-width: 100%;">
+                    <div class="mt-3 mt-md-0 me-md-3 mb-3 float-md-start text-center mx-auto" style="width: 350px; max-width: 100%;">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Lukáš Dvořák">
                             <img class="rounded mb-2 w-100" src="/images/praha-krizovnici.jpg" />
                             <br />
@@ -377,7 +377,7 @@
                     </div>
 
 
-                    <x-organomania.about-organ-h4 id="builtFrom1800To1859" subtitle="na rozcestí baroka a romantismu" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1800To1859" :organCategory="OrganCategory::BuiltFrom1800To1859">
+                    <x-organomania.about-organ-h4 id="builtFrom1800To1859" subtitle="na rozcestí baroka a romantismu" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1800To1859" :organCategory="OrganCategory::BuiltFrom1800To1859" :casePeriodCategory="OrganCategory::BuiltFrom1800To1859">
                         Varhanářství v letech 1800–1859
                     </x-organomania.about-organ-h4>
 
@@ -394,7 +394,11 @@
                         Konstrukčně stále vycházejí z osvědčených barokních principů (použití <x-organomania.category-badge :category="OrganCategory::ActionMechanical" :newTab="true">mechanické traktury</x-organomania.category-badge> a <x-organomania.category-badge :category="OrganCategory::WindchestSchleif" :newTab="true">zásuvkové vzdušnice</x-organomania.category-badge>). Začínají však upřednostňovat temnější zvuk, docílený častým disponováním rejstříků v nižších polohách, což varhany přibližuje ke zvukovému ideálu symfonického orchestru.
                         Již od dob pozdního baroka panuje obliba smykavých rejstříků, které přímo napodobují smyčcové nástroje.
                         Postupně se rozšiřuje tónový rozsah manuálů i pedálu, naopak se ale přestává stavět zadní pozitiv v zábradlí kůru (varhanní stroj pozitivu je vsazen do hlavní skříně).
-                        Zdobnost varhanních skříní se viditelně zmenšuje, mizí půdorysné zvlnění.
+                    </p>
+
+                    <p>
+                        Zdobnost <a class="text-decoration-none" href="{{ route('organs.cases', ['filterPeriodCategories' => [OrganCategory::BuiltFrom1800To1859], 'groupBy' => 'periodCategory']) }}" wire:navigate>varhanních skříní</a> se viditelně zmenšuje, mizí půdorysné zvlnění.
+                        Některé skříně čerpají nadále z barokních tradic, u jiných se již projevuje klasicistní nebo empírový styl.
                     </p>
                     
                     <div class="text-center mb-4 mx-auto" style="width: 500px; max-width: 100%">
@@ -433,7 +437,7 @@
                     </div>
 
 
-                    <x-organomania.about-organ-h4 id="builtFrom1860To1944" subtitle="varhanní romantismus a tovární výroba" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1860To1944" :organCategory="OrganCategory::BuiltFrom1860To1944">
+                    <x-organomania.about-organ-h4 id="builtFrom1860To1944" subtitle="varhanní romantismus a tovární výroba" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1860To1944" :organCategory="OrganCategory::BuiltFrom1860To1944" :casePeriodCategory="OrganCategory::BuiltFrom1860To1944">
                         Varhanářství v letech 1860–1944
                     </x-organomania.about-organ-h4>
 
@@ -537,7 +541,7 @@
                     </p>
                     
                     <p>
-                        Při návrhu varhanních skříní se nově uplatňuje neogotický, neorománský, neorenesanční a později i secesní sloh.
+                        Při návrhu <a class="text-decoration-none" href="{{ route('organs.cases', ['filterPeriodCategories' => [OrganCategory::BuiltFrom1860To1944], 'groupBy' => 'periodCategory']) }}" wire:navigate>varhanních skříní</a> se nově uplatňuje neogotický, neorománský, neorenesanční a později i secesní sloh.
                         Od období mezi válkami se rozšiřuje použití zjednodušených funkcionalistických skříní.
                     </p>
                     
@@ -662,7 +666,7 @@
                     </div>
 
 
-                    <x-organomania.about-organ-h4 id="builtFrom1945To1989" subtitle="varhanní hnutí za železnou oponou" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1945To1989" :organCategory="OrganCategory::BuiltFrom1945To1989">
+                    <x-organomania.about-organ-h4 id="builtFrom1945To1989" subtitle="varhanní hnutí za železnou oponou" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1945To1989" :organCategory="OrganCategory::BuiltFrom1945To1989" :casePeriodCategory="OrganCategory::BuiltFrom1945To1989">
                         Varhanářství v letech 1945–1989
                     </x-organomania.about-organ-h4>
 
@@ -722,7 +726,7 @@
                     </div>
 
 
-                    <x-organomania.about-organ-h4 id="builtFrom1990" subtitle="nové směry vývoje" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1990" :organCategory="OrganCategory::BuiltFrom1990">
+                    <x-organomania.about-organ-h4 id="builtFrom1990" subtitle="nové směry vývoje" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1990" :organCategory="OrganCategory::BuiltFrom1990" :casePeriodCategory="OrganCategory::BuiltFrom1990">
                         Varhanářství od roku 1990
                     </x-organomania.about-organ-h4>
 

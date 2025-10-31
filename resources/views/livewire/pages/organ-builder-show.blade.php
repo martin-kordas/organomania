@@ -284,7 +284,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ->sortBy('year');
     }
 
-    #[Computed]
+    #[Computed]  
     private function relatedOrganBuilders()
     {
         $relatedOrganBuilderIds = match ($this->organBuilder->id) {
@@ -578,7 +578,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (count($this->images) > 0)
             <div class="my-4">
                 <x-organomania.gallery-carousel :images="$this->images" />
-                @if (count($this->imagesShownInCases) > 1)
+                @if ($organBuilder->isPublic() && count($this->imagesShownInCases) > 1)
                     <div class="text-center mt-2">
                         <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.cases', ['filterOrganBuilders' => [$organBuilder->id]]) }}" wire:navigate>
                             {{ __('Přehled skříní')}}

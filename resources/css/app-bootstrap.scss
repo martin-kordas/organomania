@@ -41,6 +41,7 @@ html, body {
 }
 
 header {
+    position: sticky;
     z-index: 4;
 
     .info-count-badge {
@@ -54,6 +55,13 @@ header {
 
     .navbar-toggler {
         border-color: var(--header-footer-border-color);
+    }
+
+}
+/* u nízké obrazovky nezobrazovat fixní hlavičkou */
+@media screen and (max-height: 450px) {
+    header {
+        position: static;
     }
 }
 

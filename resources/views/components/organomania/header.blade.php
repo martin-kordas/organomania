@@ -1,7 +1,7 @@
 @use(App\Models\Festival)
 @use(App\Models\Competition)
 
-<header class="mb-4 border-bottom position-sticky top-0 d-print-none">
+<header class="mb-4 border-bottom top-0 d-print-none">
     <nav class="navbar navbar-expand-xl">
         <div class="container d-flex flex-wrap align-items-center">
             {{-- logo --}}

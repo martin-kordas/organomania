@@ -2,6 +2,7 @@
 
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     #[Url(keep: true)]
     public $filterCategories;
+    #[Url(keep: true)]
+    public $filterPeriodCategories;
     #[Url(keep: true)]
     public $filterOrganBuilders;
 
@@ -57,36 +60,68 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $view->title(__('Varhanní skříně'));
     }
 
-    #[Computed]
-    public function cases()
+    private function getOrgansQuery(): Builder
     {
-        $organsQuery = Organ::query()
-            ->with(['organBuilder', 'organCategories'])
-            ->withCount('organRebuilds')
-            ->public()
-            ->whereNotNull('outside_image_url')
-            // rok postavení nutné znát vždy kvůli seřazení
-            ->whereRaw('
+        return Organ::query()
+            ->select('*')
+            ->selectRaw('
                 IF(
                     case_organ_builder_id IS NOT NULL OR case_organ_builder_name IS NOT NULL,
                     case_year_built,
                     year_built
                 )
-                IS NOT NULL
+                AS year_built1
             ')
-            ->whereNotIn('id', [Organ::ORGAN_ID_PRAHA_EMAUZY]);
+            ->with(['organBuilder', 'organCategories'])
+            ->withCount('organRebuilds')
+            ->public()
+            ->whereNotNull('outside_image_url')
+            ->whereNotIn('id', [Organ::ORGAN_ID_PRAHA_EMAUZY, Organ::ORGAN_ID_PARDUBICE_ZUS_POLABINY])
+            // rok postavení nutné znát vždy kvůli seřazení
+            ->havingNotNull('year_built1');
+    }
 
-        $additionalImagesQuery = OrganBuilderAdditionalImage::query()
+    private function getAdditionalImagesQuery(): Builder
+    {
+        return OrganBuilderAdditionalImage::query()
+            ->select('*')
+            ->selectRaw('year_built AS year_built1')
             ->with('organBuilder')
             ->where('nonoriginal_case', 0)
             ->where('organ_exists', 0)
             ->whereNotNull('year_built');
+    }
+
+    #[Computed]
+    public function cases()
+    {
+        // TODO: logika dohledávání obrázků je obdobná jako v organ-builder-show.blade.php (tam je akorát implicitně filtr na varhanáře)
+        //  - přesto se data na obou místech dotazují zvlášť a používají se různé struktury (zde OrganCaseImage, tam prosté pole)
+
+        $organsQuery = $this->getOrgansQuery();
+        $additionalImagesQuery = $this->getAdditionalImagesQuery();
 
         if ($this->filterCategories) {
             $organsQuery->whereHas('organCategories', function (Builder $query) {
                 $query->whereIn('organ_category_id', $this->filterCategories);
             });
             $additionalImagesQuery->whereIn('case_organ_category_id', $this->filterCategories);
+        }
+        if ($this->filterPeriodCategories) {
+            $periodRanges = $this->getPeriodRangesFromOrganCategoryIds($this->filterPeriodCategories);
+
+            if (!empty($periodRanges)) {
+                foreach ([$organsQuery, $additionalImagesQuery] as $query) {
+                    $query->having(function (QueryBuilder $query) use ($periodRanges) {
+                        foreach ($periodRanges as [$from, $to]) {
+                            $query->orHaving(function (QueryBuilder $query) use ($from, $to) {
+                                if (isset($from)) $query->having('year_built1', '>=', $from);
+                                if (isset($to)) $query->having('year_built1', '<=', $to);
+                            });
+                        }
+                    });
+                }
+            }
         }
         if ($this->filterOrganBuilders) {
             $organsQuery
@@ -134,6 +169,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $this->sortCases($cases);
     }
 
+    private function getPeriodRangesFromOrganCategoryIds($categoryIds)
+    {
+        // TODO: na sebe navazující rozsahy lze sloučit
+        $ranges = [];
+        foreach ($categoryIds as $id) {
+            $category = OrganCategory::tryFrom($id);
+            if ($category->isPeriodCategory()) {
+                $ranges[] = $category->getPeriodRange();
+            }
+        }
+        return $ranges;
+    }
+
     #[Computed]
     public function casesGroups()
     {
@@ -148,7 +196,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function sortCases(Collection $cases)
     {
-        $sortDef = match ($this->groupBy) {
+        $sortDefinition = match ($this->groupBy) {
             'organBuilder' => ['organBuilderActiveFromYear', $this->sortDirection],
             'periodCategory' => function (OrganCaseImage $case1, OrganCaseImage $case2) {
                 if ($this->sortDirection === 'desc') Helpers::swap($case1, $case2);
@@ -159,7 +207,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         };
 
         return $cases->sortBy([
-            $sortDef,
+            $sortDefinition,
             ['yearBuilt', $this->sortDirection],
         ]);
     }
@@ -349,7 +397,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endswitch
             </h4>
 
-            <div class="d-flex flex-wrap flex-row column-gap-4 row-gap-4 justify-content-center">
+            <div class="d-flex flex-wrap flex-row column-gap-4 row-gap-3 justify-content-center">
                 @foreach ($cases as $case)
                     <div class="text-center">
                         <a href="{{ $case->imageUrl }}" target="_blank">
