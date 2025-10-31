@@ -272,9 +272,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function groupByOptions()
     {
         return [
-            'organBuilder' => [__('Varhanáře')],
-            'periodCategory' => [__('Kategorie období'), __('Období')],
-            'caseCategory' => [__('Kategorie skříně'), __('Skříně')],
+            'organBuilder' => __('Varhanáře'),
+            'caseCategory' => __('Kategorie'),
+            'periodCategory' => __('Období'),
         ];
     }
 
@@ -344,8 +344,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     id="groupBy_{{ $value }}"
                 >
                 <label class="btn btn-sm btn-outline-secondary" for="groupBy_{{ $value }}">
-                    <span class="d-none d-md-inline">{{ $label[0] }}</span>
-                    <span class="d-md-none">{{ $label[1] ?? $label[0] }}</span>
+                    {{ $label }}
                 </label>
             @endforeach
         </div>
@@ -393,6 +392,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 
                     @case('caseCategory')
                         {{ $cases[0]->caseCategory->getName() }}
+                        @if ($description = $cases[0]->caseCategory->getDescription())
+                            <br />
+                            <span class="fw-normal text-secondary" style="font-size: 65%">{{ $description }}</span>
+                        @endif
                         @break
                 @endswitch
             </h4>

@@ -78,7 +78,7 @@
                                     || in_array($category->getEnum(), [OrganCategory::FromBookBaroqueOrganBuilding, OrganBuilderCategory::FromBookBaroqueOrganBuilding])
                                 ) 
                                 && !(
-                                    $category instanceof OrganCategory
+                                    $category->getEnum() instanceof OrganCategory
                                     && $category->getEnum()->isCaseCategory()
                                 );
                         @endphp
