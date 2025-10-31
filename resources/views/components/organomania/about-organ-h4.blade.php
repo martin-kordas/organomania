@@ -1,4 +1,4 @@
-@props(['subtitle' => null, 'organBuilderCategory' => null, 'organCategory' => null, 'casePeriodCategory' => null])
+@props(['subtitle' => null, 'organBuilderCategory' => null, 'organCategory' => null, 'caseCategory' => null, 'casePeriodCategory' => null])
 
 <div {{ $attributes->class('d-flex flex-wrap row-gap-3 column-gap-2 align-items-end mb-3') }}>
     <div class="me-auto pe-1 mt-1">
@@ -34,6 +34,17 @@
                 </span>
                 <span class="badge text-bg-secondary rounded-pill">
                     {{ $organCategory->getOrgansCount() }}
+                </span>
+            </a>
+        @endisset
+
+        @isset($caseCategory)
+            <a class="btn btn-sm btn-outline-secondary" href="{{ route('organs.cases', ['filterCategories' => [$caseCategory->value], 'groupBy' => 'caseCategory']) }}" wire:navigate>
+                <span class="d-none d-sm-inline">
+                    {{ __('Přehled skříní') }}
+                </span>
+                <span class="d-sm-none">
+                    {{ __('Skříně') }}
                 </span>
             </a>
         @endisset

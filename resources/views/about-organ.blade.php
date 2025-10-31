@@ -128,7 +128,7 @@
                         </dl>
                     </div>
 
-                    <x-organomania.about-organ-h4 id="renaissance" subtitle="nejstarší dochované nástroje" :organCategory="OrganCategory::Renaissance">
+                    <x-organomania.about-organ-h4 id="renaissance" subtitle="nejstarší dochované nástroje" :organCategory="OrganCategory::Renaissance" :caseCategory="OrganCategory::CaseRenaissance">
                         Renesanční varhanářství
                     </x-organomania.about-organ-h4>
 
@@ -139,7 +139,7 @@
                     </p>
 
                     <p>
-                        Renesanční varhanářství se kromě renesančního tvarosloví skříní vyznačuje pestrou rejstříkovou dispozicí, ve které jsou obsaženy barevně navzájem kontrastující rejstříky, imitující nejrůznější nástroje.
+                        Renesanční varhanářství se kromě renesančního tvarosloví <a class="text-decoration-none" href="{{ route('organs.cases', ['filterCategories' => [OrganCategory::CaseRenaissance], 'groupBy' => 'caseCategory']) }}" wire:navigate>varhanních skříní</a> vyznačuje pestrou rejstříkovou dispozicí, ve které jsou obsaženy barevně navzájem kontrastující rejstříky, imitující nejrůznější nástroje.
                     </p>
                     
                     <div class="text-center mb-4">

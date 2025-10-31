@@ -41,7 +41,7 @@ enum OrganCategory: int implements Category
     case CaseRenaissance = 23;
     case CaseBaroque = 24;
     case CaseHistoricism = 25;
-    case CaseArtNouveau = 36;
+    case CaseArtNouveau = 26;
     case CaseModern = 27;
     
     const DATA = [
@@ -137,14 +137,15 @@ enum OrganCategory: int implements Category
         ],
         self::CaseHistoricism->value => [
             'name' => 'Historizující skříně',
-            'description' => 'Skříně ispirované starými slohy, z nichž lze rozlišit neogotické, neorománské, neorenesanční nebo neobarokní'
+            'description' => 'Skříně inspirované starými slohy, z nichž lze rozlišit neogotické, neorománské, neorenesanční nebo neobarokní'
         ],
         self::CaseArtNouveau->value => [  
             'name' => 'Secesní skříně',
-            'description' => 'Secesní sloh se ve varhanních skříních projevil spíše v ojedinělých případech',
+            'description' => 'Secesní sloh, který se ve varhanních skříních projevil spíše v ojedinělých případech',
         ],
         self::CaseModern->value => [
             'name' => 'Moderní skříně',
+            'description' => 'Skříně jednoduššího zpracování, vliv funkcionalismu'
         ],
     ];
     
