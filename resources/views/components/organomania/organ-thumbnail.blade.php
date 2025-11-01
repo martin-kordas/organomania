@@ -13,7 +13,7 @@
                     @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'not-preserved' => !$organ->preserved_case])
                     href="{{ $this->getViewUrl($organ) }}"
                     @if ($modal) target="_blank" @else wire:navigate @endif
-                ><strong>{{ $organ->municipality }}</strong> | {{ $organ->place }}</a>
+                ><strong>{{ $organ->municipality }}</strong>, {{ $organ->place }}</a>
                 @if (!$organ->preserved_organ)
                     <span class="text-body-secondary fw-normal">
                         ({{ $organ->preserved_case ? __('dochována skříň') : __('nedochováno') }})

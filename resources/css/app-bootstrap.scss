@@ -855,6 +855,16 @@ table.show-table th {
 }
 
 .cases {
+    .group-container {
+        background: var(--header-footer-background-light);
+        border-color: var(--header-footer-border-color) !important;
+    }
+
+    .group {
+        &.show {
+            display: flex;
+        }
+    }
     .case-image {
         max-height: 15em;
         max-width: 100%;

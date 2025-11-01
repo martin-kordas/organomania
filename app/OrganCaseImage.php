@@ -16,6 +16,8 @@ final readonly class OrganCaseImage {
     public OrganCategory $periodCategory;
     
     public function __construct(
+        public string $id,
+
         public string $name,
         public string $imageUrl,
         public ?string $imageCredits,
@@ -25,6 +27,7 @@ final readonly class OrganCaseImage {
         
         public ?OrganBuilder $organBuilder,
         public ?string $organBuilderName,
+        public ?int $stopsCount,
         public ?int $organBuilderActiveFromYear,
         
         public ?string $details,
@@ -46,6 +49,7 @@ final readonly class OrganCaseImage {
             
             $organBuilder = $organ->caseOrganBuilder;
             $organBuilderName = $organ->case_organ_builder_name ?? $organ->caseOrganBuilder?->initialName;
+            $stopsCount = null;
             $organBuilderActiveFromYear = $organ->caseOrganBuilder?->active_from_year;
 
             $details[] = __('dochována skříň');
@@ -55,6 +59,7 @@ final readonly class OrganCaseImage {
             
             $organBuilder = $organ->organBuilder;
             $organBuilderName = $organ->organBuilder?->initialName ?? __('neznámý');
+            $stopsCount = static::getOrganStopsCount($organ);
             $organBuilderActiveFromYear = $organ->organBuilder?->active_from_year;
 
             $sizeInfo = static::getOrganSizeInfo($organ);
@@ -70,6 +75,8 @@ final readonly class OrganCaseImage {
         )->first();
 
         return new static(
+            id: "organ{$organ->id}",
+
             name: "{$organ->municipality}, {$organ->shortPlace}",
             imageUrl: $organ->image_url,
             imageCredits: $organ->image_credits,
@@ -80,6 +87,7 @@ final readonly class OrganCaseImage {
 
             organBuilder: $organBuilder,
             organBuilderName: $organBuilderName,
+            stopsCount: $stopsCount,
             organBuilderActiveFromYear: $organBuilderActiveFromYear,
 
             details: $detailsStr,
@@ -93,6 +101,8 @@ final readonly class OrganCaseImage {
         $detailsStr = empty($details) ? null : implode(', ', $details);
 
         return new static(
+            id: "additionalImage{$additionalImage->id}",
+
             name: $additionalImage->name,
             imageUrl: $additionalImage->image_url,
             imageCredits: $additionalImage->image_credits,
@@ -102,6 +112,7 @@ final readonly class OrganCaseImage {
 
             organBuilder: $additionalImage->organBuilder,
             organBuilderName: $additionalImage->organ_builder_name ?? $additionalImage->organBuilder?->initialName ?? __('neznámý'),
+            stopsCount: $additionalImage->stops_count,
             organBuilderActiveFromYear: $additionalImage->organBuilder?->active_from_year,
             organBuilderExactName: $additionalImage->organ_builder_name,
 
@@ -119,6 +130,12 @@ final readonly class OrganCaseImage {
         else $sizeInfo = null;
 
         return $sizeInfo;
+    }
+
+    private static function getOrganStopsCount(Organ $organ)
+    {
+        if ($organ->organ_rebuilds_count <= 0) return $organ->stops_count;
+        else return $organ->original_stops_count;
     }
 
 }

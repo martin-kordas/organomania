@@ -112,7 +112,7 @@
             <br />
             {{ __('Navštivte také') }}
             <a class="link-primary text-decoration-none btn-outline-secondary" href="{{ route('organs.cases') }}" wire:navigate @click.stop>
-                {{ __('Přehled varhanních skříní') }}
+                {{ __('Galerii varhanních skříní') }}
             </a>
         </x-organomania.welcome-card-small>
         

@@ -224,7 +224,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $detailsStr = implode(', ', $details);
                 $content .= sprintf(" <span class='text-body-secondary'>(%s)</span>", e($detailsStr));
             }
-            $shownInCases = !$additionalImage->nonoriginal_case && !$additionalImage->organ_exists;
+            $shownInCases = !$additionalImage->nonoriginal_case && !$additionalImage->organ_exists && isset($additionalImage->year_built);
 
             $images[] = [$additionalImage->image_url, $additionalImage->image_credits, $content, true, $shownInCases];
         }
@@ -291,7 +291,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             // Rieger
             59 => [1, 2],
             1 => [59, 2],
-            2 => [59, 1],
+            2 => [59, 1, 106],
             // Burkhardt
             28 => [8],
             // Richter
@@ -581,7 +581,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @if ($organBuilder->isPublic() && count($this->imagesShownInCases) > 1)
                     <div class="text-center mt-2">
                         <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.cases', ['filterOrganBuilders' => [$organBuilder->id]]) }}" wire:navigate>
-                            {{ __('Přehled skříní')}}
+                            <i class="bi-camera"></i>
+                            {{ __('Galerie skříní')}}
                             <span class="badge text-bg-secondary rounded-pill">{{ count($this->imagesShownInCases) }}</span>
                         </a>
                     </div>

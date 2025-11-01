@@ -40,8 +40,9 @@
 
         @isset($caseCategory)
             <a class="btn btn-sm btn-outline-secondary" href="{{ route('organs.cases', ['filterCategories' => [$caseCategory->value], 'groupBy' => 'caseCategory']) }}" wire:navigate>
+                <i class="bi bi-camera"></i>
                 <span class="d-none d-sm-inline">
-                    {{ __('Přehled skříní') }}
+                    {{ __('Galerie skříní') }}
                 </span>
                 <span class="d-sm-none">
                     {{ __('Skříně') }}
@@ -51,8 +52,9 @@
 
         @isset($casePeriodCategory)
             <a class="btn btn-sm btn-outline-secondary" href="{{ route('organs.cases', ['filterPeriodCategories' => [$casePeriodCategory->value], 'groupBy' => 'periodCategory']) }}" wire:navigate>
+                <i class="bi bi-camera"></i>
                 <span class="d-none d-sm-inline">
-                    {{ __('Přehled skříní') }}
+                    {{ __('Galerie skříní') }}
                 </span>
                 <span class="d-sm-none">
                     {{ __('Skříně') }}

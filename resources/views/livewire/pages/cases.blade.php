@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Url;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
@@ -30,13 +31,18 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $filterPeriodCategories;
     #[Url(keep: true)]
     public $filterOrganBuilders;
+    #[Url(keep: true)]
+    public $filterOrganomaniaOrgans;
 
     #[Url(keep: true)]
     public $groupBy = 'organBuilder';
     #[Url(keep: true)]
-    public $sortDirection = 'asc';
+    public $sort = 'yearBuiltAsc';
 
     private OrganRepository $organRepository;
+
+    #[Locked]
+    public bool $showCollapseAll = true;
 
 
     public function boot(OrganRepository $organRepository)
@@ -47,6 +53,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function mount()
     {
         Helpers::logPageViewIntoCache('cases');
+
+        if (
+            $this->groupBy === 'organBuilder' && $this->filterOrganBuilders && count($this->filterOrganBuilders) === 1
+            || $this->groupBy === 'periodCategory' && $this->filterPeriodCategories && count($this->filterPeriodCategories) === 1
+            || $this->groupBy === 'caseCategory' && $this->filterCategories && count($this->filterCategories) === 1
+        ) {
+            $this->showCollapseAll = false;
+        }
     }
 
     public function rendered()
@@ -57,7 +71,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->title(__('Varhanní skříně'));
+        $view->title(__('Galerie varhanních skříní'));
     }
 
     private function getOrgansQuery(): Builder
@@ -158,14 +172,30 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 break;
         }
 
+        // údaje, podle kterých se řadí, musí být vyplněny
+        switch ($this->sort) {
+            case 'stopsCountDesc':
+                $organsQuery->where(function (Builder $query) {
+                    $query
+                        ->whereNotNull('original_stops_count')
+                        ->orWhereDoesntHave('organRebuilds');
+                });
+                $additionalImagesQuery->whereNotNull('stops_count');
+                break;
+        }
+
         $organCases = $organsQuery->get()->map(
             OrganCaseImage::fromOrgan(...)
         );
-        $additionalImageCases = $additionalImagesQuery->get()->map(
-            OrganCaseImage::fromAdditionalImage(...)
-        );
+        $cases = collect($organCases);
+        
+        if (!$this->filterOrganomaniaOrgans) {
+            $additionalImageCases = $additionalImagesQuery->get()->map(
+                OrganCaseImage::fromAdditionalImage(...)
+            );
+            $cases = $cases->merge($additionalImageCases);
+        }
 
-        $cases = collect($organCases)->merge($additionalImageCases);
         return $this->sortCases($cases);
     }
 
@@ -196,19 +226,32 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function sortCases(Collection $cases)
     {
-        $sortDefinition = match ($this->groupBy) {
-            'organBuilder' => ['organBuilderActiveFromYear', $this->sortDirection],
-            'periodCategory' => function (OrganCaseImage $case1, OrganCaseImage $case2) {
-                if ($this->sortDirection === 'desc') Helpers::swap($case1, $case2);
+        $timeSortDirection = $this->sort === 'yearBuiltDesc' ? 'desc' : 'asc';
+
+        // seřazení skupin
+        //  - je ovlivněno řazením dle období - např. řadíme-li skříně podle období, řadíme i varhanáře/kategorie (skupiny) dle období
+        $sortDefinitionGroup = match ($this->groupBy) {
+            'organBuilder' => ['organBuilderActiveFromYear', $timeSortDirection],
+            'periodCategory' => function (OrganCaseImage $case1, OrganCaseImage $case2) use ($timeSortDirection) {
+                if ($timeSortDirection === 'desc') Helpers::swap($case1, $case2);
                 return $case1->periodCategory->getOrderValue() <=> $case2->periodCategory->getOrderValue();
             },
-            'caseCategory' => ['caseCategory.value', $this->sortDirection],
+            'caseCategory' => ['caseCategory.value', $timeSortDirection],
+            default => throw new LogicException,
+        };
+
+        // seřazení jednotlivých skříní
+        $sortDefinitionCase = match ($this->sort) {
+            'yearBuiltAsc', 'yearBuiltDesc' => ['yearBuilt', $timeSortDirection],
+            'stopsCountDesc' => ['stopsCount', 'desc'],
             default => throw new LogicException,
         };
 
         return $cases->sortBy([
-            $sortDefinition,
-            ['yearBuilt', $this->sortDirection],
+            $sortDefinitionGroup,
+            $sortDefinitionCase,
+            ['yearBuilt', $timeSortDirection],
+            ['id', 'asc'],
         ]);
     }
 
@@ -282,20 +325,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function sortOptions()
     {
         return [
-            'asc' => __('Období'),
-            'desc' => __('Období'),
+            'yearBuiltAsc' => __('Období'),
+            'yearBuiltDesc' => __('Období'),
+            'stopsCountDesc' => __('Velikost'),
         ];
     }
 
     private function getCaseDetails(OrganCaseImage $case)
     {
-        if (isset($case->details)) return __('Varhany') . ": $case->details";
+        $details = [$case->yearBuilt];
+        if (isset($case->details)) $details[] = $case->details;
+        return implode(', ', $details);
     }
 
     private function getCaseTitle(OrganCaseImage $case)
     {
         $rows = [];
-        if ($details = $this->getCaseDetails($case)) $rows[] = $details;
         if (isset($case->imageCredits)) $rows[] = __('Licence obrázku') . ": $case->imageCredits";
         return !empty($rows) ? implode("\n", $rows) : null;
     }
@@ -308,7 +353,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <meta name="description" content="{{ __('Prohlédněte si výtvarné prvky varhanních skříní, pozorujte jejich stylový vývoj a specifické znaky konkrétních varhanářů.') }}">
     @endpush
 
-    <h3 class="text-center">{{ __('Varhanní skříně') }}</h3>
+    <h3 class="text-center">
+        <a class="link-primary text-decoration-none" href="{{ route('organs.cases') }}" wire:navigate>
+            {{ __('Galerie varhanních skříní') }}
+        </a>
+    </h3>
 
     
     <div class="m-auto mb-5" style="max-width: 600px;">
@@ -318,21 +367,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         <div class="mb-3">
             <label class="form-label" for="filterOrganBuilders">{{ __('Varhanář') }}</label>
-            <x-organomania.selects.organ-builder-select model="filterOrganBuilders" :organBuilders="$this->organBuilders" :allowClear="true" small multiple live />
+            {{-- allowClear nepoužito, protože u multiselectů bez <optgroup> a bez prázdné <option> blbne na mobilu (po vymazání se vybere první <option>) --}}
+            <x-organomania.selects.organ-builder-select model="filterOrganBuilders" :organBuilders="$this->organBuilders" small multiple live />
         </div>
 
         <div class="mb-4">
             <label class="form-label" for="filterCategories">{{ __('Kategorie skříně') }}</label>
-            <x-organomania.selects.organ-category-select
+            {{-- allowClear nepoužito (důvod viz výše) --}}
+                <x-organomania.selects.organ-category-select
                 model="filterCategories"
                 placeholder="{{ __('Zvolte kategorii skříně') }}..."
                 :categoriesGroups="$this->organCategoriesGroups"
-                :allowClear="true"
                 small
                 live
             />
         </div>
-
+        
         <div class="mb-1">
             <label class="form-check-label radio-label">{{ __('Seskupit dle') }}</label>
             @foreach ($this->groupByOptions as $value => $label)
@@ -354,15 +404,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <input
                     type="radio"
                     class="btn-check"
-                    wire:model.change="sortDirection"
+                    wire:model.change="sort"
                     value="{{ $value }}"
-                    id="sortDirection_{{ $value }}"
+                    id="sort_{{ $value }}"
                 >
-                <label class="btn btn-sm btn-outline-secondary" for="sortDirection_{{ $value }}">
+                <label class="btn btn-sm btn-outline-secondary" for="sort_{{ $value }}">
                     {{ $label }}
-                    <i class="bi-sort-numeric-{{ $value === 'asc' ? 'up' : 'down' }}"></i>
+                    <i class="bi-sort-numeric-{{ str($value)->endsWith('Asc') ? 'up' : 'down' }}"></i>
                 </label>
             @endforeach
+        </div>
+
+        <div class="form-check form-switch mt-2">
+            <label class="form-check-label" for="filterOrganomaniaOrgans">{{ __('Jen varhany s článkem v Organomanii') }}</label>
+            <input class="form-check-input" type="checkbox" role="switch" id="filterOrganomaniaOrgans" wire:model.live="filterOrganomaniaOrgans">
         </div>
     </div>
 
@@ -379,79 +434,124 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             {{ Helpers::declineCount($this->cases->count(), __('fotografií'), __('fotografie'), __('fotografie')) }}
         </p>
 
+        @if ($this->showCollapseAll)
+            <div class="text-center">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse" onclick="collapseAll()">
+                    <i class="bi-chevron-contract"></i>
+                    {{ __('Skrýt všechny skupiny') }}
+                </button>
+            </div>
+        @endif
+
         @foreach ($this->casesGroups as $groupId => $cases)
-            <h4 class="fs-5 mt-4 mb-3 text-center" wire:key="{{ "organBuilder$groupId" }}">
-                @switch($groupBy)
-                    @case('organBuilder')
-                        <x-organomania.organ-builder-link :organBuilder="$cases[0]->organBuilder" :newTab="true" showActivePeriod showMunicipality />
-                        @break
-                
-                    @case('periodCategory')
-                        {{ __('Období') }} {{ __($cases[0]->periodCategory->getName()) }}
-                        @break
-                
-                    @case('caseCategory')
-                        {{ $cases[0]->caseCategory->getName() }}
+            <div class="group-container border rounded p-2 p-md-3 my-4">
+                <h4 class="fs-5 my-2 my-md-0 text-center" wire:key="{{ "organBuilder$groupId" }}">
+                    <span class="align-middle">
+                        @switch($groupBy)
+                            @case('organBuilder')
+                                <x-organomania.organ-builder-link :organBuilder="$cases[0]->organBuilder" :newTab="true" showActivePeriod showMunicipality />
+                                @break
+                        
+                            @case('periodCategory')
+                                <a class="text-decoration-none" href="{{ route('about-organ') }}#periodCategory{{ $cases[0]->periodCategory->value }}" target="_blank">
+                                    {{ __('Období') }} {{ __($cases[0]->periodCategory->getName()) }}
+                                </a>
+                                @break
+                        
+                            @case('caseCategory')
+                                {{ $cases[0]->caseCategory->getName() }}
+                                @break
+                        @endswitch
+                    </span>
+
+                    <span class="badge text-bg-secondary rounded-pill" style="font-size: 55%;">
+                        {{ count($cases) }}
+                    </span>
+
+                    <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit/skrýt skupinu') }}">
+                        <button type="button" class="btn btn-sm collapse-btn btn-outline-secondary ms-1 rounded-pill" data-bs-toggle="collapse" href="#group{{ $groupId }}" onclick="collapseBtnOnclick(this)">
+                            <i class="bi-chevron-contract"></i>
+                        </button>
+                    </span>
+                            
+                    @if ($groupBy === 'caseCategory')
                         @if ($description = $cases[0]->caseCategory->getDescription())
                             <br />
-                            <span class="fw-normal text-secondary" style="font-size: 65%">{{ $description }}</span>
+                            <span class="d-block mt-1 fw-normal text-secondary lh-base" style="font-size: 65%">{{ $description }}</span>
                         @endif
-                        @break
-                @endswitch
-            </h4>
+                    @endif
+                </h4>
 
-            <div class="d-flex flex-wrap flex-row column-gap-4 row-gap-3 justify-content-center">
-                @foreach ($cases as $case)
-                    <div class="text-center">
-                        <a href="{{ $case->imageUrl }}" target="_blank">
-                            <img 
-                                src="{{ $case->imageUrl }}" 
-                                alt="{{ $case->name }}"
-                                class="case-image rounded border"
-                                loading="lazy"
-                                @if ($title = $this->getCaseTitle($case))
-                                    title="{{ $title }}"
-                                @endif
-                            >
-                        </a>
-                        <div class="small text-center mt-1">
-                            <p
-                                class="text-truncate m-auto"
-                                style="max-width: 21em;"
-                                @if ($details = $this->getCaseDetails($case))
-                                    title="{{ $details }}"
-                                @endif
-                            >
-                                @isset ($case->organ)
-                                    <x-organomania.organ-link :organ="$case->organ" :year="false" :showDescription="false" :iconLink="false" :newTab="true" showShortPlace />
-                                @else
-                                    <i class="bi bi-music-note-list"></i>
-                                    {{ $case->name }}
-                                @endisset
-                            </p>
-                            <div class="text-secondary small">
-                                @if ($organBuilderName = $this->getCaseOrganBuilderName($case))
-                                    @if ($case->organBuilder)
-                                        @if ($case->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
-                                            <x-organomania.organ-builder-link
-                                                :organBuilder="$case->organBuilder"
-                                                :name="$organBuilderName"
-                                                :showDescription="false"
-                                                :newTab="true"
-                                                :iconLink="false"
-                                            />
-                                        @endif
-                                    @else
-                                        <i class="bi-person-circle"></i>
-                                        {{ $organBuilderName }}
+                <div id="group{{ $groupId }}" class="group flex-wrap flex-row column-gap-4 row-gap-3 mt-3 justify-content-center collapse show">
+                    @foreach ($cases as $case)
+                        <div class="text-center">
+                            <a href="{{ $case->imageUrl }}" target="_blank">
+                                <img 
+                                    src="{{ $case->imageUrl }}" 
+                                    alt="{{ $case->name }}"
+                                    class="case-image rounded border"
+                                    loading="lazy"
+                                    @if ($title = $this->getCaseTitle($case))
+                                        title="{{ $title }}"
                                     @endif
-                                @endif
-                                ({{ $case->yearBuilt }})
+                                >
+                            </a>
+                            <div class="small text-center mt-1">
+                                <p
+                                    class="text-truncate m-auto"
+                                    style="max-width: 21em;"
+                                    title="{{ $case->name }}"
+                                >
+                                    @isset ($case->organ)
+                                        <x-organomania.organ-link :organ="$case->organ" :year="false" :showDescription="false" :iconLink="false" :newTab="true" showShortPlace />
+                                    @else
+                                        <i class="bi bi-music-note-list"></i>
+                                        {{ $case->name }}
+                                    @endisset
+                                </p>
+                                <div class="text-secondary small">
+                                    @if ($organBuilderName = $this->getCaseOrganBuilderName($case))
+                                        @if ($case->organBuilder)
+                                            @if ($case->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
+                                                <x-organomania.organ-builder-link
+                                                    :organBuilder="$case->organBuilder"
+                                                    :name="$organBuilderName"
+                                                    :showDescription="false"
+                                                    :newTab="true"
+                                                    :iconLink="false"
+                                                />
+                                            @endif
+                                        @else
+                                            <i class="bi-person-circle"></i>
+                                            {{ $organBuilderName }}
+                                        @endif
+                                    @endif
+                                    ({{ $this->getCaseDetails($case) }})
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         @endforeach
     @endif
 </div>
+
+@script
+<script>
+    window.collapseBtnOnclick = function (button) {
+        $(button).find('i').toggleClass('bi-chevron-contract, bi-chevron-expand')
+    }
+
+    window.collapseAll = function (e) {
+        $('.collapse-btn').each((_i, button) => {
+            let href = $(button).attr('href')
+            let collapse = $(href)
+            if (collapse.hasClass('show')) {
+                collapse.removeClass('show')
+                collapseBtnOnclick(button)
+            }
+        })
+    }
+</script>
+@endscript

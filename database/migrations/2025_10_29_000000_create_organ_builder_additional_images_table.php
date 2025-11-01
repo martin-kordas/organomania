@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('image_credits', length: 500)->nullable();
             $table->integer('year_built')->nullable();
             $table->string('organ_builder_name', length: 250)->nullable();
+            $table->integer('stops_count')->nullable();
             $table->string('details', length: 250)->nullable();
             $table->foreignId('case_organ_category_id')
                 ->nullable()

@@ -109,7 +109,7 @@
                                 <a class="text-decoration-none" href="{{ route('organs.index', ['filterCategories' => [OrganCategory::ValuableCase]]) }}" target="_blank">Varhany s kategorií „Mimořádně cenná skříň“</a>
                             </li>
                             <li>
-                                <a class="text-decoration-none" href="{{ route('organs.cases') }}" target="_blank">Varhanní skříně</a> &ndash; přehled dostupných fotografií varhanních skříní
+                                <a class="text-decoration-none" href="{{ route('organs.cases') }}" target="_blank">Galerie varhanních skříní</a>
                             </li>
                         </ul>
                     </p>
@@ -128,6 +128,7 @@
                         </dl>
                     </div>
 
+                    <div id="periodCategory{{ OrganCategory::BuiltTo1799->value }}"></div>
                     <x-organomania.about-organ-h4 id="renaissance" subtitle="nejstarší dochované nástroje" :organCategory="OrganCategory::Renaissance" :caseCategory="OrganCategory::CaseRenaissance">
                         Renesanční varhanářství
                     </x-organomania.about-organ-h4>
@@ -377,6 +378,7 @@
                     </div>
 
 
+                    <div id="periodCategory{{ OrganCategory::BuiltFrom1800To1859->value }}"></div>
                     <x-organomania.about-organ-h4 id="builtFrom1800To1859" subtitle="na rozcestí baroka a romantismu" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1800To1859" :organCategory="OrganCategory::BuiltFrom1800To1859" :casePeriodCategory="OrganCategory::BuiltFrom1800To1859">
                         Varhanářství v letech 1800–1859
                     </x-organomania.about-organ-h4>
@@ -437,6 +439,7 @@
                     </div>
 
 
+                    <div id="periodCategory{{ OrganCategory::BuiltFrom1860To1944->value }}"></div>
                     <x-organomania.about-organ-h4 id="builtFrom1860To1944" subtitle="varhanní romantismus a tovární výroba" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1860To1944" :organCategory="OrganCategory::BuiltFrom1860To1944" :casePeriodCategory="OrganCategory::BuiltFrom1860To1944">
                         Varhanářství v letech 1860–1944
                     </x-organomania.about-organ-h4>
@@ -666,6 +669,7 @@
                     </div>
 
 
+                    <div id="periodCategory{{ OrganCategory::BuiltFrom1945To1989->value }}"></div>
                     <x-organomania.about-organ-h4 id="builtFrom1945To1989" subtitle="varhanní hnutí za železnou oponou" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1945To1989" :organCategory="OrganCategory::BuiltFrom1945To1989" :casePeriodCategory="OrganCategory::BuiltFrom1945To1989">
                         Varhanářství v letech 1945–1989
                     </x-organomania.about-organ-h4>
@@ -726,6 +730,7 @@
                     </div>
 
 
+                    <div id="periodCategory{{ OrganCategory::BuiltFrom1990->value }}"></div>
                     <x-organomania.about-organ-h4 id="builtFrom1990" subtitle="nové směry vývoje" :organBuilderCategory="OrganBuilderCategory::BuiltFrom1990" :organCategory="OrganCategory::BuiltFrom1990" :casePeriodCategory="OrganCategory::BuiltFrom1990">
                         Varhanářství od roku 1990
                     </x-organomania.about-organ-h4>
