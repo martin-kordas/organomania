@@ -60,11 +60,15 @@
                         @endisset
                     </td>
                     <td>
-                        @if ($organ->organBuilder?->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
+                        @isset($organ->organ_builder_name)
+                            <i class="bi bi-person-circle"></i>
+                            {{ $organ->organ_builder_name }}
+                        @else
                             <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" placeholder="{{ __('neznámý') }}" :iconLink="false" />
-                            @if ($organ->organRebuilds->isNotEmpty())
-                                <span class="text-body-secondary">(přestavěno)</span>
-                            @endif
+                        @endisset
+                        
+                        @if ($organ->organRebuilds->isNotEmpty())
+                            <span class="text-body-secondary">(přestavěno)</span>
                         @endif
                     </td>
                     <td class="text-end">{{ $organ->year_built }}</td>

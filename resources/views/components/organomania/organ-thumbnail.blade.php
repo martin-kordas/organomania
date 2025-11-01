@@ -38,8 +38,13 @@
                     <br />
                 @endif
                 
-                <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" :showOrganWerk="$organ->hasCaseOrganBuilder()" :shortDetails="true" />
-                
+                @isset ($organ->organ_builder_name)
+                    <i class="bi bi-person-circle"></i>
+                    {{ $organ->organ_builder_name }}
+                @else
+                    <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" :showOrganWerk="$organ->hasCaseOrganBuilder()" :shortDetails="true" />
+                @endif
+
                 @foreach ($organ->organRebuilds as $rebuild)
                     @if ($rebuild->organBuilder)
                         <br />

@@ -58,7 +58,7 @@ final readonly class OrganCaseImage {
             $yearBuilt = $organ->year_built;
             
             $organBuilder = $organ->organBuilder;
-            $organBuilderName = $organ->organBuilder?->initialName ?? __('neznámý');
+            $organBuilderName = $organ->organ_builder_name ?? $organ->organBuilder?->initialName ?? __('neznámý');
             $stopsCount = static::getOrganStopsCount($organ);
             $organBuilderActiveFromYear = $organ->organBuilder?->active_from_year;
 

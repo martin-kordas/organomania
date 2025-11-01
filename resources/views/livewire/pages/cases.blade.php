@@ -35,7 +35,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $filterOrganomaniaOrgans;
 
     #[Url(keep: true)]
-    public $groupBy = 'organBuilder';
+    public $groupBy = 'caseCategory';
     #[Url(keep: true)]
     public $sort = 'yearBuiltAsc';
 
@@ -158,7 +158,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             ->orWhereNotNull('case_organ_builder_id');
                     })
                     ->whereNull('case_organ_builder_name')
-                    ->Where('organ_builder_id', '!=', OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED);
+                    ->where('organ_builder_id', '!=', OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED);
                 $additionalImagesQuery->whereNotNull('organ_builder_id');
                 break;
 
@@ -324,8 +324,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function groupByOptions()
     {
         return [
-            'organBuilder' => __('Varhanáře'),
             'caseCategory' => __('Kategorie'),
+            'organBuilder' => __('Varhanáře'),
             'periodCategory' => __('Období'),
         ];
     }
@@ -522,16 +522,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 </p>
                                 <div class="text-secondary small">
                                     @if ($organBuilderName = $this->getCaseOrganBuilderName($case))
-                                        @if ($case->organBuilder)
-                                            @if ($case->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
-                                                <x-organomania.organ-builder-link
-                                                    :organBuilder="$case->organBuilder"
-                                                    :name="$organBuilderName"
-                                                    :showDescription="false"
-                                                    :newTab="true"
-                                                    :iconLink="false"
-                                                />
-                                            @endif
+                                        @if ($case->organBuilder && $case->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
+                                            <x-organomania.organ-builder-link
+                                                :organBuilder="$case->organBuilder"
+                                                :name="$organBuilderName"
+                                                :showDescription="false"
+                                                :newTab="true"
+                                                :iconLink="false"
+                                            />
                                         @else
                                             <i class="bi-person-circle"></i>
                                             {{ $organBuilderName }}

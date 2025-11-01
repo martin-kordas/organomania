@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('region_id')->nullable()->constrained();
             $table->integer('importance')->comment("1 (lowest) to 10 (greatest)");
             $table->foreignId('organ_builder_id')->nullable()->constrained();
+            $table->string('organ_builder_name', length: 200)->nullable();
             $table->integer('year_built')->nullable();
             $table->foreignId('renovation_organ_builder_id')->nullable()->constrained('organ_builders');
             $table->integer('year_renovated')->nullable();

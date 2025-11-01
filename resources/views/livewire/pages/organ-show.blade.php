@@ -408,10 +408,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <table class="table show-table mb-2">
         <tr>
             {{-- HACK --}}
-            @if ($organ->organBuilder?->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
-                <th>{{ __('Varhanář') }}</th>
-                <td class="organ-builder fw-bold">
-                    <div class="items-list">
+            <th>{{ __('Varhanář') }}</th>
+            <td class="organ-builder fw-bold">
+                <div class="items-list">
+                    @isset($organ->organ_builder_name)
+                        <i class="bi bi-person-circle"></i>
+                        {{ $organ->organ_builder_name }}
+                    @else
                         @if ($organ->organBuilder)
                             {{-- je-li více údajů o (pře)stavbách, namísto roku narození/úmrtí varhanáře zobrazíme datum stavby --}}
                             @php
@@ -452,9 +455,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         @else
                             <span class="text-body-secondary">{{ __('neznámý') }}</span>
                         @endif
-                    </div>
-                </td>
-            @endif
+                    @endisset
+                </div>
+            </td>
         </tr>
         @if ($organ->year_built)
             <tr>

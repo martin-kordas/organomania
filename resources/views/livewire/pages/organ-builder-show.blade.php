@@ -580,7 +580,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <x-organomania.gallery-carousel :images="$this->images" />
                 @if ($organBuilder->isPublic() && count($this->imagesShownInCases) > 1)
                     <div class="text-center mt-2">
-                        <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.cases', ['filterOrganBuilders' => [$organBuilder->id]]) }}" wire:navigate>
+                        <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.cases', ['filterOrganBuilders' => [$organBuilder->id], 'groupBy' => 'organBuilder']) }}" wire:navigate>
                             <i class="bi-camera"></i>
                             {{ __('Galerie skříní')}}
                             <span class="badge text-bg-secondary rounded-pill">{{ count($this->imagesShownInCases) }}</span>
