@@ -1,83 +1,83 @@
-# Prirucka pro AI agenty
+# P??ru?ka pro AI agenty
 
-## Ucel dokumentu
-- Poskytnout strojove citelne i lidsky srozumitelne shrnuti projektu Organomania.
-- Zajistit, aby automatizovani agenti rozumeli domene, architekture a akceptovanym pracovnim postupum.
-- Slouzit jako vychozi referencni bod pri diagnostice chyb, navrhu uprav i psani testu.
+## ??el dokumentu
+- Poskytnout strojov? ?iteln? i lidsky srozumiteln? shrnut? projektu Organomania.
+- Zajistit, aby automatizovan? agenti rozum?li dom?n?, architektu?e a akceptovan?m pracovn?m postup?m.
+- Slou?it jako v?choz? referen?n? bod p?i diagnostice chyb, n?vrhu ?prav i psan? test?.
 
-## Rychle seznameni
-- **Projekt**: webova aplikace prezentujici vyznamne varhany, varhanare, festivaly a dispozice (Laravel 11, Livewire 3, Bootstrap 5.3).
-- **Repo**: logika v `app/`, data v `data/`, sablony v `resources/views`.
-- **Cilovi uzivatele**: hudebni nadsenci, studenti, spravci obsahu.
-- **Klicove scenare**: prohlizeni a filtrovani varhan, PDF dispozice, import dat, registrace s podporou AI, sber statistik.
+## Rychl? sezn?men?
+- **Projekt**: webov? aplikace prezentuj?c? v?znamn? varhany, varhan??e, festivaly a dispozice (Laravel 11, Livewire 3, Bootstrap 5.3).
+- **Repo**: logika v `app/`, data v `data/`, ?ablony v `resources/views`.
+- **C?lov? u?ivatel?**: hudebn? nad?enci, studenti, spr?vci obsahu.
+- **Kl??ov? sc?n??e**: prohl??en? a filtrov?n? varhan, PDF dispozice, import dat, registrace s podporou AI, sb?r statistik.
 
-## Backendova architektura
-- **Routovani** (`routes/web.php`): Volt Livewire stranky + klasicke kontrolery pro exporty a presmerovani.
-- **Kontrolery**: `OrganController` vyrabi PDF dispozice (DomPDF) a resi signed odkazy.
-- **Livewire formulare** (`app/Livewire/Forms`): obsluha editace varhan, dispozic, registrac; `DispositionForm` uklada klaviatury a rejstriky v transakci.
-- **Sluzby** (`app/Services`):
-  - `AI/*` volaji OpenAI klienta pro popis dispozic, navrhy registraci, OCR.
-  - `VarhanyNetService` scrapuje externi web a mapuje kategorie.
-  - Podporne sluzby pro Markdown, geokodovani, runtime statistiky atd.
-- **Helpers** (`App\Helpers`): formatovani dat, prace s retezci, diakritikou a cache navstev.
-- **Traits/Observvery**: `OwnedEntity` + `OwnedEntityScope` (vlastnictvi zaznamu), `OrganObserver` cisti relace pri mazani.
+## Backendov? architektura
+- **Routov?n?** (`routes/web.php`): Volt Livewire str?nky + klasick? kontrolery pro exporty a p?esm?rov?n?.
+- **Kontrolery**: `OrganController` vyr?b? PDF dispozice (DomPDF) a ?e?? signed odkazy.
+- **Livewire formul??e** (`app/Livewire/Forms`): obsluha editace varhan, dispozic, registrac?; `DispositionForm` ukl?d? klaviatury a rejst??ky v transakci.
+- **Slu?by** (`app/Services`):
+  - `AI/*` volaj? OpenAI klienta pro popis dispozic, n?vrhy registrac?, OCR.
+  - `VarhanyNetService` scrapuje extern? web a mapuje kategorie.
+  - Podp?rn? slu?by pro Markdown, geok?dov?n?, runtime statistiky atd.
+- **Helpers** (`App\Helpers`): form?tov?n? dat, pr?ce s ?et?zci, diakritikou a cache n?v?t?v.
+- **Traits/Observery**: `OwnedEntity` + `OwnedEntityScope` (vlastnictv? z?znamu), `OrganObserver` ?ist? relace p?i maz?n?.
 
-## Domenovy model
-- `Organ`: lokalita, stavitel, prestavby, dispozice, registrace, statistiky navstev, likes, vztahy na festivaly a souteze.
-- `Disposition`, `Keyboard`, `DispositionRegister`: struktura dispozic vcetne poradi a parametru rejstriku.
-- `OrganBuilder`, `OrganBuilderTimelineItem`: historie varhanaru a dilen.
-- `Registration`, `RegistrationSet`: ulozene registrace pro konkretni skladby.
-- `Enums` (napr. `Region`, `OrganCategory`, `Pitch`): konzistentni identifikatory.
+## Dom?nov? model
+- `Organ`: lokalita, stavitel, p?estavby, dispozice, registrace, statistiky n?v?t?v, likes, vztahy na festivaly a sout??e.
+- `Disposition`, `Keyboard`, `DispositionRegister`: struktura dispozic v?etn? po?ad? a parametr? rejst??k?.
+- `OrganBuilder`, `OrganBuilderTimelineItem`: historie varhan??? a d?len.
+- `Registration`, `RegistrationSet`: ulo?en? registrace pro konkr?tn? skladby.
+- `Enums` (nap?. `Region`, `OrganCategory`, `Pitch`): konzistentn? identifik?tory.
 - `Like`, `Stats`, `VarhanyNetOrgan*`: gamifikace, analytika, historie importu.
 
-## Datove toky
-- **Importy** (`php artisan app:import-data {--seed}`): zpracovani CSV/Markdown, mapovani ID, doplneni kategorii a vztahu na festivaly/souteze.
-- **Scraping** (`VarhanyNetService`): stahuje HTML, extrahuje historii stavby, uklada serializovana data pro audit.
-- **Statistiky** (`php artisan app:collect-stats {--db} {--mailto=*}`): pocita sumary, volitelne uklada do DB a posila e-maily `StatsCollected`.
-- **AI requesty** (`App\Services\AI`): jednotne prompty, normalizovane dispozice, logovani requestu.
-- **PDF exporty**: `OrganController@exportDispositionAsPdf` rendruje Blade sablonu do PDF.
+## Datov? toky
+- **Importy** (`php artisan app:import-data {--seed}`): zpracov?n? CSV/Markdown, mapov?n? ID, dopln?n? kategori? a vztah? na festivaly/sout??e.
+- **Scraping** (`VarhanyNetService`): stahuje HTML, extrahuje historii stavby, ukl?d? serializovan? data pro audit.
+- **Statistiky** (`php artisan app:collect-stats {--db} {--mailto=*}`): po??t? sum??e, voliteln? ukl?d? do DB a pos?l? e-maily `StatsCollected`.
+- **AI requesty** (`App\Services\AI`): jednotn? prompty, normalizovan? dispozice, logov?n? request?.
+- **PDF exporty**: `OrganController@exportDispositionAsPdf` rendruje Blade ?ablonu do PDF.
 
-## Uzivatelske rozhrani
-- **Livewire/Volt** (`resources/views/livewire/pages`): seznamy a detaily varhan, stavitelu, festivalu, soutezi, dispozic, registraci, kvizu.
+## U?ivatelsk? rozhran?
+- **Livewire/Volt** (`resources/views/livewire/pages`): seznamy a detaily varhan, stavitel?, festival?, sout???, dispozic, registrac?, kv?zu.
 - **Blade komponenty** (`resources/views/components/organomania`): mapy, tabulky, PDF fragmenty.
 - **Layout** (`resources/views/livewire/layout/app-bootstrap.blade.php`): Bootstrap + Livewire skripty.
-- **Prava**: `OwnedEntityPolicy` omezuje pristup k soukromym zaznamum, `OrganPolicy` ma specialni pravidla pro pisne.
+- **Pr?va**: `OwnedEntityPolicy` omezuje p??stup k soukrom?m z?znam?m, `OrganPolicy` m? speci?ln? pravidla pro p?sn?.
 
-## AI sluzby detailne
-- `DispositionAI`: normalizuje radky, pripadne doplni cislovani rejstriku, generuje kontext o nastroji (`getOrganInfo`).
-- `DescribeDispositionAI`: vytvori popis dispozice v aktivnim locale, zachovava Markdown a loguje kazdy dotaz.
-- `SuggestRegistrationAI`: vybere rejstriky (cisla v hranatych zavorkach), volitelne generuje komentar bez cisel a mapuje je na radky dispozice pro UI.
-- `DispositionOcr`: vyuziva OpenAI pro prevod obrazove dispozice (pouziti vyhledat v `app/Services/AI`).
+## AI slu?by detailn?
+- `DispositionAI`: normalizuje ??dky, p??padn? dopln? ??slov?n? rejst??k?, generuje kontext o n?stroji (`getOrganInfo`).
+- `DescribeDispositionAI`: vytvo?? popis dispozice v aktivn?m locale, zachov?v? Markdown a loguje ka?d? dotaz.
+- `SuggestRegistrationAI`: vybere rejst??ky (??sla v hranat?ch z?vork?ch), voliteln? generuje koment?? bez ??sel a mapuje je na ??dky dispozice pro UI.
+- `DispositionOcr`: vyu??v? OpenAI pro p?evod obrazov? dispozice (pou?it? ve `app/Services/AI`).
 
-## CLI nastroje
-- `app:import-data` ? plny import + volitelne znovu seeduje zaklad.
-- `app:collect-stats` ? vypocet statistik, ulozeni do DB, odeslani e-mailu.
-- Dalsi: `app:geocode`, `app:scrape-varhany-net`, `app:update-organists`, `app:collect-stats --schedule` (bez potvrzovaciho dotazu).
+## CLI n?stroje
+- `app:import-data` ? pln? import + voliteln? znovu seeduje z?klad.
+- `app:collect-stats` ? v?po?et statistik, ulo?en? do DB, odesl?n? e-mailu.
+- Dal??: `app:geocode`, `app:scrape-varhany-net`, `app:update-organists`, `app:collect-stats --schedule` (bez potvrzovac?ho dotazu).
 
-## Konfigurace a prostredi
-- Composer post-skripty vytvareji `.env`, spousti migrace, aktualizuji jazyky.
-- `config/custom.php` ovlada bannery, simulace nacitani, viditelnost dulezitosti.
+## Konfigurace a prost?ed?
+- Composer post-skripty vytv??ej? `.env`, spou?t? migrace, aktualizuj? jazyky.
+- `config/custom.php` ovl?d? bannery, simulace na??t?n?, viditelnost d?le?itosti.
 - `laravel/scout` definuje fulltext nad `Organ`, `OrganBuilder`, `Disposition`.
 - Build stack: Vite, Tailwind, NPM skripty (`npm run dev`, `npm run build`).
-- Monitorovani: `opcodesio/log-viewer` pro prohlizeni logu v UI.
+- Monitorov?n?: `opcodesio/log-viewer` pro prohl??en? log? v UI.
 
-## Doporuceny workflow pro agenty
-- **Analyza**: projit relevantni soubory (README, modely, sluzby) a pochopit dopad.
-- **Implementace**: vyuzivat helpery, respektovat vlastnictvi entit, pri ukladani dispozic drzet transakce a generovani poradi.
-- **Testovani**: `php artisan test`, pripadne `./vendor/bin/phpstan analyse`; pri uprave assetu spustit `npm run build`.
-- **Overeni importu**: po zmenach v CSV logice spustit `php artisan app:import-data --seed` nad bezpecnou kopii.
-- **Vystup**: v PR shrnout dopad, dopsat kroky pro manualni kontrolu, aktualizovat dokumentaci podle potreby.
+## Doporu?en? workflow pro agenty
+- **Anal?za**: proj?t relevantn? soubory (README, modely, slu?by) a pochopit dopad.
+- **Implementace**: vyu??vat helpery, respektovat vlastnictv? entit, p?i ukl?d?n? dispozic dr?et transakce a generov?n? po?ad?.
+- **Testov?n?**: `php artisan test`, p??padn? `./vendor/bin/phpstan analyse`; p?i ?prav? asset? spustit `npm run build`.
+- **Ov??en? importu**: po zm?n?ch v CSV logice spustit `php artisan app:import-data --seed` nad bezpe?nou kopi?.
+- **V?stup**: v PR shrnout dopad, dopsat kroky pro manu?ln? kontrolu, aktualizovat dokumentaci dle pot?eby.
 
-## Checklist pred merge
-- [ ] Nova dependency je zdokladovana v `composer.json` / `package.json`.
-- [ ] Existuje test nebo popsan? manualni postup overeni.
-- [ ] Livewire formulare pokryvaji edge-case (duplicitni rejstriky, validace ID).
-- [ ] AI sluzby loguji chyby a maji fallback, ktery neblokuje UI.
-- [ ] Dokumentace (README, prirucka) je aktualni.
+## Checklist p?ed merge
+- [ ] Nov? dependency je zdokumentovan? v `composer.json` / `package.json`.
+- [ ] Existuje test nebo popsan? manu?ln? postup ov??en?.
+- [ ] Livewire formul??e pokr?vaj? edge-case (duplicitn? rejst??ky, validace ID).
+- [ ] AI slu?by loguj? chyby a maj? fallback, kter? neblokuje UI.
+- [ ] Dokumentace (README, p??ru?ka) je aktu?ln?.
 
-## Slovnicek pojmu
-- **Dispozice**: textovy zapis rejstriku, manualu a pedalu konkretniho nastroje.
-- **Registrace**: kombinace rejstriku pro urceny repertoar nebo skladbu.
-- **Varhany.net**: externi databaze, ze ktere se importuji historie varhan a varhanaru.
-- **Owned entity**: zaznam s pripadnym `user_id`, verejne zaznamy ho nemaji.
-- **Volt stranka**: Livewire komponenta registrovana pres `Livewire\\Volt\\Volt::route` a reprezentovana Blade sablonou v `resources/views/livewire/pages`.
+## Slovn??ek pojm?
+- **Dispozice**: textov? z?pis rejst??k?, manu?l? a ped?l? konkr?tn?ho n?stroje.
+- **Registrace**: kombinace rejst??k? pro ur?en? reperto?r nebo skladbu.
+- **Varhany.net**: extern? datab?ze, ze kter? se importuj? historie varhan a varhan???.
+- **Owned entity**: z?znam s p??padn?m `user_id`, ve?ejn? z?znamy ho nemaj?.
+- **Volt str?nka**: Livewire komponenta registrovan? p?es `Livewire\Volt\Volt::route` a reprezentovan? Blade ?ablonou v `resources/views/livewire/pages`.
