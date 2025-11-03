@@ -383,7 +383,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <div class="mb-4">
             <label class="form-label" for="filterCategories">{{ __('Kategorie skříně') }}</label>
             {{-- allowClear nepoužito (důvod viz výše) --}}
-                <x-organomania.selects.organ-category-select
+            <x-organomania.selects.organ-category-select
                 model="filterCategories"
                 placeholder="{{ __('Zvolte kategorii skříně') }}..."
                 :categoriesGroups="$this->organCategoriesGroups"
