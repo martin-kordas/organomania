@@ -68,7 +68,7 @@ abstract class DispositionAI
         
         $organBuilder = $this->organ?->organBuilder;
         $info .= ' It was built by ';
-        if (!isset($organBuilder)) $info = 'unknown organ builder';
+        if (!isset($organBuilder)) $info .= 'unknown organ builder';
         else $info .= $this->getOrganBuilderLabel($organBuilder);
         $yearBuilt = $this->organ->year_built;
         if ($yearBuilt) $info .= " in $yearBuilt";
