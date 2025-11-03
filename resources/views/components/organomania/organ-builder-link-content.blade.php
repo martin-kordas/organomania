@@ -14,8 +14,7 @@
     if ($showActivePeriod || $showMunicipality) {
         if ($showActivePeriod) $details[] = $activePeriod ?? $organBuilder->active_period;
         if ($showMunicipality) {
-            $municipality = preg_replace('/ \((.*)\)/', ', $1', $organBuilder->municipality);
-            $details[] = $municipality;
+            $details[] = $organBuilder->municipalityWithoutParenthesis;
         }
     }
     elseif ($yearBuilt) {

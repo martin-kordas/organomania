@@ -35,7 +35,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $filterOrganomaniaOrgans;
 
     #[Url(keep: true)]
-    public $groupBy = 'caseCategory';
+    public $groupBy = 'organBuilder';
     #[Url(keep: true)]
     public $sort = 'yearBuiltAsc';
 
@@ -324,8 +324,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function groupByOptions()
     {
         return [
-            'caseCategory' => __('Kategorie'),
             'organBuilder' => __('Varhanáře'),
+            'caseCategory' => __('Kategorie'),
             'periodCategory' => __('Období'),
         ];
     }
@@ -456,34 +456,39 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div class="group-container border rounded p-2 p-md-3 my-4">
                 <h4 class="d-flex align-items-center fs-5 my-2 my-md-0" wire:key="{{ "organBuilder$groupId" }}">
                     <span class="me-1">
-                        <span class="">
-                            @switch($groupBy)
-                                @case('organBuilder')
-                                    <x-organomania.organ-builder-link :organBuilder="$cases[0]->organBuilder" :newTab="true" :iconLink="false" showActivePeriod showMunicipality />
-                                    @break
-                            
-                                @case('periodCategory')
-                                    <a class="text-decoration-none" href="{{ route('about-organ') }}#periodCategory{{ $cases[0]->periodCategory->value }}" target="_blank">
-                                        {{ __('Období') }} {{ __($cases[0]->periodCategory->getName()) }}
-                                    </a>
-                                    @break
-                            
-                                @case('caseCategory')
-                                    {{ $cases[0]->caseCategory->getName() }}
-                                    @break
-                            @endswitch
-                        </span>
+                        @switch($groupBy)
+                            @case('organBuilder')
+                                <x-organomania.organ-builder-link :organBuilder="$cases[0]->organBuilder" :newTab="true" :iconLink="false" />
+                                @break
+                        
+                            @case('periodCategory')
+                                <a class="text-decoration-none" href="{{ route('about-organ') }}#periodCategory{{ $cases[0]->periodCategory->value }}" target="_blank">
+                                    {{ __('Období') }} {{ __($cases[0]->periodCategory->getName()) }}
+                                </a>
+                                @break
+                        
+                            @case('caseCategory')
+                                {{ $cases[0]->caseCategory->getName() }}
+                                @break
+                        @endswitch
 
                         <span class="badge text-bg-secondary rounded-pill ms-1" style="font-size: 55%;">
                             {{ count($cases) }}
                         </span>
 
-                        @if ($groupBy === 'caseCategory')
-                            @if ($description = $cases[0]->caseCategory->getDescription())
-                                <br />
-                                <span class="d-block mt-1 fw-normal text-secondary lh-base" style="font-size: 65%">{{ $description }}</span>
-                            @endif
-                        @endif
+                        @switch($groupBy)
+                            @case('organBuilder')
+                                <span class="d-block mt-1 fw-normal text-secondary lh-base" style="font-size: 65%">
+                                    {{ $cases[0]->organBuilder->active_period }} ({{ $cases[0]->organBuilder->municipalityWithoutParenthesis }})
+                                </span>
+                                @break
+
+                            @case('caseCategory')
+                                @if ($description = $cases[0]->caseCategory->getDescription())
+                                    <span class="d-block mt-1 fw-normal text-secondary lh-base" style="font-size: 65%">{{ $description }}</span>
+                                @endif
+                                @break
+                        @endswitch
                     </span>
 
                     <span class="ms-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit/skrýt skupinu') }}">

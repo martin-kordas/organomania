@@ -41,6 +41,9 @@
                 @isset ($organ->organ_builder_name)
                     <i class="bi bi-person-circle"></i>
                     {{ $organ->organ_builder_name }}
+                    @isset($organ->year_built)
+                        <span class="text-secondary">({{ $organ->year_built }})</span>
+                    @endisset
                 @else
                     <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" :showOrganWerk="$organ->hasCaseOrganBuilder()" :shortDetails="true" />
                 @endif

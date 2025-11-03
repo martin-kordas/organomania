@@ -35,6 +35,8 @@ class DispositionTextualFormatter
             }
         }
         
+        $disposition = preg_replace('/([1-9])x\b/', '$1×', $disposition);
+
         $disposition = str($this->markdownConvertor->convert($disposition))->trim();
         
         // zarovnání stopových výšek doprava

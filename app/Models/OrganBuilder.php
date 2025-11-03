@@ -273,6 +273,17 @@ class OrganBuilder extends Model
             }
         );
     }
+
+    public function municipalityWithoutParenthesis(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                if (isset($attributes['municipality'])) {
+                    return preg_replace('/ \((.*)\)/', ', $1', $attributes['municipality']);
+                }
+            }
+        );
+    }
     
     public function getThumbnailImage()
     {

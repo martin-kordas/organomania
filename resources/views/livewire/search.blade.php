@@ -95,7 +95,7 @@ new class extends Component {
                     ->leftJoin('organ_builders', 'organs.organ_builder_id', 'organ_builders.id')
                     ->select([
                         'organs.id', 'organs.slug', 'organs.place', 'organs.municipality', 'organs.importance', 'organs.organ_builder_id',
-                        'organs.year_built', 'organs.baroque', 'organs.user_id',
+                        'organs.organ_builder_name', 'organs.year_built', 'organs.baroque', 'organs.user_id',
                     ])
                     ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name');
                 

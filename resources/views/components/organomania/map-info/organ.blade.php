@@ -5,7 +5,7 @@
 </div>
 
 <div>
-    {{ $organ->organBuilder->name ?? __('neznámý varhanář') }}
+    {{ $organ->organ_builder_name ?? $organ->organBuilder->name ?? __('neznámý varhanář') }}
     @isset($organ->year_built)
         <span style='color: grey'>({{ $organ->year_built }})</span>
     @endisset

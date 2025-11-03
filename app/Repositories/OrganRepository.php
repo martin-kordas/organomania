@@ -48,7 +48,7 @@ class OrganRepository extends AbstractRepository
             
             switch ($field) {
                 case 'locality':
-                    $query->whereAny(['place', 'municipality'], 'like', "%$value%");
+                    $query->whereAny(['organs.place', 'organs.municipality'], 'like', "%$value%");
                     break;
                 
                 case 'disposition':
@@ -146,6 +146,8 @@ class OrganRepository extends AbstractRepository
                     );
                     $query
                         ->join('organ_builders', 'organ_builders.id', '=', 'organs.organ_builder_id')
+                        ->select('organs.*')
+                        ->orderByRaw('organ_builders.id = ?', [OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED])
                         ->orderBy($orderExpression, $direction);
                     break;
                 
@@ -169,8 +171,8 @@ class OrganRepository extends AbstractRepository
             }
         }
         
-        $query->orderBy('municipality');
-        $query->orderBy('id');
+        $query->orderBy('organs.municipality');
+        $query->orderBy('organs.id');
         
         return $query;
     }
