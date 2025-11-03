@@ -40,8 +40,9 @@ abstract class DispositionAI
     
     protected function addRegisterNumbers(string $disposition)
     {
+        // sjednotí číslování rejstříků, aby AI dokázala jednoznačně odkazovat na konkrétní řádky
         return str($disposition)->explode("\n")->map(function ($row) {
-            static $registerNumber = 1;
+            static $registerNumber = 1;   // udržuje průběžné pořadí i při opakovaném volání closure v rámci kolekce
             if (trim($row) !== '' && !str($row)->startsWith('*')) {
                 $row = str($row)->replaceMatches('/^[0-9]+\\\\?\. /', '');     // odstranění existujícího číslování
                 $row = "$registerNumber. $row";
@@ -82,16 +83,19 @@ abstract class DispositionAI
                 $rebuildsStr = $organRebuilds->map(function (OrganRebuild $rebuild) {
                     $label = 'by ';
                     $label .= $this->getOrganBuilderLabel($rebuild->organBuilder);
+                    // data z importů nemusí vždy obsahovat rok přestavby; pokud chybí, vypustíme jej a ponecháme jen stavitele
                     if (isset($rebuild->year_built)) $label .= " in {$rebuild->year_built}";
                     return $label;
                 })->join(', ', ' and ');
                 $info .= " It was later rebuilt $rebuildsStr.";
             }
             elseif (isset($yearBuilt) && $yearBuilt < 1800) {
+                // heuristika pro starší nástroje pomáhá modelu doplnit kontext o omezeném rozsahu a vhodném repertoáru
                 $info .= " Organ was built in South German baroque style, which means it has probably limited keyboard range. Consider this when thinking about suitable repertoire.";
             }
         }
         else {
+            // fallback věta, aby prompt dával smysl i při volání bez konkrétního modelu varhan
             $info .= ' Details about builder and construction year are not available.';
         }
         
