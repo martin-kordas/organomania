@@ -50,7 +50,7 @@ final readonly class OrganCaseImage {
             $organBuilder = $organ->caseOrganBuilder;
             $organBuilderName = $organ->case_organ_builder_name ?? $organ->caseOrganBuilder?->initialName;
             $stopsCount = null;
-            $organBuilderActiveFromYear = $organ->caseOrganBuilder?->active_from_year;
+            $organBuilderActiveFromYear = $organ->caseOrganBuilder?->active_from_year ?? PHP_INT_MAX;
 
             $details[] = __('dochována skříň');
         }
@@ -60,7 +60,7 @@ final readonly class OrganCaseImage {
             $organBuilder = $organ->organBuilder;
             $organBuilderName = $organ->organ_builder_name ?? $organ->organBuilder?->initialName ?? __('neznámý');
             $stopsCount = static::getOrganStopsCount($organ);
-            $organBuilderActiveFromYear = $organ->organBuilder?->active_from_year;
+            $organBuilderActiveFromYear = $organ->organBuilder?->active_from_year ?? PHP_INT_MAX;
 
             $sizeInfo = static::getOrganSizeInfo($organ);
             if (isset($sizeInfo)) $details[] = $sizeInfo;
@@ -113,7 +113,7 @@ final readonly class OrganCaseImage {
             organBuilder: $additionalImage->organBuilder,
             organBuilderName: $additionalImage->organ_builder_name ?? $additionalImage->organBuilder?->initialName ?? __('neznámý'),
             stopsCount: $additionalImage->stops_count,
-            organBuilderActiveFromYear: $additionalImage->organBuilder?->active_from_year,
+            organBuilderActiveFromYear: $additionalImage->organBuilder?->active_from_year ?? PHP_INT_MAX,
             organBuilderExactName: $additionalImage->organ_builder_name,
 
             details: $detailsStr,

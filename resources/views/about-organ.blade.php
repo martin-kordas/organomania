@@ -96,7 +96,7 @@
                     </p>
                     
                     <p>
-                        Je důležité si uvědomit, že velké množství nástrojů bylo nově postaveno do starší skříně.
+                        Je důležité si uvědomit, že velké množství nástrojů bylo nově postaveno do starší, přizpůsobené skříně.
                         Barokní skříň umístěná na kůru tedy nutně neznamená, že se tam nachází i barokní varhany.
                         Také podoba samotného varhanního stroje může být výsledkem přestaveb, realizovaných postupně v různých časových obdobích.
                         Varhanním skříním se v textu věnujeme spíše okrajově.

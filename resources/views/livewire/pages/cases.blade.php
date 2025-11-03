@@ -150,6 +150,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         // údaje, podle kterých se groupuje, musí být vyplněny
         switch ($this->groupBy) {
+            /*
             case 'organBuilder':
                 $organsQuery
                     ->where(function (Builder $query) {
@@ -161,6 +162,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     ->where('organ_builder_id', '!=', OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED);
                 $additionalImagesQuery->whereNotNull('organ_builder_id');
                 break;
+            */
 
             case 'caseCategory':
                 $organsQuery->whereHas('organCategories', function (Builder $query) {
@@ -225,7 +227,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function casesGroups()
     {
         $groupProperty = match ($this->groupBy) {
-            'organBuilder' => 'organBuilder.id',
+            'organBuilder' => fn (OrganCaseImage $case) => $case->organBuilder?->id ?? -1,
             'periodCategory' => 'periodCategory',
             'caseCategory' => 'caseCategory',
             default => throw new LogicException,
@@ -313,9 +315,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function getCaseOrganBuilderName(OrganCaseImage $case)
     {
-        if ($this->groupBy === 'organBuilder') {
-            // jméno už je zobrazeno na začátku skupiny, zobrazíme jen upřesňující jméno
-            if (isset($case->organBuilderExactName)) return $case->organBuilderExactName;
+        // jméno už je zobrazeno na začátku skupiny, zobrazíme jen upřesňující jméno
+        //  - jeli však skříň bez varhanáře, zařadí se do skupiny "ostatní varhanáři" a musíme zobrazit jméno ("neznámý")
+        if ($this->groupBy === 'organBuilder' && isset($case->organBuilder)) {
+            return $case->organBuilderExactName ?? null;
         }
         else return $case->organBuilderName;
     }
@@ -458,7 +461,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <span class="me-1">
                         @switch($groupBy)
                             @case('organBuilder')
-                                <x-organomania.organ-builder-link :organBuilder="$cases[0]->organBuilder" :newTab="true" :iconLink="false" />
+                                @isset($cases[0]->organBuilder)
+                                    <x-organomania.organ-builder-link :organBuilder="$cases[0]->organBuilder" :newTab="true" :iconLink="false" />
+                                @else
+                                    {{ __('Ostatní varhanáři') }}
+                                @endisset
                                 @break
                         
                             @case('periodCategory')
@@ -478,9 +485,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
                         @switch($groupBy)
                             @case('organBuilder')
-                                <span class="d-block mt-1 fw-normal text-secondary lh-base" style="font-size: 65%">
-                                    {{ $cases[0]->organBuilder->active_period }} ({{ $cases[0]->organBuilder->municipalityWithoutParenthesis }})
-                                </span>
+                                @isset($cases[0]->organBuilder)
+                                    <span class="d-block mt-1 fw-normal text-secondary lh-base" style="font-size: 65%">
+                                        {{ $cases[0]->organBuilder->active_period }} ({{ $cases[0]->organBuilder->municipalityWithoutParenthesis }})
+                                    </span>
+                                @endisset
                                 @break
 
                             @case('caseCategory')
