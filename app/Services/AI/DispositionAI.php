@@ -41,8 +41,8 @@ abstract class DispositionAI
     protected function addRegisterNumbers(string $disposition)
     {
         // sjednotí číslování rejstříků, aby AI dokázala jednoznačně odkazovat na konkrétní řádky
-        return str($disposition)->explode("\n")->map(function ($row) {
-            static $registerNumber = 1;   // udržuje průběžné pořadí i při opakovaném volání closure v rámci kolekce
+        $registerNumber = 1;   // explicitní čítač zabrání pokračování číslování při opakovaném volání metody
+        return str($disposition)->explode("\n")->map(function ($row) use (&$registerNumber) {
             if (trim($row) !== '' && !str($row)->startsWith('*')) {
                 $row = str($row)->replaceMatches('/^[0-9]+\\\\?\. /', '');     // odstranění existujícího číslování
                 $row = "$registerNumber. $row";
