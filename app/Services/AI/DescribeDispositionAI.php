@@ -9,9 +9,9 @@ class DescribeDispositionAI extends DispositionAI
     
     public function describe()
     {
-        $res = $this->sendRequest();
+        $content = $this->sendRequest();
         Log::info("DescribeDispositionAI - request made", ['organId' => $this->organ?->id]);
-        return $this->getResponseContent($res);
+        return $content;
     }
     
     protected function sendRequest()
@@ -36,7 +36,7 @@ class DescribeDispositionAI extends DispositionAI
             $this->dispositionPlain
         EOL;
         
-        $res = $this->client->chat()->create([
+        return $this->sendChatRequest('describe_disposition', [
             'model' => 'gpt-4o',
             'temperature' => 1,
             'messages' => [
@@ -44,7 +44,6 @@ class DescribeDispositionAI extends DispositionAI
                 ['role' => 'user', 'content' => $content],
             ],
         ]);
-        return $res;
     }
     
 }

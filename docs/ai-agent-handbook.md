@@ -48,6 +48,8 @@
 - `DescribeDispositionAI`: vytvoří popis dispozice v aktivním locale, zachovává Markdown a loguje každý dotaz.
 - `SuggestRegistrationAI`: vybere rejstříky (čísla v hranatých závorkách), volitelně generuje komentář bez čísel a mapuje je na řádky dispozice pro UI.
 - `DispositionOcr`: využívá OpenAI pro převod obrazové dispozice (použití ve `app/Services/AI`).
+- Všechny konverzace ukládají auditní stopu do tabulky `ai_request_logs` (obsahuje prompt, odpověď, stav a případnou chybu);
+  limity délky odpovědi a retry chování nastavíš v `config/custom.php` (`AI_MAX_RESPONSE_LENGTH`, `AI_RETRY_ATTEMPTS`, `AI_RETRY_SLEEP_MS`).
 
 ## CLI nástroje
 - `app:import-data` – plný import + volitelně znovu seeduje základ.

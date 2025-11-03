@@ -6,12 +6,14 @@ use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\OrganRebuild;
 use App\Services\AI\DispositionAI;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery as m;
 use OpenAI\Contracts\ClientContract;
 use Tests\TestCase;
 
 class DispositionAITest extends TestCase
 {
+    use RefreshDatabase;
 
     protected function tearDown(): void
     {
@@ -86,6 +88,73 @@ class DispositionAITest extends TestCase
 
         $this->assertStringContainsString('South German baroque style', $info);
     }
+
+    /** @test */
+    public function it_logs_successful_chat_requests()
+    {
+        config()->set('custom.ai.retry_attempts', 0);
+        config()->set('custom.ai.retry_sleep_ms', 0);
+        config()->set('custom.ai.max_response_length', 100);
+
+        $chatMock = m::mock();
+        $chatMock->shouldReceive('create')->once()->andReturn((object) [
+            'choices' => [
+                (object) ['message' => (object) ['content' => 'Result content']],
+            ],
+        ]);
+
+        $client = m::mock(ClientContract::class);
+        $client->shouldReceive('chat')->andReturn($chatMock);
+
+        $ai = new DispositionAITestStub("Principal 8'", $client);
+
+        $content = $ai->callSendChatRequest('test_operation', [
+            'messages' => [
+                ['role' => 'user', 'content' => 'Prompt'],
+            ],
+        ]);
+
+        $this->assertSame('Result content', $content);
+        $this->assertDatabaseHas('ai_request_logs', [
+            'operation' => 'test_operation',
+            'success' => true,
+        ]);
+    }
+
+    /** @test */
+    public function it_logs_and_throws_when_response_exceeds_limit()
+    {
+        config()->set('custom.ai.retry_attempts', 0);
+        config()->set('custom.ai.retry_sleep_ms', 0);
+        config()->set('custom.ai.max_response_length', 5);
+
+        $chatMock = m::mock();
+        $chatMock->shouldReceive('create')->once()->andReturn((object) [
+            'choices' => [
+                (object) ['message' => (object) ['content' => 'Too long content']],
+            ],
+        ]);
+
+        $client = m::mock(ClientContract::class);
+        $client->shouldReceive('chat')->andReturn($chatMock);
+
+        $ai = new DispositionAITestStub("Principal 8'", $client);
+
+        $this->expectException(\LengthException::class);
+        try {
+            $ai->callSendChatRequest('long_response_check', [
+                'messages' => [
+                    ['role' => 'user', 'content' => 'Prompt'],
+                ],
+            ]);
+        }
+        finally {
+            $this->assertDatabaseHas('ai_request_logs', [
+                'operation' => 'long_response_check',
+                'success' => false,
+            ]);
+        }
+    }
 }
 
 class DispositionAITestStub extends DispositionAI
@@ -103,6 +172,11 @@ class DispositionAITestStub extends DispositionAI
     public function callGetOrganInfo(): string
     {
         return $this->getOrganInfo();
+    }
+
+    public function callSendChatRequest(string $operation, array $payload): string
+    {
+        return $this->sendChatRequest($operation, $payload);
     }
 }
 

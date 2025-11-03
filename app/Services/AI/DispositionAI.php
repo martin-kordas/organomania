@@ -5,9 +5,12 @@ namespace App\Services\AI;
 use OpenAI\Contracts\ClientContract;
 use OpenAI\Contracts\ResponseContract;
 use App\Helpers;
+use App\Models\AiRequestLog;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\OrganRebuild;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 abstract class DispositionAI
 {
@@ -38,6 +41,32 @@ abstract class DispositionAI
         $this->locale = $locale;
     }
     
+    protected function sendChatRequest(string $operation, array $payload)
+    {
+        $retries = max((int) config('custom.ai.retry_attempts', 2), 0);
+        $sleepMs = max((int) config('custom.ai.retry_sleep_ms', 500), 0);
+
+        $attempt = 0;
+        while (true) {
+            try {
+                $response = $this->client->chat()->create($payload);
+                $content = $this->getResponseContent($response);
+                $this->guardResponseLength($content);
+                $this->logAiRequest($operation, $payload, $content, null);
+                return $content;
+            }
+            catch (\Throwable $exception) {
+                if ($attempt >= $retries) {
+                    $this->logAiRequest($operation, $payload, null, $exception);
+                    throw $exception;
+                }
+
+                $attempt++;
+                if ($sleepMs > 0) usleep($sleepMs * 1000);
+            }
+        }
+    }
+
     protected function addRegisterNumbers(string $disposition)
     {
         // sjednotí číslování rejstříků, aby AI dokázala jednoznačně odkazovat na konkrétní řádky
@@ -57,6 +86,14 @@ abstract class DispositionAI
         return $response->choices[0]->message->content ?? throw new \RuntimeException;
     }
     
+    protected function guardResponseLength(string $content): void
+    {
+        $maxLength = (int) config('custom.ai.max_response_length', 6000);
+        if ($maxLength > 0 && mb_strlen($content) > $maxLength) {
+            throw new \LengthException('AI response exceeded configured length limit.');
+        }
+    }
+
     protected function getOrganBuilderLabel(OrganBuilder $organBuilder)
     {
         if ($organBuilder->is_workshop) return "organ workshop '{$organBuilder->name}'";
@@ -102,4 +139,58 @@ abstract class DispositionAI
         return $info;
     }
     
+    protected function logAiRequest(string $operation, array $payload, ?string $response, ?\Throwable $exception): void
+    {
+        try {
+            AiRequestLog::create([
+                'operation' => Str::limit($operation, 100, ''),
+                'prompt' => $this->truncateForDb($this->extractPromptFromPayload($payload)),
+                'response' => isset($response) ? $this->truncateForDb($response) : null,
+                'success' => !isset($exception),
+                'error' => isset($exception) ? $this->truncateForDb($exception->getMessage()) : null,
+            ]);
+        }
+        catch (\Throwable $loggingException) {
+            Log::warning('AI request logging failed.', [
+                'operation' => $operation,
+                'original_error' => $exception?->getMessage(),
+                'logging_error' => $loggingException->getMessage(),
+            ]);
+        }
+    }
+
+    protected function extractPromptFromPayload(array $payload): string
+    {
+        $messages = $payload['messages'] ?? [];
+        if (!is_array($messages)) {
+            return $this->encodePayload($payload);
+        }
+
+        $parts = [];
+        foreach ($messages as $message) {
+            if (is_array($message) && isset($message['role'], $message['content']) && is_string($message['content'])) {
+                $parts[] = "{$message['role']}: {$message['content']}";
+            }
+            else {
+                $parts[] = $this->encodePayload($message);
+            }
+        }
+
+        return implode("\n---\n", $parts);
+    }
+
+    protected function encodePayload($payload): string
+    {
+        return (string) json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
+
+    protected function truncateForDb(string $value, int $limit = 65000): string
+    {
+        if (mb_strlen($value) <= $limit) {
+            return $value;
+        }
+
+        return Str::limit($value, $limit, '...');
+    }
+
 }
