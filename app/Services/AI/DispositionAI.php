@@ -66,27 +66,33 @@ abstract class DispositionAI
     {
         $info = 'The organ is located in Czech Republic.';
         
-        $organBuilder = $this->organ?->organBuilder;
-        $info .= ' It was built by ';
-        if (!isset($organBuilder)) $info .= 'unknown organ builder';
-        else $info .= $this->getOrganBuilderLabel($organBuilder);
-        $yearBuilt = $this->organ->year_built;
-        if ($yearBuilt) $info .= " in $yearBuilt";
-        $info .= ".";
-        
-        if ($this->organ->organRebuilds->isNotEmpty()) {
-            $rebuildsStr = $this->organ->organRebuilds->map(function (OrganRebuild $rebuild) {
-                $label = 'by ';
-                $label .= $this->getOrganBuilderLabel($rebuild->organBuilder);
-                $label .= " in {$rebuild->year_built}";
-                return $label;
-            })->join(', ', ' and ');
-            $info .= " It was later rebuilt $rebuildsStr.";
+        $organ = $this->organ;
+        if (isset($organ)) {
+            $organBuilder = $organ->organBuilder;
+            $info .= ' It was built by ';
+            if (!isset($organBuilder)) $info .= 'unknown organ builder';
+            else $info .= $this->getOrganBuilderLabel($organBuilder);
+
+            $yearBuilt = $organ->year_built;
+            if ($yearBuilt) $info .= " in $yearBuilt";
+            $info .= ".";
+
+            $organRebuilds = $organ->organRebuilds;
+            if ($organRebuilds->isNotEmpty()) {
+                $rebuildsStr = $organRebuilds->map(function (OrganRebuild $rebuild) {
+                    $label = 'by ';
+                    $label .= $this->getOrganBuilderLabel($rebuild->organBuilder);
+                    if (isset($rebuild->year_built)) $label .= " in {$rebuild->year_built}";
+                    return $label;
+                })->join(', ', ' and ');
+                $info .= " It was later rebuilt $rebuildsStr.";
+            }
+            elseif (isset($yearBuilt) && $yearBuilt < 1800) {
+                $info .= " Organ was built in South German baroque style, which means it has probably limited keyboard range. Consider this when thinking about suitable repertoire.";
+            }
         }
         else {
-            if ($this->organ->year_built < 1800) {
-                $info .= " Organ was built in South German baroque style, which means it has probably limited keyboad range. Consider this when thinking about suitable repertoir.";
-            }
+            $info .= ' Details about builder and construction year are not available.';
         }
         
         return $info;
