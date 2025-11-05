@@ -223,6 +223,17 @@ class OrganRepository extends AbstractRepository
     
     public function getSimilarOrgans(Organ $organ)
     {
+        $organs = $this->getSimilarOrgansHelp($organ);
+
+        if ($organs->isEmpty()) {
+            $organs = $this->getSimilarOrgansHelp($organ, stopsRangeCoeff: 0.4, extraYearRange: 20);
+        }
+
+        return $organs;
+    }
+
+    private function getSimilarOrgansHelp(Organ $organ, float $stopsRangeCoeff = 0.2, int $extraYearRange = 0)
+    {
         $categories = $organ->organCategories->map(
             fn (OrganCategoryModel $category) => $category->getEnum()
         );
@@ -242,23 +253,24 @@ class OrganRepository extends AbstractRepository
             $organ->year >= 1900 => 25,
             $organ->year >= 1945 => 20,
             default => 35
-        };
+        } + $extraYearRange;
 
         // relativní rozptyl v počtu rejstříku zavádíme kvůli velkým varhanám, kde absolutní rozdíl 5 rejstříků není signifikantní
         $stopsAbsoluteRange = 5;
-        $stopsRelativeRange = $organ->stops_count * 0.2;
+        $stopsRelativeRange = $organ->stops_count * $stopsRangeCoeff;
         $stopsRange = max($stopsAbsoluteRange, $stopsRelativeRange);
         
         // kategorie největší/nejstarší a kategorie období se nemusí shodovat
         $categoryIds = $categories
             ->filter(
-                fn (OrganCategory $category) => !$category->isExtraordinaryCategory() && !$category->isPeriodCategory()
+                fn (OrganCategory $category) => !$category->isExtraordinaryCategory() && !$category->isPeriodCategory() && !$category->isCaseCategory()
             )
             ->map(
                 fn (OrganCategory $category) => $category->value
             );
         
-        return Organ::query()
+        $query = Organ::query()
+            ->select('*')
             ->where('id', '!=', $organ->id)
             ->where('manuals_count', $organ->manuals_count)
             ->whereBetween('stops_count', [
@@ -274,8 +286,12 @@ class OrganRepository extends AbstractRepository
             ->whereDoesntHave('organRebuilds')
             ->where('baroque', 0)
             ->public()
-            ->inRandomOrder()
-            ->take(10)
+            ->orderBy('distance')
+            ->take(5);
+        
+        $this->selectDistance($query, $organ->latitude, $organ->longitude);
+
+        return $query
             ->get()
             ->sortBy('year_built');
     }

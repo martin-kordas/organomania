@@ -71,7 +71,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function rendering(View $view): void
     {
-        $view->title(__('Galerie varhanních skříní'));
+        $title = __('Galerie varhanních skříní');
+        if ($this->filterOrganBuilders && count($this->filterOrganBuilders) === 1) {
+            $case = $this->cases->first(
+                fn ($case) => isset($case->organBuilder)
+            );
+            if ($case) $title .= " – {$case->organBuilder->name}";
+        }
+
+        $view->title($title);
     }
 
     private function getOrgansQuery(): Builder
@@ -86,8 +94,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 )
                 AS year_built1
             ')
-            ->with(['organBuilder', 'organCategories'])
-            ->withCount('organRebuilds')
             ->public()
             ->whereNotNull('outside_image_url')
             ->whereNotIn('id', [Organ::ORGAN_ID_PRAHA_EMAUZY, Organ::ORGAN_ID_PARDUBICE_ZUS_POLABINY])
@@ -100,7 +106,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return OrganBuilderAdditionalImage::query()
             ->select('*')
             ->selectRaw('year_built AS year_built1')
-            ->with('organBuilder')
             ->where('nonoriginal_case', 0)
             ->where('organ_exists', 0)
             ->whereNotNull('year_built');
@@ -112,8 +117,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         // TODO: logika dohledávání obrázků je obdobná jako v organ-builder-show.blade.php (tam je akorát implicitně filtr na varhanáře)
         //  - přesto se data na obou místech dotazují zvlášť a používají se různé struktury (zde OrganCaseImage, tam prosté pole)
 
-        $organsQuery = $this->getOrgansQuery();
-        $additionalImagesQuery = $this->getAdditionalImagesQuery();
+        $organsQuery = $this->getOrgansQuery()
+            ->with(['organBuilder', 'organCategories'])
+            ->withCount('organRebuilds');
+        $additionalImagesQuery = $this->getAdditionalImagesQuery()
+            ->with('organBuilder');
 
         if ($this->filterCategories) {
             $organsQuery->whereHas('organCategories', function (Builder $query) {
@@ -280,37 +288,40 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $groups;
     }
 
-    #[Computed]
-    public function organCategories()
-    {
-        $categories = OrganCategory::getCategoryGroups()['caseCategories'];
-        $ids = collect($categories)->pluck('value');
-
-        return $this->organRepository->getCategories(
-            allowIds: $ids
-        );
-    }
-
-    private function getOrganCategoryModel($category)
-    {
-        return $this->organCategories->firstOrFail(
-            fn(CategoryModel $categoryModel) => $categoryModel->id === $category->value
-        );
-    }
-
     private function getOrganCategoryOrganCount(Category $category)
     {
-        // nepoužívá se, protože čísla jsou zavádějící - podle groupování se aplikují další filtry, které číslo nezohledňuje
-        return null;
+        static $additionalImagesCounts = $this->getAdditionalImagesQuery()
+            ->selectRaw('COUNT(*) AS count, case_organ_category_id')
+            ->groupBy('case_organ_category_id')
+            ->get();
 
-        $categoryModel = $this->getOrganCategoryModel($category);
-        $count = $categoryModel->organs_count;
-
-        $count += OrganBuilderAdditionalImage::query()
-            ->where('case_organ_category_id', $category->value)
+        $organsCount = $this->getOrgansQuery()
+            ->whereHas('organCategories', function (Builder $query) use ($category) {
+                $query->where('id', $category->value);
+            })
             ->count();
 
-        return $count;
+        $additionalImagesCount = $additionalImagesCounts->firstWhere('case_organ_category_id', $category->value)?->count ?? 0;
+
+        return $organsCount + $additionalImagesCount;
+    }
+
+    private function getOrganBuilderOrganCount(OrganBuilder $organBuilder)
+    {
+        static $additionalImagesCounts = $this->getAdditionalImagesQuery()
+            ->whereNotNull('organ_builder_id')
+            ->selectRaw('COUNT(*) AS count, organ_builder_id')
+            ->groupBy('organ_builder_id')
+            ->get();
+
+        $organsCount = $this->getOrgansQuery()
+            ->whereRaw('IFNULL(case_organ_builder_id, organ_builder_id) = ?', [$organBuilder->id])
+            ->whereNull('case_organ_builder_name')
+            ->count();
+
+        $additionalImagesCount = $additionalImagesCounts->firstWhere('organ_builder_id', $organBuilder->id)?->count ?? 0;
+
+        return $organsCount + $additionalImagesCount;
     }
 
     private function getCaseOrganBuilderName(OrganCaseImage $case)
@@ -380,7 +391,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <div class="mb-3">
             <label class="form-label" for="filterOrganBuilders">{{ __('Varhanář') }}</label>
             {{-- allowClear nepoužito, protože u multiselectů bez <optgroup> a bez prázdné <option> blbne na mobilu (po vymazání se vybere první <option>) --}}
-            <x-organomania.selects.organ-builder-select model="filterOrganBuilders" :organBuilders="$this->organBuilders" small multiple live />
+            <x-organomania.selects.organ-builder-select model="filterOrganBuilders" :organBuilders="$this->organBuilders" small multiple live counts />
         </div>
 
         <div class="mb-4">
@@ -450,7 +461,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div class="text-center">
                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse" onclick="collapseAll()">
                     <i class="bi-chevron-contract"></i>
-                    {{ __('Skrýt všechny skupiny') }}
+                    {{ __('Sbalit všechny skupiny') }}
                 </button>
             </div>
         @endif
@@ -500,7 +511,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         @endswitch
                     </span>
 
-                    <span class="ms-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit/skrýt skupinu') }}">
+                    <span class="ms-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Rozbalit/sbalit skupinu') }}">
                         <button type="button" class="btn btn-sm collapse-btn btn-outline-secondary ms-1 rounded-pill" data-bs-toggle="collapse" href="#group{{ $groupId }}" onclick="collapseBtnOnclick(this)">
                             <i class="bi-chevron-contract"></i>
                         </button>
@@ -536,7 +547,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 </p>
                                 <div class="text-secondary small">
                                     @if ($organBuilderName = $this->getCaseOrganBuilderName($case))
-                                        @if ($case->organBuilder && $case->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
+                                        @if ($case->organBuilder && $case->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED && $this->groupBy !== 'organBuilder')
                                             <x-organomania.organ-builder-link
                                                 :organBuilder="$case->organBuilder"
                                                 :name="$organBuilderName"
@@ -558,6 +569,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         @endforeach
     @endif
+    
+    <p class="small text-center text-secondary">
+        <strong>{{ __('Poděkování přispěvatelům') }}</strong>:
+        <br />
+        Jan Fejgl, Lukáš Dvořák, Filip Harant a další
+    </p>
 </div>
 
 @script

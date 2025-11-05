@@ -203,7 +203,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     public function similarOrgans()
     {
-        return $this->repository->getSimilarOrgans($this->organ);
+        $organs = $this->repository->getSimilarOrgans($this->organ);
+
+        // do výčtu zařadíme i aktuální vyrahany, aby bylo poznat, kam chronologicky náleží
+        if ($organs->isNotEmpty()) {
+            $organs[] = $this->organ;
+            $organs = $organs->sortBy('year_built');
+        }
+        
+        return $organs;
     }
 
     #[Computed]
@@ -901,12 +909,22 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_SIMILAR_ORGANS)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_SIMILAR_ORGANS }}')"
             >
-                <small class="text-secondary">
+                <x-organomania.info-alert class="mb-0">
                     {{ __('Za podobné považujeme varhany přibližně stejné velikosti, postavené v tomtéž období a patřící do stejných kategorií podle typu a stavby.') }}
-                </small>
+                    {{ __('Přednost mají varhany s menší geografickou vzdáleností.') }}
+                </x-organomania.info-alert>
+
                 <div class="items-list mt-2">
                     @foreach ($this->similarOrgans as $similarOrgan)
-                        <x-organomania.organ-link :organ="$similarOrgan" :year="$similarOrgan->year_built" :showOrganBuilder="true" />
+                        @if ($similarOrgan->id === $this->organ->id)
+                            <span class="fw-semibold">
+                                <i class="bi bi-music-note-list"></i>
+                                <x-organomania.organ-link-content :organ="$this->organ" :year="$this->organ->year_built" showOrganBuilder showSizeInfo />
+                            </span>
+                        @else
+                            <x-organomania.organ-link :organ="$similarOrgan" :year="$similarOrgan->year_built" showOrganBuilder showSizeInfo />
+                        @endif
+
                         @if (!$loop->last) <br /> @endif
                     @endforeach
                 </div>

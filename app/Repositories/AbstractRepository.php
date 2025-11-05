@@ -75,8 +75,8 @@ class AbstractRepository
     {
         $query->whereLike($field, "%$value%");
     }
-    
-    protected function filterNear(Builder $query, float $latitude, float $longitude, float $nearDistance)
+
+    protected function selectDistance(Builder $query, float $latitude, float $longitude)
     {
         $tbl = $query->getModel()->getTable();
         
@@ -92,6 +92,11 @@ class AbstractRepository
                 ATAN2($tbl.longitude - ?, $tbl.latitude - ?)
             ) AS angle
         ", [$longitude, $latitude]);
+    }
+    
+    protected function filterNear(Builder $query, float $latitude, float $longitude, float $nearDistance)
+    {
+        $this->selectDistance($query, $latitude, $longitude);
         
         $query->having('distance', '<=', $nearDistance * 1000);
     }

@@ -1,4 +1,8 @@
-@props(['organBuilders', 'model' => 'organBuilderId', 'id' => null, 'select2' => true, 'allowClear' => false, 'small' => false, 'disabled' => false, 'showActivePeriod' => true, 'multiple' => false, 'live' => false])
+@props([
+    'organBuilders', 'model' => 'organBuilderId',
+    'id' => null, 'select2' => true, 'allowClear' => false, 'small' => false,
+    'disabled' => false, 'showActivePeriod' => true, 'multiple' => false, 'live' => false, 'counts' => false
+])
 
 @use(App\Models\OrganBuilder)
 
@@ -24,11 +28,15 @@
     @endif
 
     @foreach ($organBuilders as $organBuilder)
-        @if ($organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
+        @php $organsCount = $counts ? $this->getOrganBuilderOrganCount($organBuilder) : null; @endphp
+        @if ($organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED && $organsCount !== 0)
             <option wire:key="{{ $organBuilder->id }}" value="{{ $organBuilder->id }}">
                 {{ $organBuilder->name }}
                 @if ($showActivePeriod && $organBuilder->active_period)
                     ({{ $organBuilder->active_period }})
+                @endif
+                @if ($counts && $organsCount > 0)
+                    ({{ $organsCount }})
                 @endif
                 @if (!$organBuilder->isPublic())
                     &#128274;
