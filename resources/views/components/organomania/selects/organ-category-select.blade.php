@@ -49,7 +49,7 @@
                 <option wire:key="{{ $category->getValue() }}" title="{{ __($category->getDescription()) }}" value="{{ $category->value }}">
                     {{ __($category->getName()) }}
                     @if ($counts && $organsCount > 0)
-                        ({{ $organsCount }})
+                        ({{ $organsCount }}&times;)
                     @endif
                 </option>
             @endforeach

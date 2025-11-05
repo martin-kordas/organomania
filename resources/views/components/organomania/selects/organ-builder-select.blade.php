@@ -36,7 +36,7 @@
                     ({{ $organBuilder->active_period }})
                 @endif
                 @if ($counts && $organsCount > 0)
-                    ({{ $organsCount }})
+                    ({{ $organsCount }}&times;)
                 @endif
                 @if (!$organBuilder->isPublic())
                     &#128274;

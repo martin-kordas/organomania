@@ -76,39 +76,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             $case = $this->cases->first(
                 fn ($case) => isset($case->organBuilder)
             );
-            if ($case) $title .= " – {$case->organBuilder->name}";
+            if ($case) $title = "{$case->organBuilder->name} – $title";
         }
-
+        
         $view->title($title);
-    }
-
-    private function getOrgansQuery(): Builder
-    {
-        return Organ::query()
-            ->select('*')
-            ->selectRaw('
-                IF(
-                    case_organ_builder_id IS NOT NULL OR case_organ_builder_name IS NOT NULL,
-                    case_year_built,
-                    year_built
-                )
-                AS year_built1
-            ')
-            ->public()
-            ->whereNotNull('outside_image_url')
-            ->whereNotIn('id', [Organ::ORGAN_ID_PRAHA_EMAUZY, Organ::ORGAN_ID_PARDUBICE_ZUS_POLABINY])
-            // rok postavení nutné znát vždy kvůli seřazení
-            ->havingNotNull('year_built1');
-    }
-
-    private function getAdditionalImagesQuery(): Builder
-    {
-        return OrganBuilderAdditionalImage::query()
-            ->select('*')
-            ->selectRaw('year_built AS year_built1')
-            ->where('nonoriginal_case', 0)
-            ->where('organ_exists', 0)
-            ->whereNotNull('year_built');
     }
 
     #[Computed]
@@ -117,10 +88,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         // TODO: logika dohledávání obrázků je obdobná jako v organ-builder-show.blade.php (tam je akorát implicitně filtr na varhanáře)
         //  - přesto se data na obou místech dotazují zvlášť a používají se různé struktury (zde OrganCaseImage, tam prosté pole)
 
-        $organsQuery = $this->getOrgansQuery()
+        $organsQuery = $this->organRepository->getCaseImagesOrgansQuery()
             ->with(['organBuilder', 'organCategories'])
             ->withCount('organRebuilds');
-        $additionalImagesQuery = $this->getAdditionalImagesQuery()
+        $additionalImagesQuery = $this->organRepository->getCaseImagesAdditionalImagesQuery()
             ->with('organBuilder');
 
         if ($this->filterCategories) {
@@ -290,38 +261,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function getOrganCategoryOrganCount(Category $category)
     {
-        static $additionalImagesCounts = $this->getAdditionalImagesQuery()
-            ->selectRaw('COUNT(*) AS count, case_organ_category_id')
-            ->groupBy('case_organ_category_id')
-            ->get();
-
-        $organsCount = $this->getOrgansQuery()
-            ->whereHas('organCategories', function (Builder $query) use ($category) {
-                $query->where('id', $category->value);
-            })
-            ->count();
-
-        $additionalImagesCount = $additionalImagesCounts->firstWhere('case_organ_category_id', $category->value)?->count ?? 0;
-
-        return $organsCount + $additionalImagesCount;
+        $this->organRepository->getOrganCategoryCaseImagesCount($category);
     }
 
     private function getOrganBuilderOrganCount(OrganBuilder $organBuilder)
     {
-        static $additionalImagesCounts = $this->getAdditionalImagesQuery()
-            ->whereNotNull('organ_builder_id')
-            ->selectRaw('COUNT(*) AS count, organ_builder_id')
-            ->groupBy('organ_builder_id')
-            ->get();
-
-        $organsCount = $this->getOrgansQuery()
-            ->whereRaw('IFNULL(case_organ_builder_id, organ_builder_id) = ?', [$organBuilder->id])
-            ->whereNull('case_organ_builder_name')
-            ->count();
-
-        $additionalImagesCount = $additionalImagesCounts->firstWhere('organ_builder_id', $organBuilder->id)?->count ?? 0;
-
-        return $organsCount + $additionalImagesCount;
+        return $this->organRepository->getOrganBuilderCaseImagesCount($organBuilder);
     }
 
     private function getCaseOrganBuilderName(OrganCaseImage $case)
@@ -452,7 +397,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
     @else
         <p class="small text-muted text-center">
-            {{ __('Celkem') }}
+            {{ __('Zobrazeno') }}
             <span class="fw-semibold">{{ $this->cases->count() }}</span>
             {{ Helpers::declineCount($this->cases->count(), __('fotografií'), __('fotografie'), __('fotografie')) }}
         </p>
@@ -511,7 +456,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         @endswitch
                     </span>
 
-                    <span class="ms-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Rozbalit/sbalit skupinu') }}">
+                    <span class="ms-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Sbalit/rozbalit skupinu') }}">
                         <button type="button" class="btn btn-sm collapse-btn btn-outline-secondary ms-1 rounded-pill" data-bs-toggle="collapse" href="#group{{ $groupId }}" onclick="collapseBtnOnclick(this)">
                             <i class="bi-chevron-contract"></i>
                         </button>

@@ -260,6 +260,13 @@ class Helpers
         if (request()->routeIs('organs.index', 'organ-builders.index', 'festivals.index', 'competitions.index')) {
             $params['perPage'] = 300;
         }
+        // galerii skříní chápeme jako samostatné strany pro každého varhanáře
+        elseif (request()->routeIs('organs.cases')) {
+            $organBuilders = request()->query('filterOrganBuilders');
+            if (is_array($organBuilders) && count($organBuilders) === 1) {
+                $params['filterOrganBuilders'] = $organBuilders;
+            }
+        }
         if (isset($lang)) $params['lang'] = $lang;
         
         // HACK: lokalizované routy

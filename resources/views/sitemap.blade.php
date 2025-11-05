@@ -112,4 +112,10 @@
             :lastmod="$competition->updated_at"
         />
     @endforeach
+
+    @foreach ($caseImagesOrganBuilders as $organBuilder)
+        <x-organomania.sitemap-item-entity
+            :url="route('organs.cases', ['filterOrganBuilders' => [$organBuilder->id]])"
+        />
+    @endforeach
 </urlset>

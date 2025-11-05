@@ -8,6 +8,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Enums\OrganCategory;
+use App\Interfaces\Category;
+use App\Models\OrganBuilderAdditionalImage;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\OrganCustomCategory as OrganCustomCategoryModel;
@@ -303,6 +305,71 @@ class OrganRepository extends AbstractRepository
             ->where('baroque', 0)
             ->public()
             ->count();
+    }
+
+    public function getCaseImagesOrgansQuery(): Builder
+    {
+        return Organ::query()
+            ->select('*')
+            ->selectRaw('
+                IF(
+                    case_organ_builder_id IS NOT NULL OR case_organ_builder_name IS NOT NULL,
+                    case_year_built,
+                    year_built
+                )
+                AS year_built1
+            ')
+            ->public()
+            ->whereNotNull('outside_image_url')
+            ->whereNotIn('id', [Organ::ORGAN_ID_PRAHA_EMAUZY, Organ::ORGAN_ID_PARDUBICE_ZUS_POLABINY])
+            // rok postavení nutné znát vždy kvůli seřazení
+            ->havingNotNull('year_built1');
+    }
+
+    public function getCaseImagesAdditionalImagesQuery(): Builder
+    {
+        return OrganBuilderAdditionalImage::query()
+            ->select('*')
+            ->selectRaw('year_built AS year_built1')
+            ->where('nonoriginal_case', 0)
+            ->where('organ_exists', 0)
+            ->whereNotNull('year_built');
+    }
+
+    public function getOrganBuilderCaseImagesCount(OrganBuilder $organBuilder): int
+    {
+        static $additionalImagesCounts = $this->getCaseImagesAdditionalImagesQuery()
+            ->whereNotNull('organ_builder_id')
+            ->selectRaw('COUNT(*) AS count, organ_builder_id')
+            ->groupBy('organ_builder_id')
+            ->get();
+
+        $organsCount = $this->getCaseImagesOrgansQuery()
+            ->whereRaw('IFNULL(case_organ_builder_id, organ_builder_id) = ?', [$organBuilder->id])
+            ->whereNull('case_organ_builder_name')
+            ->count();
+
+        $additionalImagesCount = $additionalImagesCounts->firstWhere('organ_builder_id', $organBuilder->id)?->count ?? 0;
+
+        return $organsCount + $additionalImagesCount;
+    }
+
+    public function getOrganCategoryCaseImagesCount(Category $category): int
+    {
+        static $additionalImagesCounts = $this->getCaseImagesAdditionalImagesQuery()
+            ->selectRaw('COUNT(*) AS count, case_organ_category_id')
+            ->groupBy('case_organ_category_id')
+            ->get();
+
+        $organsCount = $this->getCaseImagesOrgansQuery()
+            ->whereHas('organCategories', function (Builder $query) use ($category) {
+                $query->where('id', $category->value);
+            })
+            ->count();
+
+        $additionalImagesCount = $additionalImagesCounts->firstWhere('case_organ_category_id', $category->value)?->count ?? 0;
+
+        return $organsCount + $additionalImagesCount;
     }
     
     public static function logLastViewedOrgan(Organ $organ)

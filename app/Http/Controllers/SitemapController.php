@@ -11,9 +11,14 @@ use App\Models\Disposition;
 use App\Models\RegisterName;
 use App\Models\User;
 use App\Models\Scopes\OwnedEntityScope;
+use App\Repositories\OrganRepository;
 
 class SitemapController extends Controller
 {
+
+    public function __construct(
+        private OrganRepository $organRepository,
+    ) { }
     
     public function __invoke()
     {
@@ -25,15 +30,32 @@ class SitemapController extends Controller
         $competitions = Competition::all();
         $dispositions = Disposition::all();
         $registerNames = RegisterName::all();
+        $caseImagesOrganBuilders = $this->getCaseImagesOrganBuilders();
 
         $sitemap = view(
             'sitemap',
-            compact('organs', 'privateOrgans', 'organBuilders', 'festivals', 'competitions', 'dispositions', 'registerNames')
+            data: compact(
+                'organs', 'privateOrgans', 'organBuilders', 'festivals', 'competitions', 'dispositions', 'registerNames',
+                'caseImagesOrganBuilders'
+            )
         )->render();
 
         return Response::make($sitemap, 200, [
             'Content-Type' => 'application/xml',
         ]);
+    }
+
+    private function getCaseImagesOrganBuilders()
+    {
+        return OrganBuilder::query()
+            ->select('id')
+            ->public()
+            ->orderBy('id')
+            ->get()
+            ->filter(function (OrganBuilder $organBuilder) {
+                $caseImagesCount = $this->organRepository->getOrganBuilderCaseImagesCount($organBuilder);
+                return $caseImagesCount > 0;
+            });
     }
     
 }
