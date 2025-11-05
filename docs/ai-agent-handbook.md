@@ -32,7 +32,7 @@
 
 ## Datové toky
 - **Importy** (`php artisan app:import-data {--seed}`): zpracování CSV/Markdown, mapování ID, doplnění kategorií a vztahů na festivaly/soutěže.
-- **Scraping** (`VarhanyNetService`): stahuje HTML, extrahuje historii stavby, ukládá serializovaná data pro audit.
+- **Scraping** (`VarhanyNetService`): stahuje HTML, extrahuje historii varhan, ukládá serializovaná data pro audit.
 - **Statistiky** (`php artisan app:collect-stats {--db} {--mailto=*}`): počítá sumáře, volitelně ukládá do DB a posílá e-maily `StatsCollected`.
 - **AI requesty** (`App\Services\AI`): jednotné prompty, normalizované dispozice, logování requestů.
 - **PDF exporty**: `OrganController@exportDispositionAsPdf` rendruje Blade šablonu do PDF.
@@ -45,7 +45,7 @@
 
 ## AI služby detailně
 - `DispositionAI`: normalizuje řádky, případně doplní číslování rejstříků, generuje kontext o nástroji (`getOrganInfo`).
-- `DescribeDispositionAI`: vytvoří popis dispozice v aktivním locale, zachovává Markdown a loguje každý dotaz.
+- `DescribeDispositionAI`: vytvoří popis dispozice v aktivním locale, zachovává Markdown a loguje každý dotaz na AI.
 - `SuggestRegistrationAI`: vybere rejstříky (čísla v hranatých závorkách), volitelně generuje komentář bez čísel a mapuje je na řádky dispozice pro UI.
 - `DispositionOcr`: využívá OpenAI pro převod obrazové dispozice (použití ve `app/Services/AI`).
 - Všechny konverzace ukládají auditní stopu do tabulky `ai_request_logs` (obsahuje prompt, odpověď, stav a případnou chybu);
@@ -58,9 +58,9 @@
 
 ## Konfigurace a prostředí
 - Composer post-skripty vytvářejí `.env`, spouští migrace, aktualizují jazyky.
-- `config/custom.php` ovládá bannery, simulace načítání, viditelnost důležitosti.
+- `config/custom.php` ovládá bannery, simulace načítání, viditelnost důležitosti varhan/varhanářů.
 - `laravel/scout` definuje fulltext nad `Organ`, `OrganBuilder`, `Disposition`.
-- Build stack: Vite, Tailwind, NPM skripty (`npm run dev`, `npm run build`).
+- Build stack: Vite, Bootstrap, Tailwind (částečně), NPM skripty (`npm run dev`, `npm run build`).
 - Monitorování: `opcodesio/log-viewer` pro prohlížení logů v UI.
 
 ## Doporučený workflow pro agenty
@@ -78,7 +78,7 @@
 - [ ] Dokumentace (README, příručka) je aktuální.
 
 ## Slovníček pojmů
-- **Dispozice**: textový zápis rejstříků, manuálů a pedálů konkrétního nástroje.
+- **Dispozice**: textový zápis rejstříků, manuálů a pedálů konkrétního varhanního nástroje.
 - **Registrace**: kombinace rejstříků pro určený repertoár nebo skladbu.
 - **Varhany.net**: externí databáze, ze které se importují historie varhan a varhanářů.
 - **Owned entity**: záznam s případným `user_id`, veřejné záznamy ho nemají.
