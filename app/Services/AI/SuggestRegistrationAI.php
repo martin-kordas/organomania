@@ -41,7 +41,7 @@ class SuggestRegistrationAI extends DispositionAI
                 ['role' => 'user', 'content' => $content],
             ],
         ];
-        $resStops = $this->client->chat()->create($chat1);
+        $stopsContent = $this->sendChatRequest('suggest_registration.stops', $chat1);
         
         // pokud se recommendations vyžádají už v prvním requestu, zvolená registrace není moc dobrá, proto samostatná request
         if ($this->suggestRegistrationRecommendations) {
@@ -52,25 +52,24 @@ class SuggestRegistrationAI extends DispositionAI
             EOL;
             
             $chat2 = $chat1;
-            $chat2['messages'][] = ['role' => 'assistant', 'content' => $this->getResponseContent($resStops)];
+            $chat2['messages'][] = ['role' => 'assistant', 'content' => $stopsContent];
             $chat2['messages'][] = ['role' => 'user', 'content' => $content];
-            $resRecommendations = $this->client->chat()->create($chat2);
+            $recommendationsContent = $this->sendChatRequest('suggest_registration.recommendations', $chat2);
         }
-        else $resRecommendations = null;
+        else $recommendationsContent = null;
         
-        return [$resStops, $resRecommendations];
+        return [$stopsContent, $recommendationsContent];
     }
     
     protected function processResponse($res)
     {
-        [$resStops, $resRecommendations] = $res;
-        $contentStops = $this->getResponseContent($resStops);
+        [$contentStops, $recommendationsContent] = $res;
         
         $registerNumbers = str($contentStops)->matchAll('/\[([0-9]+)\]/');
         if ($registerNumbers->isEmpty()) throw new \RuntimeException;
         
         if ($this->suggestRegistrationRecommendations) {
-            $recommendations = $this->getResponseContent($resRecommendations);
+            $recommendations = $recommendationsContent;
         }
         else $recommendations = null;
 
