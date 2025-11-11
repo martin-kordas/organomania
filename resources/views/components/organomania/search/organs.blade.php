@@ -1,3 +1,5 @@
+@use(App\Models\User)
+
 @props(['organs', 'showLastViewed' => false])
 
 <div class="card-header fw-bold">
@@ -10,12 +12,12 @@
 </div>
 <div class="list-group list-group-flush">
     @foreach ($organs as $organ)
-        <a class="list-group-item list-group-item-action" href="{{ route('organs.show', ['organSlug' => $organ->slug]) }}" wire:navigate>
+        <a class="list-group-item list-group-item-action" href="{{ $organ->getViewUrl() }}" wire:navigate>
             @if ($this->showLastViewed)
                 <i class="bi-clock-history"></i>
             @endif
             {!! $this->highlight($organ->municipality) !!}, {!! $this->highlight($organ->place) !!}
-            @if (!$organ->isPublic())
+            @if ($organ->showAsPrivate())
                 <i class="bi-lock text-warning"></i>
             @endif
             @if ($organ->baroque)

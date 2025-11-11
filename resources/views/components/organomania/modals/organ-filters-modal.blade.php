@@ -30,7 +30,7 @@
                     </div>
                 @elseif ($entityClass === Organ::class)
                     <div class="mb-3">
-                        <label class="form-label" for="filterLocality">{{ __('Lokalita') }}</label>
+                        <label class="form-label" for="filterLocality">{{ __('Lokalita') }} (obec, místo)</label>
                         <input class="form-control form-control-sm" type="search" id="filterLocality" wire:model="filterLocality" minlength="3" placeholder="{{ __('Zadejte obec nebo název kostela') }}" />
                     </div>
                 @elseif ($entityClass === OrganBuilder::class)

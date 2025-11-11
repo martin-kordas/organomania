@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Volt\Component;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use App\Traits\EntityPage;
@@ -20,6 +21,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $filterName;
     #[Url(keep: true)]
     public $filterMunicipality;
+
+    public $municipality;
 
     private OrganBuilderRepository $repository;
     private OrganBuilder $model;
@@ -43,6 +46,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->repository = $repository;
         $this->model = $model;
         $this->categoryModel = $categoryModel;
+        $this->hasMunicipalityInfo = true;
 
         $this->createRoute = 'organ-builders.create';
         $this->exportRoute = 'organ-builders.export';
@@ -68,6 +72,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $this->perPage = 12;
         $this->mountCommon();
+
+        if ($this->municipality && !$this->filterMunicipality) {
+            $this->filterMunicipality = $this->municipality;
+            if (!request()->query('viewType')) $this->viewType = 'thumbnails';
+        }
     }
 
     private function getCategoryEnum()
@@ -91,6 +100,23 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $this->model->query()->inland()->whereNotNull('user_id')->count();
     }
 
+    #[Computed]
+    public function municipalityInfo()
+    {
+        if ($this->filterMunicipality) {
+            return $this->repository->getMunicipalityInfos($this->filterMunicipality);
+        }
+    }
+
+    #[Computed]
+    public function metaDescription()
+    {
+        if (app()->getLocale() === 'cs' && isset($this->municipalityInfo?->description)) {
+            return $this->municipalityInfo->getMetaDescription();
+        }
+        return __('Prohlédněte si historické i soudobé varhanářské dílny na území ČR. Zjistěte jejich stylové zařazení (barokní, romantické varhanářství) a nejslavnější postavené varhany.');
+    }
+
 }; ?>
 
-<x-organomania.entity-page :metaDescription="__('Prohlédněte si historické i soudobé varhanářské dílny na území ČR. Zjistěte jejich stylové zařazení (barokní, romantické varhanářství) a nejslavnější postavené varhany.')" />
+<x-organomania.entity-page :metaDescription="$this->metaDescription" />

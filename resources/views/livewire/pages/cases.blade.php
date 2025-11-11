@@ -39,7 +39,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Url(keep: true)]
     public $sort = 'yearBuiltAsc';
 
+    #[Locked]
+    public ?OrganBuilder $organBuilder;
+
     private OrganRepository $organRepository;
+
 
     #[Locked]
     public bool $showCollapseAll = true;
@@ -53,6 +57,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function mount()
     {
         Helpers::logPageViewIntoCache('cases');
+
+        if (isset($this->organBuilder) && !$this->filterOrganBuilders) {
+            $this->filterOrganBuilders = [$this->organBuilder->id];
+        }
 
         if (
             $this->groupBy === 'organBuilder' && $this->filterOrganBuilders && count($this->filterOrganBuilders) === 1
@@ -130,6 +138,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         // údaje, podle kterých se groupuje, musí být vyplněny
         switch ($this->groupBy) {
             /*
+            // nově není potřeba - varhany bez varhanáře se groupují do vlastní kategorie
             case 'organBuilder':
                 $organsQuery
                     ->where(function (Builder $query) {
@@ -261,7 +270,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function getOrganCategoryOrganCount(Category $category)
     {
-        $this->organRepository->getOrganCategoryCaseImagesCount($category);
+        return $this->organRepository->getOrganCategoryCaseImagesCount($category);
     }
 
     private function getOrganBuilderOrganCount(OrganBuilder $organBuilder)
@@ -299,6 +308,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ];
     }
 
+    #[Computed]
+    private function organBuilderGroups()
+    {
+        return [
+            'brněnská varh. škola' => [4, 3, 60, 62],
+            'loketská varh. škola' => [8, 28],
+        ];
+    }
+
     private function getCaseDetails(OrganCaseImage $case)
     {
         $details = [$case->yearBuilt];
@@ -317,9 +335,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
 <div class="cases container">
   
-    @push('meta')
-        <meta name="description" content="{{ __('Prohlédněte si výtvarné prvky varhanních skříní, pozorujte jejich stylový vývoj a specifické znaky konkrétních varhanářů.') }}">
-    @endpush
+    @if (!isset($this->organBuilder))
+        @push('meta')
+            <meta name="description" content="{{ __('Prohlédněte si výtvarné prvky varhanních skříní, pozorujte jejich stylový vývoj a specifické znaky konkrétních varhanářů.') }}">
+        @endpush
+    @endif
 
     <h3 class="text-center">
         <a class="link-primary text-decoration-none" href="{{ route('organs.cases') }}" wire:navigate>
@@ -337,6 +357,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <label class="form-label" for="filterOrganBuilders">{{ __('Varhanář') }}</label>
             {{-- allowClear nepoužito, protože u multiselectů bez <optgroup> a bez prázdné <option> blbne na mobilu (po vymazání se vybere první <option>) --}}
             <x-organomania.selects.organ-builder-select model="filterOrganBuilders" :organBuilders="$this->organBuilders" small multiple live counts />
+            <div class="form-text">
+                {{ __('Skupiny') }}:
+                @foreach ($this->organBuilderGroups as $name => $organBuilderIds)
+                    <a class="text-decoration-none" href="#" onclick="return setFilterOrganBuilders({{ Js::from($organBuilderIds) }})">{{ $name }}</a>@if (!$loop->last), @endif
+                @endforeach
+            </div>
         </div>
 
         <div class="mb-4">
@@ -537,6 +563,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 collapseBtnOnclick(button)
             }
         })
+    }
+
+    window.setFilterOrganBuilders = function (organBuilderIds) {
+        $wire.set('filterOrganBuilders', organBuilderIds)
+        return false
     }
 </script>
 @endscript

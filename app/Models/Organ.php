@@ -298,6 +298,12 @@ class Organ extends Model
             ]
         ];
     }
+
+    public function showAsPrivate(): bool
+    {
+        // soukromé varhany admina jsou veřejně dohledatelné (jde o méně známé varhany, které jsem přesto vložil do Organomanie)
+        return !$this->isPublic() && !($this->user_id === User::USER_ID_ADMIN && Auth::id() !== User::USER_ID_ADMIN);
+    }
     
     public function getMapInfo(?float $nearLatitude = null, ?float $nearLongitude = null)
     {

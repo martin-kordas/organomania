@@ -8,6 +8,8 @@ use App\Models\OrganBuilder;
 use App\Models\Festival;
 use App\Models\Competition;
 use App\Models\Disposition;
+use App\Models\OrganBuilderMunicipalityInfo;
+use App\Models\OrganMunicipalityInfo;
 use App\Models\RegisterName;
 use App\Models\User;
 use App\Models\Scopes\OwnedEntityScope;
@@ -23,7 +25,7 @@ class SitemapController extends Controller
     public function __invoke()
     {
         $organs = Organ::all();
-        // soukromé záznamy admina se nezobrazují ve vyhledávání, ale jsou dohledatelné přes Google (jde o méně známé varhany, které jsem přesto vložil do Organomanie)
+        // soukromé varhany admina jsou veřejně dohledatelné (jde o méně známé varhany, které jsem přesto vložil do Organomanie)
         $privateOrgans = Organ::withoutGlobalScope(OwnedEntityScope::class)->where('user_id', User::USER_ID_ADMIN)->get();
         $organBuilders = OrganBuilder::all();
         $festivals = Festival::all();
@@ -31,12 +33,14 @@ class SitemapController extends Controller
         $dispositions = Disposition::all();
         $registerNames = RegisterName::all();
         $caseImagesOrganBuilders = $this->getCaseImagesOrganBuilders();
+        $organMunicipalityInfos = OrganMunicipalityInfo::select('municipality')->get();
+        $organBuilderMunicipalityInfos = OrganBuilderMunicipalityInfo::select('municipality')->get();
 
         $sitemap = view(
             'sitemap',
             data: compact(
                 'organs', 'privateOrgans', 'organBuilders', 'festivals', 'competitions', 'dispositions', 'registerNames',
-                'caseImagesOrganBuilders'
+                'caseImagesOrganBuilders', 'organMunicipalityInfos', 'organBuilderMunicipalityInfos',
             )
         )->render();
 
@@ -48,8 +52,9 @@ class SitemapController extends Controller
     private function getCaseImagesOrganBuilders()
     {
         return OrganBuilder::query()
-            ->select('id')
+            ->select(['id', 'slug'])
             ->public()
+            ->where('id', '!=', OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
             ->orderBy('id')
             ->get()
             ->filter(function (OrganBuilder $organBuilder) {

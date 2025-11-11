@@ -250,7 +250,7 @@ class OrganBuilder extends Model
         );
     }
     
-    public function initialName(): Attribute
+    public function initialsName(): Attribute
     {
         return Attribute::make(
             get: function (mixed $_value, array $attributes) {

@@ -47,6 +47,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Url(keep: true)]
     public $filterHasDisposition;
 
+    public $municipality;
+
     private OrganRepository $repository;
     private Organ $model;
     private OrganCategoryModel $categoryModel;
@@ -73,6 +75,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->repository = $repository;
         $this->model = $model;
         $this->categoryModel = $categoryModel;
+        $this->hasMunicipalityInfo = true;
 
         $this->createRoute = 'organs.create';
         $this->exportRoute = 'organs.export';
@@ -105,6 +108,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function mount()
     {
         $this->mountCommon();
+
+        if ($this->municipality && !$this->filterLocality) {
+            $this->filterLocality = $this->municipality;
+            if (!request()->query('viewType')) $this->viewType = 'thumbnails';
+        }
     }
 
     public function setViewType($viewType)
@@ -138,6 +146,23 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $category->organs_count;
     }
 
+    #[Computed]
+    public function municipalityInfo()
+    {
+        if ($this->filterLocality) {
+            return $this->repository->getMunicipalityInfos($this->filterLocality);
+        }
+    }
+
+    #[Computed]
+    public function metaDescription()
+    {
+        if (app()->getLocale() === 'cs' && isset($this->municipalityInfo?->description)) {
+            return $this->municipalityInfo->getMetaDescription();
+        }
+        return __('Prohlédněte si nejvýznamnější varhany v České republice. Zjistěte jejich stylové zařazení, seznam rejstříků (dispozici) a varhanáře, který je postavil.');
+    }
+
 }; ?>
 
-<x-organomania.entity-page :metaDescription="__('Prohlédněte si nejvýznamnější varhany v České republice. Zjistěte jejich stylové zařazení, seznam rejstříků (dispozici) a varhanáře, který je postavil.')" />
+<x-organomania.entity-page :metaDescription="$this->metaDescription" />

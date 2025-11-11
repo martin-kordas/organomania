@@ -83,6 +83,8 @@ Route::view('profile', 'profile')
 
 Volt::route('organs', 'pages.organs')
     ->name('organs.index');
+Volt::route('organs/municipalities/{municipality}', 'pages.organs')
+    ->name('organs.municipality');
 Volt::route('custom-category-organs', 'pages.organs')
     ->name('organs.custom-category-organs.index');
 Route::get('organs/dolni-lhota-songs', [OrganController::class, 'redirectToDolniLhotaSongs'])
@@ -102,10 +104,14 @@ Route::get('organs/{organ}/disposition/pdf', [OrganController::class, 'exportDis
 
 Volt::route('organ-builders', 'pages.organ-builders')
     ->name('organ-builders.index');
+Volt::route('organ-builders/municipalities/{municipality}', 'pages.organ-builders')
+    ->name('organ-builders.municipality');
 Volt::route('custom-category-organ-builders', 'pages.organ-builders')
     ->name('organ-builders.custom-category-organ-builders.index');
 Volt::route('organ-builders/{organBuilder}', 'pages.organ-builder-show')
     ->name('organ-builders.show');
+Volt::route('organ-builders/{organBuilder}/cases', 'pages.cases')
+    ->name('organ-builders.cases');
 Volt::route('varhanari/{organBuilder}', 'pages.organ-builder-show')
     ->name('organ-builders.show-cs');
 Route::get('export/organ-builders', [ExportController::class, 'exportOrganBuilders'])

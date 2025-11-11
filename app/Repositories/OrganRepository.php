@@ -14,6 +14,7 @@ use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\OrganCustomCategory as OrganCustomCategoryModel;
 use App\Models\OrganCategory as OrganCategoryModel;
+use App\Models\OrganMunicipalityInfo;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Repositories\AbstractRepository;
 
@@ -387,6 +388,13 @@ class OrganRepository extends AbstractRepository
     {
         $organIds = session(static::SESSION_KEY_LAST_VIEWED_ORGANS, []);
         return collect($organIds);
+    }
+
+    public function getMunicipalityInfos(string $municipality)
+    {
+        return OrganMunicipalityInfo::query()
+            ->where('municipality', $municipality)
+            ->first();
     }
     
 }

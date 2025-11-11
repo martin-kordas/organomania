@@ -15,7 +15,9 @@ class OwnedEntityScope implements Scope
     public function apply(Builder $builder, Model $model): void
     {
         $table = $model->getTable();
-        $builder->whereNull("$table.user_id");
-        if ($userId = Auth::id()) $builder->orWhere("$table.user_id", $userId);
+        $builder->where(function (Builder $query) use ($table) {
+            $query->whereNull("$table.user_id");
+            if ($userId = Auth::id()) $query->orWhere("$table.user_id", $userId);
+        });
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\RegisterName;
+use App\Models\User;
 use App\Repositories\OrganRepository;
 use App\Helpers;
 
@@ -97,7 +98,17 @@ new class extends Component {
                         'organs.id', 'organs.slug', 'organs.place', 'organs.municipality', 'organs.importance', 'organs.organ_builder_id',
                         'organs.organ_builder_name', 'organs.year_built', 'organs.baroque', 'organs.user_id',
                     ])
-                    ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name');
+                    ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
+                    // withoutGlobalScope(OwnedEntityScope::class) zde nefunguje
+                    ->withoutGlobalScopes()
+                    ->where(function (Builder $query) {
+                        $query->whereNull('organs.user_id');
+                        
+                        // soukromé varhany admina jsou veřejně dohledatelné
+                        $userIds = [User::USER_ID_ADMIN];
+                        if ($userId = Auth::id()) $userIds[] = $userId;
+                        $query->orWhereIn('organs.user_id', $userIds);
+                    });
                 
                 if ($this->showLastViewed) {
                     $organIds = OrganRepository::getLastViewedOrganIds();

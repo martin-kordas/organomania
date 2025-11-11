@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\OrganBuilderCategory as OrganBuilderCategoryModel;
 use App\Models\OrganBuilderCustomCategory as OrganBuilderCustomCategoryModel;
 use App\Models\OrganBuilder;
+use App\Models\OrganBuilderMunicipalityInfo;
 use App\Repositories\AbstractRepository;
 
 class OrganBuilderRepository extends AbstractRepository
@@ -146,6 +147,13 @@ class OrganBuilderRepository extends AbstractRepository
             ->public()
             ->where('baroque', 0)
             ->count();
+    }
+
+    public function getMunicipalityInfos(string $municipality)
+    {
+        return OrganBuilderMunicipalityInfo::query()
+            ->where('municipality', $municipality)
+            ->first();
     }
     
 }

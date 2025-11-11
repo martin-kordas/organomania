@@ -48,7 +48,7 @@ final readonly class OrganCaseImage {
             $yearBuilt = $organ->case_year_built;
             
             $organBuilder = $organ->caseOrganBuilder;
-            $organBuilderName = $organ->case_organ_builder_name ?? $organ->caseOrganBuilder?->initialName;
+            $organBuilderName = $organ->case_organ_builder_name ?? $organ->caseOrganBuilder?->initialsName;
             $stopsCount = null;
             $organBuilderActiveFromYear = $organ->caseOrganBuilder?->active_from_year ?? PHP_INT_MAX;
 
@@ -58,9 +58,9 @@ final readonly class OrganCaseImage {
             $yearBuilt = $organ->year_built;
             
             $organBuilder = $organ->organBuilder?->id === OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED ? null : $organ->organBuilder;
-            $organBuilderName = $organ->organ_builder_name ?? $organ->organBuilder?->initialName ?? __('neznámý');
+            $organBuilderName = $organ->organ_builder_name ?? $organBuilder?->initialsName ?? __('neznámý');
             $stopsCount = static::getOrganStopsCount($organ);
-            $organBuilderActiveFromYear = $organ->organBuilder?->active_from_year ?? PHP_INT_MAX;
+            $organBuilderActiveFromYear = $organBuilder?->active_from_year ?? PHP_INT_MAX;
 
             $sizeInfo = static::getOrganSizeInfo($organ);
             if (isset($sizeInfo)) $details[] = $sizeInfo;
@@ -111,7 +111,7 @@ final readonly class OrganCaseImage {
             caseCategory: $additionalImage->caseOrganCategory,
 
             organBuilder: $additionalImage->organBuilder,
-            organBuilderName: $additionalImage->organ_builder_name ?? $additionalImage->organBuilder?->initialName ?? __('neznámý'),
+            organBuilderName: $additionalImage->organ_builder_name ?? $additionalImage->organBuilder?->initialsName ?? __('neznámý'),
             stopsCount: $additionalImage->stops_count,
             organBuilderActiveFromYear: $additionalImage->organBuilder?->active_from_year ?? PHP_INT_MAX,
             organBuilderExactName: $additionalImage->organ_builder_name,

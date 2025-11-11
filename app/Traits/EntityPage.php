@@ -59,6 +59,7 @@ trait EntityPage
     private bool $isExportable = true;
     private bool $isCategorizable = true;
     private bool $showQuickFilter = true;
+    private bool $hasMunicipalityInfo = false;
     
     private ?string $createRoute;
     private ?string $exportRoute;
@@ -225,6 +226,12 @@ trait EntityPage
         );
     }
     
+    #[Computed]
+    public function showMunicipalityInfo()
+    {
+        return $this->hasMunicipalityInfo && isset($this->municipalityInfo) && in_array($this->viewType, ['thumbnails', 'table']);
+    }
+
     private function getCustomCategoriesGroups($modal = false)
     {
         $groups = [];

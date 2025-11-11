@@ -378,7 +378,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         @endif
                     </span>
                 </span>
-                @if (!$organ->isPublic())
+                @if ($organ->showAsPrivate())
                     <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
                 @endif
                 @if ($organ->region && $organ->region->id !== Region::Praha->value)

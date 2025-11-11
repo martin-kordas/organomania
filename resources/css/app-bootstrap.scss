@@ -523,7 +523,7 @@ table.show-table th {
 }
 
 @media screen and (max-width: 767px) {
-    .entity-page-view-container {
+    .entity-page-view-container, .municipality-info {
         width: calc(100% + 5.7rem);
     }
 }

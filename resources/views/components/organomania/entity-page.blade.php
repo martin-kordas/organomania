@@ -14,7 +14,7 @@
     @push('meta')
         <meta name="description" content="{{ $metaDescription }}">
     @endpush
-    
+
     {{-- fixní tlačítka na pravé straně (řazení, filtrace...) --}}
     <div class="buttons side-buttons float-end z-2 position-relative">
         <div class="position-fixed ms-2">
@@ -216,7 +216,7 @@
             </ul>
             </div>
         </div>
-      
+
         @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && !$this->filterNearLatitude && !in_array($this->viewType, ['map', 'timeline', 'chart']))
         @php($showOrganInfoHint = $this->entityClass === Organ::class && !in_array($this->viewType, ['chart']))
         @php($showSortImportaceHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && !in_array($this->viewType, ['map', 'timeline']))
@@ -294,6 +294,10 @@
                     </div>
                 @endif
             </div>
+        @endif
+
+        @if ($this->showMunicipalityInfo)
+            <x-organomania.municipality-info :municipalityInfo="$this->municipalityInfo" />
         @endif
         
         <livewire:dynamic-component

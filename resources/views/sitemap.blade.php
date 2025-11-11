@@ -115,7 +115,18 @@
 
     @foreach ($caseImagesOrganBuilders as $organBuilder)
         <x-organomania.sitemap-item-entity
-            :url="route('organs.cases', ['filterOrganBuilders' => [$organBuilder->id]])"
+            :url="route('organ-builders.cases', ['organBuilder' => $organBuilder->slug])"
+        />
+    @endforeach
+
+    @foreach ($organMunicipalityInfos as $municipalityInfo)
+        <x-organomania.sitemap-item-entity
+            :url="route('organs.municipality', ['municipality' => $municipalityInfo->municipality])"
+        />
+    @endforeach
+    @foreach ($organBuilderMunicipalityInfos as $municipalityInfo)
+        <x-organomania.sitemap-item-entity
+            :url="route('organ-builders.municipality', ['municipality' => $municipalityInfo->municipality])"
         />
     @endforeach
 </urlset>

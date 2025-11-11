@@ -154,7 +154,7 @@ enum OrganCategory: int implements Category
         return $this->value;
     }
 
-    public function getOrderValue(): int
+    public function getOrderValue(): float
     {
         // srv. Organ::organCategories()
         return match ($this) {
