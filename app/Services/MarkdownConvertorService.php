@@ -20,6 +20,7 @@ class MarkdownConvertorService
     private bool $convertCustomLinks = true;
     
     const CUSTOM_LINK_REGEX = '/\{\{(organ|organBuilder|festival|competition|registerName)\}(.*?)\}\((.*?)\)/';
+    const LINK_REGEX = '/\[(.*?)\]\(.*?\)/';
 
     private function getConverter()
     {
@@ -109,6 +110,10 @@ class MarkdownConvertorService
             ->replace('*', '')
             ->replace('|nodetail', '')
             ->replaceMatches('/\s+/', ' ')
+            ->replaceMatches(static::LINK_REGEX, function ($res) {
+                [, $text] = $res;
+                return $text;
+            })
             ->replaceMatches(static::CUSTOM_LINK_REGEX, function ($res) {
                 [, , $text] = $res;
                 return $text;

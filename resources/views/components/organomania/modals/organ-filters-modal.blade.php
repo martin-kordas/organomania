@@ -32,6 +32,12 @@
                     <div class="mb-3">
                         <label class="form-label" for="filterLocality">{{ __('Lokalita') }} (obec, místo)</label>
                         <input class="form-control form-control-sm" type="search" id="filterLocality" wire:model="filterLocality" minlength="3" placeholder="{{ __('Zadejte obec nebo název kostela') }}" />
+                        <div class="form-text">
+                            {{ __('např.') }}
+                            @foreach (['Praha', 'Brno', 'Olomouc'] as $locality)
+                                <a class="text-decoration-none" href="#" onclick="return setFilterLocality({{ Js::from($locality) }})">{{ $locality }}</a>@if (!$loop->last), @endif
+                            @endforeach
+                        </div>
                     </div>
                 @elseif ($entityClass === OrganBuilder::class)
                     <div class="mb-3">
@@ -203,6 +209,11 @@
     
     window.setFilterMunicipality = function (municipality) {
         $wire.filterMunicipality = municipality
+        return false
+    }
+    
+    window.setFilterLocality = function (locality) {
+        $wire.filterLocality = locality
         return false
     }
         

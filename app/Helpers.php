@@ -324,4 +324,9 @@ class Helpers
         return url()->query("https://mapy.cz/", ['q' => "$latitude,$longitude"]);
     }
     
+    static function getMapUrlPlace(string $place)
+    {
+        return url()->query("https://mapy.cz/", ['q' => $place]);
+    }
+    
 }

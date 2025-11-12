@@ -112,7 +112,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if ($this->municipality && !$this->filterLocality) {
             $this->filterLocality = $this->municipality;
             if (!request()->query('viewType')) $this->viewType = 'thumbnails';
+            if (!request()->query('perPage')) $this->perPage = 40;      // aby text municipalityInfo nevyskakoval zvlášť na každé stránce
         }
+        if (isset($this->municipalityInfo)) $this->title = $this->municipalityInfo->heading;
     }
 
     public function setViewType($viewType)

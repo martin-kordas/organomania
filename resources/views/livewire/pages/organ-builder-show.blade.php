@@ -325,6 +325,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             fn ($organBuilderId) => OrganBuilder::find($organBuilderId)
         );
     }
+
+    private function shouldShowPlaceMap($place)
+    {
+        return isset($place) && !in_array($place, [
+            'Praha', 'Brno', 'Plzeň'
+        ]);
+    }
     
 }; ?>
 
@@ -394,13 +401,33 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (isset($organBuilder->place_of_birth))
             <tr>
                 <th>{{ __('Místo narození') }}</th>
-                <td>{{ $organBuilder->place_of_birth }}</td>
+                <td>
+                    {{ $organBuilder->place_of_birth }}
+                    @if ($this->shouldShowPlaceMap($organBuilder->place_of_birth))
+                        <span class="text-secondary ms-2 small">
+                            <a class="icon-link icon-link-hover" href="{{ Helpers::getMapUrlPlace($organBuilder->place_of_birth) }}" target="_blank">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                                {{ __("Mapy.cz") }}
+                            </a>
+                        </span>
+                    @endif
+                </td>
             </tr>
         @endif
         @if (isset($organBuilder->place_of_death))
         <tr>
             <th>{{ __('Místo úmrtí') }}</th>
-            <td>{{ $organBuilder->place_of_death }}</td>
+            <td>
+                {{ $organBuilder->place_of_death }}
+                @if ($this->shouldShowPlaceMap($organBuilder->place_of_death))
+                    <span class="text-secondary ms-2 small">
+                        <a class="icon-link icon-link-hover" href="{{ Helpers::getMapUrlPlace($organBuilder->place_of_death) }}" target="_blank">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            {{ __("Mapy.cz") }}
+                        </a>
+                    </span>
+                @endif
+            </td>
         </tr>
         @endif
         @if (isset($organBuilder->active_period) && !$this->showActivePeriodInHeading)
