@@ -10,6 +10,16 @@ use App\Http\Controllers\OrganController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\WelcomeController;
 
+// HACK: obrázky v public se defaultně necachují a v PHP built-in serveru, používaném v Laravel Sail, ani cachování nakonfigurovat nelze
+//  - proto obrázky servujeme přes Laravel routu
+Route::get('/cached-file/{path}', function ($path) {
+    $file = public_path($path);
+    abort_unless(file_exists($file), 404);
+    return response()->file($file, [
+        'Cache-Control' => 'public, max-age=604800',
+    ]);
+})->where('path', '.*');
+
 Route::middleware(["auth"])->group(function () {
     Volt::route('dispositions/create', 'pages.disposition-edit')
         ->name('dispositions.create');

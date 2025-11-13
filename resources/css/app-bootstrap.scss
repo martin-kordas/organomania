@@ -57,6 +57,12 @@ header {
         border-color: var(--header-footer-border-color);
     }
 
+    #search {
+        @media screen and (min-width: 1200px) {
+            min-width: 18.5em;
+        }
+    }
+
 }
 /* u nízké obrazovky nezobrazovat fixní hlavičkou */
 @media screen and (max-height: 450px) {

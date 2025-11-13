@@ -182,8 +182,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     public function promotedDisc()
     {
-        foreach ($this->discs as $key => [,,,, $embedCode]) {
-            if ($embedCode) return $this->discs[$key];
+        foreach ($this->discs as $key => [,,, $icon, $embedCode]) {
+            if ($icon === 'youtube' && $embedCode) return $this->discs[$key];
         }
         return null;
     }

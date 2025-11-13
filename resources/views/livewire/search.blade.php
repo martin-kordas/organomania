@@ -30,7 +30,7 @@ new class extends Component {
     
     public function boot()
     {
-        $this->placeholder ??= __('Hledat varhany, varhanáře, rejstříky') . ' (/)';
+        $this->placeholder ??= __('Hledat varhany/varhanáře/rejstříky') . ' (/)';
     }
 
     public function updatedSearch()
