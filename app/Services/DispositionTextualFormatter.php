@@ -27,13 +27,9 @@ class DispositionTextualFormatter
     
     public function format(?string $disposition, bool $links = false, bool $credits = true)
     {
-        // volitelné odstranění kreditů
-        if (!$credits) {
-            $pos = str($disposition)->position(static::CREDITS_DELIMITER);
-            if ($pos !== false) {
-                $disposition = str($disposition)->substr(0, $pos);
-            }
-        }
+        $disposition ??= '';
+
+        if (!$credits) $disposition = $this->removeCredits($disposition);
         
         $disposition = preg_replace('/([1-9])x\b/', '$1×', $disposition);
 
@@ -68,6 +64,15 @@ class DispositionTextualFormatter
         
         return $disposition;
     }
+
+    private function removeCredits(string $disposition): string
+    {
+        $pos = str($disposition)->position(static::CREDITS_DELIMITER);
+        if ($pos !== false) {
+            $disposition = str($disposition)->substr(0, $pos);
+        }
+        return $disposition;
+    }
     
     private function addLinkToDispositionRow(string $row)
     {
@@ -94,6 +99,23 @@ class DispositionTextualFormatter
             return Pitch::tryFromLabel($matches[0], $this->dispositionLanguage);
         }
         return null;
+    }
+
+    public function formatAsPlaintext(?string $disposition, bool $credits = true)
+    {
+        $disposition ??= '';
+        if (!$credits) $disposition = $this->removeCredits($disposition);
+        else {
+            $creditsDelimiter = preg_quote(static::CREDITS_DELIMITER, '#');
+            $disposition = preg_replace("#$creditsDelimiter\\s*#", '', $disposition);
+        }
+
+        $appendixDelimiter = preg_quote(static::APPENDIX_DELIMITER, '#');
+        $disposition = preg_replace("#$appendixDelimiter\\s*#", '', $disposition);
+
+        $disposition = str_replace('1\.', '1.', $disposition);
+        $disposition = $this->markdownConvertor->stripMarkdown($disposition, preserveLineBreaks: true);
+        return trim($disposition);
     }
     
 }

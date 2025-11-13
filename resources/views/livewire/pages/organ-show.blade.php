@@ -165,16 +165,27 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             return str($this->organ->discography)
                 ->explode("\n")
                 ->map(function ($discStr) {
-                    [$name, $info, $url] = explode('#', $discStr, 3);
+                    $parts = explode('#', $discStr, 4);
+                    [$name, $info, $url] = $parts;
+                    $embedCode = $parts[3] ?? null;
 
                     $host = parse_url($url, PHP_URL_HOST);
                     if (in_array($host, ['youtube.com', 'youtu.be', 'www.youtube.com'])) $icon = 'youtube';
                     else $icon = 'volume-up';
 
-                    return array_map(trim(...), [$name, $info, $url, $icon]);
+                    return array_map(trim(...), [$name, $info, $url, $icon, $embedCode]);
                 });
         }
         return [];
+    }
+
+    #[Computed]
+    public function promotedDisc()
+    {
+        foreach ($this->discs as $key => [,,,, $embedCode]) {
+            if ($embedCode) return $this->discs[$key];
+        }
+        return null;
     }
 
     #[Computed]
@@ -706,6 +717,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (count($this->images) > 1)
             <x-organomania.gallery-carousel :images="$this->images" class="my-4" />
         @endif
+
+        @isset($this->promotedDisc)
+            @php [$name, $info,,, $embedCode] = $this->promotedDisc; @endphp
+            <div class="text-center">
+                <iframe class="disc-embed rounded" src="https://www.youtube.com/embed/{{ $embedCode }}" frameborder="0" allowfullscreen></iframe>
+                <br />
+                <small>
+                    {{ $name }}
+                    <br class="d-md-none" />
+                    <span class="text-secondary">({{ $info }})</span>
+                </small>
+            </div>
+        @endisset
     </div>
     
     <div class="accordion">
@@ -838,6 +862,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             @style(["column-count: $columnCount"])
                         >{!! $this->disposition !!}</div>
                     </div>
+
+                    {{-- přímo ze zobrazené dispozice se kopíruje chybně - nezkopíruje se správně odřádkování (asi kvůli word-wrap)) --}}
+                    <div class="d-none" id="dispositionPlaintext">{!! $this->dispositionFormatter->formatAsPlaintext($this->organ->disposition, credits: false) !!}</div>
                     
                     <x-organomania.info-alert class="mt-3 mb-1">
                         <span class="d-none d-sm-inline">
@@ -1015,8 +1042,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 @script
 <script>
     window.copyDispositionToCliboard = async function () {
-        // TODO: kopíruje to bez mezer mezi manuály
-        let disposition = $('.accordion-disposition').text()
+        let disposition = $('#dispositionPlaintext').text()
         await navigator.clipboard.writeText(disposition)
         showToast('dispositionCopied')
     }

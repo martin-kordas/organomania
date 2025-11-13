@@ -104,12 +104,16 @@ class MarkdownConvertorService
         return $res;
     }
     
-    public function stripMarkdown(string $markdown): string
+    public function stripMarkdown(string $markdown, bool $preserveLineBreaks = false): string
     {
         return str($markdown)
             ->replace('*', '')
             ->replace('|nodetail', '')
-            ->replaceMatches('/\s+/', ' ')
+            ->when(
+                $preserveLineBreaks,
+                fn ($str) => $str->replaceMatches('/[ ]+/', ' '),
+                fn ($str) => $str->replaceMatches('/\s+/', ' '),
+            )
             ->replaceMatches(static::LINK_REGEX, function ($res) {
                 [, $text] = $res;
                 return $text;

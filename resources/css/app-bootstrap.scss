@@ -548,6 +548,17 @@ table.show-table th {
             max-height: 25em;
         }
     }
+    
+    .disc-embed {
+        max-width: 34em;
+        width: 100%;
+        height: 300px;
+        border-radius: 0.5em;
+
+        @media screen and (max-width: 576px) {
+            height: 200px;
+        }
+    }
 }
 
 .organ-edit, .organ-builder-edit {
