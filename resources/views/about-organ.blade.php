@@ -169,7 +169,7 @@
                     </p>
                     
                     <div class="text-center mb-3">
-                        <img class="rounded mb-2" src="/images/kratka-oktava.jpg" style="max-width: 100%;" title="Licence obrázku: Schmeissnerro, CC BY-SA 4.0, via Wikimedia Commons" />
+                        <img class="rounded mb-2" src="/cached-file/images/kratka-oktava.jpg" style="max-width: 100%;" title="Licence obrázku: Schmeissnerro, CC BY-SA 4.0, via Wikimedia Commons" />
                         <br />
                         <em>
                             pedálová klaviatura s krátkou oktávou
@@ -240,7 +240,7 @@
 
                     <div class="mt-3 mt-md-0 me-md-3 mb-3 float-md-start text-center mx-auto" style="width: 350px; max-width: 100%;">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Lukáš Dvořák">
-                            <img class="rounded mb-2 w-100" src="/images/praha-krizovnici.jpg" />
+                            <img class="rounded mb-2 w-100" src="/cached-file/images/praha-krizovnici.jpg" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KRIZOVNICI]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
@@ -405,7 +405,7 @@
                     
                     <div class="text-center mb-4 mx-auto" style="width: 500px; max-width: 100%">
                         <div class="position-relative d-inline-block">
-                            <img class="rounded mb-2" src="/images/rychnov.jpg" style="max-width: 100%" />
+                            <img class="rounded mb-2" src="/cached-file/images/rychnov.jpg" style="max-width: 100%" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_RYCHNOV_NAD_KNEZNOU_ZAMECKY_KOSTEL]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" /> &ndash; jedna z prvních neogotických skříní u nás
@@ -430,7 +430,7 @@
                     
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Tryptofan, CC BY-SA 4.0, via Wikimedia Commons">
-                            <img class="rounded mb-2" src="/images/bozkov.jpg" style="width: 460px; max-width: 100%" />
+                            <img class="rounded mb-2" src="/cached-file/images/bozkov.jpg" style="width: 460px; max-width: 100%" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_BOZKOV]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
@@ -657,7 +657,7 @@
                     
                     <div class="text-center mb-4 mx-auto"style="width: 550px; max-width: 100%;">
                         <div class="position-relative d-inline-block">
-                            <img class="rounded mb-2" src="/images/liberec-nalezeni-sv-krize-stul.jpg" title="Licence obrázku: Jan Fejgl (2025)" style="max-width: 100%;" />
+                            <img class="rounded mb-2" src="/cached-file/images/liberec-nalezeni-sv-krize-stul.jpg" title="Licence obrázku: Jan Fejgl (2025)" style="max-width: 100%;" />
                             <br />
                             <em>
                                 <i class="bi-music-note-list"></i>
@@ -720,7 +720,7 @@
                     
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block">
-                            <img class="rounded mb-2" src="/images/olomouc-sv-moric.jpg" style="width: 540px; max-width: 100%;" />
+                            <img class="rounded mb-2" src="/cached-file/images/olomouc-sv-moric.jpg" style="width: 540px; max-width: 100%;" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_OLOMOUC_KOSTEL_SV_MORICE]" :year="1968" :showSizeInfo="true" :iconLink="false" class="stretched-link" />

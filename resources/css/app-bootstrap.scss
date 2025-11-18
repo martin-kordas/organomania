@@ -560,10 +560,6 @@ table.show-table th {
         width: 100%;
         height: 300px;
         border-radius: 0.5em;
-
-        @media screen and (max-width: 576px) {
-            height: 200px;
-        }
     }
 }
 

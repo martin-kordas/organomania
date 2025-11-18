@@ -1,5 +1,6 @@
 @use(App\Models\Festival)
 @use(App\Models\Competition)
+@use(App\Models\Organ)
 
 <header class="mb-4 border-bottom top-0 d-print-none">
     <nav class="navbar navbar-expand-xl">
@@ -21,7 +22,7 @@
             <div class="collapse navbar-collapse gap-3 mt-2 mt-xl-0" id="navbarCollapse">
                 {{-- vlastní navigace --}}
                 <ul class="nav nav-pills justify-content-center row-gap-1">
-                    <x-organomania.nav-item-route label="{{ __('Varhany') }}" icon="music-note-list" route="organs.index" routeActive="organs.*" />
+                    <x-organomania.nav-item-route label="{{ __('Varhany') }}" icon="music-note-list" route="organs.index" routeActive="organs.*" :highlightedCount="Organ::getHighlightedCount()" />
                     <x-organomania.nav-item-route label="{{ __('menu.organ-builders') }}" icon="person-circle" route="organ-builders.index" routeActive="organ-builders.*" />
                     <x-organomania.nav-item-route label="{{ __('Dispozice') }}" icon="card-list" route="dispositions.index" routeActive="dispositions.*" />
                     <div class="w-100 d-sm-none"></div>

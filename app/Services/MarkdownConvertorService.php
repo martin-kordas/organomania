@@ -101,7 +101,7 @@ class MarkdownConvertorService
     {
         $res = $this->getConverter()->convert($markdown);
         $res = $this->convertCustom($res);
-        return $res;
+        return trim($res);
     }
     
     public function stripMarkdown(string $markdown, bool $preserveLineBreaks = false): string

@@ -97,11 +97,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function rendering(View $view): void
     {
+        $view->title($this->title);
+    }
+
+    #[Computed]
+    public function title()
+    {
         $title = '';
         if ($this->organ->baroque) $title .= 'Barokní varhanářství na Moravě - ';
         $title .= "{$this->organ->municipality}, {$this->organ->place}";
         $title .= ' - ' . __('varhany');
-        $view->title($title);
+        return $title;
     }
 
     #[Computed]
@@ -366,11 +372,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 }; ?>
 
 <div class="organ-show container">
-    @isset($this->metaDescription)
-        @push('meta')
+    @push('meta')
+        @isset($this->metaDescription)
             <meta name="description" content="{{ $this->metaDescription }}">
-        @endpush
-    @endisset
+        @endisset
+        
+        <meta property="og:title" content="{{ $this->title }}">
+        @isset($this->metaDescription)
+            <meta property="og:description" content="{{ $this->metaDescription }}">
+        @endisset
+        @isset($this->images[0])
+            <meta property="og:image" content="{{ url($this->images[0][0]) }}">
+        @endisset
+    @endpush
     
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
@@ -494,14 +508,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endif
-        @if ($organ->renovationOrganBuilder || $organ->year_renovated)
+        @if ($organ->renovationOrganBuilder || $organ->renovation_organ_builder_name || $organ->year_renovated)
             <tr>
                 <th>{{ __('Oprava') }} /<br />{{ __('restaurování') }}</th>
                 <td>
-                    @if (!$organ->renovationOrganBuilder)
-                        {{ $organ->year_renovated }}
-                    @else
+                    @if (isset($organ->renovationOrganBuilder))
                         <x-organomania.organ-builder-link :organBuilder="$organ->renovationOrganBuilder" :yearBuilt="$organ->year_renovated" />
+                    @elseif (isset($organ->renovation_organ_builder_name))
+                        {{ $organ->renovation_organ_builder_name }}
+                        @isset($organ->year_renovated)
+                            <span class="text-secondary">({{ $organ->year_renovated }})</span>
+                        @endisset
+                    @else
+                        {{ $organ->year_renovated }}
                     @endif
                 </td>
             </tr>
@@ -944,7 +963,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="items-list mt-2">
                     @foreach ($this->similarOrgans as $similarOrgan)
                         @if ($similarOrgan->id === $this->organ->id)
-                            <span class="fw-semibold">
+                            <span class="">
                                 <i class="bi bi-music-note-list"></i>
                                 <x-organomania.organ-link-content :organ="$this->organ" :year="$this->organ->year_built" showOrganBuilder showSizeInfo />
                             </span>

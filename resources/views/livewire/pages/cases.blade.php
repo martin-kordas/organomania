@@ -21,6 +21,7 @@ use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\OrganBuilderAdditionalImage;
 use App\Repositories\OrganRepository;
+use App\Services\MarkdownConvertorService;
 use App\Traits\HasSorting;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
@@ -39,19 +40,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Url(keep: true)]
     public $sort = 'yearBuiltAsc';
 
-    #[Locked]
     public ?OrganBuilder $organBuilder;
 
     private OrganRepository $organRepository;
+    private MarkdownConvertorService $markdownConvertor;
 
 
     #[Locked]
     public bool $showCollapseAll = true;
 
 
-    public function boot(OrganRepository $organRepository)
+    public function boot(OrganRepository $organRepository, MarkdownConvertorService $markdownConvertor)
     {
         $this->organRepository = $organRepository;
+        $this->markdownConvertor = $markdownConvertor;
     }
 
     public function mount()
@@ -489,6 +491,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </span>
                 </h4>
 
+                @isset($this->organBuilder?->description)
+                    <div class="markdown mt-2 small">{!! $this->markdownConvertor->convert($this->organBuilder->description) !!}</div>
+                @endisset
+
                 <div id="group{{ $groupId }}" class="group flex-wrap flex-row column-gap-4 row-gap-3 mt-3 justify-content-center collapse show">
                     @foreach ($cases as $case)
                         <div class="text-center">
@@ -544,7 +550,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <p class="small text-center text-secondary">
         <strong>{{ __('Poděkování přispěvatelům') }}</strong>:
         <br />
-        Jan Fejgl, Lukáš Dvořák, Filip Harant a další
+        Lukáš Dvořák, Jan Fejgl, Filip Harant, Kristýna Kosíková, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Ondřej Valenta a další
     </p>
 </div>
 

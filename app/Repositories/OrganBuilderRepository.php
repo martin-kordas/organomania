@@ -108,6 +108,7 @@ class OrganBuilderRepository extends AbstractRepository
             }
         }
         
+        $query->where('importance', '>', 0);    // nedůležité varhanáře nezobrazujeme v hlavním katalogu
         $query->orderByName();
         $query->orderBy('id');
         

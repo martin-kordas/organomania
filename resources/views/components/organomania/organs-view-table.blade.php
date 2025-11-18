@@ -39,10 +39,16 @@
                         </a>
                     </td>
                     <td class="fw-semibold" style="min-width: 9em;">
-                        <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>{{ $organ->shortPlace }}</a>
+                        <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'position-relative', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>{{ $organ->shortPlace }}</a>
                         @if (!$organ->preserved_organ)
-                            <span class="text-body-secondary fw-normal">
-                                ({{ $organ->preserved_case ? __('dochována skříň') : __('nedochováno') }})
+                        <span class="text-body-secondary fw-normal">
+                            ({{ $organ->preserved_case ? __('dochována skříň') : __('nedochováno') }})
+                        </span>
+                        @endif
+                        @if ($organ->isPromoted())
+                            @php $highlightPromoted = $organ->isPromoted(highlighted: true) @endphp
+                            <span @class(['badge', 'text-uppercase', 'align-top', $highlightPromoted ? 'text-bg-danger' : 'text-bg-secondary']) style="font-size: 55%">
+                                {{ __('Nové') }}
                             </span>
                         @endif
                     </td>

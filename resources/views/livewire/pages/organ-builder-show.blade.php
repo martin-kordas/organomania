@@ -56,13 +56,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function rendering(View $view): void
     {
+        $view->title($this->title);
+    }
+
+    #[Computed]
+    public function title()
+    {
         $title = '';
         if ($this->organBuilder->baroque) $title .= 'Barokní varhanářství na Moravě - ';
         $title .= $this->organBuilder->name;
         // alternativy: varhanářská výroba, výroba varhan
         $type = __($this->organBuilder->is_workshop ? 'varhanářství' : 'varhanář');
         $title .= " - $type";
-        $view->title($title);
+        return $title;
     }
 
     #[Computed]
@@ -336,11 +342,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 }; ?>
 
 <div class="organ-builder-show container">
-    @isset($this->metaDescription)
-        @push('meta')
+    @push('meta')
+        @isset($this->metaDescription)
             <meta name="description" content="{{ $this->metaDescription }}">
-        @endpush
-    @endisset
+        @endisset
+
+        <meta property="og:title" content="{{ $this->title }}">
+        @isset($this->metaDescription)
+            <meta property="og:description" content="{{ $this->metaDescription }}">
+        @endisset
+        @isset($organBuilder->image_url)
+            <meta property="og:image" content="{{ url($organBuilder->image_url) }}">
+        @endisset
+    @endpush
     
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>

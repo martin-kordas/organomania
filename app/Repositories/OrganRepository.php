@@ -17,6 +17,7 @@ use App\Models\OrganCategory as OrganCategoryModel;
 use App\Models\OrganMunicipalityInfo;
 use App\Models\Scopes\OwnedEntityScope;
 use App\Repositories\AbstractRepository;
+use Google\Service\CloudBuild\Build;
 
 class OrganRepository extends AbstractRepository
 {
@@ -136,7 +137,13 @@ class OrganRepository extends AbstractRepository
                     throw new \LogicException;
             }
         }
-        
+
+        // ve výchozím zobrazení se přednostně zobrazí promoted varhany
+        if (empty($filters) && (empty($sorts) || $sorts === ['importance' => 'desc'])) {
+            $cmpDate = today()->subDays(Organ::PROMOTION_DURATION)->toDateString();
+            $query->orderByRaw('IF(promotion_date < ?, NULL, promotion_date) DESC', [$cmpDate]);
+        }
+
         foreach ($sorts as $field => $direction) {
             switch ($field) {
                 case 'organ_builder':
@@ -174,6 +181,13 @@ class OrganRepository extends AbstractRepository
             }
         }
         
+        // nedůležité varhany nezobrazujeme v hlavním katalogu (nejsou-li promoted)
+        $query->where(function (Builder $query) {
+            $query
+                ->where('importance', '>', 0)
+                ->orWhere(fn (Builder $query) => $query->promoted());
+        });
+
         $query->orderBy('organs.municipality');
         $query->orderBy('organs.id');
         

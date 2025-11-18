@@ -152,17 +152,6 @@ class AbstractRepository
         return $builder->get();
     }
     
-    public function getOrgans(
-        array $filters = [], array $sorts = [],
-        $with = self::ORGANS_WITH, $withCount = self::ORGANS_WITH_COUNT,
-        $perPage = null
-    ): Collection|LengthAwarePaginator
-    {
-        $query = $this->getOrgansQuery($filters, $sorts, $with, $withCount);
-        if ($perPage === false) return $query->get();
-        else return $query->paginate($perPage);
-    }
-    
     // použije se, pokud nepoužíváme klasický route model binding
     public function getBySlug($slug, bool $signed = false)
     {

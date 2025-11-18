@@ -27,7 +27,16 @@ new class extends Component {
     private Collection $resultsRegisterNames;
     private int $resultsCount = 0;
     private bool $showOrganBuildersFirst = false;
+
+    public ?string $organSlug = null;
     
+    public function mount()
+    {
+        if (request()->routeIs('organs.show')) {
+            $this->organSlug = request()->organSlug;
+        }
+    }
+
     public function boot()
     {
         $this->placeholder ??= __('Hledat varhany/varhanáře/rejstříky') . ' (/)';
@@ -112,6 +121,13 @@ new class extends Component {
                 
                 if ($this->showLastViewed) {
                     $organIds = OrganRepository::getLastViewedOrganIds();
+                    
+                    // v seznamu naposled zobrazených varhan nezobrazujeme aktuálně zobrazené varhany
+                    if ($this->organSlug) {
+                        $currentOrgan = Organ::where('slug', $this->organSlug)->first();
+                        if ($currentOrgan) $organIds = $organIds->diff([$currentOrgan->id]);
+                    }
+
                     if ($organIds->isEmpty()) $builder->whereRaw('false');
                     else {
                         $idsStr = $organIds->map(intval(...))->implode(', ');

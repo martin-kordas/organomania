@@ -38,6 +38,10 @@ class Organ extends Model
     use OwnedEntity {
         OwnedEntity::scopeWithUniqueSlugConstraints insteadof Sluggable;
     }
+
+    const
+        PROMOTION_DURATION = 30,
+        HIGHLIGHT_PROMOTION_DURATION = 4;
     
     const
         ORGAN_ID_OLOMOUC_KATEDRALA_SV_VACLAVA = 55,
@@ -92,6 +96,13 @@ class Organ extends Model
         ORGAN_ID_PARDUBICE_ZUS_POLABINY = 4540;
     
     protected $guarded = [];
+
+    public function casts()
+    {
+        return [
+            'promotion_date' => 'date',
+        ];
+    }
     
     protected static function booted(): void
     {
@@ -304,6 +315,23 @@ class Organ extends Model
         // soukromé varhany admina jsou veřejně dohledatelné (jde o méně známé varhany, které jsem přesto vložil do Organomanie)
         return !$this->isPublic() && !($this->user_id === User::USER_ID_ADMIN && Auth::id() !== User::USER_ID_ADMIN);
     }
+
+    public function isPromoted(bool $highlighted = false): bool
+    {
+        $cmpDate = today()->subDays($highlighted ? self::HIGHLIGHT_PROMOTION_DURATION : self::PROMOTION_DURATION);
+
+        return $this->promotion_date?->gte($cmpDate) ?? false;
+    }
+
+    public function scopePromoted(Builder $query)
+    {
+        $query->where('promotion_date', '>=', today()->subDays(self::PROMOTION_DURATION));
+    }
+
+    public function scopeHighlightPromoted(Builder $query)
+    {
+        $query->where('promotion_date', '>=', today()->subDays(self::HIGHLIGHT_PROMOTION_DURATION));
+    }
     
     public function getMapInfo(?float $nearLatitude = null, ?float $nearLongitude = null)
     {
@@ -388,6 +416,13 @@ class Organ extends Model
     public function getLinkComponent()
     {
         return 'components.organomania.organ-link';
+    }
+
+    public static function getHighlightedCount()
+    {
+        return static::query()
+            ->highlightPromoted()
+            ->count();
     }
     
 }

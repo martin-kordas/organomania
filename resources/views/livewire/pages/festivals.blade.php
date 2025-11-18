@@ -12,6 +12,7 @@ use App\Enums\OrganCategory;
 use App\Models\CustomCategory;
 use App\Repositories\FestivalRepository;
 use App\Traits\EntityPage;
+use App\Helpers;
 
 new #[Layout('layouts.app-bootstrap')] class extends Component {
 
@@ -69,6 +70,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function mount()
     {
+        Helpers::logPageViewIntoCache('festivals');
+
         $this->sortColumn = 'starting_month';
         $this->sortDirection = 'asc';
         $this->mountCommon();

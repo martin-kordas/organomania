@@ -41,6 +41,12 @@
                     <img width="125" @class(['region', 'start-0', 'm-2', 'bottom-0', 'position-absolute' => isset($image), 'bg-light' => !isset($image)]) src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
                 </a>
             @endisset
+            @if (method_exists($organ, 'isPromoted') && $organ->isPromoted())
+                @php $highlightPromoted = $organ->isPromoted(highlighted: true) @endphp
+                <span @class(['position-absolute', 'top-0', 'end-0', 'm-2', 'badge', 'text-uppercase', $highlightPromoted ? 'text-bg-danger' : 'text-bg-secondary'])>
+                    {{ $highlightPromoted ? __('Právě přidáno') : __('Nově přidáno') }}
+                </span>
+            @endif
         </div>
     @endisset
     <div wire:loading wire:target="setThumbnailOrgan" class="image-placeholder" style="height: 200px;"></div>

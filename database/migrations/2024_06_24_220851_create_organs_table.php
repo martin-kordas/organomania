@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('organ_builder_name', length: 200)->nullable();
             $table->integer('year_built')->nullable();
             $table->foreignId('renovation_organ_builder_id')->nullable()->constrained('organ_builders');
+            $table->string('renovation_organ_builder_name', length: 200)->nullable();
             $table->integer('year_renovated')->nullable();
             $table->foreignId('case_organ_builder_id')->nullable()->constrained('organ_builders');
             $table->string('case_organ_builder_name', length: 200)->nullable();
@@ -49,6 +50,7 @@ return new class extends Migration
             $table->text('discography')->nullable();
             $table->text('disposition')->nullable();
             $table->integer('baroque')->default(0)->comment("From book Baroque organ-building in Moravia");
+            $table->date('promotion_date')->nullable();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
             $table->softDeletes();

@@ -6,7 +6,7 @@
 </tr>
 <tr class="d-md-none">
     <td colspan="2">
-        <strong>{{ $title }}</strong>
+        <strong class="fw-semibold">{{ $title }}</strong>
         <br />
         {{ $slot }}
     </td>
