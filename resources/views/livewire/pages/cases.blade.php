@@ -15,6 +15,7 @@ use Livewire\WithPagination;
 use App\OrganCaseImage;
 use App\Helpers;
 use App\Enums\OrganCategory;
+use App\Http\Controllers\ThumbnailController;
 use App\Interfaces\Category;
 use App\Models\Category as CategoryModel;
 use App\Models\Organ;
@@ -491,16 +492,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </span>
                 </h4>
 
-                @isset($this->organBuilder?->description)
-                    <div class="markdown mt-2 small">{!! $this->markdownConvertor->convert($this->organBuilder->description) !!}</div>
-                @endisset
+                @if (isset($this->organBuilder?->description) && count($this->filterOrganBuilders ?? [] === 1))
+                    <div class="markdown mt-2 small">{!! $this->markdownConvertor->convert($this->organBuilder->description, newTab: true) !!}</div>
+                @endif
 
                 <div id="group{{ $groupId }}" class="group flex-wrap flex-row column-gap-4 row-gap-3 mt-3 justify-content-center collapse show">
                     @foreach ($cases as $case)
                         <div class="text-center">
                             <a href="{{ $case->imageUrl }}" target="_blank">
                                 <img 
-                                    src="{{ $case->imageUrl }}" 
+                                    src="{{ ThumbnailController::getThumbnailUrl($case->imageUrl) }}" 
                                     alt="{{ $case->name }}"
                                     class="case-image rounded border"
                                     loading="lazy"
@@ -550,7 +551,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <p class="small text-center text-secondary">
         <strong>{{ __('Poděkování přispěvatelům') }}</strong>:
         <br />
-        Lukáš Dvořák, Jan Fejgl, Filip Harant, Kristýna Kosíková, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Ondřej Valenta a další
+        Lukáš Dvořák, Jan Fejgl, Filip Harant, Kristýna Kosíková, Jiří Krátký, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Ondřej Valenta a další
     </p>
 </div>
 

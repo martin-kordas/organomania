@@ -18,6 +18,8 @@
         "laravel/scout": "^10.10",
         "laravel/tinker": "^2.9",
         "league/commonmark": "^2.4",
+        "league/glide": "^2.0",
+        "league/glide-symfony": "^2.0",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
         "mjaschen/phpgeo": "^5.0",

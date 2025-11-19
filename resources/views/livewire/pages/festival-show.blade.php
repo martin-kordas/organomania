@@ -7,6 +7,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Route;
 use App\Enums\Region;
+use App\Http\Controllers\ThumbnailController;
 use App\Models\Festival;
 use App\Traits\HasAccordion;
 use App\Helpers;
@@ -94,7 +95,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="position-relative d-inline-block">
                     @if ($this->image)
                         <a href="{{ $this->image[0] }}" target="_blank">
-                            <img class="organ-img rounded border" src="{{ $this->image[0] }}" @isset($this->image[1]) title="{{ __('Licence obrázku') }}: {{ $this->image[1] }}" @endisset height="200" />
+                            <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($this->image[0]) }}" @isset($this->image[1]) title="{{ __('Licence obrázku') }}: {{ $this->image[1] }}" @endisset height="200" />
                         </a>
                     @endif
                     @if ($festival->region)

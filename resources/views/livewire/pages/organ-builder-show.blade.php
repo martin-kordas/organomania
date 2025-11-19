@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use App\Helpers;
+use App\Http\Controllers\ThumbnailController;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\OrganRebuild;
@@ -391,7 +392,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="position-relative d-inline-block">
                     @if ($organBuilder->image_url)
                         <a href="{{ $organBuilder->image_url }}" target="_blank">
-                            <img class="organ-img rounded border" src="{{ $organBuilder->image_url }}" @isset($organBuilder->image_credits) title="{{ __('Licence obrázku') }}: {{ $organBuilder->image_credits }}" @endisset height="200" />
+                            <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($organBuilder->image_url) }}" @isset($organBuilder->image_credits) title="{{ __('Licence obrázku') }}: {{ $organBuilder->image_credits }}" @endisset height="200" />
                         </a>
                     @endif
                     @if ($organBuilder->region)

@@ -2,6 +2,7 @@
 
 @use(App\Enums\OrganCategory)
 @use(App\Enums\OrganBuilderCategory)
+@use(App\Http\Controllers\ThumbnailController)
 @use(App\Models\OrganBuilder)
 @use(App\Services\MarkdownConvertorService)
 
@@ -30,7 +31,7 @@
                     href="{{ $this->getViewUrl($organ) }}"
                     @if ($modal) target="_blank" @else wire:navigate @endif
                 >
-                    <img class="organ-image" src="{{ $image['image_url'] }}" @isset($image['image_credits']) title="{{ __('Licence obrázku') }}: {{ $image['image_credits'] }}" @endisset />
+                    <img class="organ-image" src="{{ ThumbnailController::getThumbnailUrl($image['image_url']) }}" @isset($image['image_credits']) title="{{ __('Licence obrázku') }}: {{ $image['image_credits'] }}" @endisset />
                 </a>
             @endisset
             @isset($organ->region_id)

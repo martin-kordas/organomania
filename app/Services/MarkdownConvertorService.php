@@ -37,18 +37,18 @@ class MarkdownConvertorService
         return $this->converter;
     }
 
-    private function convertCustom(string $markdown): string
+    private function convertCustom(string $markdown, bool $newTab = false): string
     {
-        $res = $this->convertCustomLinks($markdown);
+        $res = $this->convertCustomLinks($markdown, $newTab);
         return $res;
     }
     
-    private function convertCustomLinks(string $markdown): string
+    private function convertCustomLinks(string $markdown, bool $newTab = false): string
     {
         // vytvoří odkazy do Organomanie
         return preg_replace_callback(
             static::CUSTOM_LINK_REGEX,
-            function ($res) {
+            function ($res) use ($newTab) {
                 [, $entityType, $text, $slug] = $res;
                 
                 if (str_ends_with($text, '|nodetail')) {
@@ -86,6 +86,7 @@ class MarkdownConvertorService
                 $linkParams['name'] = html_entity_decode($text);
                 $linkParams['iconLink'] = false;
                 $linkParams['showDescription'] = !$noDetail;
+                if ($newTab) $linkParams['newTab'] = true;
                 
                 // nadbytečné mezery (např. před tečkou za odkazem) trimováním odstranit nelze - jde o více zanořených HTML elementů a Livewire direktivy v HTML komentářích
                 $link = trim($entity->renderLink($linkParams));
@@ -97,10 +98,10 @@ class MarkdownConvertorService
         );
     }
 
-    public function convert(string $markdown): string
+    public function convert(string $markdown, bool $newTab = false): string
     {
         $res = $this->getConverter()->convert($markdown);
-        $res = $this->convertCustom($res);
+        $res = $this->convertCustom($res, $newTab);
         return trim($res);
     }
     

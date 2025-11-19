@@ -14,6 +14,7 @@ use App\Enums\Region;
 use App\Helpers;
 use App\Repositories\AbstractRepository;
 use App\Repositories\OrganRepository;
+use App\Http\Controllers\ThumbnailController;
 use App\Services\MarkdownConvertorService;
 use App\Services\DispositionTextualFormatter;
 use App\Services\AI\DescribeDispositionAI;
@@ -423,7 +424,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div class="position-relative d-inline-block">
                 @foreach ($this->images as [$imageUrl, $imageCredits])
                     <a href="{{ $imageUrl }}" target="_blank">
-                        <img class="organ-img rounded border" src="{{ $imageUrl }}" @isset($imageCredits) title="{{ __('Licence obrázku') }}: {{ $imageCredits }}" @endisset height="200" />
+                        <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($imageUrl) }}" @isset($imageCredits) title="{{ __('Licence obrázku') }}: {{ $imageCredits }}" @endisset height="200" />
                     </a>
                     @break
                 @endforeach
