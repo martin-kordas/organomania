@@ -11,8 +11,6 @@ use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\ThumbnailController;
 use App\Http\Controllers\WelcomeController;
 
-dd(mb_substr(bin2hex('https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Church_of_the_Assumption_of_the_Virgin_Mary_%28Mlad%C3%A1_Boleslav%29_02.JPG/640px-Church_of_the_Assumption_of_the_Virgin_Mary_%28Mlad%C3%A1_Boleslav%29_02.JPG'), 0, 250));
-
 // routa pro serving assetů v případě, že se používá PHP built-in server (Laravel Sail), který neumožňuje konfiguraci cachování
 Route::get('/cached-file/{path}', function ($path) {
     $file = public_path($path);
@@ -25,7 +23,7 @@ Route::get('/cached-file/{path}', function ($path) {
 
 Route::get('/thumbnail/{path}', [ThumbnailController::class, 'resize'])
     ->where('path', '.*')
-    ->name();
+    ->name('thumbnail');
 
 Route::middleware(["auth"])->group(function () {
     Volt::route('dispositions/create', 'pages.disposition-edit')

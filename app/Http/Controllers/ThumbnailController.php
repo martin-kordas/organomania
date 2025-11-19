@@ -11,16 +11,17 @@ use League\Glide\ServerFactory;
 class ThumbnailController extends Controller
 {
     
-    const WIDTH = 400;
+    const WIDTH = 430;
 
     // TODO: neřeší se vymazání cache při změně obrázku - raději vždy obrázek nahrát pod novým názvem
     public function resize(string $file)
     {
         // externí obrázky nejprve stáhneme a uložíme na disk
         if (str($file)->startsWith(['https:/'])) {
+            $domain = 'upload.wikimedia.org';
             // bug v Laravelu působí, že PHP vidí jen 1 slash: https://github.com/laravel/framework/issues/22125
-            if (!str($file)->startsWith(['https://upload.wikimedia.org/', 'https:/upload.wikimedia.org/'])) throw new Exception;
-            $file = str_replace('https:/upload.wikimedia.org/', 'https://upload.wikimedia.org/', $file);
+            if (!str($file)->startsWith(["https://$domain/", "https:/$domain/"])) throw new Exception;
+            $file = str_replace("https:/$domain/", "https://$domain/", $file);
 
             $path = storage_path('app/thumbnails-web');
 
@@ -51,7 +52,7 @@ class ThumbnailController extends Controller
             'cache' => storage_path('app/thumbnails'),
         ]);
 
-        $params = [];
+        $params = ['fm' => 'webp'];     // nejúspornější formát
         $imageSize = getimagesize("$path/$fileReal");
         if ($imageSize && $imageSize[0] > static::WIDTH) $params['w'] = static::WIDTH;
         
