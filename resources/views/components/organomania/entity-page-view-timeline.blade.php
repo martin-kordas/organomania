@@ -35,6 +35,10 @@
         </ul>
     @endif
 
+    <a class="btn btn-sm btn-outline-secondary" href="{{ route('organ-builders.list-by-age') }}" wire:navigate>
+        {{ __('Varhanáři podle věku dožití') }}
+    </a>
+
 </div>
 
 @script

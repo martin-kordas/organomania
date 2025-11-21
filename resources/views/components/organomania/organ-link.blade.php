@@ -21,7 +21,7 @@
     
     $popoverDetails = [];
     if ($organ->organBuilder && $organ->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) $popoverDetails[] = $organ->organBuilder->shortName;
-    if ($year) $popoverDetails[] = $year;
+    if ($organ->year_built) $popoverDetails[] = $organ->year_built;
 @endphp
 
 @can('view', $organ)

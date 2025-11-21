@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\OrganBuilderCategory as OrganBuilderCategoryModel;
 use App\Models\OrganBuilderCustomCategory as OrganBuilderCustomCategoryModel;
 use App\Models\OrganBuilder;
+use App\Models\OrganBuilderTimelineItem;
 use App\Models\OrganBuilderMunicipalityInfo;
 use App\Repositories\AbstractRepository;
 
@@ -155,6 +156,23 @@ class OrganBuilderRepository extends AbstractRepository
         return OrganBuilderMunicipalityInfo::query()
             ->where('municipality', $municipality)
             ->first();
+    }
+
+    public function getOrganBuilderTimelineItemsByAge($direction = 'desc')
+    {
+        return OrganBuilderTimelineItem::query()
+            ->select('*')
+            ->selectRaw('obti.year_to - obti.year_from AS age')
+            ->from('organ_builder_timeline_items', 'obti')  
+            ->join('organ_builders AS ob', 'ob.id', '=', 'obti.organ_builder_id')
+            ->withTrashed()
+            ->whereNull('obti.deleted_at')
+            ->where('obti.is_workshop', 0)
+            ->whereNotNull('obti.year_from')
+            ->where('obti.year_to', '<', 2050)
+            ->whereNull('ob.user_id')
+            ->orderBy('age', $direction)
+            ->get();
     }
     
 }

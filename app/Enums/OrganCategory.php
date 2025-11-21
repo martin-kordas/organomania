@@ -113,7 +113,7 @@ enum OrganCategory: int implements Category
         ],
         self::WindchestSchleif->value       => [
             'name' => 'Zásuvková vzdušnice',
-            'description' => 'Klasická konstrukce varhan, kde se zapínání rejstříků provádí posunování dřevěných desek (zásuvek), které odkrývají přívod vzduchu k píšťalám'
+            'description' => 'Klasická konstrukce varhan, kde se zapínání rejstříků provádí posunováním dřevěných desek (zásuvek), které odkrývají přívod vzduchu k píšťalám'
         ],
         self::WindchestKegel->value         => [
             'name' => 'Kuželková vzdušnice',

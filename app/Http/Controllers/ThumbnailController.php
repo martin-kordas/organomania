@@ -11,9 +11,9 @@ use League\Glide\ServerFactory;
 class ThumbnailController extends Controller
 {
     
-    const WIDTH = 430;
+    const WIDTH = 450;
 
-    // TODO: neřeší se vymazání cache při změně obrázku - raději vždy obrázek nahrát pod novým názvem
+    // TODO: neřeší se vymazání cache při změně obrázku - nový obrázek nutno nahrát pod novým názvem nebo ručně vymazat cache
     public function resize(string $file)
     {
         // externí obrázky nejprve stáhneme a uložíme na disk
@@ -52,7 +52,7 @@ class ThumbnailController extends Controller
             'cache' => storage_path('app/thumbnails'),
         ]);
 
-        $params = ['fm' => 'webp'];     // nejúspornější formát
+        $params = ['fm' => 'webp'];     // nejúspornější formát WebP
         $imageSize = getimagesize("$path/$fileReal");
         if ($imageSize && $imageSize[0] > static::WIDTH) $params['w'] = static::WIDTH;
         

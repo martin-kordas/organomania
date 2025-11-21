@@ -392,7 +392,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="position-relative d-inline-block">
                     @if ($organBuilder->image_url)
                         <a href="{{ $organBuilder->image_url }}" target="_blank">
-                            <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($organBuilder->image_url) }}" @isset($organBuilder->image_credits) title="{{ __('Licence obrázku') }}: {{ $organBuilder->image_credits }}" @endisset height="200" />
+                            <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($organBuilder->image_url) }}" @isset($organBuilder->image_credits) title="{{ __('Licence obrázku') }}: {{ $organBuilder->image_credits }}" @endisset style="max-height: 200px" />
                         </a>
                     @endif
                     @if ($organBuilder->region)

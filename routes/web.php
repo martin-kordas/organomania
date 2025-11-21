@@ -123,6 +123,8 @@ Volt::route('organ-builders/municipalities/{municipality}', 'pages.organ-builder
     ->name('organ-builders.municipality');
 Volt::route('custom-category-organ-builders', 'pages.organ-builders')
     ->name('organ-builders.custom-category-organ-builders.index');
+Route::view('organ-builders/list-by-age', 'organ-builders-list-by-age')
+    ->name('organ-builders.list-by-age');
 Volt::route('organ-builders/{organBuilder}', 'pages.organ-builder-show')
     ->name('organ-builders.show');
 Volt::route('organ-builders/{organBuilder}/cases', 'pages.cases')

@@ -8,8 +8,11 @@
 
 @php
     $details = [];
-    if ($showOrganBuilder && isset($organ->organBuilder) && $organ->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) {
-        $details[] = $organ->organBuilder->shortName;
+    if ($showOrganBuilder) {
+        if (isset($organ->organ_builder_name)) $details[] = $organ->organ_builder_name;
+        elseif (isset($organ->organBuilder)) {
+            if ($organ->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) $details[] = $organ->organBuilder->shortName;
+        }
     }
     if ($year) $details[] = $year;
     if ($isRebuild) $details[] = __('přestavba');

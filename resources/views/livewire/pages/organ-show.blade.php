@@ -424,7 +424,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div class="position-relative d-inline-block">
                 @foreach ($this->images as [$imageUrl, $imageCredits])
                     <a href="{{ $imageUrl }}" target="_blank">
-                        <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($imageUrl) }}" @isset($imageCredits) title="{{ __('Licence obrázku') }}: {{ $imageCredits }}" @endisset height="200" />
+                        <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($imageUrl) }}" @isset($imageCredits) title="{{ __('Licence obrázku') }}: {{ $imageCredits }}" @endisset style="max-height: 200px" />
                     </a>
                     @break
                 @endforeach
@@ -511,7 +511,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
         @if ($organ->renovationOrganBuilder || $organ->renovation_organ_builder_name || $organ->year_renovated)
             <tr>
-                <th>{{ __('Oprava') }} /<br />{{ __('restaurování') }}</th>
+                <th>{{ __('Oprava') }}/{{ __('restaurování') }}</th>
                 <td>
                     @if (isset($organ->renovationOrganBuilder))
                         <x-organomania.organ-builder-link :organBuilder="$organ->renovationOrganBuilder" :yearBuilt="$organ->year_renovated" />
