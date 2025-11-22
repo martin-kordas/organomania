@@ -29,6 +29,9 @@ new class extends Component {
     private bool $showOrganBuildersFirst = false;
 
     public ?string $organSlug = null;
+
+    const ORGANS_LIMIT = 8;
+    const ORGAN_BUILDERS_LIMIT = self::ORGANS_LIMIT;
     
     public function mount()
     {
@@ -158,7 +161,7 @@ new class extends Component {
                         ->orderBy('importance', 'DESC')
                         ->orderBy('municipality')
                         ->orderBy('place')
-                        ->take(8);
+                        ->take(static::ORGANS_LIMIT);
                 }
             })
             ->get();
@@ -181,7 +184,7 @@ new class extends Component {
                     ->orderByRaw('IF(highlighted, 1, relevance) DESC')
                     ->orderBy('importance', 'DESC')
                     ->orderByName()
-                    ->take(8)
+                    ->take(static::ORGAN_BUILDERS_LIMIT)
                     ->select([
                         'organ_builders.id', 'slug',
                         'is_workshop', 'workshop_name', 'first_name', 'last_name',
@@ -337,15 +340,15 @@ new class extends Component {
                 <div class="search-results card position-absolute shadow w-100 z-1" x-show="isTyped" x-cloak style="display: none;">
                     @if ($this->resultsCount > 0)
                         @if ($this->showOrganBuildersFirst && $this->resultsOrganBuilders->isNotEmpty())
-                            <x-organomania.search.organ-builders :organBuilders="$this->resultsOrganBuilders" />
+                            <x-organomania.search.organ-builders :organBuilders="$this->resultsOrganBuilders" :limit="static::ORGAN_BUILDERS_LIMIT" />
                         @endif
 
                         @if ($this->resultsOrgans->isNotEmpty())
-                            <x-organomania.search.organs :organs="$this->resultsOrgans" :showLastViewed="$this->showLastViewed" />
+                            <x-organomania.search.organs :organs="$this->resultsOrgans" :limit="static::ORGANS_LIMIT" :showLastViewed="$this->showLastViewed" />
                         @endif
                         
                         @if (!$this->showOrganBuildersFirst && $this->resultsOrganBuilders->isNotEmpty())
-                            <x-organomania.search.organ-builders :organBuilders="$this->resultsOrganBuilders" />
+                            <x-organomania.search.organ-builders :organBuilders="$this->resultsOrganBuilders" :limit="static::ORGAN_BUILDERS_LIMIT" />
                         @endif
 
                         @if (!$this->showLastViewed)

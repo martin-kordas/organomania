@@ -392,7 +392,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="position-relative d-inline-block">
                     @if ($organBuilder->image_url)
                         <a href="{{ $organBuilder->image_url }}" target="_blank">
-                            <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($organBuilder->image_url) }}" @isset($organBuilder->image_credits) title="{{ __('Licence obrázku') }}: {{ $organBuilder->image_credits }}" @endisset style="max-height: 200px" />
+                            <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($organBuilder->image_url) }}" @isset($organBuilder->image_credits) title="{{ __('Licence obrázku') }}: {{ $organBuilder->image_credits }}" @endisset />
                         </a>
                     @endif
                     @if ($organBuilder->region)
@@ -564,7 +564,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.tr-responsive>
         @endif
         @if ($organBuilder->renovatedOrgans->isNotEmpty())
-            <x-organomania.tr-responsive title="{{ __('Opravy') }} / {{ __('restaurování') }}">
+            <x-organomania.tr-responsive title="{{ __('Opravy') }}/{{ __('restaurování') }}">
                 <div class="text-break items-list">
                     @foreach ($organBuilder->renovatedOrgans as $organ)
                         <x-organomania.organ-link :organ="$organ" :year="$organ->year_renovated ?? false" :isRenovation="true" :showShortPlace="true" />

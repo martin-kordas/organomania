@@ -46,6 +46,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $filterForeignOrganBuilder;
     #[Url(keep: true)]
     public $filterHasDisposition;
+    #[Url(keep: true)]
+    public $search;
 
     public $municipality;
 

@@ -102,7 +102,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="position-relative d-inline-block">
                     @if ($this->image)
                         <a href="{{ $this->image[0] }}" target="_blank">
-                            <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($this->image[0]) }}" @isset($this->image[1]) title="{{ __('Licence obrázku') }}: {{ $this->image[1] }}" @endisset style="max-height: 200px" />
+                            <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($this->image[0]) }}" @isset($this->image[1]) title="{{ __('Licence obrázku') }}: {{ $this->image[1] }}" @endisset />
                         </a>
                     @endif
                     @if ($competition->region)

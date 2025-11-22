@@ -319,6 +319,7 @@
             :filterMunicipality="$this->filterMunicipality ?? null"
             :filterNameLocality="$this->filterNameLocality ?? null"
             :filterMonth="$this->filterMonth ?? null"
+            :filterSearch="$this->filterSearch ?? null"
             :selectedTimelineEntityType="request()->query('selectedTimelineEntityType')" :selectedTimelineEntityId="request()->query('selectedTimelineEntityId')"
             :id="$this->id ?? null"
             :sortColumn="$this->sortColumn" :sortDirection="$this->sortDirection" :perPage="$this->perPage"

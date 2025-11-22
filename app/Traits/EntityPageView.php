@@ -18,6 +18,7 @@ use App\Models\Scopes\OwnedEntityScope;
 use App\Repositories\AbstractRepository;
 use App\Repositories\OrganRepository;
 use App\Repositories\OrganBuilderRepository;
+use App\Helpers;
 
 trait EntityPageView
 {
@@ -362,6 +363,12 @@ trait EntityPageView
     private function getMapMarkerLabel()
     {
         return '';
+    }
+
+    private function highlight($text, $needle)
+    {
+        if ($needle == '' || $text == '') return e($text);
+        return Helpers::highlightEscapeText($text, $needle, words: true);
     }
     
 }

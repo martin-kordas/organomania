@@ -27,6 +27,10 @@ new class extends Component {
     public $filterName;
     #[Reactive]
     public $filterMunicipality;
+    #[Reactive]
+    public $filterSearch;
+    #[Reactive]
+    public $search;
 
     // TODO: jako public mít radši jen id?
     #[Locked]
@@ -80,6 +84,7 @@ new class extends Component {
         $filters = $this->getFiltersArray();
         if ($this->filterName) $filters['name'] = $this->filterName;
         if ($this->filterMunicipality) $filters['municipality'] = $this->filterMunicipality;
+        if ($this->filterSearch) $filters['search'] = $this->filterSearch;
         return $filters;
     }
 

@@ -21,6 +21,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $filterName;
     #[Url(keep: true)]
     public $filterMunicipality;
+    #[Url(keep: true)]
+    public $filterSearch;
+    #[Url(keep: true)]
+    public $search;
 
     public $municipality;
 
@@ -65,6 +69,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->filtersModalAutofocus = '#filterName';
         $this->filters[] = 'filterName';
         $this->filters[] = 'filterMunicipality';
+        $this->filters[] = 'filterSearch';
         $this->title = __('Varhanáři');
     }
 

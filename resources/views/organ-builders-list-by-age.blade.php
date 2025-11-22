@@ -16,7 +16,7 @@
         <h3>{{ __('Varhanáři podle věku dožití') }}</h3>
 
         <x-organomania.warning-alert class="mb-2 d-print-none d-inline-block">
-            {{ __('Zobrazený věk je nepřesný – vypočítává se pouze z roku narození a úmrtí a nebere v potaz konkrétní data.') }}
+            {{ __('Zobrazený věk je přibližný – vypočítává se pouze z roku narození a úmrtí a nebere v potaz konkrétní data.') }}
         </x-organomania.warning-alert>
 
         <table class="table table-hover table-sm w-auto">
@@ -43,9 +43,8 @@
         </table>
 
         <div>
-            {{ __('Průměrná délka života') }}: {{ Helpers::formatNumber($averageAge, decimals: 2) }}
+            {{ __('Průměrná délka dožití') }}: {{ Helpers::formatNumber($averageAge, decimals: 2) }}
         </div>
-
         
     </div>
 </x-app-bootstrap-layout>

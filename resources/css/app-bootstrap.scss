@@ -323,6 +323,9 @@ table.show-table th {
         &.column-count-2 {
             max-width: 35em;
         }
+        &.column-count-1 {
+            max-width: 21em;
+        }
     }
 }
 
@@ -548,10 +551,12 @@ table.show-table th {
     }
 
     .organ-img {
+        max-height: 200px;
+
         @media screen and (max-width: 767px) {
             max-width: 100%;
             height: auto;
-            max-height: 25em;
+            max-height: 300px;
         }
     }
     

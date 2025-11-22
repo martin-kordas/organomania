@@ -35,11 +35,11 @@
                     </td>
                     <td class="table-light fw-semibold position-sticky start-0">
                         <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>
-                            {{ $organ->municipality }}
+                            {!! $this->highlight($organ->municipality, $this->filterLocality) !!}
                         </a>
                     </td>
                     <td class="fw-semibold" style="min-width: 9em;">
-                        <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'position-relative', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>{{ $organ->shortPlace }}</a>
+                        <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'position-relative', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>{!! $this->highlight($organ->shortPlace, $this->filterLocality) !!}</a>
                         @if (!$organ->preserved_organ)
                         <span class="text-body-secondary fw-normal">
                             ({{ $organ->preserved_case ? __('dochována skříň') : __('nedochováno') }})

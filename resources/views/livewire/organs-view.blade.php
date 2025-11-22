@@ -50,6 +50,8 @@ new class extends Component {
     public $filterForeignOrganBuilder;
     #[Reactive]
     public $filterHasDisposition;
+    #[Reactive]
+    public $search;
 
     // TODO: jako public mít radši jen id?
     #[Locked]

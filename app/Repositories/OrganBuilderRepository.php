@@ -42,16 +42,13 @@ class OrganBuilderRepository extends AbstractRepository
             
             switch ($field) {
                 case 'name':
+                    $this->filterName($query, $value);
+                    break;
+
+                case 'search':
                     $query->where(function (Builder $query) use ($value) {
-                        $query
-                            ->where('workshop_name', 'like', "%$value%")
-                            ->orWhereRaw('
-                                CONCAT(
-                                    IFNULL(first_name, ""),
-                                    " ",
-                                    IFNULL(last_name, "")
-                                ) LIKE ?
-                            ', ["%$value%"]);
+                        $this->filterName($query, $value);
+                        $query->orWhere('municipality', 'like', "%$value%");
                     });
                     break;
                     
@@ -115,6 +112,21 @@ class OrganBuilderRepository extends AbstractRepository
         
         return $query;
     }
+
+    private function filterName(Builder $query, $value)
+    {
+        $query->where(function (Builder $query) use ($value) {
+            $query
+                ->where('workshop_name', 'like', "%$value%")
+                ->orWhereRaw('
+                    CONCAT(
+                        IFNULL(first_name, ""),
+                        " ",
+                        IFNULL(last_name, "")
+                    ) LIKE ?
+                ', ["%$value%"]);
+        });
+    }
     
     public function getOrganBuilders(
         array $filters = [], array $sorts = [],
@@ -170,6 +182,8 @@ class OrganBuilderRepository extends AbstractRepository
             ->where('obti.is_workshop', 0)
             ->whereNotNull('obti.year_from')
             ->where('obti.year_to', '<', 2050)
+            // vynechat varhanáře s odhadovanou datací
+            ->whereNotIn('obti.id', [11, 28, 55, 52])
             ->whereNull('ob.user_id')
             ->orderBy('age', $direction)
             ->get();
