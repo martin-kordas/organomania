@@ -16,6 +16,7 @@ use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Cviebrock\EloquentSluggable\Sluggable;
 use App\Observers\OrganObserver;
+use App\Models\Diocese;
 use App\Models\Region;
 use App\Models\OrganBuilder;
 use App\Models\OrganCategory;
@@ -118,6 +119,11 @@ class Organ extends Model
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+    
+    public function diocese()
+    {
+        return $this->belongsTo(Diocese::class);
     }
     
     public function organBuilder()

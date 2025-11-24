@@ -33,6 +33,8 @@ new class extends Component {
     #[Reactive]
     public $filterLocality;
     #[Reactive]
+    public $filterDioceseId;
+    #[Reactive]
     public $filterDisposition;
     #[Reactive]
     public $filterManualsCount;
@@ -92,6 +94,7 @@ new class extends Component {
     {
         $filters = $this->getFiltersArray();
         if ($this->filterLocality) $filters['locality'] = $this->filterLocality;
+        if ($this->filterDioceseId) $filters['dioceseId'] = $this->filterDioceseId;
         if ($this->filterDisposition) $filters['disposition'] = $this->filterDisposition;
         if ($this->filterManualsCount) $filters['manualsCount'] = $this->filterManualsCount;
         if ($this->filterOrganBuilderId) $filters['organBuilderId'] = $this->filterOrganBuilderId;

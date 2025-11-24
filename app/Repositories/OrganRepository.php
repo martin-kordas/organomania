@@ -115,6 +115,11 @@ class OrganRepository extends AbstractRepository
                             ->orWhereHas('dispositions');
                     });
                     break;
+
+            
+                case 'dioceseId':
+                    $query->where('organs.diocese_id', $value);
+                    break;
                     
                 case 'id':
                 case 'regionId':

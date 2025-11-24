@@ -370,6 +370,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         }
     }
 
+    #[Computed]
+    public function localityDetails()
+    {
+        $details = [];
+        if ($this->organ->region && $this->organ->region->id !== Region::Praha->value) $details[] = $this->organ->region->name;
+        if ($this->organ->diocese) $details[] = $this->organ->diocese->name;
+        return empty($details) ? null : implode(', ', $details);
+    }
+
 }; ?>
 
 <div class="organ-show container">
@@ -407,12 +416,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @if ($organ->showAsPrivate())
                     <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
                 @endif
-                @if ($organ->region && $organ->region->id !== Region::Praha->value)
+                @isset($this->localityDetails)
                     <br />
                     <small class="text-secondary position-relative" style="font-size: var(--bs-body-font-size); top: -4px;">
-                        {{ $organ->region->name }}
+                        {{ $this->localityDetails }}
                     </small>
-                @endif
+                @endisset
             </h3>
 
             @if (isset($organ->perex))

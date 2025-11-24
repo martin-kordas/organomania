@@ -12,6 +12,7 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\Session;
 use Livewire\Attributes\Locked;
 use App\Interfaces\Category;
+use App\Models\Diocese;
 use App\Models\Region;
 use App\Models\OrganBuilder;
 use App\Models\Organ;
@@ -28,6 +29,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     #[Url(keep: true)]
     public $filterLocality;
+    #[Url(keep: true)]
+    public $filterDioceseId;
     #[Url(keep: true)]
     public $filterDisposition;
     #[Url(keep: true)]
@@ -95,6 +98,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->filtersModalScrollable = true;
         $this->filtersModalAutofocus = '#filterLocality';
         $this->filters[] = 'filterLocality';
+        $this->filters[] = 'filterDioceseId';
         $this->filters[] = 'filterDisposition';
         $this->filters[] = 'filterManualsCount';
         $this->filters[] = 'filterOrganBuilderId';
@@ -165,6 +169,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             return $this->municipalityInfo->getMetaDescription();
         }
         return __('Prohlédněte si nejvýznamnější varhany v České republice. Zjistěte jejich stylové zařazení, seznam rejstříků (dispozici) a varhanáře, který je postavil.');
+    }
+
+    #[Computed]
+    public function dioceses()
+    {
+        return Diocese::query()->orderBy('name')->get();
     }
 
 }; ?>

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('latitude');
             $table->double('longitude');
             $table->foreignId('region_id')->nullable()->constrained();
+            $table->foreignId('diocese_id')->nullable();
             $table->integer('importance')->comment("1 (lowest) to 10 (greatest)");
             $table->foreignId('organ_builder_id')->nullable()->constrained();
             $table->string('organ_builder_name', length: 200)->nullable();

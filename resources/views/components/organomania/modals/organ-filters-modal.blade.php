@@ -1,7 +1,7 @@
 @props([
     'organCategoriesGroups', 'organCustomCategoriesGroups', 'isCustomCategoryOrgans',
     'organBuilders',
-    'regions',
+    'regions', 'dioceses',
     'entityClass',
 ])
 
@@ -60,6 +60,12 @@
                     <label class="form-label" for="filterRegion">{{ __('Kraj') }}</label>
                     <x-organomania.selects.region-select :regions="$regions" id="filterRegion" model="filterRegionId" :allowClear="true" small />
                 </div>
+                @if ($entityClass === Organ::class)
+                    <div class="mb-3">
+                        <label class="form-label" for="filterRegion">{{ __('Diecéze') }}</label>
+                        <x-organomania.selects.diocese-select :dioceses="$dioceses" id="filterDiocese" model="filterDioceseId" :allowClear="true" small />
+                    </div>
+                @endif
                 
                 @if ($this->isCategorizable)
                 
