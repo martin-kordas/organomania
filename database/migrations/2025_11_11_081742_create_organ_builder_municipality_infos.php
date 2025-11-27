@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('municipality', length: 50);
             $table->string('heading', length: 100);
             $table->text('description')->nullable();
+            $table->string('image_url', length: 500)->nullable();
+            $table->string('image_credits', length: 500)->nullable();
             $table->timestamps();
         });
     }

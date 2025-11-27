@@ -93,6 +93,10 @@ class OrganRepository extends AbstractRepository
                     $query->whereRaw('IFNULL(case_organ_builder_id, organ_builder_id) = ?', $value);
                     break;
                 
+                case 'renovationOrganBuilderId':
+                    $query->where('renovation_organ_builder_id', $value);
+                    break;
+                
                 case 'preservedCase':
                 case 'preservedOrgan':
                 case 'concertHall':

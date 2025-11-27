@@ -1,6 +1,6 @@
 @props([
     'organCategoriesGroups', 'organCustomCategoriesGroups', 'isCustomCategoryOrgans',
-    'organBuilders',
+    'organBuilders', 'renovationOrganBuilders',
     'regions', 'dioceses',
     'entityClass',
 ])
@@ -96,6 +96,10 @@
                     <div class="mb-3">
                         <label class="form-label" for="filterCaseOrganBuilderId">{{ __('Varhanář') }} ({{ __('autor skříně') }})</label>
                         <x-organomania.selects.organ-builder-select model="filterCaseOrganBuilderId" :organBuilders="$organBuilders" :allowClear="true" small />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="filterRenovationOrganBuilderId">{{ __('Varhanář') }} ({{ __('oprava') }}/{{ __('restaurování') }})</label>
+                        <x-organomania.selects.organ-builder-select model="filterRenovationOrganBuilderId" :organBuilders="$renovationOrganBuilders" :allowClear="true" small />
                     </div>
                 @elseif ($entityClass === Festival::class)
                     @php $currentMonth = Carbon::now()->month @endphp

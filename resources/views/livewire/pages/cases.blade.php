@@ -492,7 +492,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </span>
                 </h4>
 
-                @if (isset($this->organBuilder?->description) && count($this->filterOrganBuilders ?? [] === 1))
+                @if (isset($this->organBuilder?->description) && count($this->filterOrganBuilders ?? []) === 1)
                     <div class="markdown mt-2 small">{!! $this->markdownConvertor->convert($this->organBuilder->description, newTab: true) !!}</div>
                 @endif
 

@@ -1,4 +1,4 @@
-<div class="container align-center ps-0">
+<div class="container entity-page-view align-center ps-0">
     @if ($this->mapTooManyItems)
         <div class="alert alert-secondary text-center" role="alert">
             {!! __('Mapu není možné zobrazit, protože obsahuje <strong>příliš mnoho položek</strong>.') !!}

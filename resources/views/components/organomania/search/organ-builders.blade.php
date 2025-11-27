@@ -30,7 +30,7 @@
 @if ($organBuilders->count() >= $limit)
     <div class="list-group list-group-flush position-relative text-center border-top-0">
         <div class="list-group-item list-group-item-action">
-            <a type="submit" class="link-primary text-decoration-none stretched-link" href="{{ route('organ-builders.index', ['filterSearch' => $this->sanitizedSearch, 'search' => 1, 'viewType' => 'table', 'perPage' => 30]) }}">
+            <a type="submit" class="link-primary text-decoration-none stretched-link" href="{{ route('organ-builders.index', ['filterSearch' => $this->sanitizedSearch, 'search' => $this->sanitizedSearch, 'viewType' => 'table', 'perPage' => 30]) }}">
                 <i class="bi-person-circle"></i>
                 {{ __('Zobrazit vše') }}
             </a>

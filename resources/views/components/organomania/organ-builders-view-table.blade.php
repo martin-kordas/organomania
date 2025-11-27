@@ -55,11 +55,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         </td>
                         <td class="table-light fw-semibold position-sticky start-0">
                             <a class="link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ $this->getViewUrl($organBuilder) }}" wire:navigate>
-                                {!! $this->highlight($organBuilder->name, $this->filterSearch) !!}
+                                {!! $this->highlight($organBuilder->name, $this->search) !!}
                             </a>
                         </td>
                         <td>
-                            {!! $this->highlight($organBuilder->municipality, $this->filterSearch) !!}
+                            {!! $this->highlight($organBuilder->municipality, $this->search) !!}
                         </td>
                         @if ($this->hasDistance)
                             <td class="text-end">

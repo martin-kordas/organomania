@@ -225,20 +225,39 @@ class Organ extends Model
     {
         return Attribute::make(
             get: function (mixed $_value, array $attributes) {
-                return trim(str($attributes['place'])->chopStart([
-                    'kostel',
-                    'klášterní kostel',
-                    'jezuitský kostel',
-                    'bazilika',
-                    'kaple',
-                    'konkatedrála',
-                    'opatský kostel',
-                    'piaristický kostel',
-                    'proboštský kostel',
-                    'zámecká kaple',
-                    'zámecký kostel',
-                    'katedrála',
-                ]));
+                return str($attributes['place'])
+                    ->chopStart([
+                        'kostel',
+                        'klášterní kostel',
+                        'jezuitský kostel',
+                        'bazilika',
+                        'kaple',
+                        'konkatedrála',
+                        'opatský kostel',
+                        'piaristický kostel',
+                        'proboštský kostel',
+                        'zámecká kaple',
+                        'zámecký kostel',
+                        'katedrála',
+                    ])
+                    ->replace('Panny Marie', 'P. Marie')
+                    ->replace('evangelický', 'evang.')
+                    ->trim();
+            }
+        );
+    }
+
+    public function organBuilderNameLowercase(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                if (isset($attributes['organ_builder_name'])) {
+                    return preg_replace_callback(
+                        '/\b(\p{Lu})+\b/u',
+                        fn ($matches) => mb_ucfirst(mb_strtolower($matches[0])),
+                        $attributes['organ_builder_name']
+                    );
+                }
             }
         );
     }

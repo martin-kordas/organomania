@@ -18,6 +18,7 @@ use App\Models\OrganBuilder;
 use App\Models\Organ;
 use App\Models\Category as CategoryModel;
 use App\Models\OrganCategory as OrganCategoryModel;
+use App\Enums\OrganBuilderCategory;
 use App\Enums\OrganCategory;
 use App\Models\CustomCategory;
 use App\Repositories\OrganRepository;
@@ -39,6 +40,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $filterOrganBuilderId;
     #[Url(keep: true)]
     public $filterCaseOrganBuilderId;
+    #[Url(keep: true)]
+    public $filterRenovationOrganBuilderId;
     #[Url(keep: true)]
     public $filterpreservedCase;
     #[Url(keep: true)]
@@ -103,6 +106,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->filters[] = 'filterManualsCount';
         $this->filters[] = 'filterOrganBuilderId';
         $this->filters[] = 'filterCaseOrganBuilderId';
+        $this->filters[] = 'filterRenovationOrganBuilderId';
         $this->filters[] = 'filterpreservedCase';
         $this->filters[] = 'filterpreservedOrgan';
         $this->filters[] = 'filterConcertHall';
@@ -141,6 +145,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function organBuilders()
     {
         return OrganBuilder::query()->orderByName()->get();
+    }
+
+    #[Computed]
+    public function renovationOrganBuilders()
+    {
+        return OrganBuilder::query()
+            ->whereHas('organBuilderCategories', function (Builder $query) {
+                $query->where('id', OrganBuilderCategory::Restoration);
+            })
+            ->orderByName()
+            ->get();
     }
 
     private function getOrganCategoryOrganCount(Category $category)

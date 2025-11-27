@@ -571,6 +571,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         @if (!$loop->last) <br /> @endif
                     @endforeach
                 </div>
+                @if ($organBuilder->renovatedOrgans->count() > 1)
+                    <a class="btn btn-sm btn-outline-secondary mt-1 me-1" href="{{ route('organs.index', ['filterRenovationOrganBuilderId' => $organBuilder->id]) }}">
+                        <i class="bi bi-music-note-list"></i>
+                        {{ __('Zobrazit vše') }}
+                        <span class="badge text-bg-secondary rounded-pill">{{ $organBuilder->renovatedOrgans->count() }}</span>
+                    </a>
+                    <br class="d-sm-none" />
+                @endif
             </x-organomania.tr-responsive>
         @endif
         

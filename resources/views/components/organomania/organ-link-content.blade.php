@@ -21,7 +21,8 @@
             $details[] = __('historická skříň');
     }
     elseif ($isRenovation) {
-        $organInfo = $organ->organBuilder->shortName ?? __('neznámý varhanář');
+        if (isset($organ->organ_builder_name)) $organInfo = str_replace(',', '', $organ->organBuilderNameLowercase);
+        else $organInfo = $organ->organBuilder->shortName ?? __('neznámý varhanář');
         if (!trim($organInfo)) $organInfo = __('postaveno');    // kvůli OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED
         if (isset($organ->year_built)) $organInfo .= " {$organ->year_built}";
         $details[] = $organInfo;

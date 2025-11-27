@@ -311,6 +311,7 @@
             :filterManualsCount="$this->filterManualsCount ?? null"
             :filterOrganBuilderId="$this->filterOrganBuilderId ?? null"
             :filterCaseOrganBuilderId="$this->filterCaseOrganBuilderId ?? null"
+            :filterRenovationOrganBuilderId="$this->filterRenovationOrganBuilderId ?? null"
             :filterConcertHall="$this->filterConcertHall ?? null"
             :filterpreservedCase="$this->filterpreservedCase ?? null"
             :filterpreservedOrgan="$this->filterpreservedOrgan ?? null"
@@ -321,6 +322,7 @@
             :filterNameLocality="$this->filterNameLocality ?? null"
             :filterMonth="$this->filterMonth ?? null"
             :filterSearch="$this->filterSearch ?? null"
+            :search="$this->search ?? null"
             :selectedTimelineEntityType="request()->query('selectedTimelineEntityType')" :selectedTimelineEntityId="request()->query('selectedTimelineEntityId')"
             :id="$this->id ?? null"
             :sortColumn="$this->sortColumn" :sortDirection="$this->sortDirection" :perPage="$this->perPage"
@@ -337,6 +339,7 @@
             :regions="$this->regions"
             :dioceses="$this->dioceses ?? null"
             :organBuilders="$this->organBuilders ?? null"
+            :renovationOrganBuilders="$this->renovationOrganBuilders ?? null"
             :isCustomCategoryOrgans="$this->isCustomCategoryOrgans"
             :entityClass="$this->entityClass"
         />
@@ -367,6 +370,15 @@
     window.setFilterMonth = function (month) {
         $wire.set('filterMonth', month)
         return false
+    }
+    
+    window.setViewType = function (viewType) {
+        // počkáme, než se view komopnenta donačte
+        //  - řeší problém, kdy přepnutí viewType (a tím pádem i view komponenty) z neznámého důvodu způsobí ve view komponentě chybu
+        //    "repository must not be accessed before initialization"
+        if ($('.entity-page-view').length) {
+            $wire.setViewType(viewType)
+        }
     }
         
     window.sortByDistance = function ($wire, direction = 'asc') {
