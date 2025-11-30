@@ -72,6 +72,12 @@ class OrganBuilderRepository extends AbstractRepository
                         $filterNear = true;
                     }
                     break;
+                    
+                case 'important':
+                    if ($value) {
+                        $query->where('importance', '>', 0);    // nedůležité varhanáře nezobrazujeme v hlavním katalogu
+                    }
+                    break;
                 
                 default:
                     throw new \LogicException;
@@ -100,13 +106,16 @@ class OrganBuilderRepository extends AbstractRepository
                         $this->orderBy($query, $field, $direction);
                     }
                     break;
+
+                case 'random':
+                    $query->inRandomOrder();
+                    break;
                 
                 default:
                     $this->orderBy($query, $field, $direction);
             }
         }
         
-        $query->where('importance', '>', 0);    // nedůležité varhanáře nezobrazujeme v hlavním katalogu
         $query->orderByName();
         $query->orderBy('id');
         

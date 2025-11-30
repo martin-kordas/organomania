@@ -40,7 +40,7 @@ trait HasSorting
         throw new \RuntimeException;
     }
 
-    public function sort($column, $direction)
+    public function sort($column, $direction = 'asc')
     {
         if ($this->getSortOption($column)) {
             if ($column !== $this->sortColumn) {

@@ -90,7 +90,7 @@ new class extends Component {
     #[Computed]
     public function sanitizedSearch()
     {
-        return trim($this->search ?? '');
+        return str($this->search ?? '')->replaceMatches('/\s+/u', ' ')->trim()->toString();
     }
 
     #[Computed]
@@ -141,6 +141,14 @@ new class extends Component {
                 }
                 else {
                     $searchWildcard = "%{$this->sanitizedSearch}%";
+                    
+                    // např. pro hledaný výraz "Olomouc Nepo" se kostel Neposkvrněného početí zařadí na začátek
+                    // - má význam jen pro řazení$searchWildcardMultiWord = preg_replace('/[ ]/u', '%', $this->sanitizedSearch, limit: 3);
+                    // - reálně se dohledá jen "Olomouc" fulltextově a "Nepo" se nebere v potaz (pro výraz "Olomou Nepo" se nenajde nic)
+                    // - viz Organ::toSearchableArray()
+                    $searchWildcardMultiWord = preg_replace('/[ ]/u', '%', $this->sanitizedSearch, limit: 3);
+                    $searchWildcardMultiWord = "%{$searchWildcardMultiWord}%";
+                    
                     $builder
                         ->selectRaw('
                             IFNULL(organs.municipality, "") LIKE ?
@@ -148,8 +156,13 @@ new class extends Component {
                             OR IFNULL(organ_builders.first_name, "") LIKE ?
                             OR IFNULL(organ_builders.last_name, "") LIKE ?
                             OR IFNULL(organ_builders.workshop_name, "") LIKE ?
+                            OR CONCAT(organs.municipality, " ", organs.place) LIKE ?
+                            OR CONCAT(organs.place, " ", organs.municipality) LIKE ?
                             AS highlighted
-                        ', [$searchWildcard, $searchWildcard, $searchWildcard, $searchWildcard, $searchWildcard])
+                        ', [
+                            $searchWildcard, $searchWildcard, $searchWildcard, $searchWildcard, $searchWildcard,
+                            $searchWildcardMultiWord, $searchWildcardMultiWord
+                        ])
                         ->selectRaw(
                             'MATCH(organs.place, organs.municipality, organs.description, organs.perex) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance',
                             [$this->sanitizedSearch]

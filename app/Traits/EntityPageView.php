@@ -152,6 +152,13 @@ trait EntityPageView
         throw new \RuntimeException;
     }
 
+    #[Computed]
+    private function hasSortRandom()
+    {
+        $columns = array_column($this->sortOptions, 'column');
+        return in_array('random', $columns);
+    }
+
     public function setThumbnailOrgan($id)
     {
         if (config('custom.simulate_loading')) usleep(300_000);

@@ -69,6 +69,14 @@ header {
     header {
         position: static;
     }
+    div.side-buttons {
+        position: sticky !important;
+        top: 20px;
+
+        & > div {
+            position: initial !important;
+        }
+    }
 }
 
 footer {
@@ -221,6 +229,32 @@ div.side-buttons {
 
 .organ-image, .image-placeholder {
     width: 100%;
+}
+
+.table-thumbnail-a {
+    .table-thumbnail {
+        max-height: 49.75px;
+        max-width: 75px;
+    }
+    .table-thumbnail-full {
+        visibility: hidden;
+        
+        max-width: 300px;
+        max-height: 350px;
+        transform: translate(-50%, -50%);
+        opacity: 0%;
+        transition: opacity 0.3s;
+    }
+
+    &:hover {
+        .table-thumbnail {
+            display: none;
+        }
+        .table-thumbnail-full {
+            visibility: visible;
+            opacity: 100%;
+        }
+    }
 }
 
 .markdown {
@@ -532,7 +566,7 @@ table.show-table th {
 }
 
 @media screen and (max-width: 767px) {
-    .entity-page-view-container, .municipality-info {
+    .entity-page-view-container, .municipality-info, .pagination-div {
         width: calc(100% + 5.7rem);
     }
 }

@@ -37,9 +37,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ['column' => 'municipality', 'label' => 'Lokalita', 'type' => 'alpha'],
         ['column' => 'distance', 'label' => 'Vzdálenost', 'shortLabel' => 'Vzdál.', 'type' => 'numeric'],
         ['column' => 'active_from_year', 'label' => 'Období', 'type' => 'numeric'],
-        ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric'],
-        ['column' => 'organs_count', 'label' => 'Počet varhan', 'type' => 'numeric', 'shortLabel' => 'Varhany'],
-        ['column' => 'views', 'label' => 'Počet zobrazení', 'type' => 'numeric'],
+        ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric', 'directions' => ['desc']],
+        ['column' => 'organs_count', 'label' => 'Počet varhan', 'type' => 'numeric', 'shortLabel' => 'Varhany', 'directions' => ['desc']],
+        ['column' => 'views', 'label' => 'Počet zobrazení', 'type' => 'numeric', 'directions' => ['desc']],
+        ['column' => 'random', 'label' => 'Řadit náhodně', 'shortLabel' => 'Náhodně', 'type' => 'random', 'directions' => ['asc']],
     ];
 
     public function boot(OrganBuilderRepository $repository, OrganBuilder $model, OrganBuilderCategoryModel $categoryModel)

@@ -71,8 +71,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ['column' => 'manuals_count', 'label' => 'Počet manuálů', 'shortLabel' => 'Man.', 'type' => 'numeric'],
         ['column' => 'stops_count', 'label' => 'Počet rejstříků', 'shortLabel' => 'Rejstříky', 'type' => 'numeric'],
         ['column' => 'original_stops_count', 'label' => 'Rejstříků původně', 'shortLabel' => 'Rejstříků původně', 'type' => 'numeric'],
-        ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric'],
-        ['column' => 'views', 'label' => 'Počet zobrazení', 'type' => 'numeric'],
+        ['column' => 'importance', 'label' => 'Význam', 'type' => 'numeric', 'directions' => ['desc']],
+        ['column' => 'views', 'label' => 'Počet zobrazení', 'type' => 'numeric', 'directions' => ['desc']],
+        ['column' => 'random', 'label' => 'Řadit náhodně', 'shortLabel' => 'Náhodně', 'type' => 'random', 'directions' => ['asc']],
     ];
 
     public function boot(OrganRepository $repository, Organ $model, OrganCategoryModel $categoryModel)

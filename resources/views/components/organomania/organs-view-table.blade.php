@@ -1,12 +1,14 @@
 @props(['organs'])
 
 @use(App\Helpers)
+@use(App\Http\Controllers\ThumbnailController)
 @use(App\Models\OrganBuilder)
 
 <div class="table-responsive">
     <table class="table table-hover table-sm align-middle">
         <thead>
             <tr>
+                <th>&nbsp;</th>
                 <th>&nbsp;</th>
                 <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('municipality')" :sticky="true" />
                 <th style="min-width: 9em;">{{ __('Místo') }}</th>
@@ -33,12 +35,28 @@
                             </span>
                         @endif
                     </td>
+                    <td class="py-0 text-center">
+                        @isset($organ->image_url)
+                            <a class="table-thumbnail-a" href="{{ $organ->image_url }}" target="_blank" wire:replace.self>
+                                <img
+                                    class="table-thumbnail rounded border"
+                                    src="{{ ThumbnailController::getThumbnailUrl($organ->image_url) }}"
+                                    @isset($organ->image_credits) title="{{ __('Licence obrázku') }}: {{ $organ->image_credits }}" @endisset
+                                />
+                                <img
+                                    class="table-thumbnail-full rounded border position-absolute z-1"
+                                    src="{{ ThumbnailController::getThumbnailUrl($organ->image_url) }}"
+                                    @isset($organ->image_credits) title="{{ __('Licence obrázku') }}: {{ $organ->image_credits }}" @endisset
+                                />
+                            </a>
+                        @endisset
+                    </td>
                     <td class="table-light fw-semibold position-sticky start-0">
                         <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>
                             {!! $this->highlight($organ->municipality, $this->search) !!}
                         </a>
                     </td>
-                    <td class="fw-semibold" style="min-width: 9em;">
+                    <td class="fw-semibold position-relative z-n1" style="min-width: 9em;">
                         <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'position-relative', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>{!! $this->highlight($organ->shortPlace, $this->search) !!}</a>
                         @if (!$organ->preserved_organ)
                         <span class="text-body-secondary fw-normal">

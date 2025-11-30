@@ -9,7 +9,7 @@
 @php
     $details = [];
     if ($showOrganBuilder) {
-        if (isset($organ->organ_builder_name)) $details[] = $organ->organ_builder_name;
+        if (isset($organ->organ_builder_name)) $details[] = str_replace(',', '', $organ->organBuilderNameLowercase);
         elseif (isset($organ->organBuilder)) {
             if ($organ->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) $details[] = $organ->organBuilder->shortName;
         }

@@ -107,6 +107,7 @@ new class extends Component {
         if ($this->filterConcertHall) $filters['concertHall'] = $this->filterConcertHall;
         if ($this->filterForeignOrganBuilder) $filters['foreignOrganBuilder'] = $this->filterForeignOrganBuilder;
         if ($this->filterHasDisposition) $filters['hasDisposition'] = $this->filterHasDisposition;
+        if (!$this->search) $filters['important'] = true;
         return $filters;
     }
 

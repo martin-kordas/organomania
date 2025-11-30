@@ -52,7 +52,14 @@ class OrganRepository extends AbstractRepository
             
             switch ($field) {
                 case 'locality':
-                    $query->whereAny(['organs.place', 'organs.municipality'], 'like', "%$value%");
+                    $query->where(function (Builder $query) use ($value) {
+                        $valueWildcardMultiWord = preg_replace('/[ ]/u', '%', $value, limit: 3);
+                      
+                        $query
+                          ->whereAny(['organs.place', 'organs.municipality'], 'like', "%$value%")
+                          ->orWhereRaw('CONCAT(organs.municipality, " ", organs.place) LIKE ?', ["%{$valueWildcardMultiWord}%"])
+                          ->orWhereRaw('CONCAT(organs.place, " ", organs.municipality) LIKE ?', ["%{$valueWildcardMultiWord}%"]);
+                    });
                     break;
                 
                 case 'disposition':
@@ -141,6 +148,17 @@ class OrganRepository extends AbstractRepository
                         $filterNear = true;
                     }
                     break;
+                    
+                case 'important':
+                    if ($value) {
+                        // nedůležité varhany nezobrazujeme v hlavním katalogu (nejsou-li promoted)
+                        $query->where(function (Builder $query) {
+                            $query
+                                ->where('importance', '>', 0)
+                                ->orWhere(fn (Builder $query) => $query->promoted());
+                        });
+                    }
+                    break;
                 
                 default:
                     throw new \LogicException;
@@ -184,19 +202,16 @@ class OrganRepository extends AbstractRepository
                         $this->orderBy($query, $field, $direction);
                     }
                     break;
+
+                case 'random':
+                    $query->inRandomOrder();
+                    break;
                 
                 default:
                     $this->orderBy($query, $field, $direction);
             }
         }
         
-        // nedůležité varhany nezobrazujeme v hlavním katalogu (nejsou-li promoted)
-        $query->where(function (Builder $query) {
-            $query
-                ->where('importance', '>', 0)
-                ->orWhere(fn (Builder $query) => $query->promoted());
-        });
-
         $query->orderBy('organs.municipality');
         $query->orderBy('organs.id');
         

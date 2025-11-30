@@ -85,6 +85,7 @@ new class extends Component {
         if ($this->filterName) $filters['name'] = $this->filterName;
         if ($this->filterMunicipality) $filters['municipality'] = $this->filterMunicipality;
         if ($this->filterSearch) $filters['search'] = $this->filterSearch;
+        if (!$this->search) $filters['important'] = true;
         return $filters;
     }
 

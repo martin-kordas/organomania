@@ -104,7 +104,10 @@ class AbstractRepository
     protected function trimFilterValue($value)
     {
         if (is_array($value)) return array_map(trim(...), $value);
-        else return trim($value);
+        else {
+            $value = str($value)->replaceMatches('/\s+/u', ' ')->trim()->toString();
+            return $value;
+        }
     }
     
     protected function getCategoriesHelp(

@@ -60,32 +60,42 @@
 
                         <ul class="dropdown-menu shadow-sm sort-dropdown">
                             @foreach (static::SORT_OPTIONS as $sortOption)
-                                <li>
-                                    <a
-                                        href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'asc')])
-                                        @if ($sortOption['column'] === 'distance')
-                                            @click="sortByDistance($wire, 'asc')"
-                                        @else
-                                            wire:click="sort('{{ $sortOption['column'] }}', 'asc')"
-                                        @endif
-                                    >
-                                        {{ __($sortOption['label']) }} ({{ __('vzestupně') }})
-                                        <i class="float-end bi-sort-{{ $sortOption['type'] }}-up"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'desc')])
-                                        @if ($sortOption['column'] === 'distance')
-                                            @click="sortByDistance($wire, 'desc')"
-                                        @else
-                                            wire:click="sort('{{ $sortOption['column'] }}', 'desc')"
-                                        @endif
-                                    >
-                                        {{ __($sortOption['label']) }} ({{ __('sestupně') }})
-                                        <i class="float-end bi-sort-{{ $sortOption['type'] }}-down-alt"></i>
-                                    </a>
-                                </li>
+                                @if (in_array('asc', $sortOption['directions'] ?? ['asc', 'desc']))
+                                    <li>
+                                        <a
+                                            href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'asc')])
+                                            @if ($sortOption['column'] === 'distance')
+                                                @click="sortByDistance($wire, 'asc')"
+                                            @else
+                                                wire:click="sort('{{ $sortOption['column'] }}', 'asc')"
+                                            @endif
+                                        >
+                                            {{ __($sortOption['label']) }}
+                                            @if ($sortOption['type'] !== 'random')
+                                                ({{ __('vzestupně') }})
+                                            @endif
+                                            <i class="float-end bi-sort-{{ $sortOption['type'] }}-up"></i>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('desc', $sortOption['directions'] ?? ['asc', 'desc']))
+                                    <li>
+                                        <a
+                                            href="#" @class(['dropdown-item', 'active' => $this->isCurrentSort($sortOption['column'], 'desc')])
+                                            @if ($sortOption['column'] === 'distance')
+                                                @click="sortByDistance($wire, 'desc')"
+                                            @else
+                                                wire:click="sort('{{ $sortOption['column'] }}', 'desc')"
+                                            @endif
+                                        >
+                                            {{ __($sortOption['label']) }}
+                                            @if ($sortOption['type'] !== 'random')
+                                                ({{ __('sestupně') }})
+                                            @endif
+                                            <i class="float-end bi-sort-{{ $sortOption['type'] }}-down-alt"></i>
+                                        </a>
+                                    </li>
+                                @endif
                                 @if (!$loop->last)
                                     <li><hr class="dropdown-divider"></li>
                                 @endif
