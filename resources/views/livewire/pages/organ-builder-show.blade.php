@@ -612,9 +612,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </tr>
         @endif
         @if (isset($organBuilder->description))
-            <x-organomania.tr-responsive title="{{ __('Popis') }}">
-                <div class="markdown">{!! $this->descriptionHtml !!}</div>
-            </x-organomania.tr-responsive>
+            <tr>
+                <td colspan="2">
+                    <strong class="fw-semibold">{{ 'Popis' }}</strong>
+                    <br />
+                    <div class="markdown">{!! $this->descriptionHtml !!}</div>
+                </td>
+            </tr>
         @endif
     </table>
 
@@ -630,7 +634,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <x-organomania.gallery-carousel :images="$this->images" />
                 @if ($organBuilder->isPublic() && count($this->imagesShownInCases) > 1)
                     <div class="text-center mt-2">
-                        <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organ-builders.cases', ['organBuilder' => $organBuilder->slug]) }}" wire:navigate>
+                        <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.cases', ['filterOrganBuilders' => [$organBuilder->id]]) }}" wire:navigate>
                             <i class="bi-camera"></i>
                             {{ __('Galerie skříní')}}
                             <span class="badge text-bg-secondary rounded-pill">{{ count($this->imagesShownInCases) }}</span>

@@ -57,10 +57,12 @@ window.refreshSelect2 = function () {
     $('.select2:not(#page.sframe *)').each(function() {
         var cssClass = $(this).hasClass('form-select-sm') ? 'select2--small' : ''
         //if ($(this).hasClass("select2-hidden-accessible")) $(this).select2('destroy')
+        let dropdownParent = $(this).closest('.modal');
+        if (!dropdownParent.length) dropdownParent = $(this).parent();
         $(this).select2({
             theme: "bootstrap-5",
             // https://stackoverflow.com/a/71552114/14967413
-            dropdownParent: $(this).parent(),
+            dropdownParent,
             selectionCssClass: cssClass,
             dropdownCssClass: cssClass,
         })
@@ -661,8 +663,10 @@ window.scrollToTop = function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-window.scrollToElement = function (elem) {
-    $(elem).get(0).scrollIntoView({ behavior: 'smooth' });
+window.scrollToElement = function (elem, offset = 0) {
+    let behavior = offset !== 0 ? 'instant' : 'smooth'
+    $(elem).get(0).scrollIntoView({ behavior })
+    if (offset !== 0) scrollBy(0, -offset)
 }
 
 window.copyToClipboard = function (text) {

@@ -312,6 +312,27 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ]);
     }
 
+    #[Computed]
+    private function shouldShowDisposition()
+    {
+        return isset($this->organ->disposition) || $this->organ->dispositions->isNotEmpty();
+    }
+    
+    #[Computed]
+    private function navigationItems()
+    {
+        $items = ['info' => __('Základní údaje')];
+        if (isset($this->organ->description)) $items['description'] = __('Popis');
+        if (count($this->images) > 1) $items['images'] = __('Foto');
+        if ($this->shouldShowDisposition) $items['accordion-disposition-container'] = __('Dispozice');
+        if ($this->organ->latitude > 0) $items['accordion-map-container'] = __('Mapa');
+        if ($this->similarOrgans->isNotEmpty()) $items['accordion-similarOrgans-container'] = __('Podobné varhany');
+        if (isset($this->organ->literature)) $items['accordion-literature-container'] = __('Literatura');
+
+        if (count($items) <= 1) return [];
+        return $items;
+    }
+
     private function highlightSuggestedRegisters(string $disposition, array $registerRowNumbers)
     {
         return str($disposition)->explode("\n")->mapWithKeys(function ($row, $key) use ($registerRowNumbers) {
@@ -395,7 +416,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <meta property="og:image" content="{{ url($this->images[0][0]) }}">
         @endisset
     @endpush
-    
+
+    @if (!empty($this->navigationItems))
+        <div class="list-group d-none d-lg-block position-fixed small text-end pe-4 navigation-items" style="top: 95px; transform: translate(-100%);">
+            @foreach ($this->navigationItems as $anchor => $name)
+                <button type="button" class="list-group-item list-group-item-action text-primary px-2 py-1 border-start-0 border-end-0 border-top-0 rounded-0" aria-current="true" onclick="scrollToElement({{ Js::from("#{$anchor}") }}, 75)">
+                    {{ $name }}
+                </button>
+            @endforeach
+        </div>
+    @endif
+
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
             <h3 class="fs-2 mb-3 lh-sm fw-normal" @if (Auth::user()?->admin) title="ID: {{ $organ->id }}" @endif>
@@ -448,7 +479,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
       /* HACK */
       .organ-builder .text-secondary, .organ-builder .text-body-secondary { font-weight: normal !important; }
     </style>
-    <table class="table show-table mb-2">
+    <table id="info" class="table show-table mb-2">
         <tr>
             {{-- HACK --}}
             <th>{{ __('Varhanář') }}</th>
@@ -730,13 +761,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.tr-responsive>
         @endif
         @if (isset($organ->description))
-            <x-organomania.tr-responsive title="{{ __('Popis') }}">
-                <div class="markdown">{!! $this->descriptionHtml !!}</div>
-            </x-organomania.tr-responsive>
+            <tr id="description">
+                <td colspan="2">
+                    <strong class="fw-semibold">{{ 'Popis' }}</strong>
+                    <br />
+                    <div class="markdown">{!! $this->descriptionHtml !!}</div>
+                </td>
+            </tr>
         @endif
     </table>
     
-    <div class="mb-4">
+    <div id="images" class="mb-4">
         @if ($organ->isPublic())
             <div class="small text-secondary text-end mb-4">
                 {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organ->views) }}&times;
@@ -762,7 +797,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
     
     <div class="accordion">
-        @if (isset($organ->disposition) || $organ->dispositions->isNotEmpty())
+        @if ($this->shouldShowDisposition)
             <x-organomania.accordion-item
                 id="accordion-disposition"
                 class="position-relative"

@@ -1,6 +1,6 @@
 @props(['title', 'id', 'show' => false, 'onclick' => null])
 
-<div {{ $attributes->merge(['class' => 'accordion-item']) }}">
+<div id="{{ "$id-container" }}" {{ $attributes->merge(['class' => 'accordion-item']) }}">
     <h2 class="accordion-header">
         <button
             @class(['accordion-button', 'py-2', 'collapsed' => !$show])

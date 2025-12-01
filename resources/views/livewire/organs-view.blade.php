@@ -87,7 +87,7 @@ new class extends Component {
         $this->mapTooManyItems
             = Auth::user()?->id === User::USER_ID_MARTIN_KORDAS
             && $this->viewType === 'map'
-            && empty($this->filters)
+            && empty(array_diff_key($this->filters, array_flip(['important'])))
             && empty($this->filterCategories);
     }
 

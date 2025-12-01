@@ -238,6 +238,7 @@ class Organ extends Model
                         'proboštský kostel',
                         'zámecká kaple',
                         'zámecký kostel',
+                        'hřbitovní kostel',
                         'katedrála',
                     ])
                     ->replace('Panny Marie', 'P. Marie')

@@ -44,19 +44,19 @@
                                     @isset($organ->image_credits) title="{{ __('Licence obrázku') }}: {{ $organ->image_credits }}" @endisset
                                 />
                                 <img
-                                    class="table-thumbnail-full rounded border position-absolute z-1"
+                                    class="table-thumbnail-full rounded border position-absolute z-2"
                                     src="{{ ThumbnailController::getThumbnailUrl($organ->image_url) }}"
                                     @isset($organ->image_credits) title="{{ __('Licence obrázku') }}: {{ $organ->image_credits }}" @endisset
                                 />
                             </a>
                         @endisset
                     </td>
-                    <td class="table-light fw-semibold position-sticky start-0">
+                    <td class="table-light fw-semibold position-sticky start-0 z-1">
                         <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>
                             {!! $this->highlight($organ->municipality, $this->search) !!}
                         </a>
                     </td>
-                    <td class="fw-semibold position-relative z-n1" style="min-width: 9em;">
+                    <td class="fw-semibold position-relative" style="min-width: 9em;">
                         <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'position-relative', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>{!! $this->highlight($organ->shortPlace, $this->search) !!}</a>
                         @if (!$organ->preserved_organ)
                         <span class="text-body-secondary fw-normal">

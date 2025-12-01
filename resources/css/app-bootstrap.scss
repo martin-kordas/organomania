@@ -142,6 +142,11 @@ div.side-buttons {
         overflow-y: scroll;
     }
 }
+.navigation-items {
+    .list-group-item:last-of-type {
+        border-bottom-style: none !important;
+    }
+}
 
 .search-results {
     max-height: 70vh;

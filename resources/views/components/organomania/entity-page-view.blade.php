@@ -4,7 +4,13 @@
             {!! __('Mapu není možné zobrazit, protože obsahuje <strong>příliš mnoho položek</strong>.') !!}
             <br class="d-none d-md-inline" />
             {{ __('Pro snížení počtu položek prosím') }}
-            <a href="#" class="fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#filtersModal">{{ __('použijte libovolný filtr') }}</a>.
+            <a href="#" class="fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#filtersModal">{{ __('použijte libovolný filtr') }}</a>
+            nebo
+            <a
+                class="fw-bold text-decoration-none"
+                href="#"
+                @click="sortByDistance($wire.$parent, 'asc', 50)"
+            >zobrazte varhany v okruhu 50 km</a>.
         </div>
     @elseif ($this->organs->isEmpty())
         <div class="alert alert-secondary text-center" role="alert">

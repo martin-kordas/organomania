@@ -391,7 +391,7 @@
         }
     }
         
-    window.sortByDistance = function ($wire, direction = 'asc') {
+    window.sortByDistance = function ($wire, direction = 'asc', nearDistance = 1000000) {
         let handleError = function (errorToastId) {
             if (errorToastId) showToast(errorToastId)
             openModal('#filtersModal')
@@ -405,7 +405,7 @@
         let getPositionSuccess = function ({ coords }) {
             $wire.filterNearLatitude = coords.latitude
             $wire.filterNearLongitude = coords.longitude
-            $wire.filterNearDistance = 1000000
+            $wire.filterNearDistance = nearDistance
             sort()
         }
             

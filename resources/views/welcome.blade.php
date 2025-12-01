@@ -115,7 +115,7 @@
             {{ __('Výtvarný vývoj varhanních skříní ve fotografiích.') }}
         </x-organomania.welcome-card-small>
         
-        <div class="row text-center g-4 align-items-stretch">
+        <div class="row text-center gx-4 gy-3 gy-md-3 align-items-stretch">
             <x-organomania.welcome-card
                 title="{{ __('Varhany') }}"
                 url="{{ route('organs.index') }}"

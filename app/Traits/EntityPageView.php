@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
@@ -281,6 +282,12 @@ trait EntityPageView
     public function hasDistance()
     {
         return $this->organs->first()?->distance !== null;
+    }
+    
+    #[Computed]
+    public function hasPages()
+    {
+        return $this->organs instanceof LengthAwarePaginator && $this->organs->hasPages();
     }
     
     public function saveOrganCustomCategories()
