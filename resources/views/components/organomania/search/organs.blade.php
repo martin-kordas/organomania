@@ -13,7 +13,7 @@
 
 <div class="list-group list-group-flush" wire:key="organsxxx">
     @foreach ($organs as $organ)
-        <a class="list-group-item list-group-item-action" href="{{ $organ->getViewUrl() }}" wire:key="organ{{ $organ->id }}" wire:navigate>
+        <a class="list-group-item list-group-item-action item-focusable" href="{{ $organ->getViewUrl() }}" wire:key="organ{{ $organ->id }}" wire:navigate>
             @if ($this->showLastViewed)
                 <i class="bi-clock-history"></i>
             @endif
@@ -42,11 +42,9 @@
 
 @if ($organs->count() >= $limit)
     <div class="list-group list-group-flush position-relative text-center border-top-0">
-        <div class="list-group-item list-group-item-action">
-            <a type="submit" class="link-primary text-decoration-none stretched-link" href="{{ route('organs.index', ['filterLocality' => $this->sanitizedSearch, 'search' => $this->sanitizedSearch, 'viewType' => 'table', 'perPage' => 30]) }}">
-                <i class="bi-music-note-list"></i>
-                {{ __('Zobrazit vše') }}
-            </a>
-        </div>
+        <a class="list-group-item list-group-item-action link-primary text-decoration-none stretched-link item-focusable" href="{{ route('organs.index', ['filterLocality' => $this->sanitizedSearch, 'search' => $this->sanitizedSearch, 'viewType' => 'table', 'perPage' => 30]) }}">
+            <i class="bi-music-note-list"></i>
+            {{ __('Zobrazit vše') }}
+        </a>
     </div>
 @endif

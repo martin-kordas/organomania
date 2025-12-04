@@ -40,13 +40,13 @@ class AnniversariesService
 
         $caseYearBuiltAnniversary = $year - $organ->case_year_built;
         if ($caseYearBuiltAnniversary % $step === 0) {
-            $anniversaries[] = [$organ->case_year_built, $caseYearBuiltAnniversary, __('let od') . ' ' . __('postavení skříně')];
+            $anniversaries[] = [$organ->case_year_built, $caseYearBuiltAnniversary, __('let skříně')];
             $anniversaryYears = min($anniversaryYears ?? INF, $caseYearBuiltAnniversary);
         }
 
         $yearBuiltAnniversary = $year - $organ->year_built;
         if ($yearBuiltAnniversary % $step === 0) {
-            $anniversaries[] = [$organ->year_built, $yearBuiltAnniversary, __('let od') . ' ' . __('postavení')];
+            $anniversaries[] = [$organ->year_built, $yearBuiltAnniversary, __('let varhan')];
             $anniversaryYears = min($anniversaryYears ?? INF, $yearBuiltAnniversary);
         }
 
@@ -119,11 +119,10 @@ class AnniversariesService
 
     public function getCachedAnniversaryCount()
     {
-        $firstJanuaryNextYear = Carbon::create(
-            now()->year + 1, 1, 1, 0, 0, 0
-        );
+        // číslo se patrně změní až příští rok, ale mohlo dojít k přidání záznamů
+        $tomorrow = now()->addDays(1);
 
-        return Cache::remember('anniversaryCount', $firstJanuaryNextYear, function () {
+        return Cache::remember('anniversaryCount', $tomorrow, function () {
             return $this->getAnniversaries(step: static::SHOWED_COUNT_STEP)['count'];
         });
     }

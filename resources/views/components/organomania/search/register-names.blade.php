@@ -6,7 +6,7 @@
 <div class="list-group list-group-flush">
     @foreach ($registerNames as $registerName)
         <a
-            class="list-group-item list-group-item-action d-flex column-gap-1 align-items-center"
+            class="list-group-item list-group-item-action item-focusable d-flex column-gap-1 align-items-center"
             href="{{ route('dispositions.registers.show', ['registerName' => $registerName->slug]) }}"
             wire:navigate
         >

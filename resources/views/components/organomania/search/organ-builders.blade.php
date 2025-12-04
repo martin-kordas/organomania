@@ -5,7 +5,7 @@
 </div>
 <div class="list-group list-group-flush">
     @foreach ($this->resultsOrganBuilders as $organBuilder)
-        <a class="list-group-item list-group-item-action" href="{{ route('organ-builders.show', ['organBuilder' => $organBuilder->slug]) }}" wire:navigate>
+        <a class="list-group-item list-group-item-action item-focusable" href="{{ route('organ-builders.show', ['organBuilder' => $organBuilder->slug]) }}" wire:navigate>
             {!! $this->highlight($organBuilder->name) !!}
             @if (!$organBuilder->isPublic()) 
                 <i class="bi-lock text-warning"></i>
@@ -29,11 +29,9 @@
 
 @if ($organBuilders->count() >= $limit)
     <div class="list-group list-group-flush position-relative text-center border-top-0">
-        <div class="list-group-item list-group-item-action">
-            <a type="submit" class="link-primary text-decoration-none stretched-link" href="{{ route('organ-builders.index', ['filterSearch' => $this->sanitizedSearch, 'search' => $this->sanitizedSearch, 'viewType' => 'table', 'perPage' => 30]) }}">
-                <i class="bi-person-circle"></i>
-                {{ __('Zobrazit vše') }}
-            </a>
-        </div>
+        <a class="list-group-item list-group-item-action link-primary text-decoration-none stretched-link item-focusable" href="{{ route('organ-builders.index', ['filterSearch' => $this->sanitizedSearch, 'search' => $this->sanitizedSearch, 'viewType' => 'table', 'perPage' => 30]) }}">
+            <i class="bi-person-circle"></i>
+            {{ __('Zobrazit vše') }}
+        </a>
     </div>
 @endif

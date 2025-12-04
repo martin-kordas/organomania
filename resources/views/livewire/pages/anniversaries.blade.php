@@ -76,7 +76,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     @endpush
 
     <div class="anniversaries container">
-        <h3>{{ __('Varhanní výročí') }}</h3>
+        <h3>
+            <i class="bi bi-cake2"></i>
+            {{ __('Varhanní výročí') }}
+        </h3>
 
         <div class="mt-3 mb-4">
             <label class="form-check-label radio-label">{{ __('Výročí po') }}</label>
@@ -134,11 +137,25 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 @foreach ($anniversaries['organs'] as $organ)
                                     <x-organomania.anniversary-rows :entity="$organ" :$year>
                                         <x-slot:entity-link>
-                                            <x-organomania.organ-link :organ="$organ" :year="false" />
+                                            <div class="d-none d-md-block">
+                                                <x-organomania.organ-link :organ="$organ" :year="false" />
+                                            </div>
+                                            <div class="d-md-none">
+                                                <x-organomania.organ-link :organ="$organ" :year="false" showShortPlace />
+                                            </div>
                                         </x-slot>
                                     </x-organomania.anniversary-rows>
                                 @endforeach
                             </table>
+
+                            <div class="mb-4">
+                                @php $ids = $anniversaries['organs']->pluck('id')->toArray()  @endphp
+                                <a class="btn btn-sm btn-outline-secondary mt-1 me-1" href="{{ route('organs.index', ['filterId' => $ids, 'viewType' => 'map']) }}">
+                                    <i class="bi bi-music-note-list"></i>
+                                    {{ __('Zobrazit vše') }}
+                                    <span class="badge text-bg-secondary rounded-pill">{{ $anniversaries['organs']->count() }}</span>
+                                </a>
+                            </div>
                         @endif
                         
                         @if ($anniversaries['timelineItems']->isNotEmpty())
@@ -152,6 +169,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     </x-organomania.anniversary-rows>
                                 @endforeach
                             </table>
+
+                            <div class="mb-4">
+                                @php $ids = $anniversaries['timelineItems']->pluck('organBuilder.id')->unique()->toArray()  @endphp
+                                <a class="btn btn-sm btn-outline-secondary mt-1 me-1" href="{{ route('organ-builders.index', ['filterId' => $ids, 'viewType' => 'map']) }}">
+                                    <i class="bi bi-person-circle"></i>
+                                    {{ __('Zobrazit vše') }}
+                                    <span class="badge text-bg-secondary rounded-pill">{{ count($ids) }}</span>
+                                </a>
+                            </div>
                         @endif
                     @endif
                 </div>

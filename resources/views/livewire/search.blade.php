@@ -324,7 +324,7 @@ new class extends Component {
 }; ?>
 
 <div class="col">
-    <form role="search" id="{{ $id }}-form" style="font-size: 95%;" onsubmit="return false">
+    <form role="search" id="{{ $id }}-form" style="font-size: 95%;" onsubmit="return false" onkeydown="handleKeyNavigation(event, this)">
         <div x-data="{isTyped: false}">
             <div class="position-relative">
                 <div class="input-group search-input-group">
@@ -350,7 +350,7 @@ new class extends Component {
                         autocomplete="off"
                     />
                 </div>
-                <div class="search-results card position-absolute shadow w-100 z-1" x-show="isTyped" x-cloak style="display: none;">
+                <div class="search-results card position-absolute shadow w-100 z-1" x-show="isTyped" x-cloak style="display: none;" @keydown.esc="isTyped = false">
                     @if ($this->resultsCount > 0)
                         @if ($this->showOrganBuildersFirst && $this->resultsOrganBuilders->isNotEmpty())
                             <x-organomania.search.organ-builders :organBuilders="$this->resultsOrganBuilders" :limit="static::ORGAN_BUILDERS_LIMIT" />
@@ -366,12 +366,10 @@ new class extends Component {
 
                         @if (!$this->showLastViewed)
                             <div class="list-group list-group-flush position-relative text-center border-top-0">
-                                <div class="list-group-item list-group-item-action">
-                                    <a type="submit" class="link-primary text-decoration-none stretched-link" href="#" onclick="$('#searchVarhanyNet').submit()">
-                                        <i class="bi bi-search"></i>
-                                        {{ __('Hledat v katalogu varhany.net') }}
-                                    </a>
-                                </div>
+                                <a class="list-group-item list-group-item-action link-primary text-decoration-none stretched-link item-focusable" href="#" onclick="$('#searchVarhanyNet').submit()">
+                                    <i class="bi bi-search"></i>
+                                    {{ __('Hledat v katalogu varhany.net') }}
+                                </a>
                             </div>
                         @endif
 
@@ -381,17 +379,17 @@ new class extends Component {
                     @else
                         @if (!$this->showLastViewed)
                             <div class="list-group position-relative text-center" wire:loading.remove>
-                                <div class="list-group-item list-group-item-action">
+                                <a class="list-group-item list-group-item-action item-focusable" href="#" onclick="$('#searchVarhanyNet').submit()">
                                     <div>
                                         {{ __('Nic nebylo nalezeno.') }}
                                     </div>
                                     <div>
-                                        <a type="submit" class="link-primary text-decoration-none stretched-link" href="#" onclick="$('#searchVarhanyNet').submit()">
+                                        <span type="submit" class="link-primary text-decoration-none stretched-link">
                                             <i class="bi bi-search"></i>
                                             {{ __('Hledat v katalogu varhany.net') }}
-                                        </a>
+                                        </span>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         @endif
                     
@@ -423,6 +421,37 @@ new class extends Component {
     
     window.isValueTyped = function (value) {
         return value.trim() === '' || value.length >= $wire.minSearchLength
+    }
+
+    window.handleKeyNavigation = function (e, form) {
+        this.currentIndex ??= null
+
+        let items = $(form).find('.search-results .item-focusable')
+        let currentItem = $(document.activeElement).is('.item-focusable') ? document.activeElement : null;
+        let newItem = null
+        
+        let currentIndex = null
+        if (currentItem) {
+            items.each(i => {
+                if (items[i] == currentItem) {
+                    currentIndex = i
+                    return false
+                }
+            })
+        }
+        
+        if (e.code === 'ArrowDown' || e.code === 'ArrowUp') {
+            if (e.code === 'ArrowDown') {
+                if (!currentItem) newItem = items[0]
+                else newItem = items[currentIndex + 1]
+            }
+            else {
+                if (currentIndex === 0) $(form).find('[type=search]').focus()
+                else newItem = items[currentIndex - 1]
+            }
+            e.preventDefault()
+            newItem?.focus()
+        }
     }
 </script>
 @endscript

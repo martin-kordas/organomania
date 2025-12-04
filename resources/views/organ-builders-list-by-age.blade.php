@@ -16,7 +16,7 @@
         <h3>{{ __('Varhanáři podle věku dožití') }}</h3>
 
         <x-organomania.warning-alert class="mb-2 d-print-none d-inline-block">
-            {{ __('Zobrazený věk je přibližný – vypočítává se pouze z roku narození a úmrtí a nebere v potaz konkrétní data.') }}
+            {{ __('Zobrazený věk je přibližný – vypočítává se pouze z roku narození a úmrtí a nebere v potaz konkrétní den.') }}
         </x-organomania.warning-alert>
 
         <table class="table table-hover table-sm w-auto">
@@ -25,7 +25,7 @@
                     <th>{{ __('Varhanář') }}</th>
                     <th>{{ __('Narozen') }}</th>
                     <th>{{ __('Zemřel') }}</th>
-                    <th>{{ __('Věk dožití') }} <i class="bi-sort-numeric-down-alt"></i></th>
+                    <th class="text-end">{{ __('Věk dožití') }} <i class="bi-sort-numeric-down-alt"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -36,14 +36,16 @@
                         </td>
                         <td class="text-end">{{ $timelineItem->year_from }}</td>
                         <td class="text-end">{{ $timelineItem->year_to }}</td>
-                        <td class="text-end">{{ $timelineItem->age }}</td>
+                        <td class="text-end fw-semibold">{{ $timelineItem->age }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
 
         <div>
-            {{ __('Průměrná délka dožití') }}: {{ Helpers::formatNumber($averageAge, decimals: 2) }} {{ __('let') }}
+            {{ __('Průměrná délka dožití') }}:
+            <span class="fw-semibold">{{ Helpers::formatNumber($averageAge, decimals: 2) }}</span>
+            {{ __('let') }}
         </div>
         
     </div>
