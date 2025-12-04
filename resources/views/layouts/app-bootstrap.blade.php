@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\App;
 use App\Helpers;
 use App\Models\Organist;
+use App\Services\AnniversariesService;
 
 $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
     'key' => env('GOOGLE_API_KEY'),
@@ -12,6 +13,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
 ]);
 
 $organistHighlightedCount = Organist::getHighlightedCount();
+$anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount();
 @endphp
 
 <!DOCTYPE html>
@@ -128,6 +130,16 @@ $organistHighlightedCount = Organist::getHighlightedCount();
                                 @endif
                                 <x-organomania.footer-nav-item href="{{ route('about-organ') }}" wire:navigate>
                                     {{ __('O varhanách') }}
+                                </x-organomania.footer-nav-item>
+                                <x-organomania.footer-nav-item href="{{ route('anniversaries') }}" wire:navigate>
+                                    {{ __('Výročí') }}
+                                    @if ($anniversaryCount > 0)
+                                        <span class="info-count-badge position-absolute top-0 start-100 translate-middle">
+                                            <span class="badge rounded-pill text-bg-secondary" style="font-size: 55%;">
+                                                {{ $anniversaryCount }}
+                                            </span>
+                                        </span>
+                                    @endif
                                 </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('quiz') }}" wire:navigate>
                                     {{ __('Kvíz') }}

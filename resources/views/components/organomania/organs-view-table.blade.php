@@ -11,7 +11,7 @@
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
                 <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('municipality')" :sticky="true" />
-                <th style="min-width: 9em;">{{ __('Místo') }}</th>
+                <th style="min-width: 9em;">{{ __('Místo') }} <span class="fw-normal">({{ __('kostel') }})</span></th>
                 @if ($this->hasDistance)
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('distance')" />
                 @endif
@@ -57,7 +57,7 @@
                         </a>
                     </td>
                     <td class="fw-semibold position-relative" style="min-width: 9em;">
-                        <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'position-relative', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>{!! $this->highlight($organ->shortPlace, $this->search) !!}</a>
+                        <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'position-relative', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" title="{{ $organ->place }}" wire:navigate>{!! $this->highlight($organ->shortPlace, $this->search) !!}</a>
                         @if (!$organ->preserved_organ)
                         <span class="text-body-secondary fw-normal">
                             ({{ $organ->preserved_case ? __('dochována skříň') : __('nedochováno') }})

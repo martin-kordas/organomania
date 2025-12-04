@@ -326,11 +326,32 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             68 => [4],
             // Harbich
             37 => [72],
+            // Výmola
+            3 => [60],
             default => []
         };
         return collect($relatedOrganBuilderIds)->map(
             fn ($organBuilderId) => OrganBuilder::find($organBuilderId)
         );
+    }
+
+    #[Computed]
+    private function navigationItems()
+    {
+        $items = ['info' => __('Základní údaje')];
+        if (isset($this->organBuilder->description)) $items['description'] = __('Popis');
+        if (count($this->images) > 1) $items['images'] = __('Galerie');
+        if ($this->shouldShowMap) $items['accordion-map-container'] = __('Mapa');
+        if (isset($this->organBuilder->literature)) $items['accordion-literature-container'] = __('Literatura');
+
+        if (count($items) <= 1) return [];
+        return $items;
+    }
+
+    #[Computed]
+    private function shouldShowMap()
+    {
+        return isset($this->organBuilder->region_id) && $this->organBuilder->latitude > 0;
     }
 
     private function shouldShowPlaceMap($place)
@@ -356,6 +377,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <meta property="og:image" content="{{ url($organBuilder->image_url) }}">
         @endisset
     @endpush
+
+    @if (!empty($this->navigationItems))
+        <x-organomania.show-navigation-items :navigationItems="$this->navigationItems" />
+    @endif
     
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
@@ -412,7 +437,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
     @endif
     
-    <table class="table show-table mb-2">
+    <table id="info" class="table show-table mb-2">
         @if (isset($organBuilder->place_of_birth))
             <tr>
                 <th>{{ __('Místo narození') }}</th>
@@ -584,35 +609,32 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         
         @php $center = $organBuilder->getCenter() @endphp
         @if ($this->relatedOrganBuilders->isNotEmpty() || $center)
-            <tr>
-                <th>{{ __('Související varhanáři') }}</th>
-                <td>
-                    <div class="items-list">
-                        @foreach ($this->relatedOrganBuilders as $relatedOrganBuilder)
-                            <x-organomania.organ-builder-link :organBuilder="$relatedOrganBuilder" :showActivePeriod="true" />
-                            @if (!$loop->last) <br /> @endif
-                        @endforeach
-                        
-                        @if ($center)
-                            @if ($this->relatedOrganBuilders->isNotEmpty()) <br /> @endif
-                            <a
-                                class="align-items-start link-primary text-decoration-none icon-link icon-link-hover"
-                                href="{{ route('organ-builders.index', ['filterMunicipality' => $center]) }}"
-                                wire:navigate
-                            >
-                                <i class="bi bi-person-circle"></i>
-                                {{ $this->organBuilder->getCenterName() }}
-                            </a>
-                            @if ($organBuilderInCenterCount = $this->repository->getOrganBuilderInCenterCount($center))
-                                <span class="badge text-bg-secondary rounded-pill">{{ $organBuilderInCenterCount }}</span>
-                            @endif
+            <x-organomania.tr-responsive title="{{ __('Související varhanáři') }}">
+                <div class="items-list">
+                    @foreach ($this->relatedOrganBuilders as $relatedOrganBuilder)
+                        <x-organomania.organ-builder-link :organBuilder="$relatedOrganBuilder" :showActivePeriod="true" />
+                        @if (!$loop->last) <br /> @endif
+                    @endforeach
+                    
+                    @if ($center)
+                        @if ($this->relatedOrganBuilders->isNotEmpty()) <br /> @endif
+                        <a
+                            class="align-items-start link-primary text-decoration-none icon-link icon-link-hover"
+                            href="{{ route('organ-builders.index', ['filterMunicipality' => $center]) }}"
+                            wire:navigate
+                        >
+                            <i class="bi bi-person-circle"></i>
+                            {{ $this->organBuilder->getCenterName() }}
+                        </a>
+                        @if ($organBuilderInCenterCount = $this->repository->getOrganBuilderInCenterCount($center))
+                            <span class="badge text-bg-secondary rounded-pill">{{ $organBuilderInCenterCount }}</span>
                         @endif
-                    <div>
-                </td>
-            </tr>
+                    @endif
+                <div>
+            </x-organomania.tr-responsive>
         @endif
         @if (isset($organBuilder->description))
-            <tr>
+            <tr id="description">
                 <td colspan="2">
                     <strong class="fw-semibold">{{ 'Popis' }}</strong>
                     <br />
@@ -630,7 +652,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
 
         @if (count($this->images) > 0)
-            <div class="my-4">
+            <div id="images" class="my-4">
                 <x-organomania.gallery-carousel :images="$this->images" />
                 @if ($organBuilder->isPublic() && count($this->imagesShownInCases) > 1)
                     <div class="text-center mt-2">
@@ -646,7 +668,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
         
     <div class="accordion">
-        @if (isset($organBuilder->region_id) && $organBuilder->latitude > 0)
+        @if ($this->shouldShowMap)
             <x-organomania.accordion-item
                 id="accordion-map"
                 class="d-print-none"

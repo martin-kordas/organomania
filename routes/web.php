@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\AboutOrganController;
+use App\Http\Controllers\AnniversariesController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\OrganController;
@@ -164,6 +165,8 @@ Volt::route('quiz', 'pages.quiz')
     ->name('quiz');
 Volt::route('quiz/results', 'pages.quiz-results')
     ->name('quiz.results');
+Volt::route('anniversaries', 'pages.anniversaries')
+    ->name('anniversaries');
 
 Route::get('organ-custom-categories/{id}/organs', function ($id) {
     $params = ['filterCategories' => ["custom-$id"], 'viewType' => 'table'];

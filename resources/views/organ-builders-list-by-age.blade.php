@@ -25,7 +25,7 @@
                     <th>{{ __('Varhanář') }}</th>
                     <th>{{ __('Narozen') }}</th>
                     <th>{{ __('Zemřel') }}</th>
-                    <th>{{ __('Věk') }} <i class="bi-sort-numeric-down-alt"></i></th>
+                    <th>{{ __('Věk dožití') }} <i class="bi-sort-numeric-down-alt"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -43,7 +43,7 @@
         </table>
 
         <div>
-            {{ __('Průměrná délka dožití') }}: {{ Helpers::formatNumber($averageAge, decimals: 2) }}
+            {{ __('Průměrná délka dožití') }}: {{ Helpers::formatNumber($averageAge, decimals: 2) }} {{ __('let') }}
         </div>
         
     </div>

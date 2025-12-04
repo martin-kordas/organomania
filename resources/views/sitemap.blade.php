@@ -45,6 +45,11 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <x-organomania.sitemap-location :url="route('organ-builders.list-by-age')" />
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
         <x-organomania.sitemap-location :url="route('worship-songs-info')" />
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
@@ -53,6 +58,11 @@
         <x-organomania.sitemap-location :url="route('quiz')" />
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
+    </url>
+    <url>
+        <x-organomania.sitemap-location :url="route('anniversaries')" />
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
     </url>
     
     @foreach (['organs', 'organ-builders', 'dispositions', 'festivals', 'competitions'] as $entityType)

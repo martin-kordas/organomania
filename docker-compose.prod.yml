@@ -14,6 +14,7 @@ services:
             - sail
         depends_on:
             - mariadb
+        restart: always
     mariadb:
         image: 'mariadb:10'
         ports:
@@ -38,6 +39,7 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+        restart: always
 networks:
     sail:
         driver: bridge

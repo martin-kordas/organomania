@@ -323,7 +323,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $items = ['info' => __('Základní údaje')];
         if (isset($this->organ->description)) $items['description'] = __('Popis');
-        if (count($this->images) > 1) $items['images'] = __('Foto');
+        if (count($this->images) > 1) $items['images'] = __('Galerie');
         if ($this->shouldShowDisposition) $items['accordion-disposition-container'] = __('Dispozice');
         if ($this->organ->latitude > 0) $items['accordion-map-container'] = __('Mapa');
         if ($this->similarOrgans->isNotEmpty()) $items['accordion-similarOrgans-container'] = __('Podobné varhany');
@@ -418,13 +418,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     @endpush
 
     @if (!empty($this->navigationItems))
-        <div class="list-group d-none d-lg-block position-fixed small text-end pe-4 navigation-items" style="top: 95px; transform: translate(-100%);">
-            @foreach ($this->navigationItems as $anchor => $name)
-                <button type="button" class="list-group-item list-group-item-action text-primary px-2 py-1 border-start-0 border-end-0 border-top-0 rounded-0" aria-current="true" onclick="scrollToElement({{ Js::from("#{$anchor}") }}, 75)">
-                    {{ $name }}
-                </button>
-            @endforeach
-        </div>
+        <x-organomania.show-navigation-items :navigationItems="$this->navigationItems" />
     @endif
 
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
@@ -667,14 +661,28 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endif
+        @isset($organ->varhany_net_id)
+            <tr>
+                <th>
+                    {{ __('Katalog') }}
+                    <span class="d-none d-md-inline">{{ __('varhan') }}</span>
+                </th>
+                <td>
+                    <a class="icon-link icon-link-hover" target="_blank" href="{{ url()->query('http://www.varhany.net/cardheader.php', ['lok' => $organ->varhany_net_id]) }}">
+                        <i class="bi bi-link-45deg"></i>
+                        varhany.net
+                    </a>
+                </td>
+            </tr>
+        @endisset
         @php $organInMunicipalityGenitive = $this->getOrganInMunicipalityGenitive() @endphp
         @if ($this->relatedOrgans->isNotEmpty() || $organInMunicipalityGenitive)
             <tr>
                 <th>{{ __('Související varhany') }}</th>
                 <td>
-                    <div class="items-list">
+                    <div class="items-list small">
                         @foreach ($this->relatedOrgans as $relatedOrgan)
-                            <x-organomania.organ-link :organ="$relatedOrgan" :year="$relatedOrgan->year_built" :showOrganBuilder="true" />
+                            <x-organomania.organ-link :organ="$relatedOrgan" :year="$relatedOrgan->year_built" :showOrganBuilder="true" :showShortPlace="true" />
                             @if (!$loop->last) <br /> @endif
                         @endforeach
                             
@@ -696,20 +704,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endif
-        @isset($organ->varhany_net_id)
-            <tr>
-                <th>
-                    {{ __('Katalog') }}
-                    <span class="d-none d-md-inline">{{ __('varhan') }}</span>
-                </th>
-                <td>
-                    <a class="icon-link icon-link-hover" target="_blank" href="{{ url()->query('http://www.varhany.net/cardheader.php', ['lok' => $organ->varhany_net_id]) }}">
-                        <i class="bi bi-link-45deg"></i>
-                        varhany.net
-                    </a>
-                </td>
-            </tr>
-        @endisset
         @if (isset($organ->web))
             <x-organomania.tr-responsive title="{{ __('Webové odkazy') }}">
                 <div class="text-break items-list">

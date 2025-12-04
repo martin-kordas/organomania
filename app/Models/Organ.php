@@ -24,6 +24,7 @@ use App\Models\OrganCustomCategory;
 use App\Models\Like;
 use App\Models\OrganRebuild;
 use App\Models\Scopes\OwnedEntityScope;
+use App\Traits\HasAnniversaryScope;
 use App\Traits\HasLinkComponent;
 use App\Traits\OwnedEntity;
 use App\Traits\Viewable;
@@ -36,6 +37,7 @@ class Organ extends Model
     use HasFactory, SoftDeletes, Searchable, Sluggable;
     use Viewable;
     use HasLinkComponent;
+    use HasAnniversaryScope;
     use OwnedEntity {
         OwnedEntity::scopeWithUniqueSlugConstraints insteadof Sluggable;
     }

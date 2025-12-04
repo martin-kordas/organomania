@@ -7,6 +7,7 @@ use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 use App\Models\Festival;
 use App\Helpers;
+use App\Http\Controllers\ThumbnailController;
 
 // TODO: proč je to Livewire komponenta? organs-view-table není
 new #[Layout('layouts.app-bootstrap')] class extends Component {
@@ -30,6 +31,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <table class="table table-sm table-hover align-middle">
             <thead>
                 <tr>
+                    <th>&nbsp;</th>
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('name')" :sticky="true" />
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('locality')" />
                     <th>{{ __('Místo konání') }}</th>
@@ -46,7 +48,24 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </thead>
             <tbody class="table-group-divider">
                 @foreach ($this->organs as $festival)
+                    @php $thumbnailImage = $festival->getThumbnailImage() @endphp
                     <tr>
+                        <td class="py-0 text-center">
+                            @isset($thumbnailImage)
+                                <a class="table-thumbnail-a" href="{{ $thumbnailImage['image_url'] }}" target="_blank" wire:replace.self>
+                                    <img
+                                        class="table-thumbnail rounded border"
+                                        src="{{ ThumbnailController::getThumbnailUrl($thumbnailImage['image_url']) }}"
+                                        @isset($thumbnailImage['image_credits']) title="{{ __('Licence obrázku') }}: {{ $thumbnailImage['image_credits'] }}" @endisset
+                                    />
+                                    <img
+                                        class="table-thumbnail-full rounded border position-absolute z-2"
+                                        src="{{ ThumbnailController::getThumbnailUrl($thumbnailImage['image_url']) }}"
+                                        @isset($thumbnailImage['image_credits']) title="{{ __('Licence obrázku') }}: {{ $thumbnailImage['image_credits'] }}" @endisset
+                                    />
+                                </a>
+                            @endisset
+                        </td>
                         <td class="table-light position-sticky start-0">
                             <a class="fw-semibold link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ $this->getViewUrl($festival) }}" wire:navigate>
                                 {{ $festival->name }}
