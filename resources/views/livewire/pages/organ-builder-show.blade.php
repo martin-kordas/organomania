@@ -126,13 +126,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     private function workshopMembers()
     {
+        // TODO: mohli by se asi načítat přímo z organ_builder_timeline_items
+        $members = [];
         if (isset($this->organBuilder->workshop_members)) {
-            return preg_replace(
-                '/\(.*?\)/',
-                '<span class="text-body-secondary">$0</span>',
-                e($this->organBuilder->workshop_members)
-            );
+            $workshopMembers = Helpers::normalizeLineBreaks($this->organBuilder->workshop_members);
+            foreach (explode("\n", $workshopMembers) as $member) {
+                $matches = [];
+                if (preg_match('/^(.*?)(\(.*?\))$/u', $member, $matches)) {
+                    $members[] = [$matches[1], $matches[2]];
+                }
+                else $members[] = [$member, null];
+            }
         }
+        return $members;
     }
 
     #[Computed]
@@ -528,7 +534,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </td>
             </tr>
         @endisset
-        @if (isset($this->workshop_members))
+        @if (!empty($this->workshopMembers))
         <tr>
             <th>
                 @if ($this->organBuilder->is_workshop)
@@ -538,9 +544,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endif
             </th>
             <td>
-                <span class="pre-line">{!! $this->workshop_members !!}</span>
+                <table class="mb-0">
+                    @foreach ($this->workshopMembers as [$name, $activePeriod])
+                        <tr>
+                            <td class="pe-2">{{ $name }}</td>
+                            <td class="text-body-secondary">{{ $activePeriod }}</td>
+                        </tr>
+                    @endforeach
+                </table>
                 @if (isset($organBuilder->region_id) && $organBuilder->timelineItems->count() > 0)
-                    <br />
                     <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organ-builders.index', ['filterId' => $organBuilder->id, 'viewType' => 'timeline']) }}" wire:navigate>
                         <i class="bi bi-clock"></i>
                         {{ __('Časová osa') }}
@@ -636,8 +648,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (isset($organBuilder->description))
             <tr id="description">
                 <td colspan="2">
-                    <strong class="fw-semibold">{{ 'Popis' }}</strong>
-                    <br />
+                    <div class="fs-5 mb-1 fw-semibold">{{ 'Popis' }}</div>
                     <div class="markdown">{!! $this->descriptionHtml !!}</div>
                 </td>
             </tr>

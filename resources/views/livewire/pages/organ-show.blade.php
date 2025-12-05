@@ -757,8 +757,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (isset($organ->description))
             <tr id="description">
                 <td colspan="2">
-                    <strong class="fw-semibold">{{ 'Popis' }}</strong>
-                    <br />
+                    <div class="fs-5 mb-1 fw-semibold">{{ 'Popis' }}</div>
                     <div class="markdown">{!! $this->descriptionHtml !!}</div>
                 </td>
             </tr>

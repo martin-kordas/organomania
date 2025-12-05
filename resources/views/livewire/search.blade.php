@@ -440,15 +440,41 @@ new class extends Component {
             })
         }
         
-        if (e.code === 'ArrowDown' || e.code === 'ArrowUp') {
-            if (e.code === 'ArrowDown') {
-                if (!currentItem) newItem = items[0]
-                else newItem = items[currentIndex + 1]
+        if (['ArrowDown', 'ArrowUp', 'Home', 'End', 'PageDown', 'PageUp'].includes(e.code)) {
+            let pageStep = 6;
+
+            switch (e.code) {
+                case 'ArrowDown':
+                    if (!currentItem) newItem = items[0]
+                    else newItem = items[currentIndex + 1]
+                    break
+
+                case 'ArrowUp':
+                    if (currentIndex === 0) $(form).find('[type=search]').focus()
+                    else newItem = items[currentIndex - 1]
+                    break
+
+                case 'Home':
+                    newItem = items[0]
+                    break
+
+                case 'End':
+                    newItem = items[items.length - 1]
+                    break
+
+                case 'PageDown':
+                    var newIndex = (currentIndex ?? -1) + pageStep
+                    newIndex = Math.min(newIndex, items.length - 1)
+                    newItem = items[newIndex]
+                    break;
+
+                case 'PageUp':
+                    var newIndex = (currentIndex ?? -1) - pageStep
+                    newIndex = Math.max(newIndex, 0)
+                    newItem = items[newIndex]
+                    break;
             }
-            else {
-                if (currentIndex === 0) $(form).find('[type=search]').focus()
-                else newItem = items[currentIndex - 1]
-            }
+            
             e.preventDefault()
             newItem?.focus()
         }

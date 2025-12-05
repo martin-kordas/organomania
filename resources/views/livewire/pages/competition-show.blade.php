@@ -161,7 +161,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </tr>
         @endisset
         @if ($competition->organs->isNotEmpty())
-            <x-organomania.tr-responsive title="{{ __('Varhany') }}">
+            <x-organomania.tr-responsive title="{{ __('Varhany') }}" small="false">
                 <div class="text-break items-list">
                     @foreach ($competition->organs as $organ)
                         <x-organomania.organ-link :organ="$organ" :year="$organ->year_built" :showOrganBuilder="true" />
@@ -171,7 +171,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.tr-responsive>
         @endif
         @isset($competition->url)
-            <x-organomania.tr-responsive title="{{ __('Webové odkazy') }}">
+            <x-organomania.tr-responsive title="{{ __('Webové odkazy') }}" small="false">
                 <div class="text-break items-list">
                     @foreach (explode("\n", $competition->url) as $url)
                         <x-organomania.web-link :url="$url" />
