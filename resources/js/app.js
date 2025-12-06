@@ -570,12 +570,26 @@ window.initFamilyTree = function ($wire, items) {
         var container = $('#familyTree')[0];
         var data = {nodes, edges};
         var options = {
+            layout: {
+                randomSeed: 42      // zajistí, že graf se vykreslí vždy stejně
+            },
             nodes: {
                 color: {
                     border: '#e6b369',
                     background: '#fff0e5'
                 },
             },
+            physics: {
+                enabled: true,
+                /*solver: 'barnesHut',
+                barnesHut: {
+                    avoidOverlap: 0.5,
+                }*/
+                solver: 'repulsion',
+                repulsion: {
+                    nodeDistance: 150
+                }
+            }
         };
         var network = new visNetwork.Network(container, data, options);
 

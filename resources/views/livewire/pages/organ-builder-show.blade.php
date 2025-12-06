@@ -156,7 +156,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 && !$trainedByIds->contains($timelineItem->id);
 
             if (!$orphan) {
-                $label = "*{$timelineItem->name}*";
+                $parts = explode(', ', $timelineItem->name, 2);
+                $label = "*{$parts[0]}*";
+                if (isset($parts[1])) $label .= "\n*{$parts[1]}*";
+                //$label = str_replace("STAUDINGER, ", "STAUDINGER\n", $label);
                 if (isset($timelineItem->activePeriod)) $label .= "\n({$timelineItem->activePeriod})";
 
                 $outOfScope = $timelineItem->organ_builder_id !== $this->organBuilder->id;
@@ -165,7 +168,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $items[] = [
                     'id' => $timelineItem->id,
                     'label' => $label,
-                    'y' => $timelineItem->year_from * 2,
+                    'y' => $timelineItem->year_from * 2.5,
                     'hideInTimeline' => $timelineItem->hide_in_timeline,
                     'parentId' => $timelineItem->parent_timeline_item_id,
                     'trainedById' => $timelineItem->trained_by_timeline_item_id,
@@ -757,7 +760,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_FAMILY_TREE)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_FAMILY_TREE }}'); initFamilyTreeHelp()"
             >
-                <div id="familyTree" style="height: 250px"></div>
+                <div id="familyTree" style="height: 350px"></div>
             </x-organomania.accordion-item>
         @endisset
 
