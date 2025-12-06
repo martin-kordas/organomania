@@ -32,6 +32,10 @@
         @if ($organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED && $organsCount !== 0)
             <option wire:key="{{ $organBuilder->id }}" value="{{ $organBuilder->id }}">
                 {{ $organBuilder->name }}
+                @if ($organBuilder->id === OrganBuilder::ORGAN_BUILDER_ID_KRALICKA_DILNA)
+                    &ndash; Halbig, Welzel, Katzer, Sträussel, Umlauf aj.
+                @endif
+
                 @if ($showActivePeriod && $organBuilder->active_period)
                     ({{ $organBuilder->active_period }})
                 @endif

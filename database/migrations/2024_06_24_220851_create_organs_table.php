@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('importance')->comment("1 (lowest) to 10 (greatest)");
             $table->foreignId('organ_builder_id')->nullable()->constrained();
             $table->string('organ_builder_name', length: 200)->nullable();
+            $table->foreignId('organ_builder_timeline_item_id')->nullable();
             $table->integer('year_built')->nullable();
             $table->foreignId('renovation_organ_builder_id')->nullable()->constrained('organ_builders');
             $table->string('renovation_organ_builder_name', length: 200)->nullable();

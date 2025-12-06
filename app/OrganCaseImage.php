@@ -48,9 +48,10 @@ final readonly class OrganCaseImage {
             $yearBuilt = $organ->case_year_built;
             
             $organBuilder = $organ->caseOrganBuilder;
-            $organBuilderName = $organ->case_organ_builder_name ?? $organ->caseOrganBuilder?->initialsName;
+            $organBuilderName = $organ->caseOrganBuilderNameLowercase ?? $organ->caseOrganBuilder?->initialsName;
             $stopsCount = null;
             $organBuilderActiveFromYear = $organ->caseOrganBuilder?->active_from_year ?? PHP_INT_MAX;
+            $organBuilderExactName = null;
 
             $details[] = __('dochována skříň');
         }
@@ -58,9 +59,10 @@ final readonly class OrganCaseImage {
             $yearBuilt = $organ->year_built;
             
             $organBuilder = $organ->organBuilder?->id === OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED ? null : $organ->organBuilder;
-            $organBuilderName = $organ->organ_builder_name ?? $organBuilder?->initialsName ?? __('neznámý');
+            $organBuilderName = $organ->organBuilderNameLowercase ?? $organ->timelineItem?->nameLowercase ?? $organBuilder?->initialsName ?? __('neznámý');
             $stopsCount = static::getOrganStopsCount($organ);
             $organBuilderActiveFromYear = $organBuilder?->active_from_year ?? PHP_INT_MAX;
+            $organBuilderExactName = $organ->timelineItem?->nameLowercase;
 
             $sizeInfo = static::getOrganSizeInfo($organ);
             if (isset($sizeInfo)) $details[] = $sizeInfo;
@@ -89,6 +91,7 @@ final readonly class OrganCaseImage {
             organBuilderName: $organBuilderName,
             stopsCount: $stopsCount,
             organBuilderActiveFromYear: $organBuilderActiveFromYear,
+            organBuilderExactName: $organBuilderExactName,
 
             details: $detailsStr,
         );

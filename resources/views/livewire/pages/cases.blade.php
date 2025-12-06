@@ -100,7 +100,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         //  - přesto se data na obou místech dotazují zvlášť a používají se různé struktury (zde OrganCaseImage, tam prosté pole)
 
         $organsQuery = $this->organRepository->getCaseImagesOrgansQuery()
-            ->with(['organBuilder', 'organCategories'])
+            ->with(['organBuilder', 'timelineItem', 'organCategories'])
             ->withCount('organRebuilds');
         $additionalImagesQuery = $this->organRepository->getCaseImagesAdditionalImagesQuery()
             ->with('organBuilder');

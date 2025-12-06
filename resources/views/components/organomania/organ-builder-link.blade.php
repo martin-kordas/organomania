@@ -3,7 +3,7 @@
 @use(App\Services\MarkdownConvertorService)
 
 @props([
-    'organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'isCaseBuilt' => false,
+    'organBuilder', 'timelineItem' => null, 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'isCaseBuilt' => false,
     'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showIcon' => true, 'showDescription' => true, 'showOrganWerk' => false,
     'placeholder' => __('neznámý varhanář'), 'shortDetails' => false, 'iconLink' => true, 'newTab' => false,
     'signed' => false,
@@ -41,8 +41,8 @@
         @if ($showIcon)
             <i class="bi bi-person-circle"></i>
         @endif
-        <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$showOrganWerk :$shortDetails :$placeholder />
+        <x-organomania.organ-builder-link-content :$organBuilder :$timelineItem :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$showOrganWerk :$shortDetails :$placeholder />
     </a>
 @else
-    <x-organomania.organ-builder-link-content :$organBuilder :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$showOrganWerk :$shortDetails :$placeholder />
+    <x-organomania.organ-builder-link-content :$organBuilder :$timelineItem :$name :$yearBuilt :$isRebuild :$isCaseBuilt :$showActivePeriod :$activePeriod :$showMunicipality :$showOrganWerk :$shortDetails :$placeholder />
 @endif

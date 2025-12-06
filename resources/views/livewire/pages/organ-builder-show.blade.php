@@ -12,6 +12,7 @@ use App\Helpers;
 use App\Http\Controllers\ThumbnailController;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
+use App\Models\OrganBuilderTimelineItem;
 use App\Models\OrganRebuild;
 use App\Enums\OrganBuilderCategory;
 use App\Enums\Region;
@@ -34,7 +35,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     const
         SESSION_KEY_SHOW_MAP = 'organ-builders.show.show-map',
-        SESSION_KEY_SHOW_LITERATURE = 'organs.show.show-literature';
+        SESSION_KEY_SHOW_LITERATURE = 'organs.show.show-literature',
+        SESSION_KEY_SHOW_FAMILY_TREE = 'organs.show.show-family-tree';
 
     public function boot(MarkdownConvertorService $markdownConvertor, OrganBuilderRepository $repository)
     {
@@ -45,6 +47,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             = isset($this->organBuilder->active_period)
             && !$this->organBuilder->is_workshop
             && !in_array($this->organBuilder->active_period, ['současnost', '–']);
+
+        $this->organBuilder->load([
+            'organs' => function (HasMany $query) {
+                $query->withCount('organRebuilds');
+            },
+            'organs.timelineItem',
+        ]);
     }
 
     public function mount()
@@ -106,6 +115,66 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function organBuilderCategoriesGroups()
     {
         return OrganBuilderCategory::getCategoryGroups();
+    }
+
+    #[Computed]
+    private function shouldShowFamilyTree()
+    {
+        return $this->organBuilder->timelineItems->contains(
+            fn (OrganBuilderTimelineItem $timelineItem) => isset($timelineItem->parent_timeline_item_id) || isset($timelineItem->trained_by_timeline_item_id)
+        );
+    }
+
+    private function getTimelineIds($idColumn = 'id')
+    {
+        return $this->organBuilder->timelineItems->pluck($idColumn)->filter()->unique();
+    }
+
+    #[Computed]
+    private function familyTreeItems()
+    {
+        $ids = $this->getTimelineIds();
+        $parentIds = $this->getTimelineIds('parent_timeline_item_id');
+        $trainedByIds = $this->getTimelineIds('trained_by_timeline_item_id');
+
+        // zatím nepředpokládáme, že by nejen učitel, ale rodič mohl být v rámci jiného varhanáře (out of scope)
+        $missingTrainedByIds = $trainedByIds->diff($ids);
+        $timelineItemsOutOfScope = OrganBuilderTimelineItem::query()
+            ->with('organBuilder')
+            ->whereIn('id', $missingTrainedByIds)
+            ->orWhereIn('trained_by_timeline_item_id', $ids)
+            ->get();
+            
+        $timelineItems = $this->organBuilder->timelineItems->merge($timelineItemsOutOfScope);
+
+        $items = [];
+        foreach ($timelineItems as $timelineItem) {
+            $orphan =
+                !isset($timelineItem->parent_timeline_item_id)
+                && !isset($timelineItem->trained_by_timeline_item_id)
+                && !$parentIds->contains($timelineItem->id)
+                && !$trainedByIds->contains($timelineItem->id);
+
+            if (!$orphan) {
+                $label = "*{$timelineItem->name}*";
+                if (isset($timelineItem->activePeriod)) $label .= "\n({$timelineItem->activePeriod})";
+
+                $outOfScope = $timelineItem->organ_builder_id !== $this->organBuilder->id;
+                $url = $outOfScope ? route('organ-builders.show', [$timelineItem->organBuilder->slug]) : null;
+
+                $items[] = [
+                    'id' => $timelineItem->id,
+                    'label' => $label,
+                    'y' => $timelineItem->year_from * 2,
+                    'hideInTimeline' => $timelineItem->hide_in_timeline,
+                    'parentId' => $timelineItem->parent_timeline_item_id,
+                    'trainedById' => $timelineItem->trained_by_timeline_item_id,
+                    'outOfScope' => $outOfScope,
+                    'url' => $url,
+                ];
+            }
+        }
+        return $items;
     }
 
     #[Computed]
@@ -172,6 +241,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
                 $caption = view('components.organomania.organ-link', [
                     'organ' => $organ,
+                    'showOrganBuilderExactOnly' => true,
                     'showSizeInfo' => true,
                     'showSizeInfoOriginal' => true,
                     'showShortPlace' => true,
@@ -273,12 +343,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     private function organs()
     {
-        $this->organBuilder->load([
-            'organs' => function (HasMany $query) {
-                $query->withCount('organRebuilds');
-            }
-        ]);
-
         // ::collect(): konverze Eloquent kolekce na standardní kolekci
         $organs = $this->organBuilder->organs->map(
             fn (Organ $organ) => ['isRebuild' => false, 'organ' => $organ, 'year' => $organ->year_built]
@@ -347,6 +411,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $items = ['info' => __('Základní údaje')];
         if (isset($this->organBuilder->description)) $items['description'] = __('Popis');
         if (count($this->images) > 1) $items['images'] = __('Galerie');
+        if ($this->shouldShowFamilyTree) $items['accordion-family-tree-container'] = __('Rodokmen');
         if ($this->shouldShowMap) $items['accordion-map-container'] = __('Mapa');
         if (isset($this->organBuilder->literature)) $items['accordion-literature-container'] = __('Literatura');
 
@@ -558,6 +623,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         {{ __('Časová osa') }}
                     </a>
                 @endif
+                @if ($this->shouldShowFamilyTree)
+                    <button class="btn btn-sm btn-outline-secondary mt-1" onclick="scrollToElement('#accordion-family-tree-container', 75)">
+                        {{ __('Rodokmen') }}
+                    </button>
+                @endif
             </td>
         </tr>
         @endif
@@ -575,7 +645,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <x-organomania.tr-responsive title="{{ __('Významné varhany') }}">
                 <div class="text-break items-list" style="max-height: 350px; overflow-y: auto">
                     @foreach ($this->organs as ['isRebuild' => $isRebuild, 'organ' => $organ, 'year' => $year])
-                            <x-organomania.organ-link :organ="$organ" :isRebuild="$isRebuild" :year="$year" :showSizeInfo="true" :showShortPlace="true" />
+                            <x-organomania.organ-link :organ="$organ" :isRebuild="$isRebuild" :year="$year" :showSizeInfo="true" :showShortPlace="true" :showOrganBuilderExactOnly="true" />
                             @if (!$loop->last) <br /> @endif
                     @endforeach
                 </div>
@@ -679,6 +749,18 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
         
     <div class="accordion">
+        @if ($this->shouldShowFamilyTree)
+            <x-organomania.accordion-item
+                id="accordion-family-tree"
+                class="d-print-none"
+                title="{{ __('Rodokomen') }}"
+                :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_FAMILY_TREE)"
+                onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_FAMILY_TREE }}'); initFamilyTreeHelp()"
+            >
+                <div id="familyTree" style="height: 250px"></div>
+            </x-organomania.accordion-item>
+        @endisset
+
         @if ($this->shouldShowMap)
             <x-organomania.accordion-item
                 id="accordion-map"
@@ -729,3 +811,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </x-organomania.modals.importance-hint-modal>
     
 </div>
+
+@script
+<script>
+    let familyTreeItems = {{ Js::from($this->familyTreeItems) }}
+
+    window.initFamilyTreeHelp = function () {
+        initFamilyTree($wire, familyTreeItems)
+    }
+
+    setTimeout(() => {
+        initFamilyTreeHelp()
+    })
+</script>
+@endscript

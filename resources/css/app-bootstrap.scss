@@ -322,8 +322,10 @@ gmp-advanced-marker:not([data-label='']) {
 .items-list {
     line-height: 1.7;
 }
-table.show-table th {
-    font-weight: 600;
+table.show-table {
+    th {
+        font-weight: 600;
+    }
 }
 
 .song-number {

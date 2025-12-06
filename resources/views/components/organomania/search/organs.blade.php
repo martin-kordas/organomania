@@ -27,7 +27,7 @@
             <br />
             <small class="hstack text-secondary">
                 <span>
-                    {!! $this->highlight($organ->organ_builder_name ?? $organ->organBuilder?->name ?? __('neznámý varhanář')) !!}
+                    {!! $this->highlight($organ->organ_builder_name ?? $organ->timelineItem?->name ?? $organ->organBuilder?->name ?? __('neznámý varhanář')) !!}
                     @isset($organ->year_built)
                         ({{ $organ->year_built }})
                     @endisset

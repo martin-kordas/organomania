@@ -145,7 +145,15 @@
                     @if (in_array($this->entityClass, [Festival::class, Competition::class]))
                         @if ($this->viewType !== 'timeline')
                             <div class="col col-md-6">
-                                <input id="quickFilterNameLocality" size="30" class="form-control" type="search" wire:model.live="filterNameLocality" placeholder="{{ __('Hledat') }} {{ $this->entityNamePluralAkuzativ }}&hellip;" />
+                                <input
+                                    id="quickFilterNameLocality"
+                                    size="30"
+                                    class="form-control"
+                                    type="search"
+                                    wire:model.live="filterNameLocality"
+                                    placeholder="{{ __('Hledat') }} {{ $this->entityNamePluralAkuzativ }}&hellip;"
+                                    @keydown.enter.prevent
+                                />
                             </div>
                         @endif
                     @else

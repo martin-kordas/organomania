@@ -14,7 +14,7 @@ class FestivalRepository extends AbstractRepository
     
     const
         FESTIVALS_WITH = [
-            'organ', 'region',
+            'organ', 'organ.timelineItem', 'region',
         ],
         FESTIVALS_WITH_COUNT = [];
     

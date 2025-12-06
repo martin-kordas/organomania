@@ -24,7 +24,7 @@ class OrganRepository extends AbstractRepository
     
     const
         ORGANS_WITH = [
-            'organBuilder', 'organRebuilds', 'organRebuilds.organBuilder',
+            'organBuilder', 'timelineItem', 'organRebuilds', 'organRebuilds.organBuilder',
             'organCategories', 'organCustomCategories',
             'region',
         ],

@@ -523,6 +523,73 @@ window.initTimeline = async function ($wire, timelineItems, timelineGroups, time
     })
 }
 
+window.initFamilyTree = function ($wire, items) {
+    Promise.all([
+        import('vis-data/peer'),
+        import('vis-network/peer'),
+    ]).then(([visData, visNetwork]) => {
+        let nodesArr = []
+        let edgesArr = []
+
+        for (let item of items) {
+            let node = {
+                id: item.id,
+                label: item.label,
+                y: item.y,
+                url: item.url,
+                fixed: { y: true },
+                shape: 'box',
+                font: { multi: 'md' },
+            };
+            if (item.hideInTimeline) node.font.color = '#8a8a8aff'
+            if (item.outOfScope) node.color = { background: 'white' }
+            nodesArr.push(node);
+
+            if (item.parentId) {
+                edgesArr.push({
+                    from: item.id,
+                    to: item.parentId,
+                    arrows: 'to',
+                })
+            }
+            if (item.trainedById) {
+                // TODO: lokalizace
+                edgesArr.push({
+                    from: item.id,
+                    to: item.trainedById,
+                    arrows: 'to',
+                    dashes: true,
+                    label: 'Vyučen',
+                })
+            }
+        }
+
+        var nodes = new visData.DataSet(nodesArr);
+        var edges = new visData.DataSet(edgesArr);
+
+        var container = $('#familyTree')[0];
+        var data = {nodes, edges};
+        var options = {
+            nodes: {
+                color: {
+                    border: '#e6b369',
+                    background: '#fff0e5'
+                },
+            },
+        };
+        var network = new visNetwork.Network(container, data, options);
+
+        network.on('click', function ({ nodes: clickedNodes }) {
+            if (clickedNodes.length > 0) {
+                let nodeId = clickedNodes[0];
+                let node = nodes.get(nodeId);
+                console.log(node)
+                if (node.url) window.open(node.url, "_blank");
+            }
+        })
+    })
+}
+
 window.initChart = async function ($wire, chartItems, texts) {
     const { default: ApexCharts } = await import('apexcharts')
 

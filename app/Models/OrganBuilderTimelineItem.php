@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\HasAnniversaryScope;
+use App\Helpers;
 
 class OrganBuilderTimelineItem extends Model
 {
@@ -28,7 +30,29 @@ class OrganBuilderTimelineItem extends Model
     {
         return $this->belongsToMany(Organ::class, 'organ_builder_timeline_item_organ');
     }
+
+    public function activePeriod(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                if (isset($attributes['active_period'])) return $attributes['active_period'];
+                
+                return "{$attributes['year_from']}–" . ($attributes['year_to'] ?? '?');
+            }
+        );
+    }
     
+    public function nameLowercase(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                if (isset($attributes['name'])) {
+                    return Helpers::nameToLowerCase($attributes['name']);
+                }
+            }
+        );
+    }
+
     public function loadFromOrganBuilder(OrganBuilder $organBuilder)
     {
         $this->organBuilder()->associate($organBuilder);

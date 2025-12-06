@@ -317,6 +317,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         return isset($this->organ->disposition) || $this->organ->dispositions->isNotEmpty();
     }
+
+    #[Computed]
+    private function organBuilderActivePeriod()
+    {
+        if ($this->organ->timelineItem) return $this->organ->timelineItem->activePeriod;
+
+        if ($this->organ->organBuilder && !$this->organ->organBuilder->is_workshop) {
+            $activePeriod = $this->organ->organBuilder->active_period ?? null;
+            if (isset($activePeriod) && $activePeriod != '–') {
+                return $activePeriod;
+            }
+        }
+    }
     
     #[Computed]
     private function navigationItems()
@@ -509,9 +522,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 </span>
                             @endif
                                 
-                            <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$showYearBuilt ? $organ->year_built : null" :showOrganWerk="$showCaseOrganBuilder" :signed="$this->signed" />
-                            @if (!$showYearBuilt && !$organ->organBuilder->is_workshop && isset($organ->organBuilder->active_period) && $organ->organBuilder->active_period != '–')
-                                <span class="text-secondary">({{ $organ->organBuilder->active_period }})</span>
+                            <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :timelineItem="$organ->timelineItem" :yearBuilt="$showYearBuilt ? $organ->year_built : null" :showOrganWerk="$showCaseOrganBuilder" :signed="$this->signed" />
+                            @if (!$showYearBuilt && isset($this->organBuilderActivePeriod))
+                                <span class="text-secondary">({{ $this->organBuilderActivePeriod }})</span>
                             @endif
                             
                             @foreach ($organ->organRebuilds as $rebuild)

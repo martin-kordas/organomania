@@ -164,7 +164,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 @foreach ($anniversaries['timelineItems'] as $timelineItem)
                                     <x-organomania.anniversary-rows :entity="$timelineItem" :$year>
                                         <x-slot:entity-link>
-                                            <x-organomania.organ-builder-link :organBuilder="$timelineItem->organBuilder" :name="$timelineItem->name" showActivePeriod :activePeriod="$timelineItem->active_period" />
+                                            <x-organomania.organ-builder-link :organBuilder="$timelineItem->organBuilder" :name="$timelineItem->name" showActivePeriod :activePeriod="$timelineItem->activePeriod" />
                                         </x-slot>
                                     </x-organomania.anniversary-rows>
                                 @endforeach

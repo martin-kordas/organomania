@@ -1,6 +1,6 @@
 @props([
     'organ', 'name' => null, 'size' => null, 'year' => null,
-    'yearBuilt' => null, 'showOrganBuilder' => false, 'showSizeInfo' => false, 'showSizeInfoOriginal' => false, 'showShortPlace' => false,
+    'yearBuilt' => null, 'showOrganBuilder' => false, 'showOrganBuilderExactOnly' => false, 'showSizeInfo' => false, 'showSizeInfoOriginal' => false, 'showShortPlace' => false,
     'isRebuild' => false, 'isRenovation' => false, 'showIsHistoricalCase' => false,
 ])
 
@@ -8,8 +8,10 @@
 
 @php
     $details = [];
-    if ($showOrganBuilder) {
+    if ($showOrganBuilderExactOnly && isset($organ->timelineItem?->name)) $details[] = str_replace(',', '', $organ->timelineItem->nameLowerCase);
+    elseif ($showOrganBuilder) {
         if (isset($organ->organ_builder_name)) $details[] = str_replace(',', '', $organ->organBuilderNameLowercase);
+        elseif (isset($organ->timelineItem?->name)) $details[] = str_replace(',', '', $organ->timelineItem->nameLowerCase);
         elseif (isset($organ->organBuilder)) {
             if ($organ->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) $details[] = $organ->organBuilder->shortName;
         }

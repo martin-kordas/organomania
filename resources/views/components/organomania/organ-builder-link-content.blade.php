@@ -1,5 +1,5 @@
 @props([
-    'organBuilder', 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'isCaseBuilt' => false,
+    'organBuilder', 'timelineItem' => null, 'name' => null, 'yearBuilt' => null, 'isRebuild' => false, 'isCaseBuilt' => false,
     'showActivePeriod' => false, 'activePeriod' => null, 'showMunicipality' => false, 'showOrganWerk' => false,
     'placeholder' => __('neznámý varhanář'), 'shortDetails' => false,
 ])
@@ -12,7 +12,7 @@
 
     $details = [];
     if ($showActivePeriod || $showMunicipality) {
-        if ($showActivePeriod) $details[] = $activePeriod ?? $organBuilder->active_period;
+        if ($showActivePeriod) $details[] = $activePeriod ?? $timelineItem->activePeriod ?? $organBuilder->active_period;
         if ($showMunicipality) {
             $details[] = $organBuilder->municipalityWithoutParenthesis;
         }
@@ -36,7 +36,7 @@
 <span>
     @if ($organBuilder?->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
         @isset($regularName)
-            {{ $name ?? $organBuilder->name }}
+            {{ $name ?? $timelineItem->name ?? $organBuilder->name }}
         @else
             <span class="text-body-secondary">{{ $placeholder }}</span>
         @endisset

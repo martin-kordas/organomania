@@ -131,34 +131,36 @@ new class extends Component {
         $items = $this->organs->pluck('timelineItems')->flatten()->flatMap(
             function (OrganBuilderTimelineItem $item) use (&$organBuilderIds) {
                 $items = [];
-                $items[] = [
-                    'entityType' => 'organBuilder',
-                    'entityId' => $item->organ_builder_id,
-                    'public' => $item->organBuilder->isPublic(),
-                    'isWorkshop' => $item->is_workshop,
-                    'type' => 'range',
-                    'name' => $item->name,
-                    'details' => $item->active_period ?? $item->organBuilder->active_period,
-                    'start' => "{$item->year_from}-01-01",
-                    'end' => isset($item->year_to) ? "{$item->year_to}-01-01" : null,
-                    'land' => $item->land,
-                    // HACK: 'žž' kvůli zařazení varhanářů bez lokality na konec
-                    'group' => $item->locality ?? "ž-{$item->land}",
-                ];
-
-                // varhany zobrazujeme na timeline jen, pokud je zobrazen jediný varhanář
-                //  - jinak by nebylo jasné, kterému varhanáři varhany patří
-                if ($this->filterId && !in_array($item->organ_builder_id, $organBuilderIds)) {
-                    $organBuilderIds[] = $item->organ_builder_id;
-                    $item->organBuilder->load([
-                        'organs' => function (HasMany $query) {
-                            $query->withCount('organRebuilds');
-                        }
-                    ]);
-                    $items = [
-                        ...$items,
-                        ...$this->getOrgansTimelineItems($item->organBuilder)
+                if (!$item->hide_in_timeline) {
+                    $items[] = [
+                        'entityType' => 'organBuilder',
+                        'entityId' => $item->organ_builder_id,
+                        'public' => $item->organBuilder->isPublic(),
+                        'isWorkshop' => $item->is_workshop,
+                        'type' => 'range',
+                        'name' => $item->name,
+                        'details' => $item->active_period ?? $item->organBuilder->active_period,
+                        'start' => "{$item->year_from}-01-01",
+                        'end' => isset($item->year_to) ? "{$item->year_to}-01-01" : null,
+                        'land' => $item->land,
+                        // HACK: 'žž' kvůli zařazení varhanářů bez lokality na konec
+                        'group' => $item->locality ?? "ž-{$item->land}",
                     ];
+
+                    // varhany zobrazujeme na timeline jen, pokud je zobrazen jediný varhanář
+                    //  - jinak by nebylo jasné, kterému varhanáři varhany patří
+                    if ($this->filterId && !in_array($item->organ_builder_id, $organBuilderIds)) {
+                        $organBuilderIds[] = $item->organ_builder_id;
+                        $item->organBuilder->load([
+                            'organs' => function (HasMany $query) {
+                                $query->withCount('organRebuilds');
+                            }
+                        ]);
+                        $items = [
+                            ...$items,
+                            ...$this->getOrgansTimelineItems($item->organBuilder)
+                        ];
+                    }
                 }
                 return $items;
             }

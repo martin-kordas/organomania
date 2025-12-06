@@ -25,7 +25,7 @@
 @endif
 
 <span>
-    {{ $organ->organBuilder?->name ?? __('neznámý varhanář') }}
+    {{ $organ->timelineItem?->name ?? $organ->organBuilder?->name ?? __('neznámý varhanář') }}
     @if ($organ && !$organ->isPublic())
         <i class="bi bi-lock text-warning d-print-none"></i>
     @endif

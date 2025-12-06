@@ -307,6 +307,15 @@ class Helpers
     {
         return preg_replace('/\s+/u', ' ', $string);
     }
+
+    static function nameToLowerCase(string $name)
+    {
+        return preg_replace_callback(
+            '/\b(\p{Lu})+\b/u',
+            fn ($matches) => mb_ucfirst(mb_strtolower($matches[0])),
+            $name
+        );
+    }
     
     static function logPageViewIntoCache(string $page)
     {

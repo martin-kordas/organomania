@@ -35,7 +35,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function dispositions()
     {
         return Disposition::query()
-            ->with(['organ'])
+            ->with([
+                'organ',
+                'organ.timelineItem',
+            ])
             ->withCount([
                 'registrations',
                 'manuals',

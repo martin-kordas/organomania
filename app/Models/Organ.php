@@ -19,6 +19,7 @@ use App\Observers\OrganObserver;
 use App\Models\Diocese;
 use App\Models\Region;
 use App\Models\OrganBuilder;
+use App\Models\OrganBuilderTimelineItem;
 use App\Models\OrganCategory;
 use App\Models\OrganCustomCategory;
 use App\Models\Like;
@@ -116,6 +117,11 @@ class Organ extends Model
     protected function getShowRoute(): string
     {
         return 'organs.show';
+    }
+    
+    public function timelineItem()
+    {
+        return $this->belongsTo(OrganBuilderTimelineItem::class, 'organ_builder_timeline_item_id');
     }
     
     public function region()
@@ -255,11 +261,18 @@ class Organ extends Model
         return Attribute::make(
             get: function (mixed $_value, array $attributes) {
                 if (isset($attributes['organ_builder_name'])) {
-                    return preg_replace_callback(
-                        '/\b(\p{Lu})+\b/u',
-                        fn ($matches) => mb_ucfirst(mb_strtolower($matches[0])),
-                        $attributes['organ_builder_name']
-                    );
+                    return Helpers::nameToLowerCase($attributes['organ_builder_name']);
+                }
+            }
+        );
+    }
+
+    public function caseOrganBuilderNameLowercase(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                if (isset($attributes['case_organ_builder_name'])) {
+                    return Helpers::nameToLowerCase($attributes['case_organ_builder_name']);
                 }
             }
         );
@@ -322,6 +335,7 @@ class Organ extends Model
             $this->only(['place', 'municipality', 'description', 'perex'])
             + [
                 'organ_builders.last_name' => '', 'organ_builders.workshop_name' => '',
+                'organ_builder_timeline_items.name' => '',
                 // HACK: díky tomuto se sloupce hledají i ne-fulltextově (i u description výhodné, protože hledá i neúplná slova)
                 'organs.place' => '',
                 'organs.municipality' => '',

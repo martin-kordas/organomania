@@ -45,7 +45,7 @@
                         <span class="text-secondary">({{ $organ->year_built }})</span>
                     @endisset
                 @else
-                    <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :yearBuilt="$organ->year_built" :showOrganWerk="$organ->hasCaseOrganBuilder()" :shortDetails="true" />
+                    <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :timelineItem="$organ->timelineItem" :yearBuilt="$organ->year_built" :showOrganWerk="$organ->hasCaseOrganBuilder()" :shortDetails="true" />
                 @endif
 
                 @foreach ($organ->organRebuilds as $rebuild)
