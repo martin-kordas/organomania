@@ -607,6 +607,12 @@ table.show-table {
         height: 300px;
         border-radius: 0.5em;
     }
+
+    @media screen and (max-width: 576px) {
+        #familyTree {
+            height: 300px !important;
+        }
+    }
 }
 
 .organ-edit, .organ-builder-edit {

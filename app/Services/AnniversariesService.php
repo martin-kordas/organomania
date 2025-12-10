@@ -58,6 +58,7 @@ class AnniversariesService
     private function getTimelineItems(int $year, int $step) {
         return OrganBuilderTimelineItem::query()
             ->with('organBuilder')
+            ->where('hide_in_timeline', 0)
             ->where(function (Builder $query) use ($step, $year) {
                 $query
                     ->yearAnniversary('year_from', $step, $year)

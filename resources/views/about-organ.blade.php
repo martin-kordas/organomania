@@ -238,9 +238,9 @@
 
                     <h5 id="baroqueBohemia">Barokní varhanářství v Čechách</h5>
 
-                    <div class="mt-3 mt-md-0 me-md-3 mb-3 float-md-start text-center mx-auto" style="width: 350px; max-width: 100%;">
+                    <div class="mt-3 mt-md-0 me-md-3 mb-3 float-md-start text-center mx-auto" style="width: 310px; max-width: 100%;">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Lukáš Dvořák">
-                            <img class="rounded mb-2 w-100" src="/cached-file/images/praha-krizovnici.jpg" />
+                            <img class="rounded mb-2 w-100" src="/cached-file/images/praha-krizovnici2.jpg" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KRIZOVNICI]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />

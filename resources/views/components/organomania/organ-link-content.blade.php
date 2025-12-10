@@ -7,8 +7,11 @@
 @use(App\Models\OrganBuilder)
 
 @php
+    // TODO: refactoring
     $details = [];
-    if ($showOrganBuilderExactOnly && isset($organ->timelineItem?->name)) $details[] = str_replace(',', '', $organ->timelineItem->nameLowerCase);
+    if ($showOrganBuilderExactOnly && isset($organ->timelineItem?->name)) {
+        $details[] = $organ->timelineItem->nameLowercaseWithoutComma;
+    }
     elseif ($showOrganBuilder) {
         if (isset($organ->organ_builder_name)) $details[] = str_replace(',', '', $organ->organBuilderNameLowercase);
         elseif (isset($organ->timelineItem?->name)) $details[] = str_replace(',', '', $organ->timelineItem->nameLowerCase);
@@ -16,14 +19,17 @@
             if ($organ->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) $details[] = $organ->organBuilder->shortName;
         }
     }
+
     if ($year) $details[] = $year;
     if ($isRebuild) $details[] = __('přestavba');
+
     if ($showIsHistoricalCase) {
         if (isset($organ->caseOrganBuilder) || isset($organ->case_organ_builder_name))
             $details[] = __('historická skříň');
     }
     elseif ($isRenovation) {
         if (isset($organ->organ_builder_name)) $organInfo = str_replace(',', '', $organ->organBuilderNameLowercase);
+        elseif (isset($organ->timelineItem?->name)) $organInfo = str_replace(',', '', $organ->timelineItem->nameLowerCase);
         else $organInfo = $organ->organBuilder->shortName ?? __('neznámý varhanář');
         if (!trim($organInfo)) $organInfo = __('postaveno');    // kvůli OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED
         if (isset($organ->year_built)) $organInfo .= " {$organ->year_built}";

@@ -320,6 +320,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ];
     }
 
+    #[Computed]
+    private function showCaseParts()
+    {
+        // zobrazit jen při výchozím nastavení
+        return
+            !$this->filterCategories && !$this->filterPeriodCategories && !$this->filterOrganBuilders && !$this->filterOrganomaniaOrgans
+            && $this->groupBy === 'organBuilder'
+            && $this->sort === 'yearBuiltAsc';
+    }
+
     private function getCaseDetails(OrganCaseImage $case)
     {
         $details = [$case->yearBuilt];
@@ -430,6 +440,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <span class="fw-semibold">{{ $this->cases->count() }}</span>
             {{ Helpers::declineCount($this->cases->count(), __('fotografií'), __('fotografie'), __('fotografie')) }}
         </p>
+
+        @if ($this->showCaseParts)
+            <x-organomania.case-parts class="mt-4 mb-4" />
+        @endif
 
         @if ($this->showCollapseAll)
             <div class="text-center">

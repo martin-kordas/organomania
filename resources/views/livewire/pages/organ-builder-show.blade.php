@@ -120,64 +120,94 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     private function shouldShowFamilyTree()
     {
-        return $this->organBuilder->timelineItems->contains(
-            fn (OrganBuilderTimelineItem $timelineItem) => isset($timelineItem->parent_timeline_item_id) || isset($timelineItem->trained_by_timeline_item_id)
-        );
+        return !empty($this->familyTreeItems);
     }
 
-    private function getTimelineIds($idColumn = 'id')
+    private function getTimelineIds($idColumn = 'id', $timelineItems = null)
     {
-        return $this->organBuilder->timelineItems->pluck($idColumn)->filter()->unique();
+        $timelineItems ??= $this->organBuilder->timelineItems;
+        return $timelineItems->pluck($idColumn)->filter()->unique();
     }
 
     #[Computed]
     private function familyTreeItems()
     {
+        if ($this->organBuilder->id === OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) return [];
+
         $ids = $this->getTimelineIds();
         $parentIds = $this->getTimelineIds('parent_timeline_item_id');
         $trainedByIds = $this->getTimelineIds('trained_by_timeline_item_id');
 
-        // zatím nepředpokládáme, že by nejen učitel, ale rodič mohl být v rámci jiného varhanáře (out of scope)
+        $missingParentIds = $parentIds->diff($ids);
         $missingTrainedByIds = $trainedByIds->diff($ids);
+        $missingIds = $missingParentIds->merge($missingTrainedByIds)->unique();
         $timelineItemsOutOfScope = OrganBuilderTimelineItem::query()
             ->with('organBuilder')
-            ->whereIn('id', $missingTrainedByIds)
+            ->whereIn('id', $missingIds)
+            ->orWhereIn('parent_timeline_item_id', $ids)
             ->orWhereIn('trained_by_timeline_item_id', $ids)
             ->get();
             
         $timelineItems = $this->organBuilder->timelineItems->merge($timelineItemsOutOfScope);
+        $parentIdsAll = $this->getTimelineIds('parent_timeline_item_id', $timelineItems);
+        $trainedByIdsAll = $this->getTimelineIds('trained_by_timeline_item_id', $timelineItems);
 
         $items = [];
         foreach ($timelineItems as $timelineItem) {
             $orphan =
                 !isset($timelineItem->parent_timeline_item_id)
                 && !isset($timelineItem->trained_by_timeline_item_id)
-                && !$parentIds->contains($timelineItem->id)
-                && !$trainedByIds->contains($timelineItem->id);
+                && !$parentIdsAll->contains($timelineItem->id)
+                && !$trainedByIdsAll->contains($timelineItem->id);
 
             if (!$orphan) {
-                $parts = explode(', ', $timelineItem->name, 2);
-                $label = "*{$parts[0]}*";
-                if (isset($parts[1])) $label .= "\n*{$parts[1]}*";
-                //$label = str_replace("STAUDINGER, ", "STAUDINGER\n", $label);
-                if (isset($timelineItem->activePeriod)) $label .= "\n({$timelineItem->activePeriod})";
-
-                $outOfScope = $timelineItem->organ_builder_id !== $this->organBuilder->id;
-                $url = $outOfScope ? route('organ-builders.show', [$timelineItem->organBuilder->slug]) : null;
-
-                $items[] = [
-                    'id' => $timelineItem->id,
-                    'label' => $label,
-                    'y' => $timelineItem->year_from * 2.5,
-                    'hideInTimeline' => $timelineItem->hide_in_timeline,
-                    'parentId' => $timelineItem->parent_timeline_item_id,
-                    'trainedById' => $timelineItem->trained_by_timeline_item_id,
-                    'outOfScope' => $outOfScope,
-                    'url' => $url,
-                ];
+                $items[] = $this->getFamilyTreeItem($timelineItem);
             }
         }
         return $items;
+    }
+
+    private function getFamilyTreeItem(OrganBuilderTimelineItem $timelineItem)
+    {
+        $outOfScope = $timelineItem->organ_builder_id !== $this->organBuilder->id;
+        if ($outOfScope && $timelineItem->organ_builder_id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) {
+            $url = route('organ-builders.show', [$timelineItem->organBuilder->slug]);
+        }
+        else $url = null;
+
+        $parts = explode(', ', $timelineItem->name, 2);
+        $label = "*{$parts[0]}*";
+        if (isset($parts[1])) $label .= "\n*{$parts[1]}*";
+        if (isset($timelineItem->activePeriod)) $label .= "\n({$timelineItem->activePeriod})";
+        $municipality = str_replace('Praha-Žižkov', 'Praha', $this->organBuilder->municipality);
+        if (!$outOfScope && $timelineItem->locality !== $municipality) $label .= "\n{$timelineItem->locality}";
+        $sibling = in_array($timelineItem->id, [10, 15, 861, 862, 863, 868, 29]);
+        if ($sibling) $siblingLabel = in_array($timelineItem->id, [29]) ? 'Neznámý vztah' : 'Sourozenci';
+        else $siblingLabel = null;
+
+        return [
+            'id' => $timelineItem->id,
+            'label' => $label,
+            'y' => $timelineItem->year_from * 2.5,
+            'hideInTimeline' => $timelineItem->hide_in_timeline || $outOfScope,
+            'parentId' => $timelineItem->parent_timeline_item_id,
+            'trainedById' => $timelineItem->trained_by_timeline_item_id,
+            'outOfScope' => $outOfScope,
+            'url' => $url,
+            'sibling' => $sibling,
+            'siblingLabel' => $siblingLabel,
+        ];
+    }
+
+    #[Computed]
+    private function familyTreeHeight()
+    {
+        $count = count($this->familyTreeItems);
+        return match (true) {
+            $count >= 6 => 400,
+            $count >= 4 => 350,
+            default => 300,
+        };
     }
 
     #[Computed]
@@ -756,11 +786,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <x-organomania.accordion-item
                 id="accordion-family-tree"
                 class="d-print-none"
-                title="{{ __('Rodokomen') }}"
+                title="{{ __('Rodokmen') }}"
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_FAMILY_TREE)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_FAMILY_TREE }}'); initFamilyTreeHelp()"
+                noPadding
             >
-                <div id="familyTree" style="height: 350px"></div>
+                <div id="familyTree" style="height: {{ $this->familyTreeHeight }}px"></div>
             </x-organomania.accordion-item>
         @endisset
 
@@ -768,7 +799,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <x-organomania.accordion-item
                 id="accordion-map"
                 class="d-print-none"
-                title="{{ __('Mapa') }}"
+                title="{{ __('Mapa') }} ({{ $organBuilder->municipality }})"
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
             >

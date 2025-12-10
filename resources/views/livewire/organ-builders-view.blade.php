@@ -154,7 +154,8 @@ new class extends Component {
                         $item->organBuilder->load([
                             'organs' => function (HasMany $query) {
                                 $query->withCount('organRebuilds');
-                            }
+                            },
+                            'organs.timelineItem',
                         ]);
                         $items = [
                             ...$items,
@@ -184,16 +185,18 @@ new class extends Component {
         $items = [];
         foreach ($organBuilder->organs as $organ) {
             if (isset($organ->year_built)) {
-                $details = $organ->year_built;
+                $detailsArr = [];
+                if ($organ->timelineItem) $detailsArr[] = $organ->timelineItem->nameLowercaseWithoutComma;
+                $detailsArr[] = $organ->year_built;
                 if ($organ->organ_rebuilds_count <= 0 && ($sizeInfo = $organ->getSizeInfo()))
-                    $details .= ", $sizeInfo";
+                    $detailsArr[] = $sizeInfo;
 
                 $items[] = [
                     'entityType' => 'organ',
                     'entityId' => $organ->id,
                     'type' => 'point',
                     'name' => "{$organ->municipality}, {$organ->shortPlace}",
-                    'details' => $details,
+                    'details' => implode(', ', $detailsArr),
                     'start' => "{$organ->year_built}-01-01",
                     'url' => route('organs.show', $organ->slug),
                 ];

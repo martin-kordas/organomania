@@ -127,7 +127,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <tr>
                     <th>{{ __('Postavil') }}</th>
                     <td>
-                        <x-organomania.organ-builder-link :organBuilder="$disposition->organ->organBuilder" :yearBuilt="$disposition->organ->year_built" />
+                        <x-organomania.organ-builder-link :organBuilder="$disposition->organ->organBuilder" :timelineItem="$disposition->organ->timelineItem" :yearBuilt="$disposition->organ->year_built" />
                     </td>
                 </tr>
                 <tr>

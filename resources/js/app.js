@@ -546,10 +546,12 @@ window.initFamilyTree = function ($wire, items) {
             nodesArr.push(node);
 
             if (item.parentId) {
+                let arrows = item.sibling ? 'to;from' : 'from'
                 edgesArr.push({
                     from: item.id,
                     to: item.parentId,
-                    arrows: 'to',
+                    arrows,
+                    label: item.siblingLabel,
                 })
             }
             if (item.trainedById) {
@@ -557,9 +559,9 @@ window.initFamilyTree = function ($wire, items) {
                 edgesArr.push({
                     from: item.id,
                     to: item.trainedById,
-                    arrows: 'to',
+                    arrows: 'from',
                     dashes: true,
-                    label: 'Vyučen',
+                    label: 'Vyučil',
                 })
             }
         }
@@ -727,7 +729,7 @@ window.initChart = async function ($wire, chartItems, texts) {
                         
                         let line1 = `${municipality.toUpperCase()}, ${shortPlace}`
                         let line2 = organBuilderShortName
-                        if (yearBuilt) line2 += `, ${yearBuilt}`
+                        if (yearBuilt) line2 += ` (${yearBuilt})`
                         
                         return [line1, line2]
                     }

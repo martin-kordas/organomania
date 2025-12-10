@@ -1,4 +1,4 @@
-@props(['title', 'id', 'show' => false, 'onclick' => null])
+@props(['title', 'id', 'show' => false, 'onclick' => null, 'noPadding' => false])
 
 <div id="{{ "$id-container" }}" {{ $attributes->merge(['class' => 'accordion-item']) }}">
     <h2 class="accordion-header">
@@ -15,7 +15,7 @@
         </button>
     </h2>
     <div id="{{ $id }}" @class(['accordion-collapse', 'collapse', 'show' => $show])>
-        <div class="accordion-body">
+        <div @class(['accordion-body', 'px-1' => $noPadding])>
             {{ $slot }}
         </div>
     </div>

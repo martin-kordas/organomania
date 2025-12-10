@@ -88,7 +88,7 @@
                             <i class="bi bi-person-circle"></i>
                             {{ $organ->organ_builder_name }}
                         @else
-                            <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" placeholder="{{ __('neznámý') }}" :iconLink="false" />
+                            <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :timelineItem="$organ->timelineItem" placeholder="{{ __('neznámý') }}" :iconLink="false" />
                         @endisset
                         
                         @if ($organ->organRebuilds->isNotEmpty())

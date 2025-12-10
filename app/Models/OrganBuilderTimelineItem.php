@@ -53,6 +53,19 @@ class OrganBuilderTimelineItem extends Model
         );
     }
 
+    public function nameLowercaseWithoutComma(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                if (isset($attributes['name'])) {
+                    $name = Helpers::nameToLowerCase($attributes['name']);
+                    $name = str_replace(',', '', $name);
+                    return $name;
+                }
+            }
+        );
+    }
+
     public function loadFromOrganBuilder(OrganBuilder $organBuilder)
     {
         $this->organBuilder()->associate($organBuilder);

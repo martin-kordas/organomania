@@ -204,8 +204,8 @@ new class extends Component {
                 $series['manualsCount'][] = $organ->manuals_count;
                 $series['originalManualsCount'][] = $organ->original_manuals_count ?? $organ->manuals_count;
 
-                $organBuilderName = $organ->organ_builder_name ?? $organ->organBuilder?->name ?? __('neznámý varhanář');
-                $organBuilderShortName = $organ->organ_builder_name ?? $organ->organBuilder?->shortName ?? __('neznámý');
+                $organBuilderName = $organ->organ_builder_name ?? $organ->timelineItem?->name ?? $organ->organBuilder?->name ?? __('neznámý varhanář');
+                $organBuilderShortName = $organ->organ_builder_name ?? $organ->timelineItem?->nameLowercase ?? $organ->organBuilder?->shortName ?? __('neznámý');
                 $categories[] = [$organ->municipality, $organ->place, $organ->shortPlace, $organBuilderName, $organBuilderShortName, $organ->year_built];
                 $organData[] = [
                     'id' => $organ->id,
