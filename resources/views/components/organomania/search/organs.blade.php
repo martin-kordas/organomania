@@ -28,6 +28,8 @@
             <small class="hstack text-secondary">
                 <span>
                     {!! $this->highlight($organ->organ_builder_name ?? $organ->timelineItem?->name ?? $organ->organBuilder?->name ?? __('neznámý varhanář')) !!}
+                    {{-- zobrazovat v popisku i velikost varhan není vhodné --}}
+                    {{-- je to už mnoho informací; zobrazovat jen velikost je nevhodné (v případě přestavby by se zobrazovalo jméno původního varhanáře se současným počtem rejstříků) --}}
                     @isset($organ->year_built)
                         ({{ $organ->year_built }})
                     @endisset

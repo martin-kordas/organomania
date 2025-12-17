@@ -28,6 +28,8 @@ return new class extends Migration {
                 ->comment("Obrázek je již použit standardně u varhan, k aktuálnímu varhanáři byl přidán kvůli nejasnému autorství nebo kvůli příbuzenské souvislosti varhanářů.");
             $table->timestamps();
             $table->softDeletes();
+
+            $table->fullText('name');
         });
     }
 

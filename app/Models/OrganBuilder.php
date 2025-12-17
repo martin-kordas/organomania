@@ -312,7 +312,7 @@ class OrganBuilder extends Model
     }
     
     // first_name, last_name je rovněž nutné hledat fulltextově, jinak by současně zadané celé jméno (např. "Emanuel Petr") nenašlo nic
-    #[SearchUsingFullText(['first_name', 'last_name', 'description', 'perex', 'workshop_members'])]
+    #[SearchUsingFullText(['first_name', 'last_name', 'description', 'perex', 'workshop_members', 'organ_builder_additional_images.name'])]
     public function toSearchableArray(): array
     {
         return

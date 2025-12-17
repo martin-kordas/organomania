@@ -58,7 +58,7 @@
             <div class="col-12 col-lg-8 col-xl-9">
                 <h3 id="aboutOrgan">{{ __('Varhany jako hudební nástroj') }}</h3>
                 <p class="alert alert-primary mt-3">
-                    {!! __('Varhany jsou starobylý <strong>klávesový nástroj</strong>, tradičně spjatý s církevním prostředím.') !!}
+                    {!! __('Varhany jsou starobylý <strong>klávesový nástroj</strong>, od středověku tradičně spjatý s církevním prostředím.') !!}
                     <br />
                     {!! __('Jelikož zvuk varhan vzniká chvěním vzduchu v píšťalách, řadíme varhany mezi <strong>aerofony</strong>.') !!}
                 </p>
@@ -109,7 +109,7 @@
                                 <a class="text-decoration-none" href="{{ route('organs.index', ['filterCategories' => [OrganCategory::ValuableCase]]) }}" target="_blank">Varhany s kategorií „Mimořádně cenná skříň“</a>
                             </li>
                             <li>
-                                <a class="text-decoration-none" href="{{ route('organs.cases') }}" target="_blank">Galerie varhanních skříní</a>
+                                <a class="text-decoration-none" href="{{ route('organs.cases') }}" target="_blank">Galerii varhanních skříní</a>
                             </li>
                         </ul>
                     </p>
@@ -198,7 +198,7 @@
                         (Varhanní <em>pozitiv</em> může stát i odděleně &ndash; představuje pak samostatné menší varhany bez pedálu.)
                         Hrací stůl s klaviaturou a rejstříkovými táhly často není zabudován do varhanní skříně, ale stojí na kůru zvlášť, otočený směrem do lodi kostela.
                         Takové řešení je konstrukčně složitější, ale umožňuje varhaníkovi snadno sledovat bohoslužebné dění.
-                        Barokní varhany mají specifické ladění, ve kterém zní akordy běžných tónin (např. C-dur nebo G-dur) čistě, zatímco akordy tónin s větším počtem předznamenání (např. H-dur) zní mírně rozladěně.
+                        Barokní varhany mají specifické ladění, ve kterém zní akordy běžných tónin (např. C dur nebo G dur) čistě, zatímco akordy tónin s větším počtem předznamenání (např. H dur) zní mírně rozladěně.
                         Této skutečnosti dobová varhanní hudba příhodně využívá jako výrazového prostředku.
                     </p>
                     
@@ -399,7 +399,7 @@
                     </p>
 
                     <p>
-                        Zdobnost <a class="text-decoration-none" href="{{ route('organs.cases', ['filterPeriodCategories' => [OrganCategory::BuiltFrom1800To1859], 'groupBy' => 'periodCategory']) }}" wire:navigate>varhanních skříní</a> se viditelně zmenšuje, mizí půdorysné zvlnění.
+                        Zdobnost <a class="text-decoration-none" href="{{ route('organs.cases', ['filterPeriodCategories' => [OrganCategory::BuiltFrom1800To1859], 'groupBy' => 'periodCategory']) }}" wire:navigate>varhanních skříní</a> se viditelně zmenšuje, mizí půdorysné zvlnění prospektové římsy.
                         Některé skříně čerpají nadále z barokních tradic, u jiných se již projevuje klasicistní nebo empírový styl.
                     </p>
                     
@@ -420,7 +420,7 @@
                     </p>
                     
                     <p>
-                        Z varhanářů působících v Čechách uveďme <x-organomania.organ-builder-link :iconLink="false" name="Josefa GARTNERA" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_GARTNEROVE]" activePeriod="1796–1863" :showActivePeriod="true" :showMunicipality="true" />, který pečoval o pražské barokní varhany nebo velmi schopného <x-organomania.organ-builder-link :iconLink="false" name="Josefa PREDIGERA" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JOSEF_PREDIGER]" :showActivePeriod="true" :showMunicipality="true" />. Predigerův majestátní nástroj v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_CYRILA_A_METODEJE_KARLIN]" name="kostele sv. Cyrila a Metoděje v Praze-Karlíně" size="II/34" year="1863" :showSizeInfo="true" /> byl bohužel zásadně přestavěn. Ocenit nicméně můžeme jeho dvoumanuálové nástroje, např. varhany v <x-organomania.organ-link :iconLink="false" name="kostele Naštívení Panny Marie v Bozkově" :organ="$organs[Organ::ORGAN_ID_BOZKOV]" :showSizeInfo="true" />.
+                        Z varhanářů působících v Čechách uveďme <x-organomania.organ-builder-link :iconLink="false" name="Josefa GARTNERA" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_GARTNEROVE]" activePeriod="1796–1863" :showActivePeriod="true" :showMunicipality="true" />, který pečoval o pražské barokní varhany, nebo velmi schopného <x-organomania.organ-builder-link :iconLink="false" name="Josefa PREDIGERA" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JOSEF_PREDIGER]" :showActivePeriod="true" :showMunicipality="true" />. Predigerův majestátní nástroj v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_CYRILA_A_METODEJE_KARLIN]" name="kostele sv. Cyrila a Metoděje v Praze-Karlíně" size="II/34" year="1863" :showSizeInfo="true" /> byl bohužel zásadně přestavěn. Ocenit nicméně můžeme jeho dvoumanuálové nástroje, např. varhany v <x-organomania.organ-link :iconLink="false" name="kostele Naštívení Panny Marie v Bozkově" :organ="$organs[Organ::ORGAN_ID_BOZKOV]" :showSizeInfo="true" />.
                     </p>
                     
                     <p>

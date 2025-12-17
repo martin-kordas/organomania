@@ -338,4 +338,9 @@ class Helpers
         return url()->query("https://mapy.cz/", ['q' => $place]);
     }
     
+    static function getGoogleSearchUrl(string $term)
+    {
+        return url()->query("http://www.google.com/search", ['q' => $term]);
+    }
+    
 }

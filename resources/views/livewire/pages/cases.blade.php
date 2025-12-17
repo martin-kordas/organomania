@@ -102,7 +102,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $organsQuery = $this->organRepository->getCaseImagesOrgansQuery()
             ->with(['organBuilder', 'timelineItem', 'organCategories'])
             ->withCount('organRebuilds');
-        $additionalImagesQuery = $this->organRepository->getCaseImagesAdditionalImagesQuery()
+            
+        // zobrazují-li se fotografie jen 1 varhanáře, nemusíme odfiltrovávat fotky zobrazené u jiných varhanářů
+        //  - matoucí: počet fotek bude vyšší než počet uvedený v selecu varhanářů
+        $withoutOrganExists = !($this->filterOrganBuilders && count($this->filterOrganBuilders) === 1);
+        $additionalImagesQuery = $this->organRepository->getCaseImagesAdditionalImagesQuery($withoutOrganExists)
             ->with('organBuilder');
 
         if ($this->filterCategories) {
@@ -565,7 +569,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <p class="small text-center text-secondary">
         <strong>{{ __('Poděkování přispěvatelům') }}</strong>:
         <br />
-        Lukáš Dvořák, Jan Fejgl, Filip Harant, Kristýna Kosíková, Jiří Krátký, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Petr Vacek, Ondřej Valenta a další
+        Lukáš Dvořák, Jan Fejgl, Filip Harant, Kristýna Kosíková, Jiří Krátký, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Štěpán Svoboda, Petr Vacek, Ondřej Valenta a další
     </p>
 </div>
 

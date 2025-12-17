@@ -365,14 +365,19 @@ class OrganRepository extends AbstractRepository
             ->havingNotNull('year_built1');
     }
 
-    public function getCaseImagesAdditionalImagesQuery(): Builder
+    public function getCaseImagesAdditionalImagesQuery(bool $withoutOrganExists = true): Builder
     {
-        return OrganBuilderAdditionalImage::query()
+        $query = OrganBuilderAdditionalImage::query()
             ->select('*')
             ->selectRaw('year_built AS year_built1')
             ->where('nonoriginal_case', 0)
-            ->where('organ_exists', 0)
             ->whereNotNull('year_built');
+            
+        if ($withoutOrganExists) {
+            $query->where('organ_exists', 0);
+        }
+        
+        return $query;
     }
 
     public function getOrganBuilderCaseImagesCount(OrganBuilder $organBuilder): int

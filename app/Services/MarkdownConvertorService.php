@@ -19,8 +19,8 @@ class MarkdownConvertorService
     
     private bool $convertCustomLinks = true;
     
-    const CUSTOM_LINK_REGEX = '/\{\{(organ|organBuilder|festival|competition|registerName)\}(.*?)\}\((.*?)\)/';
-    const LINK_REGEX = '/\[(.*?)\]\(.*?\)/';
+    const CUSTOM_LINK_REGEX = '/\{\{(organ|organBuilder|festival|competition|registerName)\}(.*?)\}\((.*?)\)/u';
+    const LINK_REGEX = '/\[(.*?)\]\(.*?\)/u';
 
     private function getConverter()
     {
@@ -39,7 +39,8 @@ class MarkdownConvertorService
 
     private function convertCustom(string $markdown, bool $newTab = false): string
     {
-        $res = $this->convertCustomLinks($markdown, $newTab);
+        $res = $this->convertCustomBraces($markdown);
+        $res = $this->convertCustomLinks($res, $newTab);
         return $res;
     }
     
@@ -98,6 +99,18 @@ class MarkdownConvertorService
         );
     }
 
+    private function convertCustomBraces(string $markdown): string
+    {
+        return str($markdown)
+            // letopočty šedě (např. "1900", "1900-1950")
+            //  - nefunguje pro částečně známé letopočty ("1751-?", "*1980", "1900?-1950" atd.)
+            ->replaceMatches('/\([0-9]{4}([–-][0-9]{4})?\)/u', '<span class="text-secondary">$0</span>')
+            // informace o varhanách šedě (např. "1865, II/35")
+            //  - nefunguje, je-li uveden jen počet manuálů (např. "1865, II")
+            ->replaceMatches('/\([^()]*[IV]+\/[0-9]+[^()]*\)/u', '<span class="text-secondary">$0</span>')
+            ->toString();
+    }
+
     public function convert(string $markdown, bool $newTab = false): string
     {
         $res = $this->getConverter()->convert($markdown);
@@ -112,8 +125,8 @@ class MarkdownConvertorService
             ->replace('|nodetail', '')
             ->when(
                 $preserveLineBreaks,
-                fn ($str) => $str->replaceMatches('/[ ]+/', ' '),
-                fn ($str) => $str->replaceMatches('/\s+/', ' '),
+                fn ($str) => $str->replaceMatches('/[ ]+/u', ' '),
+                fn ($str) => $str->replaceMatches('/\s+/u', ' '),
             )
             ->replaceMatches(static::LINK_REGEX, function ($res) {
                 [, $text] = $res;

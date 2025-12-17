@@ -4,6 +4,8 @@
     use Illuminate\Support\Facades\Auth;
     use Carbon\Carbon;
     use App\Helpers;
+
+    $showLastUpdate = false;
 @endphp
 
 <x-app-bootstrap-layout>
@@ -190,9 +192,11 @@
                 {{ __('Připomínky a podněty k obsahu zasílejte na') }}
                 <a href="mailto:{{ config('custom.app_admin_email') }}">{{ config('custom.app_admin_email') }}</a>.
             </p>
-            <p class="text-body-tertiary">
-                {{ __('Poslední aktualizace') }}: {{ Carbon::instance($lastUpdate)->isoFormat('LLL') }}
-            </p>
+            @if ($showLastUpdate)
+                <p class="text-body-tertiary">
+                    {{ __('Poslední aktualizace') }}: {{ Carbon::instance($lastUpdate)->isoFormat('LLL') }}
+                </p>
+            @endif
         </div>
     </div>
         

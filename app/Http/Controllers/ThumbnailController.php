@@ -18,10 +18,18 @@ class ThumbnailController extends Controller
     {
         // externí obrázky nejprve stáhneme a uložíme na disk
         if (str($file)->startsWith(['https:/'])) {
-            $domain = 'upload.wikimedia.org';
-            // bug v Laravelu působí, že PHP vidí jen 1 slash: https://github.com/laravel/framework/issues/22125
-            if (!str($file)->startsWith(["https://$domain/", "https:/$domain/"])) throw new Exception;
-            $file = str_replace("https:/$domain/", "https://$domain/", $file);
+            // TODO: www.varhany.net nefunguje
+            $domains = ['upload.wikimedia.org', 'www.varhany.net'];
+            $domainMatch = false;
+            foreach ($domains as $domain) {
+                // bug v Laravelu působí, že PHP vidí jen 1 slash: https://github.com/laravel/framework/issues/22125
+                if (str($file)->startsWith(["https://$domain/", "https:/$domain/"])) {
+                    $domainMatch = true;
+                    $file = str_replace("https:/$domain/", "https://$domain/", $file);
+                    break;
+                }
+            }
+            if (!$domainMatch) throw new Exception;
 
             $path = storage_path('app/thumbnails-web');
 

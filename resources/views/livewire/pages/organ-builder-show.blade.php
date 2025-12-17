@@ -340,7 +340,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 $detailsStr = implode(', ', $details);
                 $content .= sprintf(" <span class='text-body-secondary'>(%s)</span>", e($detailsStr));
             }
-            $shownInCases = !$additionalImage->nonoriginal_case && !$additionalImage->organ_exists && isset($additionalImage->year_built);
+            $shownInCases = !$additionalImage->nonoriginal_case && isset($additionalImage->year_built);
 
             $images[] = [$additionalImage->image_url, $additionalImage->image_credits, $content, true, $shownInCases];
         }
@@ -816,7 +816,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             >
                 <ul class="list-group list-group-flush small">
                     @foreach (explode("\n", $organBuilder->literature) as $literature1)
-                        <li @class(['list-group-item', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>{!! Helpers::formatUrlsInLiterature($literature1) !!}</li>
+                        <li @class(['list-group-item', 'd-flex', 'align-items-center', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>
+                            <span class="me-2">{!! Helpers::formatUrlsInLiterature($literature1) !!}</span>
+                            @php $searchTerm = preg_replace('/ \([^()]*s(tr)?\.[^()]+\)/', '', $literature1) @endphp
+                            <a
+                                class="btn btn-sm btn-outline-secondary float-end ms-auto px-1"
+                                target="_blank"
+                                href="{{ Helpers::getGoogleSearchUrl($searchTerm) }}" style="font-size: 75%"
+                                data-bs-toggle="tooltip"
+                                data-bs-title="{{ __('Vyhledat literaturu pomocí Googlu') }}"
+                              >
+                                <i class="bi-search"></i>
+                            </a>
+                        </li>
                     @endforeach
                 </ul>
             </x-organomania.accordion-item>

@@ -196,7 +196,16 @@ new class extends Component {
                     // přednostně varhanáři, kde je nějaký výskyt hledaného výrazu v údajích v našeptávači (jméno, lokalita)
                     ->orderBy('highlighted', 'DESC')
                     // pokud je výskyt hledaného výrazu jen ve skrytých textech (description atd.), řadit podle míry shody
-                    ->orderByRaw('IF(highlighted, 1, relevance) DESC')
+                    //  - MATCH(organ_builder_additional_images.name) nelze umístit do select(), protože MySQL nepodporuje odkazování na agregované sloupce ve složitějším ORDER BY
+                    ->orderByRaw('
+                            IF(
+                                highlighted,
+                                1,
+                                relevance + SUM(
+                                    MATCH(organ_builder_additional_images.name) AGAINST(? IN NATURAL LANGUAGE MODE)
+                                )
+                            ) DESC
+                    ', [$this->sanitizedSearch])
                     ->orderBy('importance', 'DESC')
                     ->orderByName()
                     ->take(static::ORGAN_BUILDERS_LIMIT)
@@ -410,6 +419,13 @@ new class extends Component {
         <input type="hidden" name="obeca" value="{{ $this->sanitizedSearch }}" />
         <input type="hidden" name="ob" value="1" />
     </form>
+    
+    <!-- HACK: přenést do app-bootstrap.scss -->
+    <style>
+        .search-results .item-focusable:focus {
+            background-color: var(--bs-secondary-bg-subtle);
+        }
+    </style>
 </div>
 
 @script

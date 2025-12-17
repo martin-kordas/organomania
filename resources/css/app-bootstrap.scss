@@ -16,6 +16,7 @@ $s2bs5-border-color: $border-color;
     --header-footer-background: #fff0e5; /* dříve: #fbe2d0 */
     --header-footer-background-light: #fffaf5; /* dříve: #fff4eb*/
     --header-footer-border-color: #e6b369;
+    --font-weight-semibold: 600;
 }
 
 img.logo {
@@ -284,18 +285,21 @@ div.side-buttons {
     hr {
         margin: 0;
     }
+    strong {
+        font-weight: var(--font-weight-semibold);
+    }
 }
 .organ-show {
     .markdown .custom-link {
         &.organBuilder {
-            font-weight: bold;
+            font-weight: var(--font-weight-semibold);
         }
     }
 }
 .organ-builder-show {
     .markdown .custom-link {
         &.organ {
-            font-weight: bold;
+            font-weight: var(--font-weight-semibold);
         }
     }
 }

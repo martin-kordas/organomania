@@ -12,7 +12,7 @@
     if ($showDescription) {
         if (isset($organ->perex)) $description = $organ->perex;
         elseif (isset($organ->description)) {
-            $description = app(MarkdownConvertorService::class)->stripMarkDown($organ->description);
+            $description = app(MarkdownConvertorService::class)->stripMarkdown($organ->description);
             $description = str($description)->limit(200);
         }
     }
