@@ -1,4 +1,4 @@
-@props(['latitude', 'longitude', 'title' => ''])
+@props(['marker', 'title' => '', 'otherMarkers' => collect()])
 
 <gmp-map
     center="49.815148,15.565384"
@@ -9,7 +9,28 @@
     wire:replace
 >
     <gmp-advanced-marker
-        position="{{ $latitude }},{{ $longitude }}"
+        position="{{ $marker->latitude }},{{ $marker->longitude }}"
         title="{{ $title }}"
-    ></gmp-advanced-marker>
+    >
+        <gmp-pin title="{{ $title }}"></gmp-pin>
+    </gmp-advanced-marker>
+
+    @foreach ($otherMarkers as $marker1)
+        @php
+            // TODO: v title by šlo zobrazit i rok postavení a velikost varhan
+            $renovated = $marker1->renovationOrganBuilder?->id === $marker->id;
+            $background = $renovated ? '#e8e8e8' : 'white';
+        @endphp
+        <gmp-advanced-marker
+            position="{{ $marker1->latitude }},{{ $marker1->longitude }}"
+            title="{{ $title }}"
+        >
+            <gmp-pin
+                background="{{ $background }}"
+                scale="0.8"
+                title="{{ $marker1->municipality . ", " . $marker1->place }}"
+                onclick="window.open({{ Js::from(route('organs.show', $marker1->slug)) }}, '_blank')"
+            ></gmp-pin>
+        </gmp-advanced-marker>
+    @endforeach
 </gmp-map>

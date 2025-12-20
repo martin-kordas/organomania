@@ -978,7 +978,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
             >
-                <x-organomania.map-detail :latitude="$organ->latitude" :longitude="$organ->longitude" />
+                <x-organomania.map-detail :marker="$organ" />
                 <div class="mt-2">
                     {{ __('Zobrazit zajímavé varhany v okruhu') }}:
                     @foreach ([25, 50] as $distance)

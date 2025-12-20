@@ -18,11 +18,14 @@
             $description = str($description)->limit(200);
         }
     }
-
+    
     $canView = Gate::allows('view', $organBuilder);
     if ($showLink = $canView || $signed) {
-        if ($canView) $href = route('organ-builders.show', $organBuilder->slug, absolute: false);
-        else $href = URL::signedRoute('organ-builders.show', $organBuilder->slug, absolute: false);
+        $linkParams = ['organBuilder' => $organBuilder->slug];
+        if (isset($timelineItem)) $linkParams['highlightWorkshopMember'] = $timelineItem->nameLowerCase;
+      
+        if ($canView) $href = route('organ-builders.show', $linkParams, absolute: false);
+        else $href = URL::signedRoute('organ-builders.show', $linkParams, absolute: false);
     }
 @endphp
 

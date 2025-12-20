@@ -281,7 +281,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
             onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
         >
-            <x-organomania.map-detail :latitude="$competition->latitude" :longitude="$competition->longitude" />
+            <x-organomania.map-detail :marker="$competition" />
         </x-organomania.accordion-item>
     </div>
             

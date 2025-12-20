@@ -157,7 +157,13 @@
                     
                     <p>
                         Vzestup církve a rozvoj sakrálního umění v období baroka dává vzniknout tzv. <em>zlatému věku</em> varhan.
-                        Stavbě varhan se věnují špičkové varhanářské dílny, často vícegenerační a koncentrované do varhanářských center (Praha, Brno, Loket, Králíky&hellip;)
+                        Stavbě varhan se věnují špičkové varhanářské dílny, často vícegenerační a koncentrované do varhanářských center
+                        (<a class="text-decoration-none" href="{{ route('organ-builders.index', ['filterMunicipality' => 'Praha', 'filterCategories' => [OrganBuilderCategory::BuiltTo1799]]) }}" wire:navigate>Praha</a>,
+                        <a class="text-decoration-none" href="{{ route('organ-builders.index', ['filterMunicipality' => 'Brno', 'filterCategories' => [OrganBuilderCategory::BuiltTo1799]]) }}" wire:navigate>Brno</a>,
+                        <a class="text-decoration-none" href="{{ route('organ-builders.index', ['filterMunicipality' => 'Loket', 'filterCategories' => [OrganBuilderCategory::BuiltTo1799]]) }}" wire:navigate>Loket</a>,
+                        <a class="text-decoration-none" href="{{ route('organ-builders.index', ['filterMunicipality' => 'Králíky', 'filterCategories' => [OrganBuilderCategory::BuiltTo1799]]) }}" wire:navigate>Králíky</a>&hellip;)
+                        Fenomén tzv. <em>kočovných varhanářů</em> bez stálé dílny ustává na konci 18. století, k posledním z nich patří
+                        <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_THEODOR_AGADONI]" name="Theodor AGADONI" />.
                     </p>
 
                     <p>

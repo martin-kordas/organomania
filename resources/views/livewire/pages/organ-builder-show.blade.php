@@ -181,8 +181,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (isset($timelineItem->activePeriod)) $label .= "\n({$timelineItem->activePeriod})";
         $municipality = str_replace('Praha-Žižkov', 'Praha', $this->organBuilder->municipality);
         if (!$outOfScope && $timelineItem->locality !== $municipality) $label .= "\n{$timelineItem->locality}";
-        $sibling = in_array($timelineItem->id, [10, 15, 861, 862, 863, 868, 29]);
-        if ($sibling) $siblingLabel = in_array($timelineItem->id, [29]) ? 'Neznámý vztah' : 'Sourozenci';
+        $sibling = in_array($timelineItem->id, [10, 15, 861, 862, 863, 868, 29, 915]);
+        if ($sibling) {
+            $siblingLabel = match ($timelineItem->id) {
+                29 => 'Neznámý vztah',
+                915 => 'Strýc/synovec',
+                default => 'Sourozenci',
+            };
+        }
         else $siblingLabel = null;
 
         return [
@@ -235,9 +241,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             foreach (explode("\n", $workshopMembers) as $member) {
                 $matches = [];
                 if (preg_match('/^(.*?)(\(.*?\))$/u', $member, $matches)) {
-                    $members[] = [$matches[1], $matches[2]];
+                    $memberArr = [trim($matches[1]), $matches[2]];
                 }
-                else $members[] = [$member, null];
+                else $memberArr = [$member, null];
+                
+                $highlighted = $memberArr[0] === request()->query('highlightWorkshopMember');
+                $memberArr[] = $highlighted;
+                
+                $members[] = $memberArr;
             }
         }
         return $members;
@@ -357,6 +368,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             $this->images,
             fn ($image) => ($image[4] ?? false) === true
         );
+    }
+
+    #[Computed]
+    public function mapOtherMarkers()
+    {
+        return $this->organBuilder->organs
+            ->merge($this->organBuilder->renovatedOrgans)
+            ->merge($this->organBuilder->organRebuilds->pluck('organ'))
+            ->merge($this->organBuilder->caseOrgans)
+            ->unique('id');
     }
     
     private function compareImages(array $image1, array $image2)
@@ -643,8 +664,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </th>
             <td>
                 <table class="mb-0">
-                    @foreach ($this->workshopMembers as [$name, $activePeriod])
-                        <tr>
+                    @foreach ($this->workshopMembers as [$name, $activePeriod, $highlighted])
+                        <tr @style(['background: #fff3cd;' => $highlighted])>
                             <td class="pe-2">{{ $name }}</td>
                             <td class="text-body-secondary">{{ $activePeriod }}</td>
                         </tr>
@@ -796,6 +817,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endisset
 
         @if ($this->shouldShowMap)
+            @php $markerTitle = $this->municipalityCountry[0] . ' (' . __('sídlo dílny') . ')' @endphp
             <x-organomania.accordion-item
                 id="accordion-map"
                 class="d-print-none"
@@ -803,7 +825,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
             >
-                <x-organomania.map-detail :latitude="$organBuilder->latitude" :longitude="$organBuilder->longitude" />
+                <x-organomania.map-detail :marker="$organBuilder" :title="$markerTitle" :otherMarkers="$this->mapOtherMarkers" />
+                @if ($organBuilder->renovatedOrgans->isNotEmpty())
+                    <div class="small text-center text-secondary mt-2">
+                        {{ __('Varhanářem restaurované/opravené varhany jsou zobrazeny šedě, ostatní bíle.') }}
+                    </div>
+                @endif
             </x-organomania.accordion-item>
         @endisset
         

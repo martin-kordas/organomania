@@ -78,6 +78,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $this->dispatch("bootstrap-rendered");
         $this->dispatch("select2-rendered");
+        $this->js('setTimeout(() => window.initMagnifier())');
     }
 
     public function rendering(View $view): void
@@ -358,12 +359,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endpush
     @endif
 
+    @push('scripts')
+        <script src="/assets/magnifier-js/Event.js" defer></script>
+        <script src="/assets/magnifier-js/Magnifier.js" defer></script>
+    @endpush
+    @push('styles')
+        <link rel="stylesheet" type="text/css" href="/assets/magnifier-js/magnifier.css">
+    @endpush
+
     <h3 class="text-center">
         <a class="link-primary text-decoration-none" href="{{ route('organs.cases') }}" wire:navigate>
             {{ __('Galerie varhanních skříní') }}
         </a>
     </h3>
-
     
     <div class="m-auto mb-5" style="max-width: 600px;">
         <x-organomania.info-alert class="mb-3 mt-1 d-inline-block m-auto">
@@ -518,15 +526,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @foreach ($cases as $case)
                         <div class="text-center">
                             <a href="{{ $case->imageUrl }}" target="_blank">
-                                <img 
-                                    src="{{ ThumbnailController::getThumbnailUrl($case->imageUrl) }}" 
-                                    alt="{{ $case->name }}"
-                                    class="case-image rounded border"
-                                    loading="lazy"
+                                <div
+                                    class="position-relative d-inline-block"
                                     @if ($title = $this->getCaseTitle($case))
                                         title="{{ $title }}"
                                     @endif
                                 >
+                                    <img 
+                                        src="{{ ThumbnailController::getThumbnailUrl($case->imageUrl) }}" 
+                                        alt="{{ $case->name }}"
+                                        data-large-img-url="{{ $case->imageUrl }}"
+                                        class="case-image rounded border"
+                                        loading="lazy"
+                                    >
+                                </div>
                             </a>
                             <div class="small text-center mt-1">
                                 <p
@@ -569,12 +582,26 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <p class="small text-center text-secondary">
         <strong>{{ __('Poděkování přispěvatelům') }}</strong>:
         <br />
-        Lukáš Dvořák, Jan Fejgl, Filip Harant, Kristýna Kosíková, Jiří Krátký, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Štěpán Svoboda, Petr Vacek, Ondřej Valenta a další
+        Lukáš Dvořák, Jan Fejgl, Filip Harant, Robert Hlavatý, Kristýna Kosíková, Jiří Krátký, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Štěpán Svoboda, Petr Vacek, Ondřej Valenta a další
     </p>
 </div>
 
 @script
 <script>
+    // TODO: globálně includované knihovny (Event.js) působí chyby pluginů na jiných stranách
+    //  - kvůli wire:navigate zůstávají načtené pluginy aktivní i po navigaci jinam
+    window.initMagnifier = function () {
+        let evt = new Event()
+        let m = new Magnifier(evt)
+
+        m.attach({
+            thumb: '.case-image',
+            mode: 'inside',
+            zoom: 1.75,
+            zoomable: true,
+        })
+    }
+
     window.collapseBtnOnclick = function (button) {
         $(button).find('i').toggleClass('bi-chevron-contract, bi-chevron-expand')
     }
