@@ -8,13 +8,6 @@
     rendering-type="raster"
     wire:replace
 >
-    <gmp-advanced-marker
-        position="{{ $marker->latitude }},{{ $marker->longitude }}"
-        title="{{ $title }}"
-    >
-        <gmp-pin title="{{ $title }}"></gmp-pin>
-    </gmp-advanced-marker>
-
     @foreach ($otherMarkers as $marker1)
         @php
             // TODO: v title by šlo zobrazit i rok postavení a velikost varhan
@@ -33,4 +26,11 @@
             ></gmp-pin>
         </gmp-advanced-marker>
     @endforeach
+
+    {{-- hlavní marker jako poslední, aby překryl vedlejší markery --}}
+    <gmp-advanced-marker
+        position="{{ $marker->latitude }},{{ $marker->longitude }}"
+    >
+        <gmp-pin title="{{ $title }}"></gmp-pin>
+    </gmp-advanced-marker>
 </gmp-map>

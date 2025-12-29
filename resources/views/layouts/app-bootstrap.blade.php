@@ -35,6 +35,10 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         
+        {{-- TODO: asi není dobře, protože každá jazyková verze by měla mít svoji vlastní kanonickou URL --}}
+        {{--    - zde česká verze (varhanari) má za kanonickou anglickou verzi (organ-builders) --}}
+        {{--    - oprava problematická, protože jazyk je určen i stavově pomocí cookie a nesouvisí s jazykem použitým v URL path --}}
+        {{--    - asi proto Google ukazuje organ-builder verzi i pro český jazyk --}}
         <link rel="canonical" href="{{ Helpers::getCanonicalUrl() }}" />
         <link rel="alternate" hreflang="cs-cz" href="{{ Helpers::getCanonicalUrl('cs') }}" />
         <link rel="alternate" hreflang="en-us" href="{{ Helpers::getCanonicalUrl('en') }}" />
@@ -62,7 +66,7 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
         @stack('styles')
         @stack('scripts')
         
-        @if (request()->routeIs(['organs.index', 'organs.show', 'organ-builders.index', 'organ-builders.show', 'festivals.index', 'festivals.show', 'competitions.index', 'competitions.show']))
+        @if (request()->routeIs(['organs.index', 'organs.show-cs', 'organs.show', 'organ-builders.index', 'organ-builders.show-cs', 'organ-builders.show', 'festivals.index', 'festivals.show', 'competitions.index', 'competitions.show']))
             <script src="{{ $googleMapsScript }}" defer></script>
             <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js" defer></script>
         @endif    
@@ -82,7 +86,11 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
                 @if (config('custom.show_donate_alert') && !request()->routeIs(['welcome', 'donate']))
                     <div class="text-center px-2 d-print-none">
                         <x-organomania.alert class="d-inline-block" icon="piggy-bank" color="info">
-                            <a class="fw-bold link-primary link-underline-opacity-50" href="{{ route('donate') }}" wire:navigate>{{ __('Podpořte Organomanii') }}</a> <br class="d-sm-none" />{{ __('a získejte') }} <a class="link-primary link-underline-opacity-25" href="{{ route('donate') }}#ai">{{ __('zajímavé nové funkce') }}.</a>
+                            @if (false)
+                                <a class="fw-bold link-primary link-underline-opacity-50" href="{{ route('donate') }}" wire:navigate>{{ __('Podpořte Organomanii') }}</a> <br class="d-sm-none" />{{ __('a získejte') }} <a class="link-primary link-underline-opacity-25" href="{{ route('donate') }}#ai">{{ __('zajímavé nové funkce') }}.</a>
+                            @else
+                                <a class="fw-bold link-primary link-underline-opacity-50" href="{{ route('donate') }}" wire:navigate>{{ __('Podpořte Organomanii') }}</a> <br class="d-none" />{{ __('a její další provoz a vývoj') }}.</a>
+                            @endif
                         </x-organomania.alert>
                     </div>
                 @endif

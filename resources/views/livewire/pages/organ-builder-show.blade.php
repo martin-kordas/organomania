@@ -373,9 +373,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     public function mapOtherMarkers()
     {
-        return $this->organBuilder->organs
+        return $this->organs->pluck('organ')
             ->merge($this->organBuilder->renovatedOrgans)
-            ->merge($this->organBuilder->organRebuilds->pluck('organ'))
             ->merge($this->organBuilder->caseOrgans)
             ->unique('id');
     }
@@ -826,9 +825,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
             >
                 <x-organomania.map-detail :marker="$organBuilder" :title="$markerTitle" :otherMarkers="$this->mapOtherMarkers" />
-                @if ($organBuilder->renovatedOrgans->isNotEmpty())
+                @if ($organBuilder->renovatedOrgans->isNotEmpty() || $this->mapOtherMarkers->isNotEmpty())
                     <div class="small text-center text-secondary mt-2">
-                        {{ __('Varhanářem restaurované/opravené varhany jsou zobrazeny šedě, ostatní bíle.') }}
+                        @if ($organBuilder->renovatedOrgans->isNotEmpty())
+                            {{ __('Varhanářem opravené/restaurované varhany jsou označeny šedě, ostatní bíle.') }}
+                        @else
+                            {{ __('Varhanářem postavené varhany jsou označeny bíle.') }}
+                        @endif
+                        <br />
+                        {{ __('Podrobnosti o varhanách zobrazíte kliknutím na jejich bod na mapě.') }}
                     </div>
                 @endif
             </x-organomania.accordion-item>

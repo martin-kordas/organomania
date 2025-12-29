@@ -6,7 +6,7 @@
 *
 * @author Mark Rolich <mark.rolich@gmail.com>
 */
-var Event = function () {
+var EventHelper = function () {     // MK: přejmenováno Event -> EventHelper (kvůli konfliktu názvů s Bootstrapem)
     "use strict";
     this.attach = function (evtName, element, listener, capture) {
         var evt         = '',

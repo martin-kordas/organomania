@@ -139,7 +139,7 @@
     "Kraj": "Region",
     "Kromě seznamu rejstříků (píšťalových řad) a&nbsp;pomocných zařízení může obsahovat i základní technickou charakteristiku varhan.": "Apart from the list of stops (stop is a group of pipes) and auxiliary devices it also usually covers basic technical description of the organ.",
     "Kromě seznamu rejstříků a&nbsp;pomocných zařízení zahrnuje také základní technickou charakteristiku varhan.": "Apart from the list of stops and auxiliary devices it also covers basic technical description of the organ.",
-    "Kromě značného množství času stráveného <a href=\"https://github.com/martin-kordas/organomania\" target=\"_blank\">programováním</a> a tvorbou obsahu spotřebovává Organomania i finanční náklady, které jsou spojené s provozem serveru (momentálně asi 200 Kč / měsíc).": "Apart from quite a lot of time spent with <a href=\"https://github.com/martin-kordas/organomania\" target=\"_blank\">programming</a> and content creation Organomania consumes also finance needed for running the server (currently around $8 per month).",
+    "Kromě značného množství času stráveného <a href=\"https://github.com/martin-kordas/organomania\" target=\"_blank\">programováním</a> a tvorbou obsahu spotřebovává Organomania i finanční náklady, které jsou spojené s provozem serveru (momentálně asi <strong>300 Kč / měsíc</strong>).": "Apart from quite a lot of time spent with <a href=\"https://github.com/martin-kordas/organomania\" target=\"_blank\">programming</a> and content creation Organomania consumes also finance needed for running the server (currently around <strong>$15 per month</strong>).",
     "Kryty": "Stopped (Gedackt)",
     "Kuželková vzdušnice": "Cone valve windchest (Kegellade)",
     "Kónické": "Conical",
@@ -632,5 +632,7 @@
     "Tradiční typ varhanních skříní, ze kterého varhanáři vychází až do poloviny 19. století": "Tradiční typ varhanních skříní, ze kterého varhanáři vychází až do poloviny 19. století",
     "Skříně inspirované starými slohy, z nichž lze rozlišit neogotické, neorománské, neorenesanční nebo neobarokní": "Skříně inspirované starými slohy, z nichž lze rozlišit neogotické, neorománské, neorenesanční nebo neobarokní",
     "Secesní sloh, který se ve varhanních skříních projevil spíše v ojedinělých případech": "Secesní sloh, který se ve varhanních skříních projevil spíše v ojedinělých případech",
-    "Skříně jednoduššího zpracování, vliv funkcionalismu": "Skříně jednoduššího zpracování, vliv funkcionalismu"
+    "Skříně jednoduššího zpracování, vliv funkcionalismu": "Skříně jednoduššího zpracování, vliv funkcionalismu",
+    "a její další provoz a vývoj": "and its operation and development",
+    "Podpořte Organomanii": "Support Organomania"
 }

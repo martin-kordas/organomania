@@ -36,6 +36,7 @@ enum OrganCategory: int implements Category
     case WindchestSchleif = 15;         // zásuvková
     case WindchestKegel = 16;           // kuželková
     case WindchestMembran = 17;         // membránová
+    case WindchestTaschen = 28;         // taštičková
     case WindchestUnit = 20;            // unit
 
     case CaseRenaissance = 23;
@@ -123,6 +124,10 @@ enum OrganCategory: int implements Category
             'name' => 'Membránová vzdušnice',
             'description' => 'Konstrukce varhan založená na výpustném systému, kde po stisku klávesy klesne tlak vzduchu tlačícího na membránu a díky tomu se uvolní přívod vzduchu pro rozeznění píšťaly'
         ],
+        self::WindchestTaschen->value       => [
+            'name' => 'Taštičková vzdušnice',
+            'description' => 'Specifická konstrukce vzdušnice založené na výpustném systému'
+        ],
         self::WindchestUnit->value       => [
             'name' => 'Vzdušnice unit',
             'description' => 'Úsporná konstrukce varhan, při níž se jedna řada píšťal používá pro několik rejstříků současně'
@@ -196,7 +201,7 @@ enum OrganCategory: int implements Category
     public function isWindchestCategory()
     {
         return in_array($this, [
-            static::WindchestSchleif, static::WindchestKegel, static::WindchestMembran, static::WindchestUnit,
+            static::WindchestSchleif, static::WindchestKegel, static::WindchestMembran, static::WindchestTaschen, static::WindchestUnit,
         ]);
     }
     

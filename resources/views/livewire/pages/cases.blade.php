@@ -582,16 +582,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <p class="small text-center text-secondary">
         <strong>{{ __('Poděkování přispěvatelům') }}</strong>:
         <br />
-        Lukáš Dvořák, Jan Fejgl, Filip Harant, Robert Hlavatý, Kristýna Kosíková, Jiří Krátký, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Štěpán Svoboda, Petr Vacek, Ondřej Valenta a další
+        Lukáš Dvořák, Jan Fejgl, Jiří Fuks, Filip Harant, Robert Hlavatý, Kristýna Kosíková, Jiří Krátký, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Štěpán Svoboda, Petr Vacek, Ondřej Valenta a další
     </p>
 </div>
 
 @script
 <script>
-    // TODO: globálně includované knihovny (Event.js) působí chyby pluginů na jiných stranách
-    //  - kvůli wire:navigate zůstávají načtené pluginy aktivní i po navigaci jinam
     window.initMagnifier = function () {
-        let evt = new Event()
+        let evt = new EventHelper()
         let m = new Magnifier(evt)
 
         m.attach({
