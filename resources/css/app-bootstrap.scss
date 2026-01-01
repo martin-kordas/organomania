@@ -293,6 +293,10 @@ div.side-buttons {
     .markdown .custom-link {
         &.organBuilder {
             font-weight: var(--font-weight-semibold);
+            
+            .text-secondary, .text-body-secondary {
+                font-weight: normal !important;
+            }
         }
     }
 }
@@ -329,6 +333,17 @@ gmp-advanced-marker:not([data-label='']) {
 table.show-table {
     th {
         font-weight: 600;
+        text-align: right;
+        background: var(--bs-tertiary-bg);
+    }
+    > tbody > tr > td {
+        border-bottom: 1px solid var(--bs-border-color);
+    }
+    tr:first-of-type th {
+        border-top-left-radius: 10px;
+    }
+    tr:last-of-type th {
+        border-bottom-left-radius: 10px;
     }
 }
 

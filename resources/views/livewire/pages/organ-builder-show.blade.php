@@ -475,7 +475,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     private function shouldShowMap()
     {
-        return isset($this->organBuilder->region_id) && $this->organBuilder->latitude > 0;
+        return $this->organBuilder->hasLocality();
     }
 
     private function shouldShowPlaceMap($place)
@@ -561,7 +561,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </div>
     @endif
     
-    <table id="info" class="table show-table mb-2">
+    <table id="info" class="table show-table mt-3 mb-2">
         @if (isset($organBuilder->place_of_birth))
             <tr>
                 <th>{{ __('Místo narození') }}</th>
@@ -604,7 +604,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if ($nonCustomCategoryIds->isNotEmpty() || !empty($this->categoryGroups))
             <tr>
                 <th>
-                    {{ __('Kategorie') }}
                     @if ($nonCustomCategoryIds->isNotEmpty())
                         <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}" onclick="setTimeout(removeTooltips);">
                             <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#categoriesModal" @click="highlightCategoriesInModal(@json($nonCustomCategoryIds))">
@@ -612,6 +611,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             </a>
                         </span>
                     @endif
+                    {{ __('Kategorie') }}
                 </th>
                 <td>
                     @foreach ($this->categoryGroups as $group)
@@ -628,10 +628,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (!$organBuilder->shouldHideImportance())
         <tr>
             <th>
-                {{ __('Význam') }}
                 <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#importanceHintModal">
                     <i class="bi bi-question-circle"></i>
                 </a>
+                {{ __('Význam') }}
             </th>
             <td>
                 <x-organomania.stars :count="round($organBuilder->importance / 2)" :showCount="true" />
@@ -820,17 +820,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <x-organomania.accordion-item
                 id="accordion-map"
                 class="d-print-none"
-                title="{{ __('Mapa') }} ({{ $organBuilder->municipality }})"
+                title="{{ __('Mapa') }} ({{ $organBuilder->municipalityWithoutParenthesis }})"
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
             >
-                <x-organomania.map-detail :marker="$organBuilder" :title="$markerTitle" :otherMarkers="$this->mapOtherMarkers" />
+                <x-organomania.map-detail :inland="$organBuilder->isInland()" :marker="$organBuilder" :title="$markerTitle" :otherMarkers="$this->mapOtherMarkers" />
                 @if ($organBuilder->renovatedOrgans->isNotEmpty() || $this->mapOtherMarkers->isNotEmpty())
                     <div class="small text-center text-secondary mt-2">
                         @if ($organBuilder->renovatedOrgans->isNotEmpty())
-                            {{ __('Varhanářem opravené/restaurované varhany jsou označeny šedě, ostatní bíle.') }}
+                            {!! __('Varhanářem opravené/restaurované varhany jsou označeny <strong>šedě</strong>, ostatní <strong>bíle</strong>.') !!}
                         @else
-                            {{ __('Varhanářem postavené varhany jsou označeny bíle.') }}
+                            {!! __('Varhanářem postavené varhany jsou označeny <strong>bíle</strong>.') !!}
                         @endif
                         <br />
                         {{ __('Podrobnosti o varhanách zobrazíte kliknutím na jejich bod na mapě.') }}

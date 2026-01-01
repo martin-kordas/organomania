@@ -203,6 +203,11 @@ class OrganBuilder extends Model
     {
         return isset($this->region_id);
     }
+
+    public function hasLocality()
+    {
+        return $this->latitude > 0 && $this->longitude > 0;
+    }
     
     public function scopeInland(Builder $query): void
     {

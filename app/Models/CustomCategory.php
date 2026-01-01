@@ -44,5 +44,10 @@ abstract class CustomCategory extends Model implements Category
     {
         return false;
     }
+
+    public function isHackCategory(): bool
+    {
+        return false;
+    }
     
 }

@@ -42,5 +42,10 @@ trait EnumeratesCategories
 
         return $this->getData()['periodRange'];
     }
+
+    public function isHackCategory(): bool
+    {
+        return false;
+    }
     
 }

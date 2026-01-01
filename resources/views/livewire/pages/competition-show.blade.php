@@ -121,7 +121,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </x-organomania.warning-alert>
     </div>
     
-    <table class="table show-table">
+    <table class="table show-table mt-2">
         @isset($competition->locality)
             <tr>
                 <th>{{ __('Obec') }}</th>
@@ -184,7 +184,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     <h5 class="mt-4">{{ __('Obvyklé soutěžní podmínky') }}</h5>
 
-    <table class="table mb-2">
+    <table class="table show-table mb-2">
         <tr>
             <th>{{ __('Mezinárodní soutěž') }}</th>
             <td>
@@ -195,7 +195,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <tr>
                 <th>{{ __('Maximální věk') }}</th>
                 <td>
-                    {{ $competition->max_age }}
+                    {{ $competition->max_age }} {{ __('let') }}
                 </td>
             </tr>
         @endisset

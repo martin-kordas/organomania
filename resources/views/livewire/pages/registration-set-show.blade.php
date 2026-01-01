@@ -123,7 +123,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <div class="mb-4">
             <h4>{{ __('Informace o varhanách') }}</h4>
             
-            <table class="table">
+            <table class="table show-table">
                 <tr>
                     <th>{{ __('Postavil') }}</th>
                     <td>

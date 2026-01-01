@@ -196,6 +196,26 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
+    public function mapOtherMarkers()
+    {
+        $markers = [];
+
+        $markers[] = $this->organ->caseOrganBuilder;
+        if ($this->organ->organBuilder?->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) {
+            $markers[] = $this->organ->organBuilder;
+        }
+        foreach ($this->organ->organRebuilds as $organRebuild) {
+            $markers[] = $organRebuild->organBuilder;
+        }
+        $markers[] = $this->organ->renovationOrganBuilder;
+
+        return array_filter(
+            $markers,
+            fn ($organBuilder) => $organBuilder?->hasLocality(),
+        );
+    }
+
+    #[Computed]
     private function previousUrl()
     {
         $previousUrl = url()->previous();
@@ -484,9 +504,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     
     <style>
       /* HACK */
-      .organ-builder .text-secondary, .organ-builder .text-body-secondary { font-weight: normal !important; }
+      
     </style>
-    <table id="info" class="table show-table mb-2">
+    <table id="info" class="table show-table mt-3 mb-2">
         <tr>
             {{-- HACK --}}
             <th>{{ __('Varhanář') }}</th>
@@ -610,7 +630,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if ($nonCustomCategoryIds->isNotEmpty() || !empty($this->categoryGroups))
             <tr>
                 <th>
-                    {{ __('Kategorie') }}
                     @if ($nonCustomCategoryIds->isNotEmpty())
                         <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}" onclick="setTimeout(removeTooltips);">
                             <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#categoriesModal" @click="highlightCategoriesInModal(@json($nonCustomCategoryIds))">
@@ -618,6 +637,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             </a>
                         </span>
                     @endif
+                    {{ __('Kategorie') }}
                 </th>
                 <td>
                     @foreach ($this->categoryGroups as $group)
@@ -634,10 +654,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if (!$organ->shouldHideImportance())
             <tr>
                 <th>
-                    {{ __('Význam') }}
                     <a class="btn btn-sm p-1 py-0 text-primary" data-bs-toggle="modal" data-bs-target="#importanceHintModal">
                         <i class="bi bi-question-circle"></i>
                     </a>
+                    {{ __('Význam') }}
                 </th>
                 <td>
                     <x-organomania.stars :count="round($organ->importance / 2)" :showCount="true" />
@@ -974,12 +994,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <x-organomania.accordion-item
                 id="accordion-map"
                 class="d-print-none"
-                title="{{ __('Mapa') }}"
+                title="{{ __('Mapa') }} ({{ $organ->municipality }})"
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_MAP)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_MAP }}')"
             >
-                <x-organomania.map-detail :marker="$organ" />
-                <div class="mt-2">
+                <div class="mb-2">
                     {{ __('Zobrazit zajímavé varhany v okruhu') }}:
                     @foreach ([25, 50] as $distance)
                         <a
@@ -995,6 +1014,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <i class="bi bi-box-arrow-up-right"></i>
                         {{ __("Mapy.cz") }}
                     </a>
+                </div>
+                <x-organomania.map-detail :marker="$organ" :otherMarkers="$this->mapOtherMarkers" />
+                <div class="small text-center text-secondary mt-2">
+                    @if (!empty($this->mapOtherMarkers))
+                        {!! __('Varhanáři pracující na varhanách jsou označeni <strong>oranžově</strong>.') !!}
+                        <br />
+                        {{ __('Podrobnosti o varhanářích zobrazíte kliknutím na jejich bod na mapě.') }}
+                    @endif
                 </div>
             </x-organomania.accordion-item>
         @endif

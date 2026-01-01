@@ -218,6 +218,13 @@ enum OrganCategory: int implements Category
             static::Oldest, static::Biggest
         ]);
     }
+
+    public function isHackCategory(): bool
+    {
+        return in_array($this, [
+            static::FromBookMostImportantOrgans, static::FromBookBaroqueOrganBuilding,
+        ]);
+    }
     
     public function getItemsUrl(): string
     {

@@ -1,8 +1,15 @@
-@props(['marker', 'title' => '', 'otherMarkers' => collect()])
+@props(['marker', 'title' => '', 'inland' => true, 'otherMarkers' => collect()])
+
+@use(App\Models\Organ)
+
+@php
+    $center = $inland ? '49.815148,15.565384' : '47.4521023,15.070935';
+    $zoom = $inland ? '7.3' : '4.4';
+@endphp
 
 <gmp-map
-    center="49.815148,15.565384"
-    zoom="7.3"
+    center="{{ $center }}"
+    zoom="{{ $zoom }}"
     map-id="ORGAN_MAP_ID"
     style="height: 500px"
     rendering-type="raster"
@@ -11,18 +18,25 @@
     @foreach ($otherMarkers as $marker1)
         @php
             // TODO: v title by šlo zobrazit i rok postavení a velikost varhan
-            $renovated = $marker1->renovationOrganBuilder?->id === $marker->id;
-            $background = $renovated ? '#e8e8e8' : 'white';
+            if ($marker1 instanceof Organ) {
+                $renovated = $marker1->renovationOrganBuilder?->id === $marker->id;
+                $background = $renovated ? '#e8e8e8' : 'white';
+                $title1 = "{$marker1->municipality}, {$marker1->place}";
+            }
+            else {
+                $background = 'var(--header-footer-background)';
+                $title1 = "{$marker1->standardName} ({$marker1->municipalityWithoutParenthesis})";
+            }
         @endphp
+
         <gmp-advanced-marker
             position="{{ $marker1->latitude }},{{ $marker1->longitude }}"
-            title="{{ $title }}"
         >
             <gmp-pin
                 background="{{ $background }}"
                 scale="0.8"
-                title="{{ $marker1->municipality . ", " . $marker1->place }}"
-                onclick="window.open({{ Js::from(route('organs.show', $marker1->slug)) }}, '_blank')"
+                title="{{ $title1 }}"
+                onclick="window.open({{ Js::from($marker1->getViewUrl()) }}, '_blank')"
             ></gmp-pin>
         </gmp-advanced-marker>
     @endforeach

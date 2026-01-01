@@ -7,15 +7,15 @@
 @php
     if ($categoryClass === OrganCategory::class) {
         $title = __('Přehled kategorií varhan');
-        $highlightHint = __('Kategorie přiřazené aktuálním varhanám jsou zvýrazněny žlutě.');
+        $highlightHint = __('Kategorie přiřazené aktuálním varhanám jsou zvýrazněny <strong>žlutě</strong>.');
     }
     if ($categoryClass === RegisterCategory::class) {
         $title = __('Přehled kategorií rejstříků');
-        $highlightHint = __('Kategorie přiřazené aktuálnímu rejstříku jsou zvýrazněny žlutě.');
+        $highlightHint = __('Kategorie přiřazené aktuálnímu rejstříku jsou zvýrazněny <strong>žlutě</strong>.');
     }
     else {
         $title = __('Přehled kategorií varhanářů');
-        $highlightHint = __('Kategorie přiřazené aktuálnímu varhanáři jsou zvýrazněny žlutě.');
+        $highlightHint = __('Kategorie přiřazené aktuálnímu varhanáři jsou zvýrazněny <strong>žlutě</strong>.');
     }
 @endphp
 
@@ -31,26 +31,28 @@
 
             <div class="modal-body">
                 <div class="highlight-hint d-none mb-3">
-                    <small class="text-secondary">{{ $highlightHint }}</small>
+                    <small class="text-secondary">{!! $highlightHint !!}</small>
                 </div>
                 @foreach ($categoriesGroups as $group => $categories)
                     <div @class(['mb-4' => !$loop->last])>
                         <h3 class="fs-5 mb-3">{{ __($categoryClass::getGroupName($group)) }}</h3>
                         @foreach ($categories as $category)
-                            <div class="category-info position-relative border border-tertiary mb-2 p-2 rounded" data-category-id="{{ $category->value }}">
-                                <a
-                                    href="{{ $category->getItemsUrl() }}"
-                                    wire:navigate
-                                    class="badge stretched-link text-decoration-none text-bg-{{ $category->getColor() }}"
-                                >
-                                    {{ __($category->getName()) }}
-                                </a>
-                                <br />
+                            @if (!$category->isHackCategory())
+                                <div class="category-info position-relative border border-tertiary mb-2 p-2 rounded" data-category-id="{{ $category->value }}">
+                                    <a
+                                        href="{{ $category->getItemsUrl() }}"
+                                        wire:navigate
+                                        class="badge stretched-link text-decoration-none text-bg-{{ $category->getColor() }}"
+                                    >
+                                        {{ __($category->getName()) }}
+                                    </a>
+                                    <br />
 
-                                @if (!$category->isPeriodCategory())
-                                    {{ __($category->getDescription()) }}
-                                @endif
-                            </div>
+                                    @if (!$category->isPeriodCategory())
+                                        {{ __($category->getDescription()) }}
+                                    @endif
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                 @endforeach

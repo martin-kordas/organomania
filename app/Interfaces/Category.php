@@ -11,5 +11,6 @@ interface Category
     public function getColor(): string;
     public function getItemsUrl(): string;
     public function isPeriodCategory(): bool;
+    public function isHackCategory(): bool;
     
 }

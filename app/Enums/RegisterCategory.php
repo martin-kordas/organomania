@@ -124,6 +124,11 @@ enum RegisterCategory: int implements Category
     {
         return false;
     }
+
+    public function isHackCategory(): bool
+    {
+        return false;
+    }
     
     public static function getMainCategories()
     {
