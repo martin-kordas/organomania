@@ -123,11 +123,12 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
                 <div class="border-top mt-4">
                     <div class="container">
                         <div class="d-flex flex-wrap justify-content-between align-items-center py-2">
-                            <div>
+                            <div class="flex-grow-1 flex-lg-grow-0">
                                 <span class="mb-3 mb-md-0 text-body-secondary">
                                     © {{ date("Y") }}
                                     <a href="/martin-kordas" class="link-secondary text-decoration-none">Martin Kordas</a>
                                 </span>
+                                <hr class="d-lg-none" style="margin-top: 8px; margin-bottom: 8px;" />
                             </div>
 
                             <ul class="nav ms-lg-auto list-unstyled column-gap-2">

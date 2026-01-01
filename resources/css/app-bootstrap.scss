@@ -293,11 +293,11 @@ div.side-buttons {
     .markdown .custom-link {
         &.organBuilder {
             font-weight: var(--font-weight-semibold);
-            
-            .text-secondary, .text-body-secondary {
-                font-weight: normal !important;
-            }
         }
+    }
+
+    .organ-builder .text-secondary, .organ-builder .text-body-secondary {
+        font-weight: normal !important;
     }
 }
 .organ-builder-show {

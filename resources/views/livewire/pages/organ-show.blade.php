@@ -1019,7 +1019,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="small text-center text-secondary mt-2">
                     @if (!empty($this->mapOtherMarkers))
                         {!! __('Varhanáři pracující na varhanách jsou označeni <strong>oranžově</strong>.') !!}
-                        <br />
+                        <br class="d-none d-sm-inline" />
                         {{ __('Podrobnosti o varhanářích zobrazíte kliknutím na jejich bod na mapě.') }}
                     @endif
                 </div>
