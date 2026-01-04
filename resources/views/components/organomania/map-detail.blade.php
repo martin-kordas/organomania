@@ -1,10 +1,12 @@
 @props(['marker', 'title' => '', 'inland' => true, 'otherMarkers' => collect()])
 
+@use(App\Helpers)
 @use(App\Models\Organ)
 
 @php
     $center = $inland ? '49.815148,15.565384' : '47.4521023,15.070935';
-    $zoom = $inland ? '7.3' : '4.4';
+    if (Helpers::isMobile()) $zoom = $inland ? '6.1' : '3.9';
+    else $zoom = $inland ? '7.3' : '4.4';
 @endphp
 
 <gmp-map

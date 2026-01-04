@@ -1,6 +1,7 @@
 @props(['organs', 'thumbnailOrgan', 'thumbnailComponent'])
 
 @php
+    use App\Helpers;
     use App\Repositories\OrganRepository;
     use App\Repositories\OrganBuilderRepository;
 
@@ -18,6 +19,8 @@
         }
         else $usedCoords[] = $coords;
     }
+
+    $zoom = Helpers::isMobile() ? '6.3' : '7.8';
 @endphp
 
 <p class="text-secondary text-center">
@@ -38,7 +41,7 @@
     <gmp-map
         id="entity-page-view-map"
         center="49.815148,15.565384"
-        zoom="7.8"
+        zoom="{{ $zoom }}"
         map-id="{{ $this->mapId }}"
         style="height: 70vh"
         rendering-type="vector"

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Detection\MobileDetect;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Location\Coordinate;
 use Location\Distance\Vincenty;
@@ -251,6 +252,11 @@ class Helpers
     static function isCrawler()
     {
         return (new CrawlerDetect)->isCrawler();
+    }
+
+    static function isMobile()
+    {
+        return (new MobileDetect)->isMobile();
     }
     
     static function getCanonicalUrl($lang = null)
