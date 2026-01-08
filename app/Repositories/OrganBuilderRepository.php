@@ -179,23 +179,29 @@ class OrganBuilderRepository extends AbstractRepository
             ->first();
     }
 
-    public function getOrganBuilderTimelineItemsByAge($direction = 'desc')
+    public function getOrganBuilderTimelineItemsByAge($direction = 'desc', $century = null)
     {
-        return OrganBuilderTimelineItem::query()
+        $query = OrganBuilderTimelineItem::query()
             ->select('*')
             ->selectRaw('obti.year_to - obti.year_from AS age')
             ->from('organ_builder_timeline_items', 'obti')  
             ->join('organ_builders AS ob', 'ob.id', '=', 'obti.organ_builder_id')
             ->withTrashed()
             ->whereNull('obti.deleted_at')
+            ->where('organ_builder_id', '!=', OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
             ->where('obti.is_workshop', 0)
             ->whereNotNull('obti.year_from')
             ->where('obti.year_to', '<', 2050)
             // vynechat varhanáře s odhadovanou datací
             ->whereNotIn('obti.id', [11, 28, 55, 52])
             ->whereNull('ob.user_id')
-            ->orderBy('age', $direction)
-            ->get();
+            ->orderBy('age', $direction);
+            
+        if (isset($century)) {
+            $query->whereRaw('FLOOR(obti.year_from / 100) = ?', [$century - 1]);
+        }
+            
+        return $query->get();
     }
     
 }

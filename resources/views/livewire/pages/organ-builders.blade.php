@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -95,7 +96,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function getOrganCategoryOrganCount(Category $category)
     {
         $categoryModel = $this->getOrganCategoryModel($category);
-        return $categoryModel->organ_builders_count;
+        $categoryModel->loadCount([
+            'organBuilders as organ_builders_displayed_count' => fn (Builder $query) => $query->where('importance', '>', 0)
+        ]);
+        return $categoryModel->organ_builders_displayed_count;
     }
 
     private function getOrganCustomCategoryOrganCount(CustomCategory $category)

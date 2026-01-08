@@ -162,7 +162,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function getOrganCategoryOrganCount(Category $category)
     {
         $categoryModel = $this->getOrganCategoryModel($category);
-        return $categoryModel->organs_count;
+        $categoryModel->loadCount([
+            'organs as organs_displayed_count' => fn (Builder $query) => $query->where('importance', '>', 0)
+        ]);
+        return $categoryModel->organs_displayed_count;
     }
 
     private function getOrganCustomCategoryOrganCount(CustomCategory $category)
