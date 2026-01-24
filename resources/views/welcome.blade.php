@@ -12,7 +12,7 @@
     @php
         $runtimeStats = $component->runtimeStats;
         $lastUpdate = $runtimeStats->getLastUpdate();
-        $description = __('Organomania vám atraktivním způsobem představí varhany v&nbsp;České&nbsp;republice, a&nbsp;to jako součást kulturního dědictví, jako technickou památku, i&nbsp;jako živý hudební nástroj.');
+        $description = __('Organomania (z latinského <em>organum</em> = varhany) vám atraktivním způsobem představí varhany v&nbsp;České&nbsp;republice, a&nbsp;to jako součást kulturního dědictví, jako technickou památku, i&nbsp;jako živý hudební nástroj.');
         $lastWorshipSongsOrgans = Auth::user()?->getLastWorshipSongsOrgans(limit: 5) ?? collect();
     @endphp
   

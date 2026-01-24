@@ -102,7 +102,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
             case 76:
                 $text = $text->replaceLast("Pedal", "Pedal (Altes Werk)");
-                $text = $text->replaceLast("Gamba 8'", "Gamba 8' (nové píšťaly)");
+                $text = $text->replaceLast("Gamba 8'", "Gamba 8' (nové píšťaly, Mader)");
+                $text = $text->replaceLast("Salicional 8'", "Salicional 8' (Mader)");
+                $text = $text->replaceLast("Contraposaune 32'", "Contraposaune 32' (Erler)");
+                $text = $text->replaceLast("Clarino 4'", "Clarino 4' (Erler)");
                 break;
                 
             case 42:

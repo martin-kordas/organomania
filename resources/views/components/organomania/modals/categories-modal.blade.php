@@ -9,7 +9,7 @@
         $title = __('Přehled kategorií varhan');
         $highlightHint = __('Kategorie přiřazené aktuálním varhanám jsou zvýrazněny <strong>žlutě</strong>.');
     }
-    if ($categoryClass === RegisterCategory::class) {
+    elseif ($categoryClass === RegisterCategory::class) {
         $title = __('Přehled kategorií rejstříků');
         $highlightHint = __('Kategorie přiřazené aktuálnímu rejstříku jsou zvýrazněny <strong>žlutě</strong>.');
     }

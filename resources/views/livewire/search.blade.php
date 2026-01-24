@@ -472,12 +472,13 @@ new class extends Component {
                     else newItem = items[currentIndex - 1]
                     break
 
+                // není-li zvolena položka, Home a End slouží k navigaci v textu
                 case 'Home':
-                    newItem = items[0]
+                    if (currentItem) newItem = items[0]
                     break
 
                 case 'End':
-                    newItem = items[items.length - 1]
+                    if (currentItem) newItem = items[items.length - 1]
                     break
 
                 case 'PageDown':
@@ -493,8 +494,10 @@ new class extends Component {
                     break;
             }
             
-            e.preventDefault()
-            newItem?.focus()
+            if (newItem) {
+                e.preventDefault()
+                newItem.focus()
+            }
         }
     }
 </script>

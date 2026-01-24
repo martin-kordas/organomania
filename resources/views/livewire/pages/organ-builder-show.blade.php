@@ -181,7 +181,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (isset($timelineItem->activePeriod)) $label .= "\n({$timelineItem->activePeriod})";
         $municipality = str_replace('Praha-Žižkov', 'Praha', $this->organBuilder->municipality);
         if (!$outOfScope && $timelineItem->locality !== $municipality) $label .= "\n{$timelineItem->locality}";
-        $sibling = in_array($timelineItem->id, [10, 15, 861, 862, 863, 868, 29, 915]);
+        $sibling = in_array($timelineItem->id, [10, 15, 861, 862, 863, 868, 29, 915, 917, 921]);
         if ($sibling) {
             $siblingLabel = match ($timelineItem->id) {
                 29 => 'Neznámý vztah',
@@ -466,7 +466,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (count($this->images) > 1) $items['images'] = __('Galerie');
         if ($this->shouldShowFamilyTree) $items['accordion-family-tree-container'] = __('Rodokmen');
         if ($this->shouldShowMap) $items['accordion-map-container'] = __('Mapa');
-        if (isset($this->organBuilder->literature)) $items['accordion-literature-container'] = __('Literatura');
+        if (isset($this->organBuilder->literature)) {
+            $literatureCount = count(explode("\n", $this->organBuilder->literature));
+            $items['accordion-literature-container'] = __('Literatura') . " ($literatureCount)";
+        }
 
         if (count($items) <= 1) return [];
         return $items;

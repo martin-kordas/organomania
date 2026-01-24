@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
 use App\Models\Organ;
+use App\Models\OrganBuilder;
 use App\Models\OrganBuilderTimelineItem;
 use App\Helpers;
 
@@ -59,6 +60,7 @@ class AnniversariesService
         return OrganBuilderTimelineItem::query()
             ->with('organBuilder')
             ->where('hide_in_timeline', 0)
+            ->where('organ_builder_id', '!=', OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
             ->where(function (Builder $query) use ($step, $year) {
                 $query
                     ->yearAnniversary('year_from', $step, $year)

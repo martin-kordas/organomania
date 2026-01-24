@@ -534,7 +534,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 >
                                     <img 
                                         src="{{ ThumbnailController::getThumbnailUrl($case->imageUrl) }}" 
-                                        alt="{{ $case->name }}"
+                                        alt="{{ $case->name }} &ndash; {{ __('varhany') }}"
                                         data-large-img-url="{{ $case->imageUrl }}"
                                         class="case-image rounded border"
                                         loading="lazy"
@@ -582,7 +582,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <p class="small text-center text-secondary">
         <strong>{{ __('Poděkování přispěvatelům') }}</strong>:
         <br />
-        Lukáš Dvořák, Jan Fejgl, Jiří Fuks, Filip Harant, Robert Hlavatý, Kristýna Kosíková, Jiří Krátký, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Štěpán Svoboda, Petr Vacek, Ondřej Valenta a další
+        Lukáš Dvořák, Jan Fejgl, Jiří Fuks, Filip Harant, Robert Hlavatý, Jaroslav Kocůrek, Kristýna Kosíková, Jiří Krátký, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Štěpán Svoboda, Petr Vacek, Ondřej Valenta a další
     </p>
 </div>
 

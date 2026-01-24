@@ -360,7 +360,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if ($this->shouldShowDisposition) $items['accordion-disposition-container'] = __('Dispozice');
         if ($this->organ->latitude > 0) $items['accordion-map-container'] = __('Mapa');
         if ($this->similarOrgans->isNotEmpty()) $items['accordion-similarOrgans-container'] = __('Podobné varhany');
-        if (isset($this->organ->literature)) $items['accordion-literature-container'] = __('Literatura');
+        if (isset($this->organ->literature)) {
+            $literatureCount = count(explode("\n", $this->organ->literature));
+            $items['accordion-literature-container'] = __('Literatura') . " ($literatureCount)";
+        }
 
         if (count($items) <= 1) return [];
         return $items;
