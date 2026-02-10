@@ -28,7 +28,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public OrganBuilder $organBuilder;
 
     protected MarkdownConvertorService $markdownConvertor;
-    
+
     protected OrganBuilderRepository $repository;
 
     private $showActivePeriodInHeading;
@@ -147,7 +147,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ->orWhereIn('parent_timeline_item_id', $ids)
             ->orWhereIn('trained_by_timeline_item_id', $ids)
             ->get();
-            
+
         $timelineItems = $this->organBuilder->timelineItems->merge($timelineItemsOutOfScope);
         $parentIdsAll = $this->getTimelineIds('parent_timeline_item_id', $timelineItems);
         $trainedByIdsAll = $this->getTimelineIds('trained_by_timeline_item_id', $timelineItems);
@@ -244,10 +244,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     $memberArr = [trim($matches[1]), $matches[2]];
                 }
                 else $memberArr = [$member, null];
-                
+
                 $highlighted = $memberArr[0] === request()->query('highlightWorkshopMember');
                 $memberArr[] = $highlighted;
-                
+
                 $members[] = $memberArr;
             }
         }
@@ -329,6 +329,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
                 $caption = view('components.organomania.organ-link', [
                     'organ' => $organ,
+                    'showCaseOrganBuilderExactOnly' => true,
                     'iconLink' => false,
                     'year' => $year,
                     'showShortPlace' => true,
@@ -355,7 +356,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
             $images[] = [$additionalImage->image_url, $additionalImage->image_credits, $content, true, $shownInCases];
         }
-        
+
         usort($images, $this->compareImages(...));
 
         return $images;
@@ -378,14 +379,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ->merge($this->organBuilder->caseOrgans)
             ->unique('id');
     }
-    
+
     private function compareImages(array $image1, array $image2)
     {
         $year1 = $this->getYearFromImageCaption($image1[2]) ?? 0;
         $year2 = $this->getYearFromImageCaption($image2[2]) ?? 0;
         return $year1 <=> $year2;
     }
-    
+
     private function getYearFromImageCaption($caption)
     {
         $matches = [];
@@ -414,7 +415,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             ->sortBy('year');
     }
 
-    #[Computed]  
+    #[Computed]
     private function relatedOrganBuilders()
     {
         $relatedOrganBuilderIds = match ($this->organBuilder->id) {
@@ -487,7 +488,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             'Praha', 'Brno', 'Plzeň'
         ]);
     }
-    
+
 }; ?>
 
 <div class="organ-builder-show container">
@@ -508,7 +509,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     @if (!empty($this->navigationItems))
         <x-organomania.show-navigation-items :navigationItems="$this->navigationItems" />
     @endif
-    
+
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
             <h3 class="fs-2" @if (Auth::user()?->admin) title="ID: {{ $organBuilder->id }}" @endif>
@@ -519,7 +520,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @if (!$organBuilder->isPublic())
                     <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
                 @endif
-                    
+
                 <br />
                 <small style="font-size: 60%">
                     {{ $this->municipalityCountry[0] }}
@@ -538,7 +539,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <p class="lead">{{ $organBuilder->perex }}</p>
             @endif
         </div>
-            
+
          @if ($organBuilder->image_url || $organBuilder->region)
             <div class="text-center">
                 <div class="position-relative d-inline-block">
@@ -554,7 +555,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         @endif
     </div>
-    
+
     @if ($organBuilder->isPublic() && $organBuilder->isInland())
         <div class="text-center mt-3">
             <x-organomania.info-alert class="d-inline-block mb-1">
@@ -563,7 +564,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.info-alert>
         </div>
     @endif
-    
+
     <table id="info" class="table show-table mt-3 mb-2">
         @if (isset($organBuilder->place_of_birth))
             <tr>
@@ -744,16 +745,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endif
             </x-organomania.tr-responsive>
         @endif
-        
-        @php $center = $organBuilder->getCenter() @endphp
-        @if ($this->relatedOrganBuilders->isNotEmpty() || $center)
+
+        @php
+            $center = $organBuilder->getCenter();
+            $inland = $organBuilder->isInland();
+        @endphp
+        @if ($this->relatedOrganBuilders->isNotEmpty() || $center || !$inland)
             <x-organomania.tr-responsive title="{{ __('Související varhanáři') }}">
                 <div class="items-list">
                     @foreach ($this->relatedOrganBuilders as $relatedOrganBuilder)
                         <x-organomania.organ-builder-link :organBuilder="$relatedOrganBuilder" :showActivePeriod="true" />
                         @if (!$loop->last) <br /> @endif
                     @endforeach
-                    
+
                     @if ($center)
                         @if ($this->relatedOrganBuilders->isNotEmpty()) <br /> @endif
                         <a
@@ -762,10 +766,23 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             wire:navigate
                         >
                             <i class="bi bi-person-circle"></i>
-                            {{ $this->organBuilder->getCenterName() }}
+                            {{ $organBuilder->getCenterName() }}
                         </a>
                         @if ($organBuilderInCenterCount = $this->repository->getOrganBuilderInCenterCount($center))
                             <span class="badge text-bg-secondary rounded-pill">{{ $organBuilderInCenterCount }}</span>
+                        @endif
+                    @elseif (!$inland)
+                        @if ($this->relatedOrganBuilders->isNotEmpty()) <br /> @endif
+                        <a
+                            class="align-items-start link-primary text-decoration-none icon-link icon-link-hover"
+                            href="{{ route('organ-builders.index', ['filterRegionId' => -1]) }}"
+                            wire:navigate
+                        >
+                            <i class="bi bi-person-circle"></i>
+                            {{ __('Zahraniční varhanáři') }}
+                        </a>
+                        @if ($organBuilderNotInlandCount = $this->repository->getOrganBuilderNotInlandCount($center))
+                            <span class="badge text-bg-secondary rounded-pill">{{ $organBuilderNotInlandCount }}</span>
                         @endif
                     @endif
                 <div>
@@ -803,7 +820,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         @endif
     </div>
-        
+
     <div class="accordion">
         @if ($this->shouldShowFamilyTree)
             <x-organomania.accordion-item
@@ -841,7 +858,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endif
             </x-organomania.accordion-item>
         @endisset
-        
+
         @isset($organBuilder->literature)
             <x-organomania.accordion-item
                 id="accordion-literature"
@@ -869,7 +886,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.accordion-item>
         @endisset
     </div>
-    
+
     <div class="text-end mt-3">
         <a class="btn btn-sm btn-secondary" href="{{ $this->previousUrl }}" wire:navigate><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>&nbsp;
         @can('update', $organBuilder)
@@ -881,16 +898,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <i class="bi-share"></i> <span class="d-none d-sm-inline">{{ __('Sdílet') }}</span>
         </a>
     </div>
-        
+
     <x-organomania.modals.categories-modal :categoriesGroups="$this->organBuilderCategoriesGroups" :categoryClass="OrganBuilderCategory::class" />
-        
+
     <x-organomania.modals.share-modal />
-        
+
     <x-organomania.modals.importance-hint-modal :title="__('Význam varhanáře')">
         {{ __('Význam varhanáře se eviduje, aby bylo možné množství varhanářů přibližně seřadit podle důležitosti.') }}
         {{ __('Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhanáře.') }}
     </x-organomania.modals.importance-hint-modal>
-    
+
 </div>
 
 @script

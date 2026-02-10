@@ -46,7 +46,7 @@ class Organ extends Model
     const
         PROMOTION_DURATION = 30,
         HIGHLIGHT_PROMOTION_DURATION = 4;
-    
+
     const
         ORGAN_ID_OLOMOUC_KATEDRALA_SV_VACLAVA = 55,
         ORGAN_ID_PRAHA_KOSTEL_SV_LUDMILY = 80,
@@ -98,7 +98,7 @@ class Organ extends Model
         ORGAN_ID_PRAHA_EMAUZY = 85,
         ORGAN_ID_PRAHA_KRIZOVNICI = 71,
         ORGAN_ID_PARDUBICE_ZUS_POLABINY = 4540;
-    
+
     protected $guarded = [];
 
     public function casts()
@@ -107,48 +107,53 @@ class Organ extends Model
             'promotion_date' => 'date',
         ];
     }
-    
+
     protected static function booted(): void
     {
         // řešení atributem ScopedBy nefunguje
         static::addGlobalScope(new OwnedEntityScope);
     }
-    
+
     protected function getShowRoute(): string
     {
         return 'organs.show';
     }
-    
+
     public function timelineItem()
     {
         return $this->belongsTo(OrganBuilderTimelineItem::class, 'organ_builder_timeline_item_id');
     }
-    
+
+    public function caseTimelineItem()
+    {
+        return $this->belongsTo(OrganBuilderTimelineItem::class, 'case_organ_builder_timeline_item_id');
+    }
+
     public function region()
     {
         return $this->belongsTo(Region::class);
     }
-    
+
     public function diocese()
     {
         return $this->belongsTo(Diocese::class);
     }
-    
+
     public function organBuilder()
     {
         return $this->belongsTo(OrganBuilder::class);
     }
-    
+
     public function renovationOrganBuilder()
     {
         return $this->belongsTo(OrganBuilder::class, 'renovation_organ_builder_id');
     }
-    
+
     public function caseOrganBuilder()
     {
         return $this->belongsTo(OrganBuilder::class, 'case_organ_builder_id');
     }
-    
+
     public function organCategories()
     {
         // srv. OrganCategory::getOrderValue()
@@ -164,63 +169,63 @@ class Organ extends Model
                 END
             ');
     }
-    
+
     public function shouldHideImportance()
     {
         return $this->importance <= 2;
     }
-    
+
     public function organCustomCategories()
     {
         return $this->belongsToMany(OrganCustomCategory::class)->withTimestamps()->orderBy('name');
     }
-    
+
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
     }
-    
+
     public function organRebuilds()
     {
         return $this->hasMany(OrganRebuild::class)->orderBy('year_built');
     }
-    
+
     public function festivals()
     {
         return $this->hasMany(Festival::class);
     }
-    
+
     public function competitions()
     {
         return $this->belongsToMany(Competition::class)->withTimestamps()->orderBy('name');
     }
-    
+
     public function dispositions()
     {
         return $this->hasMany(Disposition::class)->orderBy('name');
     }
-    
+
     public function worshipSongs()
     {
         return $this->hasMany(WorshipSong::class);
     }
-    
+
     public function lastEditedWorshipSong()
     {
         return $this->hasOne(WorshipSong::class)->latest();
     }
-    
+
     public function getLastWorshipSong()
     {
         return $this->worshipSongs()->orderBy('date', 'desc')->first();
     }
-    
+
     public function getThumbnailImage()
     {
         if (isset($this->image_url))
             return ['image_url' => $this->image_url, 'image_credits' => $this->image_credits];
     }
-    
+
     public function getViewWorshipSongsUrl()
     {
         $route = 'organs.worship-songs';
@@ -228,7 +233,7 @@ class Organ extends Model
         else $relativeUrl = route($route, $this->slug, absolute: false);
         return url($relativeUrl);
     }
-    
+
     public function shortPlace(): Attribute
     {
         return Attribute::make(
@@ -277,42 +282,42 @@ class Organ extends Model
             }
         );
     }
-    
+
     public function getDeclinedManuals($original = false)
     {
         $count = $original ? $this->original_manuals_count : $this->manuals_count;
         return __(Helpers::declineCount($count, 'manuálů', 'manuál', 'manuály'));
     }
-    
+
     public function getDeclinedStops($original = false)
     {
         if ($this->stops_count < 0) throw new \LogicException;
-        
+
         $count = $original ? $this->original_stops_count : $this->stops_count;
         return __(Helpers::declineCount($count, 'rejstříků', 'rejstřík', 'rejstříky'));
     }
-    
+
     public function getDeclinedManualsCount($original = false)
     {
         $manuals = $this->getDeclinedManuals($original);
         $count = $original ? $this->original_manuals_count : $this->manuals_count;
         return "$count $manuals";
     }
-    
+
     public function getDeclinedStopsCount($original = false)
     {
         $stops = $this->getDeclinedStops($original);
         $count = $original ? $this->original_stops_count : $this->stops_count;
         return "$count $stops";
     }
-    
+
     /**
      * @return int      číslo v rozsahu 0-100 reprezentující rok postavení varhan v poměru k varhanám s nejdřívějším a nejpozdějším rokem postavení
      */
     public function getRelativeYearBuilt()
     {
         static $yearBuiltMin, $yearBuiltMax;
-        
+
         if (isset($this->year_built)) {
             $yearBuiltMin ??= static::min('year_built') ?? false;
             $yearBuiltMax ??= static::max('year_built') ?? false;
@@ -325,13 +330,13 @@ class Organ extends Model
         }
         return 100;
     }
-    
+
     // place, municipality je rovněž nutné hledat fulltextově, jinak by text nebyl nalezen, pokud hledaný výraz obsahuje pouze část textu
     //  - např. "Praha Jakuba" by nic nenašlo, protože by se hledal celý výskyt "Praha Jakuba"
     #[SearchUsingFullText(['place', 'municipality', 'description', 'perex'])]
     public function toSearchableArray(): array
     {
-        return 
+        return
             $this->only(['place', 'municipality', 'description', 'perex'])
             + [
                 'organ_builders.last_name' => '', 'organ_builders.workshop_name' => '',
@@ -342,7 +347,7 @@ class Organ extends Model
                 'organs.description' => '',
             ];
     }
-    
+
     public function sluggable(): array
     {
         return [
@@ -374,7 +379,7 @@ class Organ extends Model
     {
         $query->where('promotion_date', '>=', today()->subDays(self::HIGHLIGHT_PROMOTION_DURATION));
     }
-    
+
     public function getMapInfo(?float $nearLatitude = null, ?float $nearLongitude = null)
     {
         if (
@@ -384,13 +389,13 @@ class Organ extends Model
             $distance = Helpers::getDistance($nearLatitude, $nearLongitude, $this->latitude, $this->longitude);
         }
         else $distance = null;
-        
+
         return view('components.organomania.map-info.organ', [
             'organ' => $this,
             'distance' => $distance
         ])->render();
     }
-    
+
     public function getSizeInfo($original = false): ?string
     {
         if (isset($this->manuals_count)) {
@@ -402,7 +407,7 @@ class Organ extends Model
                 $manualsCount = $this->manuals_count;
                 $stopsCount = $this->stops_count;
             }
-            
+
             $parts = [];
             $parts[] = Helpers::formatRomanNumeral($manualsCount);
             if (isset($stopsCount)) $parts[] = $stopsCount;
@@ -415,7 +420,7 @@ class Organ extends Model
     {
         return isset($this->original_manuals_count) && isset($this->original_stops_count);
     }
-    
+
     public function getDispositionColumnsCount()
     {
         $linesCount = str($this->disposition ?? '')->substrCount("\n");
@@ -425,36 +430,36 @@ class Organ extends Model
             default => 1
         };
     }
-    
+
     public function getImageStoragePath()
     {
         if (!$this->id) throw new \Exception;
         return "organ-images/{$this->id}";
     }
-    
+
     public function getRecordingStoragePath()
     {
         if (!$this->id) throw new \Exception;
         return "organ-recordings/{$this->id}";
     }
-    
+
     public function getMetaDescription(): ?string
     {
         if (isset($this->perex)) return $this->perex;
-        
+
         if (isset($this->description)) {
             $description = app(MarkdownConvertorService::class)->stripMarkDown($this->description);
             return str($description)->limit(200);
         }
-        
+
         return null;
     }
-    
+
     public function hasCaseOrganBuilder(): bool
     {
         return isset($this->caseOrganBuilder) || isset($this->case_organ_builder_name);
     }
-    
+
     public function getLinkComponent()
     {
         return 'components.organomania.organ-link';
@@ -466,5 +471,5 @@ class Organ extends Model
             ->highlightPromoted()
             ->count();
     }
-    
+
 }

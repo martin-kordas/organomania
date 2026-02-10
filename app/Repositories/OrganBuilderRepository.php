@@ -13,7 +13,7 @@ use App\Repositories\AbstractRepository;
 
 class OrganBuilderRepository extends AbstractRepository
 {
-    
+
     const
         ORGAN_BUILDERS_WITH = [
             'organs',
@@ -23,23 +23,24 @@ class OrganBuilderRepository extends AbstractRepository
         ORGAN_BUILDERS_WITH_COUNT = ['organs', 'organRebuilds', 'likes', 'organBuilderCustomCategories'],
         CATEGORIES_WITH_COUNT = ['organBuilders'],
         CUSTOM_CATEGORIES_WITH_COUNT = ['organBuilders'];
-    
+
     protected const MODEL_CLASS = OrganBuilder::class;
-    
+
     public function getOrganBuildersQuery(
         array $filters = [], array $sorts = [],
         $with = self::ORGAN_BUILDERS_WITH, $withCount = self::ORGAN_BUILDERS_WITH_COUNT
     ): Builder
     {
-        $query = OrganBuilder::query()->select('*')->inland();
+        $query = OrganBuilder::query()->select('*');
 
         if (!empty($with)) $query->with($with);
         if (!empty($withCount)) $query->withCount($withCount);
         $filterNear = false;
-        
+        $filterInland = true;
+
         foreach ($filters as $field => $value) {
             $value = $this->trimFilterValue($value);
-            
+
             switch ($field) {
                 case 'name':
                     $this->filterName($query, $value);
@@ -51,19 +52,26 @@ class OrganBuilderRepository extends AbstractRepository
                         $query->orWhere('municipality', 'like', "%$value%");
                     });
                     break;
-                    
+
                 case 'municipality':
                     $this->filterLike($query, $field, $value);
                     break;
-                
+
                 case 'id':
-                case 'regionId':
                 case 'importance':
                 case 'isFavorite':
                 case 'isPrivate':
                     $this->filterEntityQuery($query, $field, $value);
                     break;
-                
+
+                case 'regionId':
+                    if ((int)$value === -1) {
+                        $query->whereNull('region_id');
+                        $filterInland = false;
+                    }
+                    else $query->where('region_id', $value);
+                    break;
+
                 case 'nearLongitude':
                 case 'nearLatitude':
                 case 'nearDistance':
@@ -72,35 +80,35 @@ class OrganBuilderRepository extends AbstractRepository
                         $filterNear = true;
                     }
                     break;
-                    
+
                 case 'important':
                     if ($value) {
                         $query->where('importance', '>', 0);    // nedůležité varhanáře nezobrazujeme v hlavním katalogu
                     }
                     break;
-                
+
                 default:
                     throw new \LogicException;
             }
-            
         }
+        if ($filterInland) $query->inland();
 
         foreach ($sorts as $field => $direction) {
             switch ($field) {
                 case 'name':
                     $query->orderByName($direction);
                     break;
-                
+
                 case 'importance':
                     // současné varhanáře na konec
                     $query->orderByRaw('active_from_year >= 1989');
                     $this->orderBy($query, $field, $direction);
                     break;
-                
+
                 case 'organs_count':
                     $query->orderByRaw("organs_count + organ_rebuilds_count $direction");
                     break;
-                
+
                 case 'distance':
                     if ($filterNear) {
                         $this->orderBy($query, $field, $direction);
@@ -110,15 +118,15 @@ class OrganBuilderRepository extends AbstractRepository
                 case 'random':
                     $query->inRandomOrder();
                     break;
-                
+
                 default:
                     $this->orderBy($query, $field, $direction);
             }
         }
-        
+
         $query->orderByName();
         $query->orderBy('id');
-        
+
         return $query;
     }
 
@@ -136,7 +144,7 @@ class OrganBuilderRepository extends AbstractRepository
                 ', ["%$value%"]);
         });
     }
-    
+
     public function getOrganBuilders(
         array $filters = [], array $sorts = [],
         $with = self::ORGAN_BUILDERS_WITH, $withCount = self::ORGAN_BUILDERS_WITH_COUNT,
@@ -147,14 +155,14 @@ class OrganBuilderRepository extends AbstractRepository
         if ($perPage === false) return $query->get();
         else return $query->paginate($perPage);
     }
-    
+
     public function getCategories(
         $withCount = self::CATEGORIES_WITH_COUNT,
     )
     {
         return $this->getCategoriesHelp(new OrganBuilderCategoryModel, $withCount);
     }
-    
+
     public function getCustomCategories(
         $withCount = self::CUSTOM_CATEGORIES_WITH_COUNT,
         $allowIds = []
@@ -163,10 +171,21 @@ class OrganBuilderRepository extends AbstractRepository
         $mainEntityRelation = 'organBuilders';
         return $this->getCustomCategoriesHelp(new OrganBuilderCustomCategoryModel, $mainEntityRelation, $withCount, $allowIds);
     }
-    
+
     public function getOrganBuilderInCenterCount(string $center)
     {
         return OrganBuilder::where('municipality', $center)
+            ->public()
+            ->where('baroque', 0)
+            ->count();
+    }
+
+    public function getOrganBuilderNotInlandCount()
+    {
+        return OrganBuilder::query()
+            ->whereNot(function (Builder $query) {
+                $query->inland();
+            })
             ->public()
             ->where('baroque', 0)
             ->count();
@@ -184,7 +203,7 @@ class OrganBuilderRepository extends AbstractRepository
         $query = OrganBuilderTimelineItem::query()
             ->select('*')
             ->selectRaw('obti.year_to - obti.year_from AS age')
-            ->from('organ_builder_timeline_items', 'obti')  
+            ->from('organ_builder_timeline_items', 'obti')
             ->join('organ_builders AS ob', 'ob.id', '=', 'obti.organ_builder_id')
             ->withTrashed()
             ->whereNull('obti.deleted_at')
@@ -196,12 +215,12 @@ class OrganBuilderRepository extends AbstractRepository
             ->whereNotIn('obti.id', [11, 28, 55, 52])
             ->whereNull('ob.user_id')
             ->orderBy('age', $direction);
-            
+
         if (isset($century)) {
             $query->whereRaw('FLOOR(obti.year_from / 100) = ?', [$century - 1]);
         }
-            
+
         return $query->get();
     }
-    
+
 }

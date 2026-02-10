@@ -64,7 +64,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         }
 
         $this->organ->viewed();
-        
+
         if (!Helpers::isCrawler()) {
             OrganRepository::logLastViewedOrgan($this->organ);
         }
@@ -128,14 +128,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         }
         return $groups;
     }
-    
+
     #[Computed]
     public function images()
     {
         $images = [];
         if ($this->organ->image_url) $images[] = [$this->organ->image_url, $this->organ->image_credits];
         if ($this->organ->outside_image_url) $images[] = [$this->organ->outside_image_url, $this->organ->outside_image_credits];
-        
+
         $path = $this->organ->getImageStoragePath();
         $pattern = storage_path("app/public/$path") . '/*.*';
         foreach (File::glob($pattern) as $filename) {
@@ -148,12 +148,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         return $images;
     }
-    
+
     #[Computed]
     public function recordings()
     {
         $recordings = [];
-        
+
         $path = $this->organ->getRecordingStoragePath();
         $pattern = storage_path("app/public/$path") . '/*.*';
         foreach (File::glob($pattern) as $filename) {
@@ -164,7 +164,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         return $recordings;
     }
-    
+
     #[Computed]
     public function discs()
     {
@@ -248,7 +248,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             $organs[] = $this->organ;
             $organs = $organs->sortBy('year_built');
         }
-        
+
         return $organs;
     }
 
@@ -350,7 +350,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             }
         }
     }
-    
+
     #[Computed]
     private function navigationItems()
     {
@@ -399,7 +399,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 'organ' => $this->organ,
             ]);
             $res = $AI->suggest($piece);
-            
+
             $this->suggestRegistrationDisposition = $this->highlightSuggestedRegisters($disposition, $res['registerRowNumbers']);
             $this->suggestRegistrationDisposition .= $appendix;
             $this->suggestRegistrationInfo = $res['recommendations'];
@@ -443,7 +443,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @isset($this->metaDescription)
             <meta name="description" content="{{ $this->metaDescription }}">
         @endisset
-        
+
         <meta property="og:title" content="{{ $this->title }}">
         @isset($this->metaDescription)
             <meta property="og:description" content="{{ $this->metaDescription }}">
@@ -489,7 +489,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <p class="lead">{{ $organ->perex }}</p>
             @endif
         </div>
-        
+
         <div class="text-center">
             <div class="position-relative d-inline-block">
                 @foreach ($this->images as [$imageUrl, $imageCredits])
@@ -504,10 +504,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         </div>
     </div>
-    
+
     <style>
       /* HACK */
-      
+
     </style>
     <table id="info" class="table show-table mt-3 mb-2">
         <tr>
@@ -525,11 +525,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 $showCaseOrganBuilder = isset($organ->caseOrganBuilder) || isset($organ->case_organ_builder_name);
                                 $showYearBuilt = $organ->organRebuilds->isNotEmpty() || $showCaseOrganBuilder;
                             @endphp
-                        
+
                             @if ($showCaseOrganBuilder)
                                 <span class="fw-normal">
                                     @if (isset($organ->caseOrganBuilder))
-                                        <x-organomania.organ-builder-link :organBuilder="$organ->caseOrganBuilder" :yearBuilt="$organ->case_year_built" :isCaseBuilt="true" />
+                                        <x-organomania.organ-builder-link :organBuilder="$organ->caseOrganBuilder" :timelineItem="$organ->caseTimelineItem" :yearBuilt="$organ->case_year_built" :isCaseBuilt="true" />
                                         <br />
                                     @elseif (isset($organ->case_organ_builder_name))
                                         <i class="bi bi-person-circle"></i>
@@ -544,12 +544,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     @endif
                                 </span>
                             @endif
-                                
+
                             <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :timelineItem="$organ->timelineItem" :yearBuilt="$showYearBuilt ? $organ->year_built : null" :showOrganWerk="$showCaseOrganBuilder" :signed="$this->signed" />
                             @if (!$showYearBuilt && isset($this->organBuilderActivePeriod))
                                 <span class="text-secondary">({{ $this->organBuilderActivePeriod }})</span>
                             @endif
-                            
+
                             @foreach ($organ->organRebuilds as $rebuild)
                                 @if ($rebuild->organBuilder)
                                     <br />
@@ -721,7 +721,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             <x-organomania.organ-link :organ="$relatedOrgan" :year="$relatedOrgan->year_built" :showOrganBuilder="true" :showShortPlace="true" />
                             @if (!$loop->last) <br /> @endif
                         @endforeach
-                            
+
                         @if ($organInMunicipalityGenitive)
                             @if ($this->relatedOrgans->isNotEmpty()) <br /> @endif
                             <a
@@ -777,7 +777,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             @if (!$loop->last) <br /> @endif
                         @endforeach
                     </div>
-                        
+
                     <div>
                         @foreach ($this->recordings as [$recordingUrl, $name])
                             <a class="icon-link icon-link-hover align-items-start link-primary text-decoration-none" href="{{ $recordingUrl }}" target="_blank">
@@ -799,7 +799,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </tr>
         @endif
     </table>
-    
+
     <div id="images" class="mb-4">
         @if ($organ->isPublic())
             <div class="small text-secondary text-end mb-4">
@@ -824,7 +824,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         @endisset
     </div>
-    
+
     <div class="accordion">
         @if ($this->shouldShowDisposition)
             <x-organomania.accordion-item
@@ -834,14 +834,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_DISPOSITION)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_DISPOSITION }}')"
             >
-                
+
                 <x-organomania.info-alert class="mb-2">
                     {!! __('<strong>Varhanní dispozice</strong> je souhrnem zvukových a&nbsp;technických vlastností varhan.') !!}
                     <span class="d-none d-md-inline">
                         {!! __('Kromě seznamu rejstříků (píšťalových řad) a&nbsp;pomocných zařízení může obsahovat i základní technickou charakteristiku varhan.') !!}
                     </span>
                 </x-organomania.info-alert>
-                
+
                 @if ($organ->dispositions->isNotEmpty())
                     <h5>{{ __('Podrobné interaktivní zobrazení') }}</h5>
                     <div class="list-group">
@@ -871,7 +871,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             {{ __('Jednoduché zobrazení') }}
                         </h5>
                     @endif
-                        
+
                     <div class="mb-3 lh-lg">
                         <span class="position-relative" style="top: 2px">
                             {{ __('AI') }}
@@ -905,7 +905,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 @can('useAI')
                                     data-bs-toggle="modal"
                                     data-bs-target="#suggestRegistrationModal"
-                                @else 
+                                @else
                                     data-bs-toggle="modal"
                                     data-bs-target="#premiumModal"
                                 @endcan
@@ -921,7 +921,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 <span class="d-sm-none">{{ __('Registrace') }}</span>
                             </button>
                         </span>
-                        
+
                         <span class="float-end position-relative">
                             <a
                                 class="btn btn-sm px-1"
@@ -944,7 +944,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             </button>
                         </span>
                     </div>
-                        
+
                     <div class="position-relative" style="clear: both">
                         <div wire:loading.block wire:target="suggestRegistration, describeDisposition" wire:loading.class="opacity-75" class="position-absolute text-center bg-white w-100 h-100" style="z-index: 10;">
                             <x-organomania.spinner class="align-items-center h-100" :margin="false" />
@@ -958,7 +958,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
                     {{-- přímo ze zobrazené dispozice se kopíruje chybně - nezkopíruje se správně odřádkování (asi kvůli word-wrap)) --}}
                     <div class="d-none" id="dispositionPlaintext">{!! $this->dispositionFormatter->formatAsPlaintext($this->organ->disposition, credits: false) !!}</div>
-                    
+
                     <x-organomania.info-alert class="mt-3 mb-1">
                         <span class="d-none d-sm-inline">
                             {!! __('Jednotlivé rejstříky jsou popsány v') !!} <a class="link-primary text-decoration-none" href="{{ route('dispositions.registers.index') }}" target="_blank">{{ __('Encyklopedii rejstříků') }}</a>.
@@ -970,7 +970,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endisset
             </x-organomania.accordion-item>
         @endif
-      
+
         @if (Gate::allows('viewWorshipSongs', $organ) && !$organ->concert_hall)
             <x-organomania.accordion-item
                 id="accordion-worship-songs"
@@ -1028,7 +1028,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
             </x-organomania.accordion-item>
         @endif
-        
+
         @if ($this->similarOrgans->isNotEmpty())
             <x-organomania.accordion-item
                 id="accordion-similarOrgans"
@@ -1085,12 +1085,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.accordion-item>
         @endisset
     </div>
-    
+
     <div class="hstack mt-3">
         <a class="btn btn-sm btn-outline-primary" href="{{ route('dispositions.create', ['organId' => $organ->id]) }}">
             <i class="bi-plus-lg"></i> {{ __('Přidat dispozici') }}
         </a>
-        
+
         <a class="btn btn-sm btn-secondary ms-auto me-1" wire:navigate href="{{ $this->previousUrl }}"><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>
         @can('update', $organ)
             &nbsp;
@@ -1103,16 +1103,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <i class="bi-share"></i> <span class="d-none d-sm-inline">{{ __('Sdílet') }}</span>
         </a>
     </div>
-            
+
     <x-organomania.modals.categories-modal :categoriesGroups="$this->organCategoriesGroups" :categoryClass="OrganCategory::class" />
-        
+
     <x-organomania.modals.register-modal
         :registerName="$registerName"
         :pitch="$pitch"
         :language="$this->dispositionLanguage"
         :excludeOrganIds="[$organ->id]"
     />
-        
+
     @isset($this->suggestRegistrationInfo)
         <x-organomania.toasts.ai-info-toast title="{{ __('Podrobnosti k registraci') }}">
             <x-organomania.warning-alert class="mb-2 d-print-none">
@@ -1136,7 +1136,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <x-organomania.toast toastId="describeDispositionFail" color="danger">
         {{ __('Omlouváme se, při zjišťování popisu dispozice došlo k chybě.') }}
     </x-organomania.toast>
-        
+
     <x-organomania.toast toastId="dispositionCopied">
         {{ __('Dispozice byla úspěšně zkopírována do schránky.') }}
     </x-organomania.toast>
@@ -1144,7 +1144,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <x-organomania.modals.share-modal :hintAppend="__('Sdílením varhan sdílíte i jejich varhanáře a dispozice.')" />
     <x-organomania.modals.suggest-registration-modal />
     <x-organomania.modals.premium-modal />
-        
+
     <x-organomania.modals.importance-hint-modal :title="__('Význam varhan')">
         {{ __('Význam varhan se eviduje, aby bylo možné nástroje přibližně seřadit podle důležitosti.') }}
         {{ __('Význam je určen hrubým odhadem na základě řady kritérií a nejde o hodnocení kvality varhan.') }}

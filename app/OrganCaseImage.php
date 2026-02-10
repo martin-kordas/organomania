@@ -14,7 +14,7 @@ use App\Models\OrganBuilderAdditionalImage;
 final readonly class OrganCaseImage {
 
     public OrganCategory $periodCategory;
-    
+
     public function __construct(
         public string $id,
 
@@ -24,14 +24,14 @@ final readonly class OrganCaseImage {
 
         public int $yearBuilt,
         public ?OrganCategory $caseCategory,
-        
+
         public ?OrganBuilder $organBuilder,
         public ?string $organBuilderName,
         public ?int $stopsCount,
         public ?int $organBuilderActiveFromYear,
-        
+
         public ?string $details,
-        
+
         public ?string $organBuilderExactName = null,
         public ?Organ $organ = null,
     )
@@ -46,18 +46,18 @@ final readonly class OrganCaseImage {
 
         if ($organ->hasCaseOrganBuilder()) {
             $yearBuilt = $organ->case_year_built;
-            
+
             $organBuilder = $organ->caseOrganBuilder;
             $organBuilderName = $organ->caseOrganBuilderNameLowercase ?? $organ->caseOrganBuilder?->initialsName;
             $stopsCount = null;
             $organBuilderActiveFromYear = $organ->caseOrganBuilder?->active_from_year ?? PHP_INT_MAX;
-            $organBuilderExactName = null;
+            $organBuilderExactName = $organ->caseTimelineItem?->nameLowercase;
 
             $details[] = __('dochována skříň');
         }
         else {
             $yearBuilt = $organ->year_built;
-            
+
             $organBuilder = $organ->organBuilder?->id === OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED ? null : $organ->organBuilder;
             $organBuilderName = $organ->organBuilderNameLowercase ?? $organ->timelineItem?->nameLowercase ?? $organBuilder?->initialsName ?? __('neznámý');
             $stopsCount = static::getOrganStopsCount($organ);
@@ -66,8 +66,8 @@ final readonly class OrganCaseImage {
 
             $sizeInfo = static::getOrganSizeInfo($organ);
             if (isset($sizeInfo)) $details[] = $sizeInfo;
-        }   
-        
+        }
+
         $detailsStr = empty($details) ? null : implode(', ', $details);
 
         $caseCategory = $organ->organCategories->map(

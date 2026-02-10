@@ -90,7 +90,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             );
             if ($case) $title = "{$case->organBuilder->name} – $title";
         }
-        
+
         $view->title($title);
     }
 
@@ -103,7 +103,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $organsQuery = $this->organRepository->getCaseImagesOrgansQuery()
             ->with(['organBuilder', 'timelineItem', 'organCategories'])
             ->withCount('organRebuilds');
-            
+
         // zobrazují-li se fotografie jen 1 varhanáře, nemusíme odfiltrovávat fotky zobrazené u jiných varhanářů
         //  - matoucí: počet fotek bude vyšší než počet uvedený v selecu varhanářů
         $withoutOrganExists = !($this->filterOrganBuilders && count($this->filterOrganBuilders) === 1);
@@ -195,7 +195,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             OrganCaseImage::fromOrgan(...)
         );
         $cases = collect($organCases);
-        
+
         if (!$this->filterOrganomaniaOrgans) {
             $additionalImageCases = $additionalImagesQuery->get()->map(
                 OrganCaseImage::fromAdditionalImage(...)
@@ -352,7 +352,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 }; ?>
 
 <div class="cases container">
-  
+
     @if (!isset($this->organBuilder))
         @push('meta')
             <meta name="description" content="{{ __('Prohlédněte si výtvarné prvky varhanních skříní, pozorujte jejich stylový vývoj a specifické znaky konkrétních varhanářů.') }}">
@@ -372,7 +372,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             {{ __('Galerie varhanních skříní') }}
         </a>
     </h3>
-    
+
     <div class="m-auto mb-5" style="max-width: 600px;">
         <x-organomania.info-alert class="mb-3 mt-1 d-inline-block m-auto">
             {{ __('Porovnání fotografií varhanních skříní umožní porozumět jejich výtvarnému vývoji a identifikovat specifické znaky varhanářů.') }}
@@ -401,7 +401,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 live
             />
         </div>
-        
+
         <div class="mb-1">
             <label class="form-check-label radio-label">{{ __('Seskupit dle') }}</label>
             @foreach ($this->groupByOptions as $value => $label)
@@ -478,13 +478,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     {{ __('Ostatní varhanáři') }}
                                 @endisset
                                 @break
-                        
+
                             @case('periodCategory')
                                 <a class="text-decoration-none" href="{{ route('about-organ') }}#periodCategory{{ $cases[0]->periodCategory->value }}" target="_blank">
                                     {{ __('Období') }} {{ __($cases[0]->periodCategory->getName()) }}
                                 </a>
                                 @break
-                        
+
                             @case('caseCategory')
                                 {{ $cases[0]->caseCategory->getName() }}
                                 @break
@@ -522,7 +522,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <div class="markdown mt-2 small">{!! $this->markdownConvertor->convert($this->organBuilder->description, newTab: true) !!}</div>
                 @endif
 
-                <div id="group{{ $groupId }}" class="group flex-wrap flex-row column-gap-4 row-gap-3 mt-3 justify-content-center collapse show">
+                <div id="group{{ $groupId }}" class="group flex-wrap flex-row column-gap-3 column-gap-md-4 row-gap-3 mt-3 justify-content-center collapse show">
                     @foreach ($cases as $case)
                         <div class="text-center">
                             <a href="{{ $case->imageUrl }}" target="_blank">
@@ -532,8 +532,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                         title="{{ $title }}"
                                     @endif
                                 >
-                                    <img 
-                                        src="{{ ThumbnailController::getThumbnailUrl($case->imageUrl) }}" 
+                                    <img
+                                        src="{{ ThumbnailController::getThumbnailUrl($case->imageUrl) }}"
                                         alt="{{ $case->name }} &ndash; {{ __('varhany') }}"
                                         data-large-img-url="{{ $case->imageUrl }}"
                                         class="case-image rounded border"
@@ -541,10 +541,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     >
                                 </div>
                             </a>
-                            <div class="small text-center mt-1">
+                            <div class="image-description small text-center mt-1 mx-auto">
                                 <p
                                     class="text-truncate m-auto"
-                                    style="max-width: 21em;"
                                     title="{{ $case->name }}"
                                 >
                                     @isset ($case->organ)
@@ -554,7 +553,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                         {{ $case->name }}
                                     @endisset
                                 </p>
-                                <div class="text-secondary small">
+                                <div class="text-secondary text-truncate small">
                                     @if ($organBuilderName = $this->getCaseOrganBuilderName($case))
                                         @if ($case->organBuilder && $case->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED && $this->groupBy !== 'organBuilder')
                                             <x-organomania.organ-builder-link
@@ -569,7 +568,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                             {{ $organBuilderName }}
                                         @endif
                                     @endif
-                                    ({{ $this->getCaseDetails($case) }})
+                                    <span title="{{ $this->getCaseDetails($case) }}">
+                                        ({{ $this->getCaseDetails($case) }})
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -578,11 +579,26 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         @endforeach
     @endif
-    
+
     <p class="small text-center text-secondary">
         <strong>{{ __('Poděkování přispěvatelům') }}</strong>:
         <br />
-        Lukáš Dvořák, Jan Fejgl, Jiří Fuks, Filip Harant, Robert Hlavatý, Jaroslav Kocůrek, Kristýna Kosíková, Jiří Krátký, Karel Martínek, Martin Moudrý, Jiří Stodůlka, Štěpán Svoboda, Petr Vacek, Ondřej Valenta a další
+        Lukáš&nbsp;Dvořák,
+        <a class="text-decoration-none" href="https://www.instagram.com/janfejgl.organist/" target="_blank">Jan Fejgl</a>,
+        Jiří&nbsp;Fuks,
+        Filip&nbsp;Harant,
+        Robert&nbsp;Hlavatý,
+        <a class="text-decoration-none" href="https://marijakesfoto.blogspot.com/p/chramove-varhany.html" target="_blank">Marie Jakešová</a>,
+        Jaroslav&nbsp;Kocůrek,
+        Kristýna&nbsp;Kosíková,
+        Jiří&nbsp;Krátký,
+        Karel&nbsp;Martínek,
+        Martin&nbsp;Moudrý,
+        Jiří&nbsp;Stodůlka,
+        Štěpán&nbsp;Svoboda,
+        Petr&nbsp;Vacek,
+        Ondřej&nbsp;Valenta
+        a&nbsp;další
     </p>
 </div>
 

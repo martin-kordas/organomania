@@ -244,7 +244,7 @@ div.side-buttons {
     }
     .table-thumbnail-full {
         visibility: hidden;
-        
+
         max-width: 300px;
         max-height: 350px;
         transform: translate(-50%, -50%);
@@ -619,7 +619,7 @@ table.show-table {
             max-height: 300px;
         }
     }
-    
+
     .disc-embed {
         max-width: 34em;
         width: 100%;
@@ -765,7 +765,7 @@ table.show-table {
 
 .disposition-diff {
     max-width: 850px;
-    
+
     .select2-selection__rendered {
         white-space: normal !important;
     }
@@ -952,6 +952,17 @@ table.show-table {
     .case-image {
         max-height: 15em;
         max-width: 100%;
+    }
+    .image-description {
+        max-width: 21em;
+    }
+    @media screen and (max-width: 767px) {
+        .case-image {
+            max-height: 7em;
+        }
+        .image-description {
+            max-width: 12em;
+        }
     }
     .radio-label {
         width: 5.5em;

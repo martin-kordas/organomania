@@ -5,7 +5,7 @@
 @endphp
 
 <x-organomania.thumbnail :$organ :$modal>
-    
+
     <x-slot:header>
         @isset($organ)
             <h5 class="card-title">
@@ -19,7 +19,7 @@
                         ({{ $organ->preserved_case ? __('dochována skříň') : __('nedochováno') }})
                     </span>
                 @endif
-                
+
                 @if ($organ->user_id)
                     <span data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}">
                         <i class="bi-lock text-warning"></i>
@@ -28,7 +28,7 @@
             </h5>
             <div class="mb-1">
                 @if (isset($organ->caseOrganBuilder))
-                    <x-organomania.organ-builder-link :organBuilder="$organ->caseOrganBuilder" :yearBuilt="$organ->case_year_built" :isCaseBuilt="true" :shortDetails="true" />
+                    <x-organomania.organ-builder-link :organBuilder="$organ->caseOrganBuilder" :timelineItem="$organ->caseTimelineItem" :yearBuilt="$organ->case_year_built" :isCaseBuilt="true" :shortDetails="true" />
                     <br />
                 @elseif (isset($organ->case_organ_builder_name) && $organ->case_organ_builder_name !== 'neznámý')
                     <i class="bi bi-person-circle"></i>
@@ -37,7 +37,7 @@
                     <span class="text-secondary">({{ implode(', ', $details) }})</span>
                     <br />
                 @endif
-                
+
                 @isset ($organ->organ_builder_name)
                     <i class="bi bi-person-circle"></i>
                     {{ $organ->organ_builder_name }}
@@ -70,5 +70,5 @@
             </div>
         @endisset
     </x-slot:header>
-    
+
 </x-organomania.thumbnail>

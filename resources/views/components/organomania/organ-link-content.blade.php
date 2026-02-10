@@ -1,6 +1,6 @@
 @props([
     'organ', 'name' => null, 'size' => null, 'year' => null,
-    'yearBuilt' => null, 'showOrganBuilder' => false, 'showOrganBuilderExactOnly' => false, 'showSizeInfo' => false, 'showSizeInfoOriginal' => false, 'showShortPlace' => false,
+    'yearBuilt' => null, 'showOrganBuilder' => false, 'showOrganBuilderExactOnly' => false, 'showCaseOrganBuilderExactOnly' => false, 'showSizeInfo' => false, 'showSizeInfoOriginal' => false, 'showShortPlace' => false,
     'isRebuild' => false, 'isRenovation' => false, 'showIsHistoricalCase' => false,
 ])
 
@@ -11,6 +11,9 @@
     $details = [];
     if ($showOrganBuilderExactOnly && isset($organ->timelineItem?->name)) {
         $details[] = $organ->timelineItem->nameLowercaseWithoutComma;
+    }
+    elseif ($showCaseOrganBuilderExactOnly && isset($organ->caseTimelineItem?->name)) {
+        $details[] = $organ->caseTimelineItem->nameLowercaseWithoutComma;
     }
     elseif ($showOrganBuilder) {
         if (isset($organ->organ_builder_name)) $details[] = str_replace(',', '', $organ->organBuilderNameLowercase);

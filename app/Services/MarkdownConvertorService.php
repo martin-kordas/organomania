@@ -104,7 +104,7 @@ class MarkdownConvertorService
         return str($markdown)
             // letopočty šedě (např. "1900", "1900-1950")
             //  - nefunguje pro částečně známé letopočty ("1751-?", "*1980", "1900?-1950" atd.)
-            ->replaceMatches('/\([0-9]{4}([–-][0-9]{4})?\)/u', '<span class="text-secondary">$0</span>')
+            ->replaceMatches('/\([*†]?[0-9]{4}([–-][0-9]{4})?\)/u', '<span class="text-secondary">$0</span>')
             // informace o varhanách šedě (např. "1865, II/35")
             //  - nefunguje, je-li uveden jen počet manuálů (např. "1865, II")
             ->replaceMatches('/\([^()]*[IV]+\/[0-9]+[^()]*\)/u', '<span class="text-secondary">$0</span>')

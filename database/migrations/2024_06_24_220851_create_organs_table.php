@@ -31,6 +31,7 @@ return new class extends Migration
             $table->integer('year_renovated')->nullable();
             $table->foreignId('case_organ_builder_id')->nullable()->constrained('organ_builders');
             $table->string('case_organ_builder_name', length: 200)->nullable();
+            $table->foreignId('case_organ_builder_timeline_item_id')->nullable()->constrained('organ_builder_timeline_items');
             $table->integer('case_year_built')->nullable();
             $table->integer('stops_count')->nullable();
             $table->integer('manuals_count')->nullable();
@@ -56,7 +57,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->fullText(['perex', 'description', 'place', 'municipality'], name: 'organs_perex_description_place_municipality_fulltext');
             $table->fullText('place');
             $table->fullText('municipality');
