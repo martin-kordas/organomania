@@ -21,7 +21,7 @@ use Google\Service\CloudBuild\Build;
 
 class OrganRepository extends AbstractRepository
 {
-    
+
     const
         ORGANS_WITH = [
             'organBuilder', 'timelineItem', 'organRebuilds', 'organRebuilds.organBuilder',
@@ -31,11 +31,11 @@ class OrganRepository extends AbstractRepository
         ORGANS_WITH_COUNT = ['organCustomCategories', 'likes'],
         CATEGORIES_WITH_COUNT = ['organs'],
         CUSTOM_CATEGORIES_WITH_COUNT = ['organs'];
-    
+
     protected const MODEL_CLASS = Organ::class;
-    
+
     const SESSION_KEY_LAST_VIEWED_ORGANS = 'organs.repository.last-viewed-organs';
-    
+
     public function getOrgansQuery(
         array $filters = [], array $sorts = [],
         $with = self::ORGANS_WITH, $withCount = self::ORGANS_WITH_COUNT
@@ -46,28 +46,28 @@ class OrganRepository extends AbstractRepository
         if (!empty($with)) $query->with($with);
         if (!empty($withCount)) $query->withCount($withCount);
         $filterNear = false;
-        
+
         foreach ($filters as $field => $value) {
             $value = $this->trimFilterValue($value);
-            
+
             switch ($field) {
                 case 'locality':
                     $query->where(function (Builder $query) use ($value) {
                         $valueWildcardMultiWord = preg_replace('/[ ]/u', '%', $value, limit: 3);
-                      
+
                         $query
                           ->whereAny(['organs.place', 'organs.municipality'], 'like', "%$value%")
                           ->orWhereRaw('CONCAT(organs.municipality, " ", organs.place) LIKE ?', ["%{$valueWildcardMultiWord}%"])
                           ->orWhereRaw('CONCAT(organs.place, " ", organs.municipality) LIKE ?', ["%{$valueWildcardMultiWord}%"]);
                     });
                     break;
-                
+
                 case 'disposition':
                     $query->where(function (Builder $query) use ($field, $value) {
                         $this->filterLike($query, $field, $value);
                         $query->orWhereFulltext($field, $value);
                     });
-                    
+
                     //  - fulltextové hledání zabraňuje nalezení přesného výskytu (např. pro "Kryt jemný" najde i dispozice, kde je jen "Kryt")
                     //  - dispozice s přesným výskytem proto řadíme přednostně, fulltextové shody řadíme dle míry shody
                     //  - uživatelsky nastavené řazení je tím potlačeno, ale aplikuje se jako dodatečné kritérium
@@ -81,11 +81,11 @@ class OrganRepository extends AbstractRepository
                         ) DESC
                     ', [$value]);
                     break;
-                
+
                 case 'manualsCount':
                     $query->whereIn('manuals_count', $value);
                     break;
-                
+
                 case 'organBuilderId':
                     $query->where(function (Builder $query) use ($value) {
                         $query
@@ -95,22 +95,22 @@ class OrganRepository extends AbstractRepository
                             });
                     });
                     break;
-                
+
                 case 'caseOrganBuilderId':
                     $query->whereRaw('IFNULL(case_organ_builder_id, organ_builder_id) = ?', $value);
                     break;
-                
+
                 case 'renovationOrganBuilderId':
                     $query->where('renovation_organ_builder_id', $value);
                     break;
-                
+
                 case 'preservedCase':
                 case 'preservedOrgan':
                 case 'concertHall':
                     $column = str($field)->snake();
                     $query->where($column, $value ? 1 : 0);
                     break;
-                
+
                 case 'foreignOrganBuilder':
                     $query->whereHas('organBuilder', function (Builder $query) {
                         $query
@@ -118,7 +118,7 @@ class OrganRepository extends AbstractRepository
                             ->where('id', '!=', OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED);
                     });
                     break;
-                
+
                 case 'hasDisposition':
                     $query->where(function (Builder $query) {
                         $query
@@ -127,11 +127,11 @@ class OrganRepository extends AbstractRepository
                     });
                     break;
 
-            
+
                 case 'dioceseId':
                     $query->where('organs.diocese_id', $value);
                     break;
-                    
+
                 case 'id':
                 case 'regionId':
                 case 'importance':
@@ -139,7 +139,7 @@ class OrganRepository extends AbstractRepository
                 case 'isPrivate':
                     $this->filterEntityQuery($query, $field, $value);
                     break;
-                
+
                 case 'nearLongitude':
                 case 'nearLatitude':
                 case 'nearDistance':
@@ -148,18 +148,18 @@ class OrganRepository extends AbstractRepository
                         $filterNear = true;
                     }
                     break;
-                    
+
                 case 'important':
                     if ($value) {
                         // nedůležité varhany nezobrazujeme v hlavním katalogu (nejsou-li promoted)
                         $query->where(function (Builder $query) {
                             $query
-                                ->where('importance', '>', 0)
+                                ->where('organs.importance', '>', 0)
                                 ->orWhere(fn (Builder $query) => $query->promoted());
                         });
                     }
                     break;
-                
+
                 default:
                     throw new \LogicException;
             }
@@ -187,16 +187,16 @@ class OrganRepository extends AbstractRepository
                         ->orderByRaw('organ_builders.id = ?', [OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED])
                         ->orderBy($orderExpression, $direction);
                     break;
-                
+
                 case 'original_stops_count':
                     $query->orderByRaw("IFNULL(original_stops_count, stops_count) $direction");
                     break;
-                
+
                 case 'manuals_count':
                     $this->orderBy($query, $field, $direction);
                     $this->orderBy($query, 'stops_count', $direction);
                     break;
-                
+
                 case 'distance':
                     if ($filterNear) {
                         $this->orderBy($query, $field, $direction);
@@ -206,18 +206,18 @@ class OrganRepository extends AbstractRepository
                 case 'random':
                     $query->inRandomOrder();
                     break;
-                
+
                 default:
                     $this->orderBy($query, $field, $direction);
             }
         }
-        
+
         $query->orderBy('organs.municipality');
         $query->orderBy('organs.id');
-        
+
         return $query;
     }
-    
+
     public function getOrgans(
         array $filters = [], array $sorts = [],
         $with = self::ORGANS_WITH, $withCount = self::ORGANS_WITH_COUNT,
@@ -228,7 +228,7 @@ class OrganRepository extends AbstractRepository
         if ($perPage === false) return $query->get();
         else return $query->paginate($perPage);
     }
-    
+
     public function getCategories(
         $withCount = self::CATEGORIES_WITH_COUNT,
         $allowIds = []
@@ -236,7 +236,7 @@ class OrganRepository extends AbstractRepository
     {
         return $this->getCategoriesHelp(new OrganCategoryModel, $withCount, $allowIds);
     }
-    
+
     public function getCustomCategories(
         $withCount = self::CUSTOM_CATEGORIES_WITH_COUNT,
         $allowIds = []
@@ -245,7 +245,7 @@ class OrganRepository extends AbstractRepository
         $mainEntityRelation = 'organs';
         return $this->getCustomCategoriesHelp(new OrganCustomCategoryModel, $mainEntityRelation, $withCount, $allowIds);
     }
-    
+
     public function getOrganOfDay()
     {
         return Organ::query()
@@ -261,7 +261,7 @@ class OrganRepository extends AbstractRepository
             ->take(1)
             ->first();
     }
-    
+
     public function getSimilarOrgans(Organ $organ)
     {
         $organs = $this->getSimilarOrgansHelp($organ);
@@ -278,7 +278,7 @@ class OrganRepository extends AbstractRepository
         $categories = $organ->organCategories->map(
             fn (OrganCategoryModel $category) => $category->getEnum()
         );
-        
+
         // přestavované varhany jsou specifické, podobné varhany k nim nedohledáváme
         if ($organ->organRebuilds->isNotEmpty()) return collect();
 
@@ -287,7 +287,7 @@ class OrganRepository extends AbstractRepository
             fn (OrganCategory $category) => $category->isTechnicalCategory()
         );
         if ($technicalCategories->count() < 2) return collect();
-        
+
         // čím starší varhany, tím větší rozptyl roku postavení
         $yearRange = match (true) {
             $organ->year >= 1800 => 30,
@@ -300,7 +300,7 @@ class OrganRepository extends AbstractRepository
         $stopsAbsoluteRange = 5;
         $stopsRelativeRange = $organ->stops_count * $stopsRangeCoeff;
         $stopsRange = max($stopsAbsoluteRange, $stopsRelativeRange);
-        
+
         // kategorie největší/nejstarší a kategorie období se nemusí shodovat
         $categoryIds = $categories
             ->filter(
@@ -309,7 +309,7 @@ class OrganRepository extends AbstractRepository
             ->map(
                 fn (OrganCategory $category) => $category->value
             );
-        
+
         $query = Organ::query()
             ->select('*')
             ->where('id', '!=', $organ->id)
@@ -329,14 +329,14 @@ class OrganRepository extends AbstractRepository
             ->public()
             ->orderBy('distance')
             ->take(5);
-        
+
         $this->selectDistance($query, $organ->latitude, $organ->longitude);
 
         return $query
             ->get()
             ->sortBy('year_built');
     }
-    
+
     public function getOrganInMunicipalityCount(string $municipality)
     {
         return Organ::query()
@@ -372,11 +372,11 @@ class OrganRepository extends AbstractRepository
             ->selectRaw('year_built AS year_built1')
             ->where('nonoriginal_case', 0)
             ->whereNotNull('year_built');
-            
+
         if ($withoutOrganExists) {
             $query->where('organ_exists', 0);
         }
-        
+
         return $query;
     }
 
@@ -415,18 +415,18 @@ class OrganRepository extends AbstractRepository
 
         return $organsCount + $additionalImagesCount;
     }
-    
+
     public static function logLastViewedOrgan(Organ $organ)
     {
         $organIds = static::getLastViewedOrganIds()->toArray();
-        
+
         $organIds = array_diff($organIds, [$organ->id]);
         if (count($organIds) >= 6) array_pop($organIds);
         array_unshift($organIds, $organ->id);
-        
+
         session([static::SESSION_KEY_LAST_VIEWED_ORGANS => $organIds]);
     }
-    
+
     public static function getLastViewedOrganIds()
     {
         $organIds = session(static::SESSION_KEY_LAST_VIEWED_ORGANS, []);
@@ -439,5 +439,5 @@ class OrganRepository extends AbstractRepository
             ->where('municipality', $municipality)
             ->first();
     }
-    
+
 }

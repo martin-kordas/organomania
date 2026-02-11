@@ -78,7 +78,7 @@
                             @endif
                         </td>
                     @endif
-                    <td data-bs-toggle="tooltip" data-bs-title="{{ $organ->region?->name }}">
+                    <td @isset($organ->region_id) data-bs-toggle="tooltip" data-bs-title="{{ $organ->region?->name }}" @endisset>
                         @isset($organ->region_id)
                             <img width="70" class="region me-1" src="{{ Vite::asset("resources/images/regions/{$organ->region_id}.png") }}" />
                         @endisset
@@ -90,9 +90,9 @@
                         @else
                             <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :timelineItem="$organ->timelineItem" placeholder="{{ __('neznámý') }}" :iconLink="false" />
                         @endisset
-                        
+
                         @if ($organ->organRebuilds->isNotEmpty())
-                            <span class="text-body-secondary">(přestavěno)</span>
+                            <span class="text-body-secondary">({{ __('přestavěno')  }})</span>
                         @endif
                     </td>
                     <td class="text-end">{{ $organ->year_built }}</td>

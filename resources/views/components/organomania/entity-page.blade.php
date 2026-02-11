@@ -1,10 +1,12 @@
 @props(['metaDescription'])
 
 @php
+    use App\Enums\PublicationType;
     use App\Models\Organ;
     use App\Models\OrganBuilder;
     use App\Models\Festival;
     use App\Models\Competition;
+    use App\Models\Publication;
     use App\Helpers;
     use Carbon\Carbon;
     use Illuminate\Support\Facades\Auth;
@@ -119,7 +121,7 @@
                         </ul>
                     </div>
                 @endif
-              
+
                 @if (!in_array($this->viewType, ['map', 'timeline']))
                     <div @class(['per-page-div', 'd-none' => $this->viewType === 'thumbnails', 'd-lg-block' => $this->viewType === 'thumbnails'])>
                         <label for="perPage" class="form-label mb-1 bg-white rounded">
@@ -136,13 +138,21 @@
             </div>
         </div>
     </div>
-    
+
     <div class="entity-page-container container ps-1">
+        @isset($this->heading)
+            <h3 class="mb-4 text-center">
+                <a class="text-decoration-none" href="{{ route($this->currentRoute) }}" wire:navigate>
+                    {{ $this->heading }}
+                </a>
+            </h3>
+        @endisset
+
         {{-- rychlé filtry --}}
         @if ($this->showQuickFilter)
             <form class="filters container-sm mb-2 ps-0">
                 <div class="row gx-4 gy-2 justify-content-center align-items-center">
-                    @if (in_array($this->entityClass, [Festival::class, Competition::class]))
+                    @if (in_array($this->entityClass, [Festival::class, Competition::class, Publication::class]))
                         @if ($this->viewType !== 'timeline')
                             <div class="col col-md-6">
                                 <input
@@ -150,14 +160,14 @@
                                     size="30"
                                     class="form-control"
                                     type="search"
-                                    wire:model.live="filterNameLocality"
+                                    wire:model.live="{{ $this->entityClass === Publication::class ? "filterAll" : "filterNameLocality" }}"
                                     placeholder="{{ __('Hledat') }} {{ $this->entityNamePluralAkuzativ }}&hellip;"
                                     @keydown.enter.prevent
                                 />
                             </div>
                         @endif
                     @else
-                        <div class="col-md-8 col-lg-7 col-xl-6 hstack">
+                        <div @class(['col-md-8 col-lg-7 col-xl-6 hstack', 'd-none' => !$this->isCategorizable])>
                             <div class="input-group">
                                 <div class="input-group-text category-input-group-text">
                                     <span data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit přehled kategorií') }}" onclick="setTimeout(removeTooltips);">
@@ -209,44 +219,51 @@
         @endif
 
         {{-- subnavigace --}}
-        <div class="container d-flex mb-3 mt-3 px-0">
-            <div class="w-100">
-            <ul class="nav nav-underline align-center justify-content-center row-gap-1">
-                <x-organomania.view-type-nav-item viewType="thumbnails">
-                    <i class="bi-image"></i> {{ __('Miniatury') }}
-                </x-organomania.view-type-nav-item>
-                <x-organomania.view-type-nav-item viewType="table">
-                    <i class="bi-table"></i> {{ __('Tabulka') }}
-                </x-organomania.view-type-nav-item>
-                <x-organomania.view-type-nav-item viewType="map">
-                    <i class="bi-pin-map"></i> {{ __('Mapa') }}
-                </x-organomania.view-type-nav-item>
-                @if (in_array($this->entityClass, [Organ::class]))
-                    <x-organomania.view-type-nav-item viewType="chart">
-                        <i class="bi-bar-chart-line"></i> {{ __('Srovnat velikost') }}
+        @if (count($this->viewTypes) > 1)
+            <div class="container d-flex mb-3 mt-3 px-0">
+                <div class="w-100">
+                <ul class="nav nav-underline align-center justify-content-center row-gap-1">
+                    <x-organomania.view-type-nav-item viewType="thumbnails">
+                        <i class="bi-image"></i> {{ __('Miniatury') }}
                     </x-organomania.view-type-nav-item>
-                @endif
-                @if (in_array($this->entityClass, [OrganBuilder::class, Festival::class]))
-                    <x-organomania.view-type-nav-item viewType="timeline">
-                        <i class="bi-clock"></i> {{ __('Časová osa') }}
+                    <x-organomania.view-type-nav-item viewType="table">
+                        <i class="bi-table"></i> {{ __('Tabulka') }}
                     </x-organomania.view-type-nav-item>
-                @endif
-            </ul>
+                    <x-organomania.view-type-nav-item viewType="map">
+                        <i class="bi-pin-map"></i> {{ __('Mapa') }}
+                    </x-organomania.view-type-nav-item>
+                    @if (in_array($this->entityClass, [Organ::class]))
+                        <x-organomania.view-type-nav-item viewType="chart">
+                            <i class="bi-bar-chart-line"></i> {{ __('Srovnat velikost') }}
+                        </x-organomania.view-type-nav-item>
+                    @endif
+                    @if (in_array($this->entityClass, [OrganBuilder::class, Festival::class]))
+                        <x-organomania.view-type-nav-item viewType="timeline">
+                            <i class="bi-clock"></i> {{ __('Časová osa') }}
+                        </x-organomania.view-type-nav-item>
+                    @endif
+                </ul>
+                </div>
             </div>
-        </div>
+        @else
+            <br />
+        @endif
 
-        @php($showFilterRegionHint = $this->entityClass !== Competition::class && !$this->filterRegionId && !$this->filterNearLatitude && !in_array($this->viewType, ['map', 'timeline', 'chart']))
+        @php($showFilterRegionHint = !in_array($this->entityClass, [Competition::class, Publication::class]) && !$this->filterRegionId && !$this->filterNearLatitude && !in_array($this->viewType, ['map', 'timeline', 'chart']))
         @php($showOrganInfoHint = $this->entityClass === Organ::class && !in_array($this->viewType, ['chart']))
         @php($showSortImportaceHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && !in_array($this->viewType, ['map', 'timeline']))
         @php($showSortActiveFromYearHint = $this->entityClass === OrganBuilder::class && $this->sortColumn !== 'active_from_year' && !in_array($this->viewType, ['map', 'timeline']))
         @php($showOrganImportanceHint = $this->entityClass === Organ::class && $this->viewType === 'map' && $this->activeFiltersCount <= 0)
         @php($showOrganBuilderImportanceHint = $this->entityClass === OrganBuilder::class && $this->viewType === 'timeline' && $this->activeFiltersCount <= 0)
         @php($showFestivalsMonthHint = $this->entityClass === Festival::class && $this->viewType === 'map' && $this->activeFiltersCount <= 0)
+        @php($showPublicationTypeHint = $this->entityClass === Publication::class && $this->activeFiltersCount <= 0)
+        @php($showPublicationOnlineOnlyHint = $this->entityClass === Publication::class && $this->activeFiltersCount <= 0)
         @php($showCompetitionsWarning = $this->entityClass === Competition::class)
-        
+
         @if (
             $showFilterRegionHint || $showOrganInfoHint || $showOrganImportanceHint || $showOrganBuilderImportanceHint
             || $showSortImportaceHint || $showSortActiveFromYearHint || $showFestivalsMonthHint || $showCompetitionsWarning
+            || $showPublicationTypeHint || $showPublicationOnlineOnlyHint
         )
             <div class="mb-2">
                 @if ($showFilterRegionHint)
@@ -275,7 +292,7 @@
                         </x-organomania.info-alert>
                     </div>
                 @endif
-              
+
                 @if ($showSortImportaceHint)
                     <div class="text-center">
                         <x-organomania.info-alert class="d-inline-block mb-1">
@@ -284,7 +301,7 @@
                         </x-organomania.info-alert>
                     </div>
                 @endif
-              
+
                 @if ($showSortActiveFromYearHint)
                     <div class="text-center">
                         <x-organomania.info-alert class="d-inline-block mb-1">
@@ -304,7 +321,25 @@
                     </div>
                 @endif
 
-                @if ($showCompetitionsWarning) 
+                @if ($showPublicationTypeHint)
+                    <div class="text-center">
+                        <x-organomania.info-alert class="d-inline-block mb-1">
+                            {{ __('Zobrazte si jen') }}
+                            <a class="link-primary text-decoration-none" href="#" @click="$wire.set('filterPublicationTypeId', {{ Js::from(PublicationType::Book) }})">{{ __('knihy') }}</a>.
+                        </x-organomania.info-alert>
+                    </div>
+                @endif
+
+                @if ($showPublicationOnlineOnlyHint)
+                    <div class="text-center">
+                        <x-organomania.info-alert class="d-inline-block mb-1">
+                            {{ __('Zobrazte si') }} {{ __('publikace') }}
+                            <a class="link-primary text-decoration-none" href="#" @click="$wire.set('filterOnlineOnly', true)">{{ __('dostupné online') }}</a>.
+                        </x-organomania.info-alert>
+                    </div>
+                @endif
+
+                @if ($showCompetitionsWarning)
                     <div class="text-center">
                         <x-organomania.warning-alert class="d-inline-block mb-1">
                             {!! __('Uváděné parametry soutěží vychází z posledního známého ročníku a <strong>nemusí být aktuální</strong>! Pro aktuální informace navštivte vždy oficiální web soutěže.') !!}
@@ -317,7 +352,7 @@
         @if ($this->showMunicipalityInfo)
             <x-organomania.municipality-info :municipalityInfo="$this->municipalityInfo" />
         @endif
-        
+
         <livewire:dynamic-component
             :is="$this->entityPageViewComponent"
             :filterId="$this->filterId"
@@ -338,6 +373,14 @@
             :filterName="$this->filterName ?? null"
             :filterMunicipality="$this->filterMunicipality ?? null"
             :filterNameLocality="$this->filterNameLocality ?? null"
+            :filterAll="$this->filterAll ?? null"
+            :filterPublicationTypeId="$this->filterPublicationTypeId ?? null"
+            :filterPublicationTopicId="$this->filterPublicationTopicId ?? null"
+            :filterAuthorId="$this->filterAuthorId ?? null"
+            :filterRegionId="$this->filterRegionId ?? null"
+            :filterJournal="$this->filterJournal ?? null"
+            :filterLanguage="$this->filterLanguage ?? null"
+            :filterOnlineOnly="$this->filterOnlineOnly ?? null"
             :filterMonth="$this->filterMonth ?? null"
             :filterSearch="$this->filterSearch ?? null"
             :search="$this->search ?? null"
@@ -350,7 +393,7 @@
             :activeFiltersCount="$this->activeFiltersCount"
             :lazy="!Helpers::isCrawler()"
         />
-        
+
         <x-organomania.modals.organ-filters-modal
             :organCategoriesGroups="$this->isCategorizable ? $this->organCategoriesGroups : null"
             :organCustomCategoriesGroups="$this->isCategorizable ? $this->organCustomCategoriesGroupsForModal : null"
@@ -361,12 +404,12 @@
             :isCustomCategoryOrgans="$this->isCustomCategoryOrgans"
             :entityClass="$this->entityClass"
         />
-          
+
         @if ($this->isCategorizable)
             <x-organomania.modals.categories-modal :categoriesGroups="$this->organCategoriesGroups" :categoryClass="$this->categoryClass" />
         @endif
     </div>
-        
+
     <x-organomania.toast toastId="sortByDistanceRunning">
         {{ __('Počkejte prosím, probíhá Vaší zjišťování polohy') }}&hellip;
     </x-organomania.toast>
@@ -384,12 +427,12 @@
             500
         )
     }
-    
+
     window.setFilterMonth = function (month) {
         $wire.set('filterMonth', month)
         return false
     }
-    
+
     window.setViewType = function (viewType) {
         // počkáme, než se view komopnenta donačte
         //  - řeší problém, kdy přepnutí viewType (a tím pádem i view komponenty) z neznámého důvodu způsobí ve view komponentě chybu
@@ -398,27 +441,27 @@
             $wire.setViewType(viewType)
         }
     }
-        
+
     window.sortByDistance = function ($wire, direction = 'asc', nearDistance = 1000000) {
         let handleError = function (errorToastId) {
             if (errorToastId) showToast(errorToastId)
             openModal('#filtersModal')
             useRegionFilter()
         }
-            
+
         let sort = function () {
             $wire.sort('distance', direction)
         }
-        
+
         let getPositionSuccess = function ({ coords }) {
             $wire.filterNearLatitude = coords.latitude
             $wire.filterNearLongitude = coords.longitude
             $wire.filterNearDistance = nearDistance
             sort()
         }
-            
+
         let getPositionError = () => handleError('sortByDistanceError')
-        
+
         // souřadnice již v komponentě existují, není nutné provádět geolokaci
         if ($wire.filterNearLatitude) sort();
         else if (!navigator.geolocation) handleError()

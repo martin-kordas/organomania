@@ -31,10 +31,11 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+
         {{-- TODO: asi není dobře, protože každá jazyková verze by měla mít svoji vlastní kanonickou URL --}}
         {{--    - zde česká verze (varhanari) má za kanonickou anglickou verzi (organ-builders) --}}
         {{--    - oprava problematická, protože jazyk je určen i stavově pomocí cookie a nesouvisí s jazykem použitým v URL path --}}
@@ -42,7 +43,7 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
         <link rel="canonical" href="{{ Helpers::getCanonicalUrl() }}" />
         <link rel="alternate" hreflang="cs-cz" href="{{ Helpers::getCanonicalUrl('cs') }}" />
         <link rel="alternate" hreflang="en-us" href="{{ Helpers::getCanonicalUrl('en') }}" />
-        
+
         <link rel="icon" type="image/png" sizes="16x16" href="{{ Vite::asset('resources/images/favicon-16x16.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ Vite::asset('resources/images/favicon-32x32.png') }}">
 
@@ -55,7 +56,7 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
                 gtag('config', 'G-3NVMH2JEBV');
             </script>
         @endif
-        
+
         @vite([
             'resources/css/app-bootstrap.scss',
             'resources/js/app.js',
@@ -65,23 +66,23 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
         ])
         @stack('styles')
         @stack('scripts')
-        
+
         @if (request()->routeIs(['organs.index', 'organs.show-cs', 'organs.show', 'organ-builders.index', 'organ-builders.show-cs', 'organ-builders.show', 'festivals.index', 'festivals.show', 'competitions.index', 'competitions.show']))
             <script src="{{ $googleMapsScript }}" defer></script>
             <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js" defer></script>
-        @endif    
+        @endif
     </head>
     <body>
         <script async defer crossorigin="anonymous" src="https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v21.0"></script>
         <div id="fb-root"></div>
-        
+
         <div class="d-flex flex-column" style="min-height: 100%;">
             @isset($title)
               <h1 class="d-none">{{ $title }}</h1>
             @endisset
-            
+
             <x-organomania.header />
-            
+
             <main class="container">
                 @if (config('custom.show_donate_alert') && !request()->routeIs(['welcome', 'donate']))
                     <div class="text-center px-2 d-print-none">
@@ -94,7 +95,7 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
                         </x-organomania.alert>
                     </div>
                 @endif
-                
+
                 @if (session('status-success'))
                     <div class="mx-auto" style="max-width: 850px;">
                         <x-organomania.alert color="success" icon="check-circle-fill">
@@ -102,9 +103,9 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
                         </x-organomania.alert>
                     </div>
                 @endif
-                
+
                 {{ $slot }}
-              
+
                 <div id="fbPage" @class(['text-center', 'mt-3' => !request()->routeIs('welcome'), 'mb-0', 'd-print-none'])>
                     <div class="fb-page" data-href="https://www.facebook.com/organomania.varhany/" data-tabs="" data-width="500" data-height="70" data-small-header="{{ !request()->routeIs('welcome') }}" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="{{ request()->routeIs('welcome') }}">
                         <blockquote cite="https://www.facebook.com/organomania.varhany/" class="fb-xfbml-parse-ignore" style="height: 130px">
@@ -118,7 +119,7 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
                     </div>
                 </div>
             </main>
-            
+
             <footer class="container-fluid mt-auto p-0 d-print-none">
                 <div class="border-top mt-4">
                     <div class="container">
@@ -192,7 +193,7 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
                     </div>
                 </div>
             </footer>
-                
+
             <a class="back-to-top btn btn-primary position-fixed d-print-none" onclick="scrollToTop()" style="z-index: 10">
                 <i class="bi-chevron-up"></i>
             </a>

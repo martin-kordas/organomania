@@ -11,7 +11,9 @@
     use App\Models\OrganBuilder;
     use App\Models\Festival;
     use App\Models\Competition;
+    use App\Models\Publication;
     use App\Models\User;
+    use App\Enums\DispositionLanguage;
     use Carbon\Carbon;
 @endphp
 
@@ -54,21 +56,91 @@
                             @endforeach
                         </div>
                     </div>
+                @elseif ($entityClass === Publication::class)
+                    <div class="mb-3">
+                        <label class="form-label" for="filterAll">{{ __('Autor, název, periodikum') }}</label>
+                        <input id="filterAll" class="form-control form-control-sm" type="search" wire:model="filterAll" minlength="3" />
+                    </div>
+
+                    <hr class="mt-4" />
+
+                    <div class="mb-3">
+                        <label class="form-label" for="filterPublicationTypeId">{{ __('Typ publikace') }}</label>
+                        <x-organomania.selects.plain-select
+                            model="filterPublicationTypeId"
+                            :items="$this->publicationTypes"
+                            :placeholder="__('Zvolte typ publikace')"
+                            :allowClear="true"
+                            select2
+                            small
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="filterAuthorId">{{ __('Autor') }}</label>
+                        <x-organomania.selects.author-select :authors="$this->authors" id="filterAuthorId" model="filterAuthorId" :allowClear="true" small />
+                        <div class="form-text">
+                            {{ __('např.') }}
+                            @foreach ($this->importantAuthors as $author)
+                                <a class="text-decoration-none" href="#" onclick="return setFilterAuthorId({{ Js::from($author->id) }})">{{ $author->fullName }}</a>@if (!$loop->last), @endif
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="filterJournal">{{ __('Periodikum') }}</label>
+                        <x-organomania.selects.journal-select :journals="$this->journals" id="filterJournal" model="filterJournal" :allowClear="true" small />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="filterRegion">{{ __('Kraj') }}</label>
+                        <x-organomania.selects.region-select :regions="$regions" id="filterRegion" model="filterRegionId" :allowClear="true" small />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="filterPublicationTopicId">{{ __('Zaměření') }}</label>
+                        <x-organomania.selects.plain-select
+                            model="filterPublicationTopicId"
+                            :items="$this->publicationTopics"
+                            :placeholder="__('Zvolte zaměření publikace')"
+                            :allowClear="true"
+                            select2
+                            small
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="filterLanguage">{{ __('Jazyk') }}</label>
+                        <x-organomania.selects.plain-select
+                            model="filterLanguage"
+                            :items="$this->languages"
+                            :placeholder="__('Zvolte jazyk')"
+                            :allowClear="true"
+                            select2
+                            small
+                        />
+                    </div>
+
+                    <hr class="mt-4" />
+
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <label class="form-check-label" for="filterOnlineOnly">{{ __('Jen dostupné online') }}</label>
+                            <input class="form-check-input" type="checkbox" role="switch" id="filterOnlineOnly" wire:model="filterOnlineOnly">
+                        </div>
+                    </div>
                 @endif
-              
-                <div class="mb-3">
-                    <label class="form-label" for="filterRegion">{{ __('Kraj') }}</label>
-                    <x-organomania.selects.region-select :regions="$regions" id="filterRegion" model="filterRegionId" :allowClear="true" small />
-                </div>
+
+                @if ($entityClass !== Publication::class)
+                    <div class="mb-3">
+                        <label class="form-label" for="filterRegion">{{ __('Kraj') }}</label>
+                        <x-organomania.selects.region-select :regions="$regions" id="filterRegion" model="filterRegionId" :allowClear="true" small />
+                    </div>
+                @endif
                 @if ($entityClass === Organ::class)
                     <div class="mb-3">
                         <label class="form-label" for="filterRegion">{{ __('Diecéze') }}</label>
                         <x-organomania.selects.diocese-select :dioceses="$dioceses" id="filterDiocese" model="filterDioceseId" :allowClear="true" small />
                     </div>
                 @endif
-                
+
                 @if ($this->isCategorizable)
-                
+
                     <hr class="mt-4" />
                     <div>
                         <label class="form-label" for="filterCategories">{{ __('Kategorie') }}</label>
@@ -86,7 +158,7 @@
                         {{ __('Při zadání více kategorií se hledají :entityName patřící do všech těchto kategorií.', ['entityName' => $this->entityNamePluralNominativ]) }}
                     </div>
                 @endif
-                
+
                 @if ($entityClass === Organ::class)
                     <div class="mb-3">
                         <label class="form-label" for="filterOrganBuilderId">{{ __('Varhanář') }}</label>
@@ -114,16 +186,16 @@
                         </div>
                     </div>
                 @endif
-                @if ($entityClass !== Competition::class)
+                @if (!in_array($entityClass, [Competition::class, Publication::class]))
                     <div class="mb-3">
                         <label class="form-label" for="filterImportance">{{ __('Význam') }} >= <span class="text-secondary">({{ __('od') }} 1 {{ __('do') }} {{ $this->maxImportance }})</span></label>
                         <input class="form-control form-control-sm" type="number" min="1" max="{{ $this->maxImportance }}" id="filterImportance" wire:model.number="filterImportance" />
                     </div>
                 @endif
-                
+
                 @if ($entityClass === Organ::class)
                     <hr class="mt-4" />
-                    
+
                     <div class="mb-3">
                         <label class="form-label" for="filterManualsCount">{{ __('Počet manuálů') }}</label>
                         <x-organomania.selects.manuals-count-select model="filterManualsCount" :allowClear="true" small />
@@ -160,7 +232,7 @@
                         @endif
                     </div>
                 @endif
-                
+
                 @if ($this->isLikeable)
                     @can($this->gateLike)
                         <div class="form-check form-switch">
@@ -203,30 +275,36 @@
         }
         else form.reportValidity()
     }
-    
+
     window.onEnter = function (e) {
         let isSelect2 = $(e.target).closest('.select2-container').length > 0
         if (!isSelect2) $('#filterButton').click()
     }
-    
+
     window.setFilterMonth = function (month) {
         // TODO: filtr se ihned aplikuje, ačkoli chceme jen přenastavit hodnotu selectu
         //  - příčinou je možná refreshSelect2Sync(), ale neznám důvod
         //  - $('#filterMonth').val(month).trigger('change') rovněž nefunguje dobře
+        //    - naopak u setFilterAuthorId to funguje
         $wire.filterMonth = month
         return false
     }
-    
+
     window.setFilterMunicipality = function (municipality) {
         $wire.filterMunicipality = municipality
         return false
     }
-    
+
     window.setFilterLocality = function (locality) {
         $wire.filterLocality = locality
         return false
     }
-        
+
+    window.setFilterAuthorId = function (authorId) {
+        $('#filterAuthorId').val(authorId).trigger('change')
+        return false
+    }
+
     $(() => {
         $('#filtersModal').each(function () {
             this.addEventListener('shown.bs.modal', (e) => {

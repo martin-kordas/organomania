@@ -69,8 +69,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 @endif
                             </td>
                         @endif
-                        <td data-bs-toggle="tooltip" data-bs-title="{{ $organBuilder->region?->name }}">
-                            @isset($organ->region_id)
+                        <td @isset($organBuilder->region_id) data-bs-toggle="tooltip" data-bs-title="{{ $organBuilder->region?->name }}" @endisset>
+                            @isset($organBuilder->region_id)
                                 <img width="70" class="region me-1" src="{{ Vite::asset("resources/images/regions/{$organBuilder->region_id}.png") }}" />
                             @endisset
                         </td>

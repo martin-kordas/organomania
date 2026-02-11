@@ -20,21 +20,21 @@
         @if ($this->shouldPaginate && $this->viewType === 'thumbnails')
             <x-organomania.pagination-div />
         @endif
-    
+
         <div @class(['entity-page-view-container', "view-type-{$this->viewType}"])>
-            <x-dynamic-component :component="$this->viewComponent" :organs="$this->organs" :thumbnailOrgan="$this->thumbnailOrgan" />
+            <x-dynamic-component :component="$this->viewComponent" :organs="$this->organs" :thumbnailOrgan="$this->thumbnailOrgan ?? null" />
         </div>
-            
+
         @if ($this->shouldPaginate)
             <x-organomania.pagination-div />
         @endif
-          
+
         <x-organomania.modals.share-modal :hintAppend="$this->shareModalHint" />
 
         @if ($this->isCategorizable)
             <x-organomania.modals.organ-custom-categories-modal :customCategories="$this->organCustomCategories" />
         @endif
-            
+
         <x-organomania.toast toastId="likedToast">
             {{ $this->likedMessage }}
         </x-organomania.toast>

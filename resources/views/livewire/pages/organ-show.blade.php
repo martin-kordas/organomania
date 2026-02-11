@@ -1065,6 +1065,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_LITERATURE)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_LITERATURE }}')"
             >
+                <x-organomania.info-alert>
+                    {{ __('Podrobný přehled literatury obsahuje strana')  }}
+                    <a class="text-decoration-none" href="{{ route('publications.index') }}" wire:navigate>{{ __('Literatura o varhanách') }}</a>.
+                </x-organomania.info-alert>
+
                 <ul class="list-group list-group-flush small">
                     @foreach (explode("\n", $organ->literature) as $literature1)
                         <li @class(['list-group-item', 'd-flex', 'align-items-center', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>

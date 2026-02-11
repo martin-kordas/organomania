@@ -36,6 +36,9 @@ img.logo {
     text-decoration: line-through;
     text-decoration-color: rgba(33, 37, 41, 0.25) !important;
 }
+.emoji {
+    font-family: "Noto Color Emoji";
+}
 
 html, body {
     height: 100%;
@@ -594,6 +597,12 @@ table.show-table {
 @media screen and (max-width: 767px) {
     .entity-page-view-container, .municipality-info, .pagination-div {
         width: calc(100% + 5.7rem);
+    }
+}
+
+.publications {
+    th.name, td.name {
+        min-width: 12em;
     }
 }
 

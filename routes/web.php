@@ -16,7 +16,7 @@ use App\Http\Controllers\WelcomeController;
 Route::get('/cached-file/{path}', function ($path) {
     $file = public_path($path);
     abort_unless(file_exists($file), 404);
-    
+
     $headers = ['Cache-Control' => 'public, max-age=604800'];
     if (str_ends_with($file, '.css')) $headers['Content-Type'] = 'text/css; charset=UTF-8';
     return response()->file($file, $headers);
@@ -32,7 +32,7 @@ Route::middleware(["auth"])->group(function () {
     Volt::route('dispositions/{disposition}/edit', 'pages.disposition-edit')
         ->name('dispositions.edit')
         ->whereNumber('disposition');
-    
+
     Volt::route('organs/create', 'pages.organ-edit')
         ->name('organs.create');
     Volt::route('organs/create-simple', 'pages.organ-create-simple')
@@ -40,13 +40,13 @@ Route::middleware(["auth"])->group(function () {
     Volt::route('organs/{organ}/edit', 'pages.organ-edit')
         ->name('organs.edit')
         ->whereNumber('organ');
-    
+
     Volt::route('organ-builders/create', 'pages.organ-builder-edit')
         ->name('organ-builders.create');
     Volt::route('organ-builders/{organBuilder}/edit', 'pages.organ-builder-edit')
         ->name('organ-builders.edit')
         ->whereNumber('organBuilder');
-    
+
     Route::middleware('can:useOrganCustomCategories')->group(function () {
         Volt::route('organ-custom-categories', 'pages.organ-custom-categories')
             ->name('organs.organ-custom-categories');
@@ -55,7 +55,7 @@ Route::middleware(["auth"])->group(function () {
         Volt::route('organ-builder-custom-categories', 'pages.organ-custom-categories')
             ->name('organ-builders.organ-builder-custom-categories');
     });
-    
+
     Route::middleware('can:useRegistrationSets')->group(function () {
         Volt::route('dispositions/{disposition}/registration-sets', 'pages.registration-sets')
             ->name('dispositions.registration-sets.index');
@@ -66,7 +66,7 @@ Route::middleware(["auth"])->group(function () {
             ->whereNumber('registrationSet')
             ->scopeBindings();
     });
-    
+
     Volt::route('test', 'pages.test');
 });
 
@@ -158,6 +158,11 @@ Volt::route('dispositions/{dispositionSlug}', 'pages.disposition-show')
 Volt::route('dispositions/{disposition}/registration-sets/{registrationSet}', 'pages.registration-set-show')
     ->name('dispositions.registration-sets.show')
     ->scopeBindings();
+
+Volt::route('publications', 'pages.publications')
+    ->name('publications.index');
+Route::get('export/publications', [ExportController::class, 'exportPublications'])
+    ->name('publications.export');
 
 Volt::route('organists', 'pages.organists')
     ->name('organists.index');

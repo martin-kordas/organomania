@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Session;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Url;
 use RuntimeException;
 use App\Models\Category as CategoryModel;
@@ -19,13 +20,13 @@ use App\Traits\HasSorting;
 
 trait EntityPage
 {
-    
+
     use HasSorting;
-    
+
     #[Session(key: 'viewType')]
     #[Url(keep: true)]
     public $viewType = 'thumbnails';
-    
+
     #[Url(keep: true)]
     public $filterId;
     #[Url(keep: true)]
@@ -53,14 +54,16 @@ trait EntityPage
 
     /** zda jde o zobrazení soukromé custom kategorie v signed routě */
     private $isCustomCategoryOrgans = false;
-    
+
     private bool $isLikeable = true;
     private bool $isEditable = true;
     private bool $isExportable = true;
     private bool $isCategorizable = true;
     private bool $showQuickFilter = true;
     private bool $hasMunicipalityInfo = false;
-    
+
+    #[Locked]
+    public string $currentRoute;
     private ?string $createRoute;
     private ?string $exportRoute;
     private ?string $customCategoriesRoute;
@@ -86,13 +89,14 @@ trait EntityPage
         'filterId', 'filterNearLatitude', 'filterNearLongitude', 'filterNearDistance'
     ];
     private array $viewTypes = ['thumbnails', 'table', 'map'];
+    private ?string $heading = null;
     private string $title;
-    
+
     abstract private function getCategoryEnum();
-    
+
     abstract private function getOrganCategoryOrganCount(Category $category);
     abstract private function getOrganCustomCategoryOrganCount(CustomCategory $category);
-    
+
     public function mountCommon()
     {
         $this->isCustomCategoryOrgans = request()->route()->getName() === $this->customCategoryRoute;
@@ -103,16 +107,17 @@ trait EntityPage
             if (empty($this->getCustomCategoryIds())) throw new RuntimeException;
         }
 
+        $this->currentRoute = request()->route()->getName();
         if ($this->isLikeable) $this->favoriteOrgansCount = $this->getFavoriteOrgansCount();
         if ($this->isEditable) $this->privateOrgansCount = $this->getPrivateOrgansCount();
     }
-    
+
     protected function bootCommon()
     {
         // viewType se sdílí mezi entitami, může tedy být aktivní viewType, který aktuální entita nepodporuje
         if (!in_array($this->viewType, $this->viewTypes)) $this->viewType = reset($this->viewTypes);
     }
-    
+
     private function getCustomCategoryIds()
     {
         // TODO: podobná funkcionalita je v OrganForm
@@ -122,21 +127,21 @@ trait EntityPage
                 : [];
         })->all();
     }
-    
+
     public function updated($property)
     {
         $jsViewType = in_array($this->viewType, ['map', 'timeline', 'chart']);
         $reloaded = false;
-        
+
         // pokud se odmazává z multiselectu, $property je ve tvaru "$filter.$index"
         $filterPropertiesDot = array_map(
             fn ($filter) => "$filter.",
             $this->getFilters(),
         );
-        
+
         if (in_array($property, [...$this->getFilters(), 'perPage']) || str($property)->startsWith($filterPropertiesDot)) {
             $this->dispatch('filtering-changed');
-            
+
             // Google mapa má z tech. důvodů nastaveno wire:replace, při aktualizaci zobrazených varhan tedy musíme přenačíst celou stranu
             if ($jsViewType) {
                 $this->js('location.reload()');
@@ -144,19 +149,19 @@ trait EntityPage
             }
         }
     }
-    
+
     public function setViewType($viewType)
     {
         $this->setViewTypeHelp($viewType);
     }
-            
+
     protected function setViewTypeHelp($viewType)
     {
         $this->viewType = $viewType;
         $jsViewType = in_array($this->viewType, ['map', 'timeline', 'chart']);
         if ($jsViewType) $this->js('setTimeout(() => location.reload())');
     }
-    
+
     #[On('pagination-changed')]
     #[On('sort-changed')]
     #[On('sort-direction-changed')]
@@ -164,25 +169,25 @@ trait EntityPage
     {
         if ($this->viewType === 'chart') $this->js('location.reload()');
     }
-    
+
     private function getFilters()
     {
         return [...$this->commonFilters, ...$this->filters];
     }
-    
+
     public function updatedFilterCategories()
     {
-        if (in_array('custom-new', $this->filterCategories)) {    
+        if (in_array('custom-new', $this->filterCategories)) {
             $this->filterCategories = array_diff($this->filterCategories, ['custom-new']);
             $this->redirectRoute($this->customCategoriesRoute, navigate: true);
         }
     }
-    
+
     public function rendering(View $view): void
     {
         $view->title($this->title);
     }
-    
+
     private function getFavoriteOrgansCount()
     {
         return $this->model->query()->whereHas('likes', function (Builder $query) {
@@ -209,7 +214,7 @@ trait EntityPage
         $enum = $this->getCategoryEnum();
         return $enum::getCategoryGroups();
     }
-    
+
     #[Computed]
     public function organCategories()
     {
@@ -220,12 +225,12 @@ trait EntityPage
     public function organCustomCategories()
     {
         $allowIds = $this->isCustomCategoryOrgans ? $this->getCustomCategoryIds() : null;
-        
+
         return $this->repository->getCustomCategories(
             allowIds: $allowIds
         );
     }
-    
+
     #[Computed]
     public function showMunicipalityInfo()
     {
@@ -281,7 +286,7 @@ trait EntityPage
     {
         return $this->getCustomCategoriesGroups(modal: true);
     }
-    
+
     public function getModel()
     {
         return $this->model;
@@ -319,8 +324,8 @@ trait EntityPage
     {
         return Region::query()->orderBy('name')->get();
     }
-    
-    #[On('organ-like-updated')] 
+
+    #[On('organ-like-updated')]
     public function updateFavoriteOrgansCount(int $diff)
     {
         $this->favoriteOrgansCount += $diff;
@@ -343,5 +348,5 @@ trait EntityPage
             200, 300
         ];
     }
-    
+
 }

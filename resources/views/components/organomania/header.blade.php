@@ -36,15 +36,23 @@
                 <div class="row gx-2 gy-2 gy-xl-0 my-1 ms-auto align-items-center">
                     {{-- hledání --}}
                     <livewire:search />
-                    
+
                     {{-- nastavení jazyka --}}
                     <div class="dropdown text-end col-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Změnit jazyk') }}">
                         <a href="#" class="d-block btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi-translate  align-middle"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end text-small">
-                            <li><a @class(['dropdown-item', 'active' => App::isLocale('cs')]) href="{{ request()->fullUrlWithQuery(['lang' => 'cs']) }}">&#127464;&#127487; Česky (cs)</a></li>
-                            <li><a @class(['dropdown-item', 'active' => App::isLocale('en')]) href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}">&#127468;&#127463; English (en)</a></li>
+                            <li>
+                                <a @class(['dropdown-item', 'active' => App::isLocale('cs')]) href="{{ request()->fullUrlWithQuery(['lang' => 'cs']) }}">
+                                    <span class="emoji">&#127464;&#127487;</span> Česky (cs)
+                                </a>
+                            </li>
+                            <li>
+                                <a @class(['dropdown-item', 'active' => App::isLocale('en')]) href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}">
+                                    <span class="emoji">&#127468;&#127463;</span> English (en)
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
