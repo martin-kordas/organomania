@@ -60,4 +60,22 @@ class Publication extends Model
             ->withPivot('order')
             ->orderByPivot('order');
     }
+
+    public function getCitation()
+    {
+        if (isset($this->citation)) return $this->citation;
+
+        $parts = [
+            $this->authors->pluck('fullNameReverseCapital')->implode('; '),
+            $this->name,
+            $this->journal,
+            $this->journal_issue,
+            "{$this->place_of_publication}, {$this->year}",
+        ];
+        if (isset($this->url)) {
+            $parts[] = "Dostupné z: {$this->url}";
+        }
+
+        return collect($parts)->filter()->implode('. ');
+    }
 }

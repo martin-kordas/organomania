@@ -10,8 +10,8 @@
         <table class="table table-hover table-sm align-middle">
             <thead>
                 <tr>
-                    <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('publication_type_id')" class="text-center" />
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('author')" />
+                    <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('publication_type_id')" class="text-center" />
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('name')" class="name" :sticky="true" />
                     <th>&nbsp;</th>
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('place_of_publication')" class="d-none d-lg-table-cell" />
@@ -24,16 +24,7 @@
             <tbody class="table-group-divider">
                 @foreach ($organs as $publication)
                     <tr>
-                        <td class="text-center">
-                            @if ($publication->publicationType)
-                                <i
-                                    class="bi {{ $publication->publicationType->getIcon() }}"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-title="{{ $publication->publicationType->getName() }}"
-                                ></i>
-                            @endif
-                        </td>
-                        <td class="position-sticky">
+                        <td>
                             @foreach ($publication->authors as $author)
                                 <a
                                     class="text-decoration-none text-nowrap"
@@ -46,6 +37,17 @@
                                 </a>
                                 @if (!$loop->last) <br /> @endif
                             @endforeach
+                        </td>
+                        <td class="text-center table-light fs-5">
+                            @if ($publication->publicationType)
+                                <a href="{{ route('publications.index', ['filterPublicationTypeId' => $publication->publicationType->value]) }}" wire:navigate>
+                                    <i
+                                        class="bi {{ $publication->publicationType->getIcon() }}"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-title="{{ $publication->publicationType->getName() }}"
+                                    ></i>
+                                </a>
+                            @endif
                         </td>
                         <td class="name table-light position-sticky start-0">
                             <span class="fw-semibold" @isset($publication->name_cz) title="{{ __('Původní název') }}: {{ $publication->name }}" @endisset>
@@ -63,14 +65,18 @@
                             </span>
                             @isset($publication->journal)
                                 <div class="small text-secondary">
-                                    <a class="text-decoration-none" href="{{ route('publications.index', ['filterJournal' => $publication->journal]) }}" wire:navigate>
+                                    @if ($publication->journal_is_book)
                                         {{ $publication->journal }}
-                                    </a>
+                                    @else
+                                        <a class="text-decoration-none" href="{{ route('publications.index', ['filterJournal' => $publication->journal]) }}" wire:navigate>
+                                            {{ $publication->journal }}
+                                        </a>
+                                    @endif
                                     @isset($publication->journal_issue)({{ $publication->journal_issue }})@endisset
                                 </div>
                             @endisset
                             @isset($publication->thesis_description)
-                                <div class="small text-secondary">
+                                <div class="small texr-secondary">
                                     {{ $publication->thesis_description }}
                                 </div>
                             @endisset
@@ -93,7 +99,9 @@
                         <td class="text-end">{{ $publication->year }}</td>
                         <td class="text-center" @isset($publication->region) data-bs-toggle="tooltip" data-bs-title="{{ $publication->region?->name }}" @endisset>
                             @isset($publication->region_id)
-                                <img width="70" class="region me-1" src="{{ Vite::asset("resources/images/regions/{$publication->region_id}.png") }}" />
+                                <a href="{{ route('publications.index', ['filterRegionId' => $publication->region_id]) }}" wire:navigate>
+                                    <img width="70" class="region me-1" src="{{ Vite::asset("resources/images/regions/{$publication->region_id}.png") }}" />
+                                </a>
                             @endisset
                         </td>
                         <td class="text-center">
@@ -111,17 +119,15 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                @isset($publication->citation)
-                                    <button
-                                        class="btn btn-sm btn-outline-primary text-nowrap"
-                                        data-bs-toggle="tooltip"
-                                        data-bs-title="{{ __('Zkopírovat citaci') . "<br />" . "(ČSN ISO 690)" }}"
-                                        data-bs-html="true"
-                                        onclick="publicationsViewTable.copyCitationToClipboard({{ Js::from($publication->citation)  }})"
-                                    >
-                                        <i class="bi-copy"></i>
-                                    </button>
-                                @endisset
+                                <button
+                                    class="btn btn-sm btn-outline-primary text-nowrap"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-title="{{ __('Zkopírovat citaci') . "<br />" . "(ČSN ISO 690)" }}"
+                                    data-bs-html="true"
+                                    onclick="publicationsViewTable.copyCitationToClipboard({{ Js::from($publication->getCitation())  }})"
+                                >
+                                    <i class="bi-copy"></i>
+                                </button>
                                 @isset($publication->library_url)
                                     <a class="btn btn-sm btn-outline-primary text-nowrap" data-bs-toggle="tooltip" data-bs-title="{{ __('Zobrazit podrobnosti') }}" href="{{ $publication->library_url }}" target="_blank">
                                         <i class="bi-box-arrow-up-right"></i>

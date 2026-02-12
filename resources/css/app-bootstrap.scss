@@ -68,6 +68,11 @@ header {
     }
 
 }
+html[lang="en"] #search {
+    @media screen and (min-width: 1200px) {
+        min-width: 14em;
+    }
+}
 /* u nízké obrazovky nezobrazovat fixní hlavičkou */
 @media screen and (max-height: 450px) {
     header {

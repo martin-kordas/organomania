@@ -45,6 +45,16 @@ class Author extends Model
         );
     }
 
+    protected function fullNameReverseCapital(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $lastName = mb_strtoupper($this->last_name);
+                return "$lastName, {$this->first_name}";
+            }
+        );
+    }
+
     protected function initialsName(): Attribute
     {
         return Attribute::make(
@@ -57,15 +67,19 @@ class Author extends Model
         return Attribute::make(
             get: function () {
                 $name = $this->full_name_reverse;
-
-                if ($this->year_of_birth && $this->year_of_death) $years = "{$this->year_of_birth}–{$this->year_of_death}";
-                elseif ($this->year_of_birth) $years = "*{$this->year_of_birth}";
-                elseif ($this->year_of_death) $years = "✝{$this->year_of_death}";
-                else $years = null;
-
-                if ($years) $name .= " ($years)";
-
+                if ($this->lifeData) $name .= " ({$this->lifeData})";
                 return $name;
+            }
+        );
+    }
+
+    protected function lifeData(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->year_of_birth && $this->year_of_death) return "{$this->year_of_birth}–{$this->year_of_death}";
+                elseif ($this->year_of_birth) return "*{$this->year_of_birth}";
+                elseif ($this->year_of_death) return "✝{$this->year_of_death}";
             }
         );
     }

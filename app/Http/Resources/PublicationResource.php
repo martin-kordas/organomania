@@ -25,7 +25,7 @@ class PublicationResource extends JsonResource
             'journal' => $this->journal,
             'journal_issue' => $this->journal_issue,
             'thesis_description' => $this->thesis_description,
-            'citation' => $this->citation,
+            'citation' => $this->getCitation(),
             'url' => $this->url,
             'library_url' => $this->library_url,
         ];

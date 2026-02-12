@@ -33,6 +33,7 @@ return new class extends Migration
             $table->foreignId('organ_builder_id')->nullable()->constrained();
             $table->string('journal', length: 500)->nullable();
             $table->string('journal_issue', length: 100)->nullable();
+            $table->integer('journal_is_book')->default(0);
             $table->string('thesis_description', length: 500)->nullable();
             $table->string('citation', length: 500)->nullable();
             $table->string('url', length: 500)->nullable();
@@ -47,6 +48,8 @@ return new class extends Migration
             $table->string('last_name', length: 100);
             $table->integer('year_of_birth')->nullable();
             $table->integer('year_of_death')->nullable();
+            $table->string('description', length: 500)->nullable();
+            $table->string('cv_url', length: 500)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

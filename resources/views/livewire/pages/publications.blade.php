@@ -86,7 +86,7 @@ class extends Component {
         $this->filters[] = 'filterRegionId';
         $this->filters[] = 'filterLanguage';
         $this->filters[] = 'filterOnlineOnly';
-        $this->heading = __('Literatura o varhanách');
+        $this->heading = __('Literatura o varhanách<br />v České republice');
         $this->title = __('Publikace');
     }
 
@@ -94,9 +94,9 @@ class extends Component {
     {
         Helpers::logPageViewIntoCache('publications');
 
-        $this->sortColumn = 'year';
-        $this->sortDirection = 'desc';
-        $this->perPage = 20;
+        if (!request()->query('sortColumn')) $this->sortColumn = 'year';
+        if (!request()->query('sortDirection')) $this->sortDirection = 'desc';
+        if (!request()->query('perPage')) $this->perPage = 20;
         $this->mountCommon();
     }
 
@@ -152,7 +152,13 @@ class extends Component {
     #[Computed]
     public function importantAuthors()
     {
-        return $this->repository->getImportantAuthors();
+        return $this->repository->getImportantAuthors(random: true);
+    }
+
+    #[Computed]
+    public function importantAuthorsHint()
+    {
+        return $this->repository->getImportantAuthors(limit: 3);
     }
 
     #[Computed]
@@ -160,6 +166,7 @@ class extends Component {
     {
         return Publication::query()
             ->whereNotNull('journal')
+            ->where('journal_is_book', 0)
             ->select('journal', DB::raw('count(*) as publications_count'))
             ->groupBy('journal')
             ->orderBy('journal')
@@ -172,19 +179,27 @@ class extends Component {
     <x-organomania.entity-page
         :metaDescription="__('Získejte přehled o odborné literatuře (knihách a článcích) týkající se varhan a varhanářů v České republice.')"/>
 
-    <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#referencesModal">
-        <small>{{ __('Použitá literatura') }}</small>
-    </a>
+    <div class="text-center">
+        <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#referencesModal">
+            <small>{{ __('Další literatura') }}</small>
+        </a>
+    </div>
 
     <x-organomania.modals.references-modal>
         <x-organomania.link-list>
             <x-organomania.link-list-item icon="link-45deg" url="https://www.varhany.net/literatura.php">
                 varhany.net – {{ __('Bibliografie literatury')  }}
+                <x-slot:description>{{ __('Přehled literatury použité v online databázi') }}</x-slot:description>
             </x-organomania.link-list-item>
 
             <x-organomania.link-list-item icon="book" url="https://www.cbdb.cz/kniha-255158-barokni-varhanarstvi-na-morave-dil-1-varhanari">
                 Jiří Sehnal: Barokní varhanářství na Moravě – 1. Varhanáři
-                <x-slot:description>Sehnal, Jiří. Barokní varhanářství na Moravě. Vydání první. Brno: Muzejní a vlastivědná společnost v Brně, 2003-2018. 3 svazky. Prameny k dějinám a kultuře Moravy, č. 9, 10. Monografie. ISBN 80-7275-042-9. (s. 148–151)</x-slot>
+                <x-slot:description>SEHNAL, Jiří. Barokní varhanářství na Moravě. Vydání první. Brno: Muzejní a vlastivědná společnost v Brně, 2003-2018. 3 svazky. Prameny k dějinám a kultuře Moravy, č. 9, 10. Monografie. ISBN 80-7275-042-9. (s. 148–151)</x-slot>
+            </x-organomania.link-list-item>
+
+            <x-organomania.link-list-item icon="book" url="https://musicologica.upol.cz/pdfs/mus/2022/01/03.pdf">
+                Bibliografie Jiřího Sehnala 1952–2022
+                <x-slot:description>SPÁČILOVÁ, Jana. Bibliografie Jiřího Sehnala 1952-2022. Online. Musicologica Olomucensia. 2022, roč. 34, s. 19-42. ISSN 2787-9186. Dostupné z: https://doi.org/10.5507/mo.2022.003. [cit. 2026-02-12].</x-slot>
             </x-organomania.link-list-item>
         </x-organomania.link-list>
     </x-organomania.modals.references-modal>

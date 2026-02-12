@@ -72,8 +72,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         Helpers::logPageViewIntoCache('festivals');
 
-        $this->sortColumn = 'starting_month';
-        $this->sortDirection = 'asc';
+        if (!request()->query('sortColumn')) $this->sortColumn = 'starting_month';
+        if (!request()->query('sortDirection')) $this->sortDirection = 'asc';
         $this->mountCommon();
     }
 

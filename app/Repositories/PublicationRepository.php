@@ -116,12 +116,25 @@ class PublicationRepository extends AbstractRepository
         }
     }
 
-    public function getImportantAuthors()
+    public function getImportantAuthors(bool $random = false, ?int $limit = null)
     {
-        return Author::query()
-            ->whereIn('id', [Author::AUTHOR_ID_SEHNAL, Author::AUTHOR_ID_SCHINDLER, Author::AUTHOR_ID_HORAK])
-            ->orderBy('last_name')
-            ->orderBy('first_name')
-            ->get();
+        $query = Author::query()
+            ->whereNotNull('description')
+            ->withCount('publications')
+            ->having('publications_count', '>', 0);
+
+        if ($random) {
+            $query->inRandomOrder();
+        }
+        else {
+            $query
+                ->orderBy('publications_count', 'desc')
+                ->orderBy('last_name')
+                ->orderBy('first_name');
+        }
+
+        if ($limit) $query->limit($limit);
+
+        return $query->get();
     }
 }

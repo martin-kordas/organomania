@@ -8,6 +8,7 @@ enum DispositionLanguage: string
     case Czech = 'cs';
     case German = 'de';
     case French = 'fr';
+    case English = 'en';
 
     public function getName()
     {
@@ -15,6 +16,7 @@ enum DispositionLanguage: string
             self::Czech => __('Čeština'),
             self::German => __('Němčina'),
             self::French => __('Francouzština'),
+            self::English => __('Angličtina'),
         };
     }
 
@@ -24,6 +26,7 @@ enum DispositionLanguage: string
             self::Czech => '&#127464;&#127487;',
             self::German => '&#127465;&#127466;',
             self::French => '&#127467;&#127479;',
+            self::English => '&#127468;&#127463;',
         };
     }
 

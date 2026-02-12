@@ -80,7 +80,7 @@
                         <x-organomania.selects.author-select :authors="$this->authors" id="filterAuthorId" model="filterAuthorId" :allowClear="true" small />
                         <div class="form-text">
                             {{ __('např.') }}
-                            @foreach ($this->importantAuthors as $author)
+                            @foreach ($this->importantAuthorsHint as $author)
                                 <a class="text-decoration-none" href="#" onclick="return setFilterAuthorId({{ Js::from($author->id) }})">{{ $author->fullName }}</a>@if (!$loop->last), @endif
                             @endforeach
                         </div>

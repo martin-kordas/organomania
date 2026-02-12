@@ -540,6 +540,7 @@
     "Zobrazit písně": "Show songs",
     "Zobrazit přehled kategorií": "Show list of categories",
     "Zobrazit soutěže": "Show competitions",
+    "Zobrazit publikace": "View publications",
     "Zobrazit vše": "Show all",
     "Zobrazit zajímavé varhany v okruhu": "Show interesting organs within a radius of",
     "Zobrazte si jen": "Show only",
@@ -657,5 +658,8 @@
     "Article": "Článek",
     "Závěrečná práce": "Thesis",
     "Zobrazit varhany v&nbsp;Organomanii": "Show organ in Organomania",
-    "Zobrazit varhanáře v&nbsp;Organomanii": "Show organ builder in Organomania"
+    "Zobrazit varhanáře v&nbsp;Organomanii": "Show organ builder in Organomania",
+    "Literatura o varhanách<br />v České republice": "Literature about organ<br />in Czech Republic",
+    "materiály": "publications",
+    "dostupné online": "available online"
 }

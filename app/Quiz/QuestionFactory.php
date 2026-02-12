@@ -21,13 +21,13 @@ use LogicException;
 //  - ALE: současná koncepce umožňuje, aby si kažá Question podle svého typu načetla adekvátní Answers
 class QuestionFactory
 {
-    
+
     private Collection $created;
-    
+
     private Collection $questionTypes;
-    
+
     private int $answersCount;
-    
+
     const QUESTION_TYPES = [
         OrganBuilderFromLocalityManualsCountQuestion::class, OrganBuilderFromLocalityYearRenovatedQuestion::class,
         OrganFromCaseImageQuestion::class, OrganBuilderFromDescriptionQuestion::class, ManualsCountFromLocalityOrganBuilderQuestion::class,
@@ -38,25 +38,25 @@ class QuestionFactory
         OrganFromDescriptionQuestion::class,
         //OrganBuilderFromLocalitiesQuestion::class
     ];
-    
+
     public function __construct(
         private QuizDifficultyLevel $difficultyLevel,
         private AnswerFactory $answerFactory,
     ) {
         $this->created = collect();
         $this->questionTypes = $this->getQuestionTypes();
-        
+
         $this->answersCount = match ($this->difficultyLevel) {
             QuizDifficultyLevel::Easy => 2,
             QuizDifficultyLevel::Medium => 3,
             default => 4,
         };
     }
-    
+
     public function createQuestion(): Question
     {
         $question = null;
-        
+
         // TODO: efektivnější by bylo při zvolení určitého typu otázky vybrat z db. entitu, která ještě nebyla použita v jiných otázkách
         //  - pak by nebylo nutné náhodně zkoušet generovat další otázky
         for ($attempt = 1; $attempt < 20; $attempt++) {
@@ -67,11 +67,11 @@ class QuestionFactory
             }
         }
         if (!isset($question)) throw new Exception('Nepodařilo se vygenerovat další otázku.');
-        
+
         $this->created[] = $question;
         return $question;
     }
-    
+
     private function getQuestionTypes(): Collection
     {
         $types = collect(static::QUESTION_TYPES)->filter(
@@ -80,17 +80,17 @@ class QuestionFactory
         if ($types->isEmpty()) throw new LogicException('Nebyl nalezen žádný dostupný typ otázky.');
         return $types;
     }
-    
+
     private function generateQuestion(): Question
     {
         $type = $this->questionTypes->flatMap(
             // před náhodným výběrem typu každý typ zduplikujeme tolikrát, jakou má frekvenci
             fn (string $type) => array_fill(0, $type::FREQUENCY, $type)
         )->random();
-        
+
         return new $type($this->difficultyLevel, $this->answerFactory, $this->answersCount);
     }
-    
+
     private function questionExists(Question $question)
     {
         return $this->created->contains(
@@ -99,5 +99,5 @@ class QuestionFactory
                     && $question1->questionedEntity->id === $question->questionedEntity->id
         );
     }
-    
+
 }

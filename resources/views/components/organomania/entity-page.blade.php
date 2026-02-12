@@ -143,7 +143,7 @@
         @isset($this->heading)
             <h3 class="mb-4 text-center">
                 <a class="text-decoration-none" href="{{ route($this->currentRoute) }}" wire:navigate>
-                    {{ $this->heading }}
+                    {!! $this->heading !!}
                 </a>
             </h3>
         @endisset
@@ -249,6 +249,12 @@
             <br />
         @endif
 
+        @if ($this->entityClass === Publication::class && count($this->importantAuthors) > 0 && $this->activeFiltersCount <= 0)
+            <h4 class="text-center fs-5 mb-2">{{ __('Významní autoři') }}</h4>
+
+            <x-organomania.authors-carousel :authors="$this->importantAuthors" class="mb-5" />
+        @endif
+
         @php($showFilterRegionHint = !in_array($this->entityClass, [Competition::class, Publication::class]) && !$this->filterRegionId && !$this->filterNearLatitude && !in_array($this->viewType, ['map', 'timeline', 'chart']))
         @php($showOrganInfoHint = $this->entityClass === Organ::class && !in_array($this->viewType, ['chart']))
         @php($showSortImportaceHint = $this->entityClass === Festival::class && $this->sortColumn !== 'importance' && !in_array($this->viewType, ['map', 'timeline']))
@@ -325,7 +331,7 @@
                     <div class="text-center">
                         <x-organomania.info-alert class="d-inline-block mb-1">
                             {{ __('Zobrazte si jen') }}
-                            <a class="link-primary text-decoration-none" href="#" @click="$wire.set('filterPublicationTypeId', {{ Js::from(PublicationType::Book) }})">{{ __('knihy') }}</a>.
+                            <a class="link-primary text-decoration-none" href="#" @click="$wire.set('filterPublicationTypeId', {{ Js::from(PublicationType::Book) }})"><i class="bi-book"></i> {{ __('knihy') }}</a>.
                         </x-organomania.info-alert>
                     </div>
                 @endif
@@ -333,7 +339,7 @@
                 @if ($showPublicationOnlineOnlyHint)
                     <div class="text-center">
                         <x-organomania.info-alert class="d-inline-block mb-1">
-                            {{ __('Zobrazte si') }} {{ __('publikace') }}
+                            {{ __('Zobrazte si') }} {{ __('materiály') }}
                             <a class="link-primary text-decoration-none" href="#" @click="$wire.set('filterOnlineOnly', true)">{{ __('dostupné online') }}</a>.
                         </x-organomania.info-alert>
                     </div>
@@ -356,7 +362,7 @@
         <livewire:dynamic-component
             :is="$this->entityPageViewComponent"
             :filterId="$this->filterId"
-            :filterCategories="$this->filterCategories" :filterRegionId="$this->filterRegionId" :filterImportance="$this->filterImportance" :filterPrivate="$this->filterPrivate" :filterFavorite="$this->filterFavorite"
+            :filterCategories="$this->filterCategories" :filterImportance="$this->filterImportance" :filterPrivate="$this->filterPrivate" :filterFavorite="$this->filterFavorite"
             :filterNearLatitude="$this->filterNearLatitude" :filterNearLongitude="$this->filterNearLongitude" :filterNearDistance="$this->filterNearDistance"
             :filterLocality="$this->filterLocality ?? null"
             :filterDioceseId="$this->filterDioceseId ?? null"

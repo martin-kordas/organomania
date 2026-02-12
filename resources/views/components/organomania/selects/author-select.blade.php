@@ -26,10 +26,7 @@
 
     @foreach ($authors as $author)
         <option wire:key="{{ $author->id }}" value="{{ $author->id }}">
-            {{ $author->fullNameReverseWithYears }}
-            @if ($author->publications_count > 0)
-                &ndash; {{ $author->publications_count }}&times;
-            @endif
+            {{ $author->fullNameReverseWithYears }}@if ($author->publications_count > 0): {{ $author->publications_count }}&times; @endif
         </option>
     @endforeach
 </select>

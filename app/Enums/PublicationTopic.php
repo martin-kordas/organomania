@@ -26,7 +26,7 @@ enum PublicationTopic: int
         return match ($this) {
             self::Organ => __('Publikace zabývající se určitými varhanami'),
             self::OrganBuilder => __('Publikace zabývající se určitým varhanářem'),
-            self::Area => __('Publikace zabývající se varhanami a varhanáři na určitém území'),
+            self::Area => __('Publikace mapující varhany a varhanáře na určitém území'),
             self::Other => __('Publikace jiného zaměření'),
             default => throw new \LogicException
         };

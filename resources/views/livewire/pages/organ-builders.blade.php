@@ -77,7 +77,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function mount()
     {
-        $this->perPage = 12;
+        if (!request()->query('perPage')) $this->perPage = 12;
         $this->mountCommon();
 
         if ($this->municipality && !$this->filterMunicipality) {

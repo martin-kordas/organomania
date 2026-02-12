@@ -61,8 +61,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function mount()
     {
-        $this->sortColumn = 'next_year';
-        $this->sortDirection = 'desc';
+        if (!request()->query('sortColumn')) $this->sortColumn = 'next_year';
+        if (!request()->query('sortDirection')) $this->sortDirection = 'desc';
         $this->mountCommon();
     }
 
