@@ -6,7 +6,7 @@ use App\Enums\DispositionLanguage;
 
 enum Pitch: int
 {
-    
+
     case Pitch_32 = 1;
     case Pitch_16 = 2;
     case Pitch_8 = 3;
@@ -14,40 +14,40 @@ enum Pitch: int
     case Pitch_2 = 5;
     case Pitch_1 = 6;
     case Pitch_1_2 = 7;
-    
+
     case Pitch_2_And_2_3 = 501;
     case Pitch_1_And_1_3 = 502;
     case Pitch_10_And_2_3 = 503;
     case Pitch_5_And_1_3 = 504;
     case Pitch_2_3 = 505;
-    
+
     case Pitch_1_And_3_5 = 301;
     case Pitch_3_And_1_5 = 302;
     case Pitch_16_19 = 303;
     case Pitch_4_5 = 304;
     case Pitch_8_19 = 305;
-    
+
     case Pitch_2_And_2_7 = 701;
     case Pitch_1_And_1_7 = 702;
     case Pitch_8_15 = 703;
-    
+
     case Pitch_1_And_7_9 = 201;
     case Pitch_8_9 = 202;
-    
+
     case Pitch_1_And_5_11 = 401;
     case Pitch_8_11 = 402;
-    
+
     case Pitch_8_13 = 601;
-    
+
     public function isAliquot()
     {
         return $this->value > 100;
     }
-    
+
     public function getInterval()
     {
         if ($this === self::Pitch_8) return 'základní';
-        
+
         return match (intdiv($this->value, 100)) {
             2 => 'sekundová',
             3 => 'terciová',
@@ -58,7 +58,7 @@ enum Pitch: int
             default => 'oktávová',
         };
     }
-    
+
     public static function tryFromLabel(string $label, DispositionLanguage $language): ?static
     {
         foreach (static::cases() as $pitch) {
@@ -68,7 +68,7 @@ enum Pitch: int
         }
         return null;
     }
-    
+
     public static function getPitchGroups()
     {
         $groups = [];
@@ -79,12 +79,13 @@ enum Pitch: int
         }
         return $groups;
     }
-    
+
     public function getLabel(DispositionLanguage $language, $html = false)
     {
         $label = match ($language) {
             DispositionLanguage::Czech,
             DispositionLanguage::German,
+            DispositionLanguage::English,
             DispositionLanguage::French => match ($this) {
                 self::Pitch_32 => "32'",
                 self::Pitch_16 => "16'",
@@ -99,23 +100,23 @@ enum Pitch: int
                 self::Pitch_16_19 => "16/19'",
                 self::Pitch_4_5 => "4/5'",
                 self::Pitch_8_19 => "8/19'",
-                
+
                 self::Pitch_2_And_2_3 => "2 2/3'",
                 self::Pitch_1_And_1_3 => "1 1/3'",
                 self::Pitch_10_And_2_3 => "10 2/3'",
                 self::Pitch_5_And_1_3 => "5 1/3'",
                 self::Pitch_2_3 => "2/3'",
-                
+
                 self::Pitch_2_And_2_7 => "2 2/7'",
                 self::Pitch_1_And_1_7 => "1 1/7'",
                 self::Pitch_8_15 => "8/15'",
-                
+
                 self::Pitch_1_And_7_9 => "1 7/9'",
                 self::Pitch_8_9 => "8/9'",
-                
+
                 self::Pitch_1_And_5_11 => "1 5/11'",
                 self::Pitch_8_11 => "8/11'",
-                
+
                 self::Pitch_8_13 => "8/13'",
 
                 default => throw new \LogicException
@@ -125,7 +126,7 @@ enum Pitch: int
         if ($html) $label = str($label)->replace(' ', '&nbsp;');
         return $label;
     }
-    
+
     public function getAliquoteTone()
     {
         return match ($this) {
@@ -164,14 +165,14 @@ enum Pitch: int
             default => throw new \LogicException
         };
     }
-    
+
     public function getAliquoteToneFormatted()
     {
         $tone = $this->getAliquoteTone();
         $tone = preg_replace('/([0-9])/', '<sup>$1</sup>', $tone);
         return $tone;
     }
-    
+
     public function getAliquoteOrder()
     {
         $order = array_search($this, [
@@ -204,5 +205,5 @@ enum Pitch: int
         if ($order === false) throw new \LogicException;
         return $order;
     }
-    
+
 }

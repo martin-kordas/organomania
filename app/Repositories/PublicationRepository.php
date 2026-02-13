@@ -44,7 +44,7 @@ class PublicationRepository extends AbstractRepository
                 case 'all':
                     $query->where(function (Builder $query) use ($value) {
                         $query
-                            ->whereAny(['publications.name', 'publications.name_cz', 'publications.journal'], 'LIKE', "%$value%")
+                            ->whereAny(['publications.name', 'publications.name_cz', 'publications.keywords', 'publications.journal'], 'LIKE', "%$value%")
                             ->orWhereHas('authors', function (Builder $query) use ($value) {
                                 $query
                                     ->where('authors.first_name', 'like', "%$value%")
@@ -81,6 +81,10 @@ class PublicationRepository extends AbstractRepository
 
         foreach ($sorts as $field => $direction) {
             switch ($field) {
+                case 'name':
+                    $query->orderByRaw("IFNULL(publications.name_cz, publications.name) $direction");
+                    break;
+
                 case 'author':
                     $query
                         ->orderBy('authors.last_name', $direction)
@@ -93,8 +97,7 @@ class PublicationRepository extends AbstractRepository
             }
         }
 
-        $query->orderBy('authors.last_name');
-        $query->orderBy('authors.first_name');
+        $query->orderBy('publications.year', 'desc');
         $query->orderBy('publications.name');
         $query->orderBy('publications.id');
 
@@ -136,5 +139,10 @@ class PublicationRepository extends AbstractRepository
         if ($limit) $query->limit($limit);
 
         return $query->get();
+    }
+
+    public function getHighlightedCount()
+    {
+        return Publication::where('year', '>=', now()->year - 1)->count();
     }
 }

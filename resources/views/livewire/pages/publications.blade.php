@@ -53,6 +53,7 @@ class extends Component {
         ['column' => 'name', 'label' => 'Název', 'type' => 'alpha'],
         ['column' => 'place_of_publication', 'label' => 'Místo', 'type' => 'alpha'],
         ['column' => 'year', 'label' => 'Rok', 'type' => 'numeric'],
+        ['column' => 'publication_topic_id', 'label' => 'Zaměření', 'type' => 'alpha'],
     ];
 
     public function boot(PublicationRepository $repository, Publication $model)
@@ -76,7 +77,7 @@ class extends Component {
         $this->gateLike = null;
         $this->entityPageViewComponent = 'publications-view';
         $this->entityClass = Publication::class;
-        $this->entityNamePluralAkuzativ = __('publikace');
+        $this->entityNamePluralAkuzativ = __('podle názvu, autora, periodika');
         $this->filtersModalAutofocus = '#filterAll';
         $this->filters[] = 'filterAll';
         $this->filters[] = 'filterPublicationTypeId';
@@ -146,6 +147,8 @@ class extends Component {
             ->orderBy('last_name')
             ->orderBy('first_name')
             ->orderBy('year_of_birth')
+            // zobrazení všech autorů, kteří napsali byť jen 1 článek, by bylo nepřehledné
+            ->having('publications_count', '>', 1)
             ->get();
     }
 
@@ -200,6 +203,11 @@ class extends Component {
             <x-organomania.link-list-item icon="book" url="https://musicologica.upol.cz/pdfs/mus/2022/01/03.pdf">
                 Bibliografie Jiřího Sehnala 1952–2022
                 <x-slot:description>SPÁČILOVÁ, Jana. Bibliografie Jiřího Sehnala 1952-2022. Online. Musicologica Olomucensia. 2022, roč. 34, s. 19-42. ISSN 2787-9186. Dostupné z: https://doi.org/10.5507/mo.2022.003. [cit. 2026-02-12].</x-slot>
+            </x-organomania.link-list-item>
+
+            <x-organomania.link-list-item icon="book" url="https://theses.cz/id/v8c6cp/Bakalsk_prce_-Literatura_o_varhanch_na_Morav.pdf">
+                Veronika Kohutová: Literatura o varhanách na Moravě
+                <x-slot:description>KOHUTOVÁ, Veronika. Literatura o varhanách na Moravě. Online. Bakalářská práce. Olomouc: Univerzita Palackého v Olomouci, Pedagogická fakulta. 2015. Dostupné z: https://theses.cz/id/v8c6cp/.</x-slot>
             </x-organomania.link-list-item>
         </x-organomania.link-list>
     </x-organomania.modals.references-modal>

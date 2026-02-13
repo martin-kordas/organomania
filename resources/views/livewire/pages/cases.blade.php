@@ -110,6 +110,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $additionalImagesQuery = $this->organRepository->getCaseImagesAdditionalImagesQuery($withoutOrganExists)
             ->with('organBuilder');
 
+        if ($additionalImageId = request()->query('additionalImageId')) {
+            $organsQuery->take(0);
+            $additionalImagesQuery->where('id', $additionalImageId);
+        }
+
         if ($this->filterCategories) {
             $organsQuery->whereHas('organCategories', function (Builder $query) {
                 $query->whereIn('organ_category_id', $this->filterCategories);

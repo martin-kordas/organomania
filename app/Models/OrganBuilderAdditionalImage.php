@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers;
 use App\Enums\OrganCategory;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 
 class OrganBuilderAdditionalImage extends Model
 {
@@ -22,5 +24,12 @@ class OrganBuilderAdditionalImage extends Model
     {
         return Helpers::makeEnumAttribute('case_organ_category_id', OrganCategory::from(...));
     }
-    
+
+    public function getViewUrl()
+    {
+        if (!$this->organ_builder_id) throw new \LogicException;
+
+        return route('organs.cases', ['filterOrganBuilders' => [$this->organ_builder_id], 'additionalImageId' => $this->id]);
+    }
+
 }

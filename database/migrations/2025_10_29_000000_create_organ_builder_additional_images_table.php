@@ -22,6 +22,8 @@ return new class extends Migration {
             $table->foreignId('case_organ_category_id')
                 ->nullable()
                 ->constrained(table: 'organ_categories');
+            $table->double('latitude')->nullable();
+            $table->double('longitude')->nullable();
             $table->integer('nonoriginal_case')->default(0);
             $table->integer('organ_exists')
                 ->default(0)

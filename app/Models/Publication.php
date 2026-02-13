@@ -78,4 +78,5 @@ class Publication extends Model
 
         return collect($parts)->filter()->implode('. ');
     }
+
 }

@@ -123,6 +123,9 @@
                             <label class="form-check-label" for="filterOnlineOnly">{{ __('Jen dostupné online') }}</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="filterOnlineOnly" wire:model="filterOnlineOnly">
                         </div>
+                        <div class="form-text mb-3">
+                            {{ __('Pro prohlížení některých materiálů je nutné přihlášení na účet některé z knihoven.') }}
+                        </div>
                     </div>
                 @endif
 

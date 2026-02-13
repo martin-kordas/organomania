@@ -17,7 +17,7 @@
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('place_of_publication')" class="d-none d-lg-table-cell" />
                     <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('year')" class="text-end" />
                     <th class="text-center">{{ __('Kraj') }}</th>
-                    <th class="text-center">{{ __('Zaměření') }}</th>
+                    <x-organomania.sortable-table-heading :sortOption="$this->getSortOption('publication_topic_id')" class="text-center" />
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -50,21 +50,26 @@
                             @endif
                         </td>
                         <td class="name table-light position-sticky start-0">
+                            @php $url = $publication->url ?? $publication->library_url @endphp
                             <span class="fw-semibold" @isset($publication->name_cz) title="{{ __('Původní název') }}: {{ $publication->name }}" @endisset>
+                                @isset($publication->url)
+                                    <i class="bi-download text-secondary"></i>
+                                @endisset
                                 @if ($publication->language !== DispositionLanguage::Czech)
                                     <span class="emoji">{!! $publication->language->getFlagEmoji() !!}</span>
                                 @endif
-                                @isset($publication->library_url)
-                                    <a class="link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ $publication->library_url }}" target="_blank">
+                                @isset($url)
+                                    <a class="link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ $url }}" target="_blank">
                                 @endisset
                                 <span class="d-none d-md-inline">{{ $publication->displayedName }}</span>
                                 <span class="d-md-none" data-bs-toggle="tooltip" data-bs-title="{{ $publication->displayedName }}">{{ str($publication->displayedName)->limit(65) }}</span>
-                                @isset($publication->library_url)
+                                @isset($url)
                                     </a>
                                 @endisset
                             </span>
-                            @isset($publication->journal)
+                            @if ($publication->journal)
                                 <div class="small text-secondary">
+                                    In:
                                     @if ($publication->journal_is_book)
                                         {{ $publication->journal }}
                                     @else
@@ -74,12 +79,15 @@
                                     @endif
                                     @isset($publication->journal_issue)({{ $publication->journal_issue }})@endisset
                                 </div>
-                            @endisset
-                            @isset($publication->thesis_description)
-                                <div class="small texr-secondary">
+                            @elseif ($publication->thesis_description)
+                                <div class="small text-secondary">
                                     {{ $publication->thesis_description }}
                                 </div>
-                            @endisset
+                            @elseif ($publication->page_count)
+                                <div class="small text-secondary">
+                                    {{ __('Kniha') }}, {{ $publication->page_count }} {{ __('stran') }}
+                                </div>
+                            @endif
                         </td>
                         <td class="table-light">
                             @isset($publication->organ)
@@ -96,7 +104,9 @@
                         <td class="d-none small d-lg-table-cell">
                             {{ $publication->place_of_publication }}
                         </td>
-                        <td class="text-end">{{ $publication->year }}</td>
+                        <td class="text-end">
+                            <span @class(['mark' => $publication->year >= now()->year - 1])>{{ $publication->year }}</span>
+                        </td>
                         <td class="text-center" @isset($publication->region) data-bs-toggle="tooltip" data-bs-title="{{ $publication->region?->name }}" @endisset>
                             @isset($publication->region_id)
                                 <a href="{{ route('publications.index', ['filterRegionId' => $publication->region_id]) }}" wire:navigate>

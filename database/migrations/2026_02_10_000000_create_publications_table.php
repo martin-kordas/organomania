@@ -26,11 +26,13 @@ return new class extends Migration
             $table->string('place_of_publication', length: 100);
             $table->integer('year');
             $table->string('language', length: 10);
+            $table->string('keywords', length: 500)->nullable();
             $table->foreignId('publication_type_id')->constrained();
             $table->foreignId('publication_topic_id')->constrained();
             $table->foreignId('region_id')->nullable()->constrained();
             $table->foreignId('organ_id')->nullable()->constrained();
             $table->foreignId('organ_builder_id')->nullable()->constrained();
+            $table->integer('page_count')->nullable();
             $table->string('journal', length: 500)->nullable();
             $table->string('journal_issue', length: 100)->nullable();
             $table->integer('journal_is_book')->default(0);

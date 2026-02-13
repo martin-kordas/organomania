@@ -280,7 +280,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     $details[] = __('skříň starší');
                     $shownInCases = false;
                 }
-                else $shownInCases = $organ->isPublic() && isset($organ->year_built) && !in_array($organ->id, [Organ::ORGAN_ID_PRAHA_EMAUZY, Organ::ORGAN_ID_PARDUBICE_ZUS_POLABINY]);
+                else $shownInCases = $organ->isPublic() && isset($organ->year_built);
                 $year = !empty($details) ? implode(', ', $details) : null;
 
                 $caption = view('components.organomania.organ-link', [
@@ -374,9 +374,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     public function mapOtherMarkers()
     {
-        return $this->organs->pluck('organ')
+        return collect()
+            // nejméně významné body jako první (aby byly v pozadí)
+            ->merge($this->organBuilder->additionalImagesWithLocation)
             ->merge($this->organBuilder->renovatedOrgans)
             ->merge($this->organBuilder->caseOrgans)
+            ->merge($this->organs->pluck('organ'))
             ->unique('id');
     }
 
@@ -746,11 +749,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.tr-responsive>
         @endif
 
-        @php
-            $center = $organBuilder->getCenter();
-            $inland = $organBuilder->isInland();
-        @endphp
-        @if ($this->relatedOrganBuilders->isNotEmpty() || $center || !$inland)
+        @php $center = $organBuilder->getCenter() @endphp
+        @if ($this->relatedOrganBuilders->isNotEmpty() || $center)
             <x-organomania.tr-responsive title="{{ __('Související varhanáři') }}">
                 <div class="items-list">
                     @foreach ($this->relatedOrganBuilders as $relatedOrganBuilder)
@@ -766,23 +766,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             wire:navigate
                         >
                             <i class="bi bi-person-circle"></i>
-                            {{ $organBuilder->getCenterName() }}
+                            {{ $this->organBuilder->getCenterName() }}
                         </a>
                         @if ($organBuilderInCenterCount = $this->repository->getOrganBuilderInCenterCount($center))
                             <span class="badge text-bg-secondary rounded-pill">{{ $organBuilderInCenterCount }}</span>
-                        @endif
-                    @elseif (!$inland)
-                        @if ($this->relatedOrganBuilders->isNotEmpty()) <br /> @endif
-                        <a
-                            class="align-items-start link-primary text-decoration-none icon-link icon-link-hover"
-                            href="{{ route('organ-builders.index', ['filterRegionId' => -1]) }}"
-                            wire:navigate
-                        >
-                            <i class="bi bi-person-circle"></i>
-                            {{ __('Zahraniční varhanáři') }}
-                        </a>
-                        @if ($organBuilderNotInlandCount = $this->repository->getOrganBuilderNotInlandCount($center))
-                            <span class="badge text-bg-secondary rounded-pill">{{ $organBuilderNotInlandCount }}</span>
                         @endif
                     @endif
                 <div>
@@ -866,6 +853,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_LITERATURE)"
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_LITERATURE }}')"
             >
+                <x-organomania.info-alert>
+                    {{ __('Podrobný přehled literatury obsahuje strana')  }}
+                    <a class="text-decoration-none" href="{{ route('publications.index') }}" wire:navigate>{{ __('Literatura o varhanách') }}</a>.
+                </x-organomania.info-alert>
+
                 <ul class="list-group list-group-flush small">
                     @foreach (explode("\n", $organBuilder->literature) as $literature1)
                         <li @class(['list-group-item', 'd-flex', 'align-items-center', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>

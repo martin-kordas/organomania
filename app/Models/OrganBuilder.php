@@ -35,7 +35,7 @@ class OrganBuilder extends Model
     use OwnedEntity {
         OwnedEntity::scopeWithUniqueSlugConstraints insteadof Sluggable;
     }
-    
+
     const
         ORGAN_BUILDER_ID_RIEGER = 1,
         ORGAN_BUILDER_ID_RIEGER_KLOSS = 2,
@@ -79,83 +79,88 @@ class OrganBuilder extends Model
         ORGAN_BUILDER_ID_JIRI_SPANEL = 74,
         ORGAN_BUILDER_ID_ORGANA = 52,
         ORGAN_BUILDER_ID_THEODOR_AGADONI = 874;
-    
+
     // HACK: pokud varhanáře není čas vložit, přiřadíme varhany k tomuto varhanáři (varhanář se nezobrazí a zmíníme ho alespoň v popisu varan)
     const ORGAN_BUILDER_ID_NOT_INSERTED = 501;
-    
+
     const ORGAN_BUILDER_CENTERS = [
-      'Praha', 'Brno', 'Loket', 'Krnov', 'Kutná Hora', 'Opava', 'Znojmo', 
+      'Praha', 'Brno', 'Loket', 'Krnov', 'Kutná Hora', 'Opava', 'Znojmo',
     ];
-    
+
     protected $guarded = [];
-    
+
     protected $attributes = [
         'is_workshop' => false,
     ];
-    
+
     protected static function booted(): void
     {
         // řešení atributem ScopedBy nefunguje
         static::addGlobalScope(new OwnedEntityScope);
     }
-    
+
     protected function getShowRoute(): string
     {
         return 'organ-builders.show';
     }
-    
+
     public function casts()
     {
         return [
             'is_workshop' => 'boolean',
         ];
     }
-    
+
     public function region()
     {
         return $this->belongsTo(Region::class);
     }
-    
+
     public function timelineItems()
     {
         return $this->hasMany(OrganBuilderTimelineItem::class);
     }
-    
+
     public function organs()
     {
         return $this->hasMany(Organ::class)->orderBy('year_built');
     }
-    
+
     public function organRebuilds()
     {
         return $this->hasMany(OrganRebuild::class)->orderBy('year_built');
     }
-    
+
     public function renovatedOrgans()
     {
         return $this->hasMany(Organ::class, 'renovation_organ_builder_id')->orderBy('year_renovated');
     }
-    
+
     public function caseOrgans()
     {
         return $this->hasMany(Organ::class, 'case_organ_builder_id')->orderBy('case_year_built')->orderBy('id');
     }
-    
+
     public function additionalImages()
     {
         return $this->hasMany(OrganBuilderAdditionalImage::class)->orderByRaw('IFNULL(year_built, 9999)')->orderBy('id');
     }
-    
+
+    public function additionalImagesWithLocation()
+    {
+        return $this->additionalImages()->whereNotNull(['latitude', 'longitude']);
+    }
+
     public function organBuilderCustomCategories()
     {
         return $this->belongsToMany(OrganBuilderCustomCategory::class)->withTimestamps()->orderBy('name');
     }
-    
+
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
     }
-    
+
     public function organBuilderCategories()
     {
         return $this
@@ -164,14 +169,14 @@ class OrganBuilder extends Model
             // HACK: řeší dodatečné přidání štítku
             ->orderByRaw('IF(id = 10, 2.5, id)');
     }
-    
+
     public function getGeneralCategories()
     {
         return $this->organBuilderCategories->filter(
             fn(OrganBuilderCategory $category) => !$category->getEnum()->isPeriodCategory()
         );
     }
-    
+
     public function shouldHideImportance()
     {
         return
@@ -186,7 +191,7 @@ class OrganBuilder extends Model
                 )
             );
     }
-    
+
     public function scopeOrderByName(Builder $query, string $sortDirection = 'asc'): void
     {
         $raw = DB::raw('
@@ -198,7 +203,7 @@ class OrganBuilder extends Model
         );
         $query->orderBy($raw, $sortDirection);
     }
-    
+
     public function isInland()
     {
         return isset($this->region_id);
@@ -208,12 +213,12 @@ class OrganBuilder extends Model
     {
         return $this->latitude > 0 && $this->longitude > 0;
     }
-    
+
     public function scopeInland(Builder $query): void
     {
         $query->whereNotNull('region_id');
     }
-    
+
     // NOVÁK, Jan
     public function name(): Attribute
     {
@@ -223,14 +228,14 @@ class OrganBuilder extends Model
                 else {
                     // nepřevádíme na velká písmena, protože jde obvykle o importované varhanáře, kde je v příjmení uloženo i křestní jméno
                     if (!isset($attributes['first_name'])) return $attributes['last_name'];
-                    
+
                     $lastName = mb_strtoupper($attributes['last_name']);
                     return "$lastName, {$attributes['first_name']}";
                 }
             }
         );
     }
-    
+
     // Jan Novák
     public function standardName(): Attribute
     {
@@ -244,7 +249,7 @@ class OrganBuilder extends Model
             }
         );
     }
-    
+
     public function shortName(): Attribute
     {
         return Attribute::make(
@@ -255,7 +260,7 @@ class OrganBuilder extends Model
             }
         );
     }
-    
+
     public function initialsName(): Attribute
     {
         return Attribute::make(
@@ -269,7 +274,7 @@ class OrganBuilder extends Model
             }
         );
     }
-    
+
     public function typeName(): Attribute
     {
         return Attribute::make(
@@ -290,13 +295,13 @@ class OrganBuilder extends Model
             }
         );
     }
-    
+
     public function getThumbnailImage()
     {
         if (isset($this->image_url))
             return ['image_url' => $this->image_url, 'image_credits' => $this->image_credits];
     }
-    
+
     /**
      * @return int      číslo v rozsahu 0-100 reprezentující rok varhanáře v poměru k varhanářům s nejdřívějším a nejpozdějším rokem
      */
@@ -313,10 +318,10 @@ class OrganBuilder extends Model
             $relativeYear = ($this->active_from_year - $yearMin) / $yearMax1;
             return round($relativeYear * 100);
         }
-        
+
         return 100;
     }
-    
+
     // first_name, last_name je rovněž nutné hledat fulltextově, jinak by současně zadané celé jméno (např. "Emanuel Petr") nenašlo nic
     #[SearchUsingFullText(['first_name', 'last_name', 'description', 'perex', 'workshop_members', 'organ_builder_additional_images.name'])]
     public function toSearchableArray(): array
@@ -335,7 +340,7 @@ class OrganBuilder extends Model
                 'organ_builders.workshop_members' => '',
             ];
     }
-    
+
     public function sluggable(): array
     {
         return [
@@ -344,19 +349,19 @@ class OrganBuilder extends Model
             ]
         ];
     }
-    
+
     public function getMapInfo()
     {
         return view('components.organomania.map-info.organ-builder', [
             'organBuilder' => $this,
         ])->render();
     }
-    
+
     public function getLinkComponent()
     {
         return 'components.organomania.organ-builder-link';
     }
-    
+
     public function getCenter()
     {
         // např. je-li municipality varhanáře 'Praha-Žižkov', vrátíme 'Praha'
@@ -366,7 +371,7 @@ class OrganBuilder extends Model
             }
         }
     }
-    
+
     public function getCenterName()
     {
         return match ($this->getCenter()) {
@@ -380,5 +385,5 @@ class OrganBuilder extends Model
             default => $this->municipality . __(' a varhanářství'),
         };
     }
-    
+
 }

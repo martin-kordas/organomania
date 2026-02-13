@@ -14,19 +14,19 @@ use App\Helpers;
 class Keyboard extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $guarded = [];
-    
+
     public function dispositionRegisters()
     {
         return $this->hasMany(DispositionRegister::class)->orderBy('order');
     }
-    
+
     public function realDispositionRegisters()
     {
         return $this->dispositionRegisters()->where('coupler', 0);
     }
-    
+
     public static function getProposedManualNames(DispositionLanguage $language)
     {
         $names = match ($language) {
@@ -38,37 +38,41 @@ class Keyboard extends Model
             ],
             DispositionLanguage::French => [
                 'Grand Orgue', 'Positif', 'Récit',
+            ],
+            DispositionLanguage::English => [
+                'Great Organ', 'Choir', 'Swell',
             ]
         };
         return $names;
     }
-    
+
     public static function getDefaultName(DispositionLanguage $language, $pedal = false)
     {
         return match ($language) {
             DispositionLanguage::Czech => $pedal ? 'Pedál' : 'manuál',
             DispositionLanguage::German => $pedal ? 'Pedal' : 'manual',
             DispositionLanguage::French => $pedal ? 'Pédale' : 'manuel',
+            DispositionLanguage::English => $pedal ? 'Pedal' : 'manual',
         };
     }
-    
+
     public function getAbbrev()
     {
         if ($this->pedal) return 'P';
         return $this->getNumber();
     }
-    
+
     public function getNumber()
     {
         if ($this->pedal) return null;
         return Helpers::formatRomanNumeral($this->order);
     }
-    
+
     public function getFullName()
     {
         if ($this->pedal) return $this->name;
         $number = Helpers::formatRomanNumeral($this->order);
         return "$number. {$this->name}";
     }
-    
+
 }

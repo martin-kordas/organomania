@@ -1,6 +1,7 @@
 @props(['marker', 'title' => '', 'inland' => true, 'otherMarkers' => collect()])
 
 @use(App\Helpers)
+@use(App\Models\OrganBuilderAdditionalImage)
 @use(App\Models\Organ)
 
 @php
@@ -19,11 +20,26 @@
 >
     @foreach ($otherMarkers as $marker1)
         @php
+            $glyph = $borderColor = null;
+
             // TODO: v title by šlo zobrazit i rok postavení a velikost varhan
+            // TODO: optimalizace ::renovationOrganBuilder, ::caseOrganBuilder (N+1 problém)
             if ($marker1 instanceof Organ) {
                 $renovated = $marker1->renovationOrganBuilder?->id === $marker->id;
                 $background = $renovated ? '#e8e8e8' : 'white';
                 $title1 = "{$marker1->municipality}, {$marker1->place}";
+                if ($marker1->caseOrganBuilder?->id === $marker->id) {
+                    $title1 .= sprintf("\n(%s)", __('dochována skříň'));
+                }
+            }
+            elseif ($marker1 instanceof OrganBuilderAdditionalImage) {
+                $background = 'white';
+                $glyph = '&#128247;';
+                $borderColor = 'black';
+                $title1 = $marker1->name;
+                if (str($marker1->details)->contains('dochována skříň')) {
+                    $title1 .= sprintf("\n(%s)", __('dochována skříň'));
+                }
             }
             else {
                 $background = 'var(--header-footer-background)';
@@ -39,6 +55,8 @@
                 scale="0.8"
                 title="{{ $title1 }}"
                 onclick="window.open({{ Js::from($marker1->getViewUrl()) }}, '_blank')"
+                @isset($glyph) glyph-text="{!! $glyph !!};" @endisset
+                @isset($borderColor) border-color="{{ $borderColor }}" @endisset
             ></gmp-pin>
         </gmp-advanced-marker>
     @endforeach

@@ -35,6 +35,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <x-organomania.sitemap-location :url="route('publications.index')" />
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <x-organomania.sitemap-location :url="route('about-organ')" />
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
@@ -64,7 +69,7 @@
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-    
+
     @foreach (['organs', 'organ-builders', 'dispositions', 'festivals', 'competitions'] as $entityType)
         @php($url = route("$entityType.index", ['perPage' => 300]))
         <url>
@@ -79,7 +84,7 @@
             <priority>0.8</priority>
         </url>
     @endforeach
-    
+
     @foreach ($organs as $organ)
         <x-organomania.sitemap-item-entity
             :url="route('organs.show', $organ->slug)"

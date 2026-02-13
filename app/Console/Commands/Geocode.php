@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\OrganBuilderAdditionalImage;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\Scopes\OwnedEntityScope;
@@ -23,25 +24,32 @@ class Geocode extends Command
      * @var string
      */
     protected $description = 'Compute latitude, longitude and region for organs and organ builders';
-    
+
     protected GeocodingService $service;
-    
+
     /**
      * Execute the console command.
      */
     public function handle(GeocodingService $service)
     {
         $this->service = $service;
-        
+
         $startId = (int)$this->argument('startId');
         $endId = (int)($this->argument('endId') ?? $startId);
         if ($startId <= 0 || $endId <= 0) $this->fail('Zadaná ID jsou v nesprávném tvaru.');
-        
+
         $type = $this->option('type');
-        if (!in_array($type, ['organ', 'organBuilder'])) $this->fail('Neplatná volba "type".');
-        
+        if (!in_array($type, ['organ', 'organBuilder', 'organBuilderAdditionalImage'])) $this->fail('Neplatná volba "type".');
+
         for ($id = $startId; $id <= $endId; $id++) {
-            if ($type === 'organBuilder') {
+            if ($type === 'organBuilderAdditionalImage') {
+                $additionalImage = $this->getItem(new OrganBuilderAdditionalImage, $id);
+                if ($additionalImage) {
+                    $address = $additionalImage['name'];
+                    $this->handleItem($additionalImage, $address);
+                }
+            }
+            elseif ($type === 'organBuilder') {
                 $organBuilder = $this->getItem(new OrganBuilder, $id);
                 if ($organBuilder) {
                     $address = $organBuilder['municipality'];
@@ -61,7 +69,7 @@ class Geocode extends Command
             }
         }
     }
-    
+
     private function handleItem(Model $item, string $address, int $attempt = 1): bool
     {
         try {
@@ -81,7 +89,7 @@ class Geocode extends Command
         }
         return true;
     }
-    
+
     private function getItem(Model $model, int $id)
     {
         return $model
@@ -90,7 +98,7 @@ class Geocode extends Command
             ->where('user_id', 5)
             ->find($id);
     }
-    
+
     private function getAlternativeAddresses(string $address)
     {
         $count = null;
@@ -108,19 +116,19 @@ class Geocode extends Command
             ', druhé varhany',
             ', postranní loď',
         ], '', $address, $count);
-        
+
         if ($count > 0) yield $address1;
-        
+
         $address2 = strtr($address1, [
             'kostel' => 'kaple',
             'kaple' => 'kostel',
         ]);
         if ($address2 !== $address1) yield $address2;
-        
+
         $address3 = strtr($address1, [
             'sv. ' => '',
         ]);
         if ($address3 !== $address1) yield $address3;
     }
-    
+
 }

@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\App;
 use App\Helpers;
 use App\Models\Organist;
+use App\Repositories\PublicationRepository;
 use App\Services\AnniversariesService;
 
 $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
@@ -13,6 +14,7 @@ $googleMapsScript = url()->query('https://maps.googleapis.com/maps/api/js', [
 ]);
 
 $organistHighlightedCount = Organist::getHighlightedCount();
+$publicationsHighlightedCount = app(PublicationRepository::class)->getHighlightedCount();
 $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount();
 @endphp
 
@@ -169,6 +171,16 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
                                 </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('links') }}" wire:navigate>
                                     {{ __('Odkazy') }}
+                                </x-organomania.footer-nav-item>
+                                <x-organomania.footer-nav-item href="{{ route('publications.index') }}" wire:navigate>
+                                    {{ __('Literatura') }}
+                                    @if ($publicationsHighlightedCount > 0)
+                                        <span class="info-count-badge position-absolute top-0 start-100 translate-middle">
+                                            <span class="badge rounded-pill text-bg-secondary" style="font-size: 55%;">
+                                                {{ $publicationsHighlightedCount }}
+                                            </span>
+                                        </span>
+                                    @endif
                                 </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('about') }}" wire:navigate>
                                     {{ __('O webu') }}

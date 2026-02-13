@@ -11,7 +11,7 @@
 
     <div class="carousel-inner">
         @foreach ($authors as $author)
-            <div @class(['carousel-item', 'justify-content-center', 'active' => $loop->first]) data-bs-interval="1000000">
+            <div @class(['carousel-item', 'justify-content-center', 'active' => $loop->first]) data-bs-interval="10000">
                 <div class="d-flex align-items-center">
                     <div class="content d-flex flex-column align-items-center text-center p-3">
                         <h5 class="mb-1 fs-6">
@@ -83,10 +83,11 @@
     }
 
     .authors-carousel .carousel-item {
-        min-height: 200px;
+        min-height: 225px;
     }
     .authors-carousel .carousel-item.active,
-    .authors-carousel .carousel-item.carousel-item-next {
+    .authors-carousel .carousel-item.carousel-item-next,
+    .authors-carousel .carousel-item.carousel-item-prev {
         display: flex;
     }
     .authors-carousel .content {
