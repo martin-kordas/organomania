@@ -20,7 +20,7 @@
 >
     @foreach ($otherMarkers as $marker1)
         @php
-            $glyph = $borderColor = null;
+            $color = null;
 
             // TODO: v title by šlo zobrazit i rok postavení a velikost varhan
             // TODO: optimalizace ::renovationOrganBuilder, ::caseOrganBuilder (N+1 problém)
@@ -34,8 +34,7 @@
             }
             elseif ($marker1 instanceof OrganBuilderAdditionalImage) {
                 $background = 'white';
-                $glyph = '&#128247;';
-                $borderColor = 'black';
+                $color = 'black';
                 $title1 = $marker1->name;
                 if (str($marker1->details)->contains('dochována skříň')) {
                     $title1 .= sprintf("\n(%s)", __('dochována skříň'));
@@ -55,8 +54,7 @@
                 scale="0.8"
                 title="{{ $title1 }}"
                 onclick="window.open({{ Js::from($marker1->getViewUrl()) }}, '_blank')"
-                @isset($glyph) glyph-text="{!! $glyph !!};" @endisset
-                @isset($borderColor) border-color="{{ $borderColor }}" @endisset
+                @isset($color) glyph-color="{{ $color }}" border-color="{{ $color }}" @endisset
             ></gmp-pin>
         </gmp-advanced-marker>
     @endforeach

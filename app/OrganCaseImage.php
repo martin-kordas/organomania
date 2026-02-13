@@ -13,7 +13,7 @@ use App\Models\OrganBuilderAdditionalImage;
  */
 final readonly class OrganCaseImage {
 
-    public OrganCategory $periodCategory;
+    public ?OrganCategory $periodCategory;
 
     public function __construct(
         public string $id,
@@ -22,7 +22,7 @@ final readonly class OrganCaseImage {
         public string $imageUrl,
         public ?string $imageCredits,
 
-        public int $yearBuilt,
+        public ?int $yearBuilt,
         public ?OrganCategory $caseCategory,
 
         public ?OrganBuilder $organBuilder,
@@ -36,8 +36,10 @@ final readonly class OrganCaseImage {
         public ?Organ $organ = null,
     )
     {
-        $categories = OrganCategory::getPeriodCategories($yearBuilt);
-        $this->periodCategory = $categories->first();
+        if (isset($yearBuilt)) {
+            $categories = OrganCategory::getPeriodCategories($yearBuilt);
+            $this->periodCategory = $categories->first();
+        }
     }
 
     public static function fromOrgan(Organ $organ)

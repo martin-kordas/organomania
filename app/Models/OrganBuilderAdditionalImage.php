@@ -29,7 +29,8 @@ class OrganBuilderAdditionalImage extends Model
     {
         if (!$this->organ_builder_id) throw new \LogicException;
 
-        return route('organs.cases', ['filterOrganBuilders' => [$this->organ_builder_id], 'additionalImageId' => $this->id]);
+        $url = route('organs.cases', ['filterOrganBuilders' => [$this->organ_builder_id], 'additionalImageId' => $this->id]);
+        return "$url#groups";
     }
 
 }
