@@ -463,15 +463,18 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <span class="fw-semibold">{{ $this->cases->count() }}</span>
             {{ Helpers::declineCount($this->cases->count(), __('fotografií'), __('fotografie'), __('fotografie')) }}
         </p>
-        <p class="text-center">
-            <a class="btn btn-sm btn-outline-secondary" type="button" href="{{ route('organs.index', ['viewType' => 'map', 'showAdditionalImages' => 1]) }}" target="_blank">
-                <i class="bi-pin-map"></i>
-                {{ __('Zobrazit vše na mapě')  }}
-            </a>
-        </p>
 
         @if ($this->showCaseParts)
             <x-organomania.case-parts class="mt-4 mb-4" />
+        @endif
+
+        @if (!$this->filterOrganBuilders)
+            <p class="text-center">
+                <a class="btn btn-sm btn-outline-secondary" type="button" href="{{ route('organs.index', ['viewType' => 'map', 'showAdditionalImages' => 1]) }}" target="_blank">
+                    <i class="bi-pin-map"></i>
+                    {{ __('Zobrazit vše na mapě')  }}
+                </a>
+            </p>
         @endif
 
         @if ($this->showCollapseAll)

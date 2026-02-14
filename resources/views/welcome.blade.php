@@ -15,7 +15,7 @@
         $description = __('Organomania (z latinského <em>organum</em> = varhany) vám atraktivním způsobem představí varhany v&nbsp;České&nbsp;republice, a&nbsp;to jako součást kulturního dědictví, jako technickou památku, i&nbsp;jako živý hudební nástroj.');
         $lastWorshipSongsOrgans = Auth::user()?->getLastWorshipSongsOrgans(limit: 5) ?? collect();
     @endphp
-  
+
     @push('meta')
         <meta name="description" content="{{ html_entity_decode($description) }}">
     @endpush
@@ -28,12 +28,12 @@
                 <span class="fs-6 d-md-none">{!! $description !!}</span>
             </p>
         </div>
-        
+
         <div class="mb-4 mb-md-5 m-auto" style="max-width: 600px">
             <livewire:search id="welcomeSearch" placeholder="{{__('Hledejte varhany, varhanáře, varhanní rejstříky...') }}" />
             <div class="form-text text-center">{{ __('např. Kladruby, Rieger-Kloss, Flétna trubicová') }}</div>
         </div>
-      
+
         @if ($lastWorshipSongsOrgans->isNotEmpty())
             <div class="border border-secondary-subtle rounded p-2 mb-4 mb-md-5 mx-auto" style="max-width: 600px; background: #fdfdfd">
                 <h3 class="text-center fs-5 mb-1">
@@ -69,13 +69,13 @@
                         @endforeach
                     </tbody>
                 </table>
-                
+
                 <div class="text-center small">
                     <a class="text-decoration-none" href="{{ route('organs.create-simple') }}" wire:navigate>{{ __('Založit evidenci písní pro další varhany') }}</a>
                 </div>
             </div>
         @endif
-        
+
         @isset($organOfDay)
             <div class="row justify-content-center mb-4 mb-md-5">
                 <div
@@ -113,17 +113,17 @@
                 </div>
             </div>
         @endisset
-        
+
         <h2 class="text-center fs-3 mb-3">{{ __('Kam dál?') }}</h2>
-        
+
         <x-organomania.welcome-card-small title="{{ __('O varhanách') }}" url="{{ route('about-organ') }}" icon="file-text">
             {{ __('Varhany a jejich stylový vývoj v českých zemích.') }}
         </x-organomania.welcome-card-small>
-        
+
         <x-organomania.welcome-card-small title="{{ __('Galerie skříní') }}" url="{{ route('organs.cases') }}" icon="camera">
             {{ __('Výtvarný vývoj varhanních skříní ve fotografiích.') }}
         </x-organomania.welcome-card-small>
-        
+
         <div class="row text-center gx-4 gy-3 gy-md-3 align-items-stretch">
             <x-organomania.welcome-card
                 title="{{ __('Varhany') }}"
@@ -135,6 +135,7 @@
                 {!! __('Zjistěte více o&nbsp;jejich historii a&nbsp;zvukové povaze.') !!}
                 <x-slot:list>
                     <li>{{ __('medailony') }} <span class="fs-5">{{ $runtimeStats->getOrganCount() }}</span> {{ __('vybraných varhan') }}</li>
+                    <li>{{ __('fotografie') }} <span class="fs-5">{{ $runtimeStats->getOrganImageCount() }}</span> {{ __('varhanních skříní') }}</li>
                     <li>{{ __('možnost přidat vlastní') }} <span class="text-secondary">({{ __('pro přihlášené') }})</span></li>
                     <li>{{ __('přehledné zobrazení na mapě') }}</li>
                 </x-slot:list>
@@ -151,7 +152,7 @@
                     </p>
                 </x-slot:footer>
             </x-organomania.welcome-card>
-            
+
             <x-organomania.welcome-card
                 title="{{ __('Varhanáři') }}"
                 url="{{ route('organ-builders.index') }}"
@@ -165,7 +166,7 @@
                     <li>{{ __('přehledné zobrazení na mapě') }}</li>
                 </x-slot:list>
             </x-organomania.welcome-card>
-            
+
             <x-organomania.welcome-card
                 title="{{ __('Festivaly a soutěže') }}"
                 url="{{ route('festivals.index') }}"
@@ -181,11 +182,11 @@
                 </x-slot:footer>
             </x-organomania.welcome-card>
         </div>
-        
+
         <x-organomania.welcome-card-small title="{{ __('Varhanní kvíz') }}" url="{{ route('quiz') }}" icon="patch-question">
             {{ __('Prověřte a poměřte své znalosti o varhanách.') }}
         </x-organomania.welcome-card-small>
-        
+
         <div class="py-3 px-1 mt-4 pb-2 mx-auto text-center">
             <p class="fs-5 text-body-secondary">
                 {{ __('Stránky jsou určeny pro aktivní varhaníky,') }}
@@ -206,7 +207,7 @@
             @endif
         </div>
     </div>
-        
+
     <script>
         function openOrganOfDay(e) {
             if (!$(event.target).closest('.organ-builder-link').length)

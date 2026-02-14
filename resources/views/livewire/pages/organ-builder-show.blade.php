@@ -280,7 +280,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     $details[] = __('skříň starší');
                     $shownInCases = false;
                 }
-                else $shownInCases = $organ->isPublic() && isset($organ->year_built);
+                else $shownInCases = $organ->isPublic() && isset($organ->year_built) && !in_array($organ->id, Organ::ORGANS_NOT_SHOWN_IN_CASES);
                 $year = !empty($details) ? implode(', ', $details) : null;
 
                 $caption = view('components.organomania.organ-link', [

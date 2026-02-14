@@ -99,6 +99,10 @@ class Organ extends Model
         ORGAN_ID_PRAHA_KRIZOVNICI = 71,
         ORGAN_ID_PARDUBICE_ZUS_POLABINY = 4540;
 
+    const ORGANS_NOT_SHOWN_IN_CASES = [
+        self::ORGAN_ID_PRAHA_EMAUZY, self::ORGAN_ID_PARDUBICE_ZUS_POLABINY
+    ];
+
     protected $guarded = [];
 
     public function casts()

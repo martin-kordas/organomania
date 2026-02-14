@@ -346,7 +346,7 @@ class OrganRepository extends AbstractRepository
             ->count();
     }
 
-    public function getCaseImagesOrgansQuery(): Builder
+    public function getCaseImagesOrgansQuery(bool $withYearOnly = true): Builder
     {
         return Organ::query()
             ->select('*')
@@ -360,9 +360,12 @@ class OrganRepository extends AbstractRepository
             ')
             ->public()
             ->whereNotNull('outside_image_url')
-            ->whereNotIn('id', [Organ::ORGAN_ID_PRAHA_EMAUZY, Organ::ORGAN_ID_PARDUBICE_ZUS_POLABINY])
-            // rok postavení nutné znát vždy kvůli seřazení
-            ->havingNotNull('year_built1');
+            ->whereNotIn('id', Organ::ORGANS_NOT_SHOWN_IN_CASES);
+
+        // rok postavení nutné znát vždy kvůli seřazení
+        if ($withYearOnly) $query->havingNotNull('year_built1');
+
+        return $query;
     }
 
     public function getCaseImagesAdditionalImagesQuery(bool $withoutOrganExists = true, bool $withoutNonoriginalCase = true, bool $withYearOnly = true): Builder
