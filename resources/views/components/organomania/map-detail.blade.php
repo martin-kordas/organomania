@@ -5,7 +5,7 @@
 @use(App\Models\Organ)
 
 @php
-    $otherMarkers = Helpers::adjustCoordinates($otherMarkers);
+    $otherMarkers = Helpers::adjustCoordinates(collect($otherMarkers));
 
     $center = $inland ? '49.815148,15.565384' : '47.4521023,15.070935';
     if (Helpers::isMobile()) $zoom = $inland ? '6.1' : '3.9';

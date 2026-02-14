@@ -163,7 +163,11 @@ new class extends Component {
     #[Computed]
     public function additionalImages()
     {
-        return OrganBuilderAdditionalImage::whereNotNull(['latitude', 'longitude'])->where('organ_exists', 0)->get();
+        return OrganBuilderAdditionalImage::query()
+            ->with('organBuilder')
+            ->whereNotNull(['latitude', 'longitude'])
+            ->where('organ_exists', 0)
+            ->get();
     }
 
     private function getResourceCollection(Collection $data): ResourceCollection

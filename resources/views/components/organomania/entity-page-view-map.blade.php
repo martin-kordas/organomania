@@ -44,7 +44,7 @@
                     <gmp-pin
                         background="white"
                         scale="0.8"
-                        title="{{ $additionalImage->getMapMarkerTitle() }}"
+                        title="{{ $additionalImage->getMapMarkerTitle(withOrganBuilder: true) }}"
                         onclick="window.open({{ Js::from($additionalImage->getViewUrl()) }}, '_blank')"
                         glyph-color="black"
                         border-color="black"

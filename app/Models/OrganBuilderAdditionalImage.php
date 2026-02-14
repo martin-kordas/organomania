@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers;
 use App\Enums\OrganCategory;
+use App\Models\OrganBuilder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 
@@ -33,9 +34,13 @@ class OrganBuilderAdditionalImage extends Model
         return "$url#groups";
     }
 
-    public function getMapMarkerTitle()
+    public function getMapMarkerTitle(bool $withOrganBuilder = false)
     {
         $title = $this->name;
+        if ($withOrganBuilder && $this->organBuilder && $this->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) {
+            $title .= "\n{$this->organBuilder->name}";
+            if ($this->year_built) $title .= " ({$this->year_built})";
+        }
         if (str($this->details)->contains('dochována skříň')) {
             $title .= sprintf("\n(%s)", __('dochována skříň'));
         }

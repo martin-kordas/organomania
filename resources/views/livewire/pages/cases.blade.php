@@ -464,7 +464,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             {{ Helpers::declineCount($this->cases->count(), __('fotografií'), __('fotografie'), __('fotografie')) }}
         </p>
         <p class="text-center">
-            <a class="btn btn-sm btn-outline-secondary" type="button" href="{{ route('organs.index', ['viewType' => 'map', 'showAdditionalImages' => 1]) }}" wire:navigate>
+            <a class="btn btn-sm btn-outline-secondary" type="button" href="{{ route('organs.index', ['viewType' => 'map', 'showAdditionalImages' => 1]) }}" target="_blank">
                 <i class="bi-pin-map"></i>
                 {{ __('Zobrazit vše na mapě')  }}
             </a>
