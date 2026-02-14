@@ -22,7 +22,7 @@
         @endif
 
         <div @class(['entity-page-view-container', "view-type-{$this->viewType}"])>
-            <x-dynamic-component :component="$this->viewComponent" :organs="$this->organs" :thumbnailOrgan="$this->thumbnailOrgan ?? null" />
+            <x-dynamic-component :component="$this->viewComponent" :organs="$this->organs" :additionalImages="$this->additionalImages ?? null" :thumbnailOrgan="$this->thumbnailOrgan ?? null" />
         </div>
 
         @if ($this->shouldPaginate)

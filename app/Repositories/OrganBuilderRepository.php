@@ -33,6 +33,21 @@ class OrganBuilderRepository extends AbstractRepository
     {
         $query = OrganBuilder::query()->select('*');
 
+        // načítat jen přestavby varhan, ke kterým má uživatel přístup
+        $relations = [
+            'organRebuilds' => function (Builder $query) {
+                $query->whereHas('organ');
+            }
+        ];
+        if (in_array('organRebuilds', $with)) $query->with($relations);
+        foreach ($with as $key => $value) {
+            if ($value === 'organRebuilds') unset($with[$key]);
+        }
+        if (in_array('organRebuilds', $withCount)) $query->withCount($relations);
+        foreach ($withCount as $key => $value) {
+            if ($value === 'organRebuilds') unset($withCount[$key]);
+        }
+
         if (!empty($with)) $query->with($with);
         if (!empty($withCount)) $query->withCount($withCount);
         $filterNear = false;

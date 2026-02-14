@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Collection;
 use Transliterator;
 use NumberFormatter;
 use Illuminate\Support\Arr;
@@ -293,6 +294,27 @@ class Helpers
         $coordinate2 = new Coordinate($latitude2, $longitude2);
         $calculator = new Vincenty();
         return $calculator->getDistance($coordinate1, $coordinate2);
+    }
+
+    /**
+     * ošetří konfliktní souřadnice (posune je náhodně na mírně jiné místo)
+     */
+    static function adjustCoordinates(Collection $items): Collection
+    {
+        $usedCoords = [];
+        $getRandOffset = fn() => rand(-5000, 5000) / 10_000_000;
+        foreach ($items as $organ) {
+            $coords = ['latitude' => $organ->latitude, 'longitude' => $organ->longitude];
+            $exists = collect($usedCoords)->contains(
+                fn($coords1) => $coords1 == $coords
+            );
+            if ($exists) {
+                $organ->latitude += $getRandOffset();
+                $organ->longitude += $getRandOffset();
+            }
+            else $usedCoords[] = $coords;
+        }
+        return $items;
     }
 
     static function formatUrlsInLiterature($literature)

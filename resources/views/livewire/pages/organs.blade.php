@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
-use Livewire\Attributes\On; 
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Session;
 use Livewire\Attributes\Locked;
@@ -52,8 +52,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $filterForeignOrganBuilder;
     #[Url(keep: true)]
     public $filterHasDisposition;
+
     #[Url(keep: true)]
     public $search;
+    #[Url(keep: true)]
+    public $showAdditionalImages;
 
     public $municipality;
 

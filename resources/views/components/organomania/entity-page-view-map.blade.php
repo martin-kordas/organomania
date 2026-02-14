@@ -1,25 +1,12 @@
-@props(['organs', 'thumbnailOrgan', 'thumbnailComponent'])
+@props(['organs', 'thumbnailOrgan', 'thumbnailComponent',  'additionalImages' => []])
 
 @php
     use App\Helpers;
     use App\Repositories\OrganRepository;
     use App\Repositories\OrganBuilderRepository;
 
-    // ošetření konfliktních souřadnic - posuneme je náhodné jiné místo
-    $usedCoords = [];
-    $getRandOffset = fn() => rand(-5000, 5000) / 10_000_000;
-    foreach ($organs as $organ) {
-        $coords = ['latitude' => $organ->latitude, 'longitude' => $organ->longitude];
-        $exists = collect($usedCoords)->contains(
-            fn($coords1) => $coords1 == $coords
-        );
-        if ($exists) {
-            $organ->latitude += $getRandOffset();
-            $organ->longitude += $getRandOffset();
-        }
-        else $usedCoords[] = $coords;
-    }
-
+    $organs = Helpers::adjustCoordinates($organs);
+    $additionalImages = Helpers::adjustCoordinates(collect($additionalImages));
     $zoom = Helpers::isMobile() ? '6.3' : '7.8';
 @endphp
 
@@ -49,6 +36,22 @@
         @if ($this->useMapClusters) data-use-map-clusters @endif
     >
         @if (!isset($this->thumbnailOrgan))
+            @foreach ($additionalImages as $additionalImage)
+                <gmp-advanced-marker
+                    class="simple-marker"
+                    position="{{ $additionalImage->latitude }},{{ $additionalImage->longitude }}"
+                >
+                    <gmp-pin
+                        background="white"
+                        scale="0.8"
+                        title="{{ $additionalImage->getMapMarkerTitle() }}"
+                        onclick="window.open({{ Js::from($additionalImage->getViewUrl()) }}, '_blank')"
+                        glyph-color="black"
+                        border-color="black"
+                    ></gmp-pin>
+                </gmp-advanced-marker>
+            @endforeach
+
             @foreach ($organs as $organ)
                 @php
                     $latitude = $this->filterNearLatitude ? (float)$this->filterNearLatitude : null;
@@ -57,7 +60,7 @@
 
                     $lightness = $this->getMapMarkerLightness($organ);
                 @endphp
-        
+
                 <gmp-advanced-marker
                     position="{{ $organ->latitude }},{{ $organ->longitude }}"
                     data-map-info="{{ $organ->getMapInfo($latitude, $longitude) }}"
@@ -74,14 +77,14 @@
             @endforeach
         @endif
     </gmp-map>
-  
+
     <x-organomania.modals.organ-thumbnail-modal />
 </div>
 
 @script
 <script>
     initGoogleMap($wire)
-    
+
     // TODO: převést do initGoogleMap
     // TODO: na localhostu vzniká chyba
     const mapElement = document.querySelector('#entity-page-view-map')

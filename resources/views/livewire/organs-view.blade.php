@@ -15,6 +15,7 @@ use Livewire\Attributes\Reactive;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Locked;
 use App\Enums\OrganCategory;
+use App\Models\OrganBuilderAdditionalImage;
 use App\Models\Organ;
 use App\Models\OrganLike;
 use App\Models\OrganCustomCategory as OrganCustomCategoryModel;
@@ -27,7 +28,7 @@ use App\Traits\EntityPageView;
 
 // TODO: sloučit s komponentou organs-builders?
 new class extends Component {
-    
+
     use WithPagination, EntityPageView;
 
     #[Reactive]
@@ -54,8 +55,11 @@ new class extends Component {
     public $filterForeignOrganBuilder;
     #[Reactive]
     public $filterHasDisposition;
+
     #[Reactive]
     public $search;
+    #[Reactive]
+    public $showAdditionalImages;
 
     // TODO: jako public mít radši jen id?
     #[Locked]
@@ -64,7 +68,7 @@ new class extends Component {
     public ?Organ $editCustomCategoriesOrgan = null;
 
     private OrganRepository $repository;
-    
+
     public function boot(OrganRepository $repository)
     {
         $this->bootCommon($repository);
@@ -156,11 +160,17 @@ new class extends Component {
         return $query->get();
     }
 
+    #[Computed]
+    public function additionalImages()
+    {
+        return OrganBuilderAdditionalImage::whereNotNull(['latitude', 'longitude'])->where('organ_exists', 0)->get();
+    }
+
     private function getResourceCollection(Collection $data): ResourceCollection
     {
         return new OrganCollection($data);
     }
-    
+
     #[Computed]
     public function viewComponent(): string
     {
@@ -217,7 +227,7 @@ new class extends Component {
 
         return compact('series', 'categories', 'organData');
     }
-    
+
 }; ?>
 
 <x-organomania.entity-page-view />

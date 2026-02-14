@@ -53,7 +53,7 @@ window.refreshSelect2 = function () {
     // při navigaci Zpět v prohlížeči se zobrazí neaktivní element a atributy dřívějšího select2, které před jeho opětovným obnovením musím smazat
     $('span.select2-container').remove();
     $('[data-select2-id]').removeAttr('data-select2-id').removeClass('select2-hidden-accessible');
-    
+
     $('.select2:not(#page.sframe *)').each(function() {
         var cssClass = $(this).hasClass('form-select-sm') ? 'select2--small' : ''
         //if ($(this).hasClass("select2-hidden-accessible")) $(this).select2('destroy')
@@ -67,7 +67,7 @@ window.refreshSelect2 = function () {
             dropdownCssClass: cssClass,
         })
     })
-    
+
     $('.select2-register-names').each(function() {
         $(this).select2({
             theme: "bootstrap-5",
@@ -119,9 +119,9 @@ window.refreshSelect2 = function () {
             }
         }).on('select2:close', function () {
             $('.pitch-select').select2('open')
-        })    
+        })
     })
-    
+
     $('.select2-pitch').each(function() {
         $(this).select2({
             theme: "bootstrap-5",
@@ -131,7 +131,7 @@ window.refreshSelect2 = function () {
             matcher: select2MatchStart
         })
     });
-    
+
     $('.pitch-select').on('select2:close', function () {
         $('.multiplier input').focus()
     })
@@ -151,10 +151,10 @@ function initSelect2Songs() {
         }
         let songName = state.text
         if (link) songName = `<a class="song-link link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover" href="${getKancionalUrl(dataset.number)}" target="_blank">${songName}</a>`
-        
+
         let countClass = dataset.worshipSongsCount > 0 ? 'fw-bold' : ''
         let monthCountClass = dataset.worshipSongsMonthCount > 0 ? 'fw-bold' : ''
-        
+
         // TODO: lokalizace
         return $(`
             <span class="d-sm-flex align-items-center column-gap-2">
@@ -173,7 +173,7 @@ function initSelect2Songs() {
             </span>
         `)
     }
-    
+
     let getOptionSortString = function (option) {
         return $(option.element).data('sortString')
     }
@@ -193,12 +193,12 @@ function initSelect2Songs() {
         return child.text.toUpperCase().replace(',', '').indexOf(term) > -1
             || $(child.element).data('number').toString().startsWith(term)
     }
-    
+
     $('.select2-songs').each(function() {
         let frequencyInSelection = $(this).is('[data-frequency-in-selection]')
         let multiple = $(this).is('[multiple]')
         let endPadding = !multiple
-        
+
         $(this).select2({
             theme: "bootstrap-5",
             // https://stackoverflow.com/a/71552114/14967413
@@ -211,7 +211,7 @@ function initSelect2Songs() {
                     return data;
                 }
                 var term = params.term.toUpperCase().trim().replace(',', '').replace(/\s+/, ' ')
-                
+
                 // procházená položka není optgroup
                 //  - může jít také o položku s písní - pokud se vyřadí z výběru, zařadí se na konec roletky mimo optgroup
                 if (typeof data.children === 'undefined') {
@@ -254,7 +254,7 @@ function initSelect2Songs() {
                 restartSelect2(this)
             }
         })
-        
+
         initSongLinkHandler(this)
     })
 }
@@ -294,12 +294,12 @@ window.refreshSelect2SyncForComponent = function (componentName) {
 function refreshBootstrap() {
     // https://getbootstrap.com/docs/5.3/components/tooltips/#enable-tooltips
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => { 
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
         // bez tohoto volání by po aktualizaci HTML ukazoval tooltip původní verzi textu
         bootstrap.Tooltip.getInstance(tooltipTriggerEl)?.dispose();
         bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerEl, { trigger : 'hover' })}
     )
-    
+
     // https://getbootstrap.com/docs/5.3/components/popovers/#enable-popovers
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => bootstrap.Popover.getOrCreateInstance(popoverTriggerEl))
@@ -323,7 +323,7 @@ function showThumbnailOrgan($wire, organId) {
 window.initGoogleMap = function ($wire) {
     setTimeout(function () {
         const map = document.querySelector('gmp-map')
-        const markers = document.querySelectorAll('gmp-advanced-marker');
+        const markers = document.querySelectorAll('gmp-advanced-marker:not(.simple-marker)');
 
         // zobrazení modalu řešeno v JS, protože kliknutí na mobilu funguje jen s událostí pointerdown (ne click)
         // a s pointerdown naopak není kompatibilní data-bs-toggle, proto modal aktivujeme v JS
@@ -347,7 +347,7 @@ window.initGoogleMap = function ($wire) {
             marker.addEventListener('mouseleave', function () {
                 infoWindow.close()
             })
-            
+
             let background;
             if ($(marker).is('[data-near-coordinate]')) {
                 background = 'yellow'
@@ -358,7 +358,7 @@ window.initGoogleMap = function ($wire) {
             let pin = new google.maps.marker.PinElement({ background })
             marker.appendChild(pin.element)
         });
-        
+
         if ($(map).is('[data-use-map-clusters]')) {
             new markerClusterer.MarkerClusterer({
                 map: map.innerMap,
@@ -392,7 +392,7 @@ function getTimelineOptions(container) {
                 if (isFullYearTimelineItem(item1) && !isFullYearTimelineItem(item2)) return -1
                 return item2.name.localeCompare(item1.name)
             }
-            
+
             // varhany: podle data stavby
             if (item1.entityType === 'organ' && item2.entityType === 'organ') {
                 return item2.start - item1.start
@@ -422,16 +422,16 @@ function getTimelineOptions(container) {
         },
         template: function (item, element, data) {
             if (item.type === 'background') return ''
-            
+
             var icon
             if (item.entityType === 'organ') icon = 'music-note-list'
             else if (item.entityType === 'organBuilder') icon = 'person-circle'
             else icon = 'calendar-date'
-            
+
             var detailsClass = 'text-body-secondary';
             if (item.entityType !== 'organ') detailsClass += ' small';
             var iconPrivate = (item.entityType === 'organBuilder' && !item.public) ? ' <i class="bi-lock text-warning"></i>' : ''
-            
+
             var tmpl = `<i class='bi-${icon} text-primary'></i> ${data.name}${iconPrivate}`
             if (data.details) tmpl += ` <span class='${detailsClass}'>(${data.details})</span>`;
             return tmpl;
@@ -441,10 +441,10 @@ function getTimelineOptions(container) {
             return item.content
         }
     }
-    
+
     if (container.dataset.start) options.start = container.dataset.start;
     if (container.dataset.end) options.end = container.dataset.end;
-    
+
     if (container.dataset.scale === 'month') {
         options.format = {
             minorLabels: (date) => {
@@ -453,7 +453,7 @@ function getTimelineOptions(container) {
             }
         }
     }
-    
+
     return options;
 }
 
@@ -465,7 +465,7 @@ window.initTimeline = async function ($wire, timelineItems, timelineGroups, time
     ]).then(([visData, visTimeline]) => {
         var container = $('#timeline')[0]
         var options = getTimelineOptions(container)
-        
+
         timelineItems = timelineItems.map(function (item) {
             item.end ??= container.dataset.max
             if (item.entityType === 'organBuilder' || item.entityType === 'festival') {
@@ -474,10 +474,10 @@ window.initTimeline = async function ($wire, timelineItems, timelineGroups, time
             }
             return item
         })
-        
+
         var items = new visData.DataSet(timelineItems)
         var timeline = new visTimeline.Timeline(container, items, options)
-        
+
         if (timelineGroups !== null) {
             var groups = new visData.DataSet()
             for (var key in timelineGroups) {
@@ -490,7 +490,7 @@ window.initTimeline = async function ($wire, timelineItems, timelineGroups, time
             }
             timeline.setGroups(groups)
         }
-        
+
         timelineMarkers.forEach(function (marker, i) {
             let id = `marker${i}`
             timeline.addCustomTime(marker.date, id)
@@ -498,7 +498,7 @@ window.initTimeline = async function ($wire, timelineItems, timelineGroups, time
             // TODO: title nastavit nejde
             timeline.setCustomTimeTitle(marker.description, id)
         })
-        
+
         timeline.on('click', function ({ item }) {
             if (item) {
                 var timelineItem = items.get(item);
@@ -508,7 +508,7 @@ window.initTimeline = async function ($wire, timelineItems, timelineGroups, time
                 else showThumbnailOrgan($wire, timelineItem.entityId)
             }
         })
-        
+
         var selectedEntityType = container.dataset.selectedEntityType
         var selectedEntityId = container.dataset.selectedEntityId ? parseInt(container.dataset.selectedEntityId) : undefined
         if (selectedEntityType && selectedEntityId) {
@@ -616,7 +616,7 @@ window.initChart = async function ($wire, chartItems, texts) {
     if (sortColumn === 'manuals_count') manualsCountHidden = false
     else if (sortColumn === 'original_stops_count') originalStopsCountHidden = false
     else stopsCountHidden = false;
-    
+
     let yLabelWidth = Math.min($(window).width() / 3, 320)
 
     let options = {
@@ -726,11 +726,11 @@ window.initChart = async function ($wire, chartItems, texts) {
                 formatter: function (val) {
                     if (Array.isArray(val)) {
                         let [municipality, _place, shortPlace, _organBuilderName, organBuilderShortName, yearBuilt] = val
-                        
+
                         let line1 = `${municipality.toUpperCase()}, ${shortPlace}`
                         let line2 = organBuilderShortName
                         if (yearBuilt) line2 += ` (${yearBuilt})`
-                        
+
                         return [line1, line2]
                     }
                 }
@@ -823,4 +823,3 @@ if (typeof Livewire !== typeof undefined) {
         removeTooltips()
     })
 }
-    

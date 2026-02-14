@@ -5,6 +5,8 @@
 @use(App\Models\Organ)
 
 @php
+    $otherMarkers = Helpers::adjustCoordinates($otherMarkers);
+
     $center = $inland ? '49.815148,15.565384' : '47.4521023,15.070935';
     if (Helpers::isMobile()) $zoom = $inland ? '6.1' : '3.9';
     else $zoom = $inland ? '7.3' : '4.4';
@@ -35,10 +37,7 @@
             elseif ($marker1 instanceof OrganBuilderAdditionalImage) {
                 $background = 'white';
                 $color = 'black';
-                $title1 = $marker1->name;
-                if (str($marker1->details)->contains('dochována skříň')) {
-                    $title1 .= sprintf("\n(%s)", __('dochována skříň'));
-                }
+                $title1 = $marker1->getMapMarkerTitle();
             }
             else {
                 $background = 'var(--header-footer-background)';

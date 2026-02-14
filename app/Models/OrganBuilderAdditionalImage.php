@@ -33,4 +33,13 @@ class OrganBuilderAdditionalImage extends Model
         return "$url#groups";
     }
 
+    public function getMapMarkerTitle()
+    {
+        $title = $this->name;
+        if (str($this->details)->contains('dochována skříň')) {
+            $title .= sprintf("\n(%s)", __('dochována skříň'));
+        }
+        return $title;
+    }
+
 }

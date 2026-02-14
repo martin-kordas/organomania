@@ -389,6 +389,7 @@
             :filterOnlineOnly="$this->filterOnlineOnly ?? null"
             :filterMonth="$this->filterMonth ?? null"
             :filterSearch="$this->filterSearch ?? null"
+            :showAdditionalImages="$this->showAdditionalImages ?? null"
             :search="$this->search ?? null"
             :selectedTimelineEntityType="request()->query('selectedTimelineEntityType')" :selectedTimelineEntityId="request()->query('selectedTimelineEntityId')"
             :id="$this->id ?? null"
