@@ -1070,7 +1070,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <a class="text-decoration-none" href="{{ route('publications.index') }}" wire:navigate>{{ __('Literatura o varhanách') }}</a>.
                 </x-organomania.info-alert>
 
-                <ul class="list-group list-group-flush small">
+                <ul class="list-group list-group-flush small text-break">
                     @foreach (explode("\n", $organ->literature) as $literature1)
                         <li @class(['list-group-item', 'd-flex', 'align-items-center', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>
                             <span class="me-2">{!! Helpers::formatUrlsInLiterature($literature1) !!}</span>

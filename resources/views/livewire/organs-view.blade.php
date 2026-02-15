@@ -163,6 +163,8 @@ new class extends Component {
     #[Computed]
     public function additionalImages()
     {
+        if (!$this->showAdditionalImages) return collect();
+
         return OrganBuilderAdditionalImage::query()
             ->with('organBuilder')
             ->whereNotNull(['latitude', 'longitude'])

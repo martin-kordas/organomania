@@ -749,8 +749,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.tr-responsive>
         @endif
 
-        @php $center = $organBuilder->getCenter() @endphp
-        @if ($this->relatedOrganBuilders->isNotEmpty() || $center)
+        @php
+            $center = $organBuilder->getCenter();
+            $inland = $organBuilder->isInland();
+        @endphp
+        @if ($this->relatedOrganBuilders->isNotEmpty() || $center || !$inland)
             <x-organomania.tr-responsive title="{{ __('Související varhanáři') }}">
                 <div class="items-list">
                     @foreach ($this->relatedOrganBuilders as $relatedOrganBuilder)
@@ -766,10 +769,23 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             wire:navigate
                         >
                             <i class="bi bi-person-circle"></i>
-                            {{ $this->organBuilder->getCenterName() }}
+                            {{ $organBuilder->getCenterName() }}
                         </a>
                         @if ($organBuilderInCenterCount = $this->repository->getOrganBuilderInCenterCount($center))
                             <span class="badge text-bg-secondary rounded-pill">{{ $organBuilderInCenterCount }}</span>
+                        @endif
+                    @elseif (!$inland)
+                        @if ($this->relatedOrganBuilders->isNotEmpty()) <br /> @endif
+                        <a
+                            class="align-items-start link-primary text-decoration-none icon-link icon-link-hover"
+                            href="{{ route('organ-builders.index', ['filterRegionId' => -1]) }}"
+                            wire:navigate
+                        >
+                            <i class="bi bi-person-circle"></i>
+                            {{ __('Zahraniční varhanáři') }}
+                        </a>
+                        @if ($organBuilderNotInlandCount = $this->repository->getOrganBuilderNotInlandCount($center))
+                            <span class="badge text-bg-secondary rounded-pill">{{ $organBuilderNotInlandCount }}</span>
                         @endif
                     @endif
                 <div>
@@ -858,7 +874,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <a class="text-decoration-none" href="{{ route('publications.index') }}" wire:navigate>{{ __('Literatura o varhanách') }}</a>.
                 </x-organomania.info-alert>
 
-                <ul class="list-group list-group-flush small">
+                <ul class="list-group list-group-flush small text-break">
                     @foreach (explode("\n", $organBuilder->literature) as $literature1)
                         <li @class(['list-group-item', 'd-flex', 'align-items-center', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>
                             <span class="me-2">{!! Helpers::formatUrlsInLiterature($literature1) !!}</span>

@@ -348,7 +348,7 @@ class OrganRepository extends AbstractRepository
 
     public function getCaseImagesOrgansQuery(bool $withYearOnly = true): Builder
     {
-        return Organ::query()
+        $query = Organ::query()
             ->select('*')
             ->selectRaw('
                 IF(

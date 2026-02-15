@@ -151,7 +151,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 )
                 // nechceme hledat varhany, které mají skříň od jiného varhanáře
                 ->whereNull('case_organ_builder_name');
-            $additionalImagesQuery->whereIn('organ_builder_id', $this->filterOrganBuilders);
+
+            $additionalImagesQuery->where(function (Builder $query) {
+                $query->whereIn('organ_builder_id', $this->filterOrganBuilders);
+                if (in_array(-1, $this->filterOrganBuilders)) {
+                    $query->orWhereNull('organ_builder_id');
+                }
+            });
         }
 
         // údaje, podle kterých se groupuje, musí být vyplněny

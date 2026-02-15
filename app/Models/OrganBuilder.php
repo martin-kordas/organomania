@@ -323,7 +323,7 @@ class OrganBuilder extends Model
     }
 
     // first_name, last_name je rovněž nutné hledat fulltextově, jinak by současně zadané celé jméno (např. "Emanuel Petr") nenašlo nic
-    #[SearchUsingFullText(['first_name', 'last_name', 'description', 'perex', 'workshop_members', 'organ_builder_additional_images.name'])]
+    #[SearchUsingFullText(['first_name', 'last_name', 'description', 'perex', 'workshop_members'])]
     public function toSearchableArray(): array
     {
         return
@@ -332,7 +332,6 @@ class OrganBuilder extends Model
                 'municipality', 'description', 'perex', 'workshop_members',
             ])
             + [
-                'organ_builder_additional_images.name' => '',
                 // HACK: díky tomuto se sloupce hledají i ne-fulltextově (i u description výhodné, protože hledá i neúplná slova)
                 'organ_builders.first_name' => '',
                 'organ_builders.last_name' => '',

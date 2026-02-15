@@ -349,6 +349,7 @@ class Organ extends Model
                 'organs.place' => '',
                 'organs.municipality' => '',
                 'organs.description' => '',
+                'organs.organ_builder_name' => '',
             ];
     }
 

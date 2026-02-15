@@ -11,10 +11,13 @@ use App\Enums\OrganCategory;
 use App\Models\OrganBuilder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
+use Laravel\Scout\Attributes\SearchUsingFullText;
+use Laravel\Scout\Attributes\SearchUsingPrefix;
+use Laravel\Scout\Searchable;
 
 class OrganBuilderAdditionalImage extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
     public function organBuilder()
     {
@@ -28,9 +31,7 @@ class OrganBuilderAdditionalImage extends Model
 
     public function getViewUrl()
     {
-        if (!$this->organ_builder_id) throw new \LogicException;
-
-        $url = route('organs.cases', ['filterOrganBuilders' => [$this->organ_builder_id], 'additionalImageId' => $this->id]);
+        $url = route('organs.cases', ['filterOrganBuilders' => [$this->organ_builder_id ?? -1], 'additionalImageId' => $this->id]);
         return "$url#groups";
     }
 
@@ -45,6 +46,14 @@ class OrganBuilderAdditionalImage extends Model
             $title .= sprintf("\n(%s)", __('dochována skříň'));
         }
         return $title;
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'name' => '',
+            'organ_builder_name' => ''
+        ];
     }
 
 }

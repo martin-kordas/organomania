@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
+use App\Models\OrganBuilderAdditionalImage;
 use App\Models\RegisterName;
 use App\Models\User;
 use App\Repositories\OrganRepository;
@@ -22,17 +23,17 @@ new class extends Component {
     public $placeholder;
     public $id = 'search';
 
-    private Collection $resultsOrgans;
-    private Collection $resultsOrganBuilders;
-    private Collection $resultsRegisterNames;
-    private int $resultsCount = 0;
+    private ?Collection $resultsOrgans = null;
+    private ?Collection $resultsOrganBuilders = null;
+    private ?Collection $resultsRegisterNames = null;
+    private ?Collection $resultsAdditionalImages = null;
     private bool $showOrganBuildersFirst = false;
 
     public ?string $organSlug = null;
 
     const ORGANS_LIMIT = 8;
     const ORGAN_BUILDERS_LIMIT = self::ORGANS_LIMIT;
-    
+
     public function mount()
     {
         if (request()->routeIs('organs.show')) {
@@ -56,28 +57,31 @@ new class extends Component {
             $this->resultsOrgans = $this->getOrgans();
             $this->resultsOrganBuilders = $this->getOrganBuilders();
             $this->resultsRegisterNames = $this->getRegisterNames();
-            $this->resultsCount = $this->resultsOrgans->count() + $this->resultsOrganBuilders->count() + $this->resultsRegisterNames->count();
-            
-            if ($this->resultsCount <= 0 && mb_strlen($this->sanitizedSearch) >= 4) {
+            $this->resultsAdditionalImages = collect();
+
+            if ($this->resultsOrgans->count() <= 0) {
+                $this->resultsAdditionalImages = $this->getAdditionalImages();
+            }
+
+            // oprava překlepů
+            if ($this->getResultsCount() <= 0 && mb_strlen($this->sanitizedSearch) >= 4) {
                 $sanitizedSearch = $this->sanitizedSearch;
-                
+
                 $searchLength = mb_strlen($this->sanitizedSearch);
                 $maxDistance = match(true) {
                     $searchLength >= 7 => 3,
                     $searchLength >= 5 => 2,
                     default => 1
                 };
-                
+
                 if ($repairedSearch = $this->repairSearchWithOrgans($sanitizedSearch, $maxDistance)) {
                     $this->sanitizedSearch = $repairedSearch;
                     $this->resultsOrgans = $this->getOrgans();
-                    $this->resultsCount = $this->resultsOrgans->count();
                 }
-                if ($this->resultsCount <= 0 && $repairedSearch = $this->repairSearchWithOrganBuilders($sanitizedSearch, $maxDistance)) {
+                if ($this->getResultsCount() <= 0 && $repairedSearch = $this->repairSearchWithOrganBuilders($sanitizedSearch, $maxDistance)) {
                     $this->sanitizedSearch = $repairedSearch;
                     $this->resultsOrgans = $this->getOrgans();
                     $this->resultsOrganBuilders = $this->getOrganBuilders();
-                    $this->resultsCount = $this->resultsOrgans->count() + $this->resultsOrganBuilders->count();
                 }
             }
 
@@ -85,6 +89,14 @@ new class extends Component {
                 fn (OrganBuilder $organBuilder) => $organBuilder->exact_name_match
             );
         }
+    }
+
+    private function getResultsCount()
+    {
+        return ($this->resultsOrgans?->count() ?? 0)
+            + ($this->resultsOrganBuilders?->count() ?? 0)
+            + ($this->resultsRegisterNames?->count() ?? 0)
+            + ($this->resultsAdditionalImages?->count() ?? 0);
     }
 
     #[Computed]
@@ -117,16 +129,16 @@ new class extends Component {
                     ->withoutGlobalScopes()
                     ->where(function (Builder $query) {
                         $query->whereNull('organs.user_id');
-                        
+
                         // soukromé varhany admina jsou veřejně dohledatelné
                         $userIds = [User::USER_ID_ADMIN];
                         if ($userId = Auth::id()) $userIds[] = $userId;
                         $query->orWhereIn('organs.user_id', $userIds);
                     });
-                
+
                 if ($this->showLastViewed) {
                     $organIds = OrganRepository::getLastViewedOrganIds();
-                    
+
                     // v seznamu naposled zobrazených varhan nezobrazujeme aktuálně zobrazené varhany
                     if ($this->organSlug) {
                         $currentOrgan = Organ::where('slug', $this->organSlug)->first();
@@ -143,14 +155,14 @@ new class extends Component {
                 }
                 else {
                     $searchWildcard = "%{$this->sanitizedSearch}%";
-                    
+
                     // např. pro hledaný výraz "Olomouc Nepo" se kostel Neposkvrněného početí zařadí na začátek
                     // - má význam jen pro řazení$searchWildcardMultiWord = preg_replace('/[ ]/u', '%', $this->sanitizedSearch, limit: 3);
                     // - reálně se dohledá jen "Olomouc" fulltextově a "Nepo" se nebere v potaz (pro výraz "Olomou Nepo" se nenajde nic)
                     // - viz Organ::toSearchableArray()
                     $searchWildcardMultiWord = preg_replace('/[ ]/u', '%', $this->sanitizedSearch, limit: 3);
                     $searchWildcardMultiWord = "%{$searchWildcardMultiWord}%";
-                    
+
                     $builder
                         ->selectRaw('
                             IFNULL(organs.municipality, "") LIKE ?
@@ -181,7 +193,7 @@ new class extends Component {
             })
             ->get();
     }
-    
+
     private function getOrganBuilders()
     {
         if ($this->showLastViewed) return collect();
@@ -191,21 +203,11 @@ new class extends Component {
                 $searchWildcard = "%{$this->sanitizedSearch}%";
 
                 $builder
-                    ->leftJoin('organ_builder_additional_images', 'organ_builder_additional_images.organ_builder_id', 'organ_builders.id')
                     ->groupBy('organ_builders.id')
                     // přednostně varhanáři, kde je nějaký výskyt hledaného výrazu v údajích v našeptávači (jméno, lokalita)
                     ->orderBy('highlighted', 'DESC')
                     // pokud je výskyt hledaného výrazu jen ve skrytých textech (description atd.), řadit podle míry shody
-                    //  - MATCH(organ_builder_additional_images.name) nelze umístit do select(), protože MySQL nepodporuje odkazování na agregované sloupce ve složitějším ORDER BY
-                    ->orderByRaw('
-                            IF(
-                                highlighted,
-                                1,
-                                relevance + SUM(
-                                    MATCH(organ_builder_additional_images.name) AGAINST(? IN NATURAL LANGUAGE MODE)
-                                )
-                            ) DESC
-                    ', [$this->sanitizedSearch])
+                    ->orderByRaw('IF(highlighted, 1, relevance) DESC')
                     ->orderBy('importance', 'DESC')
                     ->orderByName()
                     ->take(static::ORGAN_BUILDERS_LIMIT)
@@ -240,7 +242,22 @@ new class extends Component {
             ->get()
             ->append(['name']);
     }
-    
+
+    private function getAdditionalImages()
+    {
+        if ($this->showLastViewed) return collect();
+
+        return (OrganBuilderAdditionalImage::search($this->sanitizedSearch)
+            ->query(function (Builder $builder) {
+                $builder
+                    ->select(['id', 'name', 'organ_builder_name', 'year_built', 'organ_builder_id'])
+                    ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
+                    ->where('organ_exists', 0)
+                    ->orderBy('name');
+            })
+            ->get());
+    }
+
     private function repairSearchWithOrgans(string $search, int $maxDistance)
     {
         // TODO: zvážit cachování
@@ -250,12 +267,12 @@ new class extends Component {
             ->orderByRaw('COUNT(id) DESC')
             ->select(['municipality'])
             ->get();
-          
+
         $distance = INF;
         $municipality = null;
         foreach ($organs as $organ) {
             $distance1 = $this->compareSearches($search, $organ->municipality);
-            
+
             if ($distance1 <= $maxDistance && $distance1 < $distance) {
                 $distance = $distance1;
                 $municipality = $organ->municipality;
@@ -263,7 +280,7 @@ new class extends Component {
         }
         return $municipality;
     }
-    
+
     private function repairSearchWithOrganBuilders(string $search, int $maxDistance)
     {
         // TODO: zvážit cachování
@@ -273,12 +290,12 @@ new class extends Component {
             ->orderByRaw('COUNT(id) DESC')
             ->selectRaw('IFNULL(last_name, workshop_name) AS search_name')
             ->get();
-          
+
         $distance = INF;
         $name = null;
         foreach ($organBuilders as $organBuilder) {
             $distance1 = $this->compareSearches($search, $organBuilder->search_name);
-            
+
             if ($distance1 <= $maxDistance && $distance1 < $distance) {
                 $distance = $distance1;
                 $name = $organBuilder->search_name;
@@ -286,21 +303,21 @@ new class extends Component {
         }
         return $name;
     }
-    
+
     private function getSearchForComparison(string $search)
     {
         $search = mb_strtolower($search);
         $search = Helpers::stripAccents($search);
         return $search;
     }
-    
+
     private function compareSearches(string $search1, string $search2)
     {
         // porovnáváme jen zadanou část slova
         if (mb_strlen($search1) < mb_strlen($search2)) {
             $search2 = mb_substr($search2, 0, mb_strlen($search1));
         }
-        
+
         $str1 = $this->getSearchForComparison($search1);
         $str2 = $this->getSearchForComparison($search2);
         return levenshtein($str1, $str2);
@@ -362,7 +379,7 @@ new class extends Component {
                     />
                 </div>
                 <div class="search-results card position-absolute shadow w-100 z-1" x-show="isTyped" x-cloak style="display: none;" @keydown.esc="isTyped = false">
-                    @if ($this->resultsCount > 0)
+                    @if ($this->getResultsCount() > 0)
                         @if ($this->showOrganBuildersFirst && $this->resultsOrganBuilders->isNotEmpty())
                             <x-organomania.search.organ-builders :organBuilders="$this->resultsOrganBuilders" :limit="static::ORGAN_BUILDERS_LIMIT" />
                         @endif
@@ -370,7 +387,10 @@ new class extends Component {
                         @if ($this->resultsOrgans->isNotEmpty())
                             <x-organomania.search.organs :organs="$this->resultsOrgans" :limit="static::ORGANS_LIMIT" :showLastViewed="$this->showLastViewed" />
                         @endif
-                        
+                        @if ($this->resultsAdditionalImages->isNotEmpty())
+                            <x-organomania.search.additional-images :additionalImages="$this->resultsAdditionalImages" />
+                        @endif
+
                         @if (!$this->showOrganBuildersFirst && $this->resultsOrganBuilders->isNotEmpty())
                             <x-organomania.search.organ-builders :organBuilders="$this->resultsOrganBuilders" :limit="static::ORGAN_BUILDERS_LIMIT" />
                         @endif
@@ -403,7 +423,7 @@ new class extends Component {
                                 </a>
                             </div>
                         @endif
-                    
+
                         <div class="list-group list-group-flush position-relative text-center border-top-0" wire:loading>
                             <div class="list-group-item my-2">
                                 <x-organomania.spinner :margin="false" />
@@ -414,12 +434,12 @@ new class extends Component {
             </div>
         </div>
     </form>
-    
+
     <form class="d-none" id="searchVarhanyNet" method="post" accept-charset="windows-1250" action="http://www.varhany.net/search.php" target="_blank">
         <input type="hidden" name="obeca" value="{{ $this->sanitizedSearch }}" />
         <input type="hidden" name="ob" value="1" />
     </form>
-    
+
     <!-- HACK: přenést do app-bootstrap.scss -->
     <style>
         .search-results .item-focusable:focus {
@@ -436,7 +456,7 @@ new class extends Component {
             e.preventDefault()
         }
     }
-    
+
     window.isValueTyped = function (value) {
         return value.trim() === '' || value.length >= $wire.minSearchLength
     }
@@ -447,7 +467,7 @@ new class extends Component {
         let items = $(form).find('.search-results .item-focusable')
         let currentItem = $(document.activeElement).is('.item-focusable') ? document.activeElement : null;
         let newItem = null
-        
+
         let currentIndex = null
         if (currentItem) {
             items.each(i => {
@@ -457,7 +477,7 @@ new class extends Component {
                 }
             })
         }
-        
+
         if (['ArrowDown', 'ArrowUp', 'Home', 'End', 'PageDown', 'PageUp'].includes(e.code)) {
             let pageStep = 6;
 
@@ -493,7 +513,7 @@ new class extends Component {
                     newItem = items[newIndex]
                     break;
             }
-            
+
             if (newItem) {
                 e.preventDefault()
                 newItem.focus()
