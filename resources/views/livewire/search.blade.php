@@ -59,7 +59,7 @@ new class extends Component {
             $this->resultsRegisterNames = $this->getRegisterNames();
             $this->resultsAdditionalImages = collect();
 
-            if ($this->resultsOrgans->count() <= 0) {
+            if ($this->resultsOrgans->count() <= 0 || ($this->resultsOrgans->count() < static::ORGANS_LIMIT && mb_strlen($this->sanitizedSearch) >= 5)) {
                 $this->resultsAdditionalImages = $this->getAdditionalImages();
             }
 
@@ -243,17 +243,24 @@ new class extends Component {
             ->append(['name']);
     }
 
-    private function getAdditionalImages()
+    private function getAdditionalImages(bool $searchNameOnly = false)
     {
         if ($this->showLastViewed) return collect();
 
         return (OrganBuilderAdditionalImage::search($this->sanitizedSearch)
-            ->query(function (Builder $builder) {
+            ->query(function (Builder $builder) use ($searchNameOnly) {
+                $searchWildcard = "%{$this->sanitizedSearch}%";
+
                 $builder
-                    ->select(['id', 'name', 'organ_builder_name', 'year_built', 'organ_builder_id'])
+                    ->select(['id', 'name', 'organ_builder_name', 'year_built', 'organ_builder_id', 'details'])
                     ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
                     ->where('organ_exists', 0)
-                    ->orderBy('name');
+                    ->orderBy('name')
+                    ->take(4);
+
+                if ($searchNameOnly) {
+                    $builder->whereLike('name', $searchWildcard);
+                }
             })
             ->get());
     }
@@ -388,7 +395,7 @@ new class extends Component {
                             <x-organomania.search.organs :organs="$this->resultsOrgans" :limit="static::ORGANS_LIMIT" :showLastViewed="$this->showLastViewed" />
                         @endif
                         @if ($this->resultsAdditionalImages->isNotEmpty())
-                            <x-organomania.search.additional-images :additionalImages="$this->resultsAdditionalImages" />
+                            <x-organomania.search.additional-images :additionalImages="$this->resultsAdditionalImages" :showTitle="$this->resultsOrgans->isEmpty()" />
                         @endif
 
                         @if (!$this->showOrganBuildersFirst && $this->resultsOrganBuilders->isNotEmpty())
