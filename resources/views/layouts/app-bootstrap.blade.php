@@ -143,6 +143,9 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
                                 <x-organomania.footer-nav-item href="{{ route('about-organ') }}" wire:navigate>
                                     {{ __('O varhanách') }}
                                 </x-organomania.footer-nav-item>
+                                <x-organomania.footer-nav-item href="{{ route('quiz') }}" wire:navigate>
+                                    {{ __('Kvíz') }}
+                                </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('anniversaries') }}" wire:navigate>
                                     {{ __('Výročí') }}
                                     @if ($anniversaryCount > 0)
@@ -152,9 +155,6 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
                                             </span>
                                         </span>
                                     @endif
-                                </x-organomania.footer-nav-item>
-                                <x-organomania.footer-nav-item href="{{ route('quiz') }}" wire:navigate>
-                                    {{ __('Kvíz') }}
                                 </x-organomania.footer-nav-item>
                                 <x-organomania.footer-nav-item href="{{ route('organists.index') }}" wire:navigate>
                                     {{ __('Varhaníci') }}

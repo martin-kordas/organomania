@@ -24,26 +24,26 @@ trait EntityPage
     use HasSorting;
 
     #[Session(key: 'viewType')]
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $viewType = 'thumbnails';
 
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $filterId;
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $filterCategories;
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $filterRegionId;
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $filterImportance;
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $filterFavorite;
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $filterPrivate;
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $filterNearLatitude;
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $filterNearLongitude;
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $filterNearDistance;
 
     #[Url(keep: true)]

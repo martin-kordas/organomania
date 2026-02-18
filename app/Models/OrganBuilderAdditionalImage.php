@@ -19,6 +19,8 @@ class OrganBuilderAdditionalImage extends Model
 {
     use HasFactory, SoftDeletes, Searchable;
 
+    const ID_PERUC = 375;
+
     public function organBuilder()
     {
         return $this->belongsTo(OrganBuilder::class);
@@ -51,8 +53,10 @@ class OrganBuilderAdditionalImage extends Model
     public function toSearchableArray(): array
     {
         return [
-            'name' => '',
-            'organ_builder_name' => ''
+            'organ_builder_additional_images.name' => '',
+            'organ_builder_additional_images.organ_builder_name' => '',
+            'organ_builders.last_name' => '',
+            'organ_builders.workshop_name' => '',
         ];
     }
 

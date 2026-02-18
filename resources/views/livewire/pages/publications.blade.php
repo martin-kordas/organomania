@@ -16,6 +16,7 @@ use App\Interfaces\Category;
 use App\Models\Author;
 use App\Models\CustomCategory;
 use App\Models\Publication;
+use App\Models\Region;
 use App\Enums\PublicationType;
 use App\Enums\PublicationTopic;
 use App\Enums\DispositionLanguage;
@@ -88,7 +89,7 @@ class extends Component {
         $this->filters[] = 'filterLanguage';
         $this->filters[] = 'filterOnlineOnly';
         $this->heading = __('Literatura o varhanách<br />v České republice');
-        $this->title = __('Publikace');
+        $this->title = __('Literatura o varhanách v České republice');
     }
 
     public function mount()
@@ -176,11 +177,17 @@ class extends Component {
             ->get();
     }
 
+    #[Computed]
+    public function regions()
+    {
+        return Region::query()->withCount('publications as count')->orderBy('name')->get();
+    }
+
 }; ?>
 
 <div class="publications">
     <x-organomania.entity-page
-        :metaDescription="__('Získejte přehled o odborné literatuře (knihách a článcích) týkající se varhan a varhanářů v České republice.')"/>
+        :metaDescription="__('Získejte přehled o bibliografii (knihách, článcích a další literatuře) týkající se varhan a varhanářů v České republice.')"/>
 
     <div class="text-center">
         <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#referencesModal">

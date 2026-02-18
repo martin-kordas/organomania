@@ -7,11 +7,11 @@ use Livewire\Attributes\Url;
 trait HasSorting
 {
 
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $sortColumn = 'importance';
-    #[Url(keep: true)]
+    #[Url(keep: true, history: true)]
     public $sortDirection = 'desc';
-    
+
     private function isCurrentSort($column, $direction)
     {
         return $column === $this->sortColumn && $direction === $this->sortDirection;
@@ -54,5 +54,5 @@ trait HasSorting
         }
         $this->dispatch('bootstrap-rendered');
     }
-    
+
 }

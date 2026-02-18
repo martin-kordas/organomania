@@ -32,6 +32,21 @@ class Geocode extends Command
      */
     public function handle(GeocodingService $service)
     {
+        if ($this->option('type') === 'organBuilderAdditionalImage') {
+            $this->service = $service;
+            foreach (OrganBuilderAdditionalImage::where('organ_builder_id', $this->argument('startId'))->get() as $additionalImage) {
+                $item = $this->getItem(new OrganBuilderAdditionalImage, $additionalImage->id, ownedEntity: false);
+                if ($item) {
+                    //$address = str($item['name'])->replaceFirst(', ', ', kostel ');
+                    $address = $item['name'];
+                    $address = str_replace('evang. ', 'evangelický ', $address);
+                    $this->handleItem($item, $address, hasRegion: false);
+                }
+            }
+        }
+        die;
+
+
         $this->service = $service;
 
         $startId = (int)$this->argument('startId');
@@ -43,10 +58,10 @@ class Geocode extends Command
 
         for ($id = $startId; $id <= $endId; $id++) {
             if ($type === 'organBuilderAdditionalImage') {
-                $additionalImage = $this->getItem(new OrganBuilderAdditionalImage, $id);
+                $additionalImage = $this->getItem(new OrganBuilderAdditionalImage, $id, ownedEntity: false);
                 if ($additionalImage) {
                     $address = $additionalImage['name'];
-                    $this->handleItem($additionalImage, $address);
+                    $this->handleItem($additionalImage, $address, hasRegion: false);
                 }
             }
             elseif ($type === 'organBuilder') {
@@ -70,13 +85,13 @@ class Geocode extends Command
         }
     }
 
-    private function handleItem(Model $item, string $address, int $attempt = 1): bool
+    private function handleItem(Model $item, string $address, int $attempt = 1, bool $hasRegion = true): bool
     {
         try {
             $res = $this->service->geocode($address);
             $item->latitude = $res['latitude'];
             $item->longitude = $res['longitude'];
-            $item->region_id = $res['regionId'];
+            if ($hasRegion) $item->region_id = $res['regionId'];
             $item->save();
             $this->info("Úspěšně zjištěna pozice (id: {$item->id})");
         }
@@ -90,12 +105,14 @@ class Geocode extends Command
         return true;
     }
 
-    private function getItem(Model $model, int $id)
+    private function getItem(Model $model, int $id, bool $ownedEntity = true)
     {
         return $model
             ->withoutGlobalScope(OwnedEntityScope::class)
-            ->where('latitude', 0)
-            ->where('user_id', 5)
+            ->where(function ($query) {
+                $query->whereNull('latitude')->orWhere('latitude', 0);
+            })
+            ->when($ownedEntity, fn ($query) => $query->where('user_id', 5))
             ->find($id);
     }
 

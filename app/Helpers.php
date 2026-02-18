@@ -371,4 +371,14 @@ class Helpers
         return url()->query("http://www.google.com/search", ['q' => $term]);
     }
 
+    static function getImageLinkUrl(string $imageUrl)
+    {
+        return match ($imageUrl) {
+            '/images/peruc.jpg' => 'https://www.turistika.cz/vylety/navsteva-a-prohlidka-mestyse-peruc-a-vychazka-na-rozhlednu-stradonka/foto?id=1490839',
+            '/images/raskov.jpg' => 'https://www.turistika.cz/vylety/pekarovska-pout/foto?id=445553',
+            '/images/pekarov.jpg' => 'https://www.turistika.cz/mista/pekarov-kaple-nanebevzeti-panny-marie/foto?id=2264892',
+            default => $imageUrl,
+        };
+    }
+
 }

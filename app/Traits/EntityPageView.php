@@ -23,7 +23,7 @@ use App\Helpers;
 
 trait EntityPageView
 {
-    
+
     #[Reactive]
     public $viewType = 'thumbnails';
 
@@ -53,17 +53,17 @@ trait EntityPageView
     public $filterNearLongitude;
     #[Reactive]
     public $filterNearDistance;
-    
+
     #[Reactive]
     public $activeFiltersCount;
-    
+
     #[Reactive]
     public $selectedTimelineEntityType;
     #[Reactive]
     public $selectedTimelineEntityId;
-    
+
     public $organCustomCategoriesIds;
-    
+
     // TODO: je dobré řešení předávat to jako property?
     #[Locked]
     public $sortOptions;
@@ -71,15 +71,15 @@ trait EntityPageView
     /** zda jde o zobrazení vlastní kategorie v signed routě (sdílení cizímu uživateli) */
     #[Locked]
     public $isCustomCategoryOrgans = false;
-    
+
     private $shouldPaginate = true;
-    
+
     private bool $isCategorizable = true;
     private bool $isLikeable = true;
     private bool $showThumbnailFooter = true;
-    
+
     private ?int $thumbnailOrganId = null;
-    
+
     private ?string $categoriesRelation;
     private ?string $customCategoriesRelation;
     private ?string $gateUseCustomCategories;
@@ -101,11 +101,11 @@ trait EntityPageView
     private string $thumbnailComponent;
     private bool $useMapClusters = false;
     private bool $mapTooManyItems = false;
-    
+
     private abstract function getResourceCollection(Collection $data): ResourceCollection;
     private abstract function viewComponent(): string;
     private abstract function getMapMarkerTitle(Model $entity): string;
-    
+
     public function mount()
     {
         $columns = array_column($this->sortOptions, 'column');
@@ -163,6 +163,7 @@ trait EntityPageView
     public function setThumbnailOrgan($id)
     {
         if (config('custom.simulate_loading')) usleep(300_000);
+        usleep(300_000);
         $this->thumbnailOrganId = $id;
         $this->thumbnailOrgan = $this->organs->firstOrFail('id', $id);
         $this->dispatch('bootstrap-rendered');
@@ -182,18 +183,18 @@ trait EntityPageView
         $this->resetPage();
         unset($this->organs);
     }
-    
+
     public function updatedPage()
     {
         $this->dispatch('pagination-changed');
     }
-    
+
     private function filterCategories(Builder $query, $ids)
     {
         if ($this->isCustomCategoryOrgans) {
             $query->withoutGlobalScope(OwnedEntityScope::class);
         }
-        
+
         $categoryIds = $customIds = [];
         foreach ($ids as $id) {
             if (str_starts_with($id, 'custom-')) $customIds[] = str_replace('custom-', '', $id);
@@ -226,7 +227,7 @@ trait EntityPageView
             }
         });
     }
-    
+
     public function getFiltersArray()
     {
         $filters = [];
@@ -238,7 +239,7 @@ trait EntityPageView
         if ($this->filterNearLatitude) $filters['nearLatitude'] = (float)$this->filterNearLatitude;
         if ($this->filterNearLongitude) $filters['nearLongitude'] = (float)$this->filterNearLongitude;
         if ($this->filterNearDistance) $filters['nearDistance'] = (float)$this->filterNearDistance;
-        
+
         // nastavení $filters['nearDistance']
         //  - pokud filtrujeme varhan podle vzdálenosti, obvykle je nearDistance nastavena na vysoké číslo, které zahrne všechny varhany
         //  - na mapě však chceme zobrazit jen varhany v okolí aktuální polohy (tím také opticky vynikne, kde aktuální poloha vlastně je)
@@ -252,7 +253,7 @@ trait EntityPageView
             $filters['nearDistance'] = 25;
         }
 
-        
+
         return $filters;
     }
 
@@ -271,25 +272,25 @@ trait EntityPageView
                 headers: ['Content-Type' => 'application/json']
             );
     }
-    
+
     #[Computed]
     public function organCustomCategories()
     {
         return $this->repository->getCustomCategories();
     }
-    
+
     #[Computed]
     public function hasDistance()
     {
         return $this->organs->first()?->distance !== null;
     }
-    
+
     #[Computed]
     public function hasPages()
     {
         return $this->organs instanceof LengthAwarePaginator && $this->organs->hasPages();
     }
-    
+
     public function saveOrganCustomCategories()
     {
         Gate::authorize($this->gateUseCustomCategories);
@@ -298,7 +299,7 @@ trait EntityPageView
             ->{$this->customCategoriesRelation}()
             ->sync($this->organCustomCategoriesIds);
     }
-    
+
     public function placeholder()
     {
         return view('components.organomania.spinner');
@@ -353,27 +354,27 @@ trait EntityPageView
     {
         return $organ->my_likes_count > 0;
     }
-    
+
     private function getMapMarkerLightness(Model $entity)
     {
         return 56;      // odpovídá výchozí barvě Google map
     }
-    
+
     public function isFilterNearCenter(Model $entity)
     {
-        return 
+        return
             $this->filterNearLatitude
             && $this->filterNearLongitude
             && $this->filterNearLatitude === $entity->latitude
             && $this->filterNearLongitude === $entity->longitude;
     }
-    
+
     // stanovujeme minimální jas barvy pozadí markeru, aby na něm šel vidět černý text
     private function getMaxMarkerLightnessWithMinBoundary($lightness, $minLightness = 45)
     {
         return round($minLightness + (100 - $minLightness) * $lightness / 100);
     }
-    
+
     private function getMapMarkerLabel()
     {
         return '';
@@ -384,5 +385,5 @@ trait EntityPageView
         if ($needle == '' || $text == '') return e($text);
         return Helpers::highlightEscapeText($text, $needle, words: true);
     }
-    
+
 }

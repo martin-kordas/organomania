@@ -47,7 +47,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private MarkdownConvertorService $markdownConvertor;
 
     // záměrně není public - s další aktualizací zmizí
-    private $additionalImagesId = null;
+    private $additionalImageId = null;
 
 
     #[Locked]
@@ -492,120 +492,126 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         @endif
 
-        <div id="groups">
-            @foreach ($this->casesGroups as $groupId => $cases)
-                <div class="group-container border rounded p-2 p-md-3 my-4">
-                    <h4 class="d-flex align-items-center fs-5 my-2 my-md-0" wire:key="{{ "organBuilder$groupId" }}">
-                        <span class="me-1">
-                            @switch($groupBy)
-                                @case('organBuilder')
-                                    @isset($cases[0]->organBuilder)
-                                        <x-organomania.organ-builder-link :organBuilder="$cases[0]->organBuilder" :newTab="true" :iconLink="false" />
-                                    @else
-                                        {{ __('Ostatní varhanáři') }}
-                                    @endisset
-                                    @break
+        <div id="groups" class="position-relative">
+            <div wire:loading.block wire:target.except="setThumbnailOrgan" class="position-absolute text-center w-100 start-0 z-1" style="top: 45px;">
+                <x-organomania.spinner />
+            </div>
 
-                                @case('periodCategory')
-                                    <a class="text-decoration-none" href="{{ route('about-organ') }}#periodCategory{{ $cases[0]->periodCategory->value }}" target="_blank">
-                                        {{ __('Období') }} {{ __($cases[0]->periodCategory->getName()) }}
-                                    </a>
-                                    @break
+            <div wire:loading.class="opacity-50">
+                @foreach ($this->casesGroups as $groupId => $cases)
+                    <div class="group-container border rounded p-2 p-md-3 my-4">
+                        <h4 class="d-flex align-items-center fs-5 my-2 my-md-0" wire:key="{{ "organBuilder$groupId" }}">
+                            <span class="me-1">
+                                @switch($groupBy)
+                                    @case('organBuilder')
+                                        @isset($cases[0]->organBuilder)
+                                            <x-organomania.organ-builder-link :organBuilder="$cases[0]->organBuilder" :newTab="true" :iconLink="false" />
+                                        @else
+                                            {{ __('Ostatní varhanáři') }}
+                                        @endisset
+                                        @break
 
-                                @case('caseCategory')
-                                    {{ $cases[0]->caseCategory->getName() }}
-                                    @break
-                            @endswitch
+                                    @case('periodCategory')
+                                        <a class="text-decoration-none" href="{{ route('about-organ') }}#periodCategory{{ $cases[0]->periodCategory->value }}" target="_blank">
+                                            {{ __('Období') }} {{ __($cases[0]->periodCategory->getName()) }}
+                                        </a>
+                                        @break
 
-                            <span class="badge text-bg-secondary rounded-pill ms-1" style="font-size: 55%;">
-                                {{ count($cases) }}
+                                    @case('caseCategory')
+                                        {{ $cases[0]->caseCategory->getName() }}
+                                        @break
+                                @endswitch
+
+                                <span class="badge text-bg-secondary rounded-pill ms-1" style="font-size: 55%;">
+                                    {{ count($cases) }}
+                                </span>
+
+                                @switch($groupBy)
+                                    @case('organBuilder')
+                                        @isset($cases[0]->organBuilder)
+                                            <span class="d-block mt-1 fw-normal text-secondary lh-base" style="font-size: 65%">
+                                                {{ $cases[0]->organBuilder->active_period }} ({{ $cases[0]->organBuilder->municipalityWithoutParenthesis }})
+                                            </span>
+                                        @endisset
+                                        @break
+
+                                    @case('caseCategory')
+                                        @if ($description = $cases[0]->caseCategory->getDescription())
+                                            <span class="d-block mt-1 fw-normal text-secondary lh-base" style="font-size: 65%">{{ $description }}</span>
+                                        @endif
+                                        @break
+                                @endswitch
                             </span>
 
-                            @switch($groupBy)
-                                @case('organBuilder')
-                                    @isset($cases[0]->organBuilder)
-                                        <span class="d-block mt-1 fw-normal text-secondary lh-base" style="font-size: 65%">
-                                            {{ $cases[0]->organBuilder->active_period }} ({{ $cases[0]->organBuilder->municipalityWithoutParenthesis }})
-                                        </span>
-                                    @endisset
-                                    @break
+                            <span class="ms-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Sbalit/rozbalit skupinu') }}">
+                                <button type="button" class="btn btn-sm collapse-btn btn-outline-secondary ms-1 rounded-pill" data-bs-toggle="collapse" href="#group{{ $groupId }}" onclick="collapseBtnOnclick(this)">
+                                    <i class="bi-chevron-contract"></i>
+                                </button>
+                            </span>
+                        </h4>
 
-                                @case('caseCategory')
-                                    @if ($description = $cases[0]->caseCategory->getDescription())
-                                        <span class="d-block mt-1 fw-normal text-secondary lh-base" style="font-size: 65%">{{ $description }}</span>
-                                    @endif
-                                    @break
-                            @endswitch
-                        </span>
+                        @if (isset($this->organBuilder?->description) && count($this->filterOrganBuilders ?? []) === 1)
+                            <div class="markdown mt-2 small">{!! $this->markdownConvertor->convert($this->organBuilder->description, newTab: true) !!}</div>
+                        @endif
 
-                        <span class="ms-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Sbalit/rozbalit skupinu') }}">
-                            <button type="button" class="btn btn-sm collapse-btn btn-outline-secondary ms-1 rounded-pill" data-bs-toggle="collapse" href="#group{{ $groupId }}" onclick="collapseBtnOnclick(this)">
-                                <i class="bi-chevron-contract"></i>
-                            </button>
-                        </span>
-                    </h4>
-
-                    @if (isset($this->organBuilder?->description) && count($this->filterOrganBuilders ?? []) === 1)
-                        <div class="markdown mt-2 small">{!! $this->markdownConvertor->convert($this->organBuilder->description, newTab: true) !!}</div>
-                    @endif
-
-                    <div id="group{{ $groupId }}" class="group flex-wrap flex-row column-gap-3 column-gap-md-4 row-gap-3 mt-3 justify-content-center collapse show">
-                        @foreach ($cases as $case)
-                            <div class="text-center">
-                                <a href="{{ $case->imageUrl }}" target="_blank">
-                                    <div
-                                        class="position-relative d-inline-block"
-                                        @if ($title = $this->getCaseTitle($case))
-                                            title="{{ $title }}"
-                                        @endif
-                                    >
-                                        <img
-                                            src="{{ ThumbnailController::getThumbnailUrl($case->imageUrl) }}"
-                                            alt="{{ $case->name }} &ndash; {{ __('varhany') }}"
-                                            data-large-img-url="{{ $case->imageUrl }}"
-                                            class="case-image rounded border"
-                                            loading="lazy"
-                                            @style(['max-height: 35em;' => $this->additionalImageId])
-                                        >
-                                    </div>
-                                </a>
-                                <div class="image-description small text-center mt-1 mx-auto" @style(['max-width: initial' => $this->additionalImageId])>
-                                    <p
-                                        class="text-truncate m-auto"
-                                        title="{{ $case->name }}"
-                                    >
-                                        @isset ($case->organ)
-                                            <x-organomania.organ-link :organ="$case->organ" :year="false" :showDescription="false" :iconLink="false" :newTab="true" showShortPlace />
-                                        @else
-                                            <i class="bi bi-music-note-list"></i>
-                                            {{ $case->name }}
-                                        @endisset
-                                    </p>
-                                    <div class="text-secondary text-truncate small">
-                                        @if ($organBuilderName = $this->getCaseOrganBuilderName($case))
-                                            @if ($case->organBuilder && $case->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED && $this->groupBy !== 'organBuilder')
-                                                <x-organomania.organ-builder-link
-                                                    :organBuilder="$case->organBuilder"
-                                                    :name="$organBuilderName"
-                                                    :showDescription="false"
-                                                    :newTab="true"
-                                                    :iconLink="false"
-                                                />
-                                            @else
-                                                <i class="bi-person-circle"></i>
-                                                {{ $organBuilderName }}
+                        <div id="group{{ $groupId }}" class="group flex-wrap flex-row column-gap-3 column-gap-md-4 row-gap-3 mt-3 justify-content-center collapse show">
+                            @foreach ($cases as $case)
+                                <div class="text-center">
+                                    <a href="{{ Helpers::getImageLinkUrl($case->imageUrl) }}" target="_blank">
+                                        <div
+                                            class="position-relative d-inline-block"
+                                            @if ($title = $this->getCaseTitle($case))
+                                                title="{{ $title }}"
                                             @endif
-                                        @endif
-                                        <span title="{{ $this->getCaseDetails($case) }}">
-                                            ({{ $this->getCaseDetails($case) }})
-                                        </span>
+                                        >
+                                            <img
+                                                src="{{ ThumbnailController::getThumbnailUrl($case->imageUrl) }}"
+                                                alt="{{ $case->name }} &ndash; {{ __('varhany') }}"
+                                                data-large-img-url="{{ $case->imageUrl }}"
+                                                class="case-image rounded border"
+                                                loading="lazy"
+                                                @style(['max-height: 35em;' => $this->additionalImageId])
+                                            >
+                                        </div>
+                                    </a>
+                                    <div class="image-description small text-center mt-1 mx-auto" @style(['max-width: initial' => $this->additionalImageId])>
+                                        <p
+                                            class="text-truncate m-auto"
+                                            title="{{ $case->name }}"
+                                        >
+                                            @isset ($case->organ)
+                                                <x-organomania.organ-link :organ="$case->organ" :year="false" :showDescription="false" :iconLink="false" :newTab="true" showShortPlace />
+                                            @else
+                                                <i class="bi bi-music-note-list"></i>
+                                                {{ $case->name }}
+                                            @endisset
+                                        </p>
+                                        <div class="text-secondary text-truncate small">
+                                            @if ($organBuilderName = $this->getCaseOrganBuilderName($case))
+                                                @if ($case->organBuilder && $case->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED && $this->groupBy !== 'organBuilder')
+                                                    <x-organomania.organ-builder-link
+                                                        :organBuilder="$case->organBuilder"
+                                                        :name="$organBuilderName"
+                                                        :showDescription="false"
+                                                        :newTab="true"
+                                                        :iconLink="false"
+                                                    />
+                                                @else
+                                                    <i class="bi-person-circle"></i>
+                                                    {{ $organBuilderName }}
+                                                @endif
+                                            @endif
+                                            <span title="{{ $this->getCaseDetails($case) }}">
+                                                ({{ $this->getCaseDetails($case) }})
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     @endif
 

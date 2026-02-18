@@ -13,6 +13,11 @@
 >
     <option></option>
     @foreach ($regions as $region)
-        <option value="{{ $region->id }}">{{ $region->name }}</option>
+        <option value="{{ $region->id }}">
+            {{ $region->name }}
+            @if ($region->count && $region->count > 1)
+                ({{ $region->count  }}&times;)
+            @endif
+        </option>
     @endforeach
 </select>

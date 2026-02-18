@@ -59,8 +59,9 @@ new class extends Component {
             $this->resultsRegisterNames = $this->getRegisterNames();
             $this->resultsAdditionalImages = collect();
 
-            if ($this->resultsOrgans->count() <= 0 || ($this->resultsOrgans->count() < static::ORGANS_LIMIT && mb_strlen($this->sanitizedSearch) >= 5)) {
-                $this->resultsAdditionalImages = $this->getAdditionalImages();
+            $missingOrgansCount = static::ORGANS_LIMIT - $this->resultsOrgans->count();
+            if ($this->resultsOrgans->count() <= 0 || ($missingOrgansCount > 0 && mb_strlen($this->sanitizedSearch) >= 4)) {
+                $this->resultsAdditionalImages = $this->getAdditionalImages(limit: $missingOrgansCount);
             }
 
             // oprava překlepů
@@ -243,20 +244,26 @@ new class extends Component {
             ->append(['name']);
     }
 
-    private function getAdditionalImages(bool $searchNameOnly = false)
+    private function getAdditionalImages(int $limit, bool $searchNameOnly = false)
     {
         if ($this->showLastViewed) return collect();
 
         return (OrganBuilderAdditionalImage::search($this->sanitizedSearch)
-            ->query(function (Builder $builder) use ($searchNameOnly) {
+            ->query(function (Builder $builder) use ($searchNameOnly, $limit) {
                 $searchWildcard = "%{$this->sanitizedSearch}%";
 
                 $builder
-                    ->select(['id', 'name', 'organ_builder_name', 'year_built', 'organ_builder_id', 'details'])
+                    ->select([
+                        'organ_builder_additional_images.id', 'organ_builder_additional_images.name', 'organ_builder_additional_images.organ_builder_name',
+                        'organ_builder_additional_images.year_built', 'organ_builder_additional_images.organ_builder_id', 'organ_builder_additional_images.details',
+                        'organ_builders.last_name', 'organ_builders.workshop_name'
+                    ])
+                    ->leftJoin('organ_builders', 'organ_builder_additional_images.organ_builder_id', '=', 'organ_builders.id')
                     ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
-                    ->where('organ_exists', 0)
-                    ->orderBy('name')
-                    ->take(4);
+                    ->where('organ_builder_additional_images.organ_exists', 0)
+                    ->orderBy('organ_builder_additional_images.name')
+                    ->orderBy('organ_builder_additional_images.year_built')
+                    ->take($limit);
 
                 if ($searchNameOnly) {
                     $builder->whereLike('name', $searchWildcard);

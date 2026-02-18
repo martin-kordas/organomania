@@ -21,7 +21,10 @@
             <x-organomania.pagination-div />
         @endif
 
-        <div @class(['entity-page-view-container', "view-type-{$this->viewType}"])>
+        <div @class(['entity-page-view-container', 'position-relative', "view-type-{$this->viewType}"]) wire:loading.class="opacity-50" wire:target.except="setThumbnailOrgan">
+            <div wire:loading.block wire:target.except="setThumbnailOrgan" class="position-absolute text-center w-100 start-0 z-1" style="top: 45px;">
+                <x-organomania.spinner />
+            </div>
             <x-dynamic-component :component="$this->viewComponent" :organs="$this->organs" :additionalImages="$this->additionalImages ?? null" :thumbnailOrgan="$this->thumbnailOrgan ?? null" />
         </div>
 
