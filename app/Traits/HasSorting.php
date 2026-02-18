@@ -7,9 +7,9 @@ use Livewire\Attributes\Url;
 trait HasSorting
 {
 
-    #[Url(keep: true, history: true)]
+    #[Url(keep: true)]
     public $sortColumn = 'importance';
-    #[Url(keep: true, history: true)]
+    #[Url(keep: true)]
     public $sortDirection = 'desc';
 
     private function isCurrentSort($column, $direction)
