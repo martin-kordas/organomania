@@ -24,14 +24,23 @@
         @php
             $color = null;
 
-            // TODO: v title by šlo zobrazit i rok postavení a velikost varhan
-            // TODO: optimalizace ::renovationOrganBuilder, ::caseOrganBuilder (N+1 problém)
+            // TODO: v title by šlo zobrazit i velikost varhan
+            // TODO: optimalizace ::organBuilder, ::renovationOrganBuilder, ::caseOrganBuilder (N+1 problém)
             if ($marker1 instanceof Organ) {
-                $renovated = $marker1->renovationOrganBuilder?->id === $marker->id;
-                $background = $renovated ? '#e8e8e8' : 'white';
+                $isOrganBuilder = $marker1->organBuilder?->id === $marker->id;
+                $isCaseOrganBuilder = $marker1->caseOrganBuilder?->id === $marker->id;
+                $isRenovationOrganBuilder = $marker1->renovationOrganBuilder?->id === $marker->id;
+
+                $background = $isRenovationOrganBuilder ? '#e8e8e8' : 'white';
                 $title1 = "{$marker1->municipality}, {$marker1->place}";
-                if ($marker1->caseOrganBuilder?->id === $marker->id) {
-                    $title1 .= sprintf("\n(%s)", __('dochována skříň'));
+
+                $details = [];
+                if ($isOrganBuilder && $marker1->year_built) $details[] = $marker1->year_built;
+                elseif ($isCaseOrganBuilder && $marker1->case_year_built) $details[] = $marker1->case_year_built;
+                if ($isCaseOrganBuilder) $details[] = __('dochována skříň');
+                if (!empty($details)) {
+                    $title1 .= "\n";
+                    $title1 .= sprintf('(%s)', implode(', ', $details));
                 }
             }
             elseif ($marker1 instanceof OrganBuilderAdditionalImage) {

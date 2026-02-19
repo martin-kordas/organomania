@@ -91,7 +91,9 @@
                                 <img class="organ-of-day-image rounded border" src="{{ $organOfDay->image_url }}" @isset($organOfDay->image_credits) title="{{ __('Licence obrázku') }}: {{ $organOfDay->image_credits }}" @endisset />
                             </div>
                             <figcaption>
-                                <strong>{{ $organOfDay->municipality }}</strong> &nbsp;|&nbsp; {{ $organOfDay->place }}
+                                <a href="{{ route('organs.show', $organOfDay->slug) }}" class="text-decoration-none" wire:navigate>
+                                    <strong>{{ $organOfDay->municipality }}</strong> &nbsp;|&nbsp; {{ $organOfDay->place }} 
+                                </a>
                                 <br />
                                 @if (isset($organOfDay->organ_builder_name))
                                     {{ $organOfDay->organ_builder_name }}

@@ -34,6 +34,8 @@
                 {{ $organBuilder->name }}
                 @if ($organBuilder->id === OrganBuilder::ORGAN_BUILDER_ID_KRALICKA_DILNA)
                     &ndash; Halbig, Welzel, Katzer, Sträussel, Umlauf aj.
+                @elseif ($organBuilder->id === OrganBuilder::ORGAN_BUILDER_ID_STARKOVE)
+                    &ndash; Starkové, Burkhardt, Pleyer, Fassmann, Schmidt aj.
                 @endif
 
                 @if ($showActivePeriod && $organBuilder->active_period)

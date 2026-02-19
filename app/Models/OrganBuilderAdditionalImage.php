@@ -40,13 +40,22 @@ class OrganBuilderAdditionalImage extends Model
     public function getMapMarkerTitle(bool $withOrganBuilder = false)
     {
         $title = $this->name;
-        if ($withOrganBuilder && $this->organBuilder && $this->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) {
-            $title .= "\n{$this->organBuilder->name}";
-            if ($this->year_built) $title .= " ({$this->year_built})";
+
+        $organBuilderName = null;
+        if ($withOrganBuilder) {
+            if ($this->organ_builder_name) $organBuilderName = $this->organ_builder_name;
+            elseif ($this->organBuilder && $this->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) $organBuilderName = $this->organBuilder->name;
+            if ($organBuilderName) $title .= "\n{$organBuilderName}";
         }
-        if (str($this->details)->contains('dochována skříň')) {
-            $title .= sprintf("\n(%s)", __('dochována skříň'));
+
+        $details = [];
+        if ($this->year_built) $details[] = $this->year_built;
+        if (str($this->details)->contains('dochována skříň')) $details[] = __('dochována skříň');
+        if (!empty($details)) {
+            $title .= $organBuilderName ? ' ' : "\n";
+            $title .= sprintf('(%s)', implode(', ', $details));
         }
+
         return $title;
     }
 
