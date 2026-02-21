@@ -169,6 +169,7 @@ new class extends Component {
             ->with('organBuilder')
             ->whereNotNull(['latitude', 'longitude'])
             ->where('organ_exists', 0)
+            ->where('nonoriginal_case', 0)
             ->get();
     }
 

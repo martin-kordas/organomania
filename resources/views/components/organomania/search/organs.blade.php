@@ -1,6 +1,6 @@
 @use(App\Models\User)
 
-@props(['organs', 'limit', 'showLastViewed' => false])
+@props(['organs', 'limit', 'showLastViewed' => false, 'showAll' => true])
 
 <div class="card-header fw-bold">
     <i class="bi-music-note-list"></i> 
@@ -42,7 +42,7 @@
     @endforeach
 </div>
 
-@if ($organs->count() >= $limit)
+@if ($showAll && $organs->count() >= $limit)
     <div class="list-group list-group-flush position-relative text-center border-top-0">
         <a class="list-group-item list-group-item-action link-primary text-decoration-none stretched-link item-focusable" href="{{ route('organs.index', ['filterLocality' => $this->sanitizedSearch, 'search' => $this->sanitizedSearch, 'viewType' => 'table', 'perPage' => 30]) }}">
             <i class="bi-music-note-list"></i>

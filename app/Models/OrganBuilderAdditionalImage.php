@@ -51,6 +51,7 @@ class OrganBuilderAdditionalImage extends Model
         $details = [];
         if ($this->year_built) $details[] = $this->year_built;
         if (str($this->details)->contains('dochována skříň')) $details[] = __('dochována skříň');
+        elseif (str($this->details)->contains('nedochováno')) $details[] = __('nedochováno');
         if (!empty($details)) {
             $title .= $organBuilderName ? ' ' : "\n";
             $title .= sprintf('(%s)', implode(', ', $details));

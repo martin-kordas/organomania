@@ -1,9 +1,11 @@
+@props(['title' => __('Použitá literatura')])
+
 <div class="modal fade" id="referencesModal" tabindex="-1" data-focus="false" aria-labelledby="referencesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title fs-5" id="referencesModalLabel">
-                    {{ __('Použitá literatura') }}
+                    {{ $title }}
                 </h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Zavřít') }}"></button>
             </div>

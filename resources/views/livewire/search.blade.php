@@ -63,6 +63,18 @@ new class extends Component {
             if ($this->resultsOrgans->count() <= 0 || ($missingOrgansCount > 0 && mb_strlen($this->sanitizedSearch) >= 4)) {
                 $this->resultsAdditionalImages = $this->getAdditionalImages(limit: $missingOrgansCount);
             }
+            //  - víceslovný hledaný výraz způsobí (např. "Horní Město"), že se najde spousta klasických fulltextových výsledků a additional images se nedotážou,
+            //    protože $missingOrgansCount bude 0
+            //  - je-li víceslovný hledaný výraz dostatečně specifický, dotážeme additional images bez ohledu na $missingOrgansCount
+            else {
+                $searchParts = str($this->sanitizedSearch)->explode(' ');
+                $searchAdditionalImages = $searchParts->filter(
+                    fn ($part) => mb_strlen($part) >= 3
+                )->count() >= 2;
+                if ($searchAdditionalImages) {
+                    $this->resultsAdditionalImages = $this->getAdditionalImages(limit: 3);
+                }
+            }
 
             // oprava překlepů
             if ($this->getResultsCount() <= 0 && mb_strlen($this->sanitizedSearch) >= 4) {

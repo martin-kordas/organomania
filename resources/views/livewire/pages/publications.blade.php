@@ -195,7 +195,7 @@ class extends Component {
         </a>
     </div>
 
-    <x-organomania.modals.references-modal>
+    <x-organomania.modals.references-modal title="{{ __('Další literatura') }}">
         <x-organomania.link-list>
             <x-organomania.link-list-item icon="link-45deg" url="https://www.varhany.net/literatura.php">
                 varhany.net – {{ __('Bibliografie literatury')  }}
