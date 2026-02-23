@@ -40,11 +40,11 @@
                 <gmp-advanced-marker
                     class="simple-marker"
                     position="{{ $additionalImage->latitude }},{{ $additionalImage->longitude }}"
+                    data-map-info="{{ $additionalImage->getMapInfo() }}"
                 >
                     <gmp-pin
                         background="white"
                         scale="0.8"
-                        title="{{ $additionalImage->getMapMarkerTitle(withOrganBuilder: true) }}"
                         onclick="window.open({{ Js::from($additionalImage->getViewUrl()) }}, '_blank')"
                         glyph-color="black"
                         border-color="black"

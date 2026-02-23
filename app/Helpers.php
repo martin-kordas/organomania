@@ -319,11 +319,21 @@ class Helpers
 
     static function formatUrlsInLiterature($literature)
     {
-        return preg_replace(
+        $literature = e($literature);
+      
+        $literature = preg_replace(
             '#https?://[^ ]*[^. ]#',
             '<a href="$0" target="_blank">$0</a>',
-            e($literature)
+            $literature
         );
+        
+        $literature = preg_replace(
+            '/\*(.+?)\*/',
+            '<em>$1</em>',
+            $literature
+        );
+        
+        return $literature;
     }
 
     static function normalizeLineBreaks(string $string)

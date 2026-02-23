@@ -181,7 +181,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (isset($timelineItem->activePeriod)) $label .= "\n({$timelineItem->activePeriod})";
         $municipality = str_replace('Praha-Žižkov', 'Praha', $this->organBuilder->municipality);
         if (!$outOfScope && $timelineItem->locality !== $municipality) $label .= "\n{$timelineItem->locality}";
-        $sibling = in_array($timelineItem->id, [10, 15, 861, 862, 863, 868, 29, 915, 917, 921]);
+        $sibling = in_array($timelineItem->id, [10, 15, 861, 862, 863, 868, 29, 915, 917, 921, 929]);
         if ($sibling) {
             $siblingLabel = match ($timelineItem->id) {
                 29 => 'Neznámý vztah',

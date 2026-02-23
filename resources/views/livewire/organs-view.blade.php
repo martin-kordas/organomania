@@ -59,7 +59,9 @@ new class extends Component {
     #[Reactive]
     public $search;
     #[Reactive]
-    public $showAdditionalImages;
+    public $enableAdditionalImages;
+    #[Reactive]
+    public $showEnableAdditionalImages;
 
     // TODO: jako public mít radši jen id?
     #[Locked]
@@ -163,7 +165,7 @@ new class extends Component {
     #[Computed]
     public function additionalImages()
     {
-        if (!$this->showAdditionalImages) return collect();
+        if (!$this->showEnableAdditionalImages || !$this->enableAdditionalImages) return collect();
 
         return OrganBuilderAdditionalImage::query()
             ->with('organBuilder')

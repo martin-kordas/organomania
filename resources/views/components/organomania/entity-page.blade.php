@@ -355,6 +355,15 @@
             </div>
         @endif
 
+        @if ($this->showEnableAdditionalImages ?? false)
+            <div class="text-center">
+                <div class="form-check form-switch small d-inline-block">
+                    <label class="form-check-label" for="enableAdditionalImages">{{ __('Včetně varhan jen s fotkou') }}</label>
+                    <input class="form-check-input" type="checkbox" role="switch" id="enableAdditionalImages" wire:model.live="enableAdditionalImages">
+                </div>
+            </div>
+        @endif
+
         @if ($this->showMunicipalityInfo)
             <x-organomania.municipality-info :municipalityInfo="$this->municipalityInfo" />
         @endif
@@ -389,7 +398,8 @@
             :filterOnlineOnly="$this->filterOnlineOnly ?? null"
             :filterMonth="$this->filterMonth ?? null"
             :filterSearch="$this->filterSearch ?? null"
-            :showAdditionalImages="$this->showAdditionalImages ?? null"
+            :enableAdditionalImages="$this->enableAdditionalImages ?? null"
+            :showEnableAdditionalImages="$this->showEnableAdditionalImages ?? null"
             :search="$this->search ?? null"
             :selectedTimelineEntityType="request()->query('selectedTimelineEntityType')" :selectedTimelineEntityId="request()->query('selectedTimelineEntityId')"
             :id="$this->id ?? null"

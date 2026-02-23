@@ -31,6 +31,50 @@ class OrganBuilderAdditionalImage extends Model
         return Helpers::makeEnumAttribute('case_organ_category_id', OrganCategory::from(...));
     }
 
+    public function municipality(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $parts = explode(', ', $this->name);
+                return $parts[0] ?? null;
+            }
+        );
+    }
+
+    public function place(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $parts = explode(', ', $this->name, limit: 2);
+                return $parts[1] ?? null;
+            }
+        );
+    }
+
+    public function organBuilderName(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                if ($attributes['organ_builder_name']) return $attributes['organ_builder_name'];
+                elseif ($this->organBuilder && $this->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) return $this->organBuilder->name;
+                else return __('neznámý varhanář');
+            }
+        );
+    }
+
+    public function allDetails(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $_value, array $attributes) {
+                $details = [];
+                if ($this->year_built) $details[] = $this->year_built;
+                if (str($attributes['details'])->contains('dochována skříň')) $details[] = __('dochována skříň');
+                elseif (str($attributes['details'])->contains('nedochováno')) $details[] = __('nedochováno');
+                return $details;
+            }
+        );
+    }
+
     public function getViewUrl()
     {
         $url = route('organs.cases', ['filterOrganBuilders' => [$this->organ_builder_id ?? -1], 'additionalImageId' => $this->id]);
@@ -41,23 +85,23 @@ class OrganBuilderAdditionalImage extends Model
     {
         $title = $this->name;
 
-        $organBuilderName = null;
         if ($withOrganBuilder) {
-            if ($this->organ_builder_name) $organBuilderName = $this->organ_builder_name;
-            elseif ($this->organBuilder && $this->organBuilder->id !== OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED) $organBuilderName = $this->organBuilder->name;
-            if ($organBuilderName) $title .= "\n{$organBuilderName}";
+            $title .= "\n{$this->organBuilderName}";
         }
 
-        $details = [];
-        if ($this->year_built) $details[] = $this->year_built;
-        if (str($this->details)->contains('dochována skříň')) $details[] = __('dochována skříň');
-        elseif (str($this->details)->contains('nedochováno')) $details[] = __('nedochováno');
-        if (!empty($details)) {
-            $title .= $organBuilderName ? ' ' : "\n";
-            $title .= sprintf('(%s)', implode(', ', $details));
+        if (!empty($this->allDetails)) {
+            $title .= $this->organBuilderName ? ' ' : "\n";
+            $title .= sprintf('(%s)', implode(', ', $this->allDetails));
         }
 
         return $title;
+    }
+
+    public function getMapInfo()
+    {
+        return view('components.organomania.map-info.additional-image', [
+            'additionalImage' => $this,
+        ])->render();
     }
 
     public function toSearchableArray(): array

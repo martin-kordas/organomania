@@ -82,6 +82,8 @@ class OrganBuilderRepository extends AbstractRepository
                 case 'regionId':
                     if ((int)$value === -1) {
                         $query->whereNull('region_id');
+                        // varhanáři, kteří jsou místní, jen není znám jejich region
+                        $query->whereNotIn('id', [OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED, 874, 12]);
                         $filterInland = false;
                     }
                     else $query->where('region_id', $value);

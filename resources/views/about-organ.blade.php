@@ -828,7 +828,8 @@
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Teynkirche_Prag_Orgel.jpg/560px-Teynkirche_Prag_Orgel.jpg" style="width: 350px; max-width: 100%;" />
                             <br />
                             <em>
-                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_MATKY_BOZI_PRED_TYNEM]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
+                                <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_MATKY_BOZI_PRED_TYNEM]" :year="false" class="stretched-link" />
+                                <span class="text-secondary">(Mundt, 1673, II/29, restaurováno 2000)</span>
                             </em>
                         </div>
                     </div>

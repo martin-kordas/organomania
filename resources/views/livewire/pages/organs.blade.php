@@ -56,7 +56,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Url(keep: true)]
     public $search;
     #[Url(keep: true)]
-    public $showAdditionalImages;
+    public $enableAdditionalImages = false;
 
     public $municipality;
 
@@ -65,6 +65,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private OrganCategoryModel $categoryModel;
 
     private bool $showFilterHasDisposition = true;
+    private bool $showEnableAdditionalImages;
 
     const SORT_OPTIONS = [
         ['column' => 'municipality', 'label' => 'Obec', 'type' => 'alpha'],
@@ -88,6 +89,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->model = $model;
         $this->categoryModel = $categoryModel;
         $this->hasMunicipalityInfo = true;
+        $this->showEnableAdditionalImages = $this->viewType === 'map' && $this->activeFiltersCount() <= 0;
 
         $this->createRoute = 'organs.create';
         $this->exportRoute = 'organs.export';

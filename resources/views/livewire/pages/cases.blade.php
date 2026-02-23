@@ -83,7 +83,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $this->dispatch("bootstrap-rendered");
         $this->dispatch("select2-rendered");
-        $this->js('setTimeout(() => window.initMagnifier())');
+        if (!Helpers::isMobile()) $this->js('setTimeout(() => window.initMagnifier())');
     }
 
     public function rendering(View $view): void
@@ -557,13 +557,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
                             <div id="group{{ $groupId }}" class="group flex-wrap flex-row column-gap-3 column-gap-md-4 row-gap-3 mt-3 justify-content-center collapse show">
                                 @foreach ($cases as $case)
+                                    @php $title = $this->getCaseTitle($case) @endphp
                                     <div class="text-center">
                                         <a href="{{ Helpers::getImageLinkUrl($case->imageUrl) }}" target="_blank">
+                                          {{-- title musí být na <div>, aby fungoval i s magnifierem a musí být i na <img>, aby fungoval na mobilu při podržení prstu na obrázku --}}
                                             <div
                                                 class="position-relative d-inline-block"
-                                                @if ($title = $this->getCaseTitle($case))
-                                                    title="{{ $title }}"
-                                                @endif
+                                                @if ($title) title="{{ $title }}" @endif
                                             >
                                                 <img
                                                     src="{{ ThumbnailController::getThumbnailUrl($case->imageUrl) }}"
@@ -572,6 +572,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                     class="case-image rounded border"
                                                     loading="lazy"
                                                     @style(['max-height: 35em;' => $this->additionalImageId])
+                                                    @if ($title) title="{{ $title }}" @endif
                                                 >
                                             </div>
                                         </a>

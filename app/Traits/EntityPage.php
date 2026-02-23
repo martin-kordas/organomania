@@ -139,7 +139,7 @@ trait EntityPage
             $this->getFilters(),
         );
 
-        if (in_array($property, [...$this->getFilters(), 'perPage']) || str($property)->startsWith($filterPropertiesDot)) {
+        if (in_array($property, [...$this->getFilters(), 'perPage', 'enableAdditionalImages']) || str($property)->startsWith($filterPropertiesDot)) {
             $this->dispatch('filtering-changed');
 
             // Google mapa má z tech. důvodů nastaveno wire:replace, při aktualizaci zobrazených varhan tedy musíme přenačíst celou stranu

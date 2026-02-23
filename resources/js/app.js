@@ -323,15 +323,11 @@ function showThumbnailOrgan($wire, organId) {
 window.initGoogleMap = function ($wire) {
     setTimeout(function () {
         const map = document.querySelector('gmp-map')
-        const markers = document.querySelectorAll('gmp-advanced-marker:not(.simple-marker)');
+        const markers = document.querySelectorAll('gmp-advanced-marker');
 
         // zobrazení modalu řešeno v JS, protože kliknutí na mobilu funguje jen s událostí pointerdown (ne click)
         // a s pointerdown naopak není kompatibilní data-bs-toggle, proto modal aktivujeme v JS
         markers.forEach(marker => {
-            marker.addEventListener('mouseup', function () {
-                let organId = marker.dataset.organId
-                showThumbnailOrgan($wire, organId)
-            })
             const infoWindow = new google.maps.InfoWindow({
                 headerDisabled: true,
                 content: marker.dataset.mapInfo,
@@ -348,15 +344,22 @@ window.initGoogleMap = function ($wire) {
                 infoWindow.close()
             })
 
-            let background;
-            if ($(marker).is('[data-near-coordinate]')) {
-                background = 'yellow'
+            if (!marker.classList.contains('simple-marker')) {
+                marker.addEventListener('mouseup', function () {
+                    let organId = marker.dataset.organId
+                    showThumbnailOrgan($wire, organId)
+                })
+
+                let background;
+                if ($(marker).is('[data-near-coordinate]')) {
+                    background = 'yellow'
+                }
+                else {
+                    background = `hsl(5, 81%, ${marker.dataset.lightness}%)`
+                }
+                let pin = new google.maps.marker.PinElement({ background })
+                marker.appendChild(pin.element)
             }
-            else {
-                background = `hsl(5, 81%, ${marker.dataset.lightness}%)`
-            }
-            let pin = new google.maps.marker.PinElement({ background })
-            marker.appendChild(pin.element)
         });
 
         if ($(map).is('[data-use-map-clusters]')) {
