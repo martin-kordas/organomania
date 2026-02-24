@@ -19,7 +19,7 @@
 @endphp
 
 <div class="organ-thumbnail card shadow-sm m-auto placeholder-glow overflow-hidden">
-    
+
     {{-- obrázek --}}
     @isset($organ)
         <div wire:loading.remove wire:target="setThumbnailOrgan" @class(['image-container', 'position-relative', 'bg-light' => !isset($organ->image_url)])>
@@ -31,7 +31,12 @@
                     href="{{ $this->getViewUrl($organ) }}"
                     @if ($modal) target="_blank" @else wire:navigate @endif
                 >
-                    <img class="organ-image" src="{{ ThumbnailController::getThumbnailUrl($image['image_url']) }}" @isset($image['image_credits']) title="{{ __('Licence obrázku') }}: {{ $image['image_credits'] }}" @endisset />
+                    @php $shouldUseThumbnail = !method_exists($organ, 'shouldUseThumbnails') || $organ->shouldUseThumbnails() @endphp
+                    <img
+                        class="organ-image"
+                        src="{{ $shouldUseThumbnail ? ThumbnailController::getThumbnailUrl($image['image_url']) : $image['image_url'] }}"
+                        @isset($image['image_credits']) title="{{ __('Licence obrázku') }}: {{ $image['image_credits'] }}" @endisset
+                    />
                 </a>
             @endisset
             @isset($organ->region_id)
@@ -51,7 +56,7 @@
         </div>
     @endisset
     <div wire:loading wire:target="setThumbnailOrgan" class="image-placeholder" style="height: 200px;"></div>
-    
+
     <div class="card-header">
         @isset($organ)
             <div wire:loading.remove wire:target="setThumbnailOrgan">
@@ -64,7 +69,7 @@
             <span class="placeholder d-block w-25"></span>
         </div>
     </div>
-    
+
     <div class="card-body">
         @isset($organ)
             <div wire:loading.remove wire:target="setThumbnailOrgan" class="list-group-item">
@@ -79,11 +84,11 @@
                     @endforeach
                     @foreach ($organ->{$this->categoriesRelation} as $category)
                         @php
-                            $showCategory = 
+                            $showCategory =
                                 (
                                     !$category->getEnum()->isPeriodCategory()
                                     || in_array($category->getEnum(), [OrganCategory::FromBookBaroqueOrganBuilding, OrganBuilderCategory::FromBookBaroqueOrganBuilding])
-                                ) 
+                                )
                                 && !(
                                     $category->getEnum() instanceof OrganCategory
                                     && $category->getEnum()->isCaseCategory()
@@ -125,7 +130,7 @@
             </p>
         </div>
     </div>
-    
+
     @if ($this->showThumbnailFooter)
         <div class="card-footer text-body-secondary">
             <div class="d-flex justify-content-between align-items-center gap-2">
@@ -197,5 +202,5 @@
             </div>
         </div>
     @endif
-    
+
 </div>

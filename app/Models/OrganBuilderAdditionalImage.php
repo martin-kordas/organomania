@@ -51,7 +51,7 @@ class OrganBuilderAdditionalImage extends Model
         );
     }
 
-    public function organBuilderName(): Attribute
+    public function realOrganBuilderName(): Attribute
     {
         return Attribute::make(
             get: function (mixed $_value, array $attributes) {

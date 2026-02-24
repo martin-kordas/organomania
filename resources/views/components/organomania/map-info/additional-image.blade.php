@@ -5,7 +5,7 @@
 </div>
 
 <div>
-    {{ $additionalImage->organBuilderName }}
+    {{ $additionalImage->realOrganBuilderName }}
     @if (!empty($additionalImage->allDetails))
         <span style='color: grey'>({{ implode(', ', $additionalImage->allDetails) }})</span>
     @endif

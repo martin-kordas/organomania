@@ -202,6 +202,11 @@ class extends Component {
                 <x-slot:description>{{ __('Přehled literatury použité v online databázi') }}</x-slot:description>
             </x-organomania.link-list-item>
 
+            <x-organomania.link-list-item icon="link-45deg" url="https://biblio.hiu.cas.cz/#!/records/55d4bd7f-2c20-41aa-a8ba-0ca859d5dd87">
+                Bibliografie dějin českých zemí – varhany
+                <x-slot:description>{{ __('Odborné články a knihy vydané po r. 1990') }}</x-slot:description>
+            </x-organomania.link-list-item>
+
             <x-organomania.link-list-item icon="book" url="https://www.cbdb.cz/kniha-255158-barokni-varhanarstvi-na-morave-dil-1-varhanari">
                 Jiří Sehnal: Barokní varhanářství na Moravě – 1. Varhanáři
                 <x-slot:description>SEHNAL, Jiří. Barokní varhanářství na Moravě. Vydání první. Brno: Muzejní a vlastivědná společnost v Brně, 2003-2018. 3 svazky. Prameny k dějinám a kultuře Moravy, č. 9, 10. Monografie. ISBN 80-7275-042-9. (s. 148–151)</x-slot>

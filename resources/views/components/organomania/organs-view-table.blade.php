@@ -36,7 +36,7 @@
                         @endif
                     </td>
                     <td class="py-0 text-center">
-                        @isset($organ->image_url)
+                        @if (isset($organ->image_url) && $organ->shouldUseThumbnails())
                             <a class="table-thumbnail-a" href="{{ $organ->image_url }}" target="_blank" wire:replace.self>
                                 <img
                                     class="table-thumbnail rounded border"
@@ -49,7 +49,7 @@
                                     @isset($organ->image_credits) title="{{ __('Licence obrázku') }}: {{ $organ->image_credits }}" @endisset
                                 />
                             </a>
-                        @endisset
+                        @endif
                     </td>
                     <td class="table-light fw-semibold position-sticky start-0 z-1">
                         <a @class(['link-dark', 'link-underline-opacity-25', 'link-underline-opacity-75-hover', 'not-preserved' => !$organ->preserved_case]) href="{{ $this->getViewUrl($organ) }}" wire:navigate>

@@ -89,7 +89,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public function rendering(View $view): void
     {
         $title = __('Galerie varhanních skříní');
-        if ($this->filterOrganBuilders && count($this->filterOrganBuilders) === 1) {
+        if ($this->additionalImageId) {
+            $name = $this->cases->first()->name;
+            $title = "$name – $title";
+        }
+        elseif ($this->filterOrganBuilders && count($this->filterOrganBuilders) === 1) {
             $case = $this->cases->first(
                 fn ($case) => isset($case->organBuilder)
             );
@@ -602,6 +606,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                         <i class="bi-person-circle"></i>
                                                         {{ $organBuilderName }}
                                                     @endif
+                                                    <br class="d-md-none" />
                                                 @endif
                                                 <span title="{{ $this->getCaseDetails($case) }}">
                                                     ({{ $this->getCaseDetails($case) }})

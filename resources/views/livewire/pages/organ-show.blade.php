@@ -494,7 +494,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div class="position-relative d-inline-block">
                 @foreach ($this->images as [$imageUrl, $imageCredits])
                     <a href="{{ Helpers::getImageLinkUrl($imageUrl) }}" target="_blank">
-                        <img class="organ-img rounded border" src="{{ ThumbnailController::getThumbnailUrl($imageUrl) }}" @isset($imageCredits) title="{{ __('Licence obrázku') }}: {{ $imageCredits }}" @endisset />
+                        <img
+                            class="organ-img rounded border"
+                            src="{{ $organ->shouldUseThumbnails() ? ThumbnailController::getThumbnailUrl($imageUrl) : $imageUrl }}"
+                            @isset($imageCredits) title="{{ __('Licence obrázku') }}: {{ $imageCredits }}" @endisset
+                        />
                     </a>
                     @break
                 @endforeach

@@ -8,22 +8,23 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use App\Models\Scopes\OwnedEntityScope;
+use App\Models\User;
 
 trait OwnedEntity
 {
-    
+
     abstract protected function getShowRoute(): string;
-    
+
     public function isPublic()
     {
         return !isset($this->user_id);
     }
-    
+
     public function scopePublic(Builder $query): void
     {
         $query->whereNull('user_id');
     }
-    
+
     protected function privatePrefix(): Attribute
     {
         // při vytváření slugu zajišťuje, že slug soukromých položek má prefix 'private'
@@ -31,7 +32,7 @@ trait OwnedEntity
             get: fn () => !$this->isPublic() ? 'private' : '',
         );
     }
-    
+
     public function getShareUrl()
     {
         $route = $this->getShowRoute();
@@ -39,7 +40,7 @@ trait OwnedEntity
         else $relativeUrl = route($route, $this->slug, absolute: false);
         return url($relativeUrl);
     }
-    
+
     public function getViewUrl()
     {
         $route = $this->getShowRoute();
@@ -47,12 +48,19 @@ trait OwnedEntity
         else $relativeUrl = route($route, $this->slug, absolute: false);
         return url($relativeUrl);
     }
-    
+
     // přizpůsobení sluggable: konflikty slugů se mají hledat napříč všemi záznamy
     public function scopeWithUniqueSlugConstraints(Builder $query, Model $model, string $attribute, array $config, string $slug): Builder
     {
         $query->withoutGlobalScope(OwnedEntityScope::class);
         return $query;
     }
-    
+
+    public function shouldUseThumbnails()
+    {
+        // custom obrázky uživatelů mohou pocházet z vlastních URL, které neminifikujeme
+        //  - TODO: minifikovat ideálně vše...
+        return $this->isPublic() || $this->user_id === User::USER_ID_ADMIN;
+    }
+
 }

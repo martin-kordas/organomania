@@ -14,17 +14,11 @@
         <a class="list-group-item list-group-item-action item-focusable text-secondary" href="{{ $additionalImage->getViewUrl() }}" wire:key="additionalImage{{ $additionalImage->id }}" wire:navigate>
             {!! $this->highlight($additionalImage->name) !!}
 
-            @php
-                $details = [];
-                if ($additionalImage->year_built) $details[] = $additionalImage->year_built;
-                // obvykle se ukazují zvukově dochované varhany a v additional_images mohou být jen dochované skříně, na což upozorníme
-                if (str($additionalImage->details)->contains('dochována skříň')) $details[] = __('dochována skříň');
-            @endphp
             <small class="hstack text-secondary">
                 <span>
                     {!! $this->highlight($additionalImage->organ_builder_name ?? $additionalImage->organBuilder?->name ?? __('neznámý varhanář')) !!}
-                    @if (!empty($details))
-                        ({{ implode(', ', $details) }})
+                    @if (!empty($additionalImage->allDetails))
+                        ({{ implode(', ', $additionalImage->allDetails) }})
                     @endif
                 </span>
             </small>
