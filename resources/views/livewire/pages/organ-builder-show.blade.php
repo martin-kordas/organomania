@@ -518,7 +518,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <h3 class="fs-2" @if (Auth::user()?->admin) title="ID: {{ $organBuilder->id }}" @endif>
                 {{ $organBuilder->name }}
                 @if ($this->showActivePeriodInHeading)
-                    <span class="text-body-tertiary">({{ $organBuilder->active_period }})</span>
+                    <span class="text-body-tertiary text-nowrap">({{ $organBuilder->active_period }})</span>
                 @endif
                 @if (!$organBuilder->isPublic())
                     <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
@@ -874,7 +874,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_LITERATURE }}')"
             >
                 <x-organomania.info-alert>
-                    {{ __('Podrobný přehled literatury obsahuje strana')  }}
+                    {{ __('Celkový přehled organologické literatury obsahuje strana')  }}
                     <a class="text-decoration-none" href="{{ route('publications.index') }}" wire:navigate>{{ __('Literatura o varhanách') }}</a>.
                 </x-organomania.info-alert>
 
@@ -882,7 +882,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @foreach (explode("\n", $organBuilder->literature) as $literature1)
                         <li @class(['list-group-item', 'd-flex', 'align-items-center', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>
                             <span class="me-2">{!! Helpers::formatUrlsInLiterature($literature1) !!}</span>
-                            @php $searchTerm = preg_replace('/ \([^()]*s(tr)?\.[^()]+\)/', '', $literature1) @endphp
+                            @php
+                                $searchTerm = preg_replace('/ \([^()]*s(tr)?\.[^()]+\)/', '', $literature1);
+                                $searchTerm = str_replace('*', '', $searchTerm);
+                            @endphp
                             <a
                                 class="btn btn-sm btn-outline-secondary float-end ms-auto px-1"
                                 target="_blank"

@@ -1,4 +1,4 @@
-@props(['marker', 'title' => '', 'inland' => true, 'otherMarkers' => collect()])
+@props(['marker' => null, 'title' => '', 'inland' => true, 'otherMarkers' => collect()])
 
 @use(App\Helpers)
 @use(App\Models\OrganBuilderAdditionalImage)
@@ -68,9 +68,11 @@
     @endforeach
 
     {{-- hlavní marker jako poslední, aby překryl vedlejší markery --}}
-    <gmp-advanced-marker
-        position="{{ $marker->latitude }},{{ $marker->longitude }}"
-    >
-        <gmp-pin title="{{ $title }}"></gmp-pin>
-    </gmp-advanced-marker>
+    @isset($marker)
+        <gmp-advanced-marker
+            position="{{ $marker->latitude }},{{ $marker->longitude }}"
+        >
+            <gmp-pin title="{{ $title }}"></gmp-pin>
+        </gmp-advanced-marker>
+    @endisset
 </gmp-map>

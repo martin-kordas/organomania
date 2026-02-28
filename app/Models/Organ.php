@@ -401,18 +401,22 @@ class Organ extends Model
         ])->render();
     }
 
-    public function getSizeInfo($original = false): ?string
+    public function getSizeInfo($original = false, $case = false): ?string
     {
-        if (isset($this->manuals_count)) {
-            if ($original) {
-                $manualsCount = $this->original_manuals_count ?? $this->manuals_count;
-                $stopsCount = $this->original_stops_count ?? $this->stops_count;
-            }
-            else {
-                $manualsCount = $this->manuals_count;
-                $stopsCount = $this->stops_count;
-            }
+        if ($original) {
+            $manualsCount = $this->original_manuals_count ?? $this->manuals_count;
+            $stopsCount = $this->original_stops_count ?? $this->stops_count;
+        }
+        elseif ($case) {
+            $manualsCount = $this->case_manuals_count;
+            $stopsCount = $this->case_stops_count;
+        }
+        else {
+            $manualsCount = $this->manuals_count;
+            $stopsCount = $this->stops_count;
+        }
 
+        if ($manualsCount) {
             $parts = [];
             $parts[] = Helpers::formatRomanNumeral($manualsCount);
             if (isset($stopsCount)) $parts[] = $stopsCount;

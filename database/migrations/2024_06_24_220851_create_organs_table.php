@@ -37,6 +37,8 @@ return new class extends Migration
             $table->integer('manuals_count')->nullable();
             $table->integer('original_stops_count')->nullable();
             $table->integer('original_manuals_count')->nullable();
+            $table->integer('case_stops_count')->nullable();
+            $table->integer('case_manuals_count')->nullable();
             $table->integer('concert_hall')->default(0);
             $table->integer('preserved_organ')->default(1);
             $table->integer('preserved_case')->default(1);

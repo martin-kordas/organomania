@@ -89,7 +89,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->model = $model;
         $this->categoryModel = $categoryModel;
         $this->hasMunicipalityInfo = true;
-        $this->showEnableAdditionalImages = $this->viewType === 'map' && $this->activeFiltersCount() <= 0;
 
         $this->createRoute = 'organs.create';
         $this->exportRoute = 'organs.export';
@@ -118,6 +117,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $this->filters[] = 'filterConcertHall';
         $this->filters[] = 'filterForeignOrganBuilder';
         $this->filters[] = 'filterHasDisposition';
+        $this->showEnableAdditionalImages = $this->viewType === 'map' && $this->activeFiltersCount() <= 0;
         $this->title = __('Varhany');
     }
 

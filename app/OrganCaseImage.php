@@ -51,11 +51,12 @@ final readonly class OrganCaseImage {
 
             $organBuilder = $organ->caseOrganBuilder;
             $organBuilderName = $organ->caseOrganBuilderNameLowercase ?? $organ->caseOrganBuilder?->initialsName;
-            $stopsCount = null;
+            $stopsCount = $organ->case_stops_count;
             $organBuilderActiveFromYear = $organ->caseOrganBuilder?->active_from_year ?? PHP_INT_MAX;
             $organBuilderExactName = $organ->caseTimelineItem?->nameLowercase;
 
-            $details[] = __('dochována skříň');
+            $sizeInfo = $organ->getSizeInfo(case: true);
+            $sizeInfo .= ', ' . __('dochována skříň');
         }
         else {
             $yearBuilt = $organ->year_built;
@@ -66,8 +67,9 @@ final readonly class OrganCaseImage {
             $organBuilderActiveFromYear = $organBuilder?->active_from_year ?? PHP_INT_MAX;
             $organBuilderExactName = $organ->timelineItem?->nameLowercase;
 
-            $sizeInfo = static::getOrganSizeInfo($organ);
-            if (isset($sizeInfo)) $details[] = $sizeInfo;
+        }
+        if ($sizeInfo = static::getOrganSizeInfo($organ)) {
+            $details[] = $sizeInfo;
         }
 
         $detailsStr = empty($details) ? null : implode(', ', $details);
@@ -127,7 +129,12 @@ final readonly class OrganCaseImage {
 
     private static function getOrganSizeInfo(Organ $organ)
     {
-        if ($organ->organ_rebuilds_count <= 0) $sizeInfo = $organ->getSizeInfo();
+        if ($organ->hasCaseOrganBuilder()) {
+            if ($sizeInfo = $organ->getSizeInfo(case: true)) {
+                $sizeInfo .= ', ' . __('dochována skříň');
+            }
+        }
+        elseif ($organ->organ_rebuilds_count <= 0) $sizeInfo = $organ->getSizeInfo();
         elseif ($organ->hasOriginalSizeInfo()) {
             $sizeInfo = $organ->getSizeInfo(original: true);
             $sizeInfo .= ', ' . __('přestavěno');

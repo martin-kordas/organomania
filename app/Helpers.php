@@ -327,11 +327,15 @@ class Helpers
             $literature
         );
         
+        $count = 0;
         $literature = preg_replace(
             '/\*(.+?)\*/',
-            '<em>$1</em>',
-            $literature
+            '<em>$1</em></span>',
+            $literature,
+            count: $count
         );
+        
+        if ($count > 0) $literature = "<span class='fw-semibold'>$literature";
         
         return $literature;
     }

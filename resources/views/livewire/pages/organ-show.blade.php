@@ -549,8 +549,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 </span>
                             @endif
 
-                            <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :timelineItem="$organ->timelineItem" :yearBuilt="$showYearBuilt ? $organ->year_built : null" :showOrganWerk="$showCaseOrganBuilder" :signed="$this->signed" />
-                            @if (!$showYearBuilt && isset($this->organBuilderActivePeriod))
+                            @php $showOrganBuilderActivePeriod = !$showYearBuilt && isset($this->organBuilderActivePeriod);  @endphp
+                            <x-organomania.organ-builder-link :organBuilder="$organ->organBuilder" :timelineItem="$organ->timelineItem" :yearBuilt="$showYearBuilt ? $organ->year_built : null" :showOrganWerk="$showCaseOrganBuilder" :signed="$this->signed" :iconLink="!$showOrganBuilderActivePeriod" />
+                            @if ($showOrganBuilderActivePeriod)
                                 <span class="text-secondary">({{ $this->organBuilderActivePeriod }})</span>
                             @endif
 
@@ -847,7 +848,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </x-organomania.info-alert>
 
                 @if ($organ->dispositions->isNotEmpty())
-                    <h5>{{ __('Podrobné interaktivní zobrazení') }}</h5>
+                    <h5 class="mt-3">{{ __('Podrobné interaktivní zobrazení') }}</h5>
                     <div class="list-group">
                         @foreach ($organ->dispositions as $disposition)
                             <a wire:navigate class="icon-link icon-link-hover align-items-start list-group-item list-group-item-primary list-group-item-action link-primary" href="{{ $this->getDispositionUrl($disposition) }}">
@@ -1070,7 +1071,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_LITERATURE }}')"
             >
                 <x-organomania.info-alert>
-                    {{ __('Podrobný přehled literatury obsahuje strana')  }}
+                    {{ __('Celkový přehled organologické literatury obsahuje strana')  }}
                     <a class="text-decoration-none" href="{{ route('publications.index') }}" wire:navigate>{{ __('Literatura o varhanách') }}</a>.
                 </x-organomania.info-alert>
 
@@ -1078,7 +1079,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     @foreach (explode("\n", $organ->literature) as $literature1)
                         <li @class(['list-group-item', 'd-flex', 'align-items-center', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>
                             <span class="me-2">{!! Helpers::formatUrlsInLiterature($literature1) !!}</span>
-                            @php $searchTerm = preg_replace('/ \([^()]*s(tr)?\.[^()]+\)/', '', $literature1) @endphp
+                            @php
+                                $searchTerm = preg_replace('/ \([^()]*s(tr)?\.[^()]+\)/', '', $literature1);
+                                $searchTerm = str_replace('*', '', $searchTerm);
+                            @endphp
                             <a
                                 class="btn btn-sm btn-outline-secondary float-end ms-auto px-1"
                                 target="_blank"

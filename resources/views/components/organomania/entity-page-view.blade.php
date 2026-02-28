@@ -13,7 +13,7 @@
             >zobrazte varhany v okruhu 50 km</a>.
         </div>
     @elseif ($this->organs->isEmpty())
-        <div class="alert alert-secondary text-center" role="alert">
+        <div class="alert alert-secondary text-center mt-3" role="alert">
             {{ $this->noResultsMessage }}
         </div>
     @else

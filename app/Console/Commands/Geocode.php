@@ -32,6 +32,7 @@ class Geocode extends Command
      */
     public function handle(GeocodingService $service)
     {
+        // HACK: organBuilderAdditionalImage
         if ($this->option('type') === 'organBuilderAdditionalImage') {
             $this->service = $service;
             foreach (OrganBuilderAdditionalImage::where('organ_builder_id', $this->argument('startId'))->get() as $additionalImage) {

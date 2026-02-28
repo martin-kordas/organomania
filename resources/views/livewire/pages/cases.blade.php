@@ -195,9 +195,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         switch ($this->sort) {
             case 'stopsCountDesc':
                 $organsQuery
-                    // udaná velikost se musí vztahovat k původním varhanám ve skříni
-                    ->whereNull('case_organ_builder_id')
-                    ->whereNull('case_organ_builder_name')
+                    // udaná velikost se musí vztahovat k původním varhanám ve skříni, nebo musí být k dispozici údaj o velikosti původních varhan ve skříni
+                    ->where(function (Builder $query) {
+                        $query
+                            ->where(function (Builder $query) {
+                                $query
+                                    ->whereNull('case_organ_builder_id')
+                                    ->whereNull('case_organ_builder_name');
+                            })
+                            ->orWhereNotNull('case_stops_count');
+                    })
                     // musí být známa původní velikost
                     ->where(function (Builder $query) {
                         $query
