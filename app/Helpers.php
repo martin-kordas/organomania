@@ -320,13 +320,13 @@ class Helpers
     static function formatUrlsInLiterature($literature)
     {
         $literature = e($literature);
-      
+
         $literature = preg_replace(
             '#https?://[^ ]*[^. ]#',
             '<a href="$0" target="_blank">$0</a>',
             $literature
         );
-        
+
         $count = 0;
         $literature = preg_replace(
             '/\*(.+?)\*/',
@@ -334,9 +334,9 @@ class Helpers
             $literature,
             count: $count
         );
-        
+
         if ($count > 0) $literature = "<span class='fw-semibold'>$literature";
-        
+
         return $literature;
     }
 
@@ -391,6 +391,14 @@ class Helpers
             '/images/peruc.jpg' => 'https://www.turistika.cz/vylety/navsteva-a-prohlidka-mestyse-peruc-a-vychazka-na-rozhlednu-stradonka/foto?id=1490839',
             '/images/raskov.jpg' => 'https://www.turistika.cz/vylety/pekarovska-pout/foto?id=445553',
             '/images/pekarov.jpg' => 'https://www.turistika.cz/mista/pekarov-kaple-nanebevzeti-panny-marie/foto?id=2264892',
+            '/images/chvalsiny.jpg' => 'https://www.turistika.cz/mista/chvalsiny-kostel-sv-mari-magdaleny-klenot-pozdni-gotiky/foto?id=941562',
+            '/images/puste-zibridovice.jpg' => 'https://www.turistika.cz/mista/puste-zibridovice-farni-kostel-sv-mari-magdaleny/foto?id=578273',
+            '/images/marsikov.jpg' => 'https://www.turistika.cz/mista/marsikov-kostel-archandela-michaela/foto?id=2167089',
+            '/images/koprivna.jpg' => 'https://www.turistika.cz/vylety/koprivna-a-bratrusov-aneb-za-krasou-kostelnich-interieru/foto?id=801388',
+            '/images/sumperk-sv-barbory.jpg' => 'https://www.turistika.cz/mista/sumperk-kostel-sv-barbory/foto?id=565217',
+            '/images/dobra-voda-panny-marie-bolestne.jpg' => 'https://www.turistika.cz/mista/dobra-voda-u-ceskych-budejovic-panna-marie-bolestna/foto?id=2429565',
+            '/images/cholina.jpg' => 'https://www.turistika.cz/mista/cholina-kostel-nanebevzeti-panny-marie/foto?id=741244',
+            '/images/senice-na-hane.jpg' => 'https://www.turistika.cz/mista/senice-na-hane-kostel-sv-mari-magdaleny/foto?id=2445102',
             default => $imageUrl,
         };
     }

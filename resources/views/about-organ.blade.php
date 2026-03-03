@@ -401,7 +401,7 @@
                         Varhany tohoto období se označují jako <em>pozdně barokní</em>, případně <em>raně romantické</em>.
                         Konstrukčně stále vycházejí z osvědčených barokních principů (použití <x-organomania.category-badge :category="OrganCategory::ActionMechanical" :newTab="true">mechanické traktury</x-organomania.category-badge> a <x-organomania.category-badge :category="OrganCategory::WindchestSchleif" :newTab="true">zásuvkové vzdušnice</x-organomania.category-badge>). Začínají však upřednostňovat temnější zvuk, docílený častým disponováním rejstříků v nižších polohách, což varhany přibližuje ke zvukovému ideálu symfonického orchestru.
                         Již od dob pozdního baroka panuje obliba smykavých rejstříků, které přímo napodobují smyčcové nástroje.
-                        Postupně se rozšiřuje tónový rozsah manuálů i pedálu, naopak se ale přestává stavět zadní pozitiv v zábradlí kůru (varhanní stroj pozitivu je vsazen do hlavní skříně).
+                        Postupně se rozšiřuje tónový rozsah manuálů i pedálu a mizí krátká oktáva.
                     </p>
 
                     <p>
@@ -493,7 +493,8 @@
                         Velké množství hlubokých osmistopých rejstříků je disponováno na úkor výstavby vyšších a <x-organomania.category-badge :category="RegisterCategory::Alikvotni" :newTab="true">alikvotních hlasů</x-organomania.category-badge> (hlasů znějících v jiné než oktávové poloze).
                         V duchu orchestrálního cítění jsou manuály vzájemně dynamicky odstupňovány.
                         Namísto tradiční polyfonie se zvuk varhan přizpůsobuje homofonní akordické hře, pro kterou je výhodná <em>kuželková vzdušnice</em> (viz níže).
-                        Zvuk starých barokních varhan neodpovídá soudobému cítění (je považován za příliš křiklavý) a historické nástroje jsou často přestavovány.
+                        Přestává se stavět zadní pozitiv v zábradlí kůru a varhanní stroj pozitivu je vsazen do hlavní skříně.
+                        Zvuk starých barokních varhan obecně neodpovídá soudobému cítění (je považován za příliš křiklavý) a historické nástroje jsou často přestavovány.
                     </p>
 
                     <h5 id="builtFrom1860To1944Construction">Konstrukce varhan</h5>

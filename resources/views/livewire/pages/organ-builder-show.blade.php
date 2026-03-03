@@ -12,6 +12,7 @@ use App\Helpers;
 use App\Http\Controllers\ThumbnailController;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
+use App\Models\OrganBuilderAdditionalImage;
 use App\Models\OrganBuilderTimelineItem;
 use App\Models\OrganRebuild;
 use App\Enums\OrganBuilderCategory;
@@ -378,7 +379,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             // nejméně významné body jako první (aby byly v pozadí)
             ->merge($this->organBuilder->additionalImagesWithLocation)
             ->merge($this->organBuilder->renovatedOrgans)
-            ->merge($this->organBuilder->caseOrgans)
             ->merge($this->organs->pluck('organ'))
             ->unique('id');
     }
@@ -402,19 +402,45 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         // ::collect(): konverze Eloquent kolekce na standardní kolekci
         $organs = $this->organBuilder->organs->map(
-            fn (Organ $organ) => ['isRebuild' => false, 'organ' => $organ, 'year' => $organ->year_built]
+            fn (Organ $organ) => ['isRebuild' => false, 'isCaseOrgan' => false, 'organ' => $organ, 'year' => $organ->year_built]
         )->collect();
+
+        $caseOrgans = $this->organBuilder->caseOrgans->map(function (Organ $organ) {
+            return ['isRebuild' => false, 'isCaseOrgan' => true, 'organ' => $organ, 'year' => $organ->case_year_built];
+        });
 
         $rebuiltOrgans = $this->organBuilder->organRebuilds->filter(
             // přestavované varhany mohou být cizího uživatele, pak se vůbec nenačtou
             fn (OrganRebuild $rebuild) => isset($rebuild->organ)
         )->map(
-            fn (OrganRebuild $rebuild) => ['isRebuild' => true, 'organ' => $rebuild->organ, 'year' => $rebuild->year_built]
+            fn (OrganRebuild $rebuild) => ['isRebuild' => true, 'isCaseOrgan' => false, 'organ' => $rebuild->organ, 'year' => $rebuild->year_built]
         )->collect();
 
         // jsou-li v $rebuiltOrgans zahrnuty stejné varhany jako v $organs, pak $this->organs->count() je větší je počet reálně vyfiltrovaných varhan
         return $organs
+            ->merge($caseOrgans)
             ->merge($rebuiltOrgans)
+            ->sortBy('year');
+    }
+
+    #[Computed]
+    private function organsWithoutCaseOrgans()
+    {
+        return $this->organs->filter(
+            fn ($item) => !$item['isCaseOrgan']
+        );
+    }
+
+    #[Computed]
+    private function organsWithAdditionalImages()
+    {
+        $additionalImages = $this->organBuilder->additionalImages->map(function (OrganBuilderAdditionalImage $additionalImage) {
+            $details = array_filter([$additionalImage->organ_builder_name, $additionalImage->details]);
+            return ['additionalImage' => $additionalImage, 'year' => $additionalImage->year_built, 'details' => $details];
+        });
+
+        return $this->organs
+            ->merge($additionalImages)
             ->sortBy('year');
     }
 
@@ -705,28 +731,59 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
             </x-organomania.tr-responsive>
         @endif
-        @if ($this->organs->isNotEmpty())
+        @if ($this->organsWithAdditionalImages->isNotEmpty())
+            @php $enableAdditionalImages = $this->organs->isEmpty(); @endphp
             <x-organomania.tr-responsive title="{{ __('Významné varhany') }}">
-                <div class="text-break items-list" style="max-height: 350px; overflow-y: auto">
-                    @foreach ($this->organs as ['isRebuild' => $isRebuild, 'organ' => $organ, 'year' => $year])
-                            <x-organomania.organ-link :organ="$organ" :isRebuild="$isRebuild" :year="$year" :showSizeInfo="true" :showShortPlace="true" :showOrganBuilderExactOnly="true" />
-                            @if (!$loop->last) <br /> @endif
-                    @endforeach
+                @if ($organBuilder->additionalImages->isNotEmpty())
+                    {{-- TODO: na mobilu se při kliknutí na label nezapne switch (ale onchange handler se provede) --}}
+                    <div class="form-check form-switch mt-1 mt-md-0">
+                        <input class="form-check-input" id="toggleEnableAdditionalImages2" type="checkbox" role="switch" onchange="toggleEnableAdditionalImages()" @checked($enableAdditionalImages) autocomplete="off" />
+                        <label class="form-check-label" for="toggleEnableAdditionalImages2">{{ __('Včetně varhan jen s fotkou') }}</label>
+                    </div>
+                @endif
+                <div class="text-break" style="max-height: 350px; overflow-y: auto; line-height: 1.6;">
+                    <table class="organs-table">
+                        @foreach ($this->organsWithAdditionalImages as $item)
+                            <tr @class(['d-none' => isset($item['additionalImage']) && !$enableAdditionalImages, 'additional-image' => isset($item['additionalImage'])])>
+                                <td class="text-secondary text-nowrap align-top pe-2">{{ $item['year'] ?? 'rok?' }}</td>
+                                <td class="align-top">
+                                    @isset($item['additionalImage'])
+                                        <a class="link-primary text-decoration-none" href="{{ $item['additionalImage']->getViewUrl()  }}" target="_blank">
+                                            {{ $item['additionalImage']->name }}
+                                        </a>
+                                        @if (!empty($item['details']))
+                                            <span class="text-secondary">({{ implode(', ', $item['details']) }})</span>
+                                        @endif
+                                    @else
+                                        <x-organomania.organ-link
+                                            :organ="$item['organ']"
+                                            :isRebuild="$item['isRebuild']"
+                                            :year="false"
+                                            :showSizeInfo="true"
+                                            :showSizeInfoCase="$item['isCaseOrgan']"
+                                            :showShortPlace="true"
+                                            :showOrganBuilderExactOnly="!$item['isCaseOrgan']"
+                                            :showCaseOrganBuilderExactOnly="$item['isCaseOrgan']"
+                                            :iconLink="false"
+                                        />
+                                    @endisset
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
-                @if ($this->organs->count() > 1)
+                @if ($this->organsWithoutCaseOrgans->count() > 1)
                     <a class="btn btn-sm btn-outline-secondary mt-1 me-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id]) }}">
                         <i class="bi bi-music-note-list"></i>
                         {{ __('Zobrazit vše') }}
-                        <span class="badge text-bg-secondary rounded-pill">{{ $this->organs->count() }}</span>
+                        <span class="badge text-bg-secondary rounded-pill">{{ $this->organsWithoutCaseOrgans->count() }}</span>
                     </a>
                     <br class="d-sm-none" />
-                @endif
-                @if (isset($organBuilder->region_id) && $organBuilder->timelineItems->isNotEmpty())
-                    <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organ-builders.index', ['filterId' => $organBuilder->id, 'viewType' => 'timeline']) }}" wire:navigate>
-                        <i class="bi bi-clock"></i> {{ __('Časová osa') }}
-                    </a>
-                @endif
-                @if ($this->organs->count() > 1)
+                    @if (isset($organBuilder->region_id) && $organBuilder->timelineItems->isNotEmpty())
+                        <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organ-builders.index', ['filterId' => $organBuilder->id, 'viewType' => 'timeline']) }}" wire:navigate>
+                            <i class="bi bi-clock"></i> {{ __('Časová osa') }}
+                        </a>
+                    @endif
                     <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id, 'viewType' => 'chart', 'sortColumn' => 'stops_count']) }}" wire:navigate>
                         <i class="bi bi-bar-chart-line"></i>
                         {{ __('Srovnat velikost') }}
@@ -737,10 +794,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @if ($organBuilder->renovatedOrgans->isNotEmpty())
             <x-organomania.tr-responsive title="{{ __('Opravy') }}/{{ __('restaurování') }}">
                 <div class="text-break items-list">
-                    @foreach ($organBuilder->renovatedOrgans as $organ)
-                        <x-organomania.organ-link :organ="$organ" :year="$organ->year_renovated ?? false" :isRenovation="true" :showShortPlace="true" />
-                        @if (!$loop->last) <br /> @endif
-                    @endforeach
+                    <table>
+                        @foreach ($organBuilder->renovatedOrgans as $organ)
+                            <tr>
+                                <td class="text-secondary text-nowrap align-top pe-2">{{ $organ->year_renovated ?? 'rok?' }}</td>
+                                <td class="align-top">
+                                    <x-organomania.organ-link :organ="$organ" :year="false" :isRenovation="true" :showShortPlace="true" :iconLink="false" />
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
                 @if ($organBuilder->renovatedOrgans->count() > 1)
                     <a class="btn btn-sm btn-outline-secondary mt-1 me-1" href="{{ route('organs.index', ['filterRenovationOrganBuilderId' => $organBuilder->id]) }}">
@@ -792,7 +855,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             <span class="badge text-bg-secondary rounded-pill">{{ $organBuilderNotInlandCount }}</span>
                         @endif
                     @endif
-                <div>
+                </div>
             </x-organomania.tr-responsive>
         @endif
         @if (isset($organBuilder->description))
@@ -931,6 +994,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     window.initFamilyTreeHelp = function () {
         initFamilyTree($wire, familyTreeItems)
+    }
+
+    window.toggleEnableAdditionalImages = function () {
+        $('.organs-table tr.additional-image').toggleClass('d-none')
     }
 
     setTimeout(() => {
