@@ -76,27 +76,27 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             if (isset($this->competition->perex)) return str($this->competition->perex)->replace('*', '')->replaceMatches('/\s+/u', ' ')->limit(200);
         }
     }
-    
+
 }; ?>
 
-<div class="organ-builder-show container">  
+<div class="organ-builder-show container">
     @isset($this->metaDescription)
         @push('meta')
             <meta name="description" content="{{ $this->metaDescription }}">
         @endpush
     @endisset
-    
+
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
             <h3 class="fs-2" @if (Auth::user()?->admin) title="ID: {{ $competition->id }}" @endif>
                 {{ $competition->name }}
             </h3>
-            
+
             @if (isset($competition->perex))
                 <p class="lead">{{ $competition->perex }}</p>
             @endif
         </div>
-        
+
         @if ($this->image || $this->region)
             <div class="text-center">
                 <div class="position-relative d-inline-block">
@@ -112,7 +112,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         @endif
     </div>
-    
+
     <div class="text-center">
         <x-organomania.warning-alert class="d-inline-block mb-3">
             {!! __('Uváděné parametry soutěže vychází z posledního známého ročníku a <strong>nemusí být aktuální</strong>!') !!}
@@ -120,7 +120,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             {{ __('Pro aktuální informace navštivte vždy oficiální web soutěže.') }}
         </x-organomania.warning-alert>
     </div>
-    
+
     <table class="table show-table mt-2">
         @isset($competition->locality)
             <tr>
@@ -229,14 +229,19 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endisset
     </table>
 
-    <div class="small text-secondary text-end mb-4">
+    <div
+        class="small text-secondary text-end mb-4"
+        @isset($competition->viewed_at)
+            title="{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($competition->viewed_at) }}"
+        @endisset
+    >
         {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($competition->views) }}&times;
     </div>
-        
+
     @if (count($this->images) > 1)
         <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />
     @endif
-    
+
     <div class="accordion">
         @if ($competition->competitionYears->isNotEmpty())
             <x-organomania.accordion-item
@@ -274,7 +279,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
             </x-organomania.accordion-item>
         @endif
-        
+
         <x-organomania.accordion-item
             id="accordion-map"
             title="{{ __('Mapa') }}"
@@ -284,7 +289,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <x-organomania.map-detail :marker="$competition" />
         </x-organomania.accordion-item>
     </div>
-            
+
     <div class="text-end mt-3">
         <a class="btn btn-sm btn-secondary" href="{{ $this->previousUrl }}" wire:navigate><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>
         &nbsp;
@@ -292,6 +297,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <i class="bi-share"></i> <span class="d-none d-sm-inline">{{ __('Sdílet') }}</span>
         </a>
     </div>
-            
+
     <x-organomania.modals.share-modal />
 </div>

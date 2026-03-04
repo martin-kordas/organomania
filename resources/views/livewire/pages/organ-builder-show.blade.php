@@ -402,18 +402,18 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         // ::collect(): konverze Eloquent kolekce na standardní kolekci
         $organs = $this->organBuilder->organs->map(
-            fn (Organ $organ) => ['isRebuild' => false, 'isCaseOrgan' => false, 'organ' => $organ, 'year' => $organ->year_built]
+            fn (Organ $organ) => ['isRebuild' => false, 'isCaseOrgan' => false, 'organ' => $organ, 'year' => $organ->year_built, 'caseOnly' => false]
         )->collect();
 
         $caseOrgans = $this->organBuilder->caseOrgans->map(function (Organ $organ) {
-            return ['isRebuild' => false, 'isCaseOrgan' => true, 'organ' => $organ, 'year' => $organ->case_year_built];
+            return ['isRebuild' => false, 'isCaseOrgan' => true, 'organ' => $organ, 'year' => $organ->case_year_built, 'caseOnly' => true];
         });
 
         $rebuiltOrgans = $this->organBuilder->organRebuilds->filter(
             // přestavované varhany mohou být cizího uživatele, pak se vůbec nenačtou
             fn (OrganRebuild $rebuild) => isset($rebuild->organ)
         )->map(
-            fn (OrganRebuild $rebuild) => ['isRebuild' => true, 'isCaseOrgan' => false, 'organ' => $rebuild->organ, 'year' => $rebuild->year_built]
+            fn (OrganRebuild $rebuild) => ['isRebuild' => true, 'isCaseOrgan' => false, 'organ' => $rebuild->organ, 'year' => $rebuild->year_built, 'caseOnly' => false]
         )->collect();
 
         // jsou-li v $rebuiltOrgans zahrnuty stejné varhany jako v $organs, pak $this->organs->count() je větší je počet reálně vyfiltrovaných varhan
@@ -435,8 +435,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function organsWithAdditionalImages()
     {
         $additionalImages = $this->organBuilder->additionalImages->map(function (OrganBuilderAdditionalImage $additionalImage) {
-            $details = array_filter([$additionalImage->organ_builder_name, $additionalImage->details]);
-            return ['additionalImage' => $additionalImage, 'year' => $additionalImage->year_built, 'details' => $details];
+            $caseOnly = str($additionalImage->details)->contains(['dochována skříň', 'nedochováno']);
+
+            $details0 = str($additionalImage->details ?? '')->replace([', dochována skříň v novodobé kopii', ', dochována skříň', 'dochována skříň, ', 'dochována skříň'], '')->toString();
+            $details = array_filter([$additionalImage->organ_builder_name, $details0]);
+            return ['additionalImage' => $additionalImage, 'year' => $additionalImage->year_built, 'details' => $details, 'caseOnly' => $caseOnly];
         });
 
         return $this->organs
@@ -732,23 +735,35 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.tr-responsive>
         @endif
         @if ($this->organsWithAdditionalImages->isNotEmpty())
-            @php $enableAdditionalImages = $this->organs->isEmpty(); @endphp
-            <x-organomania.tr-responsive title="{{ __('Významné varhany') }}">
+            @php
+                $enableAdditionalImages = $this->organs->count() < 4;
+                $caseOnlyExists = $this->organsWithAdditionalImages->contains(fn ($item) => $item['caseOnly']);
+            @endphp
+            <x-organomania.tr-responsive
+                title="{{ __('Vybrané varhany') }}"
+                :modifyHtmlCb="fn ($content) => str($content)->replace('toggleEnableAdditionalImagesInput', 'toggleEnableAdditionalImagesInput2')"
+            >
                 @if ($organBuilder->additionalImages->isNotEmpty())
-                    {{-- TODO: na mobilu se při kliknutí na label nezapne switch (ale onchange handler se provede) --}}
+                    {{-- TODO: při navigace pryč přes livewire:navitate a pak zpět si prohlížeč zapamtuje stav switche, ale nepřizpůsobí se zobrazení --}}
                     <div class="form-check form-switch mt-1 mt-md-0">
-                        <input class="form-check-input" id="toggleEnableAdditionalImages2" type="checkbox" role="switch" onchange="toggleEnableAdditionalImages()" @checked($enableAdditionalImages) autocomplete="off" />
-                        <label class="form-check-label" for="toggleEnableAdditionalImages2">{{ __('Včetně varhan jen s fotkou') }}</label>
+                        <input class="form-check-input" id="toggleEnableAdditionalImagesInput" type="checkbox" role="switch" onchange="toggleEnableAdditionalImages()" @checked($enableAdditionalImages) autocomplete="off" />
+                        <label class="form-check-label" for="toggleEnableAdditionalImagesInput">
+                            {{ __('Včetně varhan jen s fotkou') }}
+                            <span class="text-secondary">({{ __('celkem') }} {{ $this->organsWithAdditionalImages->count() }})</span>
+                        </label>
                     </div>
                 @endif
                 <div class="text-break" style="max-height: 350px; overflow-y: auto; line-height: 1.6;">
                     <table class="organs-table">
                         @foreach ($this->organsWithAdditionalImages as $item)
                             <tr @class(['d-none' => isset($item['additionalImage']) && !$enableAdditionalImages, 'additional-image' => isset($item['additionalImage'])])>
-                                <td class="text-secondary text-nowrap align-top pe-2">{{ $item['year'] ?? 'rok?' }}</td>
+                                <td class="text-secondary text-nowrap align-top pe-2">
+                                    {{ $item['year'] ?? 'rok?' }}@if ($item['caseOnly'])*@endif
+                                </td>
                                 <td class="align-top">
                                     @isset($item['additionalImage'])
-                                        <a class="link-primary text-decoration-none" href="{{ $item['additionalImage']->getViewUrl()  }}" target="_blank">
+                                        {{-- wire:navigate nepoužito kvůli správnému posunutí na kotvu --}}
+                                        <a class="link-primary text-decoration-none" href="{{ $item['additionalImage']->getViewUrl()  }}">
                                             {{ $item['additionalImage']->name }}
                                         </a>
                                         @if (!empty($item['details']))
@@ -764,6 +779,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                             :showShortPlace="true"
                                             :showOrganBuilderExactOnly="!$item['isCaseOrgan']"
                                             :showCaseOrganBuilderExactOnly="$item['isCaseOrgan']"
+                                            :showCasePreserved="false"
                                             :iconLink="false"
                                         />
                                     @endisset
@@ -771,6 +787,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                             </tr>
                         @endforeach
                     </table>
+                    @if ($caseOnlyExists)
+                        <span>* {{ __('dochována skříň') }}</span>
+                    @endif
                 </div>
                 @if ($this->organsWithoutCaseOrgans->count() > 1)
                     <a class="btn btn-sm btn-outline-secondary mt-1 me-1" href="{{ route('organs.index', ['filterOrganBuilderId' => $organBuilder->id]) }}">
@@ -870,7 +889,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     <div class="mb-4">
         @if ($organBuilder->isPublic())
-            <div class="small text-secondary text-end mb-4">
+            <div
+                class="small text-secondary text-end mb-4"
+                @isset($organBuilder->viewed_at)
+                    title="{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($organBuilder->viewed_at) }}"
+                @endisset
+            >
                 {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organBuilder->views) }}&times;
             </div>
         @endif

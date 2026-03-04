@@ -1,6 +1,6 @@
 @props([
     'organ', 'name' => null, 'size' => null, 'year' => null,
-    'yearBuilt' => null, 'showOrganBuilder' => false, 'showOrganBuilderExactOnly' => false, 'showCaseOrganBuilderExactOnly' => false, 'showSizeInfo' => false, 'showSizeInfoOriginal' => false, 'showSizeInfoCase' => false, 'showShortPlace' => false,
+    'yearBuilt' => null, 'showOrganBuilder' => false, 'showOrganBuilderExactOnly' => false, 'showCaseOrganBuilderExactOnly' => false, 'showCasePreserved' => true, 'showSizeInfo' => false, 'showSizeInfoOriginal' => false, 'showSizeInfoCase' => false, 'showShortPlace' => false,
     'isRebuild' => false, 'isRenovation' => false, 'showIsHistoricalCase' => false,
 ])
 
@@ -43,7 +43,7 @@
         elseif ($showSizeInfoCase) {
             if ($sizeInfo = $organ->getSizeInfo(case: true)) {
                 $details[] = $sizeInfo;
-                $details[] = __('dochována skříň');
+                if ($showCasePreserved) $details[] = __('dochována skříň');
             }
         }
         else {

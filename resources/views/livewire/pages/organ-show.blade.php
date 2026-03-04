@@ -807,7 +807,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     <div id="images" class="mb-4">
         @if ($organ->isPublic())
-            <div class="small text-secondary text-end mb-4">
+            <div
+                class="small text-secondary text-end mb-4"
+                @isset($organ->viewed_at)
+                    title="{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($organ->viewed_at) }}"
+                @endisset
+            >
                 {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organ->views) }}&times;
             </div>
         @endif

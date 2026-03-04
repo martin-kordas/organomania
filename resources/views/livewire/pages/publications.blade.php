@@ -85,7 +85,6 @@ class extends Component {
         $this->filters[] = 'filterPublicationTopicId';
         $this->filters[] = 'filterAuthorId';
         $this->filters[] = 'filterJournal';
-        $this->filters[] = 'filterRegionId';
         $this->filters[] = 'filterLanguage';
         $this->filters[] = 'filterOnlineOnly';
         $this->heading = __('Literatura o varhanách<br />v České republice');

@@ -68,28 +68,28 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             if (isset($this->festival->perex)) return str($this->festival->perex)->replace('*', '')->replaceMatches('/\s+/u', ' ')->limit(200);
         }
     }
-    
+
 }; ?>
 
 <div class="organ-builder-show container">
-    
+
     @isset($this->metaDescription)
         @push('meta')
             <meta name="description" content="{{ $this->metaDescription }}">
         @endpush
     @endisset
-    
+
     <div class="d-md-flex justify-content-between align-items-center gap-4 mb-2">
         <div>
             <h3 class="fs-2" @if (Auth::user()?->admin) title="ID: {{ $festival->id }}" @endif>
                 {{ $festival->name }}
             </h3>
-            
+
             @if (isset($festival->perex))
                 <p class="lead">{{ $festival->perex }}</p>
             @endif
         </div>
-        
+
         @if ($this->image || $festival->region)
             <div class="text-center">
                 <div class="position-relative d-inline-block">
@@ -105,7 +105,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         @endif
     </div>
-    
+
     <table class="table show-table mt-3 mb-2">
         @isset($festival->locality)
             <tr>
@@ -162,15 +162,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.tr-responsive>
         @endisset
     </table>
-    
-    <div class="small text-secondary text-end mb-4">
+
+    <div
+        class="small text-secondary text-end mb-4"
+        @isset($festival->viewed_at)
+            title="{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($festival->viewed_at) }}"
+        @endisset
+    >
         {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($festival->views) }}&times;
     </div>
-        
+
     @if (count($this->images) > 1)
         <x-organomania.gallery-carousel :images="$this->images" class="mb-4" />
     @endif
-            
+
     <div class="accordion">
         <x-organomania.accordion-item
             id="accordion-map"
@@ -182,7 +187,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <x-organomania.map-detail :marker="$festival" />
         </x-organomania.accordion-item>
     </div>
-    
+
     <div class="text-end mt-3">
         <a class="btn btn-sm btn-secondary" href="{{ $this->previousUrl }}" wire:navigate><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>
         &nbsp;
@@ -190,6 +195,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <i class="bi-share"></i> <span class="d-none d-sm-inline">{{ __('Sdílet') }}</span>
         </a>
     </div>
-    
+
     <x-organomania.modals.share-modal />
 </div>

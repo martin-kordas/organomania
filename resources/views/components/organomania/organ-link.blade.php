@@ -1,6 +1,6 @@
 @props([
     'organ', 'name' => null, 'size' => null, 'year' => null,
-    'showOrganBuilder' => false, 'showOrganBuilderExactOnly' => false, 'showCaseOrganBuilderExactOnly' => false, 'showSizeInfo' => false, 'showSizeInfoOriginal' => false, 'showSizeInfoCase' => false, 'showDescription' => true, 'showShortPlace' => false,
+    'showOrganBuilder' => false, 'showOrganBuilderExactOnly' => false, 'showCaseOrganBuilderExactOnly' => false, 'showCasePreserved' => true, 'showSizeInfo' => false, 'showSizeInfoOriginal' => false, 'showSizeInfoCase' => false, 'showDescription' => true, 'showShortPlace' => false,
     'isRebuild' => false, 'isRenovation' => false, 'showIsHistoricalCase' => false, 'showIcon' => true, 'iconLink' => true, 'newTab' => false,
 ])
 
@@ -40,8 +40,8 @@
         @if ($showIcon)
             <i class="bi bi-music-note-list"></i>
         @endif
-        <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showOrganBuilderExactOnly :$showCaseOrganBuilderExactOnly :$showSizeInfo :$showSizeInfoOriginal :$showSizeInfoCase :$showShortPlace :$isRebuild :$isRenovation :$showIsHistoricalCase />
+        <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showOrganBuilderExactOnly :$showCaseOrganBuilderExactOnly :$showCasePreserved :$showSizeInfo :$showSizeInfoOriginal :$showSizeInfoCase :$showShortPlace :$isRebuild :$isRenovation :$showIsHistoricalCase />
     </a>
 @else
-    <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showOrganBuilderExactOnly :$showCaseOrganBuilderExactOnly :$showSizeInfo :$showSizeInfoOriginal :$showSizeInfoCase :$showShortPlace :$isRebuild :$isRenovation :$showIsHistoricalCase />
+    <x-organomania.organ-link-content :$organ :$name :$size :$year :$showOrganBuilder :$showOrganBuilderExactOnly :$showCaseOrganBuilderExactOnly :$showCasePreserved :$showSizeInfo :$showSizeInfoOriginal :$showSizeInfoCase :$showShortPlace :$isRebuild :$isRenovation :$showIsHistoricalCase />
 @endcan

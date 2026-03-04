@@ -17,29 +17,30 @@ class Competition extends Model
     use HasFactory, SoftDeletes, Sluggable;
     use HasLinkComponent;
     use Viewable;
-    
+
     public function casts()
     {
         return [
             'inactive' => 'bool',
+            'viewed_at' => 'datetime',
         ];
     }
-    
+
     public function region()
     {
         return $this->belongsTo(Region::class);
     }
-    
+
     public function organs()
     {
         return $this->belongsToMany(Organ::class)->withTimestamps()->orderBy('municipality')->orderBy('place');
     }
-    
+
     public function competitionYears()
     {
         return $this->hasMany(CompetitionYear::class)->orderBy('year', 'desc');
     }
-    
+
     public function getThumbnailImage()
     {
         if (isset($this->image_url))
@@ -51,7 +52,7 @@ class Competition extends Model
                 return ['image_url' => $organ->image_url, 'image_credits' => $organ->image_credits];
         }
     }
-    
+
     protected function firstUrl(): Attribute
     {
         return Attribute::make(
@@ -64,17 +65,17 @@ class Competition extends Model
             }
         );
     }
-    
+
     public function shouldHighlightNextYear()
     {
         return isset($this->next_year) && $this->next_year >= (int)date('Y');
     }
-    
+
     public static function getHighlightedCount()
     {
         return static::query()->where('next_year', '>=', date('Y'))->count();
     }
-    
+
     public function sluggable(): array
     {
         return [
@@ -83,17 +84,17 @@ class Competition extends Model
             ]
         ];
     }
-    
+
     public function getMapInfo()
     {
         return view('components.organomania.map-info.competition', [
             'competition' => $this,
         ])->render();
     }
-    
+
     public function getLinkComponent()
     {
         return 'components.organomania.competition-link';
     }
-    
+
 }

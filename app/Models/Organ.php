@@ -109,6 +109,7 @@ class Organ extends Model
     {
         return [
             'promotion_date' => 'date',
+            'viewed_at' => 'datetime',
         ];
     }
 

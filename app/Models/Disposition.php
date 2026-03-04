@@ -25,69 +25,76 @@ class Disposition extends Model
     use OwnedEntity {
         OwnedEntity::scopeWithUniqueSlugConstraints insteadof Sluggable;
     }
-    
+
     protected $guarded = [];
-    
+
     protected static function booted(): void
     {
         // řešení atributem ScopedBy nefunguje
         static::addGlobalScope(new OwnedEntityScope);
     }
-    
+
+    public function casts()
+    {
+        return [
+            'viewed_at' => 'datetime',
+        ];
+    }
+
     protected function getShowRoute(): string
     {
         return 'dispositions.show';
     }
-    
+
     public function keyboards()
     {
         return $this->hasMany(Keyboard::class)->orderBy('order');
     }
-    
+
     public function organ()
     {
         return $this->belongsTo(Organ::class);
     }
-    
+
     public function registrations()
     {
         return $this->hasMany(Registration::class)->orderBy('name');
     }
-    
+
     public function registrationSets()
     {
         return $this->hasMany(RegistrationSet::class)->latest();
     }
-    
+
     public function manuals()
     {
         return $this->hasMany(Keyboard::class)->where('pedal', 0);
     }
-    
+
     public function realDispositionRegisters()
     {
         return $this->dispositionRegisters()->where('coupler', 0);
     }
-    
+
     public function dispositionRegisters()
     {
         return $this->hasManyThrough(DispositionRegister::class, Keyboard::class);
     }
-    
+
     public function sameOrganDispositions()
     {
         if (!$this->organ) return collect();
-        
+
         return $this->organ->dispositions->filter(
             fn(Disposition $disposition) => $disposition->id !== $this->id
         );
     }
-    
+
     protected function language(): Attribute
     {
         return Helpers::makeEnumAttribute('language', DispositionLanguage::from(...));
     }
-    
+
     public function getKeyboardStartNumbers()
     {
         $number = 1;
@@ -98,7 +105,7 @@ class Disposition extends Model
         }
         return $numbers;
     }
-    
+
     public function getProposedCouplers(Keyboard $keyboard)
     {
         $couplers = [];
@@ -114,12 +121,12 @@ class Disposition extends Model
         }
         return $couplers;
     }
-    
+
     public function getMinMaxPitchRegister($max = false): ?DispositionRegister
     {
         $cmp = fn($val1, $val2)
             => $max ? $val1 > $val2 : $val1 < $val2;
-        
+
         $foundRegister = null;
         foreach ($this->realDispositionRegisters as $register) {
             if ($register->pitch) {
@@ -133,39 +140,39 @@ class Disposition extends Model
         }
         return $foundRegister;
     }
-    
+
     public function getMinPitchRegister(): ?DispositionRegister
     {
         return $this->getMinMaxPitchRegister();
     }
-    
+
     public function getMaxPitchRegister(): ?DispositionRegister
     {
         return $this->getMinMaxPitchRegister(max: true);
     }
-    
+
     public function getDispositionRegisterKeyboard(DispositionRegister $register)
     {
         return $this->keyboards->first(
             fn(Keyboard $keyboard) => $keyboard->dispositionRegisters->contains($register)
         );
     }
-    
+
     public function getDeclinedRealDispositionRegisters()
     {
         $count = $this->real_disposition_registers_count;
         return __(Helpers::declineCount($count, 'rejstříků', 'rejstřík', 'rejstříky'));
     }
-    
+
     public function isEmpty()
     {
         return $this->keyboards->isEmpty();
     }
-    
+
     public function toStructuredArray()
     {
         $keyboardStartNumbers = $this->getKeyboardStartNumbers();
-        
+
         $keyboards = [];
         foreach ($this->keyboards as $keyboard) {
             $number = $keyboardStartNumbers[$keyboard->id];
@@ -181,7 +188,7 @@ class Disposition extends Model
                     ];
                 }
             )->toArray();
-            
+
             $keyboard = [
                 'number' => $this->keyboard_numbering ? $keyboard->getNumber() : null,
                 'name' => $keyboard->name,
@@ -189,7 +196,7 @@ class Disposition extends Model
             ];
             $keyboards[] = $keyboard;
         }
-        
+
         return [
             'name' => $this->name,
             'keyboards' => $keyboards,
@@ -197,7 +204,7 @@ class Disposition extends Model
             'description' => $this->description,
         ];
     }
-    
+
     public function toCsvArray()
     {
         $array = [];
@@ -212,7 +219,7 @@ class Disposition extends Model
         }
         return $array;
     }
-    
+
     public function toSimpleArray()
     {
         $array = [];
@@ -220,20 +227,20 @@ class Disposition extends Model
             $keyboardName = '';
             if (isset($keyboard['number'])) $keyboardName .= "{$keyboard['number']} ";
             $keyboardName .= $keyboard['name'];
-            
+
             $registers = array_map(function ($register) {
                 $registerName = $register['name'];
                 if (isset($register['multiplier'])) $registerName .= " {$register['multiplier']}x";
                 if (isset($register['pitch'])) $registerName .= " {$register['pitch']}";
                 return $registerName;
             }, $keyboard['registers']);
-            
+
             $keyboard = ['name' => $keyboardName, 'stops' => $registers];
             $array[] = $keyboard;
         }
         return $array;
     }
-    
+
     public function toPlaintext($numbering = true, $registerIds = false, &$rowNumberDispositionRegisterId = null)
     {
         $rowNumberDispositionRegisterId = [];
@@ -243,7 +250,7 @@ class Disposition extends Model
             if (isset($keyboard['number'])) $keyboardRow .= "{$keyboard['number']}. ";
             $keyboardRow .= $keyboard['name'];
             $rows[] = "**$keyboardRow**";
-            
+
             foreach ($keyboard['registers'] as $register) {
                 $registerRow = '';
                 if (isset($register['number']) && $numbering) $registerRow .= "{$register['number']}. ";
@@ -254,13 +261,13 @@ class Disposition extends Model
                 $rows[] = $registerRow;
                 $rowNumberDispositionRegisterId[array_key_last($rows) + 1] = $register['id'];
             }
-            
+
             $rows[] = '';
         }
         array_pop($rows);
         return implode("\n", $rows);
     }
-    
+
     public function sluggable(): array
     {
         return [
@@ -269,10 +276,10 @@ class Disposition extends Model
             ]
         ];
     }
-    
+
     public function getLinkComponent()
     {
         return 'components.disposition.disposition-link';
     }
-    
+
 }

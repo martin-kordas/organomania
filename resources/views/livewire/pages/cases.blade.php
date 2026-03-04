@@ -365,9 +365,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     private function getCaseDetails(OrganCaseImage $case)
     {
-        $details = [$case->yearBuilt];
+        $details = [];
+        if (isset($case->yearBuilt)) $details[] = $case->yearBuilt;
         if (isset($case->details)) $details[] = $case->details;
-        return implode(', ', $details);
+        if (!empty($details)) return implode(', ', $details);
     }
 
     private function getCaseTitle(OrganCaseImage $case)
@@ -512,6 +513,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div id="groups">
                     @foreach ($this->casesGroups as $groupId => $cases)
                         <div class="group-container border rounded p-2 p-md-3 my-4">
+
+                            {{-- nadpis skupiny --}}
                             <h4 class="d-flex align-items-center fs-5 my-2 my-md-0" wire:key="{{ "organBuilder$groupId" }}">
                                 <span class="me-1">
                                     @switch($groupBy)
@@ -562,10 +565,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                 </span>
                             </h4>
 
+                            {{-- description varhanáře --}}
                             @if (isset($this->organBuilder?->description) && count($this->filterOrganBuilders ?? []) === 1)
                                 <div class="markdown mt-2 small">{!! $this->markdownConvertor->convert($this->organBuilder->description, newTab: true) !!}</div>
                             @endif
 
+                            {{-- obsah skupiny (fotky) --}}
                             <div id="group{{ $groupId }}" class="group flex-wrap flex-row column-gap-3 column-gap-md-4 row-gap-3 mt-3 justify-content-center collapse show">
                                 @foreach ($cases as $case)
                                     @php $title = $this->getCaseTitle($case) @endphp
@@ -615,14 +620,26 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                                     @endif
                                                     <br class="d-md-none" />
                                                 @endif
-                                                <span title="{{ $this->getCaseDetails($case) }}">
-                                                    ({{ $this->getCaseDetails($case) }})
-                                                </span>
+                                                @php $caseDetails = $this->getCaseDetails($case); @endphp
+                                                @if ($caseDetails)
+                                                    <span title="{{ $caseDetails }}">
+                                                        ({{ $caseDetails }})
+                                                    </span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
+
+                            @if ($this->groupBy === 'organBuilder' && $this->filterOrganBuilders && count($this->filterOrganBuilders) === 1)
+                                <p class="text-center mt-4">
+                                    <a class="btn btn-sm btn-outline-secondary" type="button" href="{{ route('organ-builders.show', $this->filterOrganBuilders[0]) }}#accordion-map-container" target="_blank">
+                                        <i class="bi-pin-map"></i>
+                                        {{ __('Zobrazit na mapě')  }}
+                                    </a>
+                                </p>
+                            @endif
                         </div>
                     @endforeach
                 </div>

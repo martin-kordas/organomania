@@ -108,6 +108,7 @@ class OrganBuilder extends Model
     {
         return [
             'is_workshop' => 'boolean',
+            'viewed_at' => 'datetime',
         ];
     }
 

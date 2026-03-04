@@ -17,19 +17,26 @@ class Festival extends Model
     use HasFactory, SoftDeletes, Sluggable;
     use HasLinkComponent;
     use Viewable;
-    
+
     protected $fillable = ['organ_id'];
-    
+
+    public function casts()
+    {
+        return [
+            'viewed_at' => 'datetime',
+        ];
+    }
+
     public function region()
     {
         return $this->belongsTo(Region::class);
     }
-    
+
     public function organ()
     {
         return $this->belongsTo(Organ::class);
     }
-    
+
     public function getThumbnailImage()
     {
         if (isset($this->image_url))
@@ -43,7 +50,7 @@ class Festival extends Model
                 return ['image_url' => $this->organ->image_url, 'image_credits' => $this->organ->image_credits];
         }
     }
-    
+
     protected function importance(): Attribute
     {
         return Attribute::make(
@@ -54,7 +61,7 @@ class Festival extends Model
             }
         );
     }
-    
+
     protected function firstUrl(): Attribute
     {
         return Attribute::make(
@@ -67,19 +74,19 @@ class Festival extends Model
             }
         );
     }
-    
+
     public function shouldHighlightFrequency()
     {
         if (!isset($this->starting_month) || !isset($this->ending_month))
             return false;
-        
+
         $month = now()->month;
         if ($this->starting_month > $this->ending_month) {  // např. od října (10) do ledna (1)
             return $this->starting_month <= $month || $this->ending_month >= $month;
         }
         else return $this->starting_month <= $month && $this->ending_month >= $month;
     }
-    
+
     public static function getHighlightedCount()
     {
         $month = now()->month;
@@ -93,7 +100,7 @@ class Festival extends Model
             ', [$month, $month, $month, $month])
             ->count();
     }
-    
+
     public function sluggable(): array
     {
         return [
@@ -102,17 +109,17 @@ class Festival extends Model
             ]
         ];
     }
-    
+
     public function getMapInfo()
     {
         return view('components.organomania.map-info.festival', [
             'festival' => $this,
         ])->render();
     }
-    
+
     public function getLinkComponent()
     {
         return 'components.organomania.festival-link';
     }
-    
+
 }

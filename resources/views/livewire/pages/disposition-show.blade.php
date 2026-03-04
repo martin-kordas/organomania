@@ -261,7 +261,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if ($existNonEqualCouplers) {
             $filters[] = $couplersAllFilter;
         }
-        
+
         return $filters;
     }
 
@@ -413,7 +413,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     public function showRegistrations()
     {
-        return 
+        return
             $this->disposition->disposition_registers_count > 0
             && (
                 Gate::allows('create', [Registration::class, $this->disposition])
@@ -480,7 +480,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     #[Computed]
     public function preferredLanguage()
     {
-        return 
+        return
             $this->translationLanguage
             ? DispositionLanguage::from($this->translationLanguage)
             : $this->disposition->language;
@@ -631,13 +631,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <meta name="description" content="{{ $this->metaDescription }}">
         @endpush
     @endisset
-    
+
     @if (session('status-disposition-show'))
         <div class="alert alert-success">
             <i class="bi-check-circle-fill"></i> {{ session('status-disposition-show') }}
         </div>
     @endif
-    
+
     <h3 @if (Auth::user()?->admin) title="ID: {{ $disposition->id }}" @endif>
         {{ $disposition->name }}
         @if (!$disposition->isPublic())
@@ -713,9 +713,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </div>
                 </x-organomania.accordion-item>
             </div>
-        
+
             <h5 class="mt-3">{{ __('Manuály a rejstříky') }}</h5>
-            
+
             <x-organomania.info-alert class="mb-2 d-print-none">
                 {!! __('<strong>Rejstřík</strong> je sada píšťal určité zvukové barvy.') !!}
                 {!! __('Polohu (výšku tónů) rejstříku určuje stopová výška: <em>8\'</em> značí základní polohu tónu, nižší číslo (např. <em>4\'</em>) značí vyšší polohu tónu, vyšší číslo (např. <em>16\'</em>) značí nižší polohu tónu.') !!}
@@ -723,7 +723,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 {!! __('Rejstříky dělíme do kategorií podle způsobu konstrukce, viz') !!}
                 <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#categoriesModal">{{ __('Přehled kategorií rejstříků') }}</a>.
             </x-organomania.info-alert>
-            
+
             {{-- registrace --}}
             @if ($this->showRegistrations && $this->disposition->registrations->isEmpty() && !$isEdit)
                 <div class="mt-3 d-print-none">
@@ -816,7 +816,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </a>
                 </div>
             @endif
-            
+
             {{-- manuály a rejstříky --}}
             <div class="mt-2" wire:loading.class="opacity-25" wire:target.except="accordionToggle">
                 <div wire:loading.block wire:target.except="accordionToggle" class="position-fixed text-center w-100 start-0">
@@ -845,7 +845,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         @endcan
                     </div>
                 @endif
-                
+
                 @if ($isEdit)
                     <div>
                         {{ __('Vybráno rejstříků') }}: {{ count(array_filter($dispositionRegisters)) }}
@@ -856,7 +856,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         {{ $errors->first('dispositionRegisters') }}
                     </div>
                 @enderror
-                
+
 
                 {{-- manuály --}}
                 @if ($sort === 'order')
@@ -943,7 +943,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </ol>
                 @endif
             </div>
-            
+
             @if ($this->showRegisterCounts && $disposition->keyboards->count() > 1 && !$showOnlyRegistered)
                 <div class="fst-italic mt-2 text-body-secondary">
                     {{ __('Znějících rejstříků celkem') }}: {{ $disposition->real_disposition_registers_count }}
@@ -951,7 +951,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             @endif
         @endif
     </form>
-        
+
     {{-- doplňující údaje --}}
     @if (isset($disposition->appendix) && $this->showAppendix)
         <h5 class="mt-3">{{ __('Doplňující informace') }}</h5>
@@ -961,9 +961,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         <h5 class="mt-3">{{ __('Popis') }}</h5>
         <div class="pre-line">{{ $this->disposition->description }}</div>
     @endif
-        
+
     @if ($disposition->isPublic())
-        <div class="small text-secondary text-end">
+        <div
+            class="small text-secondary text-end"
+            @isset($disposition->viewed_at)
+                title="{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($disposition->viewed_at) }}"
+            @endisset
+        >
             {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($disposition->views) }}&times;
         </div>
     @endif
@@ -1019,7 +1024,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.accordion-item>
         </div>
     @endif
-    
+
     {{-- tlačítka zpět/zavřít --}}
     <div class="buttons mt-3 hstack d-print-none">
         @if ($disposition->keyboards->isNotEmpty())
@@ -1059,12 +1064,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             {!! trim($this->markdownConvertor->convert($this->suggestRegistrationInfo)) !!}
         </x-organomania.toasts.ai-info-toast>
     @endisset
-        
+
     <x-organomania.modals.categories-modal :categoriesGroups="$this->registerCategoriesGroups" :categoryClass="RegisterCategory::class" :title="__('Přehled kategorií rejstříků')" />
-        
+
     <x-organomania.modals.share-modal />
     <x-organomania.modals.share-modal id="shareModalDisposition" />
-        
+
     <x-organomania.modals.register-modal
         :registerName="$registerName"
         :pitch="$pitch"
@@ -1081,9 +1086,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     >
         {{ __('Opravdu chcete registraci smazat?') }}
     </x-organomania.modals.confirm-modal>
-      
+
     <x-organomania.modals.suggest-registration-modal />
-        
+
     <x-organomania.toast toastId="suggestRegistrationFail" color="danger">
         {{ __('Omlouváme se, při zjišťování registrace došlo k chybě.') }}
     </x-organomania.toast>
@@ -1110,25 +1115,25 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             $(e.currentTarget).find('input').trigger('click')
         }
     }
-        
+
     window.keyboardLiOnclick = function (e) {
         if (!$(e.target).is("input, .btn, .btn *")) {
             $(e.currentTarget).find('input.check-all').trigger('click')
         }
     }
-        
+
     window.diffOnchange = function (e) {
         var url = $('#diff').val()
         if (url !== '') Livewire.navigate(url)
     }
-        
+
     window.prefillPiece = function () {
         let registrationName = $('#registrationId').val()
         if (registrationName !== '') {
             $('#suggestRegistrationModal .piece').val(registrationName)
         }
     }
-        
+
     document.addEventListener('livewire:navigated', function () {
         if (location.hash !== '') {
             scrollToElement(location.hash);
