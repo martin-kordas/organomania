@@ -69,7 +69,7 @@ $anniversaryCount = app(AnniversariesService::class)->getCachedAnniversaryCount(
         @stack('styles')
         @stack('scripts')
 
-        @if (request()->routeIs(['organs.index', 'organs.show-cs', 'organs.show', 'organ-builders.index', 'organ-builders.show-cs', 'organ-builders.show', 'festivals.index', 'festivals.show', 'competitions.index', 'competitions.show']))
+        @if (request()->routeIs(['organs.index', 'organs.show-cs', 'organs.show', 'organ-builders.index', 'organ-builders.show-cs', 'organ-builders.show', 'festivals.index', 'festivals.show', 'competitions.index', 'competitions.show', 'organs.cases']))
             <script src="{{ $googleMapsScript }}" defer></script>
             <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js" defer></script>
         @endif

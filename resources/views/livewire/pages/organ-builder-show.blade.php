@@ -757,7 +757,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <table class="organs-table">
                         @foreach ($this->organsWithAdditionalImages as $item)
                             <tr @class(['d-none' => isset($item['additionalImage']) && !$enableAdditionalImages, 'additional-image' => isset($item['additionalImage'])])>
-                                <td class="text-secondary text-nowrap align-top pe-2">
+                                <td class="text-secondary text-nowrap align-top pe-1">
                                     {{ $item['year'] ?? 'rok?' }}@if ($item['caseOnly'])*@endif
                                 </td>
                                 <td class="align-top">
@@ -812,11 +812,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         @endif
         @if ($organBuilder->renovatedOrgans->isNotEmpty())
             <x-organomania.tr-responsive title="{{ __('Opravy') }}/{{ __('restaurování') }}">
-                <div class="text-break items-list">
+                <div class="text-break items-list" style="line-height: 1.6;">
                     <table>
                         @foreach ($organBuilder->renovatedOrgans as $organ)
                             <tr>
-                                <td class="text-secondary text-nowrap align-top pe-2">{{ $organ->year_renovated ?? 'rok?' }}</td>
+                                <td class="text-secondary text-nowrap align-top pe-1">{{ $organ->year_renovated ?? 'rok?' }}</td>
                                 <td class="align-top">
                                     <x-organomania.organ-link :organ="$organ" :year="false" :isRenovation="true" :showShortPlace="true" :iconLink="false" />
                                 </td>

@@ -161,6 +161,8 @@ Volt::route('dispositions/{disposition}/registration-sets/{registrationSet}', 'p
 
 Volt::route('publications', 'pages.publications')
     ->name('publications.index');
+Volt::route('literatura', 'pages.publications')
+    ->name('publications.index-cs');
 Route::get('export/publications', [ExportController::class, 'exportPublications'])
     ->name('publications.export');
 

@@ -81,10 +81,6 @@ class PublicationRepository extends AbstractRepository
 
         foreach ($sorts as $field => $direction) {
             switch ($field) {
-                case 'name':
-                    $query->orderByRaw("IFNULL(publications.name_cz, publications.name) $direction");
-                    break;
-
                 case 'author':
                     $query
                         ->orderBy('authors.last_name', $direction)

@@ -282,6 +282,10 @@ class Helpers
             if ($lang === 'cs') $url = str($url)->replace('/about-organ', '/o-varhanach');
             elseif ($lang === 'en') $url = str($url)->replace('/o-varhanach', '/about-organ');
         }
+        elseif (request()->routeIs(['publications.show', 'publications.show-cs'])) {
+            if ($lang === 'cs') $url = str($url)->replace('/publications', '/literatura');
+            elseif ($lang === 'en') $url = str($url)->replace('/literatura', '/publications');
+        }
 
         $query = http_build_query($params);
         if ($query) $query = "?$query";

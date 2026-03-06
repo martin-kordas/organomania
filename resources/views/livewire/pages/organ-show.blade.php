@@ -606,7 +606,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <th>{{ __('Velikost') }}</th>
                 <td>
                     <div class="d-flex column-gap-3">
-                        @isset($organ->original_manuals_count)
+                        @php $showOriginalSize = isset($organ->original_manuals_count) && !($organ->original_manuals_count === $organ->manuals_count && $organ->original_stops_count === $organ->stops_count); @endphp
+                        @if ($showOriginalSize)
                             <div>
                                 {{ __('Původní') }}
                                 @isset($organ->year_built) ({{ $organ->year_built }}) @endisset
@@ -617,13 +618,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     {{ $organ->original_stops_count }}&nbsp;<small>{{ $organ->getDeclinedStops(original: true) }}</small>
                                 @endif
                             </div>
+                        @endif
 
-                        @endisset
                         <div>
-                            @isset($organ->original_manuals_count)
+                            @if ($showOriginalSize)
                                 {{ __('Současná') }}
                                 <br />
-                            @endisset
+                            @endif
                             {{ $organ->manuals_count }}&nbsp;<small>{{ $organ->getDeclinedManuals() }}</small>
                             @if ($organ->stops_count)
                                 <br />

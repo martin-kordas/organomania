@@ -109,6 +109,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         // TODO: logika dohledávání obrázků je obdobná jako v organ-builder-show.blade.php (tam je akorát implicitně filtr na varhanáře)
         //  - přesto se data na obou místech dotazují zvlášť a používají se různé struktury (zde OrganCaseImage, tam prosté pole)
 
+        // 1) INICIALIZACE SQL DOTAZŮ
         $organsQuery = $this->organRepository->getCaseImagesOrgansQuery()
             ->with(['organBuilder', 'timelineItem', 'organCategories'])
             ->withCount('organRebuilds');
@@ -120,11 +121,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         $additionalImagesQuery = $this->organRepository->getCaseImagesAdditionalImagesQuery($withoutOrganExists, $withoutNonoriginalCase, $withYearOnly)
             ->with('organBuilder');
 
+        // 2) FILTRACE
         if ($this->additionalImageId) {
             $organsQuery->take(0);
             $additionalImagesQuery->where('id', $this->additionalImageId);
         }
-
         if ($this->filterCategories) {
             $organsQuery->whereHas('organCategories', function (Builder $query) {
                 $query->whereIn('organ_category_id', $this->filterCategories);
@@ -164,7 +165,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             });
         }
 
-        // údaje, podle kterých se groupuje, musí být vyplněny
+        // GROUPOVÁNÍ (údaje, podle kterých se groupuje, musí být vyplněny)
         switch ($this->groupBy) {
             /*
             // nově není potřeba - varhany bez varhanáře se groupují do vlastní kategorie
@@ -191,7 +192,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 break;
         }
 
-        // údaje, podle kterých se řadí, musí být vyplněny
+        // 3) ŘAZENÍ (údaje, podle kterých se řadí, musí být vyplněny)
         switch ($this->sort) {
             case 'stopsCountDesc':
                 $organsQuery
@@ -219,6 +220,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 break;
         }
 
+        // 4) ZÍSKÁNÍ VÝSLEDKU
         $organCases = $organsQuery->get()->map(
             OrganCaseImage::fromOrgan(...)
         );
@@ -634,10 +636,20 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
                             @if ($this->groupBy === 'organBuilder' && $this->filterOrganBuilders && count($this->filterOrganBuilders) === 1)
                                 <p class="text-center mt-4">
-                                    <a class="btn btn-sm btn-outline-secondary" type="button" href="{{ route('organ-builders.show', $this->filterOrganBuilders[0]) }}#accordion-map-container" target="_blank">
-                                        <i class="bi-pin-map"></i>
-                                        {{ __('Zobrazit na mapě')  }}
-                                    </a>
+                                    @if (!$this->additionalImageId)
+                                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('organ-builders.show', $this->filterOrganBuilders[0]) }}#accordion-map-container" target="_blank">
+                                            <i class="bi-pin-map"></i>
+                                            {{ __('Zobrazit na mapě')  }}
+                                        </a>
+                                    @elseif ($cases[0]?->hasLocation())
+                                        <button class="btn btn-sm btn-outline-secondary" type="button" onclick="$('.map').slideToggle()">
+                                            <i class="bi-pin-map"></i>
+                                            {{ __('Zobrazit na mapě')  }}
+                                        </button>
+                                        <div class="map mt-5" style="display: none">
+                                            <x-organomania.map-detail :marker="$cases[0]" :title="$cases[0]->name" />
+                                        </div>
+                                    @endif
                                 </p>
                             @endif
                         </div>

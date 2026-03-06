@@ -61,8 +61,15 @@
                                 @isset($url)
                                     <a class="link-dark link-underline-opacity-25 link-underline-opacity-75-hover" href="{{ $url }}" target="_blank">
                                 @endisset
-                                <span class="d-none d-md-inline">{{ $publication->displayedName }}</span>
-                                <span class="d-md-none" data-bs-toggle="tooltip" data-bs-title="{{ $publication->displayedName }}">{{ str($publication->displayedName)->limit(65) }}</span>
+                                <span class="d-none d-md-inline">
+                                    {{ $publication->name }}
+                                    @isset($publication->name_cz)
+                                        / {{ str($publication->name_cz)->limit(65) }}
+                                    @endisset
+                                </span>
+                                <span class="d-md-none" data-bs-toggle="tooltip" data-bs-title="{{ $publication->name }}">
+                                    {{ str($publication->name)->limit(65) }}
+                                </span>
                                 @isset($url)
                                     </a>
                                 @endisset

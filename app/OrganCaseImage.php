@@ -30,6 +30,9 @@ final readonly class OrganCaseImage {
         public ?int $stopsCount,
         public ?int $organBuilderActiveFromYear,
 
+        public ?float $latitude,
+        public ?float $longitude,
+
         public ?string $details,
 
         public ?string $organBuilderExactName = null,
@@ -97,6 +100,9 @@ final readonly class OrganCaseImage {
             organBuilderActiveFromYear: $organBuilderActiveFromYear,
             organBuilderExactName: $organBuilderExactName,
 
+            latitude: $organ->latitude,
+            longitude: $organ->longitude,
+
             details: $detailsStr,
         );
     }
@@ -123,6 +129,9 @@ final readonly class OrganCaseImage {
             organBuilderActiveFromYear: $additionalImage->organBuilder?->active_from_year ?? PHP_INT_MAX,
             organBuilderExactName: $additionalImage->organ_builder_name,
 
+            latitude: $additionalImage->latitude,
+            longitude: $additionalImage->longitude,
+
             details: $detailsStr,
         );
     }
@@ -148,6 +157,11 @@ final readonly class OrganCaseImage {
     {
         if ($organ->organ_rebuilds_count <= 0) return $organ->stops_count;
         else return $organ->original_stops_count;
+    }
+
+    public function hasLocation()
+    {
+        return isset($this->latitude, $this->longitude);
     }
 
 }

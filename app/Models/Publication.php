@@ -32,13 +32,6 @@ class Publication extends Model
         return Helpers::makeEnumAttribute('language', DispositionLanguage::from(...));
     }
 
-    protected function displayedName(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => $this->name_cz ?? $this->name
-        );
-    }
-
     public function region()
     {
         return $this->belongsTo(Region::class);
