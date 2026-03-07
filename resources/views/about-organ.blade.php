@@ -9,7 +9,7 @@
     @push('meta')
         <meta name="description" content="{{ __('Poznejte varhany jako hudební nástroj, který se po zvukové i konstrukční stránce neustále vyvíjí. Prohlédněte si nejvýznamnější varhany a varhanáře jednotlivých stylových období.') }}">
     @endpush
-    
+
     <div class="about-organ container">
         <div class="row gy-3">
             <h2 class="d-lg-none mb-0">{{ __('O varhanách') }}</h2>
@@ -17,7 +17,7 @@
                 <nav id="content" class="h-100 flex-column align-items-stretch pe-lg-4 border-end">
                     <nav class="nav nav-pills flex-nowrap flex-column">
                         <a class="nav-link p-1 my-1" href="#aboutOrgan">Varhany jako hudební nástroj</a>
-                        
+
                         <a class="nav-link p-1 my-1" href="#history">Stylový vývoj varhan v českých zemích</a>
                         <nav class="nav nav-pills flex-column">
                             <a class="nav-link p-1 ms-3 my-1" href="#renaissance">Renesanční varhanářství</a>
@@ -54,7 +54,7 @@
                     </nav>
                 </nav>
             </div>
-            
+
             <div class="col-12 col-lg-8 col-xl-9">
                 <h3 id="aboutOrgan">{{ __('Varhany jako hudební nástroj') }}</h3>
                 <p class="alert alert-primary mt-3">
@@ -75,10 +75,10 @@
                     Mnoho z nich naléhavě vyžaduje opravu.
                     Další nové nástroje se právě staví.
                 </p>
-                
+
                 <div class="text-center mb-4">
                     <div class="position-relative d-inline-block" title="Licence obrázku: Momimariani1962, CC BY-SA 4.0, via Wikimedia Commons">
-                        <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/S.Giacomo_Maggiore_a_Praga.jpg/418px-S.Giacomo_Maggiore_a_Praga.jpg" style="max-width: 100%;" />
+                        <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/S.Giacomo_Maggiore_a_Praga.jpg/500px-S.Giacomo_Maggiore_a_Praga.jpg" style="max-width: 100%;" />
                         <br />
                         <em>
                             <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_JAKUBA_VETSIHO]" :showOrganBuilder="true" class="stretched-link" />
@@ -87,21 +87,21 @@
                 </div>
 
                 <h3 class="mt-4" id="history">{{ __('Stylový vývoj varhan v českých zemích') }}</h3>
-        
+
                 <div id="article" data-bs-spy="scroll" data-bs-target="#content" tabindex="0">
                     <p>
                         Varhany svojí zvukovou, konstrukční a výtvarnou povahou podávají svědectví o místě a době, kdy byly postaveny.
                         Řada historických nástrojů byla v průběhu let přestavěna nebo zcela zanikla.
                         I tak se na území České republiky nachází velký počet vzácných varhan, ojedinělý i v evropském měřítku.
                     </p>
-                    
+
                     <p>
                         Je důležité si uvědomit, že velké množství nástrojů bylo nově postaveno do starší, přizpůsobené skříně.
                         Barokní skříň umístěná na kůru tedy nutně neznamená, že se tam nachází i barokní varhany.
                         Také podoba samotného varhanního stroje může být výsledkem přestaveb, realizovaných postupně v různých časových obdobích.
                         Varhanním skříním se v textu věnujeme spíše okrajově.
                     </p>
-                    
+
                     <p class="mb-0">
                         Můžete si nicméně zobrazit:
                         <ul>
@@ -113,11 +113,11 @@
                             </li>
                         </ul>
                     </p>
-                    
+
                     <p>
                         Přehled o chronologii a lokalitě varhanářských dílen lze nejlépe získat pomocí <a class="text-decoration-none" href="{{ route('organ-builders.index', ['viewType' => 'timeline']) }}">časové osy varhanářů</a>.
                     </p>
-                    
+
                     <div class="alert alert-info p-2 mx-auto terms">
                         <h6><i class="bi bi-info-circle"></i> Důležité pojmy</h6>
                         <dl class="row mb-0 small">
@@ -142,7 +142,7 @@
                     <p>
                         Renesanční varhanářství se kromě renesančního tvarosloví <a class="text-decoration-none" href="{{ route('organs.cases', ['filterCategories' => [OrganCategory::CaseRenaissance], 'groupBy' => 'caseCategory']) }}" wire:navigate>varhanních skříní</a> vyznačuje pestrou rejstříkovou dispozicí, ve které jsou obsaženy barevně navzájem kontrastující rejstříky, imitující nejrůznější nástroje.
                     </p>
-                    
+
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Štěpán Svoboda, CC BY-SA 4.0, via Wikimedia Commons">
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Pipe_organs_in_Church_of_Holy_Trinity_in_Sme%C4%8Dno.jpg/330px-Pipe_organs_in_Church_of_Holy_Trinity_in_Sme%C4%8Dno.jpg" style="max-width: 300px;" />
@@ -154,7 +154,7 @@
                     <x-organomania.about-organ-h4 id="baroque" subtitle="zlatý věk varhan" :organBuilderCategory="OrganBuilderCategory::BuiltTo1799" :organCategory="OrganCategory::BuiltTo1799" :casePeriodCategory="OrganCategory::BuiltTo1799">
                         Barokní varhanářství
                     </x-organomania.about-organ-h4>
-                    
+
                     <p>
                         Vzestup církve a rozvoj sakrálního umění v období baroka dává vzniknout tzv. <em>zlatému věku</em> varhan.
                         Stavbě varhan se věnují špičkové varhanářské dílny, často vícegenerační a koncentrované do varhanářských center
@@ -173,7 +173,7 @@
                         Charakteristice jihoněmeckých varhan přirozeně odpovídá dobová hudba pro ně napsaná.
                         Interpretovat skladbu napsanou pro jiný typ nástroje na nich lze jen s obtížemi &ndash; např. hudba J. S. Bacha, napsaná pro severoněmecký typ varhan, často překračuje tónový rozsah a barevné možnosti jihoněmeckých varhan.
                     </p>
-                    
+
                     <div class="text-center mb-3">
                         <img class="rounded mb-2" src="/cached-file/images/kratka-oktava.jpg" style="max-width: 100%;" title="Licence obrázku: Schmeissnerro, CC BY-SA 4.0, via Wikimedia Commons" />
                         <br />
@@ -186,7 +186,7 @@
 
                     <div class="ms-md-3 mb-3 float-md-end text-center mx-auto" style="width: 290px; max-width: 100%;">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Ludek, CC BY-SA 3.0, via Wikimedia Commons">
-                            <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Chram_sv_Mikulase_interier_varhany.jpg/360px-Chram_sv_Mikulase_interier_varhany.jpg" />
+                            <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Chram_sv_Mikulase_interier_varhany.jpg/500px-Chram_sv_Mikulase_interier_varhany.jpg" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MIKULASE_LEVA_EMPORA]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
@@ -194,7 +194,7 @@
                             </em>
                         </div>
                     </div>
-                    
+
                     <p>
                         Z hlediska konstrukce používá naše barokní varhanářství výhradně <x-organomania.category-badge :category="OrganCategory::ActionMechanical" :newTab="true">mechanickou trakturu</x-organomania.category-badge> a <x-organomania.category-badge :category="OrganCategory::WindchestSchleif" :newTab="true">zásuvkovou vzdušnici</x-organomania.category-badge>.
                         Častým způsobem prostorového uspořádání je u vícemanuálových varhan rozdělení nástroje do dvou skříní, které jsou umístěny po stranách západního okna nad kůrem.
@@ -204,16 +204,16 @@
                         (Varhanní <em>pozitiv</em> může stát i odděleně &ndash; představuje pak samostatné menší varhany bez pedálu.)
                         Hrací stůl s klaviaturou a rejstříkovými táhly často není zabudován do varhanní skříně, ale stojí na kůru zvlášť, otočený směrem do lodi kostela.
                         Takové řešení je konstrukčně složitější, ale umožňuje varhaníkovi snadno sledovat bohoslužebné dění.
-                        Barokní varhany mají specifické ladění, ve kterém zní akordy běžných tónin (např. C dur nebo G dur) čistě, zatímco akordy tónin s větším počtem předznamenání (např. H dur) zní mírně rozladěně.
+                        Barokní varhany mají specifické ladění (tzv. temperaturu), ve kterém zní akordy běžných tónin (např. C dur nebo G dur) čistě, zatímco akordy tónin s větším počtem předznamenání (např. H dur) zní mírně rozladěně.
                         Této skutečnosti dobová varhanní hudba příhodně využívá jako výrazového prostředku.
                     </p>
-                    
+
                     <p>
                         Estetika barokních <a class="text-decoration-none" href="{{ route('organs.cases', ['filterPeriodCategories' => [OrganCategory::BuiltTo1799], 'groupBy' => 'periodCategory']) }}" wire:navigate>varhanních skříní</a> prochází živým vývojem.
                         Půdorysné linie skříní začínají být během 18. století zvlněné.
                         Na konci 18. století se často objevují rokokové vázy.
                     </p>
-                    
+
                     <p>
                         Období, kdy se při stavbě varhan uplatňují principy barokního varhanářství, je podstatně delší než epocha hudebního baroka &ndash; tradice barokního varhanářství u nás doznívají ještě v 1. polovině 19. století.
                     </p>
@@ -229,10 +229,10 @@
                             @endforeach
                         </dl>
                     </div>
-                    
+
                     <div class="text-center mb-4 m-auto" style="width: 560px; max-width: 100%;">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Ondraness, CC BY-SA 4.0, via Wikimedia Commons">
-                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Plasy_-_varhany.jpg/640px-Plasy_-_varhany.jpg" style="max-width: 100%" />
+                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Plasy_-_varhany.jpg/500px-Plasy_-_varhany.jpg" style="max-width: 100%" />
                             <br />
                             <em>
                                 <em>
@@ -299,10 +299,10 @@
                         <li><strong>Tachov</strong> &ndash; rod <x-organomania.organ-builder-link name="Gartnerů" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_GARTNEROVE]" :showActivePeriod="true" :iconLink="false" /></li>
                         <li><strong>Vrchlabí</strong> &ndash; rod <x-organomania.organ-builder-link name="Tauchmannů" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_TAUCHMANNOVE]" :showActivePeriod="true" :iconLink="false" /></li>
                     </ul>
-                    
+
                     <div class="text-center mb-4 mx-auto" style="width: 560px; max-width: 100%;">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Capkova Pavlina, CC BY-SA 3.0, via Wikimedia Commons">
-                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG/640px-Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG" style="max-width: 100%;" />
+                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG/500px-Kostel_Nav%C5%A1t%C3%ADven%C3%AD_P._Marie_na_Sv_._Kope%C4%8Dku_u_Olomouce_-_varhany.JPG" style="max-width: 100%;" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_OLOMOUC_SVATY_KOPECEK_HLAVNI_KUR]" :showOrganBuilder="false" :year="false" class="stretched-link" />
@@ -318,7 +318,7 @@
                         Mistrovství nejslavnějšího z nich, <x-organomania.organ-builder-link :iconLink="false" name="Jana Davida SIEBERA" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JAN_DAVID_SIEBER]" :showActivePeriod="true" />, reprezentuje největší u nás dochovaný nástroj jeho dílny &ndash; varhany v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_POLNA_KOSTEL_NANEBEVZETI_PANNY_MARIE_VELKE_VARHANY]" name="kostele Nanebevzetí Panny Marie v Polné" :showSizeInfo="true" />.
                         Další Sieberův nástroj v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_ZDAR]" name="klášterním kostele ve Žďáru nad Sázavou" :showSizeInfo="true" /> je umístěn v unikátní čtyřstranné varhanní skříni, navržené opět <em>Janem Blažejem Santinim-Aichlem</em> (1677-1723).
                     </p>
-                    <p>        
+                    <p>
                         Na Sieberovu tradici navázal pozdně barokní brněnský varhanář <x-organomania.organ-builder-link :iconLink="false" name="Jan VÝMOLA" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JAN_VYMOLA]" :showActivePeriod="true" />.
                         Jeho největším dochovaným nástrojem jsou varhany v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_DUB_NAD_MORAVOU]" name="Dubu nad Moravou" :showSizeInfo="true" />.
                         Velmi ceněný je i o něco menší Výmolův nástroj v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_DOUBRAVNIK]" name="kostele Povýšení sv. Kříže v Doubravníku" :showSizeInfo="true" />.
@@ -327,14 +327,14 @@
                     <p>
                         Mezi další varhanářská centra patřilo na Moravě <strong>Znojmo</strong>, kde působil např. <x-organomania.organ-builder-link :iconLink="false" name="Josef SILBERBAUER" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JOSEF_SILBERBAUER]" :showActivePeriod="true" />.
                     </p>
-                    
+
                     <p>
                         Do moravského varhanářství se nesmazatelně zapsal slezský varhanář <x-organomania.organ-builder-link :iconLink="false" name="Michael ENGLER" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_MICHAEL_ENGLER]" :showActivePeriod="true" />, a to stavbou velkých, pro naše varhanářství netypických varhan v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_OLOMOUC_KOSTEL_SV_MORICE]" name="kostele sv. Mořice v Olomouci" :showSizeInfo="true" />.
                     </p>
-                    
+
                     <div class="text-center mb-4 mx-auto" style="width: 500px; max-width: 100%;">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Pohled 111, CC BY-SA 4.0, via Wikimedia Commons">
-                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/And%C4%9Bl%C3%A9_nesouc%C3%AD_chr%C3%A1my_07.jpg/640px-And%C4%9Bl%C3%A9_nesouc%C3%AD_chr%C3%A1my_07.jpg" style="max-width: 100%;" />
+                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/And%C4%9Bl%C3%A9_nesouc%C3%AD_chr%C3%A1my_07.jpg/500px-And%C4%9Bl%C3%A9_nesouc%C3%AD_chr%C3%A1my_07.jpg" style="max-width: 100%;" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_ZDAR]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
@@ -372,7 +372,7 @@
                         <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_TEPLA]" :showOrganBuilder="true" :showSizeInfo="true" :iconLink="false" /> &ndash; dispozice upravena v 19. století a 20. století</li>
                         <li>Týn nad Vltavou, kostel sv. Jakuba <span class="text-body-secondary">(Semrád, 1777, III/26)</span> &ndash; nástroj byl Bedřichem Semrádem stavěn v několika etapách a v 19. století rozšiřován</li>
                     </ul>
-                    
+
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Ludek, CC BY-SA 3.0, via Wikimedia Commons">
                             <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Chram_sv_Mikulase_interier_vstup-varhany.jpg/405px-Chram_sv_Mikulase_interier_vstup-varhany.jpg" style="max-width: 100%;" />
@@ -408,7 +408,7 @@
                         Zdobnost <a class="text-decoration-none" href="{{ route('organs.cases', ['filterPeriodCategories' => [OrganCategory::BuiltFrom1800To1859], 'groupBy' => 'periodCategory']) }}" wire:navigate>varhanních skříní</a> se viditelně zmenšuje, mizí půdorysné zvlnění prospektové římsy.
                         Některé skříně čerpají nadále z barokních tradic, u jiných se již projevuje klasicistní nebo empírový styl.
                     </p>
-                    
+
                     <div class="text-center mb-4 mx-auto" style="width: 500px; max-width: 100%">
                         <div class="position-relative d-inline-block">
                             <img class="rounded mb-2" src="/cached-file/images/rychnov.jpg" style="max-width: 100%" />
@@ -424,16 +424,16 @@
                     <p>
                         Nejhodnotnějším dochovaným nástrojem tohoto období jsou varhany <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_RYCHNOV_NAD_KNEZNOU_ZAMECKY_KOSTEL]" name="zámeckého kostela Nejsvětější Trojice v Rychnově nad Kněžnou" :showSizeInfo="true" /> od <x-organomania.organ-builder-link :iconLink="false" name="Jiřího ŠPANĚLA ml." :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JIRI_SPANEL]" :showActivePeriod="true" :showMunicipality="true" />.
                     </p>
-                    
+
                     <p>
                         Z varhanářů působících v Čechách uveďme <x-organomania.organ-builder-link :iconLink="false" name="Josefa GARTNERA" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_GARTNEROVE]" activePeriod="1796–1863" :showActivePeriod="true" :showMunicipality="true" />, který pečoval o pražské barokní varhany, nebo velmi schopného <x-organomania.organ-builder-link :iconLink="false" name="Josefa PREDIGERA" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_JOSEF_PREDIGER]" :showActivePeriod="true" :showMunicipality="true" />. Predigerův majestátní nástroj v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_CYRILA_A_METODEJE_KARLIN]" name="kostele sv. Cyrila a Metoděje v Praze-Karlíně" size="II/34" year="1863" :showSizeInfo="true" /> byl bohužel zásadně přestavěn. Ocenit nicméně můžeme jeho dvoumanuálové nástroje, např. varhany v <x-organomania.organ-link :iconLink="false" name="kostele Naštívení Panny Marie v Bozkově" :organ="$organs[Organ::ORGAN_ID_BOZKOV]" :showSizeInfo="true" />.
                     </p>
-                    
+
                     <p>
                         Plodnými moravskými varhanáři tohoto období byli <x-organomania.organ-builder-link :iconLink="false" name="Franz HARBICH" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_FRANZ_HARBICH]" :showActivePeriod="true" :showMunicipality="true" /> nebo <x-organomania.organ-builder-link :iconLink="false" name="Johann NEUSSER" activePeriod="1807–1878" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_NEUSSEROVE]" :showActivePeriod="true" :showMunicipality="true" />.
                         Schopným varhanářem samoukem byl <x-organomania.organ-builder-link :iconLink="false" name="František SVÍTIL" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_FRANTISEK_SVITIL]" :showActivePeriod="true" :showMunicipality="true" />.
                     </p>
-                    
+
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Tryptofan, CC BY-SA 4.0, via Wikimedia Commons">
                             <img class="rounded mb-2" src="/cached-file/images/bozkov.jpg" style="width: 460px; max-width: 100%" />
@@ -458,13 +458,13 @@
                         Tento přístup často vede k potlačení umělecké individuality nástrojů nebo i ke ztrátě jejich zvukových kvalit.
                         Na druhou stranu díky tovární výrobě vzniká nebývalé množství nástrojů, včetně velkých třímanuálových.
                     </p>
-                    
+
 
                     <h5 id="builtFrom1860To1944Sound">Zvuková podstata varhan</h5>
 
                     <div class="ms-md-3 mt-3 mt-md-0 mb-2 float-md-end mx-auto text-center" style="width: 340px; max-width: 100%;">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Bartfloete, CC BY-SA 4.0, via Wikimedia Commons">
-                            <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Phillipsdorf-Orgel.jpg/542px-Phillipsdorf-Orgel.jpg" />
+                            <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Phillipsdorf-Orgel.jpg/500px-Phillipsdorf-Orgel.jpg" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_FILIPOV]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
@@ -472,12 +472,12 @@
                             </em>
                         </div>
                     </div>
-                    
+
                     <p>
                         V této době už můžeme mluvit o plně se rozvíjejícím <em>varhanním romantismu</em>.
                         V dispozicích varhan nacházíme velké množství hlubších (osmistopých a šestnáctistopých) rejstříků, <x-organomania.category-badge :category="RegisterCategory::String" :newTab="true">smykavých hlasů</x-organomania.category-badge> (napodobujících smyčcové nástroje), <x-organomania.category-badge :category="RegisterCategory::Prefukujici" :newTab="true">přefukujících fléten</x-organomania.category-badge> <span class="text-nowrap">(např. <x-organomania.register-name-link :registerName="$registerNames[RegisterName::REGISTER_NAME_ID_FLETNA_HARMONICKA]" :showCategory="false" :newTab="true" />)</span>, <x-organomania.category-badge :category="RegisterCategory::Vychvevne" :newTab="true">výchvěvných rejstříků</x-organomania.category-badge> <span class="text-nowrap">(např.  <x-organomania.register-name-link :registerName="$registerNames[RegisterName::REGISTER_NAME_ID_VOX_COELESTIS]" :showCategory="false" :newTab="true" />)</span> a <x-organomania.category-badge :category="RegisterCategory::JazykovePrurazne" :newTab="true">průrazných jazykových rejstříků</x-organomania.category-badge> <span class="text-nowrap">(např. <x-organomania.register-name-link :registerName="$registerNames[RegisterName::REGISTER_NAME_ID_KLARINET]" :showCategory="false" :newTab="true" />)</span>. Jemným romantickým typem mixtury je rejstřík &nbsp;<x-organomania.register-name-link :registerName="$registerNames[RegisterName::REGISTER_NAME_ID_HARMONIA_AETHEREA]" :showCategory="false" :newTab="true" />.
                     </p>
-                    
+
                     <p class="mb-0">
                         Tento trend ve vývoji dispozic posiluje <em>řezenská ceciliánská reforma</em>. Ta se snaží o očištění církevní hudby od světských vlivů a varhany chápe jen jako doprovodný nástroj.
                         Jako první byly u nás v duchu této reformy postaveny dva nástroje od firmy <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_STEINMEYER]" />:
@@ -513,17 +513,17 @@
                     <p>
                         Až v pozdějším období se začíná ojediněle používat <x-organomania.category-badge :category="OrganCategory::ActionElectrical" :newTab="true">elektrická traktura</x-organomania.category-badge> &ndash; známým příkladem jsou velmi hodnotné varhany <x-organomania.organ-link :iconLink="false" name="Obecního domu v Praze" :organ="$organs[Organ::ORGAN_ID_PRAHA_OBECNI_DUM]" :showOrganBuilder="true" :showSizeInfo="true" />.
                     </p>
-                    
+
                     <p>
                         Nové typy vzdušnic a traktur umožňují rozvoj hracího stolu a různých pomocných zařízení.
                         Jde především o různé druhy běžných i oktávových spojek, o pevné a volné rejstříkové kombinace, rejstříkové crescendo a další.
                         Neodmyslitelnou výbavou varhan se stává žaluziové crescendo.
                         Varhany nacházejí své místo i ve světském prostředí koncertních síní (viz např. opět varhany Obecního domu).
                     </p>
-                    
+
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: © Jorge Royan / http://www.royan.com.ar">
-                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Smetana_Hall_at_the_Municipal_House_%28Obecni_Dum%29%2C_Prague_-_8973.jpg/640px-Smetana_Hall_at_the_Municipal_House_%28Obecni_Dum%29%2C_Prague_-_8973.jpg" style="width: 550px; max-width: 100%;" />
+                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Smetana_Hall_at_the_Municipal_House_%28Obecni_Dum%29%2C_Prague_-_8973.jpg/500px-Smetana_Hall_at_the_Municipal_House_%28Obecni_Dum%29%2C_Prague_-_8973.jpg" style="width: 550px; max-width: 100%;" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_OBECNI_DUM]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" /> &ndash; secesní skříň
@@ -549,20 +549,20 @@
                         Od roku 1914 probíhá soupis hodnotných nástrojů v rámci tzv. <em>Katastru varhan pro Čechy</em>.
                         Jedná se o jednu z prvních katalogizací varhan u nás.
                     </p>
-                    
+
                     <p>
                         Při návrhu <a class="text-decoration-none" href="{{ route('organs.cases', ['filterPeriodCategories' => [OrganCategory::BuiltFrom1860To1944], 'groupBy' => 'periodCategory']) }}" wire:navigate>varhanních skříní</a> se nově uplatňuje neogotický, neorománský, neorenesanční a později i secesní sloh.
                         Od období mezi válkami se rozšiřuje použití zjednodušených funkcionalistických skříní.
                     </p>
-                    
+
                     <p>
                         V celoevropském kontextu je naše romantické varhanářství opět značně ovlivněno tím německým.
                         Zřetelně odlišitelné je od varhanářství francouzského, které používá velké množství <x-organomania.category-badge :category="RegisterCategory::Reed" :newTab="true">jazykových rejstříků</x-organomania.category-badge> a i v 19. století staví varhany se <x-organomania.category-badge :category="OrganCategory::WindchestSchleif" :newTab="true">zásuvkovou vzdušnici</x-organomania.category-badge>.
                     </p>
-                    
+
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Wolfgang Sauber, CC BY-SA 3.0, via Wikimedia Commons">
-                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/St.Veit_-_Orgel.jpg/640px-St.Veit_-_Orgel.jpg" style="width: 550px; max-width: 100%;" />
+                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/St.Veit_-_Orgel.jpg/500px-St.Veit_-_Orgel.jpg" style="width: 550px; max-width: 100%;" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_CESKY_KRUMLOV_KOSTEL_SV_VITA]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" /> &ndash; neogotická skříň
@@ -661,7 +661,7 @@
                         <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_SLUKNOV]" :showSizeInfo="true" :showOrganBuilder="true" /></li>
                         <li><x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_LITOMERICE_KATEDRALA_SV_STEPANA_VELKE_VARHANY]" :showSizeInfo="true" :showOrganBuilder="true" /></li>
                     </ul>
-                    
+
                     <div class="text-center mb-4 mx-auto"style="width: 550px; max-width: 100%;">
                         <div class="position-relative d-inline-block">
                             <img class="rounded mb-2" src="/cached-file/images/liberec-nalezeni-sv-krize-stul.jpg" title="Licence obrázku: Jan Fejgl (2025)" style="max-width: 100%;" />
@@ -690,7 +690,7 @@
                             </em>
                         </div>
                     </div>
-                    
+
                     <p>
                         Po komunistickém převratu se mohou varhanářství věnovat až na výjimky pouze velké státní podniky a varhanářská družstva.
                         Jednoznačně nejvýznamnějším výrobcem je krnovský závod <em>Rieger</em>, poznamenaný odsunem německých pracovníků a fungující nově pod názvem <x-organomania.organ-builder-link :iconLink="false" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_RIEGER_KLOSS]" />.
@@ -724,7 +724,7 @@
                         <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_PRAHA_RUDOLFINUM]" :showSizeInfo="true" :iconLink="false" /> &ndash; velký koncertní mechanický nástroj</li>
                         <li><x-organomania.organ-link :organ="$organs[Organ::ORGAN_ID_BRNO_KOSTEL_SV_AUGUSTINA]" :showSizeInfo="true" :iconLink="false" /> &ndash; o něco menší mechanický nástroj</li>
                     </ul>
-                    
+
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block">
                             <img class="rounded mb-2" src="/cached-file/images/olomouc-sv-moric.jpg" style="width: 540px; max-width: 100%;" />
@@ -772,10 +772,10 @@
                         Ve svobodných poměrech se rozvíjí využití varhan jako koncertního nástroje.
                         Zatímco v období komunismu byly koncerty v kostelích povoleny jen na několika vybraných místech, po změně režimu vzniká řada varhanních festivalů (viz sekce <a class="icon-link icon-link-hover align-items-start text-decoration-none" href="{{ route('festivals.index') }}" target="_blank"><i class="bi bi-calendar-date"></i> Festivaly</a>).
                     </p>
-                    
+
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Václav Štorek, CC BY-SA 4.0, via Wikimedia Commons">
-                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Basilica_of_the_Assumption_of_the_Virgin_Mary_in_P%C5%99%C3%ADbram_23.jpg/640px-Basilica_of_the_Assumption_of_the_Virgin_Mary_in_P%C5%99%C3%ADbram_23.jpg" style="width: 500px; max-width: 100%;" />
+                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Basilica_of_the_Assumption_of_the_Virgin_Mary_in_P%C5%99%C3%ADbram_23.jpg/500px-Basilica_of_the_Assumption_of_the_Virgin_Mary_in_P%C5%99%C3%ADbram_23.jpg" style="width: 500px; max-width: 100%;" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRIBRAM_SVATA_HORA]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />
@@ -791,7 +791,7 @@
                         Zavádí se lepší památková ochrana varhan, která již dbá nejen o výtvarnou, ale i o zvukovou složku varhan.
                         Dochází k přehodnocení dřívějšího plošně negativního náhledu na romantické varhanářství &ndash; kvality řady romantických nástrojů jsou doceněny a upřednostňuje se jejich restaurování do původní podoby.
                     </p>
-                    
+
                     <p>
                         Řada varhan, především v méně navštěvovaných a odlehlých kostelích, nicméně nadále zůstává v neutěšeném stavu.
                         V některých případech jsou napadeny červotočem a hrozí jejich zánik.
@@ -819,14 +819,14 @@
                             </li>
                         @endforeach
                     </ul>
-                    
+
                     <p>
                         Můžete si také zobrazit <a class="text-decoration-none" href="{{ route('organ-builders.index', ['filterCategories' => [OrganBuilderCategory::Restoration]]) }}" target="_blank">přehled varhanářů věnujících se restaurování</a> (přehled není úplný).
                     </p>
-                    
+
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Ricardalovesmonuments, CC BY-SA 4.0, via Wikimedia Commons">
-                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Teynkirche_Prag_Orgel.jpg/560px-Teynkirche_Prag_Orgel.jpg" style="width: 350px; max-width: 100%;" />
+                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Teynkirche_Prag_Orgel.jpg/500px-Teynkirche_Prag_Orgel.jpg" style="width: 350px; max-width: 100%;" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_MATKY_BOZI_PRED_TYNEM]" :year="false" class="stretched-link" />
@@ -844,7 +844,7 @@
                         Konstrukční a stylová rozmanitost varhan klade velké nároky na varhanáře a varhaníky, kteří musí své nástroje důkladně pochopit.
                         Zároveň však přináší o to větší potěšení všem, kdo varhany poslouchají a objevují jejich krásu &ndash; ještě i dnes, stovky let poté, co je jejich tvůrce postavil.
                     </p>
-                    
+
                     <p>
                         Se stylovým charakterem varhan úzce souvisí výběr hudby, kterou na nich lze hrát.
                         Nejlepšího vyznění dosáhne varhanní hudba na nástroji stejného typu, pro jaký byla napsána.
@@ -852,7 +852,7 @@
                         O hudbě pro varhany se můžete více dozvědět např. v knize <a href="https://eshop.jamu.cz/prehled-skladatelu-varhanni-hudby/" target="_blank">Přehled skladatelů varhanní hudby</a>.
                     </p>
                 </div>
-                
+
                 <hr>
                 <a class="link-primary text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#referencesModal">
                     <small>{{ __('Použitá literatura') }}</small>
@@ -867,41 +867,41 @@
                     Ferdinand Klinda: Organ v kultúre dvoch tisícročí
                     <x-slot:description>KLINDA, Ferdinand. Organ v kultúre dvoch tisícročí. Bratislava : Hudobné centrum, 2000. ISBN 8088884195.</x-slot>
                 </x-organomania.link-list-item>
-                
+
                 <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/prehled-knihy/dejiny-varhan-a-varhanni-hudby-497787">
                     Milan Šlechta: Dějiny varhan a varhanní hudby
                     <x-slot:description>ŠLECHTA, Milan. Dějiny varhan a varhanní hudby. 2. vyd. přeprac. Praha, 1985.</x-slot>
                 </x-organomania.link-list-item>
-                
+
                 <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/knihy/varhany-a-jejich-osudy-81909">
                     Jan Tomíček: Varhany a jejich osudy
                     <x-slot:description>TOMÍČEK, Jan. Varhany a jejich osudy. [Praha]: PM vydavatelství, 2010. ISBN 978-80-900808-2-9.</x-slot>
                 </x-organomania.link-list-item>
-                
+
                 <x-organomania.link-list-item icon="book" url="https://www.cbdb.cz/kniha-255158-barokni-varhanarstvi-na-morave-dil-1-varhanari">
                     Jiří Sehnal: Barokní varhanářství na Moravě - I. Varhanáři
                     <x-slot:description>SEHNAL, Jiří. Barokní varhanářství na Moravě. Prameny k dějinám a kultuře Moravy. Brno: Muzejní a vlastivědná společnost v Brně, 2003-2018. ISBN 80-7275-042-9.</x-slot>
                 </x-organomania.link-list-item>
-                
+
                 <x-organomania.link-list-item icon="book" url="https://theses.cz/id/ev7b8g/">
                     Petr Lyko: Varhanářská firma Rieger
                     <x-slot:description>LYKO, Petr. Varhanářská firma Rieger. Online. Disertační práce. Ostrava: Ostravská univerzita, Pedagogická fakulta. 2018. Dostupné z: https://theses.cz/id/ev7b8g/.</x-slot>
                 </x-organomania.link-list-item>
             </x-organomania.link-list>
-            
+
             <h6>{{ __('Varhanní skříně') }}</h6>
             <x-organomania.link-list class="mb-3">
                 <x-organomania.link-list-item icon="book" url="https://www.databazeknih.cz/knihy/vytvarny-vyvoj-varhannich-skrini-v-cechach-397826">
                     Jiří Belis: Výtvarný vývoj varhanních skříní v Čechách
                     <x-slot:description>BELIS, Jiří. Výtvarný vývoj varhanních skříní v Čechách. Praha, 1988.</x-slot>
                 </x-organomania.link-list-item>
-                
+
                 <x-organomania.link-list-item icon="book" url="https://theses.cz/id/ugwhfa/">
                     Petra Novotná: Sochařská a řezbářská výzdoba barokních varhan v 18. století v Olomoucké arcidiecézi se zaměřením na děkanát Šumperk
                     <x-slot:description>NOVOTNÁ, Petra. Sochařská a řezbářská výzdoba barokních varhan v 18. století v Olomoucké arcidiecézi se zaměřením na děkanát Šumperk. Online. Diplomová práce. Olomouc: Univerzita Palackého v Olomouci, Filozofická fakulta. 2009. Dostupné z: https://theses.cz/id/ugwhfa/.</x-slot>
                 </x-organomania.link-list-item>
             </x-organomania.link-list>
-            
+
             <h6>{{ __('Další') }}</h6>
             <x-organomania.link-list>
                 <x-organomania.link-list-item icon="book" url="https://www.npu.cz/cs/e-shop/7397-pece-o-varhany-a-zvony-jejich-pamatkova-ochrana">
@@ -911,7 +911,7 @@
             </x-organomania.link-list>
         </x-organomania.modals.references-modal>
     </div>
-    
+
     <script type="module">
         function initNavigation() {
             // při kliknutí položku menu odrolovat kousek zpět, aby nadpis nepřekrývala hlavička stránky
@@ -924,11 +924,11 @@
                 window.location.hash = href
             })
         }
-            
+
         function initScrollSpy() {
             bootstrap.ScrollSpy.getOrCreateInstance($('#article'))
         }
-        
+
         initNavigation()
         initScrollSpy()
     </script>
