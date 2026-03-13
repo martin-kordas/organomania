@@ -268,8 +268,9 @@ abstract class Question
             $placeholder = '//placeholder//';
             foreach ($baseWords as $word) {
                 $word1 = preg_quote($word, '/');
+                // závorky {) nematchujeme, protože mohou být součástí custom linků: {{organBuilder}Varhanář}(varhanar)
                 $description = preg_replace(
-                    '/\b' . $word1 . '\S*/iu', $placeholder,
+                    '/\b' . $word1 . '[^\s})]*/iu', $placeholder,
                     $description
                 );
             }

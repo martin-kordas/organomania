@@ -684,6 +684,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 @script
 <script>
     window.initMagnifier = function () {
+        return;   // magnifier načítá ihned i obrázek v plné velikosti (nepřípustná zátěž pro výkon)
+      
         let evt = new EventHelper()
         let m = new Magnifier(evt)
 

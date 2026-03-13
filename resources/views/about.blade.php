@@ -11,7 +11,7 @@
             {!! __('Hlavní motivací je zvýšit povědomí o <strong>velkém množství historických i moderních nástrojů</strong>, které se u nás nacházejí.') !!}
         </p>
         
-        <img class="rounded float-end ms-3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Pfeifen_SW_ev_Kirche_OberDorstfeld_Dortmund.jpg/360px-Pfeifen_SW_ev_Kirche_OberDorstfeld_Dortmund.jpg" title="{{ __('Licence obrázku') }}: Eliasorgel, CC BY-SA 4.0, via Wikimedia Commons"  style="max-height: 310px; width: auto; max-width: 50%" />
+        <img class="rounded float-end ms-3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Pfeifen_SW_ev_Kirche_OberDorstfeld_Dortmund.jpg/330px-Pfeifen_SW_ev_Kirche_OberDorstfeld_Dortmund.jpg" title="{{ __('Licence obrázku') }}: Eliasorgel, CC BY-SA 4.0, via Wikimedia Commons"  style="max-height: 310px; width: auto; max-width: 50%" />
         <h4>{{ __('Koncepce') }}</h4>
         
         <p>

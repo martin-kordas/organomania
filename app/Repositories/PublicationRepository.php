@@ -46,9 +46,10 @@ class PublicationRepository extends AbstractRepository
                         $query
                             ->whereAny(['publications.name', 'publications.name_cz', 'publications.keywords', 'publications.journal'], 'LIKE', "%$value%")
                             ->orWhereHas('authors', function (Builder $query) use ($value) {
+                                // hledat podle křestního jména je zavádějící (hledám-li např. "Martin", chci hledat spíše varhany v kostele sv. Martina než autora se jménem Martin)
                                 $query
-                                    ->where('authors.first_name', 'like', "%$value%")
-                                    ->orWhere('authors.last_name', 'like', "%$value%");
+                                    //->where('authors.first_name', 'like', "%$value%")
+                                    ->where('authors.last_name', 'like', "%$value%");
                             });
                     });
                     break;

@@ -391,10 +391,11 @@
 
                     <p>
                         V rámci josefínských reforem je na konci 18. století zrušena řada klášterů a nastává úpadek církevní hudby.
-                        Začátek 19. století je navíc ve znamení napoleonských válek a na ně navazujících ekonomických problémů Habsburské monarchie.
+                        Začátek 19. století je také ve znamení napoleonských válek a na ně navazujících ekonomických problémů Habsburské monarchie.
                         Tyto skutečnosti přispívají i k omezení stavby varhan a k úpadku varhanářského řemesla.
                         Mnozí varhanáři ve svém oboru začínají jako samouci, vzdělaní pouze studiem existujících nástrojů.
                         Pozornost společnosti poutá především symfonická hudba a objevují se pokusy připodobnit zvukovost varhan orchestrálnímu ideálu. Někdy se to děje způsobem pro varhany zcela necitlivým &ndash; viz tzv. <em>simplifikační systém</em> hudebního teoretika <em>Georga Josepha Voglera</em> (1749-1814).
+                        Varhany nově zajišťují doprovod písní zpívaných celým bohoslužebným shromážděním, podobně jako už dříve v protestantských zemích.
                     </p>
 
                     <p>

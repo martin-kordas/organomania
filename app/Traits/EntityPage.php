@@ -148,6 +148,10 @@ trait EntityPage
                 $reloaded = true;
             }
         }
+
+        if (!$reloaded && in_array($property, $this->getFilters())) {
+            $this->js('scrollToTop()');
+        }
     }
 
     public function setViewType($viewType)
