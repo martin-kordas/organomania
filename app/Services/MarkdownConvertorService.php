@@ -10,16 +10,17 @@ use App\Models\Competition;
 use App\Models\Festival;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
+use App\Models\OrganBuilderAdditionalImage;
 use App\Models\RegisterName;
 
 class MarkdownConvertorService
 {
 
     private ConverterInterface $converter;
-    
+
     private bool $convertCustomLinks = true;
-    
-    const CUSTOM_LINK_REGEX = '/\{\{(organ|organBuilder|festival|competition|registerName)\}(.*?)\}\((.*?)\)/u';
+
+    const CUSTOM_LINK_REGEX = '/\{\{(organ|organBuilder|festival|competition|registerName|additionalImage)\}(.*?)\}\((.*?)\)/u';
     const LINK_REGEX = '/\[(.*?)\]\(.*?\)/u';
 
     private function getConverter()
@@ -43,7 +44,7 @@ class MarkdownConvertorService
         $res = $this->convertCustomLinks($res, $newTab);
         return $res;
     }
-    
+
     private function convertCustomLinks(string $markdown, bool $newTab = false): string
     {
         // vytvoří odkazy do Organomanie
@@ -51,26 +52,28 @@ class MarkdownConvertorService
             static::CUSTOM_LINK_REGEX,
             function ($res) use ($newTab) {
                 [, $entityType, $text, $slug] = $res;
-                
+
                 if (str_ends_with($text, '|nodetail')) {
                     $noDetail = true;
                     $text = mb_substr($text, 0, mb_strlen($text) - 9);
                 }
                 else $noDetail = false;
-                
+
                 if (!$this->convertCustomLinks) return $text;
-              
+
                 $model = match ($entityType) {
                     'organ' => new Organ,
                     'organBuilder' => new OrganBuilder,
                     'festival' => new Festival,
                     'competition' => new Competition,
                     'registerName' => new RegisterName,
+                    'additionalImage' => new OrganBuilderAdditionalImage,
                     default => new RuntimeException,
                 };
-                $entity = $model->firstWhere('slug', $slug);
+                $searchColumn = $entityType === 'additionalImage' ? 'id' : 'slug';
+                $entity = $model->firstWhere($searchColumn, $slug);
                 if (!$entity) return $text;
-                
+
                 $linkParams = match ($entityType) {
                     'organ' => [
                         'showSizeInfo' => !$noDetail,
@@ -88,7 +91,7 @@ class MarkdownConvertorService
                 $linkParams['iconLink'] = false;
                 $linkParams['showDescription'] = !$noDetail;
                 if ($newTab) $linkParams['newTab'] = true;
-                
+
                 // nadbytečné mezery (např. před tečkou za odkazem) trimováním odstranit nelze - jde o více zanořených HTML elementů a Livewire direktivy v HTML komentářích
                 $link = trim($entity->renderLink($linkParams));
                 // v markdownu je nastaveno white-space: pre-line, Blade šablony s tím nepočítají a obsahují odřádkování
@@ -117,7 +120,7 @@ class MarkdownConvertorService
         $res = $this->convertCustom($res, $newTab);
         return trim($res);
     }
-    
+
     public function stripMarkdown(string $markdown, bool $preserveLineBreaks = false): string
     {
         return str($markdown)
@@ -138,7 +141,7 @@ class MarkdownConvertorService
             })
             ->toString();
     }
-    
+
     public function setConvertCustomLinks(bool $convertCustomLinks)
     {
         $this->convertCustomLinks = $convertCustomLinks;

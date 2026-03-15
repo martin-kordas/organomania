@@ -310,7 +310,7 @@ div.side-buttons {
 }
 .organ-builder-show {
     .markdown .custom-link {
-        &.organ {
+        &.organ, &.additionalImage {
             font-weight: var(--font-weight-semibold);
         }
     }

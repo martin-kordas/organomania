@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers;
 use App\Enums\OrganCategory;
 use App\Models\OrganBuilder;
+use App\Traits\HasLinkComponent;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Laravel\Scout\Attributes\SearchUsingFullText;
@@ -18,6 +19,8 @@ use Laravel\Scout\Searchable;
 class OrganBuilderAdditionalImage extends Model
 {
     use HasFactory, SoftDeletes, Searchable;
+
+    use HasLinkComponent;
 
     const ID_PERUC = 375;
 
@@ -73,6 +76,11 @@ class OrganBuilderAdditionalImage extends Model
                 return $details;
             }
         );
+    }
+
+    public function getLinkComponent()
+    {
+        return 'components.organomania.additional-image-link';
     }
 
     public function getViewUrl()
