@@ -212,6 +212,7 @@
                         Estetika barokních <a class="text-decoration-none" href="{{ route('organs.cases', ['filterPeriodCategories' => [OrganCategory::BuiltTo1799], 'groupBy' => 'periodCategory']) }}" wire:navigate>varhanních skříní</a> prochází živým vývojem.
                         Půdorysné linie skříní začínají být během 18. století zvlněné.
                         Na konci 18. století se často objevují rokokové vázy.
+                        Píšťaly barokních varhan umístěné viditelně v prospektu bývají často zdobeny, např. bradavkovitými výstupky nebo prolamováním.
                     </p>
 
                     <p>
@@ -375,7 +376,7 @@
 
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Ludek, CC BY-SA 3.0, via Wikimedia Commons">
-                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Chram_sv_Mikulase_interier_vstup-varhany.jpg/405px-Chram_sv_Mikulase_interier_vstup-varhany.jpg" style="max-width: 100%;" />
+                            <img class="rounded mb-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Chram_sv_Mikulase_interier_vstup-varhany.jpg/500px-Chram_sv_Mikulase_interier_vstup-varhany.jpg" style="max-width: 100%;" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PRAHA_KOSTEL_SV_MIKULASE_VELKE_VARHANY]" :showOrganBuilder="true" :showSizeInfo="true" class="stretched-link" />

@@ -166,7 +166,7 @@ class OrganRepository extends AbstractRepository
         }
 
         // ve výchozím zobrazení se přednostně zobrazí promoted varhany
-        if (empty($filters) && (empty($sorts) || $sorts === ['importance' => 'desc'])) {
+        if ((empty($filters) || array_keys($filters) === ['important']) && (empty($sorts) || $sorts === ['importance' => 'desc'])) {
             $cmpDate = today()->subDays(Organ::PROMOTION_DURATION)->toDateString();
             $query->orderByRaw('IF(promotion_date < ?, NULL, promotion_date) DESC', [$cmpDate]);
         }

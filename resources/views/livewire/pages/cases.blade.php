@@ -404,74 +404,76 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </a>
     </h3>
 
-    <div class="m-auto mb-5" style="max-width: 600px;">
-        <x-organomania.info-alert class="mb-3 mt-1 d-inline-block m-auto">
-            {{ __('Porovnání fotografií varhanních skříní umožní porozumět jejich výtvarnému vývoji a identifikovat specifické znaky varhanářů.') }}
-        </x-organomania.info-alert>
+    @if (!$this->additionalImageId)
+        <div class="m-auto mb-5" style="max-width: 600px;">
+            <x-organomania.info-alert class="mb-3 mt-1 d-inline-block m-auto">
+                {{ __('Porovnání fotografií varhanních skříní umožní porozumět jejich výtvarnému vývoji a identifikovat specifické znaky varhanářů.') }}
+            </x-organomania.info-alert>
 
-        <div class="mb-3">
-            <label class="form-label" for="filterOrganBuilders">{{ __('Varhanář') }}</label>
-            {{-- allowClear nepoužito, protože u multiselectů bez <optgroup> a bez prázdné <option> blbne na mobilu (po vymazání se vybere první <option>) --}}
-            <x-organomania.selects.organ-builder-select model="filterOrganBuilders" :organBuilders="$this->organBuilders" small multiple live counts />
-            <div class="form-text">
-                {{ __('Skupiny') }}:
-                @foreach ($this->organBuilderGroups as $name => $organBuilderIds)
-                    <a class="text-decoration-none" href="#" onclick="return setFilterOrganBuilders({{ Js::from($organBuilderIds) }})">{{ $name }}</a>@if (!$loop->last), @endif
+            <div class="mb-3">
+                <label class="form-label" for="filterOrganBuilders">{{ __('Varhanář') }}</label>
+                {{-- allowClear nepoužito, protože u multiselectů bez <optgroup> a bez prázdné <option> blbne na mobilu (po vymazání se vybere první <option>) --}}
+                <x-organomania.selects.organ-builder-select model="filterOrganBuilders" :organBuilders="$this->organBuilders" small multiple live counts />
+                <div class="form-text">
+                    {{ __('Skupiny') }}:
+                    @foreach ($this->organBuilderGroups as $name => $organBuilderIds)
+                        <a class="text-decoration-none" href="#" onclick="return setFilterOrganBuilders({{ Js::from($organBuilderIds) }})">{{ $name }}</a>@if (!$loop->last), @endif
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label" for="filterCategories">{{ __('Kategorie skříně') }}</label>
+                {{-- allowClear nepoužito (důvod viz výše) --}}
+                <x-organomania.selects.organ-category-select
+                    model="filterCategories"
+                    placeholder="{{ __('Zvolte kategorii skříně') }}..."
+                    :categoriesGroups="$this->organCategoriesGroups"
+                    small
+                    live
+                />
+            </div>
+
+            <div class="mb-1">
+                <label class="form-check-label radio-label">{{ __('Seskupit dle') }}</label>
+                @foreach ($this->groupByOptions as $value => $label)
+                    <input
+                        type="radio"
+                        class="btn-check"
+                        wire:model.change="groupBy"
+                        value="{{ $value }}"
+                        id="groupBy_{{ $value }}"
+                    >
+                    <label class="btn btn-sm btn-outline-secondary" for="groupBy_{{ $value }}">
+                        {{ $label }}
+                    </label>
                 @endforeach
+            </div>
+            <div>
+                <label class="form-check-label radio-label">{{ __('Seřadit dle') }}</label>
+                @foreach ($this->sortOptions as $value => $label)
+                    <input
+                        type="radio"
+                        class="btn-check"
+                        wire:model.change="sort"
+                        value="{{ $value }}"
+                        id="sort_{{ $value }}"
+                    >
+                    <label class="btn btn-sm btn-outline-secondary" for="sort_{{ $value }}">
+                        {{ $label }}
+                        <i class="bi-sort-numeric-{{ str($value)->endsWith('Asc') ? 'up' : 'down' }}"></i>
+                    </label>
+                @endforeach
+            </div>
+
+            <div class="form-check form-switch mt-2">
+                <label class="form-check-label" for="filterOrganomaniaOrgans">{{ __('Jen varhany s článkem v Organomanii') }}</label>
+                <input class="form-check-input" type="checkbox" role="switch" id="filterOrganomaniaOrgans" wire:model.live="filterOrganomaniaOrgans">
             </div>
         </div>
 
-        <div class="mb-4">
-            <label class="form-label" for="filterCategories">{{ __('Kategorie skříně') }}</label>
-            {{-- allowClear nepoužito (důvod viz výše) --}}
-            <x-organomania.selects.organ-category-select
-                model="filterCategories"
-                placeholder="{{ __('Zvolte kategorii skříně') }}..."
-                :categoriesGroups="$this->organCategoriesGroups"
-                small
-                live
-            />
-        </div>
-
-        <div class="mb-1">
-            <label class="form-check-label radio-label">{{ __('Seskupit dle') }}</label>
-            @foreach ($this->groupByOptions as $value => $label)
-                <input
-                    type="radio"
-                    class="btn-check"
-                    wire:model.change="groupBy"
-                    value="{{ $value }}"
-                    id="groupBy_{{ $value }}"
-                >
-                <label class="btn btn-sm btn-outline-secondary" for="groupBy_{{ $value }}">
-                    {{ $label }}
-                </label>
-            @endforeach
-        </div>
-        <div>
-            <label class="form-check-label radio-label">{{ __('Seřadit dle') }}</label>
-            @foreach ($this->sortOptions as $value => $label)
-                <input
-                    type="radio"
-                    class="btn-check"
-                    wire:model.change="sort"
-                    value="{{ $value }}"
-                    id="sort_{{ $value }}"
-                >
-                <label class="btn btn-sm btn-outline-secondary" for="sort_{{ $value }}">
-                    {{ $label }}
-                    <i class="bi-sort-numeric-{{ str($value)->endsWith('Asc') ? 'up' : 'down' }}"></i>
-                </label>
-            @endforeach
-        </div>
-
-        <div class="form-check form-switch mt-2">
-            <label class="form-check-label" for="filterOrganomaniaOrgans">{{ __('Jen varhany s článkem v Organomanii') }}</label>
-            <input class="form-check-input" type="checkbox" role="switch" id="filterOrganomaniaOrgans" wire:model.live="filterOrganomaniaOrgans">
-        </div>
-    </div>
-
-    <hr>
+        <hr>
+    @endif
 
     <div class="position-relative">
         <div wire:loading.block class="position-absolute text-center w-100 start-0 z-1" style="top: 45px;">
@@ -484,11 +486,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     {{ __('Nebyly nalezeny žádné fotografie.') }}
                 </div>
             @else
-                <p class="small text-muted text-center">
-                    {{ __('Zobrazeno') }}
-                    <span class="fw-semibold">{{ $this->cases->count() }}</span>
-                    {{ Helpers::declineCount($this->cases->count(), __('fotografií'), __('fotografie'), __('fotografie')) }}
-                </p>
+                @if (!$this->additionalImageId)
+                    <p class="small text-muted text-center">
+                        {{ Helpers::declineCount($this->cases->count(), __('Zobrazeno'), __('Zobrazena'), __('Zobrazeny')) }}
+                        <span class="fw-semibold">{{ $this->cases->count() }}</span>
+                        {{ Helpers::declineCount($this->cases->count(), __('fotografií'), __('fotografie'), __('fotografie')) }}
+                    </p>
+                @endif
 
                 @if ($this->showCaseParts)
                     <x-organomania.case-parts class="mt-4 mb-4" />
@@ -517,14 +521,16 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         <div class="group-container border rounded p-2 p-md-3 my-4">
 
                             {{-- nadpis skupiny --}}
-                            <h4 class="d-flex align-items-center fs-5 my-2 my-md-0" wire:key="{{ "organBuilder$groupId" }}">
-                                <span class="me-1">
+                            <h4 @class(['d-flex', 'align-items-center', 'fs-5', 'my-2', 'my-md-0', 'justify-content-center' => $this->additionalImageId]) wire:key="{{ "organBuilder$groupId" }}">
+                                <span @class(['me-1', 'text-center' => $this->additionalImageId])>
                                     @switch($groupBy)
                                         @case('organBuilder')
                                             @isset($cases[0]->organBuilder)
                                                 <x-organomania.organ-builder-link :organBuilder="$cases[0]->organBuilder" :newTab="true" :iconLink="false" />
                                             @else
-                                                {{ __('Ostatní varhanáři') }}
+                                                @if (!$this->additionalImageId)
+                                                    {{ __('Ostatní varhanáři') }}
+                                                @endif
                                             @endisset
                                             @break
 
@@ -539,9 +545,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                             @break
                                     @endswitch
 
-                                    <span class="badge text-bg-secondary rounded-pill ms-1" style="font-size: 55%;">
-                                        {{ count($cases) }}
-                                    </span>
+                                    @if (!$this->additionalImageId)
+                                        <span class="badge text-bg-secondary rounded-pill ms-1" style="font-size: 55%;">
+                                            {{ count($cases) }}
+                                        </span>
+                                    @endif
 
                                     @switch($groupBy)
                                         @case('organBuilder')
@@ -560,11 +568,13 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     @endswitch
                                 </span>
 
-                                <span class="ms-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Sbalit/rozbalit skupinu') }}">
-                                    <button type="button" class="btn btn-sm collapse-btn btn-outline-secondary ms-1 rounded-pill" data-bs-toggle="collapse" href="#group{{ $groupId }}" onclick="collapseBtnOnclick(this)">
-                                        <i class="bi-chevron-contract"></i>
-                                    </button>
-                                </span>
+                                @if (!$this->additionalImageId)
+                                    <span class="ms-auto" data-bs-toggle="tooltip" data-bs-title="{{ __('Sbalit/rozbalit skupinu') }}">
+                                        <button type="button" class="btn btn-sm collapse-btn btn-outline-secondary ms-1 rounded-pill" data-bs-toggle="collapse" href="#group{{ $groupId }}" onclick="collapseBtnOnclick(this)">
+                                            <i class="bi-chevron-contract"></i>
+                                        </button>
+                                    </span>
+                                @endif
                             </h4>
 
                             {{-- description varhanáře --}}

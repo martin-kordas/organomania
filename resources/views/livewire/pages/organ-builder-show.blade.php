@@ -788,7 +788,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         @endforeach
                     </table>
                     @if ($caseOnlyExists)
-                        <span>* {{ __('dochována skříň') }}</span>
+                        <span>* {{ __('varhanní stroj nedochován') }}</span>
                     @endif
                 </div>
                 @if ($this->organsWithoutCaseOrgans->count() > 1)

@@ -1,3 +1,5 @@
 User-agent: *
 Disallow: /marketa-prokopovicova
 Disallow: /marketa-prokopovicova/
+Disallow: /prerov
+Disallow: /prerov/
