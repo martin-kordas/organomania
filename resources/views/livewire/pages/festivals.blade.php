@@ -94,4 +94,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
 }; ?>
 
-<x-organomania.entity-page :metaDescription="__('Objevte prestižní hudební festivaly a koncerty varhanní hudby v celé ČR. Navštivte sólové varhanní recitály i vokálně-instrumentální koncerty špičkových umělců.')" />
+<div>
+    <x-organomania.entity-page :metaDescription="__('Objevte prestižní hudební festivaly a koncerty varhanní hudby v celé ČR. Navštivte sólové varhanní recitály i vokálně-instrumentální koncerty špičkových umělců.')" />
+    
+    <div class="small text-center">
+        <strong>Správa obsahu:</strong> Petr Roháček
+    </div>
+</div>

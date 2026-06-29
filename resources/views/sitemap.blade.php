@@ -1,6 +1,6 @@
 @use(Illuminate\Support\Facades\URL)
 
-@props(['organs', 'privateOrgans', 'organBuilders', 'dispositions', 'registerNames', 'festivals', 'competitions'])
+@props(['organs', 'privateOrgans', 'organBuilders', 'dispositions', 'registerNames', 'festivals', 'competitions', 'additionalImages'])
 
 {{-- TODO: standardní zápis ?xml bude fungovat, nastaví-li se v php.ini na produkci short_open_tag=Off --}}
 <?php echo '<?xml version="1.0" encoding="UTF-8" ?>' ?>
@@ -143,6 +143,13 @@
     @foreach ($organBuilderMunicipalityInfos as $municipalityInfo)
         <x-organomania.sitemap-item-entity
             :url="route('organ-builders.municipality', ['municipality' => $municipalityInfo->municipality])"
+        />
+    @endforeach
+    
+    @foreach ($additionalImages as $additionalImage)
+        <x-organomania.sitemap-item-entity
+            :url="$additionalImage->getViewUrl()"
+            :lastmod="$additionalImage->updated_at"
         />
     @endforeach
 </urlset>

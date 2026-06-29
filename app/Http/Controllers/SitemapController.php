@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Response;
+use App\Models\OrganBuilderAdditionalImage;
 use App\Models\Organ;
 use App\Models\OrganBuilder;
 use App\Models\Festival;
@@ -35,12 +36,16 @@ class SitemapController extends Controller
         $caseImagesOrganBuilders = $this->getCaseImagesOrganBuilders();
         $organMunicipalityInfos = OrganMunicipalityInfo::select('municipality')->get();
         $organBuilderMunicipalityInfos = OrganBuilderMunicipalityInfo::select('municipality')->get();
+        $additionalImages = OrganBuilderAdditionalImage::query()
+            ->where('organ_exists', 0)
+            ->where('image_credits', 'NOT LIKE', 'Štěpán Svoboda%')
+            ->get();
 
         $sitemap = view(
             'sitemap',
             data: compact(
                 'organs', 'privateOrgans', 'organBuilders', 'festivals', 'competitions', 'dispositions', 'registerNames',
-                'caseImagesOrganBuilders', 'organMunicipalityInfos', 'organBuilderMunicipalityInfos',
+                'caseImagesOrganBuilders', 'organMunicipalityInfos', 'organBuilderMunicipalityInfos', 'additionalImages',
             )
         )->render();
 

@@ -166,7 +166,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div
         class="small text-secondary text-end mb-4"
         @isset($festival->viewed_at)
-            title="{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($festival->viewed_at) }}"
+            title="@isset($festival->created_at){{ __('Vloženo') }}: {{ Helpers::formatDate($festival->created_at) . "\n" }}@endisset{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($festival->viewed_at) }}"
         @endisset
     >
         {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($festival->views) }}&times;

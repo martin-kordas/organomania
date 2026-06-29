@@ -403,6 +403,7 @@ class Helpers
             '/images/dobra-voda-panny-marie-bolestne.jpg' => 'https://www.turistika.cz/mista/dobra-voda-u-ceskych-budejovic-panna-marie-bolestna/foto?id=2429565',
             '/images/cholina.jpg' => 'https://www.turistika.cz/mista/cholina-kostel-nanebevzeti-panny-marie/foto?id=741244',
             '/images/senice-na-hane.jpg' => 'https://www.turistika.cz/mista/senice-na-hane-kostel-sv-mari-magdaleny/foto?id=2445102',
+            '/images/sobotin.jpg' => 'https://www.turistika.cz/mista/sobotin-kostel-sv-vavrince/foto?id=2438961',
             default => $imageUrl,
         };
     }

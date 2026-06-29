@@ -4,6 +4,8 @@ body h1, h2 { text-align: left; line-height: 1em; font-family: georgia, arial }
 #portret { width: 32%; float: right; margin-left: 2em; margin-bottom: 1.5em; min-width: 13em; border-radius: 13px; }
 #jazyk { float: right; }
 #toplist { display: none; }
+#nahravky { text-align: left; }
+#nahravky iframe { height: 190px; }
 a { color: brown; }
 
 @media (width < 500px) {

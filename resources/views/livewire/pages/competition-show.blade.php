@@ -232,7 +232,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <div
         class="small text-secondary text-end mb-4"
         @isset($competition->viewed_at)
-            title="{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($competition->viewed_at) }}"
+            title="@isset($competition->viewed_at){{ __('Vloženo') }}: {{ Helpers::formatDate($competition->created_at) . "\n" }}@endisset{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($competition->viewed_at) }}"
         @endisset
     >
         {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($competition->views) }}&times;

@@ -301,6 +301,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             4555 => [19],
             121 => [4599],
             4599 => [121],
+            4924 => [70],
+            70 => [4924],
             default => []
         };
         return collect($relatedOrganIds)->map(
@@ -811,7 +813,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div
                 class="small text-secondary text-end mb-4"
                 @isset($organ->viewed_at)
-                    title="{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($organ->viewed_at) }}"
+                    title="@isset($organ->viewed_at){{ __('Vloženo') }}: {{ Helpers::formatDate($organ->created_at) . "\n" }}@endisset{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($organ->viewed_at) }}"
                 @endisset
             >
                 {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organ->views) }}&times;

@@ -182,7 +182,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (isset($timelineItem->activePeriod)) $label .= "\n({$timelineItem->activePeriod})";
         $municipality = str_replace('Praha-Žižkov', 'Praha', $this->organBuilder->municipality);
         if (!$outOfScope && $timelineItem->locality !== $municipality) $label .= "\n{$timelineItem->locality}";
-        $sibling = in_array($timelineItem->id, [10, 15, 861, 862, 863, 868, 29, 915, 917, 921, 929]);
+        $sibling = in_array($timelineItem->id, [10, 15, 861, 862, 863, 868, 29, 915, 917, 921, 929, 933]);
         if ($sibling) {
             $siblingLabel = match ($timelineItem->id) {
                 29 => 'Neznámý vztah',
@@ -484,6 +484,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             37 => [72],
             // Výmola
             3 => [60],
+            // Stehlíci
+            878 => [871],
+            871 => [878],
             default => []
         };
         return collect($relatedOrganBuilderIds)->map(
@@ -892,7 +895,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             <div
                 class="small text-secondary text-end mb-4"
                 @isset($organBuilder->viewed_at)
-                    title="{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($organBuilder->viewed_at) }}"
+                    title="@isset($organBuilder->viewed_at){{ __('Vloženo') }}: {{ Helpers::formatDate($organBuilder->created_at) . "\n" }}@endisset{{ __('Poslední návštěva') }}: {{ Helpers::formatDateTime($organBuilder->viewed_at) }}"
                 @endisset
             >
                 {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organBuilder->views) }}&times;
