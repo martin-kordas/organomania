@@ -1032,7 +1032,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </a>
                 </div>
                 <x-organomania.map-detail :marker="$organ" :otherMarkers="$this->mapOtherMarkers" />
-                <div class="small text-center text-secondary mt-2">
+                <div class="small text-center text-secondary mt-3 mt-sm-2">
                     @if (!empty($this->mapOtherMarkers))
                         {!! __('Varhanáři pracující na varhanách jsou označeni <strong>oranžově</strong>.') !!}
                         <br class="d-none d-sm-inline" />

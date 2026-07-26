@@ -45,7 +45,10 @@ class ThumbnailController extends Controller
                 ->get($file)->body();
 
                 // patrně přetížení Wikimedie
-                if (str_starts_with($imageContents, '<!DOCTYPE html>')) throw new Exception;
+                if (str_starts_with($imageContents, '<!DOCTYPE html>')) {
+                    // Wikimedia často vrací chybu - radši načíst plnou velikost obrázku
+                    return redirect($file);   // throw new Exception;
+                }
                 file_put_contents($filename, $imageContents);
             }
         }

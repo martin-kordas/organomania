@@ -357,7 +357,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <div class="col-md-8">
                     <div class="form-floating">
                         <input class="form-control form-control-lg @error('form.place') is-invalid @enderror" id="place" wire:model.live="form.place" aria-describedby="placeFeedback" wire:blur="geocode">
-                        <label for="place">{{ __('Místo') }}</label>
+                        <label for="place">{{ __('Místo') }} ({{ __('např. kostel sv. Jiří') }})</label>
                         @error('form.place')
                             <div id="placeFeedback" class="invalid-feedback">{{ $message }}</div>
                         @enderror

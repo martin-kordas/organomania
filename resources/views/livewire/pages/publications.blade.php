@@ -52,7 +52,7 @@ class extends Component {
         ['column' => 'publication_type_id', 'label' => 'Typ', 'type' => 'alpha'],
         ['column' => 'author', 'label' => 'Autor', 'type' => 'alpha'],
         ['column' => 'name', 'label' => 'Název', 'type' => 'alpha'],
-        ['column' => 'place_of_publication', 'label' => 'Místo', 'type' => 'alpha'],
+        ['column' => 'place_of_publication', 'label' => 'Vydáno', 'type' => 'alpha'],
         ['column' => 'year', 'label' => 'Rok', 'type' => 'numeric'],
         ['column' => 'publication_topic_id', 'label' => 'Zaměření', 'type' => 'alpha'],
     ];
@@ -207,7 +207,7 @@ class extends Component {
             </x-organomania.link-list-item>
 
             <x-organomania.link-list-item icon="book" url="https://www.cbdb.cz/kniha-255158-barokni-varhanarstvi-na-morave-dil-1-varhanari">
-                Jiří Sehnal: Barokní varhanářství na Moravě – 1. Varhanáři
+                Jiří Sehnal: Barokní varhanářství na Moravě – 1. Varhanáři – Bibliografie
                 <x-slot:description>SEHNAL, Jiří. Barokní varhanářství na Moravě. Vydání první. Brno: Muzejní a vlastivědná společnost v Brně, 2003-2018. 3 svazky. Prameny k dějinám a kultuře Moravy, č. 9, 10. Monografie. ISBN 80-7275-042-9. (s. 148–151)</x-slot>
             </x-organomania.link-list-item>
 

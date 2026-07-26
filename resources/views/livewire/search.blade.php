@@ -134,7 +134,7 @@ new class extends Component {
                     ->leftJoin('organ_builder_timeline_items', 'organs.organ_builder_timeline_item_id', 'organ_builder_timeline_items.id')
                     ->select([
                         'organs.id', 'organs.slug', 'organs.place', 'organs.municipality', 'organs.importance', 'organs.organ_builder_id',
-                        'organs.organ_builder_timeline_item_id', 'organs.organ_builder_name', 'organs.year_built', 'organs.baroque', 'organs.user_id',
+                        'organs.organ_builder_timeline_item_id', 'organs.organ_builder_name', 'organs.case_organ_builder_name', 'organs.year_built', 'organs.baroque', 'organs.user_id',
                     ])
                     ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
                     ->with('timelineItem:id,name')

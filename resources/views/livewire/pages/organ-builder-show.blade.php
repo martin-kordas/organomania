@@ -307,6 +307,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     'organ' => $organ,
                     'showSizeInfo' => true,
                     'showShortPlace' => true,
+                    // HACK: description obsahuje rok výstavby varhan a ::compareImages() by podle něj řadilo jako podle prvního roku uvedeného v popisku (my však chceme řadit podle roku renovace)
+                    'showDescription' => false,
                     'iconLink' => false,
                     'year' => $year,
                     'isRenovation'=> true,

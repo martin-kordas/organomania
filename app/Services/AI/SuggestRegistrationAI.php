@@ -34,7 +34,7 @@ class SuggestRegistrationAI extends DispositionAI
         EOL;
         
         $chat1 = [
-            'model' => 'gpt-4o',
+            'model' => 'gpt-5.6-sol',
             'temperature' => 1,
             'messages' => [
                 ['role' => 'system', 'content' => $systemContent],
@@ -43,12 +43,12 @@ class SuggestRegistrationAI extends DispositionAI
         ];
         $resStops = $this->client->chat()->create($chat1);
         
-        // pokud se recommendations vyžádají už v prvním requestu, zvolená registrace není moc dobrá, proto samostatná request
+        // pokud se recommendations vyžádají už v prvním requestu, zvolená registrace není moc dobrá, proto samostatný request
         if ($this->suggestRegistrationRecommendations) {
             $content = <<<EOL
                 Provide recommendations about selected stops in $language language.
-                Use Markdown formatting, but only bold text.
-                Do not use stop ordinal numbers in the text.
+                Use Markdown formatting, but only bold text marked with asterisk.
+                Do not use ANY stop ordinal numbers in square brackets in the response.
             EOL;
             
             $chat2 = $chat1;

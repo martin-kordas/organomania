@@ -670,14 +670,15 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     </div>
 
     <p class="small text-center text-secondary">
-        <strong>{{ __('Poděkování přispěvatelům') }}</strong>:
+        <strong>{{ __('Poděkování autorům fotografií') }}</strong>:
         <br />
         Lukáš&nbsp;Dvořák,
-        <a class="text-decoration-none" href="https://www.instagram.com/janfejgl.organist/" target="_blank">Jan Fejgl</a>,
+        <a class="text-decoration-none" href="https://www.instagram.com/janfejgl.organist/" target="_blank">Jan&nbsp;Fejgl</a>,
         Jiří&nbsp;Fuks,
+        Michal&nbsp;Hanuš,
         Filip&nbsp;Harant,
-        Robert&nbsp;Hlavatý,
-        <a class="text-decoration-none" href="https://marijakesfoto.blogspot.com/p/chramove-varhany.html" target="_blank">Marie Jakešová</a>,
+        <a class="text-decoration-none" href="https://www.flickr.com/photos/roberthlavaty/" target="_blank">Robert&nbsp;Hlavatý</a>,
+        <a class="text-decoration-none" href="https://marijakesfoto.blogspot.com/p/chramove-varhany.html" target="_blank">Marie&nbsp;Jakešová</a>,
         Jaroslav&nbsp;Kocůrek,
         Kristýna&nbsp;Kosíková,
         Markéta&nbsp;Kordasová,
@@ -688,7 +689,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         Jiří&nbsp;Stodůlka,
         Štěpán&nbsp;Svoboda,
         Petr&nbsp;Vacek,
-        Ondřej&nbsp;Valenta
+        Ondřej&nbsp;Valenta,
+        fotografové <a class="text-decoration-none" href="https://www.clovekavira.cz" target="_blank">Člověk a&nbsp;víra</a>,
+        <a class="text-decoration-none" href="https://www.turistika.cz" target="_blank">turistika.cz</a>,
         a&nbsp;další
     </p>
 </div>
