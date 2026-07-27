@@ -323,6 +323,13 @@ class OrganBuilder extends Model
         return 100;
     }
 
+    public function getTimelineItemsYearsRange()
+    {
+        $yearFrom = $this->timelineItems->min('year_from') ?? NAN;
+        $yearTo = $this->timelineItems->max('year_to') ?? NAN;
+        return [$yearFrom, $yearTo];
+    }
+
     // first_name, last_name je rovněž nutné hledat fulltextově, jinak by současně zadané celé jméno (např. "Emanuel Petr") nenašlo nic
     #[SearchUsingFullText(['first_name', 'last_name', 'description', 'perex', 'workshop_members'])]
     public function toSearchableArray(): array

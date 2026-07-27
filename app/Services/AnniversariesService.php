@@ -60,6 +60,8 @@ class AnniversariesService
         return OrganBuilderTimelineItem::query()
             ->with('organBuilder')
             ->where('hide_in_timeline', 0)
+            // HACK: s rokem 1989 jsou tam uvedeni varhanáři, kteří začali praxi po r. 1989 (tj. rok není rokem narození)
+            ->where('year_from', '!=', 1989)
             ->where('organ_builder_id', '!=', OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
             ->where(function (Builder $query) use ($step, $year) {
                 $query
@@ -110,7 +112,7 @@ class AnniversariesService
     public function getAnniversaries(?int $year = null, int $step = self::DEFAULT_STEP)
     {
         $year ??= now()->year;
-        
+
         $anniversaries = [];
 
         $anniversaries['organs'] = $this->getOrgans($year, $step);
@@ -129,5 +131,5 @@ class AnniversariesService
             return $this->getAnniversaries(step: static::SHOWED_COUNT_STEP)['count'];
         });
     }
-    
+
 }

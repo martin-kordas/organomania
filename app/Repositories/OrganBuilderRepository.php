@@ -10,6 +10,7 @@ use App\Models\OrganBuilder;
 use App\Models\OrganBuilderTimelineItem;
 use App\Models\OrganBuilderMunicipalityInfo;
 use App\Repositories\AbstractRepository;
+use function PHPUnit\Framework\isNan;
 
 class OrganBuilderRepository extends AbstractRepository
 {
@@ -238,6 +239,35 @@ class OrganBuilderRepository extends AbstractRepository
         }
 
         return $query->get();
+    }
+
+    public function getContemporaryTimelineItems(OrganBuilder $organBuilder): Collection
+    {
+        [$yearFrom, $yearTo] = $organBuilder->getTimelineItemsYearsRange();
+
+        // jde-li o soudobého varhanáře, year_to bude NULL a vrátí se také NAN
+        if (is_nan($yearFrom) || is_nan($yearTo)) return collect();
+
+        $diff = 15;
+
+        return OrganBuilderTimelineItem::query()
+            ->with('organBuilder')
+            ->where('organ_builder_id', '!=', $organBuilder->id)
+            ->where('organ_builder_id', '!=', OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
+            ->where('year_from', '>=', $yearFrom - $diff)
+            ->where('year_to', '<=', $yearTo + $diff)
+            // přesná životní data těchto varhanářů nejsou známa (v year_from/to je jen odhad)
+            ->where('active_period', '!=', '–')
+            // bez soudobých varhanářů
+            ->whereNotNull('year_to')
+            ->where('hide_in_timeline', '0')
+            ->whereHas('organBuilder', function (Builder $query) {
+                $query->whereNull('user_id');
+            })
+            ->inRandomOrder()
+            ->take(5)
+            ->get()
+            ->sortBy('year_from');
     }
 
 }

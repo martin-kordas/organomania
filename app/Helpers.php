@@ -366,12 +366,23 @@ class Helpers
     static function logPageViewIntoCache(string $page)
     {
         if (!Auth::user()?->isAdmin() && !self::isCrawler()) {
-            $cacheKey = "views.$page";
-            if (!Cache::has($cacheKey)) Cache::forever($cacheKey, 0);
-            Cache::increment($cacheKey);
-
-            Cache::forever("viewed-at.$page", now()->format('Y-m-d H:i:s'));
+            static::logPageViewIntoCacheHelp($page);
+            
+            // odfiltrovat zkreslující přístupy z Číny
+            $acceptLanguage = request()->server('HTTP_ACCEPT_LANGUAGE');
+            if (!str($acceptLanguage)->startsWith('zh')) {
+                static::logPageViewIntoCacheHelp("filtered.$page");
+            }
         }
+    }
+    
+    private static function logPageViewIntoCacheHelp(string $postfix)
+    {
+        $cacheKey = "views.$postfix";
+        if (!Cache::has($cacheKey)) Cache::forever($cacheKey, 0);
+        Cache::increment($cacheKey);
+
+        Cache::forever("viewed-at.$postfix", now()->format('Y-m-d H:i:s'));
     }
 
     static function getMapUrl(float $latitude, float $longitude)

@@ -37,7 +37,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     const
         SESSION_KEY_SHOW_MAP = 'organ-builders.show.show-map',
         SESSION_KEY_SHOW_LITERATURE = 'organs.show.show-literature',
-        SESSION_KEY_SHOW_FAMILY_TREE = 'organs.show.show-family-tree';
+        SESSION_KEY_SHOW_FAMILY_TREE = 'organs.show.show-family-tree',
+        SESSION_KEY_SHOW_CONTEMPORARIES = 'organs.show.show-contemporaries';
 
     public function boot(MarkdownConvertorService $markdownConvertor, OrganBuilderRepository $repository)
     {
@@ -497,6 +498,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
+    private function contemporaryTimelineItems()
+    {
+        return $this->repository->getContemporaryTimelineItems($this->organBuilder);
+    }
+
+    #[Computed]
     private function navigationItems()
     {
         $items = ['info' => __('Základní údaje')];
@@ -504,6 +511,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (count($this->images) > 1) $items['images'] = __('Galerie');
         if ($this->shouldShowFamilyTree) $items['accordion-family-tree-container'] = __('Rodokmen');
         if ($this->shouldShowMap) $items['accordion-map-container'] = __('Mapa');
+        if (count($this->contemporaryTimelineItems) > 1) $items['accordion-contemporaries'] = __('Současníci');
         if (isset($this->organBuilder->literature)) {
             $literatureCount = count(explode("\n", $this->organBuilder->literature));
             $items['accordion-literature-container'] = __('Literatura') . " ($literatureCount)";
@@ -957,6 +965,27 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endif
             </x-organomania.accordion-item>
         @endisset
+
+        @if (count($this->contemporaryTimelineItems) > 1)
+            <x-organomania.accordion-item
+                id="accordion-contemporaries"
+                title="{{ __('Současníci') }}"
+                :show="$this->shouldShowAccordion(static::SESSION_KEY_SHOW_CONTEMPORARIES)"
+                onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_CONTEMPORARIES }}')"
+            >
+                <x-organomania.info-alert class="mb-0">
+                    {{ __('Zobrazují se náhodně vybraní varhanáři žijící ve stejném období.') }}
+                </x-organomania.info-alert>
+
+                <div class="items-list mt-2">
+                    @foreach ($this->contemporaryTimelineItems as $timelineItem)
+                        <li @class(['list-group-item', 'd-flex', 'align-items-center', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>
+                            <x-organomania.organ-builder-link :organBuilder="$timelineItem->organBuilder" :name="$timelineItem->name" showMunicipality showActivePeriod :activePeriod="$timelineItem->activePeriod" />
+                        </li>
+                    @endforeach
+                </div>
+            </x-organomania.accordion-item>
+        @endif
 
         @isset($organBuilder->literature)
             <x-organomania.accordion-item

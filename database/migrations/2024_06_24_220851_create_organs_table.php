@@ -54,6 +54,7 @@ return new class extends Migration
             $table->text('literature')->nullable();
             $table->text('discography')->nullable();
             $table->text('disposition')->nullable();
+            $table->text('notes')->nullable();
             $table->integer('baroque')->default(0)->comment("From book Baroque organ-building in Moravia");
             $table->date('promotion_date')->nullable();
             $table->foreignId('user_id')->nullable()->constrained();
