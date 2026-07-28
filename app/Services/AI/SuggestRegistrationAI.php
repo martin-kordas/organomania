@@ -23,6 +23,7 @@ class SuggestRegistrationAI extends DispositionAI
         $systemContent = <<<EOL
             You will be given organ piece and organ disposition.
             You should select organ stops I should use when playing the piece.
+            Consider only the beginning of the piece.
             Stop names write always with their ordinal numbers in square brackets.
             Do not propose any alternative stops.
         EOL;
@@ -71,6 +72,9 @@ class SuggestRegistrationAI extends DispositionAI
         
         if ($this->suggestRegistrationRecommendations) {
             $recommendations = $this->getResponseContent($resRecommendations);
+            
+            // AI stále vrací čísla rejstříků v hranatých závorkách, ačkoli je to v promptu výslovně zakázáno, proto je smažeme
+            $recommendations = preg_replace('/( \[[0-9]+\])|(\[[0-9]+\] )/', '', $recommendations);
         }
         else $recommendations = null;
 

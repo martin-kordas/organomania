@@ -243,19 +243,43 @@ class OrganBuilderRepository extends AbstractRepository
 
     public function getContemporaryTimelineItems(OrganBuilder $organBuilder): Collection
     {
-        [$yearFrom, $yearTo] = $organBuilder->getTimelineItemsYearsRange();
+        // do seznamu současníků přidáme i timelineItems současného varhanáře (vypíšou se bez odkazu)
+        if ($organBuilder->is_workshop) {
+            $ownTimelineItems = $organBuilder
+                ->timelineItems()
+                // odfiltrovat timelineItems, která přísluší firmě, ne člověku
+                ->where('name', 'like', '%,%')
+                ->orderBy('year_from')
+                ->take(4)
+                ->get();
+        }
+        else {
+            //  - jde-li o jednotlivého varhanáře, nevypisujeme další členy rodu
+            //  - která timelineItem přísluší "hlavnímu" varhanáři, lze zjistit jen podle jména
+            $ownTimelineItems = $organBuilder
+                ->timelineItems()
+                ->where('name', $organBuilder->name)
+                ->take(1)
+                ->get();
+        }
+        [$yearFrom, $yearTo] = $organBuilder->getTimelineItemsYearsRange($ownTimelineItems);
 
         // jde-li o soudobého varhanáře, year_to bude NULL a vrátí se také NAN
         if (is_nan($yearFrom) || is_nan($yearTo)) return collect();
 
-        $diff = 15;
+        // hodně velký diff umožní zajímavé porovnání sousedních generací varhanářů
+        $diff = 25;
 
-        return OrganBuilderTimelineItem::query()
+        $contemporaryTimelineItems = OrganBuilderTimelineItem::query()
             ->with('organBuilder')
             ->where('organ_builder_id', '!=', $organBuilder->id)
             ->where('organ_builder_id', '!=', OrganBuilder::ORGAN_BUILDER_ID_NOT_INSERTED)
+            // teoreticky mohou být podmínky na year_from a year_to v disjunkci
+            //  - např. pokud se současník narodil stejně jako aktuální varhanář, ale zemřel až 20 let po něm, neznamená to, že má být vyřazen
             ->where('year_from', '>=', $yearFrom - $diff)
             ->where('year_to', '<=', $yearTo + $diff)
+            // životní data musí se překrývat (kvůli použití $diff by to jinak neblyo jisté)
+            ->where('year_to', '>', $yearFrom)
             // přesná životní data těchto varhanářů nejsou známa (v year_from/to je jen odhad)
             ->where('active_period', '!=', '–')
             // bez soudobých varhanářů
@@ -265,9 +289,10 @@ class OrganBuilderRepository extends AbstractRepository
                 $query->whereNull('user_id');
             })
             ->inRandomOrder()
-            ->take(5)
-            ->get()
-            ->sortBy('year_from');
+            ->take(6)
+            ->get();
+
+        return $contemporaryTimelineItems->merge($ownTimelineItems)->sortBy('year_from');
     }
 
 }

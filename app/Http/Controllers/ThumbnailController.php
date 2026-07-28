@@ -40,7 +40,7 @@ class ThumbnailController extends Controller
             if (!is_file($filename)) {
                 if (!is_dir($path)) mkdir($path);
                 $imageContents = Http::withHeaders([
-                    'User-Agent' => 'Mozilla/5.0 (compatible; MSIE 6.0)'
+                    'User-Agent' => 'Organomania/1.0 (https://www.organomania.cz; info@organomania.cz)'
                 ])
                 ->get($file)->body();
 

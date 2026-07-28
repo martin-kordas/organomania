@@ -504,6 +504,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     }
 
     #[Computed]
+    private function shouldShowContemporaries()
+    {
+        return $this->contemporaryTimelineItems->filter(
+            fn (OrganBuilderTimelineItem $timelineItem) => $timelineItem->organ_builder_id != $this->organBuilder->id
+        )->count() > 1;
+    }
+
+    #[Computed]
     private function navigationItems()
     {
         $items = ['info' => __('Základní údaje')];
@@ -511,7 +519,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (count($this->images) > 1) $items['images'] = __('Galerie');
         if ($this->shouldShowFamilyTree) $items['accordion-family-tree-container'] = __('Rodokmen');
         if ($this->shouldShowMap) $items['accordion-map-container'] = __('Mapa');
-        if (count($this->contemporaryTimelineItems) > 1) $items['accordion-contemporaries'] = __('Současníci');
+        if ($this->shouldShowContemporaries) $items['accordion-contemporaries'] = __('Současníci');
         if (isset($this->organBuilder->literature)) {
             $literatureCount = count(explode("\n", $this->organBuilder->literature));
             $items['accordion-literature-container'] = __('Literatura') . " ($literatureCount)";
@@ -966,7 +974,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </x-organomania.accordion-item>
         @endisset
 
-        @if (count($this->contemporaryTimelineItems) > 1)
+        @if ($this->shouldShowContemporaries)
             <x-organomania.accordion-item
                 id="accordion-contemporaries"
                 title="{{ __('Současníci') }}"
@@ -974,14 +982,23 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_CONTEMPORARIES }}')"
             >
                 <x-organomania.info-alert class="mb-0">
-                    {{ __('Zobrazují se náhodně vybraní varhanáři žijící ve stejném období.') }}
+                    {{ __('Zobrazují se náhodně vybraní varhanáři žijící v přibližně stejném období') }}
+                    @if ($organBuilder->is_workshop) {{ __('jako členové dílny') }}@endif.
                 </x-organomania.info-alert>
 
                 <div class="items-list mt-2">
                     @foreach ($this->contemporaryTimelineItems as $timelineItem)
-                        <li @class(['list-group-item', 'd-flex', 'align-items-center', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>
-                            <x-organomania.organ-builder-link :organBuilder="$timelineItem->organBuilder" :name="$timelineItem->name" showMunicipality showActivePeriod :activePeriod="$timelineItem->activePeriod" />
-                        </li>
+                        @if ($timelineItem->organ_builder_id === $this->organBuilder->id)
+                            <span class="">
+                                <i class="bi bi-person-circle"></i>
+                                <x-organomania.organ-builder-link-content :organBuilder="$timelineItem->organBuilder" :name="$timelineItem->name" showMunicipality showActivePeriod :activePeriod="$timelineItem->activePeriod" />
+                            </span>
+                            <br>
+                        @else
+                            <li @class(['list-group-item', 'd-flex', 'align-items-center', 'px-0', 'pt-0' => $loop->first, 'pb-0' => $loop->last])>
+                                <x-organomania.organ-builder-link :organBuilder="$timelineItem->organBuilder" :name="$timelineItem->name" showMunicipality showActivePeriod :activePeriod="$timelineItem->activePeriod" />
+                            </li>
+                        @endif
                     @endforeach
                 </div>
             </x-organomania.accordion-item>

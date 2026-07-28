@@ -323,10 +323,12 @@ class OrganBuilder extends Model
         return 100;
     }
 
-    public function getTimelineItemsYearsRange()
+    public function getTimelineItemsYearsRange($timelineItems = null)
     {
-        $yearFrom = $this->timelineItems->min('year_from') ?? NAN;
-        $yearTo = $this->timelineItems->max('year_to') ?? NAN;
+        $timelineItems ??= $this->timelineItems;
+
+        $yearFrom = $timelineItems->min('year_from') ?? NAN;
+        $yearTo = $timelineItems->max('year_to') ?? NAN;
         return [$yearFrom, $yearTo];
     }
 

@@ -37,7 +37,7 @@ class DescribeDispositionAI extends DispositionAI
         EOL;
         
         $res = $this->client->chat()->create([
-            'model' => 'gpt-4o',
+            'model' => 'gpt-5.6-sol',
             'temperature' => 1,
             'messages' => [
                 ['role' => 'system', 'content' => $systemContent],
