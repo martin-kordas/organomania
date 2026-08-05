@@ -4,8 +4,9 @@
     <i class="bi-person-circle"></i> {{ __('Varhanáři') }}
 </div>
 <div class="list-group list-group-flush">
+    {{-- wire:navigate nepoužíváme, protože pak nefunguje Text fragment --}}
     @foreach ($this->resultsOrganBuilders as $organBuilder)
-        <a class="list-group-item list-group-item-action item-focusable" href="{{ route('organ-builders.show', ['organBuilder' => $organBuilder->slug]) }}" wire:navigate>
+        <a class="list-group-item list-group-item-action item-focusable" href="{{ route('organ-builders.show', ['organBuilder' => $organBuilder->slug]) }}#:~:text={{ $this->sanitizedSearch }}">
             {!! $this->highlight($organBuilder->name) !!}
             @if (!$organBuilder->isPublic()) 
                 <i class="bi-lock text-warning"></i>

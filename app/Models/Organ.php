@@ -346,12 +346,14 @@ class Organ extends Model
             + [
                 'organ_builders.last_name' => '', 'organ_builders.workshop_name' => '',
                 'organ_builder_timeline_items.name' => '',
+                'renovation_organ_builders.last_name' => '', 'renovation_organ_builders.workshop_name' => '',
                 // HACK: díky tomuto se sloupce hledají i ne-fulltextově (i u description výhodné, protože hledá i neúplná slova)
                 'organs.place' => '',
                 'organs.municipality' => '',
                 'organs.description' => '',
                 'organs.organ_builder_name' => '',
                 'organs.case_organ_builder_name' => '',
+                'organs.renovation_organ_builder_name' => '',
             ];
     }
 

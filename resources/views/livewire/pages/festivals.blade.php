@@ -75,6 +75,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         if (!request()->query('sortColumn')) $this->sortColumn = 'starting_month';
         if (!request()->query('sortDirection')) $this->sortDirection = 'asc';
         $this->mountCommon();
+        
+        if (request()->query('ad')) Helpers::logPageViewIntoCache('festivals.from-ad');
     }
 
     private function getCategoryEnum()

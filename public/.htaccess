@@ -1,3 +1,5 @@
+php_value upload_max_filesize "10M"
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes

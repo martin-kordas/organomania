@@ -10,7 +10,6 @@ use App\Models\OrganBuilder;
 use App\Models\OrganBuilderTimelineItem;
 use App\Models\OrganBuilderMunicipalityInfo;
 use App\Repositories\AbstractRepository;
-use function PHPUnit\Framework\isNan;
 
 class OrganBuilderRepository extends AbstractRepository
 {
@@ -247,6 +246,7 @@ class OrganBuilderRepository extends AbstractRepository
         if ($organBuilder->is_workshop) {
             $ownTimelineItems = $organBuilder
                 ->timelineItems()
+                ->where('hide_in_timeline', '0')
                 // odfiltrovat timelineItems, která přísluší firmě, ne člověku
                 ->where('name', 'like', '%,%')
                 ->orderBy('year_from')
@@ -258,6 +258,7 @@ class OrganBuilderRepository extends AbstractRepository
             //  - která timelineItem přísluší "hlavnímu" varhanáři, lze zjistit jen podle jména
             $ownTimelineItems = $organBuilder
                 ->timelineItems()
+                ->where('hide_in_timeline', '0')
                 ->where('name', $organBuilder->name)
                 ->take(1)
                 ->get();

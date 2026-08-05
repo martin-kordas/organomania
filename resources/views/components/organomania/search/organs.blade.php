@@ -13,7 +13,8 @@
 
 <div class="list-group list-group-flush" wire:key="organsxxx">
     @foreach ($organs as $organ)
-        <a class="list-group-item list-group-item-action item-focusable" href="{{ $organ->getViewUrl() }}" wire:key="organ{{ $organ->id }}" wire:navigate>
+        {{-- wire:navigate nepoužíváme, protože pak nefunguje Text fragment --}}
+        <a class="list-group-item list-group-item-action item-focusable" href="{{ $organ->getViewUrl() }}#:~:text={{ $this->sanitizedSearch }}" wire:key="organ{{ $organ->id }}">
             @if ($this->showLastViewed)
                 <i class="bi-clock-history"></i>
             @endif

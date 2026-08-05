@@ -62,8 +62,6 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
     public function mount()
     {
-        Helpers::logPageViewIntoCache('cases');
-
         if (isset($this->organBuilder) && !$this->filterOrganBuilders) {
             $this->filterOrganBuilders = [$this->organBuilder->id];
         }
@@ -75,8 +73,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         ) {
             $this->showCollapseAll = false;
         }
-
+        
         $this->additionalImageId = request()->query('additionalImageId');
+        
+        
+        Helpers::logPageViewIntoCache('cases');
+        if ($this->additionalImageId) {
+            Helpers::logPageViewIntoCache('cases.additionalImageId');
+        }
     }
 
     public function rendered()

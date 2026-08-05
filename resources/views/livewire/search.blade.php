@@ -131,10 +131,11 @@ new class extends Component {
             ->query(function (Builder $builder) {
                 $builder
                     ->leftJoin('organ_builders', 'organs.organ_builder_id', 'organ_builders.id')
+                    ->leftJoin('organ_builders as renovation_organ_builders', 'organs.renovation_organ_builder_id', 'renovation_organ_builders.id')
                     ->leftJoin('organ_builder_timeline_items', 'organs.organ_builder_timeline_item_id', 'organ_builder_timeline_items.id')
                     ->select([
                         'organs.id', 'organs.slug', 'organs.place', 'organs.municipality', 'organs.importance', 'organs.organ_builder_id',
-                        'organs.organ_builder_timeline_item_id', 'organs.organ_builder_name', 'organs.case_organ_builder_name', 'organs.year_built', 'organs.baroque', 'organs.user_id',
+                        'organs.organ_builder_timeline_item_id', 'organs.organ_builder_name', 'organs.case_organ_builder_name', 'organs.renovation_organ_builder_name', 'organs.year_built', 'organs.baroque', 'organs.user_id',
                     ])
                     ->with('organBuilder:id,is_workshop,first_name,last_name,workshop_name')
                     ->with('timelineItem:id,name')

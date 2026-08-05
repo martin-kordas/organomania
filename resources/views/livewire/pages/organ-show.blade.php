@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
@@ -817,6 +818,14 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 @endisset
             >
                 {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organ->views) }}&times;
+            </div>
+        @endif
+        
+        @if (Arr::random([true, false, false]))
+            <div class="text-center">
+                <a href="{{ route('festivals.index', ['viewType' => 'thumbnails', 'ad' => 'organ-show']) }}" target="_blank">
+                    <img src="/images/banner-festivaly.jpg" style="max-width: 100%; max-height: 100px;" />
+                </a>
             </div>
         @endif
 

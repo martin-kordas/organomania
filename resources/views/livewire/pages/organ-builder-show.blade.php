@@ -785,7 +785,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                                     @isset($item['additionalImage'])
                                         {{-- wire:navigate nepoužito kvůli správnému posunutí na kotvu --}}
                                         <a class="link-primary text-decoration-none" href="{{ $item['additionalImage']->getViewUrl()  }}">
-                                            {{ $item['additionalImage']->name }}
+                                            ({{ $item['additionalImage']->name }})
                                         </a>
                                         @if (!empty($item['details']))
                                             <span class="text-secondary">({{ implode(', ', $item['details']) }})</span>
