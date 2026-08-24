@@ -573,12 +573,25 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         </tr>
         @if ($organ->year_built)
             <tr>
-                <th class="align-middle">{{ __('Rok stavby') }}</th>
+                <th class="align-middle">{{ __('Rok dokončení') }}</th>
                 <td>
                     <div class="d-flex align-items-center">
-                        <span class="me-auto">{{ $organ->year_built }}</span>
+                        <span>
+                            @if ($organ->id === Organ::ORGAN_ID_ZDAR)
+                                mezi 1710 a 1723
+                            @else
+                                {{ $organ->year_built }}
+                            @endif
+                        </span>
+                        @php $anniversary = now()->year - $organ->year_built; @endphp
+                        @if ($anniversary % 50 === 0)
+                            <span class="small mark ms-2">
+                                ({{ __('výročí') }}
+                                {{ $anniversary }}&nbsp;{{ __('let') }})
+                            </span>
+                        @endif
                         @if (isset($organ->organBuilder?->region_id))
-                            <a class="btn btn-sm btn-outline-secondary" href="{{ $this->timelineUrl }}" wire:navigate>
+                            <a class="btn btn-sm btn-outline-secondary ms-auto" href="{{ $this->timelineUrl }}" wire:navigate>
                                 <i class="bi bi-clock"></i>
                                 {{ __('Časová osa') }}
                             </a>

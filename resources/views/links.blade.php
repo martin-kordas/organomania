@@ -27,6 +27,11 @@
                 <x-slot:description>{{ __('detailní fotografie a popisy zajímavých, převážně domácích nástrojů') }}</x-slot>
             </x-organomania.link-list-item>
             
+            <x-organomania.link-list-item icon="instagram" url="https://www.instagram.com/ceske.varhany/">
+                <span class="fw-semibold">České varhany</span> (Instagram)
+                <x-slot:description>{{ __('fotografie a dispozice různých domácích nástrojů') }}</x-slot>
+            </x-organomania.link-list-item>
+            
             <x-organomania.link-list-item url="https://mapy.com/s/pamemosego">
                 <span class="fw-semibold">Varhany Českého varhanního festivalu</span> (Mapy.cz)
                 <x-slot:description>{{ __('neoficiální mapa varhan, na kterých probíhaly koncerty festivalu') }}</x-slot>

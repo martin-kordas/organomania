@@ -47,5 +47,13 @@ $organ = Organ::find(Organ::ORGAN_ID_PRAHA_KRIZOVNICI);
                 @endforeach
             </div>
         </div>
+        
+        <hr class="mt-3 mb-2" />
+        <div class="small">
+          {{ __('Více o vývoji škříní v článku') }}
+          <a class="link-primary text-decoration-none" href="{{ route('about-organ') }}" wire:navigate>
+              {{ __('O varhanách') }}.
+          </a>
+        </div>
     </div>
 </div>

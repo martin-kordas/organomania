@@ -504,7 +504,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
                 @if (!$this->filterOrganBuilders)
                     <p class="text-center">
-                        <a class="btn btn-sm btn-outline-secondary" type="button" href="{{ route('organs.index', ['viewType' => 'map', 'showAdditionalImages' => 1]) }}" target="_blank">
+                        <a class="btn btn-sm btn-outline-secondary" type="button" href="{{ route('organs.index', ['viewType' => 'map', 'enableAdditionalImages' => 1]) }}" target="_blank">
                             <i class="bi-pin-map"></i>
                             {{ __('Zobrazit vše na mapě')  }}
                         </a>

@@ -50,7 +50,11 @@ class DispositionTextualFormatter
         $disposition = str($disposition)->explode("\n")->map(function ($row) use ($links) {
             static $appendix = false;
             if (str($row)->contains(static::APPENDIX_DELIMITER)) $appendix = true;
-            elseif (!$appendix && $links) $row = $this->addLinkToDispositionRow($row);
+            elseif (!$appendix) {
+                if ($links) $row = $this->addLinkToDispositionRow($row);
+                // závorky malým písmenem
+                $row = preg_replace('/(?<!^)\(.+?\)/', '&nbsp;<span class="text-secondary">$0</span>', $row);
+            }
             return $row;
         })->implode("\n");
 
