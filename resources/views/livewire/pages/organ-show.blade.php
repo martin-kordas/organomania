@@ -304,6 +304,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             4599 => [121],
             4924 => [70],
             70 => [4924],
+            4581 => [4938],
+            4938 => [4581],
             default => []
         };
         return collect($relatedOrganIds)->map(
@@ -834,7 +836,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </div>
         @endif
         
-        @if (Arr::random([true, false, false]))
+        @if (false && Arr::random([true, false, false]))
             <div class="text-center">
                 <a href="{{ route('festivals.index', ['viewType' => 'thumbnails', 'ad' => 'organ-show']) }}" target="_blank">
                     <img src="/images/banner-festivaly.jpg" style="max-width: 100%; max-height: 100px;" />

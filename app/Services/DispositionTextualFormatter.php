@@ -35,9 +35,12 @@ class DispositionTextualFormatter
 
         $disposition = str($this->markdownConvertor->convert($disposition))->trim();
         
+        $disposition = preg_replace('/([0-9])-([0-9])/', '$1–$2', $disposition);
+        $disposition = preg_replace('/\bC-([cdefgah])/', 'C–$1', $disposition);
+        
         // zarovnání stopových výšek doprava
         //  - na řádku nesmí být čárka, to značí více spojek na 1 řádku - nemá smysl zarovnávat
-        $disposition = preg_replace_callback('#^([^,]+?)(([0-9]+ )?[0-9/]+\'[^,\\n]*)$#m', function ($matches) {
+        $disposition = preg_replace_callback('#^([^,/]+?)(([0-9]+ )?[0-9/]+\'[^,\\n]*)$#m', function ($matches) {
             // je-li floatující část stringu příliš velká, rozbila by vykreslení
             // TODO: zohlednit raději součet počtu znaků vč. názvu rejstříku ($matches[1])
             if (mb_strlen($matches[2]) <= 10) {
@@ -52,8 +55,8 @@ class DispositionTextualFormatter
             if (str($row)->contains(static::APPENDIX_DELIMITER)) $appendix = true;
             elseif (!$appendix) {
                 if ($links) $row = $this->addLinkToDispositionRow($row);
-                // závorky malým písmenem
-                $row = preg_replace('/(?<!^)\(.+?\)/', '&nbsp;<span class="text-secondary">$0</span>', $row);
+                // závorky šedým písmem
+                $row = preg_replace('/(?<=\s)\(.+?\)/', '&nbsp;<span class="text-secondary">$0</span>', $row);
             }
             return $row;
         })->implode("\n");
