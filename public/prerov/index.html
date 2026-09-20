@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html lang="cs" data-lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Varhany v kostele sv. Vavřince v Přerově</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231a1208'/><rect x='2' y='11' width='4' height='17' rx='2' fill='%23c9a84c'/><rect x='8' y='4' width='4' height='24' rx='2' fill='%23e4c87a'/><rect x='14' y='14' width='4' height='14' rx='2' fill='%23c9a84c'/><rect x='20' y='4' width='4' height='24' rx='2' fill='%23e4c87a'/><rect x='26' y='11' width='4' height='17' rx='2' fill='%23c9a84c'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V2QZ51RYG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V2QZ51RYG');
+</script>
+
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e4c87a;
+    --gold-pale: #f5e9c6;
+    --dark: #1a1208;
+    --dark2: #2a1f0e;
+    --dark3: #3a2d1a;
+    --wood: #5c3d1e;
+    --wood-light: #7a5230;
+    --cream: #f7f0e0;
+    --cream2: #efe5c8;
+    --text: #2a1f0e;
+    --text-light: #5c4a2a;
+    --border: rgba(201,168,76,0.3);
+    --shadow: rgba(26,18,8,0.6);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 125%; }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: var(--dark);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  .simple-text {
+    color: var(--cream2);
+    line-height: 1.7;
+    font-size:0.95rem;
+  }
+
+  /* ─── LANGUAGE SWITCHER ─── */
+  .lang-switcher {
+    position: sticky;
+    bottom: 1.5rem;
+    margin-bottom: 1rem;
+    z-index: 1000;
+    display: flex;
+    gap: 0.5rem;
+    padding: 0 5vw 0 5vw;
+    justify-content: end;
+  }
+  .lang-btn {
+    background: rgba(26,18,8,0.85);
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    padding: 0.35rem 0.7rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    backdrop-filter: blur(8px);
+  }
+  .lang-btn.active, .lang-btn:hover {
+    background: var(--gold);
+    color: var(--dark);
+  }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 999;
+    background: linear-gradient(to bottom, rgba(26,18,8,0.97), rgba(26,18,8,0.85));
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.85rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .nav-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-right: auto;
+    text-decoration: none;
+  }
+  nav a.nav-link {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--cream2);
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    transition: color 0.3s;
+    white-space: nowrap;
+  }
+  nav a.nav-link:hover { color: var(--gold-light); }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  #hero img.hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: brightness(0.75) sepia(0.3);
+    transform: scale(1.05);
+    animation: heroZoom 20s ease-in-out infinite alternate;
+  }
+  @keyframes heroZoom {
+    from { transform: scale(1.05); }
+    to   { transform: scale(1.12); }
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26,18,8,0.95) 0%, rgba(26,18,8,0.3) 50%, rgba(26,18,8,0.1) 100%);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 4rem 5vw 5rem;
+    max-width: 900px;
+  }
+  .hero-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.65rem, 1.2vw, 0.95rem);
+    letter-spacing: 0.35em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+  }
+  .hero-title {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    font-weight: 400;
+    line-height: 1.08;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.6s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+  .hero-tagline {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--cream2);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.4;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%) translateY(0px) !important;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1s 1.5s forwards;
+    text-decoration: none;
+  }
+  .hero-scroll::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollLine 2s 2s infinite;
+  }
+  @keyframes scrollLine {
+    0%   { transform: scaleY(1); transform-origin: top; }
+    50%  { transform: scaleY(0.3); transform-origin: top; }
+    100% { transform: scaleY(1); transform-origin: top; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 6rem 5vw;
+    position: relative;
+  }
+  section:nth-of-type(even) { background: var(--dark2); }
+  section:nth-of-type(odd)  { background: var(--dark); }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .section-number {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .section-divider {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 1.5rem auto;
+  }
+  .section-intro {
+    font-size: 1.15rem;
+    color: var(--cream2);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.85;
+    font-style: italic;
+  }
+
+  .section-figure {
+    margin: 3rem 0 0;
+    padding: 0;
+  }
+  .section-figure img {
+    width: 100%;
+    margin: auto;
+    display: block;
+    object-fit: cover;
+    filter: sepia(0.15) brightness(0.9);
+    border: 1px solid var(--border);
+  }
+  .section-figure figcaption {
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    line-height: 1.9;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 0.75rem 0;
+  }
+
+  .subsection-heading {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.1;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  a.important-link {
+    color: var(--gold);
+    font-family:'Cinzel',serif;
+    font-size:0.75rem;
+    line-height: 2.5;
+    letter-spacing:0.25em;
+    text-decoration:none;
+    text-transform:uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.2rem;
+    transition: color 0.3s;
+  }
+  a.important-link:hover {
+    color: var(--gold-light);
+  }
+  .prose-block {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .prose-block p {
+    font-size: 1rem;
+    color: var(--cream2);
+    line-height: 1.85;
+    margin-bottom: 1.1rem;
+  }
+  .prose-block a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,168,76,0.4);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .prose-block a:hover {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold-light);
+  }
+  .prose-block hr {
+    border: none;
+    text-align: center;
+    margin: 1.4rem 0;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+  .prose-block hr::before {
+    content: '✦  ·  ✦  ·  ✦';
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+  }
+  .float-figure {
+    float: right;
+    margin: 0 0 1.5rem 2rem;
+    width: 180px;
+  }
+  .float-figure img {
+    width: 100%;
+    display: block;
+    filter: sepia(0.2) brightness(0.85);
+    border: 1px solid var(--border);
+  }
+  .float-figure figcaption {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    padding: 0.6rem 0 0;
+  }
+
+  /* ─── ABOUT ─── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  .about-text h4 {
+    margin-bottom: 0.5rem;
+  }
+  .about-text p {
+    line-height: 1.9;
+    color: var(--cream2);
+    margin-bottom: 1.3rem;
+  }
+  .about-text p:first-child::first-letter {
+    font-family: 'EB Garamond', serif;
+    font-size: 4rem;
+    float: left;
+    line-height: 0.8;
+    margin: 0.1rem 0.25rem 0 0;
+    color: var(--gold);
+  }
+  .about-text a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,168,76,0.4);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .about-text a:hover {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold-light);
+  }
+  .prospect-detail-container {
+    margin-top: 2rem;
+    overflow: hidden;
+  }
+  .info-card-mobile { display: none; }
+  .info-card {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.03));
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+  }
+  .info-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    gap: 1rem;
+  }
+  .info-row:first-of-type {
+    padding-top: 0;
+  }
+  .info-row:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .info-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .info-value {
+    font-size: 0.95rem;
+    color: var(--cream2);
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  /* ─── QUOTES ─── */
+  .quotes-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    max-width: 1100px;
+    margin: 5rem auto 0;
+  }
+  .quote-item {
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--gold);
+  }
+  .quote-text {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+    font-style: italic;
+    color: var(--cream);
+    line-height: 1.55;
+    margin-bottom: 0.8rem;
+  }
+  .quote-author {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.75;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline {
+    max-width: 800px;
+    margin: 4rem auto 0;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 110px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s ease;
+  }
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .timeline-year {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    font-weight: 600;
+    text-align: right;
+    padding-top: 0.2rem;
+    padding-right: 1.5rem;
+  }
+  .timeline-content {
+    position: relative;
+    padding: 1.2rem 1.5rem;
+    background: rgba(201,168,76,0.05);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+  }
+  .timeline-content::before {
+    content: '';
+    position: absolute;
+    left: -2.35rem;
+    top: 0.55rem;
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--gold);
+  }
+  .timeline-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  .timeline-content h4 {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    margin-bottom: 0;
+  }
+  .timeline-size {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .timeline-content p {
+    font-size: 0.95rem;
+    color: var(--cream2);
+    line-height: 1.7;
+  }
+
+  /* ─── BUILDERS ─── */
+  .builders-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .builder-card {
+    background: linear-gradient(160deg, rgba(92,61,30,0.2), rgba(26,18,8,0.8));
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+  .builder-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .builder-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(201,168,76,0.15);
+  }
+  .builder-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+  .builder-role {
+    font-style: italic;
+    color: var(--gold-pale);
+    margin-bottom: 0.2rem;
+    opacity: 0.8;
+  }
+  .builder-name {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--gold-light);
+    margin-bottom: 0.3rem;
+  }
+  .builder-period {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .builder-header {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  .builder-header-text {
+    flex: 1;
+    align-self: end;
+    min-width: 0;
+  }
+  .builder-header-img {
+    width: 150px;
+    flex-shrink: 0;
+    align-self: end;
+    filter: sepia(0.2) brightness(0.9);
+    border: 1px solid var(--border);
+  }
+  .builder-divider {
+    border-bottom: 1px solid var(--border);
+    margin: 0 0 1.2rem;
+  }
+  .builder-desc {
+    font-size: 0.98rem;
+    color: var(--cream2);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .builder-footer {
+    margin-top: auto;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    text-align: right;
+  }
+  .builder-footer a {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.2s;
+  }
+  .builder-footer a:hover { opacity: 1; }
+  .builder-works {
+    margin-top: 1rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  /* ─── DISPOSITION ─── */
+  .disposition-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .disp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+  }
+  .disp-manual {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid var(--border);
+    padding: 1.1rem;
+  }
+  .disp-manual-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .disp-manual-range {
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: 0.7rem;
+    padding-bottom: 0.9rem;
+    color: var(--gold-light);
+    opacity: 0.7;
+  }
+  .disp-register {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(201,168,76,0.07);
+    gap: 0.5rem;
+  }
+  .disp-register:last-of-type {
+    border-bottom: 0;
+  }
+  .disp-register-name {
+    font-size: 0.88rem;
+    color: var(--cream2);
+  }
+  .disp-register-foot {
+    font-family: 'Cinzel', serif;
+    font-size: 0.88rem;
+    color: var(--gold);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .disp-coupler-sep {
+    margin-top: 0.6rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(201,168,76,0.2);
+  }
+  .disp-coupler {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid rgba(201,168,76,0.05);
+    font-size: 0.88rem;
+    color: var(--gold-light);
+    opacity: 0.75;
+    font-style: italic;
+    gap: 0.5rem;
+  }
+  .disp-coupler:last-of-type {
+    border-bottom: 0;
+  }
+  .disp-coupler-name {
+    flex: 1;
+  }
+  .disp-coupler-pitch {
+    font-family: 'Cinzel', serif;
+    font-size: 0.88rem;
+    color: var(--gold);
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-style: normal;
+  }
+  .disp-manual--aux {
+    display: inline-block;
+    max-width: 370px;
+    width: 100%;
+    text-align: left;
+  }
+  .disp-note {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: var(--gold-light);
+    opacity: 0.6;
+    padding-top: 0.8rem;
+  }
+  .disp-note:first-of-type {
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+
+  /* ─── GALLERY ─── */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+    background: var(--dark3);
+  }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease, filter 0.3s;
+    filter: brightness(0.85) sepia(0.1);
+  }
+  .gallery-item:hover img {
+    transform: scale(1.07);
+    filter: brightness(1) sepia(0);
+  }
+  .gallery-item .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26,18,8,0.7), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-item .gallery-caption {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+  }
+  /* Lightbox */
+  #lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,6,2,0.96);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img {
+    max-width: 92vw;
+    max-height: 90vh;
+    object-fit: contain;
+    box-shadow: 0 0 80px rgba(201,168,76,0.15);
+  }
+  #lightbox-close {
+    position: absolute;
+    top: 1.5rem; right: 2rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  /* ─── RECORDINGS ─── */
+  .recordings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .recording-card {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .recording-card .yt-embed {
+    position: relative;
+    padding-top: 56.25%;
+    background: #000;
+  }
+  .recording-card .yt-embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+  .recording-card .audio-block {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .recording-meta {
+    padding: 1.2rem 1.5rem;
+    background: rgba(0,0,0,0.3);
+  }
+  .recording-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    margin-bottom: 0.3rem;
+  }
+  .recording-performer {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  audio {
+    width: 100%;
+    accent-color: var(--gold);
+    filter: sepia(0.5);
+  }
+
+  /* ─── MUSICIANS ─── */
+  .musicians-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .musician-card {
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    position: relative;
+    background: linear-gradient(135deg, rgba(92,61,30,0.15), rgba(26,18,8,0.6));
+  }
+  .musician-card .musician-role {
+    margin-bottom: 0;
+  }
+  .musician-name {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+  }
+  .musician-dates {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .musician-role {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--gold-pale);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+  .musician-desc {
+    font-size: 0.98rem;
+    color: var(--cream2);
+    line-height: 1.8;
+  }
+  .musician-desc:not(.no-footer) {
+    margin-bottom: 1rem;
+  }
+
+  /* ─── OTHER ORGANS ─── */
+  .other-organs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .organ-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    background: rgba(201,168,76,0.04);
+    transition: transform 0.3s;
+  }
+  .organ-card:hover { transform: translateY(-3px); }
+  .organ-card-img-wrap {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+  }
+  .organ-card-img-wrap > img:first-child {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: sepia(0.2) brightness(0.85);
+  }
+  .organ-card-img-secondary {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    max-width: 100px;
+    margin: 0.35rem;
+    display: block;
+    border: 2px solid rgba(201,168,76,0.4);
+  }
+  .organ-card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .organ-card-body .builder-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+  }
+  .organ-card-name {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    margin-bottom: 0.3rem;
+  }
+  .organ-card-meta {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    line-height: 1.8;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .organ-card-desc {
+    font-size: 0.88rem;
+    color: var(--cream2);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  /* ─── LINKS ─── */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto 4rem;
+  }
+  .link-card {
+    border: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(201,168,76,0.04);
+  }
+  .link-card:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+  }
+  .link-icon { font-size: 1.5rem; opacity: 0.7; }
+  .link-text { flex: 1; }
+  .link-name {
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    color: var(--gold-light);
+    margin-bottom: 0.2rem;
+  }
+  .link-url {
+    font-size: 0.75rem;
+    color: var(--gold);
+    opacity: 0.7;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.05em;
+  }
+  .lit-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+  .lit-list li {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    font-size: 0.95rem;
+    color: var(--cream2);
+    line-height: 1.7;
+  }
+  .lit-list li a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .lit-list li a:hover { text-decoration: underline; }
+  .lit-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ─── CONTACT ─── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+  }
+  .contact-card {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid var(--border);
+    padding: 2rem;
+  }
+  .contact-card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .contact-card-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--gold);
+    flex-shrink: 0;
+  }
+  .contact-card-name {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--gold-light);
+    margin-bottom: 0;
+  }
+  .contact-card p {
+    font-size: 0.95rem;
+    color: var(--cream2);
+    line-height: 1.8;
+    margin-bottom: 0.3rem;
+  }
+  .contact-card a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .contact-card a:hover { text-decoration: underline; }
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.4rem;
+  }
+  .contact-row svg {
+    flex-shrink: 0;
+    color: var(--gold);
+    opacity: 0.8;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    padding: 2rem 5vw;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+
+  #fbPage {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  /* ─── TRANSLATIONS ─── */
+  [data-lang="cs"] .en { display: none; }
+  [data-lang="en"] .cs { display: none; }
+
+  /* ─── UTILITIES ─── */
+  .ornament {
+    text-align: center;
+    color: var(--gold);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 2rem 0;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 1488px) {
+    nav .nav-brand { display: none; }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    section { font-size: 95%; }
+    .hero-content { padding-bottom: 3rem; }
+    nav { padding: 0.6rem 1rem; }
+    nav a.nav-link { font-size: 0.5rem; padding: 0.2rem 0.4rem; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .disp-manual--aux { max-width: initial; }
+    .prospect-detail-container { margin-top: 0; }
+    .info-card { position: static; }
+    .info-card-mobile { display: block; }
+    .info-card-desktop { display: none; }
+    .timeline::before { left: 70px; }
+    .timeline-item { grid-template-columns: 70px 1fr; gap: 1rem; }
+    .timeline-content::before { left: -1.45rem; }
+    .recordings-grid { grid-template-columns: 1fr; }
+    .builders-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .quotes-row { grid-template-columns: 1fr; gap: 2rem; }
+    .float-figure { float: none; margin: auto; margin-bottom: 0.5rem;}
+  }
+
+  @media (max-width: 576px) {
+    .br-sm { display: none; }
+  }
+</style>
+</head>
+
+<body>
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v21.0"></script>
+<div id="fb-root"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#hero" class="nav-brand">
+    <span class="cs">Varhany u sv. Vavřince v Přerově</span>
+    <span class="en">Organ at St. Lawrence in Přerov</span>
+  </a>
+  <a href="#o-varhanach" class="nav-link"><span class="cs">O varhanách</span><span class="en">The Organ</span></a>
+  <a href="#galerie" class="nav-link"><span class="cs">Foto/video</span><span class="en">Photos/videos</span></a>
+  <a href="#kur" class="nav-link"><span class="cs">Hudba na kůru</span><span class="en">Musicians</span></a>
+  <a href="#dalsi-varhany" class="nav-link"><span class="cs">Další varhany</span><span class="en">Other Organs</span></a>
+  <a href="#odkazy" class="nav-link"><span class="cs">Odkazy</span><span class="en">Links</span></a>
+  <a href="#kontakt" class="nav-link"><span class="cs">Kontakt</span><span class="en">Contact</span></a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <img src="https://organomania.cz/images/prerov.jpg" alt="Varhany u sv. Vavřince v Přerově – prospekt" class="hero-bg">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-sub cs">Přerov · Farní kostel</p>
+    <p class="hero-sub en">Parish church of St. Lawrence · Přerov</p>
+    <h1 class="hero-title">
+      <span class="cs">Varhany<br><em>u sv. Vavřince</em></span>
+      <span class="en">The Organ of<br><em>St. Lawrence</em></span>
+    </h1>
+    <p class="hero-tagline cs">Mohutný nástroj s&nbsp;barokní skříní,<br class="br-sm" /> nesoucí stopy staletí hudebního života města Přerova</p>
+    <p class="hero-tagline en">A mighty instrument in a Baroque case, bearing centuries of musical life in Přerov</p>
+  </div>
+  <a href="#o-varhanach" class="hero-scroll">
+    <span class="cs">Zjistit více</span>
+    <span class="en">Explore</span>
+  </a>
+</section>
+
+<!-- 1. O VARHANÁCH -->
+<section id="o-varhanach">
+  <div class="section-header">
+    <h2 class="section-title"><span class="cs">O varhanách</span><span class="en">The Organ</span></h2>
+    <div class="section-divider"></div>
+    <p class="section-intro cs">V&nbsp;cenné barokní skříni na kůru farního kostela v&nbsp;Přerově se vystřídalo několik nástrojů. Ten současný reprezentuje poválečnou tvorbu krnovské firmy Rieger–Kloss.</p>
+    <p class="section-intro en">The gallery of the parish church in Přerov houses several instruments across the centuries within a precious Baroque case. The current one represents the post-war work of the Krnov firm Rieger–Kloss.</p>
+  </div>
+
+  <div class="about-grid">
+    <div class="info-card-mobile">
+      <div class="info-card">
+        <h3 class="cs">Základní údaje</h3>
+        <h3 class="en">Organ Facts</h3>
+        <div class="info-row">
+          <span class="info-label cs">Autor skříně</span>
+          <span class="info-label en">Case author</span>
+          <span class="info-value cs">F. Horčička st. (1761)</span>
+          <span class="info-value en">F. Horčička st. (1761)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label cs">Autor varhan</span>
+          <span class="info-label en">Organ author</span>
+          <span class="info-value">Rieger–Kloss (1958)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label cs">Velikost</span>
+          <span class="info-label en">Size</span>
+          <span class="info-value">3 manuály<br />38 rejstříků</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label cs">Traktura</span>
+          <span class="info-label en">Action</span>
+          <span class="info-value cs">Pneumatická</span>
+          <span class="info-value en">Pneumatic</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label cs">Vzdušnice</span>
+          <span class="info-label en">Windchest</span>
+          <span class="info-value cs">Kuželkové</span>
+          <span class="info-value en">Cone chest</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-text">
+      <p>
+        Varhany ve farním kostele sv.&nbsp;Vavřince jsou největším varhanním nástrojem v&nbsp;Přerově.
+        Současná podoba varhan pochází z roku 1958 – krnovská továrna <strong>Rieger–Kloss</strong> je tehdy zhotovila v&nbsp;rámci širšího projektu, kdy byly současně postaveny menší varhany v&nbsp;nedalekém kostele sv.&nbsp;Michala.
+        Z&nbsp;technického hlediska se v&nbsp;obou případech jedná o&nbsp;pneumatické varhany se vzdušnicemi kuželkové konstrukce.
+        Tato charakteristika plně odpovídá době jejich vzniku.
+      </p>
+      <p>
+        Rejstříková dispozice varhan má stylově univerzální charakter a&nbsp;je koncipována poměrně velkoryse. Z&nbsp;38 znějících rejstříků je 6 jazykových (více v&nbsp;sekci <a href="#dispozice">Dispozice varhan</a>).
+        Součástí nástroje měl být i&nbsp;tzv.&nbsp;<em>dálkový stroj</em>, umístěný kvůli prostorovému zvukovému efektu v&nbsp;lodi kostela.
+        K&nbsp;realizaci této raritní koncepce nakonec nedošlo – jejím pozůstatkem jsou dodnes předchystané, ale nevyužité rejstříkové sklopky na hracím stole varhan.
+      </p>
+      <p>
+        Historicky nejcennější součástí varhan je jejich skříň, která pochází z&nbsp;barokních varhan <strong>Františka Horčičky staršího</strong>, dokončených v&nbsp;r.&nbsp;1761.
+        Výtvarně působivý prospekt zaujme sochařskou výzdobou v&nbsp;podobě andílků, kteří na horní římse zpívají a&nbsp;hrající na rozličné nástroje.
+        Střední díl skříně zdobí hlava zubra – motiv z&nbsp;městského znaku.
+        Není vyloučeno, že střední díl skříně stál v&nbsp;minulosti samostatně v&nbsp;zábradlí kůru.
+        Z&nbsp;Horčičkových varhan se dochovalo několik píšťal, umístěných v&nbsp;prospektu varhanní skříně.
+      </p>
+      <p>
+        Na kůru se za dobu existence kostela vystřídalo hned několik varhanních nástrojů.
+        Jejich přehled ukazuje <a href="#casova-osa">Časová osa</a>.
+      </p>
+      <h4>Současný stav varhan</h4>
+      <p>
+        Varhany od svého vzniku procházely pouze dílčí údržbou a&nbsp;dlouhodobě již vyžadují generální opravu.
+        Nástroj lze s&nbsp;omezeními využívat k&nbsp;doprovodu bohoslužeb, sólové koncertní využití je však problematické.
+        Poruchová je zejména traktura III.&nbsp;manuálu.
+      </p>
+    </div>
+    <div>
+      <div class="info-card info-card-desktop">
+        <h3 class="cs">Základní údaje</h3>
+        <h3 class="en">Organ Facts</h3>
+        <div class="info-row">
+          <span class="info-label cs">Autor skříně</span>
+          <span class="info-label en">Case author</span>
+          <span class="info-value cs">František Horčička st. (1761)</span>
+          <span class="info-value en">F. Horčička st. (1761)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label cs">Autor varhan</span>
+          <span class="info-label en">Organ author</span>
+          <span class="info-value">Rieger–Kloss (1958)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label cs">Velikost</span>
+          <span class="info-label en">Size</span>
+          <span class="info-value">3 manuály<br />38 rejstříků</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label cs">Traktura</span>
+          <span class="info-label en">Action</span>
+          <span class="info-value cs">Pneumatická</span>
+          <span class="info-value en">Pneumatic</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label cs">Vzdušnice</span>
+          <span class="info-label en">Windchest</span>
+          <span class="info-value cs">Kuželkové</span>
+          <span class="info-value en">Cone chest</span>
+        </div>
+      </div>
+      <div class="prospect-detail-container">
+        <div style="border: 1px solid var(--border);"">
+          <img src="https://organomania.cz/storage/organ-images/97/02.jpg"
+               alt="Varhany u sv. Vavřince v Přerově"
+               style="width:100%; display:block; filter:brightness(0.88) sepia(0.1); transition: transform 0.5s ease;"
+               onmouseover="this.style.transform='scale(1.04)'"
+               onmouseout="this.style.transform='scale(1)'">
+        </div>
+        <div style="text-align: center; margin-top: 2rem; margin-bottom: 2rem;">
+          <a href="https://organomania.cz/organs/prerov-kostel-sv-vavrince" class="important-link" target="_blank">
+            <span class="cs">Podrobný popis varhan ↗</span>
+            <span class="en">Detailed organ description ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDEO + ODKAZ NAD ČASOVOU OSOU -->
+  <div style="margin-top: 1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+    <div style="position: relative; padding-top: 56.25%; background: #000; border: 1px solid var(--border);">
+      <iframe src="https://www.youtube.com/embed/BSQXdtOATRI" title="Varhany u sv. Vavřince"
+        style="position:absolute; inset:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+    </div>
+    <div style="text-align: center; margin-top: 1.2rem;">
+      <a href="#nahravky" class="important-link">
+        <span class="cs">↓ Další nahrávky</span>
+        <span class="en">↓ More recordings</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- CITÁTY -->
+  <h4 style="max-width:1100px; margin: 5rem auto 0; font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); opacity:0.75;">
+    <span class="cs">Řekli o varhanách</span>
+    <span class="en">Voices on the Organ</span>
+  </h4>
+  <div class="quotes-row" style="margin-top: 1.5rem;">
+    <div class="quote-item">
+      <p class="quote-text">„Dispozice varhan je celkem velkolepá. Pokud by byly v&nbsp;dobrém technickém stavu, dalo by se na ně dobře zahrát ledacos, zejména romantika a&nbsp;moderna.”</p>
+      <div class="quote-author">Vít Havlíček · varhaník, organolog, muzikolog</div>
+    </div>
+    <div class="quote-item">
+      <p class="quote-text">„Navštívil jsem nástroj před více než 20 lety a&nbsp;tehdy zjistil, že byl ve velmi špatném stavu nejen pro koncertní účely. Jsou to relativně velké varhany, které by při dobém a&nbsp;kvalifikovaném restaurování a&nbsp;uvedení do původního stavu mohly sloužit k&nbsp;duchovnímu i&nbsp;estetickému zušlechťování všech, kdo je budou poslouchat i&nbsp;užívat.”</p>
+      <div class="quote-author">Tomáš Thon · varhaník, badatel, vydavatel</div>
+    </div>
+    <div class="quote-item">
+      <p class="quote-text">„Na varhany lze stále vykouzlit jedinečnou směs nádherných zvuků, avšak možnosti jsou čím dál omezenější kvůli špatnému technickému stavu varhan.“</p>
+      <div class="quote-author">Martin Mrtvý · varhaník</div>
+    </div>
+  </div>
+</section>
+
+  <!-- TIMELINE -->
+<section id="casova-osa">
+  <div>
+    <div class="section-header">
+      <h3 class="section-title" style="font-size: clamp(1.5rem,3vw,2.2rem);">
+        <span class="cs">Časová osa</span>
+        <span class="en">Timeline</span>
+      </h3>
+      <div class="section-divider"></div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year"><span class="cs">před 1749</span><span class="en">pre-1749</span></div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <h4 class="cs">Nejstarší doložené varhany</h4>
+            <h4 class="en">First Organ</h4>
+          </div>
+          <p class="cs">Je doloženo, že už před velkým požárem města v&nbsp;r.&nbsp;1749 byly v&nbsp;kostele varhany neznámé velikosti, které tomuto požáru padly za oběť.</p>
+          <p class="en">The church of St. Lawrence contained an organ of unknown size, destroyed in the fire of 1749.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1761</div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <h4 class="cs">Horčičkovy barokní varhany</h4>
+            <h4 class="en">Horčička Baroque Organ</h4>
+            <div class="timeline-size">II / 26</div>
+          </div>
+          <p class="cs">Varhanář <strong>František Horčička st.</strong> (*1721) zbudoval nové varhany o&nbsp;2 manuálech a&nbsp;26 rejstřících. Z&nbsp;varhan se dodnes dochovala cenná, sochařsky vyzdobená varhanní skříň a&nbsp;několik píšťal.</p>
+          <p class="en">František Horčička sr. (1721–?) built a new instrument with 2 manuals and 26 stops. The precious Baroque organ case decorated with an angelic orchestra and a wisent's head has survived.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1876</div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <h4 class="cs">Neusserovy varhany</h4>
+            <h4 class="en">Neusser Organ</h4>
+            <div class="timeline-size">II / 20</div>
+          </div>
+          <p class="cs">Nový nástroj postavila do barokní skříně firma <strong>Karla Neussera</strong> z&nbsp;Nového Jičína. Varhany měly 20 restříků ve 2 manuálech a&nbsp;byly tedy menší než předcházející Horčičkův nástroj. Přesnou dispozici varhan neznáme, ale patrně se blížila tehdejšímu ideálu tzv.&nbsp;<em>romantických varhan</em>, který se inspiruje ve zvuku symfonického orchestru a&nbsp;klade důraz na rejstříky v&nbsp;nízkých polohách. Šlo patrně o&nbsp;první doložené Neusserovy varhany s&nbsp;kuželkovými vzdušnicemi.</p>
+          <p class="en">Karl Neusser from Nový Jičín built a new instrument with 2 manuals and 20 stops — likely his first documented organ with cone windchests.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1931</div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <h4 class="cs">Meziválečné varhany Rieger</h4>
+            <h4 class="en">Rieger Organ</h4>
+            <div class="timeline-size">II / 21</div>
+          </div>
+          <p class="cs">Další nástroj se 2 manuály a&nbsp;21 rejstříky postavila krnovská firma <strong>Rieger</strong>. Varhany disponovaly kuželkovými vzdušnicemi, traktura již byla pneumatická. O&nbsp;pouhých 27 let později však došlo k&nbsp;další přestavbě a&nbsp;materiál z&nbsp;dosavadních varhan byl zřejmě použit pro varhany ve filiálním kostele sv.&nbsp;Michala.</p>
+          <p class="en">The Krnov firm Rieger built a 2-manual, 21-stop instrument that was likely relocated to the filial church of St. Michael before the installation of the current organ.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1958</div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <h4 class="cs">Současný nástroj Rieger–Kloss</h4>
+            <h4 class="en">Rieger–Kloss — current instrument</h4>
+            <div class="timeline-size">III / 38</div>
+          </div>
+          <p class="cs">Stavba aktuálního, dosud nejrozsáhlejšího nástroje byla paradoxně realizována v&nbsp;časech hluboké totality. Podobně velké nástroje z&nbsp;tohoto období však nalezneme i&nbsp;jinde (např.&nbsp;<em>Kojetín</em>, <em>Valašské Meziříčí</em>, <em>Velehrad</em>, <em>Zábřeh</em>). Na rozdíl od dřívějších nástrojů mají varhany univerzální rejstříkovou dispozici, vhodnou pro interpretaci skladeb všech stylových období. Varhany bez podstatných úprav slouží kostelu dodnes.</p>
+          <p class="en">The firm Rieger–Kloss from Krnov installed the current instrument (opus 3241) — 3 manuals, 38 stops, pneumatic action, cone windchests. It remains the largest organ in Přerov.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="prose-block" style="text-align: center; margin-top: 1.5rem; margin-bottom: 2rem;">
+      Viz též sekci <a href="#varhanari">Varhanáři spjatí s&nbsp;varhanami</a>.
+    </div>
+  </div>
+</section>
+
+<!-- 3. DISPOZICE -->
+<section id="dispozice">
+  <div class="section-header">
+    <h3 class="section-title" style="font-size: clamp(1.5rem,3vw,2.2rem);"><span class="cs">Dispozice varhan</span><span class="en">Organ Disposition</span></h3>
+    <div class="section-divider"></div>
+    <p class="section-intro cs">Varhanní dispozice je souhrnem zvukových a&nbsp;technických vlastností nástroje. Varhany mají 3 manuály, pedál a&nbsp;38 znějících rejstříků.</p>
+    <p class="section-intro en">The organ disposition summarises the tonal and technical properties of the instrument. The organ has 3 manuals, pedal, and 38 sounding stops (excluding couplers and accessories).</p>
+  </div>
+  <div class="disposition-wrapper">
+    <div class="disp-grid">
+      <!-- I. POSITIV -->
+      <div class="disp-manual">
+        <div class="disp-manual-title cs">I. Positiv</div>
+        <div class="disp-manual-title en">I. Positive</div>
+        <div class="disp-manual-range">C – a³</div>
+        <div>
+          <div class="disp-register"><span class="disp-register-name cs">Kryt dřevěný</span><span class="disp-register-name en">Gedeckt</span><span class="disp-register-foot">8'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Kvintadéna</span><span class="disp-register-name en">Quintadena</span><span class="disp-register-foot">4'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Flétna kopulová</span><span class="disp-register-name en">Copula flute</span><span class="disp-register-foot">4'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Nasard špičatý</span><span class="disp-register-name en">Spitz nasat</span><span class="disp-register-foot">2⅔'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Principál</span><span class="disp-register-foot">2'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Carillon 3×</span><span class="disp-register-foot">4'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Akuta 4×</span><span class="disp-register-foot">1'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Šalmaj trubicová</span><span class="disp-register-name en">Tubular Shawm</span><span class="disp-register-foot">• 8'</span></div>
+        </div>
+        <div class="disp-coupler-sep">
+          <div class="disp-coupler"><span class="disp-coupler-name">III/I</span><span class="disp-coupler-pitch">16' · 8' · 4'</span></div>
+          <div class="disp-coupler"><span class="disp-coupler-name">I</span><span class="disp-coupler-pitch">16' · 4'</span></div>
+          <div class="disp-coupler"><span class="disp-coupler-name">Tremolo</span></div>
+        </div>
+      </div>
+      <!-- II. HLAVNÍ STROJ -->
+      <div class="disp-manual">
+        <div class="disp-manual-title cs">II. Hlavní stroj</div>
+        <div class="disp-manual-title en">II. Great</div>
+        <div class="disp-manual-range">C – a³</div>
+        <div>
+          <div class="disp-register"><span class="disp-register-name">Burdon</span><span class="disp-register-foot">16'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Principál 2×</span><span class="disp-register-foot">8'+8'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Flétna dutá</span><span class="disp-register-name en">Hollow flute</span><span class="disp-register-foot">8'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Viola d'amour</span><span class="disp-register-foot">8'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Oktáva</span><span class="disp-register-name en">Octave</span><span class="disp-register-foot">4'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Flétna zobcová</span><span class="disp-register-name en">Recorder flute</span><span class="disp-register-foot">4'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Flétna příčná</span><span class="disp-register-name en">Transverse flute</span><span class="disp-register-foot">2'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Tercián kornet 3–5×</span><span class="disp-register-foot">1⅗'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Mixtura 5–7×</span><span class="disp-register-foot">1⅓'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Trompeta</span><span class="disp-register-name en">Trumpet</span><span class="disp-register-foot">• 8'</span></div>
+        </div>
+        <div class="disp-coupler-sep">
+          <div class="disp-coupler"><span class="disp-coupler-name">I/II</span><span class="disp-coupler-pitch">16' · 8' · 4'</span></div>
+          <div class="disp-coupler"><span class="disp-coupler-name">III/II</span><span class="disp-coupler-pitch">16' · 8' · 4'</span></div>
+          <div class="disp-coupler"><span class="disp-coupler-name">II</span><span class="disp-coupler-pitch">4'</span></div>
+        </div>
+      </div>
+      <!-- III. ŽALUZIOVÝ STROJ -->
+      <div class="disp-manual">
+        <div class="disp-manual-title cs">III. Žaluziový stroj</div>
+        <div class="disp-manual-title en">III. Swell</div>
+        <div class="disp-manual-range">C – a³</div>
+        <div>
+          <div class="disp-register"><span class="disp-register-name cs">Flétna portunálová</span><span class="disp-register-name en">Portunal flute</span><span class="disp-register-foot">8'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Salicionál</span><span class="disp-register-name en">Salicional</span><span class="disp-register-foot">8'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Violino coelestis</span><span class="disp-register-foot">8'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Principál zpěvný</span><span class="disp-register-name en">Cantabile principal</span><span class="disp-register-foot">4'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Roh noční</span><span class="disp-register-name en">Night horn (stopped)</span><span class="disp-register-foot">4'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Kvinta trubicová</span><span class="disp-register-name en">Tubular quint</span><span class="disp-register-foot">2⅔'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Flétna lesní</span><span class="disp-register-name en">Forest flute</span><span class="disp-register-foot">2'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Tercie</span><span class="disp-register-foot">1⅗'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Flažolet</span><span class="disp-register-foot">1'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Mixtura minor 6×</span><span class="disp-register-foot">1'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Hoboj</span><span class="disp-register-name en">Oboe</span><span class="disp-register-foot">• 8'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Trubka jemná</span><span class="disp-register-name en">Gentle trumpet</span><span class="disp-register-foot">• 4'</span></div>
+        </div>
+        <div class="disp-coupler-sep">
+          <div class="disp-coupler"><span class="disp-coupler-name">III</span><span class="disp-coupler-pitch">16' · 4'</span></div>
+          <div class="disp-coupler"><span class="disp-coupler-name">Tremolo</span></div>
+        </div>
+      </div>
+      <!-- PEDÁL -->
+      <div class="disp-manual">
+        <div class="disp-manual-title">Pedál</div>
+        <div class="disp-manual-range">C – f¹</div>
+        <div>
+          <div class="disp-register"><span class="disp-register-name">Principálbas</span><span class="disp-register-foot">16'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Subbas</span><span class="disp-register-foot">16'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Burdonbas</span><span class="disp-register-foot">16'</span></div>
+          <div class="disp-register"><span class="disp-register-name">Oktávbas</span><span class="disp-register-foot">8'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Pommer krytý (trsm.)</span><span class="disp-register-name en">Stopped pommer (trsm.)</span><span class="disp-register-foot">8'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Flétna chorálová</span><span class="disp-register-name en">Choral flute</span><span class="disp-register-foot">4'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Mixtura velká 5×</span><span class="disp-register-name en">Grand mixture 5×</span><span class="disp-register-foot">4'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Pozoun líbezný</span><span class="disp-register-name en">Gentle trombone</span><span class="disp-register-foot">• 16'</span></div>
+          <div class="disp-register"><span class="disp-register-name cs">Kornet zpěvný</span><span class="disp-register-name en">Cantabile cornet</span><span class="disp-register-foot">• 4'</span></div>
+        </div>
+        <div class="disp-coupler-sep">
+          <div class="disp-coupler"><span class="disp-coupler-name">I/P</span><span class="disp-coupler-pitch">8' · 4'</span></div>
+          <div class="disp-coupler"><span class="disp-coupler-name">II/P</span><span class="disp-coupler-pitch">8'</span></div>
+          <div class="disp-coupler"><span class="disp-coupler-name">III/P</span><span class="disp-coupler-pitch">8' · 4'</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 2rem;">
+      <!-- POMOCNÁ ZAŘÍZENÍ -->
+      <div class="disp-manual disp-manual--aux">
+        <div class="disp-manual-title cs">Pomocná zařízení</div>
+        <div class="disp-manual-title en">Accessories</div>
+        <p class="disp-note cs">
+          Crescendo válec<br />
+          Žaluzie III. man.<br />
+          Žaluzie dálkový stroj (neaktivní)
+        </p>
+        <p class="disp-note cs">
+          Volné kombinace A, B, C<br />
+          Piano, Mezzoforte, Forte, Fortissimo, Pleno, Tutti
+        </p>
+        <p class="disp-note en">3 free combinations, collectives, roller crescendo, general coupler, swell for III. man. and remote division (not built).</p>
+      </div>
+    </div>
+    <div class="prose-block" style="margin-top: 2rem;">
+      <p>
+      Dispozice nese zřetelné jsou neobarokní vlivy: vysoké mixtury ve všech strojích včetně pedálu, široká paleta flétnových alikvotů na III. manuálu, <em>Kornet zpěvný 4'</em> a&nbsp;<em>Flétna chorálová 4'</em> určené pro hru pedálového cantu firmu nebo <em>Šalmaj trubicová 8'</em> jako typický neobarokní rejstřík, navržený ve 20. století. Typicky romantickými rejstříky jsou naopak <em>Viola d´amour 8'</em> a&nbsp;<em>Violino coelestis 8'</em>. Zajímavostí dispozice je dvouřadý <em>Principál 8'</em> v&nbsp;hlavním stroji a&nbsp;nadprůměrný rozsah manuálů (C–a<sup>3</sup>).
+      </p>
+    </div>
+    <p style="text-align:center; margin-top:2.5rem;">
+      <a class="important-link" href="https://organomania.cz/organs/prerov-kostel-sv-vavrince#accordion-disposition-container" target="_blank" rel="noopener"">
+        <span class="cs">Podrobná dispozice s vysvětlivkami ↗</span>
+        <span class="en">Detailed disposition with commentary ↗</span>
+      </a>
+    </p>
+    <figure class="section-figure">
+      <img src="https://organomania.cz/storage/organ-images/97/03.jpg" alt="Hrací stůl varhan" style="max-width: 550px;">
+      <figcaption>Hrací stůl varhan</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 2. VARHANÁŘI -->
+<section id="varhanari">
+  <div class="section-header">
+    <h3 class="section-title" style="font-size: clamp(1.5rem,3vw,2.2rem);"><span class="cs">Varhanáři spjatí s varhanami</span><span class="en">Organ Builders Related to the Organ</span></h3>
+    <div class="section-divider"></div>
+    <p class="section-intro cs">V&nbsp;průběhu staletí prošlo varhanářství vývojem od individuálních manufaktur až k&nbsp;velkým továrním podnikům. Tato historie se promítla i&nbsp;do osudů varhan v&nbsp;kostele sv.&nbsp;Vavřince.</p>
+    <p class="section-intro en">Several generations of leading organ builders have worked on the instrument at St. Lawrence. Their stories reflect the evolution of organ-building from the Baroque era to the 20th century.</p>
+  </div>
+  <div class="builders-grid">
+    <!-- HORČIČKA -->
+    <div class="builder-card">
+      <div class="builder-header">
+        <div class="builder-header-text">
+          <div class="builder-icon">⚜</div>
+          <div class="builder-role">autor varhanní skříně (1761)</div>
+          <div class="builder-name">František Horčička st.</div>
+          <div class="builder-period cs">3. čtvrtina 18. stol. · Olomouc</div>
+          <div class="builder-period en">2nd half 18th c. · Olomouc</div>
+        </div>
+        <img class="builder-header-img"
+             src="https://organomania.cz/images/prerov.jpg"
+             alt="František Horčička - varhany">
+      </div>
+      <div class="builder-divider"></div>
+      <p class="builder-desc cs">
+        Olomoucký varhanář, působící na konci 18. století.
+        Z&nbsp;jeho díla se dochovala ještě varhanní skříň v&nbsp;<em>Bystřici pod Hostýnem</em>.
+        Příbuzenský vztah tohoto varhanáře k&nbsp;významnějšímu opavskému varhanáři <strong>Františku Horčičkovi mladšímu</strong> (1745–1800) není spolehlivě objasněn.</p>
+      <p class="builder-desc en">A late Baroque organ builder from Opava active in the second half of the 18th century. His family relationship to František Horčička Jr. (1745–1800) is undocumented. Of his instruments, mostly only the cases survive. In 1761 he built new organs for the Přerov parish church — 2 manuals and 26 stops. The precious Baroque case with its angelic orchestra, wisent head, and atlantes supporting the tallest towers survived all later rebuilds and frames the organ to this day.</p>
+      <div class="builder-footer">
+        <a href="https://organomania.cz/organ-builders/horcickove" target="_blank" rel="noopener"><span class="cs">Více informací ↗</span><span class="en">More information ↗</span></a>
+      </div>
+    </div>
+    <!-- NEUSSER -->
+    <div class="builder-card">
+      <div class="builder-header">
+        <div class="builder-header-text">
+          <div class="builder-icon">⚜</div>
+          <div class="builder-role">stavitel nedochovaných varhan (1876)</div>
+          <div class="builder-name">Karl Neusser</div>
+          <div class="builder-period cs">1844–1925 · Nový Jičín</div>
+          <div class="builder-period en">1844–1925 · Nový Jičín</div>
+        </div>
+        <img class="builder-header-img"
+             src="https://organomania.cz/images/prerov/karl-neusser.jpg"
+             alt="Karl Neusser">
+      </div>
+      <div class="builder-divider"></div>
+      <p class="builder-desc cs">
+        Syn významného pozdně barokního varhanáře <strong>Johanna Neussera</strong> (1807–1878). Po r.&nbsp;1870 převzal a&nbsp;modernizoval otcovu dílnu a&nbsp;přizpůsobil zvukovou i&nbsp;technickou stránku nástrojů dobovým trendům tzv.&nbsp;<em>romantického varhanářství</em>. Díky továrnímu způsobu výroby dokázal postavit více než 130 varhan. Na Hané, Valašku a&nbsp;Novojičínsku patřil mezi nejfrekventovanější dodavatele varhan své doby. S&nbsp;jeho menšími nástroji se lze dodnes setkat v&nbsp;řadě vesnických kostelů na Přerovsku (např.&nbsp;<em>Bochoř</em>, <em>Penčice</em>, <em>Prosenice</em>, <em>Stará Ves</em>, <em>Troubky</em>).
+      </p>
+      <p class="builder-desc en">Son and successor of Johann Neusser (1807–1878), whose family was among the leading organ builders of northern and central Moravia and Silesia. Karl took over the workshop in 1870 and transitioned to factory production from 1881. He introduced cone windchests from 1877 and pneumatic action from the 1890s, building instruments with a distinctly Romantic tonal disposition. He built more than 130 organs in total. The Přerov instrument (1876, II/20) was likely his first documented organ with cone windchests.</p>
+      <div class="builder-footer">
+        <a href="https://organomania.cz/organ-builders/neusserove" target="_blank" rel="noopener"><span class="cs">Více informací ↗</span><span class="en">More information ↗</span></a>
+      </div>
+    </div>
+    <!-- RIEGER -->
+    <div class="builder-card">
+      <div class="builder-header">
+        <div class="builder-header-text">
+          <div class="builder-icon">⚜</div>
+          <div class="builder-role">výrobce meziválečného nástroje (1931)</div>
+          <div class="builder-name">Rieger</div>
+          <div class="builder-period cs">1873–1945 · Krnov</div>
+          <div class="builder-period en">1873–1945 · Krnov</div>
+        </div>
+        <img class="builder-header-img"
+             src="https://organomania.cz/images/rieger.jpg"
+             alt="Rieger">
+      </div>
+      <div class="builder-divider"></div>
+      <p class="builder-desc cs">
+        Krnovský podnik, založený v&nbsp;r.&nbsp;1873 bratry Otto a&nbsp;Gustavem Riegerovými, dosáhl rychle mezinárodního věhlasu. Jednalo se o&nbsp;nejproduktivnější varhanářskou na našem území, pověstnou vysokou kvalitou svých výrobků.
+        Varhany Rieger vzniklé v&nbsp;meziválečném období většinou spojovaly tradiční romantickou orchestrální zvukovost s&nbsp;prvky neobaroka – v&nbsp;dispozicích se objevují např.&nbsp;vysoké alikvotní rejstříky.
+        Přesná rejstříková dispozice přerovských varhan z&nbsp;tohoto období však není známá.
+      </p>
+      <p class="builder-desc en">The largest, most productive, and internationally best-known Czech organ building firm. Brothers Otto (1847–1903) and Gustav Rieger (1848–1919) took over from their father Franz Rieger, bringing modern innovations from Germany to domestic organ building. Their instrument at the 1878 Paris World Exhibition won great acclaim. The firm was renowned for quality; total instruments built before 1945 number around 3,000. For Přerov they built a 2-manual, 21-stop organ in 1931, likely relocated to St. Michael's before the current instrument was installed.</p>
+      <div class="builder-footer">
+        <a href="https://organomania.cz/organ-builders/rieger" target="_blank" rel="noopener"><span class="cs">Více informací ↗</span><span class="en">More information ↗</span></a>
+      </div>
+    </div>
+    <!-- RIEGER-KLOSS -->
+    <div class="builder-card">
+      <div class="builder-header">
+        <div class="builder-header-text">
+          <div class="builder-icon">⚜</div>
+          <div class="builder-role">zhotovitel nynějších varhan (1958)</div>
+          <div class="builder-name">Rieger–Kloss</div>
+          <div class="builder-period cs">1945–2018 · Krnov</div>
+          <div class="builder-period en">1945–2018 · Krnov</div>
+        </div>
+        <img class="builder-header-img"
+             src="https://organomania.cz/images/prerov/rieger-kloss.jpg"
+             alt="Rieger–Kloss"
+             style="width: 195px">
+      </div>
+      <div class="builder-divider"></div>
+      <p class="builder-desc cs">
+        Po r.&nbsp;1945 byla firma Rieger odňata německým vlastníkům a&nbsp;sloučena s&nbsp;dílnou Josefa Klosse, čímž vzniklo označení Rieger–Kloss.
+        V&nbsp;50. letech byl nicméně častěji používán název „Továrny na varhany”, který je uveden i&nbsp;na cedulce hracího stolu u&nbsp;sv.&nbsp;Vavřince.
+        Krnovský podnik představoval největšího výrobce varhan v&nbsp;zemích východního bloku.
+        Stavěl stylově univerzální varhany a&nbsp;používal všechny typy traktur.
+      </p>
+      <p class="builder-desc en">The firm that continued the Rieger brothers' tradition after nationalisation and merger with Josef Kloss's workshop (1885–1963). In the post-war period it was the largest organ manufacturer in Eastern Europe, building around 700 instruments in total. After an initial shortage of skilled workers (due to the expulsion of German staff), the firm developed under Ota Veverka and from 1971 under Bohumil Plánský (1932–2012). The Přerov organ (1958, opus 3241, III/38) is one of the large pneumatic instruments built in the 1950s.</p>
+      <div class="builder-footer">
+        <a href="https://organomania.cz/organ-builders/rieger-kloss" target="_blank" rel="noopener"><span class="cs">Více informací ↗</span><span class="en">More information ↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. GALERIE -->
+<section id="galerie">
+  <div class="section-header">
+    <h2 class="section-title"><span class="cs">Fotogalerie</span><span class="en">Photogallery</span></h2>
+    <div class="section-divider"></div>
+    <p class="section-intro cs">Klikněte na fotografii pro zobrazení v&nbsp;plné velikosti.</p>
+    <p class="section-intro en">Click on a photograph to view it full-size.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/P%C5%99erov%2C_kostel_svat%C3%A9ho_Vav%C5%99ince.jpg/960px-P%C5%99erov%2C_kostel_svat%C3%A9ho_Vav%C5%99ince.jpg" alt="Kostel sv. Vavřince" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption cs">Kostel sv. Vavřince</span><span class="gallery-caption en">Church of St. Lawrence</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/images/prerov.jpg" alt="Prospekt varhan" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption cs">Prospekt varhan</span><span class="gallery-caption en">Organ prospect</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/01.jpg" alt="Detail varhan" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption cs">Detail prospektu</span><span class="gallery-caption en">Detail</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/02.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Detail prospektu</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/05.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Detail prospektu</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/06.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Andělská kapela</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/06a.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Andělská kapela</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/07.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Atlant</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/03.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Hrací stůl</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/04.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Hrací stůl</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/07a.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Pohled do píšťaliště</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/08.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Pohled do píšťaliště</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/08a.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Pohled do píšťaliště</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/10.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Pneumatická traktura</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/09a.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Pneumatická traktura</span></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://organomania.cz/storage/organ-images/97/09.jpg" alt="Varhany" loading="lazy">
+      <div class="gallery-overlay"><span class="gallery-caption">Pohled skříní zevnitř</span></div>
+    </div>
+  </div>
+  <br />
+  <figure class="section-figure">
+    <img src="https://organomania.cz/images/prerov/varhany-projekce.jpg" alt="Jiří Sehnal u varhan" style="max-width: 550px;">
+    <figcaption>Hypotetická původní podoba varhan<br />(před vyjmutím pozitivu ze zábradlí kůru)</figcaption>
+  </figure>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <span id="lightbox-close" class="cs">Zavřít ✕</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- 5. NAHRÁVKY -->
+<section id="nahravky">
+  <div class="section-header">
+    <h2 class="section-title"><span class="cs">Nahrávky varhan</span><span class="en">Organ Recordings</span></h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="recordings-grid">
+    <!-- YouTube -->
+    <div class="recording-card">
+      <div class="yt-embed">
+        <iframe src="https://www.youtube.com/embed/BSQXdtOATRI" title="Ch.-M. Widor: Symfonie č. 6 g moll – I. Allegro" allowfullscreen></iframe>
+      </div>
+      <div class="recording-meta">
+        <div class="recording-title">Ch.-M. Widor: Symfonie č. 6 g moll – I. Allegro</div>
+        <div class="recording-performer cs">Markéta Kordasová · 2026 · úryvek</div>
+        <div class="recording-performer en">Markéta Kordasová (2026) · excerpt</div>
+      </div>
+    </div>
+    <!-- YouTube 2 -->
+    <div class="recording-card">
+      <div class="yt-embed">
+        <iframe src="https://www.youtube.com/embed/uFz82LDesrw" title="Nahrávka varhan sv. Vavřince" allowfullscreen></iframe>
+      </div>
+      <div class="recording-meta">
+        <div class="recording-title cs">C. Saint-Saëns: Tollite hostias</div>
+        <div class="recording-performer cs">Přerovský chrámový sbor · 2010</div>
+      </div>
+    </div>
+    <!-- Audio -->
+    <div class="recording-card">
+      <div class="audio-block">
+        <div>
+          <div class="recording-title cs">Improvizace na píseň „Již jsem dost pracoval“</div>
+          <div class="recording-title en">Improvisation on "Již jsem dost pracoval“</div>
+          <div class="recording-performer">Martin Kordas · 2016</div>
+        </div>
+        <audio controls>
+          <source src="https://organomania.cz/other/prerov-kostel-sv-vavrince-improvizace-kordas.mp3" type="audio/mpeg">
+        </audio>
+      </div>
+    </div>
+    <div class="recording-card">
+      <div class="audio-block">
+        <div>
+          <div class="recording-title cs">Improvizace na „Vesel se, nebes Královno“</div>
+          <div class="recording-title en">Improvizace na píseň „Vesel se, nebes Královno“<</div>
+          <div class="recording-performer">Martin Mrtvý · 2026</div>
+        </div>
+        <audio controls>
+          <source src="https://organomania.cz/images/prerov/improvizace-mrtvy.aac" type="audio/aac">
+        </audio>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. HUDBA NA KŮRU -->
+<section id="kur">
+  <div class="section-header">
+    <h2 class="section-title"><span class="cs">Hudba na kůru</span><span class="en">Musicians of the Gallery</span></h2>
+    <div class="section-divider"></div>
+    <p class="section-intro cs">Kostelní kůr byl po staletí důležitým centrem hudebního života ve městě. S&nbsp;tradicí varhanní i&nbsp;vokálně-instrumentální chrámové hudby je spjata řada osobností.</p>
+    <p class="section-intro en">The gallery of St. Lawrence has been a place of rich musical life for centuries. Several important figures are connected to its history.</p>
+  </div>
+
+  <!-- 6a. OSOBNOSTI -->
+  <h3 class="subsection-heading"><span class="cs">Osobnosti</span><span class="en">Notable Figures</span></h3>
+  <div class="musicians-grid">
+    <div class="musician-card">
+      <div class="musician-card-body">
+        <div class="builder-header">
+          <div class="builder-header-text">
+            <div class="musician-name">Josef Čapka-Drahlovský</div>
+            <div class="musician-dates">1847–1926</div>
+            <div class="musician-role cs">ředitel kůru · skladatel</div>
+            <div class="musician-role en">Choirmaster · Composer</div>
+          </div>
+          <img class="builder-header-img"
+               src="https://organomania.cz/images/prerov/capka-drahlovsky.jpg"
+               alt="Josef Čapka-Drahlovský">
+        </div>
+        <div class="builder-divider"></div>
+        <p class="musician-desc cs">Přerovský skladatel, varhaník a&nbsp;sbormistr, patřící k&nbsp;nejvýznamnějším osobnostem přerovského hudebního života přelomu 19. a&nbsp;20. století. Jako dlouholetý ředitel kůru farního kostela sv.&nbsp;Vavřince zanechal trvalou stopu v&nbsp;hudebním životě Přerova.</p>
+        <p class="musician-desc en">A Přerov composer, organist, and choral conductor, one of the most significant figures in Přerov's musical life around the turn of the 19th and 20th centuries. As longtime choirmaster of the parish church of St. Lawrence, he left a lasting mark on the city's musical culture.</p>
+      </div>
+      <div class="builder-footer">
+        <a href="https://cs.wikipedia.org/wiki/Josef_Drahlovsk%C3%BD" target="_blank" rel="noopener"><span class="cs">Více informací ↗</span><span class="en">More information ↗</span></a>
+      </div>
+    </div>
+    <div class="musician-card">
+      <div class="musician-card-body">
+        <div class="builder-header">
+          <div class="builder-header-text">
+            <div class="musician-name">prof. Jiří Sehnal</div>
+            <div class="musician-dates">*1931</div>
+            <div class="musician-role cs">muzikolog · organolog · vysokoškolský pedagog</div>
+          </div>
+          <img class="builder-header-img"
+               src="https://organomania.cz/images/prerov/sehnal.jpg"
+               alt="Jiří Sehnal">
+        </div>
+        <div class="builder-divider"></div>
+        <p class="musician-desc cs">Významný moravský hudební historik, přední odborník v&nbsp;oblasti barokního varhanářství a&nbsp;autor řady publikací. Rodák z&nbsp;Radslavic u&nbsp;Přerova. V&nbsp;období po 2. světové válce působil jako varhaník v&nbsp;přerovských kostelích sv.&nbsp;Vavřince a&nbsp;sv.&nbsp;Michala. Později pracoval jako vedoucí Oddělení dějin hudby v&nbsp;Moravském zemském muzeu v&nbsp;Brně a&nbsp;působil na univerzitách v&nbsp;Brně a&nbsp;Olomouci.</p>
+      </div>
+      <div class="builder-footer">
+        <a href="https://musicologica.upol.cz/pdfs/mus/2022/01/02.pdf" target="_blank" rel="noopener"><span class="cs">Více informací ↗</span><span class="en">More information ↗</span></a>
+      </div>
+    </div>
+    <div class="musician-card">
+      <div class="musician-card-body">
+        <div class="builder-header">
+          <div class="builder-header-text">
+            <div class="musician-name">Stanislav Žalud</div>
+            <div class="musician-dates">1899–1967</div>
+            <div class="musician-role cs">ředitel kůru · pedagog</div>
+            <div class="musician-role en">Choirmaster · Schoolteacher</div>
+          </div>
+        </div>
+        <div class="builder-divider"></div>
+        <p class="musician-desc no-footer cs">Od r.&nbsp;1925 působil v&nbsp;Přerově jako ředitel kůru, sbormistr pěveckého spolku Přerub a&nbsp;pedagog gymnázia. Je autorem některých liturgických skladeb.</p>
+      </div>
+    </div>
+    <div class="musician-card">
+      <div class="musician-card-body">
+        <div class="builder-header">
+          <div class="builder-header-text">
+            <div class="musician-name">Karel Komárek</div>
+            <div class="musician-dates">1926–2008</div>
+            <div class="musician-role cs">ředitel kůru · varhaník · pedagog</div>
+          </div>
+        </div>
+        <div class="builder-divider"></div>
+        <p class="musician-desc cs">Od 50.&nbsp;let až do r.&nbsp;1968 působil jako ředitel kůru u&nbsp;sv.&nbsp;Vavřince a&nbsp;inicioval zde stavbu nových varhan. V&nbsp;pozdějších letech byl jedním z&nbsp;varhaníků olomoucké katedrály. Je autorem skladeb chrámové hudby.</p>
+      </div>
+    </div>
+    <div class="musician-card">
+      <div class="musician-card-body">
+        <div class="builder-header">
+          <div class="builder-header-text">
+            <div class="musician-name">Dušan Černoch</div>
+            <div class="musician-role cs">ředitel kůru · varhaník · varhanář</div>
+          </div>
+          <img class="builder-header-img"
+               src="https://organomania.cz/images/prerov/cernoch.jpg"
+               alt="Dušan Černoch">
+        </div>
+        <div class="builder-divider"></div>
+        <p class="musician-desc cs">Dlouholetý varhaník přerovské farnosti, okolo 30 let působil také ve funkci sbormistra. Jako varhanář prováděl údržbu varhan v&nbsp;Přerově a&nbsp;širokém okolí. V&nbsp;počátcích svého působení v&nbsp;roli ředitele kůru inicioval cyklus přednášek, v&nbsp;jehož rámci do Přerova zavítaly významné osobnosti české liturgické hudby (např.&nbsp;Karel Bříza, Bohuslav Korejs, Josef Olejník).</p>
+      </div>
+      <div class="builder-footer">
+        <a href="http://varhanarcernoch.cz/" target="_blank" rel="noopener"><span class="cs">Více informací ↗</span><span class="en">More information ↗</span></a>
+      </div>
+    </div>
+  </div>
+  <figure class="section-figure">
+    <img src="https://organomania.cz/images/prerov/sehnal-u-varhan.jpg" alt="Jiří Sehnal u varhan" style="max-width: 600px;">
+    <figcaption>Jiří Sehnal na varhanách u&nbsp;sv.&nbsp;Vavřince<br />(cca rok 1947)</figcaption>
+  </figure>
+
+  <!-- 6a. PROVÁDĚNÁ HUDBA -->
+  <br />
+  <br />
+  <h3 class="subsection-heading"><span class="cs">Prováděná hudba</span><span class="en">Performed Music</span></h3>
+  <div class="prose-block">
+    <p>
+      Chrámovou hudbu v&nbsp;Přerově před r.&nbsp;1948 přibližuje vzpomínka <strong>Jiřího Sehnala</strong> (*1931): <em>„Ve farním kostele o&nbsp;svátcích na „hrubé” někdy bývaly figurální skladby i&nbsp;s&nbsp;orchestrem, v&nbsp;postní době části ze Stabat mater od Dvořáka. S&nbsp;nástupem komunismu nastal pokles, protože nejlepší zpěváci přestali z&nbsp;existenčních důvodů chodit na kůr. V&nbsp;klášterním kostele [sv.&nbsp;Michala], kde jsem převážně hrával, byl jen lidový zpěv, o&nbsp;májových prosté dvojhlasy sester, které však jsem nedoprovázel. Výjimečně sóla, pro která jsem získal některé nadané spolužačky.”</em> (<a class="std-link" href="https://psalterium.cz/wp-content/uploads/ps_2_11.pdf" target="_blank">Psalterium 2/2011</a>, s.&nbsp;1)
+    </p>
+    <hr />
+    <figure class="float-figure">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Bed%C5%99ich_Anton%C3%ADn_Wiedermann_%281883-1951%29.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail_unscaled" alt="Bedřich Antonín Wiedermann">
+      <figcaption>Bedřich Antonín Wiedermann</figcaption>
+    </figure>
+    <p>
+      12. listopadu 1932 proběhla v&nbsp;kostele sv.&nbsp;Vavřince parychida ze zemřelé členy pěveckého spolku Přerub. Na nově postavené varhany Rieger hrál tehdy slavný varhanní virtuos <strong>Bedřich Antonín Wiedermann</strong> (1883–1951). Přerovský deník Obzor o&nbsp;události napsal: <em>„Kdo se obával, že zvuk varhan se bude tříštit v&nbsp;chaotické změti vln, tedy byl mile zklamán, varhany zněly bez pazvuku, čistě. Akustika vzorná. A&nbsp;mistr mistrů hrál na nich. Na královském nástroji hrál král varhanové hry. Tak byly všecky podmínky vynikající hudební události splněny. Prof.&nbsp;Wiedermann hrál Bacha, Mozarta, Kličku, Handela, s&nbsp;čarokrásným rejstříkováním a&nbsp;dynamizováním.” </em> (Obzor, 1932/261)
+    </p>
+    <hr />
+    <p>
+      V&nbsp;současnosti u&nbsp;varhan působí chrámový sbor a&nbsp;mužská schola pod vedením <strong>Martina Mrtvého</strong> (*2002).
+    </p>
+    <p>
+      Na varhanách se každoročně koná adventní koncert předního českého varhaníka a&nbsp;improvizátora <strong>Vladimíra Roubala</strong> (*1965), který vystupuje spolu s&nbsp;hudbou Hradní stráže Pražského hradu. Koncerty pořádá Střední škola gastronomie a&nbsp;služeb.
+    </p>
+  </div>
+</section>
+
+<!-- 7. DALŠÍ PŘEROVSKÉ VARHANY -->
+<section id="dalsi-varhany">
+  <div class="section-header">
+    <h2 class="section-title"><span class="cs">Další přerovské varhany</span><span class="en">Other Organs in Přerov</span></h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="other-organs-grid">
+    <div class="organ-card">
+      <div class="organ-card-img-wrap">
+        <img src="https://organomania.cz/images/prerov-sirava.jpg" alt="Kostel sv. Michala v Přerově – varhany" loading="lazy">
+        <img class="organ-card-img-secondary" src="https://organomania.cz/images/prerov/prerov-sirava-kostel.jpg" alt="Kostel sv. Michala v Přerově" loading="lazy">
+      </div>
+      <div class="organ-card-body">
+        <div class="organ-card-name cs">Kostel sv. Michala</div>
+        <div class="organ-card-name en">Church of St. Michael</div>
+        <div class="organ-card-meta">Rieger–Kloss (1958)<br />2 manuály · 21 rejstříků</div>
+        <p class="organ-card-desc cs">Varhany ve filiálním a&nbsp;někdejším klášterním kostele sv.&nbsp;Michala byly stejně jako varhany farního kostela sv.&nbsp;Vavřince zbudovány firmou Rieger–Kloss v&nbsp;r.&nbsp;1958. Při stavbě byl patrně použit materiál ze starších meziválečných varhan Rieger, umístěných do té doby ve farním kostele. Traktura je pneumatická, vzdušnice kuželkové. Nástroj je zatím poměrně dobře hratelný, větší rekonstrukcí ale neprošel.</p>
+        <p class="organ-card-desc en">The filial church of St. Michael in Přerov houses the second of Přerov's paired Rieger–Kloss instruments. Both organs — at St. Lawrence and St. Michael — were built as part of the same project. The earlier 1931 Rieger organ was likely relocated here before the new instrument's installation.</p>
+        <div class="builder-footer">
+          <a href="https://cs.wikipedia.org/wiki/Kostel_svat%C3%A9ho_Michaela_archand%C4%9Bla_(P%C5%99erov)" target="_blank" rel="noopener"><span class="cs">Více o kostele ↗</span><span class="en">More about the church ↗</span></a>
+          <a href="https://mapy.com/s/farunafovo" target="_blank" rel="noopener"><span class="cs">Mapa ↗</span><span class="en">Map ↗</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="organ-card">
+      <div class="organ-card-img-wrap">
+        <img src="https://organomania.cz/images/prerov/predmosti.jpg"
+             alt="Kostel sv. Maří Magdalény v Předmostí – varhany" loading="lazy">
+        <img class="organ-card-img-secondary" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Kostel_Mari_Magdaleny_Predmosti.JPG/500px-Kostel_Mari_Magdaleny_Predmosti.JPG?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail" alt="Kostel sv. Maří Magdalény v Předmostí" title="Zdroj obrázku: https://farnostpredmosti.cz/pamatky/" loading="lazy">
+      </div>
+      <div class="organ-card-body">
+        <div class="organ-card-name cs">Kostel sv. Maří Magdalény (Předmostí)</div>
+        <div class="organ-card-name en">Church of St. Mary Magdalene (Předmostí)</div>
+        <div class="organ-card-meta">Rieger–Kloss (1951)<br />2 manuály · 21 rejstříků</div>
+        <p class="organ-card-desc cs">Krnovská firma Rieger–Kloss postavila varhany i&nbsp;pro farní kostel v&nbsp;Předmostí, dnes městské části Přerova. V&nbsp;poměru k&nbsp;malé velikosti kostela je nástroj relativně velký, v&nbsp;dispozici však chybí jazykové hlasy. Traktura je pneumatická, vzdušnice kuželkové. V&nbsp;r.&nbsp;2011 prošly varhany generální opravou.</p>
+        <p class="organ-card-desc en">The church in Předmostí, now part of Přerov, houses another noteworthy organ in the Přerov district. Předmostí is world-famous as a site of Palaeolithic settlement and mammoth hunters.</p>
+        <div class="builder-footer">
+          <a href="https://cs.wikipedia.org/wiki/%C5%98%C3%ADmskokatolick%C3%A1_farnost_P%C5%99erov-P%C5%99edmost%C3%AD" target="_blank" rel="noopener"><span class="cs">Více o kostele ↗</span><span class="en">More about the church ↗</span></a>
+          <a href="https://mapy.com/s/kanepobomo" target="_blank" rel="noopener"><span class="cs">Mapa ↗</span><span class="en">Map ↗</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="organ-card">
+      <div class="organ-card-img-wrap">
+        <img src="https://organomania.cz/images/prerov/prerov-evangelici.jpg"
+             alt="Evangelický kostel v Přerově – varhany" loading="lazy">
+        <img class="organ-card-img-secondary" src="https://organomania.cz/images/prerov/prerov-evangelici-kostel.jpg" alt="Evangelický kostel v Přerově" loading="lazy">
+      </div>
+      <div class="organ-card-body">
+        <div class="organ-card-name cs">Evangelický kostel</div>
+        <div class="organ-card-name en">Protestant Church</div>
+        <div class="organ-card-meta">Ticháček & Urban (1907)<br />1 manuál · 8 rejstříků</div>
+        <p class="organ-card-desc cs">Nejstarší varhany v&nbsp;Přerově dodala v&nbsp;r.&nbsp;1907 do nově postaveného evangelického kostela pražská firma Josefa Ticháčka a&nbsp;Karla Urbana. Varhany jsou pneumatické, se vzdušnicemi výpustné konstrukce. V&nbsp;současnosti se nachází ve špatném technickém stavu a&nbsp;nepoužívají se k doprovodu bohoslužeb.</p>
+        <p class="organ-card-desc en"></p>
+        <div class="builder-footer">
+          <a href="https://cs.wikipedia.org/wiki/Farn%C3%AD_sbor_%C4%8Ceskobratrsk%C3%A9_c%C3%ADrkve_evangelick%C3%A9_v_P%C5%99erov%C4%9B" target="_blank" rel="noopener"><span class="cs">Více o kostele ↗</span><span class="en">More about the church ↗</span></a>
+          <a href="https://mapy.com/s/rahomopopa" target="_blank" rel="noopener"><span class="cs">Mapa ↗</span><span class="en">Map ↗</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="organ-card">
+      <div class="organ-card-img-wrap">
+        <img src="https://organomania.cz/images/prerov/prerov-husiti.jpg"
+             alt="Modlitebna Církve československé husitské v Přerově – varhany" loading="lazy">
+         <img class="organ-card-img-secondary" src="https://organomania.cz/images/prerov/prerov-husiti-kostel.jpg" alt="Modlitebna Církve československé husitské v Přerově" loading="lazy">
+      </div>
+      <div class="organ-card-body">
+        <div class="organ-card-name cs">Modlitebna Církve československé husitské</div>
+        <div class="organ-card-name en">Chapel of Czechoslovak Church</div>
+        <div class="organ-card-meta">Rieger–Kloss (1961)<br />2 manuály · 9 rejstříků</div>
+        <p class="organ-card-desc cs">Malý nástroj na bázi elektrického systému „unit”, kde jediná píšťala může v&nbsp;rámci úspory materiálu náležet více rejstříkům.</p>
+        <p class="organ-card-desc en"></p>
+        <div class="builder-footer">
+          <a href="http://www.ccshprerovsko.cz/" target="_blank" rel="noopener"><span class="cs">Více o kostele ↗</span><span class="en">More about the church ↗</span></a>
+          <a href="https://mapy.com/s/kecefotacu" target="_blank" rel="noopener"><span class="cs">Mapa ↗</span><span class="en">Map ↗</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="text-align:center; margin-top:3rem;">
+    <a class="important-link" href="https://organomania.cz/organs?filterNearLatitude=49.4537372&filterNearLongitude=17.449285&filterNearDistance=50&viewType=table&perPage=20" target="_blank" rel="noopener"">
+      <span class="cs">Zajímavé varhany v okolí ↗</span>
+      <span class="en">Interesting organs nearby ↗</span>
+    </a>
+  </p>
+</section>
+
+<!-- 8. ODKAZY A LITERATURA -->
+<section id="odkazy">
+  <div class="section-header">
+    <h2 class="section-title"><span class="cs">Odkazy a literatura</span><span class="en">Links &amp; Literature</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <p class="lit-section-title cs">Webové zdroje</p>
+  <p class="lit-section-title en">Online Resources</p>
+  <div class="links-grid">
+    <a href="https://organomania.cz/organs/prerov-kostel-sv-vavrince" target="_blank" class="link-card">
+      <span class="link-icon">🎹</span>
+      <div class="link-text">
+        <div class="link-name">Varhany u sv. Vavřince: podrobnější popis</div>
+        <div class="link-url">organomania.cz</div>
+      </div>
+    </a>
+    <a href="https://organomania.cz/about-organ" target="_blank" class="link-card">
+      <span class="link-icon">🎹</span>
+      <div class="link-text">
+        <div class="link-name">Stylový vývoj varhan v českých zemích</div>
+        <div class="link-url">organomania.cz</div>
+      </div>
+    </a>
+    <a href="https://cs.wikipedia.org/wiki/Kostel_svat%C3%A9ho_Vav%C5%99ince_(P%C5%99erov)" target="_blank" class="link-card">
+      <span class="link-icon">📖</span>
+      <div class="link-text">
+        <div class="link-name cs">Kostel sv. Vavřince – Wikipedie</div>
+        <div class="link-name en">Church of St. Lawrence – Wikipedia</div>
+        <div class="link-url">cs.wikipedia.org</div>
+      </div>
+    </a>
+    <a href="http://www.rosmus.cz/dokumenty/Prerov_kostely.pdf" target="_blank" class="link-card">
+      <span class="link-icon">📄</span>
+      <div class="link-text">
+        <div class="link-name cs">Zdeňka Mollinová: Přerov – sakrální památky (PDF)</div>
+        <div class="link-name en">Přerov Churches (PDF)</div>
+        <div class="link-url">rosmus.cz</div>
+      </div>
+    </a>
+    <a href="http://farnostprerov.cz" target="_blank" class="link-card">
+      <span class="link-icon">⛪</span>
+      <div class="link-text">
+        <div class="link-name cs">Římskokatolická farnost Přerov</div>
+        <div class="link-name en">Parish of Přerov</div>
+        <div class="link-url">farnostprerov.cz</div>
+      </div>
+    </a>
+  </div>
+
+  <p class="lit-section-title cs">Naše varhany v literatuře</p>
+  <p class="lit-section-title en">Our Organ in Literature</p>
+  <ul class="lit-list">
+    <li class="cs">KLÍMA, B.; STAŇA, Č.; JAŠKOVÁ, M. et al. <em>Dějiny města Přerova.</em> Přerov: Městský národní výbor, 1970–1971. <a href="http://www.rosmus.cz/dokumenty/download/Dejiny_2.pdf" target="_blank">Dostupné online</a>.</li>
+    <li class="en">KLÍMA, B.; STAŇA, Č.; JAŠKOVÁ, M. et al. <em>History of the City of Přerov.</em> Přerov: Městský národní výbor, 1970–1971. <a href="http://www.rosmus.cz/dokumenty/download/Dejiny_2.pdf" target="_blank">Available online</a>.</li>
+    <li class="cs">KOUTNÁ, Markéta. <em>Hudební kultura v&nbsp;Přerově v&nbsp;letech 1918–1939.</em> Diplomová práce. Olomouc: Univerzita Palackého, 2012. <a href="https://theses.cz/id/zlxwmd/" target="_blank">Dostupné online</a>. (s.&nbsp;65)</li>
+    <li class="en">KOUTNÁ, Markéta. <em>Musical Culture in Přerov 1918–1939.</em> Master's thesis. Olomouc: Palacký University, 2012. <a href="https://theses.cz/id/zlxwmd/" target="_blank">Available online</a>.</li>
+    <li class="cs">MOLLINOVÁ, Zdeňka. <em>Přerov – Kostel sv.&nbsp;Vavřince – Kaple Panny Marie Bolestné – Filiální kostel sv.&nbsp;Michaela.</em> Přerov 2006. <a href="http://www.rosmus.cz/dokumenty/Prerov_kostely.pdf" target="_blank">Dostupné online</a>. (s.&nbsp;12)</li>
+    <li class="en">MOLLINOVÁ, Zdeňka. <em>Přerov – Church of St. Lawrence – Chapel of Our Lady of Sorrows – Filial church of St. Michael.</em> Přerov 2006. <a href="http://www.rosmus.cz/dokumenty/Prerov_kostely.pdf" target="_blank">Available online</a>. (p. 12)</li>
+    <li class="cs">SEHNAL, Jiří. <em>Barokní varhanářství na Moravě.</em> Brno: Muzejní a&nbsp;vlastivědná společnost v&nbsp;Brně, 2003–2018. ISBN 80-7275-042-9. <a href="https://www.digitalniknihovna.cz/mzk/uuid/uuid:17c67867-c76c-4d85-8f0d-a27663766778" target="_blank">Dostupné online</a>. (2.&nbsp;díl, s.&nbsp;134)</li>
+    <li class="en">SEHNAL, Jiří. <em>Baroque Organ Building in Moravia.</em> Brno: Muzejní a vlastivědná společnost, 2003–2018. ISBN 80-7275-042-9. <a href="https://www.digitalniknihovna.cz/mzk/uuid/uuid:17c67867-c76c-4d85-8f0d-a27663766778" target="_blank">Dostupné online</a>. (vol. 2, p. 134)</li>
+  </ul>
+</section>
+
+<!-- 9. KONTAKT -->
+<section id="kontakt">
+  <div class="section-header">
+    <h2 class="section-title"><span class="cs">Kontakt</span><span class="en">Contact</span></h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="contact-grid">
+    <!-- 1. Správce webu -->
+    <div class="contact-card">
+      <div class="contact-card-title">
+        <span class="cs">Podněty a připomínky</span>
+        <span class="en">Website Author</span>
+      </div>
+      <div class="contact-card-header">
+        <img src="https://organomania.cz/images/prerov/kordas-avatar.jpg" alt="Martin Kordas" class="contact-card-avatar">
+        <div class="contact-card-name">Martin Kordas<p class="musician-role">správce webu</p></div>
+      </div>
+      <p style="margin-bottom: 0.5rem;">Sem směřujte podněty k&nbsp;obsahové nebo technické stránce webu.</p>
+      <div class="contact-row">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        <a href="mailto:martinkordas@seznam.cz">martinkordas@seznam.cz</a>
+      </div>
+      <div class="contact-row">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg>
+        <a href="tel:+420736671925">+420 736 671 925</a>
+      </div>
+      <div class="contact-row">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <a href="http://martinkordas.cz" target="_blank" rel="noopener">martinkordas.cz</a>
+      </div>
+    </div>
+    <!-- 2. Prohlídky varhan -->
+    <div class="contact-card">
+      <div class="contact-card-title">
+        <span class="cs">Prohlídka varhan</span>
+        <span class="en">Organ Tour</span>
+      </div>
+      <div class="contact-card-header">
+        <img src="https://organomania.cz/images/prerov/mrtvy-avatar.jpg" alt="Martin Mrtvý" class="contact-card-avatar">
+        <div class="contact-card-name">Martin Mrtvý<p class="musician-role">varhaník</p></div>
+      </div>
+
+      <p style="margin-bottom: 0.5rem;">Možnost domluvy skupinové nebo individuální prohlídky varhan a&nbsp;zvonů.</p>
+      <div class="contact-row">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        <a href="mailto:mrtvym@seznam.cz">mrtvym@seznam.cz</a>
+      </div>
+      <div class="contact-row">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        <a href="https://www.facebook.com/martin.mrtvy.75" target="_blank" rel="noopener">martin.mrtvy.75</a>
+      </div>
+    </div>
+  </div>
+  <div class="simple-text" style="text-align: center; margin-top: 0.5rem;">
+    <p class="lit-section-title cs" style="max-width:1100px;">Poloha kostela</p>
+    <p class="lit-section-title en" style="max-width:1100px;">Church Location</p>
+    <p style="max-width:1100px; margin: 0 auto 0.8rem;">
+      <strong>Farní kostel sv. Vavřince</strong>
+      <br />Kratochvílova ulice
+      <br />Přerov I–Město
+      <br />Česká republika
+    </p>
+    <p style="max-width:1100px; margin: 0 auto 0.8rem;">
+      GPS: 49.4537372N, 17.4492850E
+    </p>
+    <div style="max-width: 1100px; margin: 0 auto; overflow: hidden; border: 1px solid var(--border);">
+      <iframe
+          style="border:none; width:100%; display:block;"
+          src="https://mapy.com/s/jotuhacunu"
+          height="420"
+          frameborder="0"
+          title="Kostel sv. Vavřince, Přerov"
+      >
+      </iframe>
+    </div>
+    <p style="margin-top: 0.8rem">
+      (Kostel se nachází ve spodní části náměstí T.&nbsp;G.&nbsp;Masaryka, poblíž budovy pošty a&nbsp;Městského domu.)
+    </p>
+  </div>
+  <div class="prose-block" id="fbPage">
+      <div class="fb-page" data-href="https://www.facebook.com/varhany.prerov/" data-tabs="" data-width="500" data-height="70" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="1">
+          <blockquote cite="https://www.facebook.com/varhany.prerov/" class="fb-xfbml-parse-ignore" style="height: 130px">
+              <a href="https://www.facebook.com/varhany.prerov/">
+                  <span class="d-none">
+                      <i class="bi bi-facebook"></i>
+                      Organomania: varhany v České republice
+                  </span>
+              </a>
+          </blockquote>
+      </div>
+  </div>
+</section>
+
+<!-- LANGUAGE SWITCHER -->
+<div class="lang-switcher">
+  <button class="lang-btn active" onclick="setLang('cs')">CZ</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p class="cs">© 2026 Martin Kordas</p>
+  <p class="en">© 2026 Martin Kordas</p>
+</footer>
+
+<script>
+// Language switcher
+function setLang(lang) {
+  document.documentElement.setAttribute('data-lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+}
+
+// Lightbox
+function openLightbox(el) {
+  const src = el.querySelector('img').src;
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// Timeline scroll animation
+const timelineItems = document.querySelectorAll('.timeline-item');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 150);
+    }
+  });
+}, { threshold: 0.15 });
+timelineItems.forEach(item => observer.observe(item));
+
+// Smooth nav highlight (optional enhancement)
+document.querySelectorAll('nav a.nav-link').forEach(link => {
+  link.addEventListener('click', function() {
+    document.querySelectorAll('nav a.nav-link').forEach(l => l.style.color = '');
+    this.style.color = 'var(--gold)';
+  });
+});
+</script>
+</body>
+</html>
