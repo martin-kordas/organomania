@@ -40,7 +40,8 @@ class DispositionTextualFormatter
         
         // zarovnání stopových výšek doprava
         //  - na řádku nesmí být čárka, to značí více spojek na 1 řádku - nemá smysl zarovnávat
-        $disposition = preg_replace_callback('#^([^,/]+?)(([0-9]+ )?[0-9/]+\'[^,\\n]*)$#m', function ($matches) {
+        //  - TODO: ideálně aby to ve zmenšené části (za APPENDIX_DELIMITER) nezarovnávalo doprava
+        $disposition = preg_replace_callback('#^([^,]+?)(([0-9]+ )?[0-9/]+\'[^,\\n]*)$#m', function ($matches) {
             // je-li floatující část stringu příliš velká, rozbila by vykreslení
             // TODO: zohlednit raději součet počtu znaků vč. názvu rejstříku ($matches[1])
             if (mb_strlen($matches[2]) <= 10) {

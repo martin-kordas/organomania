@@ -34,7 +34,12 @@
             
             <x-organomania.link-list-item url="https://mapy.com/s/pamemosego">
                 <span class="fw-semibold">Varhany Českého varhanního festivalu</span> (Mapy.cz)
-                <x-slot:description>{{ __('neoficiální mapa varhan, na kterých probíhaly koncerty festivalu') }}</x-slot>
+                <x-slot:description>{{ __('neoficiální mapa varhan, na kterých probíhaly koncerty festivalu (do r. 2025)') }}</x-slot>
+            </x-organomania.link-list-item>
+            
+            <x-organomania.link-list-item url="https://docs.google.com/spreadsheets/d/1bT4Aj6tDNu5E5WVh6hV4WU3YdhbfXR-i1AmEBk7I5Jo/">
+                <span class="fw-semibold">Jiří Reinberger: České a moravské barokní varhany</span>
+                <x-slot:description>{{ __('přehled nahrávek historických nástrojů, pořízených v letech 1968–1974, včetně odkazů k poslechu') }}</x-slot>
             </x-organomania.link-list-item>
         </x-organomania.link-list>
 
