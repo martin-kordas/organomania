@@ -1,41 +1,55 @@
-@props(['images', 'id' => 'galleryCarousel', 'noAdditional' => false])
+@props(['images', 'id' => 'galleryCarousel', 'noAdditional' => false, 'showCreditsAll' => true])
+
+@php
+  $creditsAll = collect($images)->pluck(1)->filter()->join("\n");
+@endphp
 
 {{-- touch vypnut, jinak by nešlo dotykem na galerii provést zoom --}}
-<div id="{{ $id }}" {{ $attributes->class(['gallery-carousel', 'carousel', 'slide', 'rounded', 'border']) }} data-bs-ride="carousel" data-bs-touch="false">
-    @if (count($images) > 1)
-        <div class="carousel-indicators">
-            @foreach ($images as $image)
-                <button type="button" data-bs-target="#{{ $id }}" data-bs-slide-to="{{ $loop->index }}" class="active" aria-current="true" aria-label="Slide {{ $loop->iteration }}"></button>
+<div {{ $attributes }}>
+    <div id="{{ $id }}" class="gallery-carousel carousel slide rounded border" data-bs-ride="carousel" data-bs-touch="false">
+        @if (count($images) > 1)
+            <div class="carousel-indicators">
+                @foreach ($images as $image)
+                    <button type="button" data-bs-target="#{{ $id }}" data-bs-slide-to="{{ $loop->index }}" class="active" aria-current="true" aria-label="Slide {{ $loop->iteration }}"></button>
+                @endforeach
+            </div>
+        @endif
+
+        <div class="carousel-inner rounded">
+            @foreach ($images as $key => [$src, $credits])
+                @php
+                    $caption = $images[$key][2] ?? null;
+                    $additional = $noAdditional || ($images[$key][3] ?? false);
+                @endphp
+                <div @class(['carousel-item', 'active' => $loop->first]) data-bs-interval="8000" onclick="toggleGalleryExpand(event)">
+                    <img src="{{ $src }}" class="d-block m-auto" alt="{{ __('Náhled') }}" loading="lazy" @isset($credits) title="{{ __('Licence obrázku') }}: {{ $credits }}" @endisset />
+                    @isset($caption)
+                        <div @class(['carousel-caption', 'small', 'text-dark' => $additional, 'text-primary' => !$additional])>
+                            <p class="bg-light d-inline-block rounded mb-1 py-1 px-2 fst-italic collapsed" style="opacity: 85%" onmousedown="toggleGalleryCaption(this)">{!! $caption !!}</p>
+                        </div>
+                    @endisset
+                </div>
             @endforeach
         </div>
-    @endif
 
-    <div class="carousel-inner rounded">
-        @foreach ($images as $key => [$src, $credits])
-            @php
-                $caption = $images[$key][2] ?? null;
-                $additional = $noAdditional || ($images[$key][3] ?? false);
-            @endphp
-            <div @class(['carousel-item', 'active' => $loop->first]) data-bs-interval="8000" onclick="toggleGalleryExpand(event)">
-                <img src="{{ $src }}" class="d-block m-auto" alt="{{ __('Náhled') }}" loading="lazy" @isset($credits) title="{{ __('Licence obrázku') }}: {{ $credits }}" @endisset />
-                @isset($caption)
-                    <div @class(['carousel-caption', 'small', 'text-dark' => $additional, 'text-primary' => !$additional])>
-                        <p class="bg-light d-inline-block rounded mb-1 py-1 px-2 fst-italic collapsed" style="opacity: 85%" onmousedown="toggleGalleryCaption(this)">{!! $caption !!}</p>
-                    </div>
-                @endisset
-            </div>
-        @endforeach
+        @if (count($images) > 1)
+            <button class="carousel-control-prev" type="button" data-bs-target="#{{ $id }}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">{{ __('Předchozí') }}</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#{{ $id }}" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">{{ __('Další') }}</span>
+            </button>
+        @endif
     </div>
 
-    @if (count($images) > 1)
-        <button class="carousel-control-prev" type="button" data-bs-target="#{{ $id }}" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">{{ __('Předchozí') }}</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#{{ $id }}" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">{{ __('Další') }}</span>
-        </button>
+    @if ($showCreditsAll && $creditsAll)
+        <div class="text-center small mt-2">
+            <a class="link-primary text-decoration-none" href="#" onclick="alert({{ Js::from($creditsAll) }}); return false">
+                {{ __('Licence obrázků') }}
+            </a>
+        </div>
     @endif
 </div>
 

@@ -835,7 +835,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 {{ __('Zobrazeno') }}: {{ Helpers::formatNumber($organ->views) }}&times;
             </div>
         @endif
-        
+
         @if (false && Arr::random([true, false, false]))
             <div class="text-center">
                 <a href="{{ route('festivals.index', ['viewType' => 'thumbnails', 'ad' => 'organ-show']) }}" target="_blank">

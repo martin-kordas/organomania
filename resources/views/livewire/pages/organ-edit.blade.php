@@ -327,7 +327,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         $this->form->photos = [];
     }
-    
+
 }; ?>
 
 <div class="organ-edit container">
@@ -342,7 +342,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <i class="bi-lock text-warning" data-bs-toggle="tooltip" data-bs-title="{{ __('Soukromé') }}"></i>
             @endif
         </h3>
-        
+
         <div class="mb-4 mt-3">
             <div class="row g-3">
                 <div class="col-md-4">
@@ -363,7 +363,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         @enderror
                     </div>
                 </div>
-              
+
                 <div class="col-md-6">
                     <label for="organBuilderId" class="form-label">{{ __('Varhanář') }}</label>&nbsp;
                     <small>(<a class="text-decoration-none" href="{{ route('organ-builders.create') }}" target="_blank">{{ __('přidat varhanáře') }}</a>)</small>
@@ -386,7 +386,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <label for="stopsCount" class="form-label">{{ __('Počet rejstříků') }}</label>
                     <input class="form-control" id="stopsCount" type="number" min="0" max="1000" wire:model.number="form.stopsCount">
                 </div>
-                
+
                 @foreach ($this->form->rebuilds as $i => $rebuild)
                     <div class="col-md-6" wire:key="{{ "rebuildsOrganBuilder$i" }}">
                         <label for="{{ "rebuildOrganBuilderId$i" }}" class="form-label">{{ __('Přestavující varhanář') }}</label>
@@ -418,10 +418,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <button class="btn btn-primary btn-sm" type="button" wire:click="addRebuild"><i class="bi-plus-lg"></i> {{ __('Přidat přestavbu') }}</button>
                 </div>
             </div>
-            
+
             <div class="row g-3 bg-light rounded p-2 mt-4">
                 <h5 class="mt-1 mb-0">{{ __('Kategorizace') }}</h5>
-                
+
                 <div class="col-md-6">
                     <label for="categories" class="form-label">
                         {{ __('Kategorie') }}
@@ -437,7 +437,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         :live="true"
                     />
                 </div>
-                
+
                 <div class="col-md-6">
                     <label for="name" class="form-label">{{ __('Význam') }} <span class="text-secondary">({{ __('od 1 do 10') }})</span> <span class="text-danger">*</span></label>
                     <div class="hstack gap-3">
@@ -448,7 +448,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         @enderror
                     </div>
                 </div>
-                
+
                 <div class="col-md-3">
                     <label for="regionId" class="form-label @error("form.regionId") is-invalid @enderror">{{ __('Kraj') }} <span class="text-danger">*</span></label>
                     <x-organomania.selects.region-select :regions="$this->regions" id="regionId" model="form.regionId" />
@@ -482,10 +482,10 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     </div>
                 </div>
             </div>
-            
+
             <div class="row g-3 bg-light rounded p-2 mt-4">
                 <h5 class="mt-1 mb-0">{{ __('Dokumentace') }}</h5>
-                
+
                 <div>
                     <div class="d-flex align-items-end mb-2">
                         <label for="disposition" class="form-label me-auto mb-0">{{ __('Disposition_1') }}</label>
@@ -518,17 +518,17 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     <textarea rows="3" class="form-control" id="perex" wire:model="form.perex" placeholder="{{ __('Krátká jednovětá charakteristika varhan, která se vypíše v rámečku s miniaturou.') }}"></textarea>
                 </div>
             </div>
-            
+
             <div class="row g-3 bg-light rounded p-2 mt-4">
                 <h5 class="mt-1 mb-0">{{ __('Externí materiály') }}</h5>
-                
+
                 {{-- TODO: soubory lze jen přidávat, ne mazat --}}
                 <div>
                     <label for="photos" class="form-label">{{ __('Přidat obrázky') }}</label>
                     <small class="text-body-secondary" wire:loading wire:target="form.photos">({{ __('nahrávání souboru') }}&hellip;)</small>
                     @php $isFileError = $errors->has('form.photos') || $errors->has('form.photos.*'); @endphp
                     @if (!empty($this->form->photos) && $this->uploadedPhotos->isNotEmpty() && !$isFileError)
-                        <x-organomania.gallery-carousel :images="$this->uploadedPhotos" class="mb-2" :noAdditional="true" />
+                        <x-organomania.gallery-carousel :images="$this->uploadedPhotos" class="mb-2" :noAdditional="true" showCreditsAll="false" />
                         <div class="text-end">
                             <button class="btn btn-sm btn-outline-secondary" type="button" wire:click="resetPhotos">
                                 <i class="bi bi-x-lg"></i> {{ __('Nahrát jiné fotografie') }}
@@ -549,7 +549,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         </div>
                     @endif
                 </div>
-                
+
                 <div>
                     <label for="recordings" class="form-label">{{ __('Přidat nahrávky') }}</label>
                     <small class="text-body-secondary" wire:loading wire:target="form.recordings">({{ __('nahrávání souboru') }}&hellip;)</small>
@@ -567,11 +567,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                         {{ __('Můžete zvolit 1 až 5 nahrávek velkých maximálně 10 MB.') }}
                     </div>
                 </div>
-                
+
                 <div>
                     <label for="imageUrl" class="form-label">{{ __('URL obrázku') }} &ndash; {{ __('pro miniaturu') }}</label>
                     <input class="form-control @error('form.imageUrl') is-invalid @enderror" id="imageUrl" wire:model="form.imageUrl" aria-describedby="imageUrlFeedback">
-                    
+
                     @error('form.imageUrl')
                         <div id="imageUrlFeedback" class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -629,12 +629,12 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 </div>
             </div>
         </div>
-    
+
         <div class="hstack">
             @if ($this->organ->exists)
                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"><i class="bi-trash"></i> Smazat</button>
             @endif
-                
+
             <small class="text-secondary ms-auto ps-2 me-2"><i class="bi-info-circle-fill"></i> {!! __('Stiskněte <kbd>Ctrl+Enter</kbd> pro uložení') !!}</small>
             <a class="btn btn-sm btn-secondary" href="{{ url()->previous() }}"><i class="bi-arrow-return-left"></i> {{ __('Zpět') }}</a>&nbsp;
             <button type="submit" class="btn btn-sm btn-primary">
@@ -648,7 +648,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             </button>
         </div>
     </form>
-    
+
     <x-organomania.modals.confirm-modal
         id="confirmDeleteModal"
         title="{{ __('Smazat') }}"
@@ -658,7 +658,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     >
         {{ __('Opravdu chcete varhany smazat?') }}
     </x-organomania.modals.confirm-modal>
-    
+
     <x-organomania.modals.confirm-modal
         id="confirmDeleteRebuildModal"
         title="{{ __('Smazat') }}"
@@ -668,7 +668,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     >
         {{ __('Opravdu chcete smazat přestavbu?') }}
     </x-organomania.modals.confirm-modal>
-    
+
     <x-organomania.toast toastId="geocoded">
         {{ __('Souřadnice místa varhan byly automaticky vypočítány.') }}
     </x-organomania.toast>
@@ -678,7 +678,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     <x-organomania.toast toastId="locationIncomplete" color="danger">
         {{ __('Souřadnice nejsou úplné.') }}
     </x-organomania.toast>
-  
+
     <x-organomania.modals.premium-modal />
     <x-organomania.modals.disposition-ocr-modal />
 </div>
@@ -689,7 +689,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         var rebuildIndex = confirmModal.getInvokeButton('confirmDeleteRebuildModal').dataset.rebuildIndex
         $wire.deleteRebuild(rebuildIndex)
     }
-        
+
     window.openMap = function () {
         let lat = $('#latitude').val()
         let lon = $('#longitude').val()

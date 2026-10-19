@@ -16,7 +16,7 @@
                 <div class="modal-body">
                     @php $isFileError = $errors->has('dispositionOcrForm.photos') || $errors->has('dispositionOcrForm.photos.*'); @endphp
                     @if (!empty($this->dispositionOcrForm->photos) && $this->uploadedOcrPhotos->isNotEmpty() && !$isFileError)
-                        <x-organomania.gallery-carousel :images="$this->uploadedOcrPhotos" class="mb-2" :noAdditional="true" />
+                        <x-organomania.gallery-carousel :images="$this->uploadedOcrPhotos" class="mb-2" :noAdditional="true" showCreditsAll="false" />
                         <div class="text-end">
                             <button class="btn btn-sm btn-outline-secondary" type="button" wire:click="resetDispositionOcr">
                                 <i class="bi bi-x-lg"></i> {{ __('Nahrát jiné fotografie') }}
