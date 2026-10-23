@@ -257,7 +257,7 @@
                     </div>
 
                     <p>
-                        Za vrchol barokního varhanářství u nás bývá považováno dílo zakladatele <strong>loketské</strong> varhanářské školy <x-organomania.organ-builder-link :iconLink="false" name="Abraháma STARKA" activePeriod="1659–1709" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_STARKOVE]" :showActivePeriod="true" />. K jeho nejslavnějším dochovaným nástrojům patří varhany v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_PLASY]" name="kostele Nanebevzetí Panny Marie v Plasích" :showSizeInfo="true" /> a o něco menší varhany v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_ZLATA_KORUNA]" name="kostele Nanebevzetí Panny Marie ve Zlaté Koruně" :showSizeInfo="true" />.
+                        Za vrchol barokního varhanářství u nás bývá považováno dílo zakladatele <strong>loketské</strong> varhanářské školy <x-organomania.organ-builder-link :iconLink="false" name="Abraháma STARKA" activePeriod="1659–1709" :organBuilder="$organBuilders[OrganBuilder::ORGAN_BUILDER_ID_STARKOVE]" :showActivePeriod="true" />. K jeho nejslavnějším dochovaným nástrojům patří varhany v <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_ZLATA_KORUNA]" name="kostele Nanebevzetí Panny Marie ve Zlaté Koruně" :showSizeInfo="true" />.
                     </p>
 
                     <p>

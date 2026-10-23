@@ -101,5 +101,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     
     <div class="small text-center">
         <strong>Správa obsahu:</strong> Petr Roháček
+        <br />
+        <a href="mailto:rohacp1@seznam.cz">rohacp1@seznam.cz</a>
     </div>
 </div>
