@@ -87,7 +87,12 @@ class DispositionTextualFormatter
         //  - <mark>: zvýraznění rejstříku při suggestRegistration()
         //  - 0-9: číslování
         return preg_replace_callback('/^(<mark>)?([0-9+]+\\\\?\. )?([[:alpha:]´-]+( [[:alpha:]´-]+)*)/u', function ($matches) use ($row) {
-            $registerName = RegisterName::where('name', $matches[3])->first();
+            $searched = $matches[3];
+            // smazat pořadové označení duplicitně disponovaného rejstříku (např. Principal II)
+            $searched = preg_replace('/ (II|III)$/u', '', $searched);
+          
+            $registerName = RegisterName::where('name', $searched)->first();
+            
             if ($registerName) {
                 $url = route('dispositions.registers.show', $registerName->slug);
                 $urlHtml = e($url);

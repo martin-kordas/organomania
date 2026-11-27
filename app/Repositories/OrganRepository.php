@@ -342,6 +342,7 @@ class OrganRepository extends AbstractRepository
         return Organ::query()
             ->where('municipality', $municipality)
             ->where('baroque', 0)
+            ->where('importance', '>', 0)
             ->public()
             ->count();
     }

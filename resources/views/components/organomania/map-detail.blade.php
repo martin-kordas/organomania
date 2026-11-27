@@ -56,6 +56,7 @@
 
         <gmp-advanced-marker
             position="{{ $marker1->latitude }},{{ $marker1->longitude }}"
+            z-index="1"
         >
             <gmp-pin
                 background="{{ $background }}"
@@ -71,8 +72,21 @@
     @isset($marker)
         <gmp-advanced-marker
             position="{{ $marker->latitude }},{{ $marker->longitude }}"
+            z-index="100"
         >
             <gmp-pin title="{{ $title }}"></gmp-pin>
         </gmp-advanced-marker>
     @endisset
 </gmp-map>
+
+@script
+<script>
+  setTimeout(() => {
+      // markery umístěné v HTML později mají přednost
+      //  - TODO: omezit JS jen na gmp-map v této instanci
+      $('gmp-map gmp-advanced-marker').each(
+          (i, marker) => marker.zIndex = i
+      )
+  })
+</script>
+@endscript

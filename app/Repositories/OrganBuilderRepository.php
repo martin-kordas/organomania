@@ -194,6 +194,7 @@ class OrganBuilderRepository extends AbstractRepository
         return OrganBuilder::where('municipality', $center)
             ->public()
             ->where('baroque', 0)
+            ->where('importance', '>', 0)
             ->count();
     }
 

@@ -418,6 +418,8 @@ class Helpers
             '/images/uhersky-brod.jpg' => 'https://www.turistika.cz/mista/uhersky-brod-kostel-neposkvrneneho-poceti-panny-marie/foto?id=405868',
             '/images/novy-malin.jpg' => 'https://www.turistika.cz/mista/novy-malin-kostel-narozeni-panny-marie/foto?id=404267',
             '/images/kraliky-sv-michaela.jpg' => 'https://www.turistika.cz/mista/kralicky-kostel-sv-archandela-michaela/foto?id=2085673',
+            '/images/libochovany.jpg' => 'https://www.turistika.cz/mista/libochovany-kostel-narozeni-panny-marie/foto?id=297072',
+            '/images/stara-ves-u-rymarova.jpg' => 'https://www.turistika.cz/mista/stara-ves-kostel-povyseni-sv-krize/foto?id=816946',
             default => $imageUrl,
         };
     }

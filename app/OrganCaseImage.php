@@ -14,6 +14,8 @@ use App\Models\OrganBuilderAdditionalImage;
 final readonly class OrganCaseImage {
 
     public ?OrganCategory $periodCategory;
+    
+    public int $yearBuiltSortable;
 
     public function __construct(
         public string $id,
@@ -43,6 +45,8 @@ final readonly class OrganCaseImage {
             $categories = OrganCategory::getPeriodCategories($yearBuilt);
             $this->periodCategory = $categories->first();
         }
+        
+        $this->yearBuiltSortable = $yearBuilt ?? PHP_INT_MAX;
     }
 
     public static function fromOrgan(Organ $organ)

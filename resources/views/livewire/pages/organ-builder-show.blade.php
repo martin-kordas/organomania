@@ -371,7 +371,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         return array_filter(
             $this->images,
-            fn ($image) => ($image[4] ?? false) === true
+            // vyřadit skříně bez roku
+            // fn ($image) => ($image[4] ?? false) === true
         );
     }
 
@@ -464,6 +465,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
             60 => [4],
             // Silberbauer
             69 => [29],
+            29 => [69],
             // Stark
             8 => [28],
             // Neusser
@@ -925,7 +927,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 <x-organomania.gallery-carousel :images="$this->images" />
                 @if ($organBuilder->isPublic() && count($this->imagesShownInCases) > 1)
                     <div class="text-center mt-2">
-                        <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.cases', ['filterOrganBuilders' => [$organBuilder->id]]) }}" wire:navigate>
+                        <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.cases', ['filterOrganBuilders' => [$organBuilder->id], 'withYearOnly' => '0']) }}" wire:navigate>
                             <i class="bi-camera"></i>
                             {{ __('Galerie skříní')}}
                             <span class="badge text-bg-secondary rounded-pill">{{ count($this->imagesShownInCases) }}</span>
@@ -982,8 +984,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                 onclick="$wire.accordionToggle('{{ static::SESSION_KEY_SHOW_CONTEMPORARIES }}')"
             >
                 <x-organomania.info-alert class="mb-0">
-                    {{ __('Zobrazují se náhodně vybraní varhanáři žijící v přibližně stejném období') }}
-                    @if ($organBuilder->is_workshop) {{ __('jako členové dílny') }}@endif.
+                    {{ __('Zobrazují se náhodně vybraní varhanáři žijící v přibližně stejném období') }}@if ($organBuilder->is_workshop) {{ __('jako členové dílny') }}@endif.
                 </x-organomania.info-alert>
 
                 <div class="items-list mt-2">

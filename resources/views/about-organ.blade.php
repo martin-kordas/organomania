@@ -459,6 +459,7 @@
                         Unifikace se týká varhanního stroje i návrhu skříní.
                         Tento přístup často vede k potlačení umělecké individuality nástrojů nebo i ke ztrátě jejich zvukových kvalit.
                         Na druhou stranu díky tovární výrobě vzniká nebývalé množství nástrojů, včetně velkých třímanuálových.
+                        Železniční spojení usnadňuje export za hranice českých zemí (zejm. do Uherska, Rakouska).
                     </p>
 
 
@@ -672,7 +673,7 @@
                                 <i class="bi-music-note-list"></i>
                                 Liberec, kostel Nalezení sv. Kříže
                                 <span class="text-secondary">(Rieger, 1891, II/23)</span>
-                                &ndash; hrací stůl s řadou pomocných zařízení ve formě šlapek nad pedály
+                                &ndash; hrací stůl s řadou pomocných zařízení ve formě šlapek nad pedálovou klaviaturou
                             </em>
                         </div>
                     </div>
@@ -685,7 +686,7 @@
 
                     <div class="ms-md-3 mb-2 float-md-end mx-auto text-center" style="width: 295px; max-width: 100%;">
                         <div class="position-relative d-inline-block" title="Licence obrázku: Petr.lhotan, CC BY-SA 4.0, via Wikimedia Commons">
-                            <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Presbyt%C3%A1%C5%99_a_hlavn%C3%AD_lo%C4%8F_kostela_sv._Ducha_v_Krnov%C4%9B.JPG/512px-Presbyt%C3%A1%C5%99_a_hlavn%C3%AD_lo%C4%8F_kostela_sv._Ducha_v_Krnov%C4%9B.JPG" />
+                            <img class="rounded mb-2 w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Presbyt%C3%A1%C5%99_a_hlavn%C3%AD_lo%C4%8F_kostela_sv._Ducha_v_Krnov%C4%9B.JPG/960px-Presbyt%C3%A1%C5%99_a_hlavn%C3%AD_lo%C4%8F_kostela_sv._Ducha_v_Krnov%C4%9B.JPG" />
                             <br />
                             <em>
                                 <x-organomania.organ-link :iconLink="false" :organ="$organs[Organ::ORGAN_ID_KRNOV_KOSTEL_SV_DUCHA]" :year="false" :showSizeInfo="true" class="stretched-link" />

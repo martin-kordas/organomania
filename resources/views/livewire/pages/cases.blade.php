@@ -121,7 +121,9 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         // zobrazují-li se fotografie jen 1 varhanáře, nemusíme odfiltrovávat fotky zobrazené u jiných varhanářů
         //  - matoucí: počet fotek bude vyšší než počet uvedený v selecu varhanářů
         $withoutOrganExists = !($this->filterOrganBuilders && count($this->filterOrganBuilders) === 1);
-        $withoutNonoriginalCase = $withYearOnly = !$this->additionalImageId;
+        $withoutNonoriginalCase = !$this->additionalImageId;
+        $withYearOnly = !$this->additionalImageId && request()->query('withYearOnly') !== '0';
+        
         $additionalImagesQuery = $this->organRepository->getCaseImagesAdditionalImagesQuery($withoutOrganExists, $withoutNonoriginalCase, $withYearOnly)
             ->with('organBuilder');
 
@@ -283,7 +285,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
 
         // seřazení jednotlivých skříní
         $sortDefinitionCase = match ($this->sort) {
-            'yearBuiltAsc', 'yearBuiltDesc' => ['yearBuilt', $timeSortDirection],
+            'yearBuiltAsc', 'yearBuiltDesc' => ['yearBuiltSortable', $timeSortDirection],
             'stopsCountDesc' => ['stopsCount', 'desc'],
             default => throw new LogicException,
         };
@@ -291,7 +293,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
         return $cases->sortBy([
             $sortDefinitionGroup,
             $sortDefinitionCase,
-            ['yearBuilt', $timeSortDirection],
+            ['yearBuiltSortable', $timeSortDirection],
             ['id', 'asc'],
         ]);
     }
@@ -372,7 +374,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     private function getCaseDetails(OrganCaseImage $case)
     {
         $details = [];
-        if (isset($case->yearBuilt)) $details[] = $case->yearBuilt;
+        $details[] = $case->yearBuilt ?? __('rok?');
         if (isset($case->details)) $details[] = $case->details;
         if (!empty($details)) return implode(', ', $details);
     }
