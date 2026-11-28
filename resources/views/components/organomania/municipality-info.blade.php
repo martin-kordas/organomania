@@ -1,3 +1,4 @@
+@use(App\Models\OrganMunicipalityInfo)
 @use(App\Services\MarkdownConvertorService)
 
 @props(['municipalityInfo'])
@@ -17,4 +18,13 @@
     @isset ($municipalityInfo->description)
         <div class="markdown small">{!! trim(app(MarkdownConvertorService::class)->convert($municipalityInfo->description)) !!}</div>
     @endisset
+    
+    @if ($municipalityInfo instanceof OrganMunicipalityInfo)
+        <div class="text-center mt-3 mb-2">
+            <a class="btn btn-sm btn-outline-secondary mt-1" href="{{ route('organs.cases', ['filterMunicipality' => $municipalityInfo->municipality, 'groupBy' => 'periodCategory']) }}" wire:navigate>
+                <i class="bi-camera"></i>
+                {{ __('Galerie varhanních skříní')}}
+            </a>
+        </div>
+    @endif
 </div>

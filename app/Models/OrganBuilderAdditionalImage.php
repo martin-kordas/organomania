@@ -43,6 +43,15 @@ class OrganBuilderAdditionalImage extends Model
             }
         );
     }
+    
+    public function nameSearchable(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return str_replace($this->name, ',', '');
+            }
+        );
+    }
 
     public function place(): Attribute
     {
@@ -115,7 +124,10 @@ class OrganBuilderAdditionalImage extends Model
     public function toSearchableArray(): array
     {
         return [
-            'organ_builder_additional_images.name' => '',
+            // name_searchable: řeší případ, kdy uživatel nezadá čárku mezi obcí a kostelem
+            'name_searchable' => '',
+            // name_searchable2: řeší případ, kdy uživatel nezadá sv./Nejsv.
+            'name_searchable2' => '',
             'organ_builder_additional_images.organ_builder_name' => '',
             'organ_builders.last_name' => '',
             'organ_builders.workshop_name' => '',

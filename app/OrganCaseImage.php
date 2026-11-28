@@ -46,6 +46,7 @@ final readonly class OrganCaseImage {
             $this->periodCategory = $categories->first();
         }
         
+        // TODO: logika, jak řadit skříně s nevyplněným rokem, by měla být spíš na straně, která to skříně zobrazuje
         $this->yearBuiltSortable = $yearBuilt ?? PHP_INT_MAX;
     }
 

@@ -12,6 +12,8 @@ return new class extends Migration {
         Schema::create('organ_builder_additional_images', function (Blueprint $table) {
             $table->id();
             $table->string('name', length: 250);
+            $table->string('name_searchable')->storedAs("REPLACE(name, ',', '')");
+            $table->string('name_searchable2')->storedAs("REPLACE(REPLACE(name_searchable, 'Nejsv. ', ''), 'sv. ', '')");
             $table->foreignId('organ_builder_id')->nullable()->constrained();
             $table->string('image_url', length: 500);
             $table->string('image_credits', length: 500)->nullable();

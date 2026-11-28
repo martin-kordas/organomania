@@ -35,6 +35,8 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     public $filterOrganBuilders;
     #[Url(keep: true)]
     public $filterOrganomaniaOrgans;
+    #[Url(keep: true)]
+    public $filterMunicipality;
 
     #[Url(keep: true)]
     public $groupBy = 'organBuilder';
@@ -169,6 +171,11 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
                     $query->orWhereNull('organ_builder_id');
                 }
             });
+        }
+        if ($this->filterMunicipality) {
+            $organsQuery->whereLike('municipality', "%{$this->filterMunicipality}%");
+            // čárka na konaci hledaného výrazu zajišťuje, že $this->filterMunicipality se nachází před čárkou, tj. patrně v názvu obce (ne kostela)
+            $additionalImagesQuery->whereLike('name', "%{$this->filterMunicipality}%,%");
         }
 
         // GROUPOVÁNÍ (údaje, podle kterých se groupuje, musí být vyplněny)
@@ -366,7 +373,7 @@ new #[Layout('layouts.app-bootstrap')] class extends Component {
     {
         // zobrazit jen při výchozím nastavení
         return
-            !$this->filterCategories && !$this->filterPeriodCategories && !$this->filterOrganBuilders && !$this->filterOrganomaniaOrgans
+            !$this->filterCategories && !$this->filterPeriodCategories && !$this->filterOrganBuilders && !$this->filterOrganomaniaOrgans && !$this->filterMunicipality
             && $this->groupBy === 'organBuilder'
             && $this->sort === 'yearBuiltAsc';
     }

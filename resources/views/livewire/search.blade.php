@@ -68,11 +68,15 @@ new class extends Component {
             //  - je-li víceslovný hledaný výraz dostatečně specifický, dotážeme additional images bez ohledu na $missingOrgansCount
             else {
                 $searchParts = str($this->sanitizedSearch)->explode(' ');
+                $hasLongWords = $searchParts->every(
+                    fn ($part) => mb_strlen($part) >= 4
+                );
                 $searchAdditionalImages = $searchParts->filter(
                     fn ($part) => mb_strlen($part) >= 3
-                )->count() >= 2;
+                )->count() >= 2 || $hasLongWords;
                 if ($searchAdditionalImages) {
-                    $this->resultsAdditionalImages = $this->getAdditionalImages(limit: 3);
+                    $limit = $hasLongWords ? 5 : 3;
+                    $this->resultsAdditionalImages = $this->getAdditionalImages($limit);
                 }
             }
 
@@ -115,7 +119,11 @@ new class extends Component {
     #[Computed]
     public function sanitizedSearch()
     {
-        return str($this->search ?? '')->replaceMatches('/\s+/u', ' ')->trim()->toString();
+        return str($this->search ?? '')
+            ->replaceMatches('/\s+/u', ' ')
+            ->replace(',', '')
+            ->trim()
+            ->toString();
     }
 
     #[Computed]
@@ -261,9 +269,16 @@ new class extends Component {
     {
         if ($this->showLastViewed) return collect();
 
-        return (OrganBuilderAdditionalImage::search($this->sanitizedSearch)
-            ->query(function (Builder $builder) use ($searchNameOnly, $limit) {
-                $searchWildcard = "%{$this->sanitizedSearch}%";
+        // organ_builder_additional_images.name neobsahuje označení kostelů, odstraníme jej proto i z hledaného výrazu
+        $search = str($this->sanitizedSearch)
+            ->replace([
+                'kostel', 'katedrála', 'bazilika', 'kaple'
+            ], '')
+            ->replaceMatches('/\s+/u', ' ');
+
+        return (OrganBuilderAdditionalImage::search($search)
+            ->query(function (Builder $builder) use ($searchNameOnly, $search, $limit) {
+                $searchWildcard = "%{$search}%";
 
                 $builder
                     ->select([
